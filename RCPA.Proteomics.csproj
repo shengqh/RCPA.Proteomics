@@ -303,6 +303,7 @@
     <Compile Include="Proteomics\Quantification\MaxQuant\PeptideReader.cs" />
     <Compile Include="Proteomics\Quantification\O18\AbstractO18ProteinRatioRCalculator.cs" />
     <Compile Include="Proteomics\Quantification\O18\AbstractO18QuantificationOption.cs" />
+    <Compile Include="Proteomics\Quantification\O18\AbstractO18ProteinRatioRCalculatorPCA.cs" />
     <Compile Include="Proteomics\Quantification\O18\O18QuantificationSummaryItem2.cs" />
     <Compile Include="Proteomics\Quantification\O18\IO18QuantificationOption.cs" />
     <Compile Include="Proteomics\Quantification\O18\O18ProteinRatioRScanCalculator.cs" />

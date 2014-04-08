@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace RCPA.Proteomics.Quantification.O18
 {
-  public abstract class AbstractO18ProteinRatioRCalculator : IProteinRatioCalculator
+  public abstract class AbstractO18ProteinRatioRCalculatorPCA : IProteinRatioCalculator
   {
     class WaitingEntry
     {
@@ -25,7 +25,7 @@ namespace RCPA.Proteomics.Quantification.O18
 
     public IO18QuantificationOption Option { get; set; }
 
-    public AbstractO18ProteinRatioRCalculator(IGetRatioIntensity intensityFunc, IO18QuantificationOption option)
+    public AbstractO18ProteinRatioRCalculatorPCA(IGetRatioIntensity intensityFunc, IO18QuantificationOption option)
     {
       this.intensityFunc = intensityFunc;
       this.Option = option;
@@ -55,7 +55,7 @@ namespace RCPA.Proteomics.Quantification.O18
 
       if (proteinFiles.Count > 0)
       {
-        var listfile = (this.SummaryFileDirectory + "/" + this.DetailDirectory + "/rlm_file.csv").Replace("\\", "/");
+        var listfile = (this.SummaryFileDirectory + "/" + this.DetailDirectory + "/pca_file.csv").Replace("\\", "/");
         using (var sw = new StreamWriter(listfile))
         {
           sw.WriteLine("Protein,IntensityFile,MaxReference,MaxSample");
@@ -69,23 +69,21 @@ namespace RCPA.Proteomics.Quantification.O18
         var linearfile = rfile + ".linear";
         using (var sw = new StreamWriter(rfile))
         {
-          sw.WriteLine(@"require(MASS)
+          sw.WriteLine(@"require(rrcov)
 
 files<-read.csv(""" + listfile + @""", row.names=1, check.names=F)
 
-rlm_result<-apply(files, 1, function(x){
+pca_result<-apply(files, 1, function(x){
   data<-read.csv(x[1])
-  rl<-rlm(SamIntensity~0+RefIntensity, data=data)
-  srl<-summary(rl)
-  coeff<-srl$coefficients
-  pvalue<-pt( coeff[3] , srl$df[2], lower.tail=F)*2
-  return (c(coeff[1], coeff[2], coeff[3], pvalue, nrow(data)))
+  yxPCA<-PcaHubert(~0+SamIntensity+RefIntensity, data=data)
+  r<-yxPCA@loadings[1,1]/yxPCA@loadings[2,1]
+  return (c(r, nrow(data)))
 })
 
-rlm_result=t(rlm_result)
-colnames(rlm_result)<-c(""Ratio"",""StdErr"",""tValue"",""pValue"",""Count"")
+pca_result=t(pca_result)
+colnames(pca_result)<-c(""Ratio"",""Count"")
 
-finalresult<-cbind(files, rlm_result)
+finalresult<-cbind(files, pca_result)
 write.csv(finalresult,""" + linearfile + @""")");
         }
 
@@ -99,10 +97,7 @@ write.csv(finalresult,""" + linearfile + @""")");
                          MaxReference = double.Parse(parts[2]),
                          MaxSample = double.Parse(parts[3]),
                          Ratio = double.Parse(parts[4]),
-                         StdErr = double.Parse(parts[5]),
-                         TValue = double.Parse(parts[6]),
-                         PValue = double.Parse(parts[7]),
-                         Count = int.Parse(parts[8])
+                         Count = int.Parse(parts[5])
                        }).ToDictionary(m => m.ProteinName);
 
         foreach (var pg in mr)
@@ -110,7 +105,7 @@ write.csv(finalresult,""" + linearfile + @""")");
           if (results.ContainsKey(pg[0].Name))
           {
             var res = results[pg[0].Name];
-            var lrrr = new LinearRegressionRatioResult(res.Ratio, res.StdErr) { PointCount = res.Count, FCalculatedValue = res.TValue, FProbability = res.PValue };
+            var lrrr = new LinearRegressionRatioResult(res.Ratio, 0) { PointCount = res.Count, FCalculatedValue = 0, FProbability = 0 };
             foreach (IIdentifiedProtein protein in pg)
             {
               protein.SetEnabled(true);
@@ -203,14 +198,13 @@ write.csv(finalresult,""" + linearfile + @""")");
             {
               sw.WriteLine(string.Format(
     @"require(MASS)
-data<-read.csv(""{0}"")
-rl<-rlm(SamIntensity~-1+RefIntensity, data=data)
-srl<-summary(rl)
-coeff<-srl$coefficients
-pvalue<-pt( coeff[3] , srl$df[2], lower.tail=F)*2
 
-df<-data.frame(Ratio=coeff[1], StdErr=coeff[2], tValue<-coeff[3], pValue<-pvalue)
-colnames(df)<-c(""Ratio"",""StdErr"",""tValue"",""pValue"")
+data<-read.csv(""{0}"")
+yxPCA<-PcaHubert(~0+SamIntensity+RefIntensity, data=data)
+r<-yxPCA@loadings[1,1]/yxPCA@loadings[2,1]
+
+df<-data.frame(Ratio=r)
+colnames(df)<-c(""Ratio"")
 write.csv(df,""{1}"")
 ", filename, linearfile));
             }
@@ -220,9 +214,9 @@ write.csv(df,""{1}"")
             ratioResult = new LinearRegressionRatioResult();
             var parts = File.ReadAllLines(linearfile).Skip(1).First().Split(',');
             ratioResult.Ratio = double.Parse(parts[1]);
-            ratioResult.RSquare = double.Parse(parts[2]);
-            ratioResult.FCalculatedValue = double.Parse(parts[3]);
-            ratioResult.FProbability = double.Parse(parts[4]);
+            ratioResult.RSquare = 0;
+            ratioResult.FCalculatedValue = 0;
+            ratioResult.FProbability = 0;
           }
           maxRef = maxSam * ratioResult.Ratio;
         }
