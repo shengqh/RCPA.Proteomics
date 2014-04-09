@@ -43,6 +43,8 @@ namespace RCPA.Proteomics.Quantification.O18
           return;
         }
 
+        panel.InitGraphPane(this.title + ", Scan=" + envelope.Scan.ToString(), "m/z", "Intensity", true, 0.0);
+
         double minMz = envelope[0].Mz - 1.0;
         double maxMz = envelope[envelope.Count - 1].Mz + 1.0;
 

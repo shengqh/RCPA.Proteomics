@@ -39,6 +39,11 @@ namespace RCPA.Proteomics.Quantification.O18
         return false;
       }
 
+      if (!ann.Annotations.ContainsKey(O18QuantificationConstants.O18_RATIO))
+      {
+        return false;
+      }
+
       LinearRegressionRatioResult lrrr = ann.Annotations[O18QuantificationConstants.O18_RATIO] as LinearRegressionRatioResult;
 
       return lrrr.RSquare < this.HighlightR2;

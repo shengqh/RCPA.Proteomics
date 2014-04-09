@@ -170,22 +170,12 @@ namespace RCPA.Proteomics.Quantification.O18
               {
                 O18QuanEnvelope envelope = GetCorrespondingEnvelope(rawFile, theoreticalMz, mphit.Query.Charge, mzTolerance, scan);
 
-                //if the monoisotopic peak of both O16 and O18 have no charge, 
-                //throw current envelope and exit the loop
-                if (0 == envelope[0].Charge && 0 == envelope[4].Charge)
+                //At most one invalid scan inside both pre or post identification scan range.
+                if (!IsValidEnvelope(envelope, mphit.Charge))
                 {
-                  if (count > 1)
+                  if (count > 0)
                   {
-                    if (envelopes.Count > 2)
-                    {
-                      envelopes.RemoveAt(0);
-                      envelopes.RemoveAt(0);
-                    }
-                    else
-                    {
-                      envelopes.RemoveAt(0);
-                    }
-
+                    envelopes.RemoveAt(0);
                     break;
                   }
                   else
@@ -208,6 +198,12 @@ namespace RCPA.Proteomics.Quantification.O18
               }
             }
 
+            if (envelopes.Count == 0)
+            {
+              //If the identified scan has no quantification information ,ignore it.
+              continue;
+            }
+
             count = 0;
             //forward
             for (int scan = startScan + 1; scan <= lastScanNumber; scan++)
@@ -216,26 +212,17 @@ namespace RCPA.Proteomics.Quantification.O18
               {
                 var envelope = GetCorrespondingEnvelope(rawFile, theoreticalMz, mphit.Query.Charge, mzTolerance, scan);
 
-                //if the monoisotopic peak of both O16 and O18 have no charge, 
-                //throw current envelope and exit the loop
-                if (0 == envelope[0].Charge && 0 == envelope[4].Charge)
+                //At most one invalid scan inside both pre or post identification scan range.
+                if (!IsValidEnvelope(envelope, mphit.Charge))
                 {
-                  if (count > 1)
+                  if (count > 0)
                   {
-                    if (envelopes.Count > 2)
-                    {
-                      envelopes.RemoveAt(envelopes.Count - 1);
-                      envelopes.RemoveAt(envelopes.Count - 1);
-                    }
-                    else
-                    {
-                      envelopes.RemoveAt(envelopes.Count - 1);
-                    }
+                    envelopes.RemoveAt(envelopes.Count - 1);
                     break;
                   }
                   else
                   {
-                    count++;
+                    count = 1;
                   }
                 }
                 else
@@ -244,7 +231,6 @@ namespace RCPA.Proteomics.Quantification.O18
                 }
 
                 envelopes.Add(envelope);
-                count++;
               }
             }
 
@@ -363,6 +349,31 @@ namespace RCPA.Proteomics.Quantification.O18
       Progress.SetMessage("Finished, result was saved to " + resultFile);
 
       return new[] { resultFile };
+    }
+
+    private static bool IsValidEnvelope(O18QuanEnvelope envelope, int charge)
+    {
+      if (envelope[0].Intensity == 0 || envelope[4].Intensity == 0)
+      {
+        return false;
+      }
+
+      if (envelope[0].Charge == 0 && envelope[4].Charge == 0)
+      {
+        return false;
+      }
+
+      if (envelope[0].Charge != 0 && envelope[0].Charge != charge)
+      {
+        return false;
+      }
+
+      if (envelope[4].Charge != 0 && envelope[4].Charge != charge)
+      {
+        return false;
+      }
+
+      return true;
     }
 
     private static double GetTheoretialO16Mz(double gapO18O16, IIdentifiedSpectrum mphit)
