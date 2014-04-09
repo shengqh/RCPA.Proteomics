@@ -29,7 +29,7 @@ namespace RCPA.Proteomics.Quantification.O18
   {
     public static string title = "O18 Quantification Summary Viewer";
 
-    public static string version = "1.4.4";
+    public static string version = "1.4.5";
 
     private Dictionary<Pair<IIdentifiedSpectrum, IIdentifiedProteinGroup>, ListViewItem> pepItemMap = new Dictionary<Pair<IIdentifiedSpectrum, IIdentifiedProteinGroup>, ListViewItem>();
 
