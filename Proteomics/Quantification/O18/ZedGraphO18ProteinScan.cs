@@ -39,7 +39,7 @@ namespace RCPA.Proteomics.Quantification.O18
 
     protected string GetRatioFile(IQuantificationSummaryOption option, IIdentifiedSpectrum mph)
     {
-      var o18option = option as O18QuantificationSummaryOption;
+      var o18option = option as O18QuantificationSummaryViewerOptions;
       string ratioFile = (string)mph.Annotations[o18option.RatioFileKey];
       if (ratioFile.Equals("-"))
       {

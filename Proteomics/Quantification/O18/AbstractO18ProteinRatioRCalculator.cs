@@ -23,9 +23,9 @@ namespace RCPA.Proteomics.Quantification.O18
 
     private string rExecute;
 
-    public IO18QuantificationOption Option { get; set; }
+    public IO18QuantificationOptions Option { get; set; }
 
-    public AbstractO18ProteinRatioRCalculator(IGetRatioIntensity intensityFunc, IO18QuantificationOption option)
+    public AbstractO18ProteinRatioRCalculator(IGetRatioIntensity intensityFunc, IO18QuantificationOptions option)
     {
       this.intensityFunc = intensityFunc;
       this.Option = option;
@@ -55,7 +55,7 @@ namespace RCPA.Proteomics.Quantification.O18
 
       if (proteinFiles.Count > 0)
       {
-        var listfile = (this.SummaryFileDirectory + "/" + this.DetailDirectory + "/rlm_file.csv").Replace("\\", "/");
+        var listfile = (this.DetailDirectory + "/rlm_file.csv").Replace("\\", "/");
         using (var sw = new StreamWriter(listfile))
         {
           sw.WriteLine("Protein,IntensityFile,MaxReference,MaxSample");
@@ -65,7 +65,7 @@ namespace RCPA.Proteomics.Quantification.O18
           }
         }
 
-        var rfile = new FileInfo(this.SummaryFileDirectory + "\\" + this.DetailDirectory + "\\rlm.r").FullName.Replace("\\", "/");
+        var rfile = new FileInfo(this.DetailDirectory + "/rlm.r").FullName.Replace("\\", "/");
         var linearfile = rfile + ".linear";
         using (var sw = new StreamWriter(rfile))
         {
@@ -181,8 +181,7 @@ write.csv(finalresult,""" + linearfile + @""")");
           }
           else
           {
-            var dd = this.SummaryFileDirectory + "/" + this.DetailDirectory + "/";
-            var filename = (dd + proteinGroup[0].Name.Replace("|", "_") + ".csv").Replace("\\", "/");
+            var filename = (this.DetailDirectory + "/" + proteinGroup[0].Name.Replace("|", "_") + ".csv").Replace("\\", "/");
 
             PrepareIntensityFile(spectra, filename);
 

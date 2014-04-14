@@ -5,17 +5,18 @@ using System.Text;
 using RCPA.Proteomics.Summary;
 using RCPA.Utils;
 using System.IO;
+using RCPA.Gui;
 
 namespace RCPA.Proteomics.Quantification.O18
 {
-  public class AbstractO18QuantificationOption : IO18QuantificationOption
+  public abstract class AbstractO18QuantificationOptions : IO18QuantificationOptions
   {
     private IProteinRatioCalculator calc;
 
     protected IGetRatioIntensity func;
     protected O18QuantificationSummaryItemXmlFormat format = new O18QuantificationSummaryItemXmlFormat();
 
-    public AbstractO18QuantificationOption()
+    public AbstractO18QuantificationOptions()
     {
       this.func = new O18GetRatioIntensity();
       this.calc = new O18ProteinRatioRPeptideCalculator(this.func, this);
@@ -33,6 +34,7 @@ namespace RCPA.Proteomics.Quantification.O18
 
     public virtual IProteinRatioCalculator GetProteinRatioCalculator()
     {
+      calc.DetailDirectory = GetDetailDirectory();
       return calc;
     }
 
@@ -51,7 +53,7 @@ namespace RCPA.Proteomics.Quantification.O18
       return ratioFile.Contains("\\") || ratioFile.Contains("/");
     }
 
-    public string GetRatioFile(Summary.IIdentifiedSpectrum mph, string summaryFileDirectory, string defaultDetailDirectory)
+    public string GetRatioFile(Summary.IIdentifiedSpectrum mph)
     {
       string ratioFile = (string)mph.Annotations[O18QuantificationConstants.O18_RATIO_FILE];
       if (ratioFile.Equals("-"))
@@ -62,11 +64,11 @@ namespace RCPA.Proteomics.Quantification.O18
       string result;
       if (IsRelativeDir(ratioFile))
       {
-        result = summaryFileDirectory + "/" + ratioFile;
+        result = GetSummaryDirectory() + "/" + ratioFile;
       }
       else
       {
-        result = summaryFileDirectory + "/" + defaultDetailDirectory + "/" + ratioFile;
+        result = GetDetailDirectory() + "/" + ratioFile;
       }
 
       result = new FileInfo(result).FullName;
@@ -78,5 +80,17 @@ namespace RCPA.Proteomics.Quantification.O18
 
       return result;
     }
+
+    public string GetSummaryDirectory()
+    {
+      return new FileInfo(this.SummaryFile).DirectoryName;
+    }
+
+    public string GetDetailDirectory()
+    {
+      return FileUtils.ChangeExtension(this.SummaryFile, ".details");
+    }
+
+    public abstract String SummaryFile { get; }
   }
 }

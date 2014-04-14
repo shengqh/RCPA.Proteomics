@@ -9,7 +9,7 @@ namespace RCPA.Proteomics.Quantification.O18
 {
   public class O18ProteinRatioRScanCalculator : AbstractO18ProteinRatioRCalculator
   {
-    public O18ProteinRatioRScanCalculator(IGetRatioIntensity intensityFunc, IO18QuantificationOption option)
+    public O18ProteinRatioRScanCalculator(IGetRatioIntensity intensityFunc, IO18QuantificationOptions option)
       :base(intensityFunc, option)
     {    }
 
@@ -23,7 +23,7 @@ namespace RCPA.Proteomics.Quantification.O18
         {
           if (pep.IsEnabled(true) && Option.IsPeptideRatioValid(pep))
           {
-            string ratioFile = Option.GetRatioFile(pep, SummaryFileDirectory, DetailDirectory);
+            string ratioFile = Option.GetRatioFile(pep);
             if (ratioFile == null)
             {
               continue;

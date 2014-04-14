@@ -7,17 +7,8 @@ using System.IO;
 
 namespace RCPA.Proteomics.Quantification.O18
 {
-  public class O18QuantificationFileOptions : AbstractO18QuantificationOption
+  public class O18QuantificationFileProcessorOptions : AbstractO18QuantificationOptions
   {
-    [RcpaOptionAttribute("ProteinFile", RcpaOptionType.String)]
-    public string ProteinFile { get; set; }
-
-    [RcpaOptionAttribute("RawDirectory", RcpaOptionType.String)]
-    public string RawDirectory { get; set; }
-
-    [RcpaOptionAttribute("RawExtension", RcpaOptionType.String)]
-    public string RawExtension { get; set; }
-
     [RcpaOptionAttribute("PPMTolerance", RcpaOptionType.Double)]
     public double PPMTolerance { get; set; }
 
@@ -26,6 +17,15 @@ namespace RCPA.Proteomics.Quantification.O18
 
     [RcpaOptionAttribute("IsPostDigestionLabelling", RcpaOptionType.Boolean)]
     public bool IsPostDigestionLabelling { get; set; }
+
+    [RcpaOptionAttribute("ProteinFile", RcpaOptionType.String)]
+    public string ProteinFile { get; set; }
+
+    [RcpaOptionAttribute("RawDirectory", RcpaOptionType.String)]
+    public string RawDirectory { get; set; }
+
+    [RcpaOptionAttribute("RawExtension", RcpaOptionType.String)]
+    public string RawExtension { get; set; }
 
     [RcpaOptionAttribute("SoftwareVersion", RcpaOptionType.String)]
     public string SoftwareVersion { get; set; }
@@ -39,7 +39,7 @@ namespace RCPA.Proteomics.Quantification.O18
     [RcpaOptionAttribute("ScanPercentageEnd", RcpaOptionType.Double)]
     public double ScanPercentageEnd { get; set; }
 
-    public O18QuantificationFileOptions()
+    public O18QuantificationFileProcessorOptions()
     {
       this.IsScanLimited = false;
       this.ScanPercentageStart = 0.0;
@@ -67,9 +67,9 @@ namespace RCPA.Proteomics.Quantification.O18
       return 100.0;
     }
 
-    public static O18QuantificationFileOptions Load(string fileName)
+    public static O18QuantificationFileProcessorOptions Load(string fileName)
     {
-      O18QuantificationFileOptions result = new O18QuantificationFileOptions();
+      O18QuantificationFileProcessorOptions result = new O18QuantificationFileProcessorOptions();
       RcpaOptionAttributeUtils.LoadFromXml(result, fileName);
       return result;
     }
@@ -83,7 +83,16 @@ namespace RCPA.Proteomics.Quantification.O18
     {
       var result = base.GetProteinRatioCalculator();
       result.SummaryFileDirectory = Path.GetDirectoryName(this.ProteinFile);
+      result.DetailDirectory = this.GetDetailDirectory();
       return result;
+    }
+
+    public override string SummaryFile
+    {
+      get
+      {
+        return this.ProteinFile + ".O18Summary";
+      }
     }
   }
 }

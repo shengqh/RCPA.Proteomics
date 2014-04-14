@@ -6,13 +6,15 @@ using RCPA.Proteomics.Summary;
 
 namespace RCPA.Proteomics.Quantification.O18
 {
-  public interface IO18QuantificationOption
+  public interface IO18QuantificationOptions
   {
     IFileFormat<O18QuantificationSummaryItem> GetIndividualFileFormat();
     IGetRatioIntensity Func { get; }
     IProteinRatioCalculator GetProteinRatioCalculator();
     bool HasPeptideRatio(IIdentifiedSpectrum ann);
     bool IsPeptideRatioValid(IIdentifiedSpectrum ann);
-    string GetRatioFile(IIdentifiedSpectrum mph, string summaryFileDirectory, string defaultDetailDirectory);
+    string GetRatioFile(IIdentifiedSpectrum mph);
+    string SummaryFile { get; }
+    string GetDetailDirectory();
   }
 }

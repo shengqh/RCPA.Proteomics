@@ -22,7 +22,7 @@ namespace RCPA.Proteomics.Quantification.O18
     private IAnnotation parentObj;
     private bool rawFileExist;
 
-    private IQuantificationSummaryOption option = new O18QuantificationSummaryOption();
+    private IQuantificationSummaryOption options;
 
     private O18QuantificationSummaryItem summary;
 
@@ -56,7 +56,7 @@ namespace RCPA.Proteomics.Quantification.O18
         (item.Tag as QuanEnvelope).IsSelected = item.Selected;
       }
 
-      var e = new UpdateQuantificationItemEventArgs(option, summary);
+      var e = new UpdateQuantificationItemEventArgs(options, summary);
 
       OnUpdateItem(e);
     }
@@ -82,6 +82,7 @@ namespace RCPA.Proteomics.Quantification.O18
       Text = o18SummaryFilename;
 
       this.calc = this.summary.GetCalculator();
+      this.options = new O18QuantificationSummaryViewerOptions(o18SummaryFilename);
 
       ShowSummary(false);
 

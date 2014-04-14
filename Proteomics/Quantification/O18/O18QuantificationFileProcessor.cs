@@ -24,7 +24,7 @@ namespace RCPA.Proteomics.Quantification.O18
 
     private Dictionary<int, double> chargeGapMap2 = new Dictionary<int, double>();
 
-    private O18QuantificationFileOptions options;
+    private O18QuantificationFileProcessorOptions options;
 
     public O18QuantificationFileProcessor()
     {
@@ -41,15 +41,13 @@ namespace RCPA.Proteomics.Quantification.O18
 
     public override IEnumerable<string> Process(string optionFile)
     {
-      this.options = O18QuantificationFileOptions.Load(optionFile);
+      this.options = O18QuantificationFileProcessorOptions.Load(optionFile);
 
       var calc = options.GetProteinRatioCalculator();
-
-      FileInfo sourceFI = new FileInfo(options.ProteinFile);
-      DirectoryInfo detailDir = new DirectoryInfo(sourceFI.DirectoryName + "\\" + sourceFI.Name + ".details");
-      if (!detailDir.Exists)
+      var detailDirectory = options.GetDetailDirectory();
+      if (!Directory.Exists(detailDirectory))
       {
-        detailDir.Create();
+        Directory.CreateDirectory(detailDirectory);
       }
 
       var format = new MascotResultTextFormat();
@@ -270,6 +268,7 @@ namespace RCPA.Proteomics.Quantification.O18
             pklMpMap[envelopes].Add(mphit);
           }
 
+          var detailFilePrefix = options.GetDetailDirectory() + "\\" + new FileInfo(options.ProteinFile).Name;
           foreach (string sequenceCharge in peptideChargeMap.Keys)
           {
             DifferentRetentionTimeEnvelopes pkls = peptideChargeMap[sequenceCharge];
@@ -297,13 +296,12 @@ namespace RCPA.Proteomics.Quantification.O18
               processor.Charge = mps[0].Charge;
               processor.SoftwareVersion = options.SoftwareVersion;
 
-              var extension = MyConvert.Format(".{0}.{1}.{2}.{3}.O18",
+              var resultFilename = MyConvert.Format("{0}.{1}.{2}.{3}.{4}.O18",
+                detailFilePrefix,
                 experimental,
                 PeptideUtils.GetPureSequence(mps[0].Sequence),
                 mps[0].Charge,
                 envelopes.GetScanRange());
-
-              string resultFilename = detailDir + "\\" + FileUtils.ChangeExtension(sourceFI.Name, extension);
 
               processor.Process(resultFilename);
 
@@ -311,15 +309,17 @@ namespace RCPA.Proteomics.Quantification.O18
 
               int maxScoreItemIndex = FindMaxScoreItemIndex(mps);
 
+              var relativeFile = Path.Combine(Path.GetFileName(options.GetDetailDirectory()), Path.GetFileName(resultFilename));
+
               for (int i = 0; i < mps.Count; i++)
               {
                 if (maxScoreItemIndex == i)
                 {
-                  item.AssignToAnnotation(mps[i], resultFilename);
+                  item.AssignToAnnotation(mps[i], relativeFile);
                 }
                 else
                 {
-                  item.AssignDuplicationToAnnotation(mps[i], resultFilename);
+                  item.AssignDuplicationToAnnotation(mps[i], relativeFile);
                 }
               }
             }

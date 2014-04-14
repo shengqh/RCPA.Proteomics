@@ -302,13 +302,13 @@
     <Compile Include="Proteomics\Quantification\MaxQuant\IntensityEntry.cs" />
     <Compile Include="Proteomics\Quantification\MaxQuant\PeptideReader.cs" />
     <Compile Include="Proteomics\Quantification\O18\AbstractO18ProteinRatioRCalculator.cs" />
-    <Compile Include="Proteomics\Quantification\O18\AbstractO18QuantificationOption.cs" />
-    <Compile Include="Proteomics\Quantification\O18\AbstractO18ProteinRatioRCalculatorPCA.cs" />
-    <Compile Include="Proteomics\Quantification\O18\O18QuantificationSummaryItem2.cs" />
-    <Compile Include="Proteomics\Quantification\O18\IO18QuantificationOption.cs" />
-    <Compile Include="Proteomics\Quantification\O18\O18ProteinRatioRScanCalculator.cs" />
+    <Compile Include="Proteomics\Quantification\O18\AbstractO18QuantificationOptions.cs" />
+    <Compile Include="Proteomics\Quantification\O18\IO18QuantificationOptions.cs" />
     <Compile Include="Proteomics\Quantification\O18\O18ProteinRatioRPeptideCalculator.cs" />
-    <Compile Include="Proteomics\Quantification\O18\O18QuantificationFileOptions.cs" />
+    <Compile Include="Proteomics\Quantification\O18\O18ProteinRatioRScanCalculator.cs" />
+    <Compile Include="Proteomics\Quantification\O18\O18QuantificationFileProcessorOptions.cs" />
+    <Compile Include="Proteomics\Quantification\O18\O18QuantificationFileProcessor.cs" />
+    <Compile Include="Proteomics\Quantification\O18\O18QuantificationSummaryItem2.cs" />
     <Compile Include="Proteomics\Quantification\Reproducibility\PrecursorItemListExcelReader.cs" />
     <Compile Include="Proteomics\Raw\AbstractScanLevelBuilder.cs" />
     <Compile Include="Proteomics\Raw\MasterScanMapFinder.cs" />
@@ -1402,10 +1402,6 @@
       <DependentUpon>O18QuantificationSummaryViewerUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Quantification\O18\O18QuantificationUserProcessorUI.resx">
-      <DependentUpon>O18QuantificationUserProcessorUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Quantification\AbstractQuantificationSummaryViewerUI.resx">
       <DependentUpon>AbstractQuantificationSummaryViewerUI.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1804,7 +1800,6 @@
     <Compile Include="Proteomics\Quantification\QuanEnvelopes.cs" />
     <Compile Include="Proteomics\Quantification\IProteinRatioCalculator.cs" />
     <Compile Include="Proteomics\Quantification\QuanEnvelope.cs" />
-    <Compile Include="Proteomics\Quantification\O18\O18QuantificationViewOptions.cs" />
     <Compile Include="Proteomics\Quantification\O18\ZedGraphO18ExperimentalScan.cs" />
     <Compile Include="Proteomics\Quantification\SILAC\SilacGetRatioIntensity.cs" />
     <Compile Include="Proteomics\Quantification\UpdateQuantificationItemEventArgs.cs" />
@@ -2392,26 +2387,18 @@
       <DependentUpon>LipidQuantificationProcessorUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Quantification\MultipleFileQuantificationDefinition.cs" />
-    <Compile Include="Proteomics\Quantification\O18\O18QuantificationFileProcessor.cs" />
     <Compile Include="Proteomics\Quantification\O18\O18QuantificationFileProcessorUI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Proteomics\Quantification\O18\O18QuantificationFileProcessorUI.Designer.cs">
       <DependentUpon>O18QuantificationFileProcessorUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Proteomics\Quantification\O18\O18QuantificationSummaryOption.cs" />
+    <Compile Include="Proteomics\Quantification\O18\O18QuantificationSummaryViewerOptions.cs" />
     <Compile Include="Proteomics\Quantification\O18\O18QuantificationSummaryViewerUI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Proteomics\Quantification\O18\O18QuantificationSummaryViewerUI.Designer.cs">
       <DependentUpon>O18QuantificationSummaryViewerUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Proteomics\Quantification\O18\O18QuantificationUserProcessor.cs" />
-    <Compile Include="Proteomics\Quantification\O18\O18QuantificationUserProcessorUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Proteomics\Quantification\O18\O18QuantificationUserProcessorUI.Designer.cs">
-      <DependentUpon>O18QuantificationUserProcessorUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Quantification\O18\O18ScanTextWriter.cs" />
     <Compile Include="Proteomics\Quantification\O18\O18TheoreticalEnvelopesBuilder.cs" />

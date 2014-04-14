@@ -8,13 +8,23 @@ using System.IO;
 
 namespace RCPA.Proteomics.Quantification.O18
 {
-  public class O18QuantificationSummaryOption : AbstractO18QuantificationOption, IQuantificationSummaryOption
+  public class O18QuantificationSummaryViewerOptions : AbstractO18QuantificationOptions, IQuantificationSummaryOption
   {
-    public double HighlightR2 { get; set; }
+    public double HighlightR2 { get; private set; }
 
-    public O18QuantificationSummaryOption()
+    private string _summaryFile;
+    public override string SummaryFile
     {
-      HighlightR2 = 0.9;
+      get
+      {
+        return _summaryFile;
+      }
+    }
+
+    public O18QuantificationSummaryViewerOptions(string summaryFile, double highlightR2 = 0.9 )
+    {
+      this._summaryFile = summaryFile;
+      this.HighlightR2 = highlightR2;
     }
 
     public object ReadRatioFile(string file)

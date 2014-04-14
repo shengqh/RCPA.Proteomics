@@ -72,7 +72,7 @@ namespace RCPA.Proteomics.Quantification.O18
 
     protected override IFileProcessor GetFileProcessor()
     {
-      O18QuantificationFileOptions options = new O18QuantificationFileOptions();
+      O18QuantificationFileProcessorOptions options = new O18QuantificationFileProcessorOptions();
       options.PPMTolerance = precursorPPMTolerance.Value;
       options.PurityOfO18Water = purityOfWater.Value;
       options.ProteinFile = base.GetOriginFile();

@@ -41,10 +41,6 @@ namespace RCPA.Proteomics.Quantification.O18
 
       this.Text = Constants.GetSQHTitle(title, version);
 
-      this.option = new O18QuantificationSummaryOption();
-
-      this.calc = option.GetProteinRatioCalculator();
-
       this.exportFile = new SaveFileArgument("O18 Quantification Result", "ProO18Quant");
 
       InitializeSummaryFile();
@@ -78,6 +74,11 @@ namespace RCPA.Proteomics.Quantification.O18
 
     protected override void ProcessIdentifiedResult(IIdentifiedResult mr)
     {
+      this.option = new O18QuantificationSummaryViewerOptions(this.summaryFilename);
+
+      this.calc = option.GetProteinRatioCalculator();
+
+
       calc.SummaryFileDirectory = Path.GetDirectoryName(this.summaryFilename);
       calc.DetailDirectory = this.GetDetailDirectoryName();
 
