@@ -23,7 +23,7 @@ namespace RCPA.Proteomics.Statistic
   {
     private static readonly string title = "Raw Ion Frequency Statistic Builder";
 
-    private static readonly string version = "1.0.2";
+    private static readonly string version = "1.0.4";
 
     private RcpaDoubleField productIonPPM;
 
@@ -48,7 +48,7 @@ namespace RCPA.Proteomics.Statistic
 
     protected override IFileProcessor GetFileProcessor()
     {
-      return new RawIonStatisticMainBuilder(this.rawFiles.GetItemInfos().Items.GetAllItems(), productIonPPM.Value, minRelativeIntensity.Value);
+      return new RawIonStatisticMainBuilder(this.rawFiles.GetItemInfos().Items.GetAllItems(), productIonPPM.Value, minRelativeIntensity.Value, 0.05);
     }
 
     public class Command : IToolCommand

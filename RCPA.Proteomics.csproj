@@ -121,9 +121,6 @@
       <HintPath>..\SQH.Lib\Meta.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="MwtWinDll">
       <HintPath>..\SQH.Lib\MwtWinDll.dll</HintPath>
     </Reference>
@@ -177,6 +174,8 @@
       <DependentUpon>ScoreDistributionBuilderUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Classification\IdentifiedPeptideTagClassification.cs" />
+    <Compile Include="Proteomics\Comet\CometSpectraDistiller.cs" />
+    <Compile Include="Proteomics\Comet\CometXmlReader.cs" />
     <Compile Include="Proteomics\Database\ExtractFastaByAccessNumberProcessorUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -195,6 +194,21 @@
     <Compile Include="Proteomics\Database\UniprotXmlIndexBuilder.cs" />
     <Compile Include="Proteomics\Database\UniprotXmlReader.cs" />
     <Compile Include="Proteomics\Format\AbstractRawConverter.cs" />
+    <Compile Include="Proteomics\Format\MultipleMgf2Ms2ProcessorUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Format\MultipleMgf2Ms2ProcessorUI.Designer.cs">
+      <DependentUpon>MultipleMgf2Ms2ProcessorUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\Format\MultipleMgf2Ms2Processor.cs" />
+    <Compile Include="Proteomics\Format\Mgf2Ms2ProcessorUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Format\Mgf2Ms2ProcessorUI.Designer.cs">
+      <DependentUpon>Mgf2Ms2ProcessorUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\Format\Mgf2Ms2Processor.cs" />
+    <Compile Include="Proteomics\Format\MultipleMgf2Ms2ProcessorOptions.cs" />
     <Compile Include="Proteomics\Format\ReplaceMascotGenericFormatProcessorUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -282,6 +296,39 @@
     <Compile Include="Proteomics\MaxQuant\MaxQuantEvidenceToPeptideProcessorUI.Designer.cs">
       <DependentUpon>MaxQuantEvidenceToPeptideProcessorUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Proteomics\Processor\PeakListRemoveIsobaricIonProcessorOptions.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\AbstractIsobaricRawHCDMS3Reader.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\AbstractIsobaricRawReader.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\AbstractIsobaricResultXmlFormat.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IIsobaricLabellingProtease.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResultFileDistillerOptions.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricPurityCorrectionNormalizationRCalculator.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResultBuilder.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IIsobaricRawReader.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IIsobaricResultFormat.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricChannel.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResult.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricType.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricTypeFactory.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricTypeXmlFileReader.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricIsotope.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricItem.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricLabellingRawDistillerOptions.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricConsts.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricLabellingRawDistiller.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricRawHCDMS2Reader.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricRawHCDMS3Reader.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricRawHCDParallelMS3Reader.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricRawPQDCIDReader.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricRawPQDReader.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResultXmlFormat.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResultXmlFormatReader.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricItemXmlUtils.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResultXmlIndexBuilder.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResultMultipleFileDistiller.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResultFileDistiller.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResultFileFormatFactory.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResultXmlFormatRandomReader.cs" />
     <Compile Include="Proteomics\Quantification\ITraq\AbstractITraqRawHCDMS3Reader.cs" />
     <Compile Include="Proteomics\Quantification\ITraq\ITraqRawHCDParallelMS3Reader.cs" />
     <Compile Include="Proteomics\Quantification\ITraq\IIsobaricLabellingProtease.cs" />
@@ -579,6 +626,7 @@
     <Compile Include="Proteomics\Spectrum\PeakListCountProcessor.cs" />
     <Compile Include="Proteomics\Spectrum\PeakListDeductionByITRAQ.cs" />
     <Compile Include="Proteomics\Spectrum\PeakListDeductionByWindow.cs" />
+    <Compile Include="Proteomics\Statistic\RawIonStatisticTaskBuilder.cs" />
     <Compile Include="Proteomics\Statistic\ProteinPeptideCorrelationCalculatorUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -587,6 +635,7 @@
     </Compile>
     <Compile Include="Proteomics\Statistic\CorrelationItem.cs" />
     <Compile Include="Proteomics\Statistic\CorrleationCalculator.cs" />
+    <Compile Include="Proteomics\Statistic\RawIonStatisticTaskBuilderOptions.cs" />
     <Compile Include="Proteomics\Statistic\ScanCountMainCalculator.cs" />
     <Compile Include="Proteomics\Statistic\ScanCountCalculatorUI.cs">
       <SubType>Form</SubType>
@@ -610,7 +659,6 @@
     </Compile>
     <Compile Include="Proteomics\Statistic\PrecursorOffsetCalculator.cs" />
     <Compile Include="Proteomics\Statistic\PrecursorOffsetEntry.cs" />
-    <Compile Include="Proteomics\Statistic\RawIonStatisticTaskBuilder.cs" />
     <Compile Include="Proteomics\Statistic\ScoreComparisonBuilderUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -634,6 +682,7 @@
     <Compile Include="Proteomics\Summary\ITitleParser.cs" />
     <Compile Include="Proteomics\Mascot\MascotScoreFunctions.cs" />
     <Compile Include="Proteomics\Summary\mzIdentMLFormat.cs" />
+    <Compile Include="Proteomics\Summary\PeakAlignment.cs" />
     <Compile Include="Proteomics\Summary\TitleParser.cs" />
     <Compile Include="Proteomics\Summary\TitleParserUtils.cs" />
     <Compile Include="Proteomics\Modification\ModificationFilter.cs" />
@@ -963,6 +1012,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Format\BuildSummaryWebFormatConverterUI.resx">
       <DependentUpon>BuildSummaryWebFormatConverterUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Format\MultipleMgf2Ms2ProcessorUI.resx">
+      <DependentUpon>MultipleMgf2Ms2ProcessorUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Format\Mgf2Ms2ProcessorUI.resx">
+      <DependentUpon>Mgf2Ms2ProcessorUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Format\ReplaceMascotGenericFormatProcessorUI.resx">
@@ -2672,12 +2729,39 @@
     <Folder Include="conf\" />
   </ItemGroup>
   <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel1">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>6</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="MSFileReaderLib">
       <Guid>{F0C5F3E3-4F2A-443E-A74D-0AABE3237494}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>

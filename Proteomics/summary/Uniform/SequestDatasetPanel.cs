@@ -32,9 +32,15 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     private readonly RcpaIntegerField maxSpRank;
 
+    private readonly RcpaCheckBox filterByEvalue;
+
+    private readonly RcpaDoubleField maxEvalue;
+
     public SequestDatasetOptions SequestOption { get { return Option as SequestDatasetOptions; } }
 
-    private OpenFileArgument zipFiles = new OpenFileArgument("Zipped dtas/outs or dta/out file", "zip");
+    private OpenFileArgument zipFiles = new OpenFileArgument("Zipped dtas/outs or dta/out file", "zip", true);
+
+    private OpenFileArgument xmlFiles = new OpenFileArgument("Comet xml file", "xml", true);
 
     public SequestDatasetPanel()
     {
@@ -64,6 +70,12 @@ namespace RCPA.Proteomics.Summary.Uniform
       this.maxSpRank = new RcpaIntegerField(this.txtSpRank, "MaxSpRank", "Max Sp Rank", 4, false);
       AddComponent(this.maxSpRank);
 
+      this.filterByEvalue = new RcpaCheckBox(this.cbFilterByEvalue, "FilterByEvalue", true);
+      AddComponent(this.filterByEvalue);
+
+      this.maxEvalue = new RcpaDoubleField(this.txtMaxEvalue, "MaxEvalue", "Max Evalue", 0.05, true);
+      AddComponent(this.maxEvalue);
+
       this.dataDirs = new RcpaListViewMultipleDirectoryField(
         this.btnAddFiles,
         this.btnRemoveFiles,
@@ -77,7 +89,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
       dataDirs.Validator.ValidateFunc = (m =>
       {
-        if (m.ToLower().EndsWith(".zip"))
+        if (m.ToLower().EndsWith(".zip") || m.ToLower().EndsWith(".xml"))
         {
           return File.Exists(m);
         }
@@ -103,6 +115,8 @@ namespace RCPA.Proteomics.Summary.Uniform
       this.minDeltaCn.Required = this.cbFilterByDeltaCn.Checked;
 
       this.maxSpRank.Required = this.cbFilterBySpRank.Checked;
+
+      this.maxEvalue.Required = this.cbFilterByEvalue.Checked;
     }
 
     public override void LoadFromDataset()
@@ -119,6 +133,9 @@ namespace RCPA.Proteomics.Summary.Uniform
 
       this.minDeltaCn.Value = this.SequestOption.MinDeltaCn;
       this.maxSpRank.Value = this.SequestOption.MaxSpRank;
+
+      this.filterByEvalue.Checked = this.SequestOption.FilterByEvalue;
+      this.maxEvalue.Value = this.SequestOption.MaxEvalue;
       
       this.dataDirs.ClearItems();
       this.dataDirs.AddDirectories(this.SequestOption.PathNames.ToArray());
@@ -131,6 +148,8 @@ namespace RCPA.Proteomics.Summary.Uniform
       this.SequestOption.FilterByXcorr = this.filterByXcorr.Checked;
       this.SequestOption.FilterByDeltaCn = this.filterByDeltaCn.Checked;
       this.SequestOption.FilterBySpRank = this.filterBySpRank.Checked;
+      this.SequestOption.FilterByEvalue = this.filterByEvalue.Checked;
+
 
       this.SequestOption.MinXcorr1 = this.minXcorr1.Value;
       this.SequestOption.MinXcorr2 = this.minXcorr2.Value;
@@ -138,6 +157,8 @@ namespace RCPA.Proteomics.Summary.Uniform
 
       this.SequestOption.MinDeltaCn = this.minDeltaCn.Value;
       this.SequestOption.MaxSpRank = this.maxSpRank.Value;
+
+      this.SequestOption.MaxEvalue = this.maxEvalue.Value;
 
       this.SequestOption.PathNames = new List<string>(dataDirs.GetAllItems());
     }
@@ -157,6 +178,15 @@ namespace RCPA.Proteomics.Summary.Uniform
     private void btnAddZips_Click(object sender, EventArgs e)
     {
       var dlg = zipFiles.GetFileDialog();
+      if (dlg.ShowDialog() == DialogResult.OK)
+      {
+        this.dataDirs.AddItems(dlg.FileNames);
+      }
+    }
+
+    private void btnXml_Click(object sender, EventArgs e)
+    {
+      var dlg = xmlFiles.GetFileDialog();
       if (dlg.ShowDialog() == DialogResult.OK)
       {
         this.dataDirs.AddItems(dlg.FileNames);

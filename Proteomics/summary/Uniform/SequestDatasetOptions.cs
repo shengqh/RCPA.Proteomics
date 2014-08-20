@@ -80,6 +80,20 @@ namespace RCPA.Proteomics.Summary.Uniform
       set { _spRank = value; }
     }
 
+    private bool _filterByEvalue;
+    public bool FilterByEvalue
+    {
+      get { return _filterByEvalue; }
+      set { _filterByEvalue = value; }
+    }
+
+    private double _maxEvalue;
+    public double MaxEvalue
+    {
+      get { return _maxEvalue; }
+      set { _maxEvalue = value; }
+    }
+
     public bool SkipSamePeptideButDifferentModificationSite { get; set; }
 
     public double MaxModificationDeltaCn { get; set; }
@@ -105,6 +119,11 @@ namespace RCPA.Proteomics.Summary.Uniform
       {
         filters.Add(new IdentifiedSpectrumSpRankFilter(MaxSpRank));
       }
+
+      if (FilterByEvalue)
+      {
+        filters.Add(new IdentifiedSpectrumExpectValueFilter(MaxEvalue));
+      }
     }
 
     protected override List<XElement> GetPeptideFilters()
@@ -114,7 +133,8 @@ namespace RCPA.Proteomics.Summary.Uniform
         OptionUtils.FilterToXml("Xcorr2", _filterByXcorr, _xcorr2),
         OptionUtils.FilterToXml("Xcorr3", _filterByXcorr, _xcorr3),
         OptionUtils.FilterToXml("DeltaCn", _filterByDeltaCn, _deltaCn),
-        OptionUtils.FilterToXml("SpRank", _filterBySpRank, _spRank)
+        OptionUtils.FilterToXml("SpRank", _filterBySpRank, _spRank),
+        OptionUtils.FilterToXml("Evalue", _filterByEvalue, _maxEvalue)
       }.ToList();
     }
 
@@ -125,6 +145,15 @@ namespace RCPA.Proteomics.Summary.Uniform
       OptionUtils.XmlToFilter(filterXml, "Xcorr3", out _filterByXcorr, out _xcorr3);
       OptionUtils.XmlToFilter(filterXml, "DeltaCn", out _filterByDeltaCn, out _deltaCn);
       OptionUtils.XmlToFilter(filterXml, "SpRank", out _filterBySpRank, out _spRank);
+      if (OptionUtils.HasFilter(filterXml, "Evalue"))
+      {
+        OptionUtils.XmlToFilter(filterXml, "Evalue", out _filterByEvalue, out _maxEvalue);
+      }
+      else
+      {
+        _filterByEvalue = false;
+        _maxEvalue = 0.05;
+      }
     }
 
     protected override List<XElement> GetOtherParams()

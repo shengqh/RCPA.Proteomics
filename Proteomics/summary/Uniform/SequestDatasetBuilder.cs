@@ -8,6 +8,7 @@ using System.Diagnostics;
 using RCPA.Seq;
 using RCPA.Gui;
 using RCPA.Proteomics.Sequest;
+using RCPA.Proteomics.Comet;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
@@ -72,6 +73,7 @@ namespace RCPA.Proteomics.Summary.Uniform
         }
 
         AbstractSequestSpectraDistiller distiller;
+        string engine;
         if (Directory.Exists(pathName))
         {
           var dir = new DirectoryInfo(pathName);
@@ -84,6 +86,12 @@ namespace RCPA.Proteomics.Summary.Uniform
           {
             distiller = new SequestOutDirectoryDistiller(outDirParser, peptideFormat);
           }
+          engine = "SEQUEST";
+        }
+        else if (pathName.ToLower().EndsWith(".xml"))
+        {
+          distiller = new CometSpectraDistiller(peptideFormat);
+          engine = "COMET";
         }
         else //zipfile
         {
@@ -97,6 +105,7 @@ namespace RCPA.Proteomics.Summary.Uniform
             zipParser = outsParser;
           }
           distiller = new SequestOutZipDistiller(zipParser, peptideFormat);
+          engine = "SEQUEST";
         }
 
         distiller.Progress = this.Progress;
@@ -112,7 +121,7 @@ namespace RCPA.Proteomics.Summary.Uniform
         curPeptides.ForEach(m =>
         {
           m.Tag = options.Name;
-          m.Engine = "SEQUEST";
+          m.Engine = engine;
         });
 
         result.AddRange(curPeptides);

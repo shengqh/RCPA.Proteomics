@@ -7,6 +7,7 @@ using RCPA.Proteomics.Spectrum;
 using System.IO;
 using System.Threading.Tasks;
 using MathNet.Numerics.Statistics;
+using RCPA.Utils;
 
 namespace RCPA.Proteomics.Statistic
 {
@@ -14,30 +15,42 @@ namespace RCPA.Proteomics.Statistic
   {
     private const int FULLMS_CHARGE = -1;
 
-    private string targetDir;
+    private RawIonStatisticTaskBuilderOptions options;
 
-    private double productIonPPM;
-
-    private double minRelativeIntensity;
-
-    public RawIonStatisticTaskBuilder(string targetDir, double productIonPPM, double minRelativeIntensity)
+    public RawIonStatisticTaskBuilder(RawIonStatisticTaskBuilderOptions options)
     {
-      this.targetDir = targetDir;
-      this.productIonPPM = productIonPPM;
-      this.minRelativeIntensity = minRelativeIntensity;
+      this.options = options;
+    }
+
+    private class SourcePeak
+    {
+      public SourcePeak(int scan, double mz, double intensity)
+      {
+        this.Scan = scan;
+        this.Mz = mz;
+        this.Intensity = intensity;
+      }
+
+      public int Scan { get; set; }
+      public double Mz { get; set; }
+      public double Intensity { get; set; }
     }
 
     private class PeakEntry
     {
       public PeakEntry()
       {
-        this.Intensities = new List<double>();
+        this.Intensities = new List<SourcePeak>();
       }
 
       public Peak Ion { get; set; }
       public double FromMz { get; set; }
       public double ToMz { get; set; }
-      public List<double> Intensities { get; set; }
+      public List<SourcePeak> Intensities { get; set; }
+      public override string ToString()
+      {
+        return string.Format("{0:0.0000}", Ion.Mz);
+      }
     }
 
     public override IEnumerable<string> Process(string fileName)
@@ -49,6 +62,8 @@ namespace RCPA.Proteomics.Statistic
       {
         var firstScan = reader.GetFirstSpectrumNumber();
         var lastScan = reader.GetLastSpectrumNumber();
+        //var firstScan = 17047;
+        //var lastScan = 17047;
 
         for (int i = firstScan; i <= lastScan; i++)
         {
@@ -77,6 +92,12 @@ namespace RCPA.Proteomics.Statistic
             continue;
           }
 
+          //if (i == 17047)
+          //{
+          //  pkl.ForEach(m => Console.WriteLine("{0}\t{1}", m.Mz, m.Intensity));
+          //  return null;
+          //}
+
           if (Progress.IsCancellationPending() || IsLoopStopped)
           {
             return null;
@@ -92,20 +113,20 @@ namespace RCPA.Proteomics.Statistic
           var compmap = compmaps[precursor.Charge];
 
           var maxPeak = pkl.FindMaxIntensityPeak();
-          var minIntensity = maxPeak.Intensity * this.minRelativeIntensity;
+          var minIntensity = maxPeak.Intensity * options.MinRelativeIntensity;
 
           double precursorMass = precursor.Charge > 0 ? PrecursorUtils.MzToMass(precursor.Mz, precursor.Charge, true) : 0.0;
           foreach (var peak in pkl)
           {
             if (peak.Intensity > minIntensity)
             {
-              AddPeak(map, maxPeak.Intensity, peak);
+              AddPeak(map, maxPeak.Intensity, i, peak);
 
               if (precursor.Charge > 0)
               {
                 var peakMass = peak.Charge == 0 ? peak.Mz : PrecursorUtils.MzToMass(peak.Mz, peak.Charge, true);
                 peakMass = precursorMass - peakMass;
-                AddPeak(compmap, maxPeak.Intensity, new Peak(peakMass, peak.Intensity, peak.Charge));
+                AddPeak(compmap, maxPeak.Intensity, i, new Peak(peakMass, peak.Intensity, peak.Charge));
               }
             }
           }
@@ -116,189 +137,175 @@ namespace RCPA.Proteomics.Statistic
                   orderby charge
                   select charge).ToList();
 
-      var resultFile1 = new FileInfo(targetDir + "//" + new FileInfo(fileName).Name + ".forward.ionfrequency").FullName;
-      using (StreamWriter sw = new StreamWriter(resultFile1))
-      {
-        WriteMap(scanCounts, keys, sw, maps);
-      }
-      var resultFile2 = new FileInfo(targetDir + "//" + new FileInfo(fileName).Name + ".backward.ionfrequency").FullName;
-      using (StreamWriter sw = new StreamWriter(resultFile2))
-      {
-        WriteMap(scanCounts, keys, sw, compmaps);
-      }
+      var resultFile1 = new FileInfo(options.TargetDirectory + "//" + new FileInfo(fileName).Name + ".forward.ionfrequency").FullName;
+      WriteMap(scanCounts, keys, resultFile1, maps, true);
+
+      var resultFile2 = new FileInfo(options.TargetDirectory + "//" + new FileInfo(fileName).Name + ".backward.ionfrequency").FullName;
+      WriteMap(scanCounts, keys, resultFile2, compmaps, false);
+
       return new string[] { resultFile1, resultFile2 };
     }
 
-    private void WriteMap(Dictionary<int, int> scanCounts, List<int> keys, StreamWriter sw, Dictionary<int, Dictionary<int, List<PeakEntry>>> curMaps)
+    private void WriteMap(Dictionary<int, int> scanCounts, List<int> keys, string filename, Dictionary<int, Dictionary<int, List<PeakEntry>>> curMaps, bool exportIndividualIon)
     {
-      foreach (var key in keys)
+      using (var sw = new StreamWriter(filename))
       {
-        var totalCount = scanCounts[key];
+        foreach (var key in keys)
+        {
+          var totalCount = scanCounts[key];
+          string subfile = string.Empty;
 
-        if (key == FULLMS_CHARGE)
-        {
-          sw.WriteLine("FullMS,ScanCount={1}", key, totalCount);
-        }
-        else if (key == 0)
-        {
-          sw.WriteLine("Charge=UNKNOWN,ScanCount={1}", key, totalCount);
-        }
-        else
-        {
-          sw.WriteLine("Charge={0},ScanCount={1}",key, totalCount);
-        }
-        var map = curMaps[key];
+          //if (key != 2)
+          //{
+          //  continue;
+          //}
 
-        sw.WriteLine("Ion\tCount\tFrequency\tMeanIntensity\tSD\tMedianIntensity");
-        foreach (var e in map.Values)
-        {
-          e.Sort((m1, m2) => m2.Intensities.Count.CompareTo(m1.Intensities.Count));
-          for (int i = e.Count - 1; i >= 0; i--)
+          if (key == FULLMS_CHARGE)
           {
-            for (int j = 0; j < i; j++)
+            sw.WriteLine("FullMS,ScanCount={1}", key, totalCount);
+            subfile = filename + ".fullms";
+          }
+          else if (key == 0)
+          {
+            sw.WriteLine("Charge=UNKNOWN,ScanCount={1}", key, totalCount);
+            subfile = filename + ".unknown";
+          }
+          else
+          {
+            sw.WriteLine("Charge={0},ScanCount={1}", key, totalCount);
+            subfile = filename + ".ms2charge" + key.ToString();
+          }
+          var map = curMaps[key];
+
+          sw.WriteLine("Ion\tCount\tFrequency\tMeanIntensity\tSD\tMedianIntensity");
+          foreach (var e in map.Values)
+          {
+            MergeIons(e);
+          }
+
+          var ens = (from e in map.Values from en in e select en).ToList();
+          //var ens = (from e in map.Values from en in e orderby en.Ion.Mz select en).ToList();
+          //ens.ForEach(m => Console.WriteLine("{0}\t{1}", m.Ion.Mz, m.Intensities.Count));
+          MergeIons(ens);
+
+          ////remove the ions with less observations
+          //var totalscan = (from en in ens
+          //                 from intensity in en.Intensities
+          //                 select intensity.Scan).Distinct().Count();
+          //var minFrequencyCount = Math.Floor(totalscan * options.MinFrequency);
+          //ens.RemoveAll(en => en.Intensities.Count < minFrequencyCount);
+
+          //remove the duplication
+          foreach (var ee in ens)
+          {
+            ee.Intensities = (from intt in ee.Intensities.GroupBy(m => m.Scan)
+                              select (from inttt in intt
+                                      orderby inttt.Intensity descending
+                                      select inttt).First()).ToList();
+          }
+
+          //var ensgroup = ens.GroupBy(m => Math.Round(m.Ion.Mz)).OrderBy(m => m.Key).ToList();
+
+          //ens = (from g in ensgroup
+          //       select (from e in g
+          //               orderby e.Intensities.Count descending
+          //               select e).First()).ToList();
+
+          if (exportIndividualIon)
+          {
+            using (var sw2 = new StreamWriter(subfile))
             {
-              if (e[i].Ion.Mz >= e[j].FromMz && e[i].Ion.Mz <= e[j].ToMz)
+              ens.Sort((m1, m2) => m1.Ion.Mz.CompareTo(m2.Ion.Mz));
+
+              sw2.WriteLine("mz\tscan\tintensity");
+              foreach (var ion in ens)
               {
-                var allIntensity = e[i].Ion.Intensity + e[j].Ion.Intensity;
+                var grp = ion.Intensities.GroupBy(m => m.Scan).OrderBy(m => m.Key).ToList();
+                foreach (var value in grp)
+                {
+                  if (value.Count() > 1)
+                  {
+                    Console.WriteLine("Multiple entry : {0}, {1}", ion.Ion.Mz, value.Key);
+                  }
 
-                e[j].Ion.Mz = (e[i].Ion.Mz * e[i].Ion.Intensity + e[j].Ion.Mz * e[j].Ion.Intensity) / allIntensity;
-                e[j].Ion.Intensity = allIntensity;
-                e[j].Intensities.AddRange(e[i].Intensities);
-
-                var gap = PrecursorUtils.ppm2mz(e[j].Ion.Mz, this.productIonPPM);
-                e[j].FromMz = e[j].Ion.Mz - gap;
-                e[j].ToMz = e[j].Ion.Mz + gap;
-
-                e.RemoveAt(i);
-
-                break;
+                  sw2.WriteLine("{0:0.00000}\t{1}\t{2:0.000}", ion.Ion.Mz, value.Key, value.First().Intensity);
+                }
               }
             }
+
+            //string outputfile;
+            //var rfile = options.PrepareRFile(subfile, out outputfile);
+
+            //new RProcessor(options.GetRCommand(), rfile, outputfile).Process();
           }
+
+          var totalentries = (from en in ens
+                              orderby en.Intensities.Count descending
+                              select en).ToList();
+
+          totalentries.ForEach(m =>
+          {
+            var ints = (from i in m.Intensities select i.Intensity).ToArray();
+            var mean = Statistics.Mean(ints);
+            var sd = Statistics.StandardDeviation(ints);
+            var median = Statistics.Median(ints);
+
+            sw.WriteLine("{0:0.0000}\t{1}\t{2:0.0000}\t{3:0.000}\t{4:0.000}\t{5:0.000}", m.Ion.Mz, m.Intensities.Count, m.Intensities.Count * 1.0 / totalCount, mean, sd, median);
+          });
+          sw.WriteLine();
         }
-
-        var totalentries = (from e in map.Values
-                            from en in e
-                            orderby en.Intensities.Count descending
-                            select en).Take(50).ToList();
-
-        totalentries.ForEach(m =>
-        {
-          var mean = Statistics.Mean(m.Intensities);
-          var sd = Statistics.StandardDeviation(m.Intensities);
-          var median = Statistics.Median(m.Intensities);
-
-          sw.WriteLine("{0:0.0000}\t{1}\t{2:0.00}%\t{3:0.000}\t{4:0.000}\t{5:0.000}", m.Ion.Mz, m.Intensities.Count, m.Intensities.Count * 100.0 / totalCount, mean, sd, median);
-        });
-        sw.WriteLine();
       }
     }
 
-    private void AddPeak(Dictionary<int, List<PeakEntry>> map, double maxPeakIntensity, Peak peak)
+    private void MergeIons(List<PeakEntry> e)
+    {
+      e.Sort((m1, m2) => m2.Intensities.Count.CompareTo(m1.Intensities.Count));
+      for (int i = e.Count - 1; i >= 0; i--)
+      {
+        for (int j = 0; j < i; j++)
+        {
+          if (e[i].Ion.Mz >= e[j].FromMz && e[i].Ion.Mz <= e[j].ToMz)
+          {
+            var allIntensity = e[i].Ion.Intensity + e[j].Ion.Intensity;
+
+            e[j].Ion.Mz = (e[i].Ion.Mz * e[i].Ion.Intensity + e[j].Ion.Mz * e[j].Ion.Intensity) / allIntensity;
+            e[j].Ion.Intensity = allIntensity;
+            e[j].Intensities.AddRange(e[i].Intensities);
+
+            var gap = PrecursorUtils.ppm2mz(e[j].Ion.Mz, options.ProductIonPPM);
+            e[j].FromMz = e[j].Ion.Mz - gap;
+            e[j].ToMz = e[j].Ion.Mz + gap;
+
+            e.RemoveAt(i);
+
+            break;
+          }
+        }
+      }
+    }
+
+    private void AddPeak(Dictionary<int, List<PeakEntry>> map, double maxPeakIntensity, int scan, Peak peak)
     {
       var mz = (int)(Math.Round(peak.Mz));
-      if (!map.ContainsKey(mz))
+
+      List<PeakEntry> entries;
+      if (!map.TryGetValue(mz, out entries))
       {
-        map[mz] = new List<PeakEntry>();
+        entries = new List<PeakEntry>();
+        map[mz] = entries;
       }
 
-      var entries = map[mz];
-      var entryIndex = FindEntryIndex(peak, entries);
-      PeakEntry entry;
-      if (entryIndex != -1)
+      var relativeIntensity = peak.Intensity / maxPeakIntensity;
+
+      var gap = PrecursorUtils.ppm2mz(peak.Mz, options.ProductIonPPM);
+      PeakEntry entry = new PeakEntry()
       {
-        entry = entries[entryIndex];
-
-        var relativeIntensity = peak.Intensity / maxPeakIntensity;
-        var allIntensity = entry.Ion.Intensity + relativeIntensity;
-        entry.Ion.Mz = (entry.Ion.Mz * entry.Ion.Intensity + peak.Mz * relativeIntensity) / allIntensity;
-        entry.Ion.Intensity = allIntensity;
-        entry.Intensities.Add(relativeIntensity);
-        var gap = PrecursorUtils.ppm2mz(peak.Mz, this.productIonPPM);
-        entry.FromMz = peak.Mz - gap;
-        entry.ToMz = peak.Mz + gap;
-
-        while (entryIndex > 0)
-        {
-          if (entries[entryIndex].Ion.Mz < entries[entryIndex - 1].Ion.Mz)
-          {
-            entries.Swap(entryIndex, entryIndex - 1);
-            entryIndex--;
-          }
-          else
-          {
-            break;
-          }
-        }
-
-        while (entryIndex < entries.Count - 1)
-        {
-          if (entries[entryIndex].Ion.Mz > entries[entryIndex + 1].Ion.Mz)
-          {
-            entries.Swap(entryIndex, entryIndex + 1);
-            entryIndex++;
-          }
-          else
-          {
-            break;
-          }
-        }
-      }
-      else
-      {
-        var gap = PrecursorUtils.ppm2mz(peak.Mz, this.productIonPPM);
-        entry = new PeakEntry()
-        {
-          Ion = new Peak(peak.Mz, peak.Intensity / maxPeakIntensity),
-          FromMz = peak.Mz - gap,
-          ToMz = peak.Mz + gap
-        };
-        entry.Intensities.Add(entry.Ion.Intensity);
-        AddEntry(entries, entry);
-      }
-    }
-
-    private static void AddEntry(List<PeakEntry> entries, PeakEntry entry)
-    {
-      for (int i = 0; i < entries.Count; i++)
-      {
-        if (entries[i].FromMz > entry.FromMz)
-        {
-          entries.Insert(i, entry);
-          return;
-        }
-      }
-
+        Ion = new Peak(peak.Mz, peak.Intensity),
+        FromMz = peak.Mz - gap,
+        ToMz = peak.Mz + gap
+      };
+      entry.Intensities.Add(new SourcePeak(scan, peak.Mz, relativeIntensity));
       entries.Add(entry);
-    }
-
-    private static int FindEntryIndex(Peak peak, List<PeakEntry> entries)
-    {
-      int result = -1;
-      for (int i = 0; i < entries.Count; i++)
-      {
-        var entry = entries[i];
-
-        if (peak.Mz > entry.ToMz)
-        {
-          continue;
-        }
-
-        if (peak.Mz < entry.FromMz)
-        {
-          break;
-        }
-
-        if (result == -1)
-        {
-          result = i;
-        }
-        else if (entry.Ion.Intensity > entries[i].Ion.Intensity)
-        {
-          result = i;
-        }
-      }
-      return result;
     }
   }
 }

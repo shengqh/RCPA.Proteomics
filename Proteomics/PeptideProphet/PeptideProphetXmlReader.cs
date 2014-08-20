@@ -173,6 +173,11 @@ namespace RCPA.Proteomics.PeptideProphet
           var searchResult = sp.FindFirstChild("search_result");
           var searchHit = searchResult.FindFirstChild("search_hit");
 
+          if (searchHit == null)
+          {
+            continue;
+          }
+
           sph.TheoreticalMass = MyConvert.ToDouble(searchHit.Attribute("calc_neutral_pep_mass").Value);
           sph.MatchedIonCount = int.Parse(searchHit.Attribute("num_matched_ions").Value);
           sph.TheoreticalIonCount = int.Parse(searchHit.Attribute("tot_num_ions").Value);

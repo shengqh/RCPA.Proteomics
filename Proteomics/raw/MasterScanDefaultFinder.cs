@@ -23,6 +23,7 @@ namespace RCPA.Proteomics.Raw
         {
           return scan;
         }
+        scan--;
       }
 
       return 0;

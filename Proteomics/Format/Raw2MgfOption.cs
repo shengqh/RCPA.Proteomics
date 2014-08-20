@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Quantification.ITraq;
+using RCPA.Proteomics.Quantification.IsobaricLabelling;
 using RCPA.Proteomics.Processor;
 using System.IO;
 using RCPA.Proteomics.Format.Offset;
@@ -158,7 +158,7 @@ namespace RCPA.Proteomics.Format
       {
         if (RemoveIsobaricIons)
         {
-          result.Add(new PeakListRemoveIsobaricIonProcessor<Peak>(IsoType, RemoveIonWindow, IsobaricLabellingProteaseFactory.GetProtease(ProteaseName), RemoveIsobaricIonsInLowRange, RemoveIsobaricIonsInHighRange));
+          result.Add(GetIsobaricProcessor());
         }
 
         if (RemoveSpecialIons)
@@ -200,6 +200,18 @@ namespace RCPA.Proteomics.Format
         result.Add(new PeakListTopXProcessor<Peak>(TopX));
       }
       return result;
+    }
+
+    public PeakListRemoveIsobaricIonProcessor<Peak> GetIsobaricProcessor()
+    {
+      var options = new PeakListRemoveIsobaricIonProcessorOptions();
+      options.IsoType = IsoType;
+      options.MzTolerance = RemoveIonWindow;
+      options.Protease = IsobaricLabellingProteaseFactory.GetProtease(ProteaseName);
+      options.RemoveLowerRange = RemoveIsobaricIonsInLowRange;
+      options.RemoveHighRange = RemoveIsobaricIonsInHighRange;
+      var processor = new PeakListRemoveIsobaricIonProcessor<Peak>(options);
+      return processor;
     }
 
     private void AddGeneralProcessor(CompositeProcessor<PeakList<Peak>> result)

@@ -8,19 +8,30 @@ namespace RCPA.Proteomics.Statistic
   public class RawIonStatisticMainBuilder : AbstractParallelMainProcessor
   {
     private double productIonPPM;
-    
+
     private double minRelativeIntensity;
 
-    public RawIonStatisticMainBuilder(IEnumerable<string> ASourceFiles, double productIonPPM, double minRelativeIntensity)
+    private double minFrequency;
+
+    public RawIonStatisticMainBuilder(IEnumerable<string> ASourceFiles, double productIonPPM, double minRelativeIntensity, double minFrequency)
       : base(ASourceFiles)
     {
       this.productIonPPM = productIonPPM;
       this.minRelativeIntensity = minRelativeIntensity;
+      this.minFrequency = 0.05;
     }
 
     protected override IParallelTaskFileProcessor GetTaskProcessor(string targetDir, string fileName)
     {
-      return new RawIonStatisticTaskBuilder(targetDir, productIonPPM, minRelativeIntensity);
+      var options = new RawIonStatisticTaskBuilderOptions()
+      {
+        InputFile = fileName,
+        MinRelativeIntensity = minRelativeIntensity,
+        ProductIonPPM = productIonPPM,
+        TargetDirectory = targetDir,
+        MinFrequency = minFrequency
+      };
+      return new RawIonStatisticTaskBuilder(options);
     }
   }
 }

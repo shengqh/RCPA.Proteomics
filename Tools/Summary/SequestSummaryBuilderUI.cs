@@ -34,7 +34,13 @@ namespace RCPA.Tools.Summary
 
     private readonly RcpaIntegerField maxSpRank;
 
-    private OpenFileArgument zipFiles = new OpenFileArgument("Zipped dtas/outs or dta/out file", "zip");
+    private readonly RcpaCheckBox filterByEvalue;
+
+    private readonly RcpaDoubleField maxEvalue;
+
+    private OpenFileArgument zipFiles = new OpenFileArgument("Zipped dtas/outs or dta/out file", "zip", true);
+
+    private OpenFileArgument xmlFiles = new OpenFileArgument("Comet xml file", "xml", true);
 
     public SequestSummaryBuilderUI()
     {
@@ -66,6 +72,12 @@ namespace RCPA.Tools.Summary
       this.maxSpRank = new RcpaIntegerField(this.txtSpRank, "MaxSpRank", "Max Sp Rank", 4, false);
       AddComponent(this.maxSpRank);
 
+      this.filterByEvalue = new RcpaCheckBox(this.cbFilterByEvalue, "FilterByEvalue", true);
+      AddComponent(this.filterByEvalue);
+
+      this.maxEvalue = new RcpaDoubleField(this.txtMaxEvalue, "MaxEvalue", "Max Evalue", 0.05, true);
+      AddComponent(this.maxEvalue);
+
       this.dataDirs = new RcpaListViewMultipleDirectoryField(
         this.btnAddFiles,
         this.btnRemoveFiles,
@@ -80,7 +92,7 @@ namespace RCPA.Tools.Summary
 
       dataDirs.Validator.ValidateFunc = (m =>
       {
-        if (m.ToLower().EndsWith(".zip"))
+        if (m.ToLower().EndsWith(".zip") || m.ToLower().EndsWith(".xml"))
         {
           return File.Exists(m);
         }
@@ -107,6 +119,8 @@ namespace RCPA.Tools.Summary
       this.minDeltaCn.Required = this.cbFilterByDeltaCn.Checked;
 
       this.maxSpRank.Required = this.cbFilterBySpRank.Checked;
+
+      this.maxEvalue.Required = this.cbFilterByEvalue.Checked;
     }
 
     protected override void SaveDatasetList(BuildSummaryOptions conf)
@@ -155,6 +169,12 @@ namespace RCPA.Tools.Summary
         {
           dataset.MaxSpRank = this.maxSpRank.Value;
         }
+
+        dataset.FilterByEvalue = this.cbFilterByEvalue.Checked;
+        if (dataset.FilterByEvalue)
+        {
+          dataset.MaxEvalue = this.maxEvalue.Value;
+        }
       }
     }
 
@@ -182,6 +202,12 @@ namespace RCPA.Tools.Summary
         if (conf.FilterBySpRank)
         {
           this.maxSpRank.Value = conf.MaxSpRank;
+        }
+
+        this.filterByEvalue.Checked = conf.FilterByEvalue;
+        if (conf.FilterByEvalue)
+        {
+          this.maxEvalue.Value = conf.MaxEvalue;
         }
       }
 
@@ -269,6 +295,15 @@ namespace RCPA.Tools.Summary
     private void btnAddZips_Click(object sender, EventArgs e)
     {
       var dlg = zipFiles.GetFileDialog();
+      if (dlg.ShowDialog() == DialogResult.OK)
+      {
+        this.dataDirs.AddItems(dlg.FileNames);
+      }
+    }
+
+    private void btnXml_Click(object sender, EventArgs e)
+    {
+      var dlg = xmlFiles.GetFileDialog();
       if (dlg.ShowDialog() == DialogResult.OK)
       {
         this.dataDirs.AddItems(dlg.FileNames);

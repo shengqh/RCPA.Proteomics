@@ -12,8 +12,9 @@ namespace RCPA.Tools.Raw
   public partial class RawFileViewerUI : AbstractFileProcessorUI
   {
     private const string Title = "Raw File Viewer";
-    private const string Version = "1.0.0";
+    private const string Version = "1.0.2";
     private readonly RcpaIntegerField _scan;
+    private readonly RcpaIntegerField _msLevel;
 
     private int _firstScan;
     private int _lastScan;
@@ -26,6 +27,7 @@ namespace RCPA.Tools.Raw
       base.SetFileArgument("RawFile", new OpenFileArgument("Raw", new[] {"raw", "mzData.xml", "mzData", "mzXML"}));
 
       _scan = new RcpaIntegerField(txtScan, "Scan", "Scan", 0, false);
+      _msLevel = new RcpaIntegerField(txtMslevel, "MSLevel", "MS Level (0 ~ any level)", 0, false);
 
       zgcScan.InitGraph("Scan", "M/Z", "Intensity", true, 0.0);
       zgcScan.GraphPane.XAxis.Scale.Min = 0;
@@ -53,10 +55,10 @@ namespace RCPA.Tools.Raw
       _lastScan = _reader.GetLastSpectrumNumber();
 
       txtScan.Text = _firstScan.ToString();
-      DisplayScan();
+      DisplayScan(0);
     }
 
-    private void DisplayScan()
+    private void DisplayScan(int increment)
     {
       if (_reader == null)
       {
@@ -71,9 +73,43 @@ namespace RCPA.Tools.Raw
         {
           zgcScan.ClearData(false);
 
-          if (!_reader.IsScanValid(_scan.Value))
+          Scan += increment;
+
+          var mslevel = _msLevel.Value;
+          if (mslevel != 0)
           {
-            throw new Exception(MyConvert.Format("Scan {0} is not valid.", _scan.Value));
+            var curlevel = _reader.GetMsLevel(Scan);
+            while (curlevel != mslevel && Scan >= _firstScan && Scan <= _lastScan)
+            {
+              if (increment == 0)
+              {
+                increment = 1;
+              }
+
+              Scan += increment;
+              curlevel = _reader.GetMsLevel(Scan);
+            }
+          }
+          else
+          {
+            if (Scan < _firstScan)
+            {
+              Scan = _firstScan;
+            }
+
+            if (Scan > _lastScan)
+            {
+              Scan = _lastScan;
+            }
+          }
+          if (!_reader.IsScanValid(Scan))
+          {
+            throw new Exception(MyConvert.Format("Scan {0} is not valid.", Scan));
+          }
+
+          if (_reader is RawFileImpl)
+          {
+            txtFilter.Text = (_reader as RawFileImpl).GetFilterForScanNum(Scan);
           }
 
           var pkl = _reader.GetPeakList(_scan.Value);
@@ -99,46 +135,32 @@ namespace RCPA.Tools.Raw
     {
       if (e.KeyCode == Keys.Return)
       {
-        DisplayScan();
+        DisplayScan(0);
       }
     }
 
     private void btnNext_Click(object sender, EventArgs e)
     {
-      Scan = Scan + 1;
-
-      if (Scan >= _lastScan)
-      {
-        Scan = _lastScan;
-      }
-
-      DisplayScan();
+      DisplayScan(1);
     }
 
     private void btnLast_Click(object sender, EventArgs e)
     {
       Scan = _lastScan;
 
-      DisplayScan();
+      DisplayScan(0);
     }
 
     private void btnPrev_Click(object sender, EventArgs e)
     {
-      Scan = Scan - 1;
-
-      if (Scan < _firstScan)
-      {
-        Scan = _firstScan;
-      }
-
-      DisplayScan();
+      DisplayScan(-1);
     }
 
     private void btnFirst_Click(object sender, EventArgs e)
     {
       Scan = _firstScan;
 
-      DisplayScan();
+      DisplayScan(0);
     }
 
     private void RawFileViewerUI_KeyDown(object sender, KeyEventArgs e)

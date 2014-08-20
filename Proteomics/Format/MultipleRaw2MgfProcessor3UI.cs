@@ -17,7 +17,7 @@ using RCPA.Gui.Command;
 using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Spectrum;
 using RCPA.Proteomics.Raw;
-using RCPA.Proteomics.Quantification.ITraq;
+using RCPA.Proteomics.Quantification.IsobaricLabelling;
 
 namespace RCPA.Proteomics.Format
 {
@@ -98,7 +98,7 @@ namespace RCPA.Proteomics.Format
       removeMassRange.PreCondition = cbRemoveSpecialIons;
       AddComponent(removeMassRange);
 
-      isobaricTypes = new RcpaComboBox<IsobaricType>(cbxIsobaricTypes, "IsobaricType", EnumUtils.EnumToArray<IsobaricType>(), 0);
+      isobaricTypes = new RcpaComboBox<IsobaricType>(cbxIsobaricTypes, "IsobaricType", IsobaricTypeFactory.IsobaricTypes, 0);
       isobaricTypes.PreCondition = cbRemoveIsobaricIons;
       AddComponent(isobaricTypes);
 
@@ -280,8 +280,7 @@ namespace RCPA.Proteomics.Format
       {
         try
         {
-          var processor = new PeakListRemoveIsobaricIonProcessor<Peak>(isobaricTypes.SelectedItem, removeIonWindow.Value, proteases.SelectedItem, cbRemoveIsobaricIonsInLowRange.Checked, cbRemoveIsobaricIonsInHighRange.Checked);
-          txtIsobaricIons.Text = processor.ToString().Replace('\n', ';');
+          txtIsobaricIons.Text = GetConvertOption().GetIsobaricProcessor().ToString().Replace('\n', ';');
         }
         catch (Exception)
         {
