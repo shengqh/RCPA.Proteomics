@@ -41,6 +41,18 @@ namespace RCPA.Proteomics.Summary.Uniform
       }
     }
 
+    public void SetShowName(bool value)
+    {
+      cbEnabled.Visible = value;
+      lblName.Visible = value;
+      txtDatasetName.Visible = value;
+      if (!value)
+      {
+        pnlName.Visible = false;
+        pnlName.Height = 0;
+      }
+    }
+
     public DatasetPanelBase()
     {
       InitializeComponent();

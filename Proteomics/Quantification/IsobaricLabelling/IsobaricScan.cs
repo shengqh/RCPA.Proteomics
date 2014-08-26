@@ -11,24 +11,23 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
   /// <summary>
   /// 对应于一个peptide的isobaric信息。
   /// </summary>
-  public class IsobaricItem
+  public class IsobaricScan
   {
-    public IsobaricItem()
+    public IsobaricScan(IsobaricType plexType)
     {
-      this.PlexType = null;
       this.ScanMode = string.Empty;
       this.Valid = true;
       this.ValidProbability = 1;
       this.PrecursorPercentage = 1.0;
+      this.Reporters = new double[plexType.Channels.Count];
     }
 
     /// <summary>
     /// source和当前对象将共享rawpeaks和peakinisolationwindow
     /// </summary>
     /// <param name="source"></param>
-    public IsobaricItem(IsobaricItem source)
+    public IsobaricScan(IsobaricScan source)
     {
-      this.PlexType = source.PlexType;
       this.ScanMode = source.ScanMode;
       this.RawPeaks = source.RawPeaks;
       this.PeakInIsolationWindow = source.PeakInIsolationWindow;
@@ -36,8 +35,6 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       this.ValidProbability = source.ValidProbability;
       this.PrecursorPercentage = source.PrecursorPercentage;
     }
-
-    public IsobaricType PlexType { get; set; }
 
     public string Experimental { get; set; }
 
@@ -86,40 +83,20 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     /// <summary>
     /// Reporter ion intensities
     /// </summary>
-    private double[] _reporters;
-    public double[] Reporters
-    {
-      get
-      {
-        if (_reporters == null)
-        {
-          _reporters = new double[PlexType.Channels.Count];
-        }
-        return _reporters;
-      }
-      set
-      {
-        _reporters = value;
-      }
-    }
+    public double[] Reporters{get; private set;}
 
-    public void DetectReporter(double ppmTolerance)
+    public void DetectReporter(IsobaricType plexType, double ppmTolerance)
     {
       if (_rawPeaks == null)
       {
         throw new Exception("Assign RawPeaks first!");
       }
 
-      if (PlexType == null)
-      {
-        throw new Exception("Assign PlexType first!");
-      }
+      var map = plexType.GetChannelMzToleranceMap(ppmTolerance);
 
-      var map = PlexType.GetChannelMzToleranceMap(ppmTolerance);
-
-      for (int i = 0; i < PlexType.Channels.Count; i++)
+      for (int i = 0; i < plexType.Channels.Count; i++)
       {
-        var peak = _rawPeaks.FindPeak(PlexType.Channels[i].Mz, map[PlexType.Channels[i]]).FindMaxIntensityPeak();
+        var peak = _rawPeaks.FindPeak(plexType.Channels[i].Mz, map[plexType.Channels[i]]).FindMaxIntensityPeak();
         if (peak == null)
         {
           Reporters[i] = IsobaricConsts.NULL_INTENSITY;
@@ -175,31 +152,31 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
   public static class IsobaricItemExtension
   {
-    public static IsobaricItem FindIsobaricItem(this IAnnotation ann)
+    public static IsobaricScan FindIsobaricItem(this IAnnotation ann)
     {
       if (ann.Annotations.ContainsKey(IsobaricConsts.TYPE))
       {
-        return ann.Annotations[IsobaricConsts.TYPE] as IsobaricItem;
+        return ann.Annotations[IsobaricConsts.TYPE] as IsobaricScan;
       }
 
       return null;
     }
 
-    public static IsobaricItem FindOrCreateITsobaricItem(this IAnnotation ann)
+    public static IsobaricScan FindOrCreateIsobaricItem(this IAnnotation ann, IsobaricType plexType)
     {
       if (ann.Annotations.ContainsKey(IsobaricConsts.TYPE))
       {
-        return ann.Annotations[IsobaricConsts.TYPE] as IsobaricItem;
+        return ann.Annotations[IsobaricConsts.TYPE] as IsobaricScan;
       }
       else
       {
-        var result = new IsobaricItem();
+        var result = new IsobaricScan(plexType);
         ann.Annotations[IsobaricConsts.TYPE] = result;
         return result;
       }
     }
 
-    public static void SetIsobaricItem(this IAnnotation ann, IsobaricItem item)
+    public static void SetIsobaricItem(this IAnnotation ann, IsobaricScan item)
     {
       ann.Annotations[IsobaricConsts.TYPE] = item;
     }

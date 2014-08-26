@@ -38,45 +38,45 @@
       // 
       // pnlFile
       // 
-      this.pnlFile.Location = new System.Drawing.Point(25, 12);
-      this.pnlFile.Size = new System.Drawing.Size(972, 22);
+      this.pnlFile.Location = new System.Drawing.Point(25, 13);
+      this.pnlFile.Size = new System.Drawing.Size(972, 24);
       // 
       // txtOriginalFile
       // 
       this.txtOriginalFile.Location = new System.Drawing.Point(226, 0);
-      this.txtOriginalFile.Size = new System.Drawing.Size(746, 21);
+      this.txtOriginalFile.Size = new System.Drawing.Size(746, 20);
       // 
       // btnOriginalFile
       // 
-      this.btnOriginalFile.Size = new System.Drawing.Size(226, 22);
+      this.btnOriginalFile.Size = new System.Drawing.Size(226, 24);
       // 
       // lblProgress
       // 
-      this.lblProgress.Location = new System.Drawing.Point(0, 177);
-      this.lblProgress.Size = new System.Drawing.Size(1019, 21);
+      this.lblProgress.Location = new System.Drawing.Point(0, 191);
+      this.lblProgress.Size = new System.Drawing.Size(1019, 23);
       // 
       // progressBar
       // 
-      this.progressBar.Location = new System.Drawing.Point(0, 198);
-      this.progressBar.Size = new System.Drawing.Size(1019, 21);
+      this.progressBar.Location = new System.Drawing.Point(0, 214);
+      this.progressBar.Size = new System.Drawing.Size(1019, 23);
       // 
       // btnClose
       // 
-      this.btnClose.Location = new System.Drawing.Point(557, 7);
+      this.btnClose.Location = new System.Drawing.Point(557, 9);
       // 
       // btnCancel
       // 
-      this.btnCancel.Location = new System.Drawing.Point(472, 7);
+      this.btnCancel.Location = new System.Drawing.Point(472, 9);
       // 
       // btnGo
       // 
-      this.btnGo.Location = new System.Drawing.Point(387, 7);
+      this.btnGo.Location = new System.Drawing.Point(387, 9);
       // 
       // btnRLocation
       // 
-      this.btnRLocation.Location = new System.Drawing.Point(25, 53);
+      this.btnRLocation.Location = new System.Drawing.Point(25, 57);
       this.btnRLocation.Name = "btnRLocation";
-      this.btnRLocation.Size = new System.Drawing.Size(226, 23);
+      this.btnRLocation.Size = new System.Drawing.Size(226, 25);
       this.btnRLocation.TabIndex = 8;
       this.btnRLocation.Text = "button1";
       this.btnRLocation.UseVisualStyleBackColor = true;
@@ -85,41 +85,41 @@
       // 
       this.txtRLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.txtRLocation.Location = new System.Drawing.Point(257, 55);
+      this.txtRLocation.Location = new System.Drawing.Point(257, 60);
       this.txtRLocation.Name = "txtRLocation";
-      this.txtRLocation.Size = new System.Drawing.Size(740, 21);
+      this.txtRLocation.Size = new System.Drawing.Size(740, 20);
       this.txtRLocation.TabIndex = 9;
       // 
       // itraqIons
       // 
-      this.itraqIons.Location = new System.Drawing.Point(140, 83);
+      this.itraqIons.Location = new System.Drawing.Point(140, 90);
       this.itraqIons.Name = "itraqIons";
       this.itraqIons.Required = false;
       this.itraqIons.SelectedIons = "";
-      this.itraqIons.Size = new System.Drawing.Size(857, 28);
+      this.itraqIons.Size = new System.Drawing.Size(857, 30);
       this.itraqIons.TabIndex = 13;
       // 
       // txtValidProbability
       // 
-      this.txtValidProbability.Location = new System.Drawing.Point(539, 117);
+      this.txtValidProbability.Location = new System.Drawing.Point(539, 127);
       this.txtValidProbability.Name = "txtValidProbability";
-      this.txtValidProbability.Size = new System.Drawing.Size(100, 21);
+      this.txtValidProbability.Size = new System.Drawing.Size(100, 20);
       this.txtValidProbability.TabIndex = 15;
       // 
       // lblValidation
       // 
       this.lblValidation.AutoSize = true;
-      this.lblValidation.Location = new System.Drawing.Point(253, 121);
+      this.lblValidation.Location = new System.Drawing.Point(253, 131);
       this.lblValidation.Name = "lblValidation";
-      this.lblValidation.Size = new System.Drawing.Size(287, 12);
+      this.lblValidation.Size = new System.Drawing.Size(217, 13);
       this.lblValidation.TabIndex = 14;
       this.lblValidation.Text = "Filter peptide by iTRAQ invalid probability <= ";
       // 
       // ITraqPeptideStatisticBuilderUI
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1019, 255);
+      this.ClientSize = new System.Drawing.Size(1019, 276);
       this.Controls.Add(this.txtValidProbability);
       this.Controls.Add(this.lblValidation);
       this.Controls.Add(this.btnRLocation);

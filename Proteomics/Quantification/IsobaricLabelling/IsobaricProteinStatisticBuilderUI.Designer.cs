@@ -1,6 +1,6 @@
-﻿namespace RCPA.Proteomics.Quantification.ITraq
+﻿namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
-  partial class IsobaricLabelingEfficiencyCalculatorUI
+  partial class IsobaricProteinStatisticBuilderUI
   {
     /// <summary>
     /// Required designer variable.
@@ -31,20 +31,22 @@
       this.pnlFile.SuspendLayout();
       this.SuspendLayout();
       // 
-      // IsobaricLabelingEfficiencyCalculatorUI
+      // IsobaricProteinStatisticBuilderUI
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(955, 112);
-      this.Name = "IsobaricLabelingEfficiencyCalculatorUI";
-      this.TabText = "IsobaricLabelingEfficiencyCalculatorUI";
-      this.Text = "IsobaricLabelingEfficiencyCalculatorUI";
+      this.ClientSize = new System.Drawing.Size(1080, 623);
+      this.Name = "IsobaricProteinStatisticBuilderUI";
       this.pnlFile.ResumeLayout(false);
       this.pnlFile.PerformLayout();
       this.ResumeLayout(false);
+      this.PerformLayout();
 
     }
 
     #endregion
+
+
+
   }
 }

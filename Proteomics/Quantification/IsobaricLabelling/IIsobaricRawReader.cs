@@ -8,7 +8,7 @@ using RCPA.Proteomics.Raw;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
-  public interface IIsobaricRawReader : IProgress, IFileReader<List<IsobaricItem>>
+  public interface IIsobaricRawReader : IProgress, IFileReader<List<IsobaricScan>>
   {
     IsobaricType PlexType { get; set; }
 

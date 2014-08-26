@@ -6,7 +6,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
   /// <summary>
   /// Description of IsobaricChannel.
   /// </summary>
-  public class IsobaricChannel
+  public class IsobaricChannel : ICloneable
   {
     public IsobaricChannel()
     {
@@ -20,5 +20,17 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     public double Percentage { get; set; }
 
     public List<IsobaricIsotope> Isotopics { get; set; }
+
+    public object Clone()
+    {
+      var result = new IsobaricChannel();
+
+      result.Name = Name;
+      result.Mz = Mz;
+      result.Percentage = Percentage;
+      result.Isotopics = Isotopics;
+
+      return result;
+    }
   }
 }

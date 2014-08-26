@@ -22,6 +22,6 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     /// 根据IsobaricItem的基本信息进行筛选，包括PlexType，Experimental，ScanMode，Scan，Scan.IonInjectionTime，PrecursorPercentage。
     /// 例如可以根据鉴定结果，读取这些结果相应的scan的信息。
     /// </summary>
-    Predicate<IsobaricItem> Accept { get; set; }
+    Predicate<IsobaricScan> Accept { get; set; }
   }
 }

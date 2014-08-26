@@ -32,7 +32,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
     public bool ReadPeaks { get; set; }
 
-    public Predicate<IsobaricItem> Accept { get; set; }
+    public Predicate<IsobaricScan> Accept { get; set; }
 
     #endregion
   }

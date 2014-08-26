@@ -33,7 +33,8 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
     public static IsobaricType Find(string name)
     {
-      return IsobaricTypes.First(m => m.Name.Equals(name));
+      Console.WriteLine("Find " + name);
+      return IsobaricTypes.First(m => m.Name.Equals(name)).Clone() as IsobaricType;
     }
   }
 }

@@ -5,15 +5,15 @@ using System.Text;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
-  public class IsobaricResult : List<IsobaricItem>
+  public class IsobaricResult : List<IsobaricScan>
   {
     public IsobaricResult() { }
 
-    public IsobaricResult(IEnumerable<IsobaricItem> items)
+    public IsobaricResult(IEnumerable<IsobaricScan> items)
       : base(items)
     { }
 
-    public Dictionary<string, Dictionary<int, IsobaricItem>> ToExperimentalScanDictionary()
+    public Dictionary<string, Dictionary<int, IsobaricScan>> ToExperimentalScanDictionary()
     {
       return this.ToDoubleDictionary((m => m.Experimental), (m => m.Scan.Scan));
     }
@@ -23,17 +23,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       return this.Count > 0 && this[0].Scan != null && this[0].Scan.IonInjectionTime != 0.0;
     }
 
-    public IsobaricType PlexType
-    {
-      get
-      {
-        if (this.Count == 0)
-        {
-          return null;
-        }
-        return this[0].PlexType;
-      }
-    }
+    public IsobaricType PlexType { get; set; }
 
     public String Mode { get; set; }
   }

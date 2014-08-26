@@ -39,31 +39,26 @@
       this.label6 = new System.Windows.Forms.Label();
       this.label7 = new System.Windows.Forms.Label();
       this.outsGroup = new System.Windows.Forms.GroupBox();
-      this.btnXml = new System.Windows.Forms.Button();
-      this.btnAddZips = new System.Windows.Forms.Button();
       this.lvDirectories = new System.Windows.Forms.ListView();
       this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.txtMaxEvalue = new System.Windows.Forms.TextBox();
+      this.cbFilterByEvalue = new System.Windows.Forms.CheckBox();
+      this.panel1 = new System.Windows.Forms.Panel();
+      this.btnXml = new System.Windows.Forms.Button();
+      this.btnAddZips = new System.Windows.Forms.Button();
       this.btnSave = new System.Windows.Forms.Button();
       this.btnLoad = new System.Windows.Forms.Button();
       this.btnAddFiles = new System.Windows.Forms.Button();
       this.btnAddSubDirectories = new System.Windows.Forms.Button();
       this.btnRemoveFiles = new System.Windows.Forms.Button();
-      this.txtMaxEvalue = new System.Windows.Forms.TextBox();
-      this.cbFilterByEvalue = new System.Windows.Forms.CheckBox();
-      ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-      this.splitContainer1.Panel2.SuspendLayout();
-      this.splitContainer1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
       this.splitContainer2.Panel1.SuspendLayout();
       this.splitContainer2.Panel2.SuspendLayout();
       this.splitContainer2.SuspendLayout();
       this.groupBox1.SuspendLayout();
       this.outsGroup.SuspendLayout();
+      this.panel1.SuspendLayout();
       this.SuspendLayout();
-      // 
-      // splitContainer1
-      // 
-      this.splitContainer1.Size = new System.Drawing.Size(1016, 399);
       // 
       // splitContainer2
       // 
@@ -188,14 +183,8 @@
       // 
       // outsGroup
       // 
-      this.outsGroup.Controls.Add(this.btnXml);
-      this.outsGroup.Controls.Add(this.btnAddZips);
       this.outsGroup.Controls.Add(this.lvDirectories);
-      this.outsGroup.Controls.Add(this.btnSave);
-      this.outsGroup.Controls.Add(this.btnLoad);
-      this.outsGroup.Controls.Add(this.btnAddFiles);
-      this.outsGroup.Controls.Add(this.btnAddSubDirectories);
-      this.outsGroup.Controls.Add(this.btnRemoveFiles);
+      this.outsGroup.Controls.Add(this.panel1);
       this.outsGroup.Dock = System.Windows.Forms.DockStyle.Fill;
       this.outsGroup.Location = new System.Drawing.Point(0, 0);
       this.outsGroup.Name = "outsGroup";
@@ -205,40 +194,16 @@
       this.outsGroup.Text = "Select directories/files you want to extract peptides (all directories will be us" +
     "ed)";
       // 
-      // btnXml
-      // 
-      this.btnXml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnXml.Location = new System.Drawing.Point(913, 178);
-      this.btnXml.Name = "btnXml";
-      this.btnXml.Size = new System.Drawing.Size(97, 25);
-      this.btnXml.TabIndex = 20;
-      this.btnXml.Text = "Add Xml Files";
-      this.btnXml.UseVisualStyleBackColor = true;
-      this.btnXml.Click += new System.EventHandler(this.btnXml_Click);
-      // 
-      // btnAddZips
-      // 
-      this.btnAddZips.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnAddZips.Location = new System.Drawing.Point(913, 153);
-      this.btnAddZips.Name = "btnAddZips";
-      this.btnAddZips.Size = new System.Drawing.Size(97, 25);
-      this.btnAddZips.TabIndex = 19;
-      this.btnAddZips.Text = "Add Zip Files";
-      this.btnAddZips.UseVisualStyleBackColor = true;
-      this.btnAddZips.Click += new System.EventHandler(this.btnAddZips_Click);
-      // 
       // lvDirectories
       // 
-      this.lvDirectories.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
       this.lvDirectories.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1});
+      this.lvDirectories.Dock = System.Windows.Forms.DockStyle.Fill;
       this.lvDirectories.FullRowSelect = true;
       this.lvDirectories.HideSelection = false;
-      this.lvDirectories.Location = new System.Drawing.Point(6, 28);
+      this.lvDirectories.Location = new System.Drawing.Point(3, 16);
       this.lvDirectories.Name = "lvDirectories";
-      this.lvDirectories.Size = new System.Drawing.Size(901, 190);
+      this.lvDirectories.Size = new System.Drawing.Size(885, 206);
       this.lvDirectories.Sorting = System.Windows.Forms.SortOrder.Ascending;
       this.lvDirectories.TabIndex = 15;
       this.lvDirectories.UseCompatibleStateImageBehavior = false;
@@ -249,73 +214,107 @@
       this.columnHeader1.Text = "Directories";
       this.columnHeader1.Width = 723;
       // 
-      // btnSave
-      // 
-      this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnSave.Location = new System.Drawing.Point(913, 128);
-      this.btnSave.Name = "btnSave";
-      this.btnSave.Size = new System.Drawing.Size(97, 25);
-      this.btnSave.TabIndex = 14;
-      this.btnSave.Text = "button2";
-      this.btnSave.UseVisualStyleBackColor = true;
-      // 
-      // btnLoad
-      // 
-      this.btnLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnLoad.Location = new System.Drawing.Point(913, 103);
-      this.btnLoad.Name = "btnLoad";
-      this.btnLoad.Size = new System.Drawing.Size(97, 25);
-      this.btnLoad.TabIndex = 13;
-      this.btnLoad.Text = "button1";
-      this.btnLoad.UseVisualStyleBackColor = true;
-      // 
-      // btnAddFiles
-      // 
-      this.btnAddFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnAddFiles.Location = new System.Drawing.Point(913, 28);
-      this.btnAddFiles.Name = "btnAddFiles";
-      this.btnAddFiles.Size = new System.Drawing.Size(97, 25);
-      this.btnAddFiles.TabIndex = 11;
-      this.btnAddFiles.Text = "button1";
-      this.btnAddFiles.UseVisualStyleBackColor = true;
-      // 
-      // btnAddSubDirectories
-      // 
-      this.btnAddSubDirectories.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnAddSubDirectories.Location = new System.Drawing.Point(913, 78);
-      this.btnAddSubDirectories.Name = "btnAddSubDirectories";
-      this.btnAddSubDirectories.Size = new System.Drawing.Size(97, 25);
-      this.btnAddSubDirectories.TabIndex = 12;
-      this.btnAddSubDirectories.Text = "Add Subdirs";
-      this.btnAddSubDirectories.UseVisualStyleBackColor = true;
-      this.btnAddSubDirectories.Click += new System.EventHandler(this.btnAddSubDirectories_Click);
-      // 
-      // btnRemoveFiles
-      // 
-      this.btnRemoveFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnRemoveFiles.Location = new System.Drawing.Point(913, 53);
-      this.btnRemoveFiles.Name = "btnRemoveFiles";
-      this.btnRemoveFiles.Size = new System.Drawing.Size(97, 25);
-      this.btnRemoveFiles.TabIndex = 12;
-      this.btnRemoveFiles.Text = "button2";
-      this.btnRemoveFiles.UseVisualStyleBackColor = true;
-      // 
-      // txtMaxCometEvalue
+      // txtMaxEvalue
       // 
       this.txtMaxEvalue.Location = new System.Drawing.Point(528, 100);
-      this.txtMaxEvalue.Name = "txtMaxCometEvalue";
+      this.txtMaxEvalue.Name = "txtMaxEvalue";
       this.txtMaxEvalue.Size = new System.Drawing.Size(94, 20);
       this.txtMaxEvalue.TabIndex = 67;
       // 
-      // cbFilterByCometEvalue
+      // cbFilterByEvalue
       // 
       this.cbFilterByEvalue.AutoSize = true;
       this.cbFilterByEvalue.Location = new System.Drawing.Point(376, 102);
-      this.cbFilterByEvalue.Name = "cbFilterByCometEvalue";
+      this.cbFilterByEvalue.Name = "cbFilterByEvalue";
       this.cbFilterByEvalue.Size = new System.Drawing.Size(113, 17);
       this.cbFilterByEvalue.TabIndex = 66;
       this.cbFilterByEvalue.Text = "Filter by Evalue <=";
       this.cbFilterByEvalue.UseVisualStyleBackColor = true;
+      // 
+      // panel1
+      // 
+      this.panel1.Controls.Add(this.btnXml);
+      this.panel1.Controls.Add(this.btnAddZips);
+      this.panel1.Controls.Add(this.btnSave);
+      this.panel1.Controls.Add(this.btnLoad);
+      this.panel1.Controls.Add(this.btnAddSubDirectories);
+      this.panel1.Controls.Add(this.btnRemoveFiles);
+      this.panel1.Controls.Add(this.btnAddFiles);
+      this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
+      this.panel1.Location = new System.Drawing.Point(888, 16);
+      this.panel1.Name = "panel1";
+      this.panel1.Size = new System.Drawing.Size(125, 206);
+      this.panel1.TabIndex = 21;
+      // 
+      // btnXml
+      // 
+      this.btnXml.Dock = System.Windows.Forms.DockStyle.Top;
+      this.btnXml.Location = new System.Drawing.Point(0, 150);
+      this.btnXml.Name = "btnXml";
+      this.btnXml.Size = new System.Drawing.Size(125, 25);
+      this.btnXml.TabIndex = 27;
+      this.btnXml.Text = "Add Xml Files";
+      this.btnXml.UseVisualStyleBackColor = true;
+      // 
+      // btnAddZips
+      // 
+      this.btnAddZips.Dock = System.Windows.Forms.DockStyle.Top;
+      this.btnAddZips.Location = new System.Drawing.Point(0, 125);
+      this.btnAddZips.Name = "btnAddZips";
+      this.btnAddZips.Size = new System.Drawing.Size(125, 25);
+      this.btnAddZips.TabIndex = 26;
+      this.btnAddZips.Text = "Add Zip Files";
+      this.btnAddZips.UseVisualStyleBackColor = true;
+      // 
+      // btnSave
+      // 
+      this.btnSave.Dock = System.Windows.Forms.DockStyle.Top;
+      this.btnSave.Location = new System.Drawing.Point(0, 100);
+      this.btnSave.Name = "btnSave";
+      this.btnSave.Size = new System.Drawing.Size(125, 25);
+      this.btnSave.TabIndex = 25;
+      this.btnSave.Text = "Save";
+      this.btnSave.UseVisualStyleBackColor = true;
+      // 
+      // btnLoad
+      // 
+      this.btnLoad.Dock = System.Windows.Forms.DockStyle.Top;
+      this.btnLoad.Location = new System.Drawing.Point(0, 75);
+      this.btnLoad.Name = "btnLoad";
+      this.btnLoad.Size = new System.Drawing.Size(125, 25);
+      this.btnLoad.TabIndex = 24;
+      this.btnLoad.Text = "Load";
+      this.btnLoad.UseVisualStyleBackColor = true;
+      // 
+      // btnAddFiles
+      // 
+      this.btnAddFiles.Dock = System.Windows.Forms.DockStyle.Top;
+      this.btnAddFiles.Location = new System.Drawing.Point(0, 0);
+      this.btnAddFiles.Name = "btnAddFiles";
+      this.btnAddFiles.Size = new System.Drawing.Size(125, 25);
+      this.btnAddFiles.TabIndex = 21;
+      this.btnAddFiles.Text = "Add";
+      this.btnAddFiles.UseVisualStyleBackColor = true;
+      // 
+      // btnAddSubDirectories
+      // 
+      this.btnAddSubDirectories.Dock = System.Windows.Forms.DockStyle.Top;
+      this.btnAddSubDirectories.Location = new System.Drawing.Point(0, 50);
+      this.btnAddSubDirectories.Name = "btnAddSubDirectories";
+      this.btnAddSubDirectories.Size = new System.Drawing.Size(125, 25);
+      this.btnAddSubDirectories.TabIndex = 22;
+      this.btnAddSubDirectories.Text = "Add Subdirs";
+      this.btnAddSubDirectories.UseVisualStyleBackColor = true;
+      // 
+      // btnRemoveFiles
+      // 
+      this.btnRemoveFiles.Dock = System.Windows.Forms.DockStyle.Top;
+      this.btnRemoveFiles.Location = new System.Drawing.Point(0, 25);
+      this.btnRemoveFiles.Name = "btnRemoveFiles";
+      this.btnRemoveFiles.Size = new System.Drawing.Size(125, 25);
+      this.btnRemoveFiles.TabIndex = 23;
+      this.btnRemoveFiles.Text = "Remove";
+      this.btnRemoveFiles.UseVisualStyleBackColor = true;
       // 
       // SequestDatasetPanel
       // 
@@ -323,9 +322,6 @@
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.Name = "SequestDatasetPanel";
       this.Size = new System.Drawing.Size(1016, 399);
-      this.splitContainer1.Panel2.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-      this.splitContainer1.ResumeLayout(false);
       this.splitContainer2.Panel1.ResumeLayout(false);
       this.splitContainer2.Panel2.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -333,6 +329,7 @@
       this.groupBox1.ResumeLayout(false);
       this.groupBox1.PerformLayout();
       this.outsGroup.ResumeLayout(false);
+      this.panel1.ResumeLayout(false);
       this.ResumeLayout(false);
 
     }
@@ -352,15 +349,16 @@
     private System.Windows.Forms.GroupBox outsGroup;
     private System.Windows.Forms.ListView lvDirectories;
     private System.Windows.Forms.ColumnHeader columnHeader1;
-    private System.Windows.Forms.Button btnSave;
-    private System.Windows.Forms.Button btnLoad;
-    private System.Windows.Forms.Button btnAddFiles;
-    private System.Windows.Forms.Button btnAddSubDirectories;
-    private System.Windows.Forms.Button btnRemoveFiles;
-    private System.Windows.Forms.Button btnAddZips;
-    private System.Windows.Forms.Button btnXml;
     private System.Windows.Forms.TextBox txtMaxEvalue;
     private System.Windows.Forms.CheckBox cbFilterByEvalue;
+    private System.Windows.Forms.Panel panel1;
+    private System.Windows.Forms.Button btnXml;
+    private System.Windows.Forms.Button btnAddZips;
+    private System.Windows.Forms.Button btnSave;
+    private System.Windows.Forms.Button btnLoad;
+    private System.Windows.Forms.Button btnAddSubDirectories;
+    private System.Windows.Forms.Button btnRemoveFiles;
+    private System.Windows.Forms.Button btnAddFiles;
 
   }
 }

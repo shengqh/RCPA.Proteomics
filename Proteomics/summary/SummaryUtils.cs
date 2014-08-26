@@ -102,6 +102,11 @@ namespace RCPA.Proteomics.Summary
       FindSourceFile(lvDatFiles, "InputPath=", 1);
     }
 
+    public static void FindPFindDatabase(ListView lvDatFiles)
+    {
+      FindSourceFile(lvDatFiles, "Fasta=", 2);
+    }
+
     public static void RenameAsPFindSource(ListView lvDatFiles)
     {
       FindPFindSource(lvDatFiles);

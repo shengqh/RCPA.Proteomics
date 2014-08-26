@@ -11,74 +11,56 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
   public class IsobaricResultMultipleFileDistiller : AbstractThreadFileProcessor
   {
-    private IIsobaricRawReader reader;
+    private IsobaricResultMultipleFileDistillerOptions options;
 
-    private string[] rawFiles;
-
-    private bool individual;
-
-    private int minPeakCount;
-
-    private double precursorPPMTolerance;
-
-    private double productPPMTolerance;
-
-    private IsobaricType plexType;
-
-    public IsobaricResultMultipleFileDistiller(IIsobaricRawReader reader, string[] rawFiles, bool individual, int minPeakCount, IsobaricType plexType, double precursorPPMTolerance, double productPPMTolerance)
+    public IsobaricResultMultipleFileDistiller(IsobaricResultMultipleFileDistillerOptions options)
     {
-      this.reader = reader;
-      this.rawFiles = rawFiles;
-      this.individual = individual;
-      this.minPeakCount = minPeakCount;
-      this.plexType = plexType;
-      this.precursorPPMTolerance = precursorPPMTolerance;
-      this.productPPMTolerance = productPPMTolerance;
+      this.options = options;
     }
 
     public override IEnumerable<string> Process(string targetFileName)
     {
-      this.reader.Progress = this.Progress;
+      this.options.Reader.Progress = this.Progress;
 
       List<string> resultFile = new List<string>();
-      List<IsobaricItem> result = new List<IsobaricItem>();
+      List<IsobaricScan> result = new List<IsobaricScan>();
 
       var format = new IsobaricResultXmlFormat();
 
       XmlTextWriter sw = null;
-      if (!individual)
+      if (!options.Individual)
       {
         sw = new XmlTextWriter(targetFileName, Encoding.ASCII);
-        format.StartWriteDocument(sw, reader.ToString());
+        format.StartWriteDocument(sw, options.Reader.ToString(), options.PlexType.Name);
       }
 
       try
       {
-        for (int i = 0; i < rawFiles.Count(); i++)
+        for (int i = 0; i < options.RawFiles.Count(); i++)
         {
           if (Progress.IsCancellationPending())
           {
             throw new UserTerminatedException();
           }
 
-          Progress.SetMessage(1, MyConvert.Format("Processing {0}/{1} ...", i + 1, rawFiles.Count()));
+          Progress.SetMessage(1, MyConvert.Format("Processing {0}/{1} ...", i + 1, options.RawFiles.Count()));
 
-          var options = new IsobaricResultFileDistillerOptions()
+          var fileoptions = new IsobaricResultFileDistillerOptions()
           {
-            Reader = reader,
-            InputFile = rawFiles[i],
-            MinPeakCount = minPeakCount,
-            PlexType = plexType,
-            PrecursorPPMTolerance = precursorPPMTolerance,
-            ProductPPMTolerance = productPPMTolerance
+            Reader = options.Reader,
+            InputFile = options.RawFiles[i],
+            MinPeakCount = options.MinPeakCount,
+            PrecursorPPMTolerance = options.PrecursorPPMTolerance,
+            ProductPPMTolerance = options.ProductPPMTolerance,
+            RequiredChannels = options.RequiredChannels
           };
 
-          var distiller = new IsobaricResultFileDistiller(options)
+          var distiller = new IsobaricResultFileDistiller(fileoptions)
           {
             Progress = this.Progress,
           };
 
-          if (individual)
+          if (options.Individual)
           {
             string itraqFile = distiller.Process().First();
             resultFile.Add(itraqFile);
@@ -89,7 +71,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
             foreach (var item in curResult)
             {
-              format.WriteIsobaricItem(sw, item);
+              format.WriteIsobaricItem(sw, options.PlexType, item);
             }
 
             curResult = null;
@@ -103,13 +85,13 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       }
       finally
       {
-        if (!individual)
+        if (!options.Individual)
         {
           sw.Close();
         }
       }
 
-      if (!individual)
+      if (!options.Individual)
       {
         var indexBuilder = new IsobaricResultXmlIndexBuilder(true)
         {

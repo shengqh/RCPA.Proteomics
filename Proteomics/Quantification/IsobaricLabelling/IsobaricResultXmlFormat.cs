@@ -16,10 +16,10 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
   /// </summary>
   public class IsobaricResultXmlFormat : AbstractIsobaricResultXmlFormat
   {
-    public void WriteChannels(XmlWriter xw, IsobaricItem item)
+    public void WriteChannels(XmlWriter xw, IsobaricType itype, IsobaricScan item)
     {
       xw.WriteStartElement("Ions");
-      var refItems = item.PlexType.Channels;
+      var refItems = itype.Channels;
       for (int i = 0; i < refItems.Count; i++)
       {
         xw.WriteElementFormat(refItems[i].Name, "{0:0.0}", item[i]);
@@ -64,28 +64,22 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     public override IsobaricResult ReadFromFile(string fileName)
     {
       IsobaricResult result = new IsobaricResult();
-      result.Mode = IsobaricItemXmlUtils.GetMode(fileName);
+      result.Mode = IsobaricScanXmlUtils.GetMode(fileName);
+      result.PlexType = IsobaricScanXmlUtils.GetIsobaricType(fileName);
 
-      var reader = new IsobaricResultXmlFormatReader()
+      using (var reader = new IsobaricResultXmlFormatReader())
       {
-        Progress = this.Progress,
-        ReadReporters = this.HasReporters,
-        ReadPeaks = this.ReadPeaks,
-        Accept = this.Accept
-      };
+        reader.Progress = this.Progress;
+        reader.ReadReporters = this.HasReporters;
+        reader.ReadPeaks = this.ReadPeaks;
+        reader.Accept = this.Accept;
 
-      reader.OpenFile(fileName);
-      try
-      {
-        IsobaricItem item;
-        while (null != (item = reader.Next()))
+        reader.OpenFile(fileName);
+        IsobaricScan item;
+        while (null != (item = reader.Next(result.PlexType)))
         {
           result.Add(item);
         }
-      }
-      finally
-      {
-        reader.Close();
       }
 
       return result;
@@ -95,11 +89,11 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     {
       using (XmlTextWriter w = new XmlTextWriter(fileName, Encoding.ASCII))
       {
-        StartWriteDocument(w, t.Mode);
+        StartWriteDocument(w, t.Mode, t.PlexType.Name);
 
         foreach (var item in t)
         {
-          WriteIsobaricItem(w, item);
+          WriteIsobaricItem(w, t.PlexType, item);
         }
 
         EndWriteDocument(w);
@@ -119,19 +113,19 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       w.WriteEndDocument();
     }
 
-    public void StartWriteDocument(XmlTextWriter w, String mode)
+    public void StartWriteDocument(XmlTextWriter w, string mode, string isobaricType)
     {
       w.Formatting = Formatting.Indented;
       w.WriteStartDocument();
       w.WriteStartElement("IsobaricResult");
       w.WriteAttribute("Mode", mode);
+      w.WriteAttribute("IsobaricType", isobaricType);
     }
 
-    public void WriteIsobaricItem(XmlTextWriter w, IsobaricItem item)
+    public void WriteIsobaricItem(XmlTextWriter w, IsobaricType itype, IsobaricScan item)
     {
       w.WriteStartElement("IsobaricScan");
 
-      w.WriteElement("PlexType", item.PlexType.ToString());
       w.WriteElement("Experimental", item.Experimental);
       w.WriteElement("ScanMode", item.ScanMode);
       w.WriteElement("Scan", item.Scan.Scan);
@@ -141,7 +135,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
       if (HasReporters)
       {
-        WriteChannels(w, item);
+        WriteChannels(w, itype, item);
       }
 
       WriteElementPeakList(w, item.RawPeaks, "RawPeaks", false);

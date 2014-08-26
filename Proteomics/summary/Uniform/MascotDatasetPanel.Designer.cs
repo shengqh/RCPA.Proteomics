@@ -32,8 +32,6 @@
       this.splitContainer3.Panel1.SuspendLayout();
       this.splitContainer3.Panel2.SuspendLayout();
       this.splitContainer3.SuspendLayout();
-      this.splitContainer1.Panel2.SuspendLayout();
-      this.splitContainer1.SuspendLayout();
       this.splitContainer2.Panel1.SuspendLayout();
       this.splitContainer2.Panel2.SuspendLayout();
       this.splitContainer2.SuspendLayout();
@@ -41,7 +39,7 @@
       // 
       // btnRenameDat
       // 
-      this.btnRenameDat.Click += new System.EventHandler(this.btnRenameDat_Click);
+      this.btnAutoRename.Click += new System.EventHandler(this.btnRenameDat_Click);
       // 
       // btnMgfFiles
       // 
@@ -53,7 +51,7 @@
       // 
       // btnFindDB
       // 
-      this.btnFindDB.Click += new System.EventHandler(this.btnFindDB_Click);
+      this.btnFindDatabase.Click += new System.EventHandler(this.btnFindDB_Click);
       // 
       // splitContainer3
       // 
@@ -73,8 +71,6 @@
       this.splitContainer3.Panel2.ResumeLayout(false);
       this.splitContainer3.Panel2.PerformLayout();
       this.splitContainer3.ResumeLayout(false);
-      this.splitContainer1.Panel2.ResumeLayout(false);
-      this.splitContainer1.ResumeLayout(false);
       this.splitContainer2.Panel1.ResumeLayout(false);
       this.splitContainer2.Panel2.ResumeLayout(false);
       this.splitContainer2.ResumeLayout(false);

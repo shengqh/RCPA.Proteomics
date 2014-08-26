@@ -5,26 +5,14 @@ using System.Text;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
-  public class IsobaricResultFileDistillerOptions
+  public class IsobaricResultFileDistillerOptions : AbstractIsobaricResultFileDistillerOptions
   {
     public IsobaricResultFileDistillerOptions()
     {
       this.PerformPurityCorrection = true;
     }
 
-    public IIsobaricRawReader Reader { get; set; }
-
-    public int MinPeakCount { get; set; }
-
-    public IsobaricType PlexType { get; set; }
-
-    public double PrecursorPPMTolerance { get; set; }
-
-    public double ProductPPMTolerance { get; set; }
-
     public string InputFile { get; set; }
-
-    public bool PerformPurityCorrection { get; set; }
 
     private string _rExecute;
     public string RExecute

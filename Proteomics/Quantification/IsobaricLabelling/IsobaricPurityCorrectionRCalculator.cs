@@ -6,21 +6,22 @@ using RCPA.Utils;
 using System.IO;
 using System.Diagnostics;
 using System.Windows.Forms;
+using RCPA.R;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
-  public class IsobaricPurityCorrectionNormalizationRCalculator
+  public class IsobaricPurityCorrectionRCalculator
   {
     private string rExecute;
     private IsobaricType plexType;
     private bool performPurityCorrection;
     private bool performGraph;
 
-    public IsobaricPurityCorrectionNormalizationRCalculator(IsobaricType plexType, bool performPurityCorrection, bool performGraph)
+    public IsobaricPurityCorrectionRCalculator(IsobaricType plexType, bool performPurityCorrection, bool performGraph)
       : this(plexType, ExternalProgramConfig.GetExternalProgram("R"), performPurityCorrection, performGraph)
     { }
 
-    public IsobaricPurityCorrectionNormalizationRCalculator(IsobaricType plexType, string rExecute, bool performPurityCorrection, bool performGraph)
+    public IsobaricPurityCorrectionRCalculator(IsobaricType plexType, string rExecute, bool performPurityCorrection, bool performGraph)
     {
       this.plexType = plexType;
       this.rExecute = rExecute;

@@ -64,6 +64,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
         result = new IsobaricResult(pkls);
         result.Mode = reader.ToString();
+        result.PlexType = options.PlexType;
         result.ForEach(m => m.Experimental = experimental);
 
         format.WriteToFile(options.OriginalXmlFileName, result);
@@ -74,13 +75,42 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
         result = format.ReadFromFile(options.OriginalXmlFileName);
       }
 
-      var builder = new IsobaricResultBuilder(reader.PlexType, options.ProductPPMTolerance);
+      var allpkls = (from r in result select r.RawPeaks).ToList();
+      var validpkls = allpkls.Where(r => r.Count >= result.PlexType.Channels.Count).ToList();
+      if (validpkls.Count >= result.Count / 2)
+      {
+        //use confident peak lists for calibration
+        result.PlexType.CalibrateMass(validpkls);
+      }
+      else
+      {
+        //use all peak lists for calibration
+        result.PlexType.CalibrateMass(allpkls);
+      }
+
+      var builder = new IsobaricResultBuilder(result.PlexType, options.ProductPPMTolerance);
       result = builder.BuildIsobaricResult(result, 1);
 
       result.RemoveAll(m => m.PeakCount() < options.MinPeakCount);
 
+      if (options.RequiredChannels.Count > 0)
+      {
+        result.RemoveAll(m =>
+        {
+          foreach (var channel in options.RequiredChannels)
+          {
+            if (channel.GetValue(m) <= IsobaricConsts.NULL_INTENSITY)
+            {
+              return true;
+            }
+          }
+
+          return false;
+        });
+      }
+
       var tempFilename = options.OutputFile + ".tsv";
-      new IsobaricPurityCorrectionNormalizationRCalculator(options.PlexType, options.RExecute, options.PerformPurityCorrection, true).Calculate(result, tempFilename);
+      new IsobaricPurityCorrectionRCalculator(options.PlexType, options.RExecute, options.PerformPurityCorrection, true).Calculate(result, tempFilename);
 
       result.RemoveAll(m => m.PeakCount() < options.MinPeakCount);
       result.ForEach(m => m.PrecursorPercentage = m.PeakInIsolationWindow.GetPrecursorPercentage(options.PrecursorPPMTolerance));

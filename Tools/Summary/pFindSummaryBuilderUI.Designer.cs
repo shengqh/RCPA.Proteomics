@@ -53,7 +53,7 @@ namespace RCPA.Tools.Summary
       // 
       // tabControl1
       // 
-      this.tabControl1.Size = new System.Drawing.Size(1241, 646);
+      this.tabControl1.Size = new System.Drawing.Size(1241, 699);
       // 
       // filterGroup
       // 
@@ -61,7 +61,8 @@ namespace RCPA.Tools.Summary
       this.filterGroup.Controls.Add(this.cbFilterByScore);
       this.filterGroup.Controls.Add(this.cbFilterByEvalue);
       this.filterGroup.Controls.Add(this.txtMaxEvalue);
-      this.filterGroup.Size = new System.Drawing.Size(1233, 620);
+      this.filterGroup.Location = new System.Drawing.Point(4, 22);
+      this.filterGroup.Size = new System.Drawing.Size(1233, 673);
       this.filterGroup.Controls.SetChildIndex(this.txtMaxEvalue, 0);
       this.filterGroup.Controls.SetChildIndex(this.cbFilterByEvalue, 0);
       this.filterGroup.Controls.SetChildIndex(this.cbFilterByScore, 0);
@@ -69,11 +70,13 @@ namespace RCPA.Tools.Summary
       // 
       // datafileGroup
       // 
-      this.datafileGroup.Size = new System.Drawing.Size(1233, 620);
+      this.datafileGroup.Location = new System.Drawing.Point(4, 22);
+      this.datafileGroup.Size = new System.Drawing.Size(1233, 673);
       // 
       // databaseGroup
       // 
-      this.databaseGroup.Size = new System.Drawing.Size(1233, 620);
+      this.databaseGroup.Location = new System.Drawing.Point(4, 22);
+      this.databaseGroup.Size = new System.Drawing.Size(1222, 720);
       // 
       // pnlDataFiles
       // 
@@ -85,7 +88,7 @@ namespace RCPA.Tools.Summary
       this.pnlDataFiles.Panel2.Controls.Add(this.btnLoad);
       this.pnlDataFiles.Panel2.Controls.Add(this.btnAddFiles);
       this.pnlDataFiles.Panel2.Controls.Add(this.btnRemoveFiles);
-      this.pnlDataFiles.Size = new System.Drawing.Size(1227, 614);
+      this.pnlDataFiles.Size = new System.Drawing.Size(1227, 667);
       this.pnlDataFiles.SplitterDistance = 1081;
       this.pnlDataFiles.TabIndex = 0;
       // 
@@ -94,36 +97,36 @@ namespace RCPA.Tools.Summary
       this.lvDatFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader3});
-      this.lvDatFiles.Size = new System.Drawing.Size(1081, 580);
+      this.lvDatFiles.Size = new System.Drawing.Size(1081, 630);
       this.lvDatFiles.SelectedIndexChanged += new System.EventHandler(this.lvDatFiles_SizeChanged);
       // 
       // lblDataFile
       // 
-      this.lblDataFile.Size = new System.Drawing.Size(533, 12);
+      this.lblDataFile.Size = new System.Drawing.Size(396, 13);
       this.lblDataFile.Text = "Select pFind result files you want to extract peptides (only selected file will b" +
     "e used)";
       // 
       // lblProgress
       // 
-      this.lblProgress.Location = new System.Drawing.Point(0, 646);
-      this.lblProgress.Size = new System.Drawing.Size(1241, 21);
+      this.lblProgress.Location = new System.Drawing.Point(0, 699);
+      this.lblProgress.Size = new System.Drawing.Size(1241, 23);
       // 
       // progressBar
       // 
-      this.progressBar.Location = new System.Drawing.Point(0, 667);
-      this.progressBar.Size = new System.Drawing.Size(1241, 21);
+      this.progressBar.Location = new System.Drawing.Point(0, 722);
+      this.progressBar.Size = new System.Drawing.Size(1241, 23);
       // 
       // btnClose
       // 
-      this.btnClose.Location = new System.Drawing.Point(786, 6);
+      this.btnClose.Location = new System.Drawing.Point(786, 8);
       // 
       // btnCancel
       // 
-      this.btnCancel.Location = new System.Drawing.Point(465, 6);
+      this.btnCancel.Location = new System.Drawing.Point(465, 8);
       // 
       // btnGo
       // 
-      this.btnGo.Location = new System.Drawing.Point(358, 6);
+      this.btnGo.Location = new System.Drawing.Point(358, 8);
       // 
       // label6
       // 
@@ -137,34 +140,34 @@ namespace RCPA.Tools.Summary
       // 
       // txtMaxEvalue
       // 
-      this.txtMaxEvalue.Location = new System.Drawing.Point(199, 320);
+      this.txtMaxEvalue.Location = new System.Drawing.Point(199, 347);
       this.txtMaxEvalue.Name = "txtMaxEvalue";
-      this.txtMaxEvalue.Size = new System.Drawing.Size(94, 21);
+      this.txtMaxEvalue.Size = new System.Drawing.Size(94, 20);
       this.txtMaxEvalue.TabIndex = 47;
       // 
       // cbFilterByEvalue
       // 
       this.cbFilterByEvalue.AutoSize = true;
-      this.cbFilterByEvalue.Location = new System.Drawing.Point(27, 322);
+      this.cbFilterByEvalue.Location = new System.Drawing.Point(27, 349);
       this.cbFilterByEvalue.Name = "cbFilterByEvalue";
-      this.cbFilterByEvalue.Size = new System.Drawing.Size(174, 16);
+      this.cbFilterByEvalue.Size = new System.Drawing.Size(139, 17);
       this.cbFilterByEvalue.TabIndex = 46;
       this.cbFilterByEvalue.Text = "Filter by Expect value = ";
       this.cbFilterByEvalue.UseVisualStyleBackColor = true;
       // 
       // txtMinScore
       // 
-      this.txtMinScore.Location = new System.Drawing.Point(155, 295);
+      this.txtMinScore.Location = new System.Drawing.Point(155, 320);
       this.txtMinScore.Name = "txtMinScore";
-      this.txtMinScore.Size = new System.Drawing.Size(94, 21);
+      this.txtMinScore.Size = new System.Drawing.Size(94, 20);
       this.txtMinScore.TabIndex = 45;
       // 
       // cbFilterByScore
       // 
       this.cbFilterByScore.AutoSize = true;
-      this.cbFilterByScore.Location = new System.Drawing.Point(27, 297);
+      this.cbFilterByScore.Location = new System.Drawing.Point(27, 322);
       this.cbFilterByScore.Name = "cbFilterByScore";
-      this.cbFilterByScore.Size = new System.Drawing.Size(132, 16);
+      this.cbFilterByScore.Size = new System.Drawing.Size(105, 17);
       this.cbFilterByScore.TabIndex = 44;
       this.cbFilterByScore.Text = "Filter by Score = ";
       this.cbFilterByScore.UseVisualStyleBackColor = true;
@@ -180,15 +183,15 @@ namespace RCPA.Tools.Summary
       // 
       this.cbTitleFormat.Location = new System.Drawing.Point(0, 0);
       this.cbTitleFormat.Name = "cbTitleFormat";
-      this.cbTitleFormat.Size = new System.Drawing.Size(121, 20);
+      this.cbTitleFormat.Size = new System.Drawing.Size(121, 21);
       this.cbTitleFormat.TabIndex = 0;
       // 
       // btnClassification
       // 
       this.btnClassification.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnClassification.Location = new System.Drawing.Point(0, 84);
+      this.btnClassification.Location = new System.Drawing.Point(0, 92);
       this.btnClassification.Name = "btnClassification";
-      this.btnClassification.Size = new System.Drawing.Size(142, 21);
+      this.btnClassification.Size = new System.Drawing.Size(142, 23);
       this.btnClassification.TabIndex = 22;
       this.btnClassification.Text = "Classify";
       this.btnClassification.UseVisualStyleBackColor = true;
@@ -197,9 +200,9 @@ namespace RCPA.Tools.Summary
       // btnSave
       // 
       this.btnSave.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnSave.Location = new System.Drawing.Point(0, 63);
+      this.btnSave.Location = new System.Drawing.Point(0, 69);
       this.btnSave.Name = "btnSave";
-      this.btnSave.Size = new System.Drawing.Size(142, 21);
+      this.btnSave.Size = new System.Drawing.Size(142, 23);
       this.btnSave.TabIndex = 21;
       this.btnSave.Text = "Save";
       this.btnSave.UseVisualStyleBackColor = true;
@@ -207,9 +210,9 @@ namespace RCPA.Tools.Summary
       // btnLoad
       // 
       this.btnLoad.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnLoad.Location = new System.Drawing.Point(0, 42);
+      this.btnLoad.Location = new System.Drawing.Point(0, 46);
       this.btnLoad.Name = "btnLoad";
-      this.btnLoad.Size = new System.Drawing.Size(142, 21);
+      this.btnLoad.Size = new System.Drawing.Size(142, 23);
       this.btnLoad.TabIndex = 20;
       this.btnLoad.Text = "Load";
       this.btnLoad.UseVisualStyleBackColor = true;
@@ -217,9 +220,9 @@ namespace RCPA.Tools.Summary
       // btnAddFiles
       // 
       this.btnAddFiles.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddFiles.Location = new System.Drawing.Point(0, 21);
+      this.btnAddFiles.Location = new System.Drawing.Point(0, 23);
       this.btnAddFiles.Name = "btnAddFiles";
-      this.btnAddFiles.Size = new System.Drawing.Size(142, 21);
+      this.btnAddFiles.Size = new System.Drawing.Size(142, 23);
       this.btnAddFiles.TabIndex = 18;
       this.btnAddFiles.Text = "Add Files";
       this.btnAddFiles.UseVisualStyleBackColor = true;
@@ -229,7 +232,7 @@ namespace RCPA.Tools.Summary
       this.btnRemoveFiles.Dock = System.Windows.Forms.DockStyle.Top;
       this.btnRemoveFiles.Location = new System.Drawing.Point(0, 0);
       this.btnRemoveFiles.Name = "btnRemoveFiles";
-      this.btnRemoveFiles.Size = new System.Drawing.Size(142, 21);
+      this.btnRemoveFiles.Size = new System.Drawing.Size(142, 23);
       this.btnRemoveFiles.TabIndex = 19;
       this.btnRemoveFiles.Text = "Remove Files";
       this.btnRemoveFiles.UseVisualStyleBackColor = true;
@@ -246,8 +249,8 @@ namespace RCPA.Tools.Summary
       // 
       // pFindSummaryBuilderUI
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-      this.ClientSize = new System.Drawing.Size(1241, 724);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+      this.ClientSize = new System.Drawing.Size(1241, 784);
       this.Name = "pFindSummaryBuilderUI";
       this.tabControl1.ResumeLayout(false);
       this.filterGroup.ResumeLayout(false);

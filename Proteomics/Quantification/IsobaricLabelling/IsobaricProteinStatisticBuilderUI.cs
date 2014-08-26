@@ -3,33 +3,35 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using RCPA.Gui;
-using RCPA.Gui.Command;
+using RCPA.Proteomics.Raw;
+using RCPA.Proteomics;
 using RCPA.Gui.FileArgument;
+using RCPA.Gui.Command;
+using RCPA.Gui.Image;
+using ZedGraph;
+using RCPA.Utils;
+using RCPA.Proteomics.Quantification;
+using System.IO;
+using MathNet.Numerics.Statistics;
+using MathNet.Numerics.Distributions;
+using RCPA.Proteomics.Summary;
+using RCPA.Numerics;
 
-namespace RCPA.Proteomics.Quantification.ITraq
+namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
-  public partial class IsobaricLabelingEfficiencyCalculatorUI : AbstractFileProcessorUI
+  public partial class IsobaricProteinStatisticBuilderUI : AbstractIsobaricProteinStatisticBuilderUI
   {
-    private static readonly string title = "Isobaric Labelling Efficiency Calculator";
+    private static readonly string title = "Isobaric Labelling Protein Statistic Builder";
+    private static readonly string version = "1.1.5";
 
-    private static readonly string version = "1.0.0";
-
-    public IsobaricLabelingEfficiencyCalculatorUI()
+    public IsobaricProteinStatisticBuilderUI()
     {
       InitializeComponent();
-      
-      base.SetFileArgument("PeptidesFile", new OpenFileArgument("Peptides", "peptides"));
 
       this.Text = Constants.GetSQHTitle(title, version);
-    }
-
-    protected override IFileProcessor GetFileProcessor()
-    {
-      return new IsobaricLabelingEfficiencyCalculator();
     }
 
     public class Command : IToolSecondLevelCommand
@@ -53,7 +55,7 @@ namespace RCPA.Proteomics.Quantification.ITraq
 
       public void Run()
       {
-        new IsobaricLabelingEfficiencyCalculatorUI().MyShow();
+        new IsobaricProteinStatisticBuilderUI().MyShow();
       }
 
       #endregion
@@ -62,7 +64,7 @@ namespace RCPA.Proteomics.Quantification.ITraq
 
       public string GetSecondLevelCommandItem()
       {
-        return MenuCommandType.Quantification_IsobaricLabelling;
+        return MenuCommandType.Quantification_IsobaricLabelling + "_NEW";
       }
 
       #endregion

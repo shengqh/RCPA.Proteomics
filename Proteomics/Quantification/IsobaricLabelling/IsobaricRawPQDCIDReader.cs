@@ -14,9 +14,9 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
     #region IFileReader<List<PeakList<Peak>>> Members
 
-    public override List<IsobaricItem> ReadFromFile(string fileName)
+    public override List<IsobaricScan> ReadFromFile(string fileName)
     {
-      var result = new List<IsobaricItem>();
+      var result = new List<IsobaricScan>();
 
       using (var rawReader = RawFileFactory.GetRawFileReader(fileName))
       {
@@ -55,7 +55,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
               {
                 var lastItem = result[result.Count - 1];
 
-                var item = new IsobaricItem(lastItem);
+                var item = new IsobaricScan(lastItem);
                 item.Scan = rawReader.GetScanTime(scan);
                 item.ScanMode = "CID";
 

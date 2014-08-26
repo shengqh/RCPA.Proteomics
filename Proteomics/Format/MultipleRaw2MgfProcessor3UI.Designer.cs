@@ -126,15 +126,15 @@ namespace RCPA.Proteomics.Format
       // 
       // btnClose
       // 
-      this.btnClose.Location = new System.Drawing.Point(589, 9);
+      this.btnClose.Location = new System.Drawing.Point(589, 8);
       // 
       // btnCancel
       // 
-      this.btnCancel.Location = new System.Drawing.Point(504, 9);
+      this.btnCancel.Location = new System.Drawing.Point(504, 8);
       // 
       // btnGo
       // 
-      this.btnGo.Location = new System.Drawing.Point(419, 9);
+      this.btnGo.Location = new System.Drawing.Point(419, 8);
       // 
       // rawFiles
       // 
@@ -156,8 +156,6 @@ namespace RCPA.Proteomics.Format
       // 
       this.tabControl1.Controls.Add(this.tabPage1);
       this.tabControl1.Controls.Add(this.tabPage2);
-      //this.tabControl1.Controls.Add(this.tabPage3);
-      //this.tabControl1.Controls.Add(this.tabPage4);
       this.tabControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
       this.tabControl1.Location = new System.Drawing.Point(0, 363);
       this.tabControl1.Name = "tabControl1";

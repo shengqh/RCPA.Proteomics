@@ -50,7 +50,16 @@ namespace RCPA.Proteomics.Summary.Uniform
       {
         return PFindSpectrumParser.GetTitleSample(datFiles.SelectFileNames[0]);
       }
+      else if (datFiles.FileNames.Length > 0)
+      {
+        return PFindSpectrumParser.GetTitleSample(datFiles.FileNames[0]);
+      }
       return base.GetTitleSample();
+    }
+
+    private void btnFindDatabase_Click(object sender, EventArgs e)
+    {
+      SummaryUtils.FindPFindDatabase(lvDatFiles);
     }
   }
 }

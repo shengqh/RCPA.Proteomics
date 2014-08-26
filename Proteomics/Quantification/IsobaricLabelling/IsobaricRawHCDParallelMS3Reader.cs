@@ -8,9 +8,9 @@ using RCPA.Proteomics.Spectrum;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
-  public class ITraqRawHCDParallelMS3Reader : AbstractIsobaricRawHCDMS3Reader
+  public class IsobaricRawHCDParallelMS3Reader : AbstractIsobaricRawHCDMS3Reader
   {
-    public ITraqRawHCDParallelMS3Reader() : base("HCD-Parallel-MS3") { }
+    public IsobaricRawHCDParallelMS3Reader() : base("HCD-Parallel-MS3") { }
 
     protected override IScanLevelBuilder GetScanLevelBuilder()
     {

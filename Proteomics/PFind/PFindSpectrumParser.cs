@@ -191,9 +191,9 @@ namespace RCPA.Proteomics.PFind
 
         foreach (var mod in mm.DynamicModification)
         {
-          if (!this.ModificationCharMap.ContainsKey(mod.ToString()))
+          if (!this.ModificationCharMap.ContainsKey(mod.Modification))
           {
-            this.ModificationCharMap[mod.ToString()] = MODIFICATION_CHAR[this.ModificationCharMap.Count + 1];
+            this.ModificationCharMap[mod.Modification] = MODIFICATION_CHAR[this.ModificationCharMap.Count + 1];
           }
         }
 

@@ -26,7 +26,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
     public bool ReadPeaks { get; set; }
 
-    public Predicate<IsobaricItem> Accept { get; set; }
+    public Predicate<IsobaricScan> Accept { get; set; }
 
     public Stream _stream { get; private set; }
 
@@ -62,11 +62,11 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       Dispose(false);
     }
 
-    public IsobaricItem Next()
+    public IsobaricScan Next(IsobaricType plexType)
     {
       Progress.SetPosition(_stream.Position);
 
-      return IsobaricItemXmlUtils.Parse(_reader, ReadReporters, ReadPeaks, Accept, true);
+      return IsobaricScanXmlUtils.Parse(_reader, plexType, ReadReporters, ReadPeaks, Accept, true);
     }
 
     #region IDisposable Members

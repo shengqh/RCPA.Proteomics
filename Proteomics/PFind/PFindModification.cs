@@ -13,14 +13,14 @@ namespace RCPA.Proteomics.PFind
 
     public override string ToString()
     {
-      return MyConvert.Format("{0}_{1}", Modification, Aminoacid);
+      return MyConvert.Format("{0}({1})", Modification, Aminoacid);
     }
   }
   public class PFindModificationItem : List<ModificationEntry>
   {
     private readonly Dictionary<int, string> _modificationMap = new Dictionary<int, string>();
-//    private readonly Regex g = new Regex(@"(.+?)\((.+)\)");
-    private readonly Regex g = new Regex(@"(.+)_(.+)");
+    private readonly Regex g = new Regex(@"(.+?)\((.+)\)");
+    //private readonly Regex g = new Regex(@"(.+)_(.+)");
 
     public Dictionary<int, string> ModificationMap
     {

@@ -85,7 +85,7 @@ namespace RCPA.Tools.Summary
       this.decoyPattern = new RcpaTextField(this.txtDecoyPattern, "DecoyPattern", "Decoy Database Pattern", "^REVERSED_", false);
       AddComponent(this.decoyPattern);
 
-      this.removeContamination = new RcpaCheckBox (cbRemoveContamination,"RemoveContamination", false);
+      this.removeContamination = new RcpaCheckBox(cbRemoveContamination, "RemoveContamination", false);
       AddComponent(this.removeContamination);
 
       this.contaminationNamePattern = new RcpaTextField(this.txtContaminantString, "ContaminationNamePattern", "Contaminant Name Pattern", "CON_", false);
@@ -196,6 +196,18 @@ namespace RCPA.Tools.Summary
       }
     }
 
+    private bool _IsOneEngineMode = false;
+
+    protected void SetOneEngineMode()
+    {
+      _IsOneEngineMode = true;
+      tcDatasetList.Appearance = TabAppearance.FlatButtons;
+      tcDatasetList.ItemSize = new Size(0, 1);
+      tcDatasetList.SizeMode = TabSizeMode.Fixed;
+      lblConflict.Visible = false;
+      cbConflict.Visible = false;
+    }
+
     private void DoAfterLoadOption(object sender, EventArgs e)
     {
       if (File.Exists(ParamFile))
@@ -218,6 +230,7 @@ namespace RCPA.Tools.Summary
       tabCount++;
 
       var panel = dsOption.CreateControl() as DatasetPanelBase;
+      panel.SetShowName(!_IsOneEngineMode);
 
       if (dsOption.Name == null || dsOption.Name.Length == 0)
       {
@@ -514,11 +527,11 @@ namespace RCPA.Tools.Summary
       DoAddDatasetOption(new MascotDatasetOptions());
     }
 
-    private void DoAddDatasetOption(IDatasetOptions dsOption)
+    protected void DoAddDatasetOption(IDatasetOptions dsOption)
     {
       Option.DatasetList.Add(dsOption);
 
-      AddDatasetOption(dsOption, false);
+      AddDatasetOption(dsOption,false);
 
       this.ResumeLayout();
     }

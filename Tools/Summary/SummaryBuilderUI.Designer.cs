@@ -105,34 +105,34 @@ namespace RCPA.Tools.Summary
       // 
       // lblProgress
       // 
-      this.lblProgress.Location = new System.Drawing.Point(0, 633);
-      this.lblProgress.Size = new System.Drawing.Size(1230, 21);
+      this.lblProgress.Location = new System.Drawing.Point(0, 685);
+      this.lblProgress.Size = new System.Drawing.Size(1230, 23);
       // 
       // progressBar
       // 
-      this.progressBar.Location = new System.Drawing.Point(0, 654);
-      this.progressBar.Size = new System.Drawing.Size(1230, 21);
+      this.progressBar.Location = new System.Drawing.Point(0, 708);
+      this.progressBar.Size = new System.Drawing.Size(1230, 23);
       // 
       // btnClose
       // 
-      this.btnClose.Location = new System.Drawing.Point(674, 6);
-      this.btnClose.Size = new System.Drawing.Size(97, 23);
+      this.btnClose.Location = new System.Drawing.Point(674, 9);
+      this.btnClose.Size = new System.Drawing.Size(97, 25);
       // 
       // btnCancel
       // 
-      this.btnCancel.Location = new System.Drawing.Point(567, 6);
-      this.btnCancel.Size = new System.Drawing.Size(97, 23);
+      this.btnCancel.Location = new System.Drawing.Point(567, 9);
+      this.btnCancel.Size = new System.Drawing.Size(97, 25);
       // 
       // btnGo
       // 
-      this.btnGo.Location = new System.Drawing.Point(460, 6);
-      this.btnGo.Size = new System.Drawing.Size(97, 23);
+      this.btnGo.Location = new System.Drawing.Point(460, 9);
+      this.btnGo.Size = new System.Drawing.Size(97, 25);
       // 
       // btnLoadParam
       // 
-      this.btnLoadParam.Location = new System.Drawing.Point(691, 668);
+      this.btnLoadParam.Location = new System.Drawing.Point(691, 724);
       this.btnLoadParam.Name = "btnLoadParam";
-      this.btnLoadParam.Size = new System.Drawing.Size(97, 23);
+      this.btnLoadParam.Size = new System.Drawing.Size(97, 25);
       this.btnLoadParam.TabIndex = 26;
       this.btnLoadParam.Text = "&Load param";
       this.btnLoadParam.UseVisualStyleBackColor = true;
@@ -141,9 +141,9 @@ namespace RCPA.Tools.Summary
       // btnSaveParam
       // 
       this.btnSaveParam.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.btnSaveParam.Location = new System.Drawing.Point(813, 668);
+      this.btnSaveParam.Location = new System.Drawing.Point(813, 724);
       this.btnSaveParam.Name = "btnSaveParam";
-      this.btnSaveParam.Size = new System.Drawing.Size(97, 23);
+      this.btnSaveParam.Size = new System.Drawing.Size(97, 25);
       this.btnSaveParam.TabIndex = 27;
       this.btnSaveParam.Text = "&Save param";
       this.btnSaveParam.UseVisualStyleBackColor = true;
@@ -158,7 +158,7 @@ namespace RCPA.Tools.Summary
       this.tabControl1.Location = new System.Drawing.Point(0, 0);
       this.tabControl1.Name = "tabControl1";
       this.tabControl1.SelectedIndex = 0;
-      this.tabControl1.Size = new System.Drawing.Size(1230, 633);
+      this.tabControl1.Size = new System.Drawing.Size(1230, 685);
       this.tabControl1.TabIndex = 28;
       // 
       // filterGroup
@@ -201,26 +201,26 @@ namespace RCPA.Tools.Summary
       this.filterGroup.Location = new System.Drawing.Point(4, 22);
       this.filterGroup.Name = "filterGroup";
       this.filterGroup.Padding = new System.Windows.Forms.Padding(3);
-      this.filterGroup.Size = new System.Drawing.Size(1222, 607);
+      this.filterGroup.Size = new System.Drawing.Size(1222, 659);
       this.filterGroup.TabIndex = 0;
       this.filterGroup.Text = "Options";
       this.filterGroup.UseVisualStyleBackColor = true;
       // 
       // txtMinOneHitWonderPeptideCount
       // 
-      this.txtMinOneHitWonderPeptideCount.Location = new System.Drawing.Point(865, 136);
+      this.txtMinOneHitWonderPeptideCount.Location = new System.Drawing.Point(865, 147);
       this.txtMinOneHitWonderPeptideCount.Name = "txtMinOneHitWonderPeptideCount";
-      this.txtMinOneHitWonderPeptideCount.Size = new System.Drawing.Size(47, 21);
+      this.txtMinOneHitWonderPeptideCount.Size = new System.Drawing.Size(47, 20);
       this.txtMinOneHitWonderPeptideCount.TabIndex = 145;
       // 
       // FilterOneHitWonder
       // 
       this.FilterOneHitWonder.AutoSize = true;
       this.FilterOneHitWonder.Key = "FilterOneHitWonder";
-      this.FilterOneHitWonder.Location = new System.Drawing.Point(579, 139);
+      this.FilterOneHitWonder.Location = new System.Drawing.Point(579, 151);
       this.FilterOneHitWonder.Name = "FilterOneHitWonder";
       this.FilterOneHitWonder.PreCondition = null;
-      this.FilterOneHitWonder.Size = new System.Drawing.Size(294, 16);
+      this.FilterOneHitWonder.Size = new System.Drawing.Size(245, 17);
       this.FilterOneHitWonder.TabIndex = 147;
       this.FilterOneHitWonder.Text = "For one-hit-wonders, minimum peptide count = ";
       this.FilterOneHitWonder.UseVisualStyleBackColor = true;
@@ -228,9 +228,9 @@ namespace RCPA.Tools.Summary
       // cbPeptideCount
       // 
       this.cbPeptideCount.AutoSize = true;
-      this.cbPeptideCount.Location = new System.Drawing.Point(579, 116);
+      this.cbPeptideCount.Location = new System.Drawing.Point(579, 126);
       this.cbPeptideCount.Name = "cbPeptideCount";
-      this.cbPeptideCount.Size = new System.Drawing.Size(534, 16);
+      this.cbPeptideCount.Size = new System.Drawing.Size(397, 17);
       this.cbPeptideCount.TabIndex = 146;
       this.cbPeptideCount.Text = "For two hit proteins, iterate peptide limitation (10 -> 2) to find max protein gr" +
     "oups";
@@ -239,29 +239,29 @@ namespace RCPA.Tools.Summary
       // cbKeepTopPeptideFromSameEngineButDifferentSearchParameters
       // 
       this.cbKeepTopPeptideFromSameEngineButDifferentSearchParameters.Key = "MergeResultFromSameEngineButDifferentSearchParameters";
-      this.cbKeepTopPeptideFromSameEngineButDifferentSearchParameters.Location = new System.Drawing.Point(519, 23);
+      this.cbKeepTopPeptideFromSameEngineButDifferentSearchParameters.Location = new System.Drawing.Point(519, 25);
       this.cbKeepTopPeptideFromSameEngineButDifferentSearchParameters.Name = "cbKeepTopPeptideFromSameEngineButDifferentSearchParameters";
       this.cbKeepTopPeptideFromSameEngineButDifferentSearchParameters.PreCondition = null;
-      this.cbKeepTopPeptideFromSameEngineButDifferentSearchParameters.Size = new System.Drawing.Size(470, 19);
+      this.cbKeepTopPeptideFromSameEngineButDifferentSearchParameters.Size = new System.Drawing.Size(470, 21);
       this.cbKeepTopPeptideFromSameEngineButDifferentSearchParameters.TabIndex = 144;
       this.cbKeepTopPeptideFromSameEngineButDifferentSearchParameters.Text = "Keep top score peptide only from same spectrum and same engine";
       // 
       // cbIndividual
       // 
       this.cbIndividual.Key = "RunIndividual";
-      this.cbIndividual.Location = new System.Drawing.Point(310, 23);
+      this.cbIndividual.Location = new System.Drawing.Point(310, 25);
       this.cbIndividual.Name = "cbIndividual";
       this.cbIndividual.PreCondition = null;
-      this.cbIndividual.Size = new System.Drawing.Size(222, 19);
+      this.cbIndividual.Size = new System.Drawing.Size(222, 21);
       this.cbIndividual.TabIndex = 141;
       this.cbIndividual.Text = "Generate individual results";
       // 
       // cbFilterByDynamicPrecursorTolerance
       // 
       this.cbFilterByDynamicPrecursorTolerance.AutoSize = true;
-      this.cbFilterByDynamicPrecursorTolerance.Location = new System.Drawing.Point(620, 249);
+      this.cbFilterByDynamicPrecursorTolerance.Location = new System.Drawing.Point(620, 270);
       this.cbFilterByDynamicPrecursorTolerance.Name = "cbFilterByDynamicPrecursorTolerance";
-      this.cbFilterByDynamicPrecursorTolerance.Size = new System.Drawing.Size(222, 16);
+      this.cbFilterByDynamicPrecursorTolerance.Size = new System.Drawing.Size(187, 17);
       this.cbFilterByDynamicPrecursorTolerance.TabIndex = 140;
       this.cbFilterByDynamicPrecursorTolerance.Text = "using dynamic precursor tolerance";
       this.cbFilterByDynamicPrecursorTolerance.UseVisualStyleBackColor = true;
@@ -269,32 +269,32 @@ namespace RCPA.Tools.Summary
       // label6
       // 
       this.label6.AutoSize = true;
-      this.label6.Location = new System.Drawing.Point(410, 67);
+      this.label6.Location = new System.Drawing.Point(410, 73);
       this.label6.Name = "label6";
-      this.label6.Size = new System.Drawing.Size(137, 12);
+      this.label6.Size = new System.Drawing.Size(106, 13);
       this.label6.TabIndex = 139;
       this.label6.Text = "or description pattern";
       // 
       // txtContaminantDescriptionPattern
       // 
-      this.txtContaminantDescriptionPattern.Location = new System.Drawing.Point(559, 63);
+      this.txtContaminantDescriptionPattern.Location = new System.Drawing.Point(559, 68);
       this.txtContaminantDescriptionPattern.Name = "txtContaminantDescriptionPattern";
-      this.txtContaminantDescriptionPattern.Size = new System.Drawing.Size(133, 21);
+      this.txtContaminantDescriptionPattern.Size = new System.Drawing.Size(133, 20);
       this.txtContaminantDescriptionPattern.TabIndex = 138;
       // 
       // txtContaminantNamePattern
       // 
-      this.txtContaminantNamePattern.Location = new System.Drawing.Point(310, 63);
+      this.txtContaminantNamePattern.Location = new System.Drawing.Point(310, 68);
       this.txtContaminantNamePattern.Name = "txtContaminantNamePattern";
-      this.txtContaminantNamePattern.Size = new System.Drawing.Size(93, 21);
+      this.txtContaminantNamePattern.Size = new System.Drawing.Size(93, 20);
       this.txtContaminantNamePattern.TabIndex = 136;
       // 
       // cbRemoveContamination
       // 
       this.cbRemoveContamination.AutoSize = true;
-      this.cbRemoveContamination.Location = new System.Drawing.Point(27, 65);
+      this.cbRemoveContamination.Location = new System.Drawing.Point(27, 70);
       this.cbRemoveContamination.Name = "cbRemoveContamination";
-      this.cbRemoveContamination.Size = new System.Drawing.Size(276, 16);
+      this.cbRemoveContamination.Size = new System.Drawing.Size(241, 17);
       this.cbRemoveContamination.TabIndex = 137;
       this.cbRemoveContamination.Text = "Remove contaminant protein by name pattern";
       this.cbRemoveContamination.UseVisualStyleBackColor = true;
@@ -307,17 +307,17 @@ namespace RCPA.Tools.Summary
             "Protein",
             "Peptide",
             "Unique peptide"});
-      this.cbConflictAsDecoy.Location = new System.Drawing.Point(573, 225);
+      this.cbConflictAsDecoy.Location = new System.Drawing.Point(573, 244);
       this.cbConflictAsDecoy.Name = "cbConflictAsDecoy";
-      this.cbConflictAsDecoy.Size = new System.Drawing.Size(119, 20);
+      this.cbConflictAsDecoy.Size = new System.Drawing.Size(119, 21);
       this.cbConflictAsDecoy.TabIndex = 135;
       // 
       // label9
       // 
       this.label9.AutoSize = true;
-      this.label9.Location = new System.Drawing.Point(51, 228);
+      this.label9.Location = new System.Drawing.Point(51, 247);
       this.label9.Name = "label9";
-      this.label9.Size = new System.Drawing.Size(509, 12);
+      this.label9.Size = new System.Drawing.Size(395, 13);
       this.label9.TabIndex = 134;
       this.label9.Text = "If one spectrum is matched with both target and decoy entries, it will be conside" +
     "red";
@@ -325,9 +325,9 @@ namespace RCPA.Tools.Summary
       // cbClassifyByPreteaseTermini
       // 
       this.cbClassifyByPreteaseTermini.AutoSize = true;
-      this.cbClassifyByPreteaseTermini.Location = new System.Drawing.Point(262, 180);
+      this.cbClassifyByPreteaseTermini.Location = new System.Drawing.Point(262, 195);
       this.cbClassifyByPreteaseTermini.Name = "cbClassifyByPreteaseTermini";
-      this.cbClassifyByPreteaseTermini.Size = new System.Drawing.Size(204, 16);
+      this.cbClassifyByPreteaseTermini.Size = new System.Drawing.Size(168, 17);
       this.cbClassifyByPreteaseTermini.TabIndex = 133;
       this.cbClassifyByPreteaseTermini.Text = "the number of protease termini";
       this.cbClassifyByPreteaseTermini.UseVisualStyleBackColor = true;
@@ -335,26 +335,26 @@ namespace RCPA.Tools.Summary
       // cbFilterByPrecursorSecondIsotopic
       // 
       this.cbFilterByPrecursorSecondIsotopic.AutoSize = true;
-      this.cbFilterByPrecursorSecondIsotopic.Location = new System.Drawing.Point(379, 249);
+      this.cbFilterByPrecursorSecondIsotopic.Location = new System.Drawing.Point(379, 270);
       this.cbFilterByPrecursorSecondIsotopic.Name = "cbFilterByPrecursorSecondIsotopic";
-      this.cbFilterByPrecursorSecondIsotopic.Size = new System.Drawing.Size(222, 16);
+      this.cbFilterByPrecursorSecondIsotopic.Size = new System.Drawing.Size(188, 17);
       this.cbFilterByPrecursorSecondIsotopic.TabIndex = 132;
       this.cbFilterByPrecursorSecondIsotopic.Text = "consider the second isotopic peak";
       this.cbFilterByPrecursorSecondIsotopic.UseVisualStyleBackColor = true;
       // 
       // txtMinSequenceLength
       // 
-      this.txtMinSequenceLength.Location = new System.Drawing.Point(279, 271);
+      this.txtMinSequenceLength.Location = new System.Drawing.Point(279, 294);
       this.txtMinSequenceLength.Name = "txtMinSequenceLength";
-      this.txtMinSequenceLength.Size = new System.Drawing.Size(94, 21);
+      this.txtMinSequenceLength.Size = new System.Drawing.Size(94, 20);
       this.txtMinSequenceLength.TabIndex = 131;
       // 
       // cbSequenceLength
       // 
       this.cbSequenceLength.AutoSize = true;
-      this.cbSequenceLength.Location = new System.Drawing.Point(27, 273);
+      this.cbSequenceLength.Location = new System.Drawing.Point(27, 296);
       this.cbSequenceLength.Name = "cbSequenceLength";
-      this.cbSequenceLength.Size = new System.Drawing.Size(234, 16);
+      this.cbSequenceLength.Size = new System.Drawing.Size(197, 17);
       this.cbSequenceLength.TabIndex = 130;
       this.cbSequenceLength.Text = "Filter by minmum sequence length = ";
       this.cbSequenceLength.UseVisualStyleBackColor = true;
@@ -362,25 +362,25 @@ namespace RCPA.Tools.Summary
       // lblMaxPeptideFdr
       // 
       this.lblMaxPeptideFdr.AutoSize = true;
-      this.lblMaxPeptideFdr.Location = new System.Drawing.Point(504, 90);
+      this.lblMaxPeptideFdr.Location = new System.Drawing.Point(504, 98);
       this.lblMaxPeptideFdr.Name = "lblMaxPeptideFdr";
-      this.lblMaxPeptideFdr.Size = new System.Drawing.Size(137, 12);
+      this.lblMaxPeptideFdr.Size = new System.Drawing.Size(115, 13);
       this.lblMaxPeptideFdr.TabIndex = 128;
       this.lblMaxPeptideFdr.Text = ", maximum peptide fdr=";
       // 
       // txtMaxPeptideFdr
       // 
-      this.txtMaxPeptideFdr.Location = new System.Drawing.Point(645, 87);
+      this.txtMaxPeptideFdr.Location = new System.Drawing.Point(645, 94);
       this.txtMaxPeptideFdr.Name = "txtMaxPeptideFdr";
-      this.txtMaxPeptideFdr.Size = new System.Drawing.Size(47, 21);
+      this.txtMaxPeptideFdr.Size = new System.Drawing.Size(47, 20);
       this.txtMaxPeptideFdr.TabIndex = 127;
       // 
       // cbClassifyByMissCleavage
       // 
       this.cbClassifyByMissCleavage.AutoSize = true;
-      this.cbClassifyByMissCleavage.Location = new System.Drawing.Point(262, 158);
+      this.cbClassifyByMissCleavage.Location = new System.Drawing.Point(262, 171);
       this.cbClassifyByMissCleavage.Name = "cbClassifyByMissCleavage";
-      this.cbClassifyByMissCleavage.Size = new System.Drawing.Size(204, 16);
+      this.cbClassifyByMissCleavage.Size = new System.Drawing.Size(166, 17);
       this.cbClassifyByMissCleavage.TabIndex = 125;
       this.cbClassifyByMissCleavage.Text = "missed internal cleavage sites";
       this.cbClassifyByMissCleavage.UseVisualStyleBackColor = true;
@@ -388,9 +388,9 @@ namespace RCPA.Tools.Summary
       // cbClassifyByCharge
       // 
       this.cbClassifyByCharge.AutoSize = true;
-      this.cbClassifyByCharge.Location = new System.Drawing.Point(262, 136);
+      this.cbClassifyByCharge.Location = new System.Drawing.Point(262, 147);
       this.cbClassifyByCharge.Name = "cbClassifyByCharge";
-      this.cbClassifyByCharge.Size = new System.Drawing.Size(120, 16);
+      this.cbClassifyByCharge.Size = new System.Drawing.Size(106, 17);
       this.cbClassifyByCharge.TabIndex = 126;
       this.cbClassifyByCharge.Text = "precursor charge";
       this.cbClassifyByCharge.UseVisualStyleBackColor = true;
@@ -398,68 +398,68 @@ namespace RCPA.Tools.Summary
       // cbRemoveDecoyEntry
       // 
       this.cbRemoveDecoyEntry.AutoSize = true;
-      this.cbRemoveDecoyEntry.Location = new System.Drawing.Point(27, 43);
+      this.cbRemoveDecoyEntry.Location = new System.Drawing.Point(27, 47);
       this.cbRemoveDecoyEntry.Name = "cbRemoveDecoyEntry";
-      this.cbRemoveDecoyEntry.Size = new System.Drawing.Size(246, 16);
+      this.cbRemoveDecoyEntry.Size = new System.Drawing.Size(223, 17);
       this.cbRemoveDecoyEntry.TabIndex = 124;
       this.cbRemoveDecoyEntry.Text = "Remove candidates from decoy database";
       this.cbRemoveDecoyEntry.UseVisualStyleBackColor = true;
       // 
       // txtDecoyPattern
       // 
-      this.txtDecoyPattern.Location = new System.Drawing.Point(180, 20);
+      this.txtDecoyPattern.Location = new System.Drawing.Point(180, 22);
       this.txtDecoyPattern.Name = "txtDecoyPattern";
-      this.txtDecoyPattern.Size = new System.Drawing.Size(100, 21);
+      this.txtDecoyPattern.Size = new System.Drawing.Size(100, 20);
       this.txtDecoyPattern.TabIndex = 123;
       // 
       // label5
       // 
       this.label5.AutoSize = true;
-      this.label5.Location = new System.Drawing.Point(51, 137);
+      this.label5.Location = new System.Drawing.Point(51, 148);
       this.label5.Name = "label5";
-      this.label5.Size = new System.Drawing.Size(191, 12);
+      this.label5.Size = new System.Drawing.Size(150, 13);
       this.label5.TabIndex = 121;
       this.label5.Text = "Group peptide identification by";
       // 
       // label3
       // 
       this.label3.AutoSize = true;
-      this.label3.Location = new System.Drawing.Point(25, 23);
+      this.label3.Location = new System.Drawing.Point(25, 25);
       this.label3.Name = "label3";
-      this.label3.Size = new System.Drawing.Size(149, 12);
+      this.label3.Size = new System.Drawing.Size(130, 13);
       this.label3.TabIndex = 122;
       this.label3.Text = "Decoy database pattern =";
       // 
       // txtPrecursorPPMTolerance
       // 
-      this.txtPrecursorPPMTolerance.Location = new System.Drawing.Point(279, 247);
+      this.txtPrecursorPPMTolerance.Location = new System.Drawing.Point(279, 268);
       this.txtPrecursorPPMTolerance.Name = "txtPrecursorPPMTolerance";
-      this.txtPrecursorPPMTolerance.Size = new System.Drawing.Size(94, 21);
+      this.txtPrecursorPPMTolerance.Size = new System.Drawing.Size(94, 20);
       this.txtPrecursorPPMTolerance.TabIndex = 120;
       // 
       // cbPrecursorPPMTolerance
       // 
       this.cbPrecursorPPMTolerance.AutoSize = true;
-      this.cbPrecursorPPMTolerance.Location = new System.Drawing.Point(27, 249);
+      this.cbPrecursorPPMTolerance.Location = new System.Drawing.Point(27, 270);
       this.cbPrecursorPPMTolerance.Name = "cbPrecursorPPMTolerance";
-      this.cbPrecursorPPMTolerance.Size = new System.Drawing.Size(246, 16);
+      this.cbPrecursorPPMTolerance.Size = new System.Drawing.Size(194, 17);
       this.cbPrecursorPPMTolerance.TabIndex = 119;
       this.cbPrecursorPPMTolerance.Text = "Filter by precursor tolerance (ppm) =";
       this.cbPrecursorPPMTolerance.UseVisualStyleBackColor = true;
       // 
       // txtFdrModifiedAminoacids
       // 
-      this.txtFdrModifiedAminoacids.Location = new System.Drawing.Point(480, 200);
+      this.txtFdrModifiedAminoacids.Location = new System.Drawing.Point(480, 217);
       this.txtFdrModifiedAminoacids.Name = "txtFdrModifiedAminoacids";
-      this.txtFdrModifiedAminoacids.Size = new System.Drawing.Size(212, 21);
+      this.txtFdrModifiedAminoacids.Size = new System.Drawing.Size(212, 20);
       this.txtFdrModifiedAminoacids.TabIndex = 118;
       // 
       // cbClassifyByModification
       // 
       this.cbClassifyByModification.AutoSize = true;
-      this.cbClassifyByModification.Location = new System.Drawing.Point(262, 202);
+      this.cbClassifyByModification.Location = new System.Drawing.Point(262, 219);
       this.cbClassifyByModification.Name = "cbClassifyByModification";
-      this.cbClassifyByModification.Size = new System.Drawing.Size(222, 16);
+      this.cbClassifyByModification.Size = new System.Drawing.Size(179, 17);
       this.cbClassifyByModification.TabIndex = 117;
       this.cbClassifyByModification.Text = "modification state, amino acids =";
       this.cbClassifyByModification.UseVisualStyleBackColor = true;
@@ -472,27 +472,27 @@ namespace RCPA.Tools.Summary
             "Protein",
             "Peptide",
             "Unique peptide"});
-      this.cbFdrLevel.Location = new System.Drawing.Point(322, 87);
+      this.cbFdrLevel.Location = new System.Drawing.Point(322, 94);
       this.cbFdrLevel.Name = "cbFdrLevel";
-      this.cbFdrLevel.Size = new System.Drawing.Size(144, 20);
+      this.cbFdrLevel.Size = new System.Drawing.Size(144, 21);
       this.cbFdrLevel.TabIndex = 116;
       this.cbFdrLevel.SelectedIndexChanged += new System.EventHandler(this.cbFdrLevel_SelectedIndexChanged);
       // 
       // label4
       // 
       this.label4.AutoSize = true;
-      this.label4.Location = new System.Drawing.Point(472, 90);
+      this.label4.Location = new System.Drawing.Point(472, 98);
       this.label4.Name = "label4";
-      this.label4.Size = new System.Drawing.Size(35, 12);
+      this.label4.Size = new System.Drawing.Size(29, 13);
       this.label4.TabIndex = 114;
       this.label4.Text = "level";
       // 
       // label2
       // 
       this.label2.AutoSize = true;
-      this.label2.Location = new System.Drawing.Point(299, 90);
+      this.label2.Location = new System.Drawing.Point(299, 98);
       this.label2.Name = "label2";
-      this.label2.Size = new System.Drawing.Size(17, 12);
+      this.label2.Size = new System.Drawing.Size(16, 13);
       this.label2.TabIndex = 115;
       this.label2.Text = "at";
       // 
@@ -500,24 +500,24 @@ namespace RCPA.Tools.Summary
       // 
       this.cbFdrType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.cbFdrType.FormattingEnabled = true;
-      this.cbFdrType.Location = new System.Drawing.Point(194, 114);
+      this.cbFdrType.Location = new System.Drawing.Point(194, 124);
       this.cbFdrType.Name = "cbFdrType";
-      this.cbFdrType.Size = new System.Drawing.Size(379, 20);
+      this.cbFdrType.Size = new System.Drawing.Size(379, 21);
       this.cbFdrType.TabIndex = 111;
       // 
       // txtMaxFdr
       // 
-      this.txtMaxFdr.Location = new System.Drawing.Point(246, 87);
+      this.txtMaxFdr.Location = new System.Drawing.Point(246, 94);
       this.txtMaxFdr.Name = "txtMaxFdr";
-      this.txtMaxFdr.Size = new System.Drawing.Size(47, 21);
+      this.txtMaxFdr.Size = new System.Drawing.Size(47, 20);
       this.txtMaxFdr.TabIndex = 113;
       // 
       // cbFilterByFDR
       // 
       this.cbFilterByFDR.AutoSize = true;
-      this.cbFilterByFDR.Location = new System.Drawing.Point(27, 89);
+      this.cbFilterByFDR.Location = new System.Drawing.Point(27, 96);
       this.cbFilterByFDR.Name = "cbFilterByFDR";
-      this.cbFilterByFDR.Size = new System.Drawing.Size(222, 16);
+      this.cbFilterByFDR.Size = new System.Drawing.Size(181, 17);
       this.cbFilterByFDR.TabIndex = 112;
       this.cbFilterByFDR.Text = "Filter by False Discovery Rate <=";
       this.cbFilterByFDR.UseVisualStyleBackColor = true;
@@ -525,9 +525,9 @@ namespace RCPA.Tools.Summary
       // label1
       // 
       this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(51, 117);
+      this.label1.Location = new System.Drawing.Point(51, 127);
       this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(137, 12);
+      this.label1.Size = new System.Drawing.Size(117, 13);
       this.label1.TabIndex = 110;
       this.label1.Text = "False Discovery Rate =";
       // 
@@ -537,7 +537,7 @@ namespace RCPA.Tools.Summary
       this.datafileGroup.Location = new System.Drawing.Point(4, 22);
       this.datafileGroup.Name = "datafileGroup";
       this.datafileGroup.Padding = new System.Windows.Forms.Padding(3);
-      this.datafileGroup.Size = new System.Drawing.Size(1222, 607);
+      this.datafileGroup.Size = new System.Drawing.Size(1222, 659);
       this.datafileGroup.TabIndex = 2;
       this.datafileGroup.Text = "Data files";
       this.datafileGroup.UseVisualStyleBackColor = true;
@@ -559,7 +559,7 @@ namespace RCPA.Tools.Summary
       // pnlDataFiles.Panel2
       // 
       this.pnlDataFiles.Panel2.Controls.Add(this.btnFindFormat);
-      this.pnlDataFiles.Size = new System.Drawing.Size(1216, 601);
+      this.pnlDataFiles.Size = new System.Drawing.Size(1216, 653);
       this.pnlDataFiles.SplitterDistance = 1070;
       this.pnlDataFiles.TabIndex = 26;
       // 
@@ -568,9 +568,9 @@ namespace RCPA.Tools.Summary
       this.lvDatFiles.Dock = System.Windows.Forms.DockStyle.Fill;
       this.lvDatFiles.FullRowSelect = true;
       this.lvDatFiles.HideSelection = false;
-      this.lvDatFiles.Location = new System.Drawing.Point(0, 12);
+      this.lvDatFiles.Location = new System.Drawing.Point(0, 13);
       this.lvDatFiles.Name = "lvDatFiles";
-      this.lvDatFiles.Size = new System.Drawing.Size(1070, 567);
+      this.lvDatFiles.Size = new System.Drawing.Size(1070, 616);
       this.lvDatFiles.Sorting = System.Windows.Forms.SortOrder.Ascending;
       this.lvDatFiles.TabIndex = 16;
       this.lvDatFiles.UseCompatibleStateImageBehavior = false;
@@ -583,7 +583,7 @@ namespace RCPA.Tools.Summary
       this.lblDataFile.Dock = System.Windows.Forms.DockStyle.Top;
       this.lblDataFile.Location = new System.Drawing.Point(0, 0);
       this.lblDataFile.Name = "lblDataFile";
-      this.lblDataFile.Size = new System.Drawing.Size(479, 12);
+      this.lblDataFile.Size = new System.Drawing.Size(357, 13);
       this.lblDataFile.TabIndex = 17;
       this.lblDataFile.Text = "Select dat files you want to extract peptides (only selected file will be used)";
       // 
@@ -593,9 +593,9 @@ namespace RCPA.Tools.Summary
       this.pnlTitleFormat.Controls.Add(this.cbAutoFindFormat);
       this.pnlTitleFormat.Controls.Add(this.label7);
       this.pnlTitleFormat.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.pnlTitleFormat.Location = new System.Drawing.Point(0, 579);
+      this.pnlTitleFormat.Location = new System.Drawing.Point(0, 629);
       this.pnlTitleFormat.Name = "pnlTitleFormat";
-      this.pnlTitleFormat.Size = new System.Drawing.Size(1070, 22);
+      this.pnlTitleFormat.Size = new System.Drawing.Size(1070, 24);
       this.pnlTitleFormat.TabIndex = 0;
       // 
       // cbTitleFormat
@@ -605,7 +605,7 @@ namespace RCPA.Tools.Summary
       this.cbTitleFormat.FormattingEnabled = true;
       this.cbTitleFormat.Location = new System.Drawing.Point(89, 0);
       this.cbTitleFormat.Name = "cbTitleFormat";
-      this.cbTitleFormat.Size = new System.Drawing.Size(933, 20);
+      this.cbTitleFormat.Size = new System.Drawing.Size(933, 21);
       this.cbTitleFormat.TabIndex = 21;
       // 
       // cbAutoFindFormat
@@ -614,7 +614,7 @@ namespace RCPA.Tools.Summary
       this.cbAutoFindFormat.Dock = System.Windows.Forms.DockStyle.Right;
       this.cbAutoFindFormat.Location = new System.Drawing.Point(1022, 0);
       this.cbAutoFindFormat.Name = "cbAutoFindFormat";
-      this.cbAutoFindFormat.Size = new System.Drawing.Size(48, 22);
+      this.cbAutoFindFormat.Size = new System.Drawing.Size(48, 24);
       this.cbAutoFindFormat.TabIndex = 23;
       this.cbAutoFindFormat.Text = "Auto";
       this.cbAutoFindFormat.UseVisualStyleBackColor = true;
@@ -624,7 +624,7 @@ namespace RCPA.Tools.Summary
       this.label7.Dock = System.Windows.Forms.DockStyle.Left;
       this.label7.Location = new System.Drawing.Point(0, 0);
       this.label7.Name = "label7";
-      this.label7.Size = new System.Drawing.Size(89, 22);
+      this.label7.Size = new System.Drawing.Size(89, 24);
       this.label7.TabIndex = 22;
       this.label7.Text = "Title format :";
       this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -632,9 +632,9 @@ namespace RCPA.Tools.Summary
       // btnFindFormat
       // 
       this.btnFindFormat.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.btnFindFormat.Location = new System.Drawing.Point(0, 578);
+      this.btnFindFormat.Location = new System.Drawing.Point(0, 628);
       this.btnFindFormat.Name = "btnFindFormat";
-      this.btnFindFormat.Size = new System.Drawing.Size(142, 23);
+      this.btnFindFormat.Size = new System.Drawing.Size(142, 25);
       this.btnFindFormat.TabIndex = 31;
       this.btnFindFormat.Text = "Find title format";
       this.btnFindFormat.UseVisualStyleBackColor = true;
@@ -646,7 +646,7 @@ namespace RCPA.Tools.Summary
       this.databaseGroup.Location = new System.Drawing.Point(4, 22);
       this.databaseGroup.Name = "databaseGroup";
       this.databaseGroup.Padding = new System.Windows.Forms.Padding(3);
-      this.databaseGroup.Size = new System.Drawing.Size(1222, 607);
+      this.databaseGroup.Size = new System.Drawing.Size(1222, 660);
       this.databaseGroup.TabIndex = 1;
       this.databaseGroup.Text = "Database";
       this.databaseGroup.UseVisualStyleBackColor = true;
@@ -669,7 +669,7 @@ namespace RCPA.Tools.Summary
       this.splitContainer1.Panel2.Controls.Add(this.btnTestDatabase);
       this.splitContainer1.Panel2.Controls.Add(this.btnRemoveDatabase);
       this.splitContainer1.Panel2.Controls.Add(this.btnAddDatabase);
-      this.splitContainer1.Size = new System.Drawing.Size(1216, 579);
+      this.splitContainer1.Size = new System.Drawing.Size(1216, 654);
       this.splitContainer1.SplitterDistance = 1070;
       this.splitContainer1.TabIndex = 31;
       // 
@@ -677,10 +677,9 @@ namespace RCPA.Tools.Summary
       // 
       this.lstDatabases.Dock = System.Windows.Forms.DockStyle.Fill;
       this.lstDatabases.FormattingEnabled = true;
-      this.lstDatabases.ItemHeight = 12;
       this.lstDatabases.Location = new System.Drawing.Point(0, 0);
       this.lstDatabases.Name = "lstDatabases";
-      this.lstDatabases.Size = new System.Drawing.Size(1070, 556);
+      this.lstDatabases.Size = new System.Drawing.Size(1070, 629);
       this.lstDatabases.Sorted = true;
       this.lstDatabases.TabIndex = 29;
       // 
@@ -689,9 +688,9 @@ namespace RCPA.Tools.Summary
       this.panel1.Controls.Add(this.cbAccessNumberPattern);
       this.panel1.Controls.Add(this.label8);
       this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.panel1.Location = new System.Drawing.Point(0, 556);
+      this.panel1.Location = new System.Drawing.Point(0, 629);
       this.panel1.Name = "panel1";
-      this.panel1.Size = new System.Drawing.Size(1070, 23);
+      this.panel1.Size = new System.Drawing.Size(1070, 25);
       this.panel1.TabIndex = 30;
       // 
       // cbAccessNumberPattern
@@ -705,7 +704,7 @@ namespace RCPA.Tools.Summary
             "(IPI\\d+|gi:\\d+)"});
       this.cbAccessNumberPattern.Location = new System.Drawing.Point(137, 0);
       this.cbAccessNumberPattern.Name = "cbAccessNumberPattern";
-      this.cbAccessNumberPattern.Size = new System.Drawing.Size(933, 20);
+      this.cbAccessNumberPattern.Size = new System.Drawing.Size(933, 21);
       this.cbAccessNumberPattern.TabIndex = 38;
       // 
       // label8
@@ -713,7 +712,7 @@ namespace RCPA.Tools.Summary
       this.label8.Dock = System.Windows.Forms.DockStyle.Left;
       this.label8.Location = new System.Drawing.Point(0, 0);
       this.label8.Name = "label8";
-      this.label8.Size = new System.Drawing.Size(137, 23);
+      this.label8.Size = new System.Drawing.Size(137, 25);
       this.label8.TabIndex = 37;
       this.label8.Text = "Access number format :";
       this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -721,9 +720,9 @@ namespace RCPA.Tools.Summary
       // btnTestDatabase
       // 
       this.btnTestDatabase.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.btnTestDatabase.Location = new System.Drawing.Point(0, 554);
+      this.btnTestDatabase.Location = new System.Drawing.Point(0, 627);
       this.btnTestDatabase.Name = "btnTestDatabase";
-      this.btnTestDatabase.Size = new System.Drawing.Size(142, 25);
+      this.btnTestDatabase.Size = new System.Drawing.Size(142, 27);
       this.btnTestDatabase.TabIndex = 37;
       this.btnTestDatabase.Text = "&Test";
       this.btnTestDatabase.UseVisualStyleBackColor = true;
@@ -732,9 +731,9 @@ namespace RCPA.Tools.Summary
       // btnRemoveDatabase
       // 
       this.btnRemoveDatabase.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnRemoveDatabase.Location = new System.Drawing.Point(0, 23);
+      this.btnRemoveDatabase.Location = new System.Drawing.Point(0, 25);
       this.btnRemoveDatabase.Name = "btnRemoveDatabase";
-      this.btnRemoveDatabase.Size = new System.Drawing.Size(142, 23);
+      this.btnRemoveDatabase.Size = new System.Drawing.Size(142, 25);
       this.btnRemoveDatabase.TabIndex = 36;
       this.btnRemoveDatabase.Text = "button2";
       this.btnRemoveDatabase.UseVisualStyleBackColor = true;
@@ -744,15 +743,15 @@ namespace RCPA.Tools.Summary
       this.btnAddDatabase.Dock = System.Windows.Forms.DockStyle.Top;
       this.btnAddDatabase.Location = new System.Drawing.Point(0, 0);
       this.btnAddDatabase.Name = "btnAddDatabase";
-      this.btnAddDatabase.Size = new System.Drawing.Size(142, 23);
+      this.btnAddDatabase.Size = new System.Drawing.Size(142, 25);
       this.btnAddDatabase.TabIndex = 35;
       this.btnAddDatabase.Text = "button1";
       this.btnAddDatabase.UseVisualStyleBackColor = true;
       // 
       // SummaryBuilderUI
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-      this.ClientSize = new System.Drawing.Size(1230, 711);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+      this.ClientSize = new System.Drawing.Size(1230, 770);
       this.Controls.Add(this.tabControl1);
       this.Controls.Add(this.btnSaveParam);
       this.Controls.Add(this.btnLoadParam);

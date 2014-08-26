@@ -6,6 +6,7 @@ using RCPA.Utils;
 using System.IO;
 using System.Diagnostics;
 using System.Windows.Forms;
+using RCPA.R;
 
 namespace RCPA.Proteomics.Quantification.O18
 {

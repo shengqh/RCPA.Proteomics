@@ -54,15 +54,15 @@
       // 
       // btnClose
       // 
-      this.btnClose.Location = new System.Drawing.Point(548, 9);
+      this.btnClose.Location = new System.Drawing.Point(548, 8);
       // 
       // btnCancel
       // 
-      this.btnCancel.Location = new System.Drawing.Point(463, 9);
+      this.btnCancel.Location = new System.Drawing.Point(463, 8);
       // 
       // btnGo
       // 
-      this.btnGo.Location = new System.Drawing.Point(378, 9);
+      this.btnGo.Location = new System.Drawing.Point(378, 8);
       // 
       // BatchUniformIdentifiedResultBuilderUI
       // 

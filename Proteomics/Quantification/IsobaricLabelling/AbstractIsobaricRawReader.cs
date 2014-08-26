@@ -93,9 +93,9 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     }
 
 
-    protected void AppendScan(IRawFile2 rawReader, List<IsobaricItem> result, int scan, string mode, double isolationWidth)
+    protected void AppendScan(IRawFile2 rawReader, List<IsobaricScan> result, int scan, string mode, double isolationWidth)
     {
-      IsobaricItem item = new IsobaricItem();
+      IsobaricScan item = new IsobaricScan(this.PlexType);
 
       PeakList<Peak> pkl = rawReader.GetPeakList(scan, MinMz, MaxMz);
 
@@ -109,13 +109,12 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       item.ScanMode = mode;
       item.RawPeaks = pkl;
       item.PeakInIsolationWindow = rawReader.GetPeakInIsolationWindow(scan, isolationWidth);
-      item.PlexType = this.PlexType;
       item.Scan = rawReader.GetScanTime(recordScan);
 
       result.Add(item);
     }
 
-    protected void AppendScan(IRawFile2 rawReader, List<IsobaricItem> result, int scan, string mode)
+    protected void AppendScan(IRawFile2 rawReader, List<IsobaricScan> result, int scan, string mode)
     {
       AppendScan(rawReader, result, scan, mode, defaultIsolationWidth);
     }
@@ -127,9 +126,9 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       return new string[] { };
     }
 
-    public virtual List<IsobaricItem> ReadFromFile(string fileName)
+    public virtual List<IsobaricScan> ReadFromFile(string fileName)
     {
-      var result = new List<IsobaricItem>();
+      var result = new List<IsobaricScan>();
 
       var askedScanMode = GetScanMode();
       var lowerScanMode = new HashSet<string>(from a in askedScanMode

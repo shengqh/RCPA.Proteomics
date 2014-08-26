@@ -24,8 +24,9 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     {
       IsobaricResult result = new IsobaricResult(pkls);
       result.Mode = pkls.Mode;
+      result.PlexType = pkls.PlexType;
 
-      result.ForEach(m => m.DetectReporter(this.ppmTolerance));
+      result.ForEach(m => m.DetectReporter(result.PlexType, this.ppmTolerance));
 
       result.RemoveAll(m => m.PeakCount() < minPeakCount);
 

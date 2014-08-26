@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace RCPA.Proteomics.Quantification.ITraq
 {
-  public enum IsobaricType { PLEX4, PLEX8, TMT6, TMT10 };
+  public enum IsobaricType { PLEX4, PLEX8, TMT6 };
 
   /// <summary>
   /// 对应于一个peptide的isobaric信息。

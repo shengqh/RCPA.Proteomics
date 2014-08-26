@@ -29,7 +29,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
     public bool ReadPeaks { get; set; }
 
-    public Predicate<IsobaricItem> Accept { get; set; }
+    public Predicate<IsobaricScan> Accept { get; set; }
 
     public Stream _stream { get; private set; }
 
@@ -85,11 +85,11 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       return _indexItems.ContainsKey(key);
     }
 
-    public IsobaricItem Read(string experimental, int scan)
+    public IsobaricScan Read(string experimental, int scan, IsobaricType plexType)
     {
       var xml = ReadXmlBytes(experimental, scan);
 
-      return IsobaricItemXmlUtils.Parse(xml, this.ReadReporters, this.ReadPeaks, this.Accept);
+      return IsobaricScanXmlUtils.Parse(xml, plexType, this.ReadReporters, this.ReadPeaks, this.Accept);
     }
 
     public void Close()
