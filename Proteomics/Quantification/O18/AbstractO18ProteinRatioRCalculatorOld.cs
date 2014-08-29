@@ -10,7 +10,7 @@ using RCPA.R;
 
 namespace RCPA.Proteomics.Quantification.O18
 {
-  public abstract class AbstractO18ProteinRatioRCalculator : IProteinRatioCalculator
+  public abstract class AbstractO18ProteinRatioRCalculatorOld : IProteinRatioCalculator
   {
     class WaitingEntry
     {
@@ -22,12 +22,19 @@ namespace RCPA.Proteomics.Quantification.O18
 
     protected IGetRatioIntensity intensityFunc;
 
+    private string rExecute;
+
     public IO18QuantificationOptions Option { get; set; }
 
-    public AbstractO18ProteinRatioRCalculator(IGetRatioIntensity intensityFunc, IO18QuantificationOptions option)
+    public AbstractO18ProteinRatioRCalculatorOld(IGetRatioIntensity intensityFunc, IO18QuantificationOptions option)
     {
       this.intensityFunc = intensityFunc;
       this.Option = option;
+      this.rExecute = ExternalProgramConfig.GetExternalProgram("R");
+      if (this.rExecute == null)
+      {
+        throw new Exception("Define R location first!");
+      }
     }
 
     public IGetRatioIntensity IntensityFunc
@@ -59,15 +66,31 @@ namespace RCPA.Proteomics.Quantification.O18
           }
         }
 
-        var linearfile = new FileInfo(this.DetailDirectory + "/rlm.linear").FullName.Replace("\\", "/");
+        var rfile = new FileInfo(this.DetailDirectory + "/rlm.r").FullName.Replace("\\", "/");
+        var linearfile = rfile + ".linear";
+        using (var sw = new StreamWriter(rfile))
+        {
+          sw.WriteLine(@"require(MASS)
 
-        var roptions = new RTemplateProcessorOptions();
+files<-read.csv(""" + listfile + @""", row.names=1, check.names=F)
 
-        roptions.InputFile = listfile;
-        roptions.OutputFile = linearfile;
-        roptions.RTemplate = FileUtils.GetTemplateDir() + "/MultipleO18Quantification.r";
+rlm_result<-apply(files, 1, function(x){
+  data<-read.csv(x[1])
+  rl<-rlm(SamIntensity~0+RefIntensity, data=data)
+  srl<-summary(rl)
+  coeff<-srl$coefficients
+  pvalue<-pt( coeff[3] , srl$df[2], lower.tail=F)*2
+  return (c(coeff[1], coeff[2], coeff[3], pvalue, nrow(data)))
+})
 
-        new RTemplateProcessor(roptions).Process();
+rlm_result=t(rlm_result)
+colnames(rlm_result)<-c(""Ratio"",""StdErr"",""tValue"",""pValue"",""Count"")
+
+finalresult<-cbind(files, rlm_result)
+write.csv(finalresult,""" + linearfile + @""")");
+        }
+
+        new RProcessor(rExecute, rfile, linearfile).Process();
 
         var results = (from line in File.ReadAllLines(linearfile).Skip(1)
                        let parts = line.Split(',')
@@ -175,14 +198,24 @@ namespace RCPA.Proteomics.Quantification.O18
             }
 
             var linearfile = filename + ".linear";
+            var rfile = filename + ".r";
+            using (StreamWriter sw = new StreamWriter(rfile))
+            {
+              sw.WriteLine(string.Format(
+    @"require(MASS)
+data<-read.csv(""{0}"")
+rl<-rlm(SamIntensity~-1+RefIntensity, data=data)
+srl<-summary(rl)
+coeff<-srl$coefficients
+pvalue<-pt( coeff[3] , srl$df[2], lower.tail=F)*2
 
-            var roptions = new RTemplateProcessorOptions();
+df<-data.frame(Ratio=coeff[1], StdErr=coeff[2], tValue<-coeff[3], pValue<-pvalue)
+colnames(df)<-c(""Ratio"",""StdErr"",""tValue"",""pValue"")
+write.csv(df,""{1}"")
+", filename, linearfile));
+            }
 
-            roptions.InputFile = filename;
-            roptions.OutputFile = linearfile;
-            roptions.RTemplate = FileUtils.GetTemplateDir() + "/O18Quantification.r";
-
-            new RTemplateProcessor(roptions).Process();
+            new RProcessor(rExecute, rfile, linearfile).Process();
 
             ratioResult = new LinearRegressionRatioResult();
             var parts = File.ReadAllLines(linearfile).Skip(1).First().Split(',');

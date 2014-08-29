@@ -379,6 +379,7 @@
     <Compile Include="Proteomics\Quantification\MaxQuant\PeptideReader.cs" />
     <Compile Include="Proteomics\Quantification\O18\AbstractO18ProteinRatioRCalculator.cs" />
     <Compile Include="Proteomics\Quantification\O18\AbstractO18QuantificationOptions.cs" />
+    <Compile Include="Proteomics\Quantification\O18\AbstractO18ProteinRatioRCalculatorOld.cs" />
     <Compile Include="Proteomics\Quantification\O18\IO18QuantificationOptions.cs" />
     <Compile Include="Proteomics\Quantification\O18\O18ProteinRatioRPeptideCalculator.cs" />
     <Compile Include="Proteomics\Quantification\O18\O18ProteinRatioRScanCalculator.cs" />
@@ -2745,6 +2746,15 @@
     <None Include="Resources\cancel.bmp" />
     <None Include="Resources\ok.bmp" />
     <Content Include="Tools\Mascot\raw2mgf.ico" />
+    <None Include="template\MultipleO18Quantification.r">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="template\O18Quantification.r">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="template\DetectSignificantIon.r">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">

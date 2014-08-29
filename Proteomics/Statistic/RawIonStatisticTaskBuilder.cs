@@ -8,6 +8,7 @@ using System.IO;
 using System.Threading.Tasks;
 using MathNet.Numerics.Statistics;
 using RCPA.Utils;
+using RCPA.R;
 
 namespace RCPA.Proteomics.Statistic
 {
@@ -148,6 +149,82 @@ namespace RCPA.Proteomics.Statistic
 
     private void WriteMap(Dictionary<int, int> scanCounts, List<int> keys, string filename, Dictionary<int, Dictionary<int, List<PeakEntry>>> curMaps, bool exportIndividualIon)
     {
+      foreach (var key in keys)
+      {
+        var totalCount = scanCounts[key];
+        string subfile = string.Empty;
+
+        if (key == FULLMS_CHARGE)
+        {
+          subfile = filename + ".fullms";
+        }
+        else if (key == 0)
+        {
+          subfile = filename + ".unknown";
+        }
+        else
+        {
+          subfile = filename + ".ms2charge" + key.ToString();
+        }
+        var map = curMaps[key];
+
+        foreach (var e in map.Values)
+        {
+          MergeIons(e);
+        }
+
+        var ens = (from e in map.Values from en in e select en).ToList();
+        MergeIons(ens);
+
+        //remove the duplication
+        foreach (var ee in ens)
+        {
+          ee.Intensities = (from intt in ee.Intensities.GroupBy(m => m.Scan)
+                            select (from inttt in intt
+                                    orderby inttt.Intensity descending
+                                    select inttt).First()).ToList();
+        }
+
+        using (var sw2 = new StreamWriter(subfile))
+        {
+          sw2.WriteLine("Ion\tCount\tFrequency\tMeanIntensity\tSD\tMedianIntensity");
+
+          var totalentries = (from en in ens
+                              orderby en.Intensities.Count descending
+                              select en).ToList();
+
+          totalentries.ForEach(m =>
+          {
+            var ints = (from i in m.Intensities select i.Intensity).ToArray();
+            var mean = Statistics.Mean(ints);
+            var sd = Statistics.StandardDeviation(ints);
+            var median = Statistics.Median(ints);
+
+            sw2.WriteLine("{0:0.0000}\t{1}\t{2:0.0000}\t{3:0.000}\t{4:0.000}\t{5:0.000}", m.Ion.Mz, m.Intensities.Count, m.Intensities.Count * 1.0 / totalCount, mean, sd, median);
+          });
+          sw2.WriteLine();
+        }
+
+        var options = new RTemplateProcessorOptions();
+
+        options.InputFile = subfile;
+        options.OutputFile = subfile + ".sig.tsv";
+        options.RExecute = ExternalProgramConfig.GetExternalProgram("R");
+        options.RTemplate = FileUtils.GetTemplateDir() + "/DetectSignificantIon.r";
+        options.Parameters.Add("minfreq<-0.01");
+        options.Parameters.Add("probability<-0.95");
+        options.Parameters.Add("minMedianIntensity<-0.05");
+
+        new RTemplateProcessor(options)
+        {
+          Progress = this.Progress
+        }.Process();
+      }
+    }
+
+
+    private void WriteMap_old(Dictionary<int, int> scanCounts, List<int> keys, string filename, Dictionary<int, Dictionary<int, List<PeakEntry>>> curMaps, bool exportIndividualIon)
+    {
       using (var sw = new StreamWriter(filename))
       {
         foreach (var key in keys)
@@ -256,6 +333,7 @@ namespace RCPA.Proteomics.Statistic
         }
       }
     }
+
 
     private void MergeIons(List<PeakEntry> e)
     {

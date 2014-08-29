@@ -12,7 +12,6 @@ using RCPA.Proteomics.Utils;
 using RCPA.Proteomics.Mascot;
 using MathNet.Numerics.Distributions;
 using RCPA.Numerics;
-using RCPA.Normalization;
 using RCPA.R;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
@@ -79,12 +78,12 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
           }
         }
 
-        var roptions = new NormalizationRCalculatorOptions();
+        var roptions = new RTemplateProcessorOptions();
         roptions.InputFile = datafile;
         roptions.OutputFile = Path.ChangeExtension(datafile, ".norm.tsv");
         roptions.RTemplate = FileUtils.GetTemplateDir() + "/CyclicLoessNormalization.r";
 
-        new NormalizationRCalculator(roptions).Process();
+        new RTemplateProcessor(roptions).Process();
 
         var specMap = isoFile.ToDictionary(m => m.Query.FileScan.LongFileName);
 
