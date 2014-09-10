@@ -29,6 +29,35 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
     protected abstract MascotResultTextFormat GetFormat(IIdentifiedResult ir);
 
+    private string GetSequence(IIdentifiedSpectrum sepc)
+    {
+      var pure = sepc.GetMatchSequence();
+      var result = new StringBuilder();
+      var dic = new Dictionary<char, int>();
+      foreach (var c in pure)
+      {
+        if (Char.IsLetter(c))
+        {
+          result.Append(c);
+        }
+        else
+        {
+          if (dic.ContainsKey(c))
+          {
+            dic[c] = dic[c] + 1;
+          }
+          else
+          {
+            dic[c] = 1;
+          }
+        }
+      }
+
+      return string.Format("{0}_{1}", result.ToString(), (from k in dic.Keys
+                                                          orderby k
+                                                          select string.Format("{0}{1}", k, dic[k])).Merge("_"));
+    }
+
     public override IEnumerable<string> Process(string fileName)
     {
       options.ProteinFileName = fileName;
@@ -120,55 +149,36 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       var refFuncs = options.References;
       var samFuncs = options.GetSamples();
 
-      foreach (var dsName in options.DatasetMap.Keys)
+      var pepfile = string.Format("{0}.uniquePeptides.tsv", resultFileName);
+      using (var sw = new StreamWriter(pepfile))
       {
-        var dsSet = new HashSet<string>(options.DatasetMap[dsName]);
-        var dsSpectra = new HashSet<IIdentifiedSpectrum>(from s in isoSpectra
-                                                         where dsSet.Contains(s.Query.FileScan.Experimental)
-                                                         select s);
+        sw.WriteLine("PurePeptide\tDataset\tFileScan\tPeptide\t{0}\t{1}",
+          refFuncs.ConvertAll(m => m.Name).Merge("\t"),
+          samFuncs.ConvertAll(m => m.Name).Merge("\t"));
 
-        //for each dataset, calculate ratio
-        var datafile = string.Format("{0}.{1}.tsv", resultFileName, dsName);
-        using (var sw = new StreamWriter(datafile))
+        var peptides = isoSpectra.ToGroupDictionary(m => m.Peptide.PureSequence).OrderBy(m => m.Key).ToList();
+        foreach (var pep in peptides)
         {
-          sw.WriteLine("GroupIndex\tPeptide\tCategory\tFile\tScan\tChannel\tIntensity");
-          foreach (var group in ir)
+          foreach (var dsName in options.DatasetMap.Keys)
           {
-            var specs = group.GetPeptides();
-            foreach (var spec in specs)
+            var dsSet = new HashSet<string>(options.DatasetMap[dsName]);
+            var dsSpectra = (from s in pep.Value
+                             where dsSet.Contains(s.Query.FileScan.Experimental)
+                             orderby s.Peptide.Sequence
+                             select s).ToList();
+
+            foreach (var spec in dsSpectra)
             {
-              if (!dsSpectra.Contains(spec))
-              {
-                continue;
-              }
-
               var isoitem = spec.FindIsobaricItem();
-              foreach (var refFunc in refFuncs)
-              {
-                sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}",
-                  group.Index,
-                  group[0].Name,
-                  "REF",
-                  spec.Query.FileScan.Experimental,
-                  spec.Query.FileScan.Scan,
-                  refFunc.Name,
-                  refFunc.GetValue(isoitem));
-              }
-
-              foreach (var samFunc in samFuncs)
-              {
-                sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}",
-                  group.Index,
-                  group[0].Name,
-                  samFunc.Name,
-                  spec.Query.FileScan.Experimental,
-                  spec.Query.FileScan.Scan,
-                  samFunc.Name,
-                  samFunc.GetValue(isoitem));
-              }
+              sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}",
+                  pep.Key,
+                  dsName,
+                  spec.Query.FileScan.ShortFileName,
+                  spec.Peptide.Sequence,
+                  refFuncs.ConvertAll(m => m.GetValue(isoitem).ToString()).Merge("\t"),
+                  samFuncs.ConvertAll(m => m.GetValue(isoitem).ToString()).Merge("\t"));
             }
           }
-
           //call R to calculate the ratio of each group
           //read R result to fill the ratio
         }
@@ -181,6 +191,79 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       Progress.SetMessage("Finished.");
 
       return new[] { resultFileName };
+    }
+
+    private static void WriteForGLM(IIdentifiedResult ir, List<IsobaricIndex> refFuncs, List<IsobaricIndex> samFuncs, HashSet<IIdentifiedSpectrum> dsSpectra, string datafile)
+    {
+      using (var sw = new StreamWriter(datafile))
+      {
+        sw.WriteLine("GroupIndex\tPeptide\tCategory\tFile\tScan\tChannel\tIntensity");
+        foreach (var group in ir)
+        {
+          var specs = group.GetPeptides();
+          foreach (var spec in specs)
+          {
+            if (!dsSpectra.Contains(spec))
+            {
+              continue;
+            }
+
+            var isoitem = spec.FindIsobaricItem();
+            foreach (var refFunc in refFuncs)
+            {
+              sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}",
+                group.Index,
+                group[0].Name,
+                "REF",
+                spec.Query.FileScan.Experimental,
+                spec.Query.FileScan.Scan,
+                refFunc.Name,
+                refFunc.GetValue(isoitem));
+            }
+
+            foreach (var samFunc in samFuncs)
+            {
+              sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}",
+                group.Index,
+                group[0].Name,
+                samFunc.Name,
+                spec.Query.FileScan.Experimental,
+                spec.Query.FileScan.Scan,
+                samFunc.Name,
+                samFunc.GetValue(isoitem));
+            }
+          }
+        }
+      }
+    }
+
+    private void WriteForLinearModel(IIdentifiedResult ir, List<IsobaricIndex> refFuncs, List<IsobaricIndex> samFuncs, HashSet<IIdentifiedSpectrum> dsSpectra, string datafile)
+    {
+      using (var sw = new StreamWriter(datafile))
+      {
+        sw.WriteLine("GroupIndex\tProtein\tPeptide\t{0}\t{1}",
+          refFuncs.ConvertAll(m => m.Name).Merge("\t"),
+          samFuncs.ConvertAll(m => m.Name).Merge("\t"));
+        foreach (var group in ir)
+        {
+          var specs = group.GetPeptides();
+          foreach (var spec in specs)
+          {
+            if (!dsSpectra.Contains(spec))
+            {
+              continue;
+            }
+
+            var isoitem = spec.FindIsobaricItem();
+            sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}",
+                group.Index,
+                group[0].Name,
+                spec.Sequence,
+                refFuncs.ConvertAll(m => m.GetValue(isoitem).ToString()).Merge("\t"),
+                samFuncs.ConvertAll(m => m.GetValue(isoitem).ToString()).Merge("\t"));
+          }
+        }
+      }
     }
 
     protected virtual string GetResultFileName(string fileName, string refNames)

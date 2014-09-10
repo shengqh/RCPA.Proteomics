@@ -70,6 +70,8 @@ namespace RCPA.Proteomics.Format
               continue;
             }
 
+            Console.WriteLine("Reading scan {0}", scan);
+
             PeakList<Peak> pkl;
             try
             {

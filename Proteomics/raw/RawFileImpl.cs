@@ -414,23 +414,7 @@ namespace RCPA.Proteomics.Raw
       result.Mz = GetPrecursorMzFromTrailerExtraValue(scan);
       result.Charge = GetPrecursorChargeFromTrailerExtraValue(scan);
 
-      if (0.0 == result.Mz && 0 != result.Charge)
-      {
-        var mz = GetIsolationMass(scan);
-        var parentScan = GetMasterScanPeakList(scan);
-        if (parentScan == null)
-        {
-          result.Mz = mz;
-        }
-        else
-        {
-          var resolution = GetResolution(parentScan.FirstScan);
-          var deltamass = mz / resolution;
-          var peaks = parentScan.FindEnvelope(mz, result.Charge, deltamass, false);
-          result.Mz = peaks[0].Mz;
-        }
-      }
-      else
+      if (0.0 == result.Mz)
       {
         result.Mz = GetIsolationMass(scan);
       }

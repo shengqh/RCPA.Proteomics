@@ -25,7 +25,7 @@ namespace RCPA.Proteomics.Format
   {
     private static readonly string title = "TurboRawToMGF - " + RawFileFactory.SupportedRawFormatString + " To Mascot Generic Format Converter";
 
-    private static readonly string version = "2.0.0";
+    private static readonly string version = "2.0.1";
 
     private RcpaComboBox<MascotTitle> titleFormat;
     private RcpaDoubleField minMassRange;

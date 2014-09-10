@@ -7,6 +7,8 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
   public interface IIsobaricLabellingProtease
   {
+    string Name { get; }
+
     void InitializeByTag(double tagMH);
 
     double GetHighBYFreeWindow();
@@ -18,17 +20,24 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
   public abstract class AbstractIsobaricLabellingProtease : IIsobaricLabellingProtease
   {
+    public AbstractIsobaricLabellingProtease(string name)
+    {
+      this.Name = name;
+    }
+
     protected double lowBYFreeWindow;
 
     protected double highBYFreeWindow;
 
     protected string highBYFreeWindowDescription;
 
+    public string Name { get; private set; }
+
     public abstract void InitializeByTag(double tagMH);
 
     public override string ToString()
     {
-      return "Trypsin";
+      return Name;
     }
 
     #region IIsobaricLabellingProtease Members
@@ -53,6 +62,8 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
   public class IsobaricLabellingTrypsin : AbstractIsobaricLabellingProtease
   {
+    public IsobaricLabellingTrypsin() : base("Trypsin") { }
+
     public override void InitializeByTag(double tagMH)
     {
       var aas = new Aminoacids();
@@ -73,19 +84,11 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
         this.highBYFreeWindowDescription = "PrecursorMass-Lys-Label-OH";
       }
     }
-
-    public override string ToString()
-    {
-      return "Trypsin";
-    }
   }
 
   public class IsobaricLabellingLysC : AbstractIsobaricLabellingProtease
   {
-    public override string ToString()
-    {
-      return "LysC";
-    }
+    public IsobaricLabellingLysC() : base("Lysc") { }
 
     public override void InitializeByTag(double tagMH)
     {
@@ -101,10 +104,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
   public class IsobaricLabellingOther : AbstractIsobaricLabellingProtease
   {
-    public override string ToString()
-    {
-      return "Other";
-    }
+    public IsobaricLabellingOther() : base("Other") { }
 
     public override void InitializeByTag(double tagMH)
     {

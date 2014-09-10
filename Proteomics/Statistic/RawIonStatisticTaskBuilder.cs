@@ -56,8 +56,10 @@ namespace RCPA.Proteomics.Statistic
 
     public override IEnumerable<string> Process(string fileName)
     {
-      Dictionary<int, Dictionary<int, List<PeakEntry>>> maps = new Dictionary<int, Dictionary<int, List<PeakEntry>>>();
-      Dictionary<int, Dictionary<int, List<PeakEntry>>> compmaps = new Dictionary<int, Dictionary<int, List<PeakEntry>>>();
+      var result = new List<string>();
+
+      Dictionary<string, Dictionary<int, Dictionary<int, List<PeakEntry>>>> mode_maps = new Dictionary<string, Dictionary<int, Dictionary<int, List<PeakEntry>>>>();
+      Dictionary<string, Dictionary<int, Dictionary<int, List<PeakEntry>>>> mode_compmaps = new Dictionary<string, Dictionary<int, Dictionary<int, List<PeakEntry>>>>();
       Dictionary<int, int> scanCounts = new Dictionary<int, int>();
       using (var reader = RawFileFactory.GetRawFileReader(fileName))
       {
@@ -91,6 +93,22 @@ namespace RCPA.Proteomics.Statistic
           if (pkl.Count == 0)
           {
             continue;
+          }
+
+          pkl.ScanMode = reader.GetScanMode(i);
+
+          Dictionary<int, Dictionary<int, List<PeakEntry>>> maps;
+          Dictionary<int, Dictionary<int, List<PeakEntry>>> compmaps;
+          if (!mode_maps.TryGetValue(pkl.ScanMode, out maps))
+          {
+            maps = new Dictionary<int, Dictionary<int, List<PeakEntry>>>();
+            mode_maps[pkl.ScanMode] = maps;
+          }
+
+          if (!mode_compmaps.TryGetValue(pkl.ScanMode, out compmaps))
+          {
+            compmaps = new Dictionary<int, Dictionary<int, List<PeakEntry>>>();
+            mode_compmaps[pkl.ScanMode] = compmaps;
           }
 
           //if (i == 17047)
@@ -134,17 +152,35 @@ namespace RCPA.Proteomics.Statistic
         }
       }
 
-      var keys = (from charge in maps.Keys
-                  orderby charge
-                  select charge).ToList();
+      foreach (var mode in mode_maps.Keys)
+      {
+        var maps = mode_maps[mode];
+        var compmaps = mode_compmaps[mode];
 
-      var resultFile1 = new FileInfo(options.TargetDirectory + "//" + new FileInfo(fileName).Name + ".forward.ionfrequency").FullName;
-      WriteMap(scanCounts, keys, resultFile1, maps, true);
+        var keys = (from charge in maps.Keys
+                    orderby charge
+                    select charge).ToList();
 
-      var resultFile2 = new FileInfo(options.TargetDirectory + "//" + new FileInfo(fileName).Name + ".backward.ionfrequency").FullName;
-      WriteMap(scanCounts, keys, resultFile2, compmaps, false);
+        var resultFile1 = new FileInfo(string.Format("{0}/{1}.{2}.forward.ionfrequency",
+          options.TargetDirectory,
+          new FileInfo(fileName).Name,
+          mode)).FullName;
 
-      return new string[] { resultFile1, resultFile2 };
+        WriteMap(scanCounts, keys, resultFile1, maps, true);
+
+        result.Add(resultFile1);
+
+        var resultFile2 = new FileInfo(string.Format("{0}/{1}.{2}.backward.ionfrequency",
+          options.TargetDirectory,
+          new FileInfo(fileName).Name,
+          mode)).FullName;
+
+        WriteMap(scanCounts, keys, resultFile2, compmaps, false);
+
+        result.Add(resultFile2);
+      }
+
+      return result;
     }
 
     private void WriteMap(Dictionary<int, int> scanCounts, List<int> keys, string filename, Dictionary<int, Dictionary<int, List<PeakEntry>>> curMaps, bool exportIndividualIon)
