@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -41,7 +41,7 @@ namespace RCPA.Proteomics.Summary.Uniform
     public string ApplicationTitle { get; set; }
 
     /// <summary>
-    /// ¶ÔÓÚ¶àÒıÇæËÑË÷½á¹û£¬±£ÁôÖÁÉÙ±»MultipleEngineAgreeCountÒıÇæÏàÍ¬¼ø¶¨µÄPSM¡£
+    /// å¯¹äºå¤šå¼•æ“æœç´¢ç»“æœï¼Œä¿ç•™è‡³å°‘è¢«MultipleEngineAgreeCountå¼•æ“ç›¸åŒé‰´å®šçš„PSMã€‚
     /// </summary>
     public int MinimumEngineAgreeCount { get; set; }
 
@@ -155,6 +155,18 @@ namespace RCPA.Proteomics.Summary.Uniform
     public IIdentifiedSpectrumBuilder GetSpectrumBuilder()
     {
       return FalseDiscoveryRate.GetSpectrumBuilder();
+    }
+
+    public IIdentifiedResultBuilder GetIdentifiedResultBuilder()
+    {
+      if (DatasetList.All(m => m.PathNames.All(l => l.ToLower().EndsWith("msf"))))
+      {
+        return new IdentifiedResultMsfBuilder((from ds in DatasetList
+                                               from file in ds.PathNames
+                                               select file).ToArray(), Database.GetAccessNumberParser());
+      }
+
+      return new IdentifiedResultBuilder(Database.GetAccessNumberParser(), Database.Location);
     }
 
     public IFileFormat<List<IIdentifiedSpectrum>> GetIdentifiedSpectrumFormat()

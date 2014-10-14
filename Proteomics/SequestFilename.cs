@@ -216,7 +216,7 @@ namespace RCPA.Proteomics
 
     private string GetLongFilename()
     {
-      if (!string.IsNullOrEmpty(this.extension))
+      if (string.IsNullOrEmpty(this.extension))
       {
         return MyConvert.Format("{0}.{1}.{2}.{3}", this.experimental, this.firstScan, this.lastScan, this.charge);
       }

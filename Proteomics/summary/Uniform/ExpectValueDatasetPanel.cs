@@ -23,7 +23,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     protected RcpaDoubleField minScore;
 
-    private AbstractExpectValueDatasetOptions ExpectValueOption { get { return Option as AbstractExpectValueDatasetOptions; } }
+    private AbstractExpectValueDatasetOptions ExpectValueOption { get { return Options as AbstractExpectValueDatasetOptions; } }
 
     public ExpectValueDatasetPanel()
     {
@@ -32,7 +32,7 @@ namespace RCPA.Proteomics.Summary.Uniform
       this.filterByScore = new RcpaCheckBox(this.cbFilterByScore, "FilterByScore", true);
       AddComponent(this.filterByScore);
 
-      this.minScore = new RcpaDoubleField(this.txtMinScore, "MinScore", "Min score", 25, true);
+      this.minScore = new RcpaDoubleField(this.txtMinScore, "MinScore", "Min score", 10, true);
       AddComponent(this.minScore);
 
       this.filterByExpectValue = new RcpaCheckBox(this.cbFilterByEvalue, "FilterByEvalue", false);
@@ -68,7 +68,7 @@ namespace RCPA.Proteomics.Summary.Uniform
       }
 
       datFiles.ClearItems();
-      datFiles.AddItems(Option.PathNames.ToArray());
+      datFiles.AddItems(Options.PathNames.ToArray());
     }
 
     public override void SaveToDataset()
@@ -87,7 +87,7 @@ namespace RCPA.Proteomics.Summary.Uniform
         ExpectValueOption.MaxExpectValue = this.maxExpectValue.Value;
       }
 
-      Option.PathNames = new List<string>(datFiles.GetAllItems());
+      Options.PathNames = new List<string>(datFiles.GetAllItems());
     }
 
     private void lvDatFiles_SizeChanged(object sender, EventArgs e)

@@ -18,16 +18,16 @@ namespace RCPA.Proteomics.PeptideProphet
 
       XElement root = XElement.Load(fileName);
 
-      var header = root.FindFirstChild("protein_summary_header");
-      var program = header.FindFirstChild("program_details");
-      var details = program.FindFirstChild("proteinprophet_details");
+      var header = root.FindFirstDescendant("protein_summary_header");
+      var program = header.FindFirstDescendant("program_details");
+      var details = program.FindFirstDescendant("proteinprophet_details");
 
       var filters = ParseFilters(details);
 
       IdentifiedResult result = new IdentifiedResult();
       result.SetProteinSummaryDataFilterList(filters);
 
-      var groupEles = root.FindChildren("protein_group");
+      var groupEles = root.FindDescendants("protein_group");
       foreach (var groupEle in groupEles)
       {
         IdentifiedProteinGroup group = new IdentifiedProteinGroup();
@@ -36,7 +36,7 @@ namespace RCPA.Proteomics.PeptideProphet
         group.Index = Convert.ToInt32(groupEle.Attribute("group_number").Value);
         group.Probability = MyConvert.ToDouble(groupEle.Attribute("probability").Value);
 
-        var proteinEles = groupEle.FindChildren("protein");
+        var proteinEles = groupEle.FindDescendants("protein");
         foreach (var proteinEle in proteinEles)
         {
           IdentifiedProtein protein = new IdentifiedProtein();
@@ -51,13 +51,13 @@ namespace RCPA.Proteomics.PeptideProphet
           }
           protein.PeptideCount = Convert.ToInt32(proteinEle.Attribute("total_number_peptides").Value);
 
-          var annEle = proteinEle.FindFirstChild("annotation");
+          var annEle = proteinEle.FindFirstDescendant("annotation");
           if (annEle != null)
           {
             protein.Description = annEle.Attribute("protein_description").Value;
           }
 
-          var peptideEles = proteinEle.FindChildren("peptide");
+          var peptideEles = proteinEle.FindDescendants("peptide");
           foreach (var peptideEle in peptideEles)
           {
             var spectrum = new IdentifiedSpectrum();
@@ -71,7 +71,7 @@ namespace RCPA.Proteomics.PeptideProphet
             spectrum.NumProteaseTermini = Convert.ToInt32(peptideEle.Attribute("n_enzymatic_termini").Value);
             spectrum.TheoreticalMass = MyConvert.ToDouble(peptideEle.Attribute("calc_neutral_pep_mass").Value);
 
-            var modEle = peptideEle.FindFirstChild("modification_info");
+            var modEle = peptideEle.FindFirstDescendant("modification_info");
             if (modEle != null)
             {
               var modaas = PeptideProphetUtils.ParseModificationAminoacidMass(modEle);
@@ -110,7 +110,7 @@ namespace RCPA.Proteomics.PeptideProphet
     {
       ProteinSummaryDataFilterList result = new ProteinSummaryDataFilterList();
 
-      var filters = details.FindChildren("protein_summary_data_filter");
+      var filters = details.FindDescendants("protein_summary_data_filter");
       foreach (var filter in filters)
       {
         ProteinSummaryDataFilterItem item = new ProteinSummaryDataFilterItem();

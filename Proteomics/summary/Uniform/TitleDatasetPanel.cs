@@ -17,7 +17,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     protected RcpaComboBox<ITitleParser> titleParsers;
 
-    private AbstractTitleDatasetOptions TitleOption { get { return Option as AbstractTitleDatasetOptions; } }
+    private AbstractTitleDatasetOptions TitleOption { get { return Options as AbstractTitleDatasetOptions; } }
 
     public TitleDatasetPanel()
     {

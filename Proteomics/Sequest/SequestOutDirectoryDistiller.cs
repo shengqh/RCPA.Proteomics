@@ -11,7 +11,7 @@ namespace RCPA.Proteomics.Sequest
 {
   public class SequestOutDirectoryDistiller : AbstractSequestSpectraDistiller
   {
-    public SequestOutDirectoryDistiller(ISequestOutParser parser, IFileFormat<List<IIdentifiedSpectrum>> peptideFormat)
+    public SequestOutDirectoryDistiller(ISpectrumParser parser, IFileFormat<List<IIdentifiedSpectrum>> peptideFormat)
       : base(parser, peptideFormat)
     { }
 
@@ -32,7 +32,7 @@ namespace RCPA.Proteomics.Sequest
         Progress.SetMessage(MyConvert.Format("{0}/{1} : Parsing directory {2}", stepCount, totalCount,
                                           dir));
 
-        result = parser.ParsePeptides(dir);
+        result = parser.ReadFromFile(dir);
 
         string sequestParamFile = dir + "\\sequest.params";
         if (File.Exists(sequestParamFile))

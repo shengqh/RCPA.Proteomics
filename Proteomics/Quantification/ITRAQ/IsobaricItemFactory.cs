@@ -102,13 +102,22 @@ namespace RCPA.Proteomics.Quantification.ITraq
       TagMass = new double[] { 305.2092 }
     };
 
+    //private static readonly IonDefinitionItem[] _TMTPlex6 = new IonDefinitionItem[]{
+    //  new IonDefinitionItem(IsobaricType.TMT6,126.127726),
+    //  new IonDefinitionItem(IsobaricType.TMT6,127.131081),
+    //  new IonDefinitionItem(IsobaricType.TMT6,128.134436),
+    //  new IonDefinitionItem(IsobaricType.TMT6,129.13779),
+    //  new IonDefinitionItem(IsobaricType.TMT6,130.141145),
+    //  new IonDefinitionItem(IsobaricType.TMT6,131.13818)
+    //};
+
     private static readonly IonDefinitionItem[] _TMTPlex6 = new IonDefinitionItem[]{
-      new IonDefinitionItem(IsobaricType.TMT6,126.127726),
-      new IonDefinitionItem(IsobaricType.TMT6,127.131081),
-      new IonDefinitionItem(IsobaricType.TMT6,128.134436),
-      new IonDefinitionItem(IsobaricType.TMT6,129.13779),
-      new IonDefinitionItem(IsobaricType.TMT6,130.141145),
-      new IonDefinitionItem(IsobaricType.TMT6,131.13818)
+      new IonDefinitionItem(IsobaricType.TMT6,126.127725),
+      new IonDefinitionItem(IsobaricType.TMT6,127.124760),
+      new IonDefinitionItem(IsobaricType.TMT6,128.134433),
+      new IonDefinitionItem(IsobaricType.TMT6,129.131468),
+      new IonDefinitionItem(IsobaricType.TMT6,130.141141),
+      new IonDefinitionItem(IsobaricType.TMT6,131.138176)
     };
 
     public static readonly IsobaricDefinition TMTPlex6 = new IsobaricDefinition(_TMTPlex6)

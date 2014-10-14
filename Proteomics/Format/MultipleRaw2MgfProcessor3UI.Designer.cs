@@ -74,7 +74,6 @@ namespace RCPA.Proteomics.Format
       this.txtRetentionTimeWindow = new System.Windows.Forms.TextBox();
       this.txtMaxShiftPPM = new System.Windows.Forms.TextBox();
       this.label7 = new System.Windows.Forms.Label();
-      this.siliconePolymers = new RCPA.Proteomics.SiliconePolymerIonField();
       this.rbMassCalibrationByFixed = new RCPA.Gui.RcpaRadioField();
       this.rbMassCalibrationByFile = new RCPA.Gui.RcpaRadioField();
       this.rbMassCalibrationAutomatically = new RCPA.Gui.RcpaRadioField();
@@ -91,6 +90,8 @@ namespace RCPA.Proteomics.Format
       this.cbRemoveIonsLargerThanPrecursor = new RCPA.Gui.RcpaCheckField();
       this.txtNeutralLossComposition = new System.Windows.Forms.TextBox();
       this.cbRemovePrecursor = new RCPA.Gui.RcpaCheckField();
+      this.rbRemoveReporters = new RCPA.Gui.RcpaCheckField();
+      this.siliconePolymers = new RCPA.Proteomics.SiliconePolymerIonField();
       this.pnlFile.SuspendLayout();
       this.tabControl1.SuspendLayout();
       this.tabPage1.SuspendLayout();
@@ -107,7 +108,7 @@ namespace RCPA.Proteomics.Format
       // 
       this.pnlFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
       this.pnlFile.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.pnlFile.Location = new System.Drawing.Point(0, 339);
+      this.pnlFile.Location = new System.Drawing.Point(0, 265);
       this.pnlFile.Size = new System.Drawing.Size(1083, 24);
       // 
       // txtOriginalFile
@@ -116,12 +117,12 @@ namespace RCPA.Proteomics.Format
       // 
       // lblProgress
       // 
-      this.lblProgress.Location = new System.Drawing.Point(0, 731);
+      this.lblProgress.Location = new System.Drawing.Point(0, 657);
       this.lblProgress.Size = new System.Drawing.Size(1083, 23);
       // 
       // progressBar
       // 
-      this.progressBar.Location = new System.Drawing.Point(0, 754);
+      this.progressBar.Location = new System.Drawing.Point(0, 680);
       this.progressBar.Size = new System.Drawing.Size(1083, 23);
       // 
       // btnClose
@@ -149,7 +150,7 @@ namespace RCPA.Proteomics.Format
       this.rawFiles.SelectedIndex = -1;
       this.rawFiles.SelectedItem = null;
       this.rawFiles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-      this.rawFiles.Size = new System.Drawing.Size(1083, 339);
+      this.rawFiles.Size = new System.Drawing.Size(1083, 265);
       this.rawFiles.TabIndex = 49;
       // 
       // tabControl1
@@ -157,7 +158,7 @@ namespace RCPA.Proteomics.Format
       this.tabControl1.Controls.Add(this.tabPage1);
       this.tabControl1.Controls.Add(this.tabPage2);
       this.tabControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.tabControl1.Location = new System.Drawing.Point(0, 363);
+      this.tabControl1.Location = new System.Drawing.Point(0, 289);
       this.tabControl1.Name = "tabControl1";
       this.tabControl1.SelectedIndex = 0;
       this.tabControl1.Size = new System.Drawing.Size(1083, 368);
@@ -427,6 +428,7 @@ namespace RCPA.Proteomics.Format
       // 
       // tabPage2
       // 
+      this.tabPage2.Controls.Add(this.rbRemoveReporters);
       this.tabPage2.Controls.Add(this.cbProteases);
       this.tabPage2.Controls.Add(this.cbRemoveIsobaricIonsInHighRange);
       this.tabPage2.Controls.Add(this.cbRemoveIsobaricIonsInLowRange);
@@ -623,15 +625,6 @@ namespace RCPA.Proteomics.Format
       this.label7.TabIndex = 114;
       this.label7.Text = "product ion (ppm)";
       // 
-      // siliconePolymers
-      // 
-      this.siliconePolymers.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-      this.siliconePolymers.Location = new System.Drawing.Point(186, 87);
-      this.siliconePolymers.Name = "siliconePolymers";
-      this.siliconePolymers.SelectedIon = "355,371,388,429,445,462,503,519,536,593";
-      this.siliconePolymers.Size = new System.Drawing.Size(703, 198);
-      this.siliconePolymers.TabIndex = 113;
-      // 
       // rbMassCalibrationByFixed
       // 
       this.rbMassCalibrationByFixed.AutoSize = true;
@@ -805,11 +798,31 @@ namespace RCPA.Proteomics.Format
       this.cbRemovePrecursor.TabIndex = 80;
       this.cbRemovePrecursor.Text = "Remove precursor and neutral loss";
       // 
+      // rbRemoveReporters
+      // 
+      this.rbRemoveReporters.Key = "rbRemoveLowMassRange";
+      this.rbRemoveReporters.Location = new System.Drawing.Point(238, 181);
+      this.rbRemoveReporters.Name = "rbRemoveReporters";
+      this.rbRemoveReporters.PreCondition = this.cbRemoveIsobaricIons;
+      this.rbRemoveReporters.Size = new System.Drawing.Size(334, 21);
+      this.rbRemoveReporters.TabIndex = 100;
+      this.rbRemoveReporters.Text = "Remove isobaric reporter and tag ions";
+      this.rbRemoveReporters.CheckedChanged += new System.EventHandler(this.cbxIsobaricTypes_SelectedIndexChanged);
+      // 
+      // siliconePolymers
+      // 
+      this.siliconePolymers.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.siliconePolymers.Location = new System.Drawing.Point(186, 87);
+      this.siliconePolymers.Name = "siliconePolymers";
+      this.siliconePolymers.SelectedIon = "355,371,388,429,445,462,503,519,536,593";
+      this.siliconePolymers.Size = new System.Drawing.Size(703, 198);
+      this.siliconePolymers.TabIndex = 113;
+      // 
       // MultipleRaw2MgfProcessor3UI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1083, 816);
+      this.ClientSize = new System.Drawing.Size(1083, 742);
       this.Controls.Add(this.rawFiles);
       this.Controls.Add(this.tabControl1);
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -904,5 +917,6 @@ namespace RCPA.Proteomics.Format
     private System.Windows.Forms.TextBox txtPredursorShift;
     private Gui.RcpaCheckField cbByMsLevel;
     private System.Windows.Forms.ComboBox cbProteases;
+    private Gui.RcpaCheckField rbRemoveReporters;
   }
 }

@@ -266,7 +266,7 @@ namespace RCPA.Proteomics.Summary
     public void CalculateCoverage()
     {
       Coverage = 0.0;
-      if (Sequence == null || Sequence.Length == 0)
+      if (string.IsNullOrEmpty(Sequence))
       {
         return;
       }
@@ -280,18 +280,19 @@ namespace RCPA.Proteomics.Summary
       HashSet<string> seqs = new HashSet<string>();
       foreach (IIdentifiedPeptide pep in this.peptides)
       {
-        seqs.Add(pep.PureSequence);
+        seqs.Add(pep.PureSequence.Replace("I","L"));
       }
 
+      var seq = Sequence.Replace("I", "L");
       foreach (string pureSeq in seqs)
       {
-        int ipos = Sequence.IndexOf(pureSeq);
+        int ipos = seq.IndexOf(pureSeq);
 
         if (ipos == -1)
         {
           foreach (IIdentifiedPeptide pep in this.peptides)
           {
-            if (pep.PureSequence.Equals(pureSeq))
+            if (pep.PureSequence.Replace("I", "L").Equals(pureSeq))
             {
               throw new Exception(MyConvert.Format("Cannot find peptide in protein {0} : {1}", this.Name, new SequestPeptideTextFormat().PeptideFormat.GetString(pep.Spectrum)));
             }

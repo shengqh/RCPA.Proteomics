@@ -253,7 +253,7 @@
       this.btnXml.Name = "btnXml";
       this.btnXml.Size = new System.Drawing.Size(125, 25);
       this.btnXml.TabIndex = 27;
-      this.btnXml.Text = "Add Xml Files";
+      this.btnXml.Text = "Add Xml/MSF Files";
       this.btnXml.UseVisualStyleBackColor = true;
       // 
       // btnAddZips

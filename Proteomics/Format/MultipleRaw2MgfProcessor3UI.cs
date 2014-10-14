@@ -25,7 +25,7 @@ namespace RCPA.Proteomics.Format
   {
     private static readonly string title = "TurboRawToMGF - " + RawFileFactory.SupportedRawFormatString + " To Mascot Generic Format Converter";
 
-    private static readonly string version = "2.0.1";
+    private static readonly string version = "2.0.2";
 
     private RcpaComboBox<MascotTitle> titleFormat;
     private RcpaDoubleField minMassRange;
@@ -316,6 +316,7 @@ namespace RCPA.Proteomics.Format
       result.ProteaseName = proteases.SelectedItem.ToString();
       result.RemoveIsobaricIonsInLowRange = cbRemoveIsobaricIonsInLowRange.Checked;
       result.RemoveIsobaricIonsInHighRange = cbRemoveIsobaricIonsInHighRange.Checked;
+      result.RemoveIsobaricIonsReporters = rbRemoveReporters.Checked;
       if (rbMassCalibrationNone.Checked || (!rbMassCalibration.Checked))
       {
         result.CalibrationType = MassCalibrationType.mctNone;

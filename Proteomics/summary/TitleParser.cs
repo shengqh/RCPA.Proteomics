@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using RCPA.Parser;
 using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.Mascot;
+using System.IO;
 
 namespace RCPA.Proteomics.Summary
 {

@@ -10,18 +10,13 @@ using RCPA.Seq;
 using RCPA.Utils;
 using System.IO;
 using System.Xml.Linq;
+using RCPA.Proteomics.Mascot;
 
 namespace RCPA.Proteomics.XTandem
 {
-  public class XTandemSpectrumXmlParser : ProgressClass
+  public class XTandemSpectrumXmlParser : ProgressClass, ISpectrumParser
   {
-    private ITitleParser parser;
-
-    private IAccessNumberParser acParser;
-
     private XmlHelper xmlHelper = null;
-
-    public const string MODIFICATION_CHAR = " *#@&^%$~1234567890";
 
     private Protease protease;
 
@@ -35,24 +30,17 @@ namespace RCPA.Proteomics.XTandem
 
     public int MaxMissCleavageSites = 0;
 
-    public XTandemSpectrumXmlParser(ITitleParser parser, IAccessNumberParser acParser)
+    public XTandemSpectrumXmlParser(ITitleParser parser)
     {
       if (parser == null)
       {
         throw new ArgumentNullException("parser");
       }
 
-      if (acParser == null)
-      {
-        throw new ArgumentNullException("acParser");
-      }
-
-      this.parser = parser;
-      this.acParser = acParser;
+      this.TitleParser = parser;
     }
 
-    public XTandemSpectrumXmlParser(IAccessNumberParser acParser)
-      : this(new DefaultTitleParser(), acParser) { }
+    public XTandemSpectrumXmlParser() : this(new DefaultTitleParser()) { }
 
     class ModificationItem : IComparable<ModificationItem>
     {
@@ -95,16 +83,16 @@ namespace RCPA.Proteomics.XTandem
     /// Get top one peptide list from xtandem xml file
     /// 
     /// </summary>
-    /// <param name="xmlFilename">xtandem xml filename</param>
+    /// <param name="fileName">xtandem xml filename</param>
     /// <returns>List of IIdentifiedSpectrum</returns>
-    public List<IIdentifiedSpectrum> ParsePeptides(string xmlFilename)
+    public List<IIdentifiedSpectrum> ReadFromFile(string fileName)
     {
-      string sourceFilename = GetSourceFile(xmlFilename);
+      string sourceFilename = GetSourceFile(fileName);
 
       List<IIdentifiedSpectrum> result = new List<IIdentifiedSpectrum>();
 
       XmlDocument doc = new XmlDocument();
-      doc.Load(xmlFilename);
+      doc.Load(fileName);
 
       this.xmlHelper = new XmlHelper(doc);
 
@@ -244,7 +232,8 @@ namespace RCPA.Proteomics.XTandem
             spectrum.NumMissedCleavages = int.Parse(domainNode.Attributes["missed_cleavages"].Value);
           }
 
-          string proteinName = acParser.GetValue(xmlHelper.GetValidChild(proteinNode, "note").InnerText);
+          var noteNode = xmlHelper.GetValidChild(proteinNode, "note");
+          string proteinName = noteNode.InnerText.StringBefore(" ").StringBefore("\t");
           pepmap[pepSeq].AddProtein(proteinName);
         }
 
@@ -262,12 +251,12 @@ namespace RCPA.Proteomics.XTandem
           string title = labelNode.InnerText.Trim();
           if (title.StartsWith("RTINSECONDS"))
           {
-            var rtvalue = title.StringAfter("=").StringBefore("-");
+            var rtvalue = title.StringAfter("=").StringBefore(" ").StringBefore("-");
             spectrum.Query.RetentionTime = double.Parse(rtvalue);
             title = title.StringAfter(" ").Trim();
           }
 
-          SequestFilename sf = this.parser.GetValue(title);
+          SequestFilename sf = this.TitleParser.GetValue(title);
           if (sf.Experimental == null || sf.Experimental.Length == 0)
           {
             sf.Experimental = sourceFilename;
@@ -289,7 +278,7 @@ namespace RCPA.Proteomics.XTandem
 
     private void AddDynamicModificationChar(string key)
     {
-      var curChar = MODIFICATION_CHAR[dynamicModificationChars.Count + 1];
+      var curChar = ModificationConsts.MODIFICATION_CHAR[dynamicModificationChars.Count + 1];
       dynamicModificationChars[key] = curChar;
     }
 
@@ -338,7 +327,7 @@ namespace RCPA.Proteomics.XTandem
     private void ParseModifications(XmlNode parameters, string attrValue, Dictionary<char, double> map)
     {
       XmlNode node = xmlHelper.GetFirstChildByNameAndAttribute(parameters, "note", "label", attrValue);
-      
+
       if (node == null)
       {
         return;
@@ -358,7 +347,7 @@ namespace RCPA.Proteomics.XTandem
       {
         int count = 0;
         string line;
-        Regex reg = new Regex ("Models from '(.+)'", RegexOptions.IgnoreCase );
+        Regex reg = new Regex("Models from '(.+)'", RegexOptions.IgnoreCase);
         while ((line = sr.ReadLine()) != null && count < 10)
         {
           Match m = reg.Match(line);
@@ -371,19 +360,13 @@ namespace RCPA.Proteomics.XTandem
 
         return null;
       }
-
-      //XmlDocument doc = new XmlDocument();
-      //doc.Load(xmlFilename);
-
-      //XmlNode root = doc.DocumentElement;
-      //return GetSourceFilename(root);
     }
 
-    //private static string GetSourceFilename(XmlNode root)
-    //{
-    //  string label = root.Attributes["label"].Value;
-    //  Match m = Regex.Match(label, "Models from '(.+)'", RegexOptions.IgnoreCase);
-    //  return m.Groups[1].Value;
-    //}
+    public SearchEngineType Engine
+    {
+      get { return SearchEngineType.XTandem; }
+    }
+
+    public ITitleParser TitleParser { get; set; }
   }
 }

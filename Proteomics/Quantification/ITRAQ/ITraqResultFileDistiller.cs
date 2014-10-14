@@ -109,11 +109,11 @@ namespace RCPA.Proteomics.Quantification.ITraq
 
         using (StreamWriter sw = new StreamWriter(paramFileName))
         {
-          sw.WriteLine("Ion\tMean\tSigma");
+          sw.WriteLine("Ion\tDetectedIon\tDeltaMass\tDeltaPPM\tDetectedSigma");
           var ions = builder.Definition.Items;
           for (int i = 0; i < ions.Length; i++)
           {
-            sw.WriteLine("{0:0.0}\t{1:0.0000}\t{2:0.0000}", ions[i].Index, accs[i].Mean, accs[i].StdDev);
+            sw.WriteLine("{0:0.00000}\t{1:0.00000}\t{2:0.00000}\t{3:0.00}\t{4:0.00000}", ions[i].Mass, ions[i].Mass + accs[i].Mean, accs[i].Mean, PrecursorUtils.mz2ppm(ions[i].Mass, accs[i].Mean), accs[i].StdDev);
           }
         }
       }

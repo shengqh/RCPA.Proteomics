@@ -1,11 +1,12 @@
-﻿using System;
+﻿using RCPA.Proteomics.Mascot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
-  public class MascotDatasetFactory : IDatasetFactory
+  public class MascotDatasetFactory1 : IDatasetFactory
   {
     #region IDatasetFactory Members
 

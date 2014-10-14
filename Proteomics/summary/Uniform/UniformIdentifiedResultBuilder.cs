@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using RCPA.Proteomics.Utils;
@@ -80,9 +80,6 @@ namespace RCPA.Proteomics.Summary.Uniform
         Progress = this.Progress
       };
 
-      var resultBuilder = new IdentifiedResultBuilder(acParser, conf.Database.Location);
-      resultBuilder.Progress = Progress;
-
       List<IIdentifiedSpectrum> finalPeptides;
 
       if (this.peptideFile == null)
@@ -104,17 +101,18 @@ namespace RCPA.Proteomics.Summary.Uniform
 
       CalculateIsoelectricPoint(finalPeptides);
 
-      //Èç¹ûĞèÒªÍ¨¹ıµ°°×ÖÊ×¢ÊÍÈ¥³ıcontamination£¬Ê×ÏÈĞèÒªÔÚëÄ¶ÎË®Æ½É¾³ı
+      //å¦‚æœéœ€è¦é€šè¿‡è›‹ç™½è´¨æ³¨é‡Šå»é™¤contaminationï¼Œé¦–å…ˆéœ€è¦åœ¨è‚½æ®µæ°´å¹³åˆ é™¤
       if (conf.Database.HasContaminationDescriptionFilter() && (conf.FalseDiscoveryRate.FdrLevel != FalseDiscoveryRateLevel.Protein))
       {
         Progress.SetMessage("Removing contamination by description ...");
         var notConGroupFilter = conf.Database.GetNotContaminationDescriptionFilter(Progress);
 
+        var tempResultBuilder = new IdentifiedResultBuilder(null, null);
         while (true)
         {
           List<IIdentifiedProtein> proteins = proteinBuilder.Build(finalPeptides);
           List<IIdentifiedProteinGroup> groups = groupBuilder.Build(proteins);
-          IIdentifiedResult tmpResult = resultBuilder.Build(groups);
+          IIdentifiedResult tmpResult = tempResultBuilder.Build(groups);
 
           HashSet<IIdentifiedSpectrum> notConSpectra = new HashSet<IIdentifiedSpectrum>();
           foreach (var group in tmpResult)
@@ -149,7 +147,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
         finalPeptides.Sort();
 
-        //±£´æëÄ¶ÎÎÄ¼ş
+        //ä¿å­˜è‚½æ®µæ–‡ä»¶
         IFileFormat<List<IIdentifiedSpectrum>> peptideFormat = conf.GetIdentifiedSpectrumFormat();
         string peptideFile = FileUtils.ChangeExtension(parameterFile, ".peptides");
         Progress.SetMessage("Writing peptides file...");
@@ -167,14 +165,16 @@ namespace RCPA.Proteomics.Summary.Uniform
       }
 
       Progress.SetMessage("Building protein...");
-      //¹¹½¨µ°°×ÖÊÁĞ±í
+      //æ„å»ºè›‹ç™½è´¨åˆ—è¡¨
       List<IIdentifiedProtein> finalProteins = proteinBuilder.Build(finalPeptides);
 
       Progress.SetMessage("Building protein group...");
-      //¹¹½¨µ°°×ÖÊÈºÁĞ±í
+      //æ„å»ºè›‹ç™½è´¨ç¾¤åˆ—è¡¨
       List<IIdentifiedProteinGroup> finalGroups = groupBuilder.Build(finalProteins);
 
-      //¹¹½¨×îÖÕ¼ø¶¨½á¹û
+      //æ„å»ºæœ€ç»ˆé‰´å®šç»“æœ
+      var resultBuilder = conf.GetIdentifiedResultBuilder();
+      resultBuilder.Progress = Progress;
       IIdentifiedResult finalResult = resultBuilder.Build(finalGroups);
 
       if (conf.Database.HasContaminationDescriptionFilter())
@@ -194,7 +194,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
       CalculateIsoelectricPoint(finalResult.GetProteins());
 
-      //±£´æ·ÇÈßÓàµ°°×ÖÊÁĞ±íÎÄ¼ş
+      //ä¿å­˜éå†—ä½™è›‹ç™½è´¨åˆ—è¡¨æ–‡ä»¶
       IFileFormat<IIdentifiedResult> resultFormat = conf.GetIdetifiedResultFormat();
 
       if (resultFormat is ProgressClass)

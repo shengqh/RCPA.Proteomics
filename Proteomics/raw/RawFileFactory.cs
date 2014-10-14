@@ -11,7 +11,7 @@ namespace RCPA.Proteomics.Raw
 {
   public class RawFileFactory
   {
-    public static readonly string SupportedRawFormatString = "Raw/mzData/mzXml/Wiff";
+    public static readonly string SupportedRawFormatString = "Raw/mzData/mzXml";
 
     public static string[] GetSupportedRawFormats()
     {

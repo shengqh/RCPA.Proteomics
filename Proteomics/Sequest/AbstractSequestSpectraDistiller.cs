@@ -11,11 +11,11 @@ namespace RCPA.Proteomics.Sequest
 {
   public abstract class AbstractSequestSpectraDistiller : ProgressClass
   {
-    protected ISequestOutParser parser;
+    protected ISpectrumParser parser;
 
     protected IFileFormat<List<IIdentifiedSpectrum>> peptideFormat;
 
-    public AbstractSequestSpectraDistiller(ISequestOutParser parser, IFileFormat<List<IIdentifiedSpectrum>> peptideFormat)
+    public AbstractSequestSpectraDistiller(ISpectrumParser parser, IFileFormat<List<IIdentifiedSpectrum>> peptideFormat)
     {
       this.parser = parser;
       this.peptideFormat = peptideFormat;
@@ -25,7 +25,6 @@ namespace RCPA.Proteomics.Sequest
     {
       return new DtaOutFilenameConverter(outsFile).PureName + modStr + ".peptides";
     }
-
 
     protected bool MatchedIntensityExist(string peptideFilename)
     {

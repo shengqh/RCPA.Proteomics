@@ -25,6 +25,10 @@ namespace RCPA.Proteomics.Statistic
 
     public string InputFile { get; set; }
 
+    public double MinFrequency { get; set; }
+
+    public double MinMedianRelativeIntensity { get; set; }
+
     public string GetRCommand()
     {
       var result = ExternalProgramConfig.GetExternalProgram("R");
@@ -92,7 +96,5 @@ namespace RCPA.Proteomics.Statistic
 
       return result;
     }
-
-    public double MinFrequency { get; set; }
   }
 }

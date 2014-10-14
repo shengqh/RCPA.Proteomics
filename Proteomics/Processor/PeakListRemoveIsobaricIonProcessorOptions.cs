@@ -18,6 +18,8 @@ namespace RCPA.Proteomics.Processor
 
     public bool RemoveHighRange { get; set; }
 
+    public bool RemoveReporters { get; set; }
+
     public bool RemovePrecusor { get; set; }
 
     private Aminoacids aas = new Aminoacids();
@@ -34,21 +36,23 @@ namespace RCPA.Proteomics.Processor
     {
       FixIonRanges = new List<Pair<double, double>>();
 
-      var ions = (from item in IsoType.Channels
-                  select item.Mz).Union(IsoType.TagMass).OrderBy(m => m).ToList();
+      var reporters = (from item in IsoType.Channels
+                       select item.Mz).OrderBy(m => m).ToList();
+      var reporterRange = new Pair<double, double>(reporters.First() - MzTolerance, reporters.Last() + MzTolerance);
+      var tagRanges = (from tag in IsoType.TagMass
+                       select new Pair<double, double>(tag - MzTolerance, tag + MzTolerance)).ToList();
 
       Protease.InitializeByTag(IsoType.TagMass[0]);
 
       if (RemoveLowerRange)
       {
-        var minIon = Protease.GetLowestBYFreeWindow() - MzTolerance;
-        ions.RemoveAll(m => m < minIon);
         FixIonRanges.Add(new Pair<double, double>(0.0, Protease.GetLowestBYFreeWindow() - MzTolerance));
+      }
 
-        foreach (var ion in ions)
-        {
-          FixIonRanges.Add(new Pair<double, double>(ion - MzTolerance, ion + MzTolerance));
-        }
+      if (RemoveLowerRange || RemoveReporters)
+      {
+        FixIonRanges.Add(reporterRange);
+        FixIonRanges.AddRange(tagRanges);
       }
 
       if (RemoveHighRange)
@@ -57,6 +61,22 @@ namespace RCPA.Proteomics.Processor
         {
           RemovePrecursorMinusLabel = true;
           LabelMass = IsoType.TagMass[0];
+        }
+      }
+
+      if (FixIonRanges.Count > 0)
+      {
+        FixIonRanges.Sort((m1, m2) => m1.First.CompareTo(m2.First));
+        for (int i = FixIonRanges.Count - 1; i >= 0; i--)
+        {
+          for (int j = i - 1; j >= 0; j--)
+          {
+            if (FixIonRanges[j].Second >= FixIonRanges[i].Second)
+            {
+              FixIonRanges.RemoveAt(i);
+              break;
+            }
+          }
         }
       }
 

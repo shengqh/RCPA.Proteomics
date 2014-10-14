@@ -70,6 +70,10 @@ namespace RCPA.Proteomics.Format
             {
               charges = new[] { pkl.PrecursorCharge };
             }
+            else if (IsWiff(pkl))
+            {
+              charges = new[] { 1 };
+            }
             else
             {
               charges = new[] { 2, 3 };
@@ -92,6 +96,16 @@ namespace RCPA.Proteomics.Format
         }
       }
       return new[] { this.targetFile };
+    }
+
+    private bool IsWiff(PeakList<Peak> pkl)
+    {
+      if (pkl.Annotations.ContainsKey(MascotGenericFormatConstants.TITLE_TAG))
+      {
+        var title = (String)pkl.Annotations[MascotGenericFormatConstants.TITLE_TAG];
+        return title.ToLower().Contains(".wiff");
+      }
+      return false;
     }
 
     public SequestFilename GetFilename(PeakList<Peak> pkl, String mgfName)

@@ -169,7 +169,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     public void CalculateToleranceScore()
     {
-      var scoreFunc = this.Options.GetBuilder().GetScoreFunctions();
+      var scoreFunc = this.Options.SearchEngine.GetFactory().GetScoreFunctions();
       OptimalResults.ForEach(m => m.CalculateToleranceScore(scoreFunc));
     }
 

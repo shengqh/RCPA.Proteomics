@@ -38,7 +38,7 @@ namespace RCPA.Proteomics.Summary.Uniform
       if (Options.FilterByPrecursor && Options.FilterByPrecursorDynamicTolerance)
       {
         Progress.SetMessage(MyConvert.Format("Filtering by precursor mass tolerance ...", result.Count));
-        List<IIdentifiedSpectrum> highconfidents = GetHighConfidentPeptides(result);
+        List<IIdentifiedSpectrum> highconfidents = options.SearchEngine.GetFactory().GetHighConfidentPeptides(result);
         DynamicPrecursorPPMFilter filter = new DynamicPrecursorPPMFilter(Options.PrecursorPPMTolerance, Options.FilterByPrecursorIsotopic);
         var sFilter = filter.GetFilter(highconfidents);
         result.RemoveAll(m => !sFilter.Accept(m));
@@ -67,16 +67,9 @@ namespace RCPA.Proteomics.Summary.Uniform
       Progress.SetMessage("Parsing protein access number finished.");
     }
 
-    /// <summary>
-    /// Get high confident spectra for dynamic precursor tolerance.
-    /// </summary>
-    /// <param name="source"></param>
-    /// <returns></returns>
-    protected abstract List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source);
-
     public virtual void InitializeQValue(List<IIdentifiedSpectrum> spectra)
     {
-      IScoreFunctions scoreFunctions = GetScoreFunctions();
+      IScoreFunctions scoreFunctions = Options.SearchEngine.GetFactory().GetScoreFunctions();
 
       CalculateQValueFunc qValueFunc = Options.Parent.FalseDiscoveryRate.GetQValueFunction();
 
@@ -86,8 +79,6 @@ namespace RCPA.Proteomics.Summary.Uniform
     }
 
     protected abstract List<IIdentifiedSpectrum> DoParse();
-
-    public abstract IScoreFunctions GetScoreFunctions();
 
     #endregion
   }

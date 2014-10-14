@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
@@ -11,15 +11,12 @@ using System.Globalization;
 
 namespace RCPA.Proteomics.Mascot
 {
-  public class MascotDatSpectrumParser : ProgressClass
+  public class MascotDatSpectrumParser : ProgressClass, ISpectrumParser
   {
     private string delimiter = "--gc0p4Jq0M2Yt08jU534c0p";
-    public const string MODIFICATION_CHAR = " *#@&^%$~1234567890";
     private readonly Regex keyValueRegex = new Regex(@"^(.+?)=(.*)");
 
     private Regex queryIdRegex = new Regex(@"qmass(\d+)=(.+)");
-
-    protected ITitleParser parser;
 
     private readonly Regex peptideRegex =
       new Regex(
@@ -33,13 +30,10 @@ namespace RCPA.Proteomics.Mascot
 
     public MascotDatSpectrumParser(ITitleParser parser)
     {
-      this.parser = parser;
+      this.TitleParser = parser;
     }
 
-    public MascotDatSpectrumParser()
-    {
-      this.parser = new DefaultTitleParser();
-    }
+    public MascotDatSpectrumParser() : this(new DefaultTitleParser()) { }
 
     protected Dictionary<string, string> ParseSection(StreamReader sr, string sectionName)
     {
@@ -256,15 +250,9 @@ namespace RCPA.Proteomics.Mascot
       {
         if (modification[j] != '0')
         {
-          seq = seq.Insert(j, MODIFICATION_CHAR.Substring(int.Parse(modification.Substring(j, 1)), 1));
+          seq = seq.Insert(j, ModificationConsts.MODIFICATION_CHAR.Substring(int.Parse(modification.Substring(j, 1)), 1));
         }
       }
-
-      //Êä³öNÄ©¶ËÐÞÊÎëÄ¶Î
-      //if (modification[0] != '0' || modification[modification.Length - 1] != '0')
-      //{
-      //  Console.WriteLine(seq);
-      //}
 
       return seq;
     }
@@ -308,11 +296,11 @@ namespace RCPA.Proteomics.Mascot
     /// Get top one peptide list from mascot dat file
     /// 
     /// </summary>
-    /// <param name="datFilename">Mascot dat filename</param>
+    /// <param name="fileName">Mascot dat filename</param>
     /// <returns>List of MascotPeptideHit</returns>
-    public List<IIdentifiedSpectrum> ParsePeptides(string datFilename)
+    public List<IIdentifiedSpectrum> ReadFromFile(string fileName)
     {
-      Dictionary<int, List<IIdentifiedSpectrum>> queryPepMap = ParsePeptides(datFilename, 1);
+      Dictionary<int, List<IIdentifiedSpectrum>> queryPepMap = ParsePeptides(fileName, 1);
 
       var result = new List<IIdentifiedSpectrum>();
 
@@ -481,7 +469,7 @@ namespace RCPA.Proteomics.Mascot
 
               mphit.Rank = rank;
               mphit.NumMissedCleavages = int.Parse(mDetail.Groups["MissCleavage"].Value);
-              mphit.TheoreticalMass = MyConvert.ToDouble(mDetail.Groups["TheoreticalMass"].Value);  
+              mphit.TheoreticalMass = MyConvert.ToDouble(mDetail.Groups["TheoreticalMass"].Value);
               mphit.ExperimentalMass = queryItem.ExperimentalMass;
               mphit.Score = score;
               mphit.ExpectValue = ExpectValueCalculator.Calc(mphit.Score, queryItem.MatchCount, 0.05);
@@ -571,7 +559,7 @@ namespace RCPA.Proteomics.Mascot
           Dictionary<string, string> querySection = ParseSection(sr, query);
           string title = Uri.UnescapeDataString(querySection["title"]);
 
-          SequestFilename sf = this.parser.GetValue(title);
+          SequestFilename sf = this.TitleParser.GetValue(title);
           sf.Charge = queryItem.Charge;
 
           if (sf.Experimental == null || sf.Experimental.Length == 0)
@@ -609,5 +597,12 @@ namespace RCPA.Proteomics.Mascot
         break;
       }
     }
+
+    public SearchEngineType Engine
+    {
+      get { return SearchEngineType.MASCOT; }
+    }
+
+    public ITitleParser TitleParser { get; set; }
   }
 }

@@ -41,20 +41,12 @@
       this.splitContainer3.SuspendLayout();
       this.SuspendLayout();
       // 
-      // splitContainer1
-      // 
-      // 
       // splitContainer2
       // 
       // 
       // splitContainer2.Panel2
       // 
       this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
-      this.splitContainer2.Size = new System.Drawing.Size(1016, 392);
-      // 
-      // groupBox1
-      // 
-      this.groupBox1.Size = new System.Drawing.Size(1016, 95);
       // 
       // splitContainer3
       // 
@@ -69,14 +61,14 @@
       this.splitContainer3.Panel2.Controls.Add(this.btnFind);
       this.splitContainer3.Panel2.Controls.Add(this.label7);
       this.splitContainer3.Panel2.Controls.Add(this.cbTitleFormat);
-      this.splitContainer3.Size = new System.Drawing.Size(1016, 293);
-      this.splitContainer3.SplitterDistance = 263;
+      this.splitContainer3.Size = new System.Drawing.Size(1016, 295);
+      this.splitContainer3.SplitterDistance = 260;
       this.splitContainer3.TabIndex = 27;
       // 
       // btnFind
       // 
-      this.btnFind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnFind.Location = new System.Drawing.Point(888, 0);
+      this.btnFind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+      this.btnFind.Location = new System.Drawing.Point(888, 2);
       this.btnFind.Name = "btnFind";
       this.btnFind.Size = new System.Drawing.Size(125, 25);
       this.btnFind.TabIndex = 29;
@@ -88,7 +80,7 @@
       // 
       this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.label7.AutoSize = true;
-      this.label7.Location = new System.Drawing.Point(8, 3);
+      this.label7.Location = new System.Drawing.Point(8, 8);
       this.label7.Name = "label7";
       this.label7.Size = new System.Drawing.Size(65, 13);
       this.label7.TabIndex = 28;
@@ -100,9 +92,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.cbTitleFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.cbTitleFormat.FormattingEnabled = true;
-      this.cbTitleFormat.Location = new System.Drawing.Point(106, 3);
+      this.cbTitleFormat.Location = new System.Drawing.Point(79, 5);
       this.cbTitleFormat.Name = "cbTitleFormat";
-      this.cbTitleFormat.Size = new System.Drawing.Size(776, 21);
+      this.cbTitleFormat.Size = new System.Drawing.Size(803, 21);
       this.cbTitleFormat.TabIndex = 27;
       // 
       // TitleDatasetPanel

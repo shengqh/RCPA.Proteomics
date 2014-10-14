@@ -9,6 +9,20 @@ namespace RCPA.Proteomics.Summary.Uniform
 {
   public class ClassificationOptions : IXml
   {
+    private static bool DEFAULT_ClassifyByCharge = true;
+    private static bool DEFAULT_ClassifyByMissCleavage = true;
+    private static bool DEFAULT_ClassifyByNumProteaseTermini = true;
+    private static bool DEFAULT_ClassifyByModification = false;
+
+    public ClassificationOptions()
+    {
+      this.ClassifyByCharge = DEFAULT_ClassifyByCharge;
+      this.ClassifyByMissCleavage = DEFAULT_ClassifyByMissCleavage;
+      this.ClassifyByNumProteaseTermini = DEFAULT_ClassifyByNumProteaseTermini;
+      this.ClassifyByModification = DEFAULT_ClassifyByModification;
+      this.ModifiedAminoacids = string.Empty;
+    }
+
     public bool ClassifyByCharge { get; set; }
 
     public bool ClassifyByMissCleavage { get; set; }
@@ -99,7 +113,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
         int missCleavage = missCleavageCalc(mph);
 
-        int modificationCount = modificationCalc.Calculate(mph.Sequence);
+        int modificationCount = modificationCalc.Calculate(mph.GetMatchSequence());
 
         int nptCount = nptCalc(mph);
 
@@ -138,10 +152,10 @@ namespace RCPA.Proteomics.Summary.Uniform
     {
       XElement xml = parentNode.Element("Classifications");
 
-      this.ClassifyByCharge = xml.GetChildValue("ClassifyByCharge",true);
-      this.ClassifyByMissCleavage = xml.GetChildValue("ClassifyByMissCleavage", true);
-      this.ClassifyByModification = xml.GetChildValue("ClassifyByModification", true);
-      this.ClassifyByNumProteaseTermini = xml.GetChildValue("ClassifyByNumProteaseTermini", true);
+      this.ClassifyByCharge = xml.GetChildValue("ClassifyByCharge", DEFAULT_ClassifyByCharge);
+      this.ClassifyByMissCleavage = xml.GetChildValue("ClassifyByMissCleavage", DEFAULT_ClassifyByMissCleavage);
+      this.ClassifyByNumProteaseTermini = xml.GetChildValue("ClassifyByNumProteaseTermini", DEFAULT_ClassifyByNumProteaseTermini);
+      this.ClassifyByModification = xml.GetChildValue("ClassifyByModification", DEFAULT_ClassifyByModification);
       this.ModifiedAminoacids = xml.Element("ModifiedAminoacid").Value;
     }
 

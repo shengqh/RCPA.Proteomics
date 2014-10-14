@@ -97,6 +97,8 @@ namespace RCPA.Proteomics.Format
 
     public string ProteaseName { get; set; }
 
+    public bool RemoveIsobaricIonsReporters { get; set; }
+
     public bool RemoveIsobaricIonsInLowRange { get; set; }
 
     public bool RemoveIsobaricIonsInHighRange { get; set; }
@@ -210,6 +212,7 @@ namespace RCPA.Proteomics.Format
       options.Protease = IsobaricLabellingProteaseFactory.GetProtease(ProteaseName);
       options.RemoveLowerRange = RemoveIsobaricIonsInLowRange;
       options.RemoveHighRange = RemoveIsobaricIonsInHighRange;
+      options.RemoveReporters = RemoveIsobaricIonsReporters;
       var processor = new PeakListRemoveIsobaricIonProcessor<Peak>(options);
       return processor;
     }

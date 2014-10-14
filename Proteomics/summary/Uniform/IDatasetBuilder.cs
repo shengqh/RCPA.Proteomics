@@ -25,11 +25,5 @@ namespace RCPA.Proteomics.Summary.Uniform
     /// </summary>
     /// <param name="spectra"></param>
     void InitializeQValue(List<IIdentifiedSpectrum> spectra);
-
-    /// <summary>
-    /// 取得计算fdr所用的score
-    /// </summary>
-    /// <returns></returns>
-    IScoreFunctions GetScoreFunctions();
   }
 }

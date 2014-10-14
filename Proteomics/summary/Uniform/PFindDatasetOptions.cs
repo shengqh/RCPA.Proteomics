@@ -11,9 +11,9 @@ namespace RCPA.Proteomics.Summary.Uniform
 {
   public class PFindDatasetOptions : AbstractExpectValueDatasetOptions
   {
-    public override SearchEngineType SearchEngine
+    public PFindDatasetOptions()
     {
-      get { return SearchEngineType.PFIND; }
+      this.SearchEngine = SearchEngineType.PFind;
     }
 
     public override IDatasetBuilder GetBuilder()
@@ -25,7 +25,7 @@ namespace RCPA.Proteomics.Summary.Uniform
     {
       var result = new PFindDatasetPanel();
 
-      result.Option = this;
+      result.Options = this;
 
       return result;
     }

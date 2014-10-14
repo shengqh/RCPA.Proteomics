@@ -27,12 +27,12 @@ namespace RCPA.Proteomics.Summary.Uniform
       if (engineNode != null)
       {
         var engine = engineNode.Value;
-        SearchEngineType set = EnumUtils.StringToEnum(engine, SearchEngineType.NOTFOUND);
+        SearchEngineType set = EnumUtils.StringToEnum(engine, SearchEngineType.NotFound);
 
         AbstractSummaryConfiguration conf;
         switch (set)
         {
-          case SearchEngineType.NOTFOUND:
+          case SearchEngineType.NotFound:
             throw new ArgumentException("Unknown search engine " + engine);
           case SearchEngineType.MASCOT:
             conf = new MascotDatSummaryConfiguration("");
@@ -40,10 +40,10 @@ namespace RCPA.Proteomics.Summary.Uniform
           case SearchEngineType.SEQUEST:
             conf = new SequestSummaryConfiguration("");
             break;
-          case SearchEngineType.XTANDEM:
+          case SearchEngineType.XTandem:
             conf = new XTandemXmlSummaryConfiguration("");
             break;
-          case SearchEngineType.PFIND:
+          case SearchEngineType.PFind:
             conf = new PFindSummaryConfiguration("");
             break;
           //case SearchEngineType.PEPTIDEPHOPHET:

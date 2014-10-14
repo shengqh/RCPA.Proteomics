@@ -36,11 +36,11 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     private readonly RcpaDoubleField maxEvalue;
 
-    public SequestDatasetOptions SequestOption { get { return Option as SequestDatasetOptions; } }
+    public SequestDatasetOptions SequestOption { get { return Options as SequestDatasetOptions; } }
 
     private OpenFileArgument zipFiles = new OpenFileArgument("Zipped dtas/outs or dta/out file", "zip", true);
 
-    private OpenFileArgument xmlFiles = new OpenFileArgument("Comet xml file", "xml", true);
+    private OpenFileArgument xmlFiles = new OpenFileArgument("Comet xml/Proteome discoverer MSF file", new []{ "xml", "msf"}, true);
 
     public SequestDatasetPanel()
     {
@@ -89,7 +89,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
       dataDirs.Validator.ValidateFunc = (m =>
       {
-        if (m.ToLower().EndsWith(".zip") || m.ToLower().EndsWith(".xml"))
+        if (m.ToLower().EndsWith(".zip") || m.ToLower().EndsWith(".xml") || m.ToLower().EndsWith(".msf"))
         {
           return File.Exists(m);
         }

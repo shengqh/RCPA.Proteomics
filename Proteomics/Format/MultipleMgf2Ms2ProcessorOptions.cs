@@ -22,6 +22,8 @@ namespace RCPA.Proteomics.Format
 
     public string TargetDir { get; set; }
 
+    public string DefaultCharge { get; set; }
+
     public int ThreadCount { get; set; }
   }
 }

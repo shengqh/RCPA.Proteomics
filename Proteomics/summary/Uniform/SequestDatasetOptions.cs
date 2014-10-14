@@ -14,6 +14,7 @@ namespace RCPA.Proteomics.Summary.Uniform
     {
       this.SkipSamePeptideButDifferentModificationSite = true;
       this.MaxModificationDeltaCn = 0.08;
+      this.SearchEngine = SearchEngineType.SEQUEST;
     }
 
     private bool _filterByXcorr;
@@ -98,11 +99,6 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     public double MaxModificationDeltaCn { get; set; }
 
-    public override SearchEngineType SearchEngine
-    {
-      get { return SearchEngineType.SEQUEST; }
-    }
-
     protected override void AddAdditionalFilterTo(List<IFilter<IIdentifiedSpectrum>> filters)
     {
       if (FilterByXcorr)
@@ -182,7 +178,7 @@ namespace RCPA.Proteomics.Summary.Uniform
     {
       var result = new SequestDatasetPanel();
 
-      result.Option = this;
+      result.Options = this;
 
       return result;
     }

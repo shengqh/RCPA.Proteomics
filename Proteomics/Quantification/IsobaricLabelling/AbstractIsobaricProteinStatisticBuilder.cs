@@ -149,7 +149,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       var refFuncs = options.References;
       var samFuncs = options.GetSamples();
 
-      var pepfile = string.Format("{0}.uniquePeptides.tsv", resultFileName);
+      var pepfile = string.Format("{0}.peptides.details.tsv", resultFileName);
       using (var sw = new StreamWriter(pepfile))
       {
         sw.WriteLine("PurePeptide\tDataset\tFileScan\tPeptide\t{0}\t{1}",
@@ -183,6 +183,46 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
           //read R result to fill the ratio
         }
       }
+
+      //var pepfile = string.Format("{0}.peptides.tmp.tsv", resultFileName);
+      //using (var sw = new StreamWriter(pepfile))
+      //{
+      //  sw.WriteLine("PurePeptide\tDataset\tFileScan\tPeptide\t{0}\t{1}",
+      //    refFuncs.ConvertAll(m => m.Name).Merge("\t"),
+      //    samFuncs.ConvertAll(m => m.Name).Merge("\t"));
+
+      //  foreach (var g in ir)
+      //  {
+      //    var peptides = g.GetPeptides();
+      //    foreach (var dsName in options.DatasetMap.Keys)
+      //    {
+      //      var dsSet = new HashSet<string>(options.DatasetMap[dsName]);
+      //      var dsSpectra = (from s in peptides
+      //                       where dsSet.Contains(s.Query.FileScan.Experimental)
+      //                       orderby s.Peptide.Sequence
+      //                       select s).ToList();
+
+      //      foreach (var spec in dsSpectra)
+      //      {
+      //        var isoitem = spec.FindIsobaricItem();
+      //        if (isoitem != null)
+      //        {
+      //          sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}",
+      //              g.Index,
+      //              g[0].Name,
+      //              spec.Peptide.PureSequence,
+      //              dsName,
+      //              spec.Query.FileScan.ShortFileName,
+      //              spec.Peptide.Sequence,
+      //              refFuncs.ConvertAll(m => m.GetValue(isoitem).ToString()).Merge("\t"),
+      //              samFuncs.ConvertAll(m => m.GetValue(isoitem).ToString()).Merge("\t"));
+      //        }
+      //      }
+      //    }
+      //    //call R to calculate the ratio of each group
+      //    //read R result to fill the ratio
+      //  }
+      //}
 
       var irFormat = GetFormat(ir);
 

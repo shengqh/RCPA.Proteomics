@@ -23,7 +23,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     public BuildSummaryOptions Parent { get; set; }
 
-    public abstract SearchEngineType SearchEngine { get; }
+    public SearchEngineType SearchEngine { get; set; }
 
     private bool _filterByPrecursor;
 
@@ -191,7 +191,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     public virtual IOptimalResultCalculator GetOptimalResultCalculator()
     {
-      OptimalResultCalculator result = NewOptimalResultCalculator();
+      OptimalResultCalculator result = new OptimalResultCalculator(this.SearchEngine.GetFactory().GetScoreFunctions());
 
       result.FdrCalc = Parent.FalseDiscoveryRate.GetFalseDiscoveryRateCalculator();
 
@@ -207,7 +207,7 @@ namespace RCPA.Proteomics.Summary.Uniform
       return result;
     }
 
-    protected abstract OptimalResultCalculator NewOptimalResultCalculator();
+    //protected abstract OptimalResultCalculator NewOptimalResultCalculator();
 
     #endregion
   }

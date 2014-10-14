@@ -15,7 +15,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 {
   public partial class PFindDatasetPanel : ExpectValueDatasetPanel
   {
-    private PFindDatasetOptions PFindOption { get { return Option as PFindDatasetOptions; } }
+    private PFindDatasetOptions PFindOption { get { return Options as PFindDatasetOptions; } }
 
     public PFindDatasetPanel()
     {

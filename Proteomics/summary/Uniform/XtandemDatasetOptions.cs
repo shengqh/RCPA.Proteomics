@@ -11,14 +11,12 @@ namespace RCPA.Proteomics.Summary.Uniform
 {
   public class XtandemDatasetOptions : AbstractExpectValueDatasetOptions
   {
-    public bool IgnoreUnanticipatedPeptide { get; set; }
-
-    //public bool IgnoreEQNterminalModification { get; set; }
-
-    public override SearchEngineType SearchEngine
+    public XtandemDatasetOptions()
     {
-      get { return SearchEngineType.XTANDEM; }
+      this.SearchEngine = SearchEngineType.XTandem;
     }
+
+    public bool IgnoreUnanticipatedPeptide { get; set; }
 
     protected override void AddAdditionalFilterTo(List<IFilter<IIdentifiedSpectrum>> filters)
     {
@@ -29,7 +27,6 @@ namespace RCPA.Proteomics.Summary.Uniform
     {
       var result = base.GetPeptideFilters();
       result.Add(new XElement("IgnoreUnanticipatedPeptide", IgnoreUnanticipatedPeptide));
-      //result.Add(new XElement("IgnoreEQNterminalModification", IgnoreEQNterminalModification));
       return result;
     }
 
@@ -38,7 +35,6 @@ namespace RCPA.Proteomics.Summary.Uniform
       base.ParsePeptideFilters(filterXml);
 
       IgnoreUnanticipatedPeptide = filterXml.GetChildValue("IgnoreUnanticipatedPeptide", true);
-      //IgnoreEQNterminalModification = filterXml.GetChildValue("IgnoreEQNterminalModification",false);
     }
 
     public override IDatasetBuilder GetBuilder()
@@ -50,7 +46,7 @@ namespace RCPA.Proteomics.Summary.Uniform
     {
       var result = new XtandemDatasetPanel();
 
-      result.Option = this;
+      result.Options = this;
 
       return result;
     }

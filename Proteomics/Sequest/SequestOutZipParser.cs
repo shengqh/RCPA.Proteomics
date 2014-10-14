@@ -7,7 +7,7 @@ using System;
 
 namespace RCPA.Proteomics.Sequest
 {
-  public class SequestOutZipParser : ProgressClass, ISequestOutParser
+  public class SequestOutZipParser : AbstractSequestSpectrumParser
   {
     private readonly OutParser parser;
 
@@ -31,12 +31,12 @@ namespace RCPA.Proteomics.Sequest
     {
     }
 
-    public List<IIdentifiedSpectrum> ParsePeptides(string outZipFilename)
+    public override List<IIdentifiedSpectrum> ReadFromFile(string fileName)
     {
       var result = new List<IIdentifiedSpectrum>();
 
       //检查dta文件与out文件数目是否匹配，以防止数据库搜索出错。
-      using (var s = new ZipInputStream(new FileInfo(outZipFilename).OpenRead()))
+      using (var s = new ZipInputStream(new FileInfo(fileName).OpenRead()))
       {
         int dtacount = 0;
         int outcount = 0;
@@ -57,13 +57,13 @@ namespace RCPA.Proteomics.Sequest
         if (dtacount != 0 && outcount != dtacount)
         {
           throw new Exception(MyConvert.Format("Dta file count ({0}) in {1} is not equals to out file count ({2})",
-                                            dtacount, outZipFilename, outcount));
+                                            dtacount, fileName, outcount));
         }
       }
 
-      using (var s = new ZipInputStream(new FileInfo(outZipFilename).OpenRead()))
+      using (var s = new ZipInputStream(new FileInfo(fileName).OpenRead()))
       {
-        Progress.SetRange(1, new FileInfo(outZipFilename).Length);
+        Progress.SetRange(1, new FileInfo(fileName).Length);
 
         long length = 0;
         ZipEntry theEntry;

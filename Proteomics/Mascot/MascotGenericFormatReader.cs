@@ -18,6 +18,7 @@ namespace RCPA.Proteomics.Mascot
     public const string TITLE_TAG = "TITLE";
     public const string RETENTION_TIME_TAG = "RTINSECONDS";
     public const string SCAN_TAG = "SCANS";
+    public const string RAWFILE_TAG = "RAWFILE";
 
     public const string FILENAME_TAG = "###FILENAME: ";
     public const string MS_SCAN_TAG = "###MS: ";

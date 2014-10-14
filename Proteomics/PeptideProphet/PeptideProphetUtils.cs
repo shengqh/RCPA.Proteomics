@@ -25,7 +25,7 @@ namespace RCPA.Proteomics.PeptideProphet
         });
       }
 
-      var modaas = mod_info.FindChildren("mod_aminoacid_mass");
+      var modaas = mod_info.FindDescendants("mod_aminoacid_mass");
       if (modaas.Count == 0)
       {
         return result;

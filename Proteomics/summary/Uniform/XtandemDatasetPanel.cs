@@ -15,7 +15,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 {
   public partial class XtandemDatasetPanel : ExpectValueDatasetPanel
   {
-    private XtandemDatasetOptions XtandemOption { get { return Option as XtandemDatasetOptions; } }
+    private XtandemDatasetOptions XtandemOption { get { return Options as XtandemDatasetOptions; } }
 
     private RcpaCheckBox ignoreAnticipagedCleavageSite;
 

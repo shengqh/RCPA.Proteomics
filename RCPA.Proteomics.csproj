@@ -166,16 +166,67 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Proteomics\Format\Mgf2MzXmlProcessor.cs" />
+    <Compile Include="Proteomics\ISearchEngineFactory.cs" />
+    <Compile Include="Proteomics\Mascot\MascotFactory.cs" />
+    <Compile Include="Proteomics\Mascot\MascotFilePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Mascot\MascotFilePanel.Designer.cs">
+      <DependentUpon>MascotFilePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\ModificationConsts.cs" />
+    <Compile Include="Proteomics\MSAmanda\MSAmandaParser.cs" />
     <Compile Include="Proteomics\AminoacidsBuilder.cs" />
-    <Compile Include="Proteomics\Analysis\ScoreDistributionBuilderUI.cs">
+    <Compile Include="Proteomics\MSGF\MSGFScoreFunctions.cs" />
+    <Compile Include="Proteomics\MSGF\MSGFDatasetOptions.cs" />
+    <Compile Include="Proteomics\MSGF\MSGFFactory.cs" />
+    <Compile Include="Proteomics\MyriMatch\MyriMatchDatasetOptions.cs" />
+    <Compile Include="Proteomics\MyriMatch\MyriMatchScoreFunctions.cs" />
+    <Compile Include="Proteomics\MyriMatch\MyriMatchFactory.cs" />
+    <Compile Include="Proteomics\MzXml\MzXmlFormat.cs" />
+    <Compile Include="Proteomics\Omssa\OmssaOmxParser.cs" />
+    <Compile Include="Proteomics\Omssa\OmssaConsts.cs" />
+    <Compile Include="Proteomics\Omssa\OmssaScoreFunctions.cs" />
+    <Compile Include="Proteomics\Omssa\OmssaFactory.cs" />
+    <Compile Include="Proteomics\PeptideProphet\ModificationAminoacidMass.cs" />
+    <Compile Include="Proteomics\PeptideProphet\PeptideProphetModificationItem.cs" />
+    <Compile Include="Proteomics\PeptideProphet\PeptideProphetModifications.cs" />
+    <Compile Include="Proteomics\PeptideProphet\PeptideProphetFactory.cs" />
+    <Compile Include="Proteomics\PFind\PFindFactory.cs" />
+    <Compile Include="Proteomics\ProteomeDiscoverer\MsfFastaDistillerUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Proteomics\Analysis\ScoreDistributionBuilderUI.Designer.cs">
+    <Compile Include="Proteomics\ProteomeDiscoverer\MsfFastaDistillerUI.Designer.cs">
+      <DependentUpon>MsfFastaDistillerUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\ProteomeDiscoverer\MsfFastaDistiller.cs" />
+    <Compile Include="Proteomics\ProteomeDiscoverer\ModificationEntry.cs" />
+    <Compile Include="Proteomics\ProteomeDiscoverer\MsfDatabaseParser.cs" />
+    <Compile Include="Proteomics\Sequest\AbstractSequestSpectrumParser.cs" />
+    <Compile Include="Proteomics\Sequest\SequestDatasetBuilder2.cs" />
+    <Compile Include="Proteomics\Sequest\SequestFactory.cs" />
+    <Compile Include="Proteomics\Statistic\RawIonStatisticMultipleFileBuilder.cs" />
+    <Compile Include="Proteomics\Summary\SummaryBuilder2UI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Summary\SummaryBuilder2UI.Designer.cs">
+      <DependentUpon>SummaryBuilder2UI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\Summary\ISpectrumParser.cs" />
+    <Compile Include="Proteomics\MzIdent\MzIdentSlimProcessor.cs" />
+    <Compile Include="Proteomics\MzIdent\MzIdentSlimProcessorOptions.cs" />
+    <Compile Include="Proteomics\Omssa\OmssaOmxSlimProcessor.cs" />
+    <Compile Include="Proteomics\Omssa\OmssaOmxSlimProcessorOptions.cs" />
+    <Compile Include="Proteomics\Statistic\ScoreDistributionBuilderUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Statistic\ScoreDistributionBuilderUI.Designer.cs">
       <DependentUpon>ScoreDistributionBuilderUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Classification\IdentifiedPeptideTagClassification.cs" />
     <Compile Include="Proteomics\Comet\CometSpectraDistiller.cs" />
-    <Compile Include="Proteomics\Comet\CometXmlReader.cs" />
+    <Compile Include="Proteomics\Comet\CometXmlParser.cs" />
     <Compile Include="Proteomics\Database\ExtractFastaByAccessNumberProcessorUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -201,12 +252,6 @@
       <DependentUpon>MultipleMgf2Ms2ProcessorUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Format\MultipleMgf2Ms2Processor.cs" />
-    <Compile Include="Proteomics\Format\Mgf2Ms2ProcessorUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Proteomics\Format\Mgf2Ms2ProcessorUI.Designer.cs">
-      <DependentUpon>Mgf2Ms2ProcessorUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="Proteomics\Format\Mgf2Ms2Processor.cs" />
     <Compile Include="Proteomics\Format\MultipleMgf2Ms2ProcessorOptions.cs" />
     <Compile Include="Proteomics\Format\ReplaceMascotGenericFormatProcessorUI.cs">
@@ -296,7 +341,13 @@
     <Compile Include="Proteomics\MaxQuant\MaxQuantEvidenceToPeptideProcessorUI.Designer.cs">
       <DependentUpon>MaxQuantEvidenceToPeptideProcessorUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Proteomics\MSGF\MSGFMzIdentParser.cs" />
+    <Compile Include="Proteomics\MyriMatch\MyriMatchMzIdentParser.cs" />
+    <Compile Include="Proteomics\MzIdent\AbstractMzIdentParser.cs" />
+    <Compile Include="Proteomics\MzIdent\MzIdentModificationDefinitionItem.cs" />
+    <Compile Include="Proteomics\MzIdent\MzIdentModificationItem.cs" />
     <Compile Include="Proteomics\Processor\PeakListRemoveIsobaricIonProcessorOptions.cs" />
+    <Compile Include="Proteomics\ProteomeDiscoverer\MsfSpectraDistiller.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\AbstractIsobaricRawHCDMS3Reader.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\AbstractIsobaricRawReader.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\AbstractIsobaricResultXmlFormat.cs" />
@@ -612,7 +663,7 @@
     <Compile Include="Proteomics\Raw\AbstractRawFile.cs" />
     <Compile Include="Proteomics\Raw\T2DReader.cs" />
     <Compile Include="Proteomics\Raw\WiffImpl.cs" />
-    <Compile Include="Proteomics\Sequest\MsfDatabaseToNoredundantProcessor.cs" />
+    <Compile Include="Proteomics\ProteomeDiscoverer\MsfDatabaseToNoredundantProcessor.cs" />
     <Compile Include="Proteomics\Snp\CombineQuantificationResultProcessor.cs" />
     <Compile Include="Proteomics\Snp\CombineQuantificationResultProcessorUI.cs">
       <SubType>Form</SubType>
@@ -703,6 +754,8 @@
     <Compile Include="Proteomics\Statistic\RawIonStatisticMainBuilderUI.Designer.cs">
       <DependentUpon>RawIonStatisticMainBuilderUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Proteomics\Summary\AbstractIdentifiedResultBuilder.cs" />
+    <Compile Include="Proteomics\Summary\IdentifiedResultMsfBuilder.cs" />
     <Compile Include="Proteomics\Summary\IdentifiedProteinGroupContaminationFilter.cs" />
     <Compile Include="Proteomics\Summary\IdentifiedProteinGroupPeptideCountFilter.cs" />
     <Compile Include="Proteomics\Summary\IdentifiedProteinGroupUniquePeptideCountFilter.cs" />
@@ -762,12 +815,40 @@
       <DependentUpon>BatchUniformIdentifiedResultBuilderUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Summary\Uniform\AbstractUniformSpectrumProteinFdrBuilder.cs" />
+    <Compile Include="Proteomics\Summary\Uniform\AbstractOneParserDatasetBuilder.cs" />
+    <Compile Include="Proteomics\Omssa\OmssaDatasetBuilder.cs" />
+    <Compile Include="Proteomics\Omssa\OmssaDatasetOptions.cs" />
+    <Compile Include="Proteomics\Omssa\OmssaDatasetPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Omssa\OmssaDatasetPanel.Designer.cs">
+      <DependentUpon>OmssaDatasetPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\MzIdent\MzIdentDatasetBuilder.cs" />
+    <Compile Include="Proteomics\MzIdent\AbstractMzIdentDatasetOptions.cs" />
+    <Compile Include="Proteomics\Summary\Uniform\ExpectValueDatasetPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Summary\Uniform\ExpectValueDatasetPanel.designer.cs">
+      <DependentUpon>ExpectValueDatasetPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\Summary\Uniform\FilePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Summary\Uniform\FilePanel.Designer.cs">
+      <DependentUpon>FilePanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Proteomics\Summary\Uniform\UniformSpectrumProteinFdrBuilder2.cs" />
     <Compile Include="Proteomics\Summary\Uniform\TargetDecoyConflictType.cs" />
-    <Compile Include="Proteomics\XTandem\XTandemOptimalScoreCalculator.cs" />
+    <Compile Include="Proteomics\MzIdent\MzIdentDatasetPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Proteomics\MzIdent\MzIdentDatasetPanel.Designer.cs">
+      <DependentUpon>MzIdentDatasetPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\XTandem\XTandemFactory.cs" />
     <Compile Include="Proteomics\XTandem\XTandemScoreFunctions.cs" />
     <Compile Include="Proteomics\XTandem\XTandemXmlSummaryConfiguration.cs" />
-    <Compile Include="Proteomics\XTandem\XTandemSpectrumXmlBuilder.cs" />
     <Compile Include="Proteomics\XTandem\XTandemSpectrumXmlParser.cs" />
     <Compile Include="Proteomics\Detectability\DetectabilityEntry.cs" />
     <Compile Include="Proteomics\Detectability\DetectabilityPredictor.cs" />
@@ -940,7 +1021,7 @@
     <Compile Include="Proteomics\Summary\SpectrumQuery.cs" />
     <Compile Include="Proteomics\Quantification\O18\O18QuantificationConstants.cs" />
     <Compile Include="Proteomics\Aminoacid.cs" />
-    <Compile Include="Proteomics\Analysis\XcorrDeltacnPlotProcessor.cs" />
+    <Compile Include="Proteomics\Statistic\XcorrDeltacnPlotProcessor.cs" />
     <Compile Include="Proteomics\AtomComposition.cs" />
     <Compile Include="Proteomics\Aminoacids.cs" />
     <Compile Include="Proteomics\Atom.cs" />
@@ -997,11 +1078,18 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Analysis\BuildSummaryResultParserUI.resx">
+    <EmbeddedResource Include="Proteomics\Mascot\MascotFilePanel.resx">
+      <DependentUpon>MascotFilePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\ProteomeDiscoverer\MsfFastaDistillerUI.resx">
+      <DependentUpon>MsfFastaDistillerUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Statistic\BuildSummaryResultParserUI.resx">
       <DependentUpon>BuildSummaryResultParserUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Analysis\ScoreDistributionBuilderUI.resx">
+    <EmbeddedResource Include="Proteomics\Statistic\ScoreDistributionBuilderUI.resx">
       <DependentUpon>ScoreDistributionBuilderUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\ClassificationPanel.resx">
@@ -1046,10 +1134,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Format\MultipleMgf2Ms2ProcessorUI.resx">
       <DependentUpon>MultipleMgf2Ms2ProcessorUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Format\Mgf2Ms2ProcessorUI.resx">
-      <DependentUpon>Mgf2Ms2ProcessorUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Format\ReplaceMascotGenericFormatProcessorUI.resx">
@@ -1232,7 +1316,7 @@
       <DependentUpon>ExtendSilacQuantificationSummaryViewerUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Sequest\MsfFileToNoredundantProcessorUI.resx">
+    <EmbeddedResource Include="Proteomics\ProteomeDiscoverer\MsfFileToNoredundantProcessorUI.resx">
       <DependentUpon>MsfFileToNoredundantProcessorUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1277,6 +1361,10 @@
       <DependentUpon>RawIonStatisticMainBuilderUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Summary\SummaryBuilder2UI.resx">
+      <DependentUpon>SummaryBuilder2UI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Summary\ExportIdentifiedResultForm.resx">
       <DependentUpon>ExportIdentifiedResultForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1284,35 +1372,48 @@
     <EmbeddedResource Include="Proteomics\Summary\Uniform\BatchUniformIdentifiedResultBuilderUI.resx">
       <DependentUpon>BatchUniformIdentifiedResultBuilderUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Summary\Uniform\TitleDatasetPanel.resx">
-      <DependentUpon>TitleDatasetPanel.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Summary\Uniform\PeptideProphetDatasetPanel.resx">
-      <DependentUpon>PeptideProphetDatasetPanel.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Summary\Uniform\PFindDatasetPanel.resx">
-      <DependentUpon>PFindDatasetPanel.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Summary\Uniform\XtandemDatasetPanel.resx">
-      <DependentUpon>XtandemDatasetPanel.cs</DependentUpon>
+    <EmbeddedResource Include="Proteomics\Omssa\OmssaDatasetPanel.resx">
+      <DependentUpon>OmssaDatasetPanel.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Summary\Uniform\ExpectValueDatasetPanel.resx">
       <DependentUpon>ExpectValueDatasetPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Summary\Uniform\FilePanel.resx">
+      <DependentUpon>FilePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Summary\Uniform\TitleDatasetPanel.resx">
+      <DependentUpon>TitleDatasetPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\PeptideProphet\PeptideProphetDatasetPanel.resx">
+      <DependentUpon>PeptideProphetDatasetPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\PFind\PFindDatasetPanel.resx">
+      <DependentUpon>PFindDatasetPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\MzIdent\MzIdentDatasetPanel.resx">
+      <DependentUpon>MzIdentDatasetPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\XTandem\XtandemDatasetPanel.resx">
+      <DependentUpon>XtandemDatasetPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Summary\Uniform\ExpectValueDatasetPanel2.resx">
+      <DependentUpon>ExpectValueDatasetPanel2.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Summary\Uniform\DatasetPanelBase.resx">
       <DependentUpon>DatasetPanelBase.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Summary\Uniform\MascotDatasetPanel.resx">
+    <EmbeddedResource Include="Proteomics\Mascot\MascotDatasetPanel.resx">
       <DependentUpon>MascotDatasetPanel.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Summary\Uniform\SequestDatasetPanel.resx">
+    <EmbeddedResource Include="Proteomics\Sequest\SequestDatasetPanel.resx">
       <DependentUpon>SequestDatasetPanel.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1576,43 +1677,43 @@
       <DependentUpon>SequestLogDistributionUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Summary\pFindSummaryBuilderUI.resx">
+    <EmbeddedResource Include="Proteomics\Summary\pFindSummaryBuilderUI.resx">
       <DependentUpon>pFindSummaryBuilderUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Summary\ExperimentalSpectrumForm.resx">
+    <EmbeddedResource Include="Proteomics\Summary\ExperimentalSpectrumForm.resx">
       <DependentUpon>ExperimentalSpectrumForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Summary\IdentifiedPeptidesMergerUI.resx">
+    <EmbeddedResource Include="Proteomics\Summary\IdentifiedPeptidesMergerUI.resx">
       <DependentUpon>IdentifiedPeptidesMergerUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Summary\ITraqForm.resx">
+    <EmbeddedResource Include="Proteomics\Summary\ITraqForm.resx">
       <DependentUpon>ITraqForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Summary\MascotDatSummaryBuilderUI.resx">
+    <EmbeddedResource Include="Proteomics\Mascot\MascotDatSummaryBuilderUI.resx">
       <DependentUpon>MascotDatSummaryBuilderUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Summary\SequestSummaryBuilderUI.resx">
+    <EmbeddedResource Include="Proteomics\Summary\SequestSummaryBuilderUI.resx">
       <DependentUpon>SequestSummaryBuilderUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Summary\SummaryBuilderFromPeptidesUI.resx">
+    <EmbeddedResource Include="Proteomics\Summary\SummaryBuilderFromPeptidesUI.resx">
       <DependentUpon>SummaryBuilderFromPeptidesUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Summary\SummaryBuilderUI.resx">
+    <EmbeddedResource Include="Proteomics\Summary\SummaryBuilderUI.resx">
       <DependentUpon>SummaryBuilderUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Summary\UniformBuildSummaryUI.resx">
+    <EmbeddedResource Include="Proteomics\Summary\UniformBuildSummaryUI.resx">
       <DependentUpon>UniformBuildSummaryUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Summary\XTandemXmlSummaryBuilderUI.resx">
+    <EmbeddedResource Include="Proteomics\Summary\XTandemXmlSummaryBuilderUI.resx">
       <DependentUpon>XTandemXmlSummaryBuilderUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1659,14 +1760,14 @@
     <Compile Include="Proteomics\Isotopic\GenerateIsotopicFile.cs" />
     <Compile Include="Extensions\ExcelExtensions.cs" />
     <Compile Include="Extensions\ZedGraphExtensions.cs" />
-    <Compile Include="Proteomics\Analysis\BuildSummaryResultParser.cs" />
-    <Compile Include="Proteomics\Analysis\BuildSummaryResultParserUI.cs">
+    <Compile Include="Proteomics\Statistic\BuildSummaryResultParser.cs" />
+    <Compile Include="Proteomics\Statistic\BuildSummaryResultParserUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Proteomics\Analysis\BuildSummaryResultParserUI.Designer.cs">
+    <Compile Include="Proteomics\Statistic\BuildSummaryResultParserUI.Designer.cs">
       <DependentUpon>BuildSummaryResultParserUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Proteomics\Analysis\ScoreDistributionProcessor.cs" />
+    <Compile Include="Proteomics\Statistic\ScoreDistributionProcessor.cs" />
     <Compile Include="Proteomics\ClassificationPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1779,7 +1880,6 @@
     <Compile Include="Proteomics\Modification.cs" />
     <Compile Include="Proteomics\Modification\SameModificationPeptides.cs" />
     <Compile Include="Proteomics\Modification\SequenceModificationSitePair.cs" />
-    <Compile Include="Proteomics\Omssa\OmssaOmxParser.cs" />
     <Compile Include="Proteomics\PeptideProphet\ProteinProphetXmlReader.cs" />
     <Compile Include="Proteomics\PeptideProphet\ProteinSummaryDataFilterItem.cs" />
     <Compile Include="Proteomics\PFind\PFindModification.cs" />
@@ -1907,20 +2007,19 @@
     <Compile Include="Proteomics\Quantification\UpdateQuantificationItemEventArgs.cs" />
     <Compile Include="Proteomics\Quantification\ZedGraphProteins.cs" />
     <Compile Include="Proteomics\Raw\RawReadException.cs" />
-    <Compile Include="Proteomics\Sequest\AbstractMsfToNoredundantProcessor.cs" />
+    <Compile Include="Proteomics\ProteomeDiscoverer\AbstractMsfToNoredundantProcessor.cs" />
     <Compile Include="Proteomics\Sequest\AbstractSequestSpectraDistiller.cs" />
     <Compile Include="Proteomics\Sequest\SequestOutZipDistiller.cs" />
     <Compile Include="Proteomics\Sequest\SequestOutZipParser.cs" />
     <Compile Include="Proteomics\Sequest\DtaOutFilenameConverter.cs" />
-    <Compile Include="Proteomics\Sequest\ISequestOutParser.cs" />
-    <Compile Include="Proteomics\Sequest\MsfTextToNoredundantProcessor.cs" />
-    <Compile Include="Proteomics\Sequest\MsfFileToNoredundantProcessorUI.cs">
+    <Compile Include="Proteomics\ProteomeDiscoverer\MsfTextToNoredundantProcessor.cs" />
+    <Compile Include="Proteomics\ProteomeDiscoverer\MsfFileToNoredundantProcessorUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Proteomics\Sequest\MsfFileToNoredundantProcessorUI.Designer.cs">
+    <Compile Include="Proteomics\ProteomeDiscoverer\MsfFileToNoredundantProcessorUI.Designer.cs">
       <DependentUpon>MsfFileToNoredundantProcessorUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Proteomics\Sequest\MsfExcelToNoredundantProcessor.cs" />
+    <Compile Include="Proteomics\ProteomeDiscoverer\MsfExcelToNoredundantProcessor.cs" />
     <Compile Include="Proteomics\Sequest\OutItemIndex.cs" />
     <Compile Include="Proteomics\Sequest\StreamUtils.cs" />
     <Compile Include="Proteomics\Spectrum\PeakUtils.cs" />
@@ -1955,24 +2054,24 @@
     <Compile Include="Proteomics\Summary\Uniform\TitleDatasetPanel.Designer.cs">
       <DependentUpon>TitleDatasetPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Proteomics\Summary\Uniform\PeptideProphetDatasetBuilder.cs" />
-    <Compile Include="Proteomics\Summary\Uniform\PeptideProphetDatasetOptions.cs" />
-    <Compile Include="Proteomics\Summary\Uniform\PeptideProphetDatasetPanel.cs">
+    <Compile Include="Proteomics\PeptideProphet\PeptideProphetDatasetBuilder.cs" />
+    <Compile Include="Proteomics\PeptideProphet\PeptideProphetDatasetOptions.cs" />
+    <Compile Include="Proteomics\PeptideProphet\PeptideProphetDatasetPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Proteomics\Summary\Uniform\PeptideProphetDatasetPanel.Designer.cs">
+    <Compile Include="Proteomics\PeptideProphet\PeptideProphetDatasetPanel.Designer.cs">
       <DependentUpon>PeptideProphetDatasetPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Proteomics\Summary\Uniform\PeptideProphetScoreFunction.cs" />
+    <Compile Include="Proteomics\PeptideProphet\PeptideProphetScoreFunction.cs" />
     <Compile Include="Proteomics\Summary\Uniform\UniformSpectrumSimpleProteinFdrBuilder.cs" />
-    <Compile Include="Proteomics\Summary\Uniform\PFindDatasetPanel.cs">
+    <Compile Include="Proteomics\PFind\PFindDatasetPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Proteomics\Summary\Uniform\PFindDatasetPanel.Designer.cs">
+    <Compile Include="Proteomics\PFind\PFindDatasetPanel.Designer.cs">
       <DependentUpon>PFindDatasetPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Proteomics\Summary\Uniform\PFindDatasetOptions.cs" />
-    <Compile Include="Proteomics\Summary\Uniform\PFindDatasetBuilder.cs" />
+    <Compile Include="Proteomics\PFind\PFindDatasetOptions.cs" />
+    <Compile Include="Proteomics\PFind\PFindDatasetBuilder.cs" />
     <Compile Include="Proteomics\Summary\Uniform\DatasetFactory.cs" />
     <Compile Include="Proteomics\Summary\Uniform\IConflictProcessor.cs" />
     <Compile Include="Proteomics\Summary\Uniform\IDatasetFactory.cs" />
@@ -1982,38 +2081,38 @@
     <Compile Include="Proteomics\Summary\Uniform\OptimalFileTextWriter.cs" />
     <Compile Include="Proteomics\Summary\Uniform\SearchEngineConflictType.cs" />
     <Compile Include="Proteomics\Summary\Uniform\UniformHeader.cs" />
-    <Compile Include="Proteomics\Summary\Uniform\XtandemDatasetBuilder.cs" />
-    <Compile Include="Proteomics\Summary\Uniform\XtandemDatasetPanel.cs">
+    <Compile Include="Proteomics\XTandem\XtandemDatasetBuilder.cs" />
+    <Compile Include="Proteomics\XTandem\XtandemDatasetPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Proteomics\Summary\Uniform\XtandemDatasetPanel.Designer.cs">
+    <Compile Include="Proteomics\XTandem\XtandemDatasetPanel.Designer.cs">
       <DependentUpon>XtandemDatasetPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Proteomics\Summary\Uniform\ExpectValueDatasetPanel.cs">
+    <Compile Include="Proteomics\Summary\Uniform\ExpectValueDatasetPanel2.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Proteomics\Summary\Uniform\ExpectValueDatasetPanel.Designer.cs">
-      <DependentUpon>ExpectValueDatasetPanel.cs</DependentUpon>
+    <Compile Include="Proteomics\Summary\Uniform\ExpectValueDatasetPanel2.Designer.cs">
+      <DependentUpon>ExpectValueDatasetPanel2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Proteomics\Summary\Uniform\XtandemDatasetOptions.cs" />
+    <Compile Include="Proteomics\XTandem\XtandemDatasetOptions.cs" />
     <Compile Include="Proteomics\Summary\Uniform\DatasetPanelBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Proteomics\Summary\Uniform\DatasetPanelBase.Designer.cs">
       <DependentUpon>DatasetPanelBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Proteomics\Summary\Uniform\MascotDatasetPanel.cs">
+    <Compile Include="Proteomics\Mascot\MascotDatasetPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Proteomics\Summary\Uniform\MascotDatasetPanel.Designer.cs">
+    <Compile Include="Proteomics\Mascot\MascotDatasetPanel.Designer.cs">
       <DependentUpon>MascotDatasetPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Summary\Uniform\Dataset.cs" />
     <Compile Include="Proteomics\Summary\Uniform\DatasetList.cs" />
-    <Compile Include="Proteomics\Summary\Uniform\DatasetPanel.cs">
+    <Compile Include="Proteomics\Summary\Uniform\IDatasetFormat.cs">
     </Compile>
-    <Compile Include="Proteomics\Summary\Uniform\MascotDatasetBuilder.cs" />
-    <Compile Include="Proteomics\Summary\Uniform\MascotDatasetOptions.cs" />
+    <Compile Include="Proteomics\Mascot\MascotDatasetBuilder.cs" />
+    <Compile Include="Proteomics\Mascot\MascotDatasetOptions.cs" />
     <Compile Include="Proteomics\Quantification\SILAC\DifferentRetentionTimeEnvelopes.cs" />
     <Compile Include="Proteomics\Quantification\SILAC\SilacQuantificationResultMultipleFileWriter.cs" />
     <Compile Include="Proteomics\Quantification\SmallMolecule\FileData2.cs" />
@@ -2024,10 +2123,10 @@
     <Compile Include="Proteomics\Raw\CacheRawFile.cs" />
     <Compile Include="Proteomics\Raw\IRawFormat.cs" />
     <Compile Include="Proteomics\Raw\ThermoRawFormat.cs" />
-    <Compile Include="Proteomics\Summary\Uniform\SequestDatasetBuilder.cs" />
+    <Compile Include="Proteomics\Sequest\SequestDatasetBuilder.cs" />
     <Compile Include="Proteomics\Summary\AbstractIdentifiedResultMultipleFileWriter.cs" />
     <Compile Include="Proteomics\MaxQuant\MaxQuantPeptideTextReader.cs" />
-    <Compile Include="Proteomics\PeptideProphet\PeptideProphetXmlReader.cs" />
+    <Compile Include="Proteomics\PeptideProphet\PeptideProphetXmlParser.cs" />
     <Compile Include="Proteomics\Quantification\AbstractMs1DirectoryBuilder.cs" />
     <Compile Include="Proteomics\Quantification\AbstractMs1FileBuilder.cs" />
     <Compile Include="Proteomics\Quantification\Census\CensusStringResult.cs" />
@@ -2127,10 +2226,10 @@
     <Compile Include="Proteomics\Summary\AnnotationKeys.cs" />
     <Compile Include="Proteomics\Summary\AbstractIdentifiedResultMuitlpleFileTextFormat.cs" />
     <Compile Include="Proteomics\Summary\Uniform\ClassificationOptions.cs" />
-    <Compile Include="Proteomics\Summary\Uniform\SequestDatasetPanel.cs">
+    <Compile Include="Proteomics\Sequest\SequestDatasetPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Proteomics\Summary\Uniform\SequestDatasetPanel.Designer.cs">
+    <Compile Include="Proteomics\Sequest\SequestDatasetPanel.Designer.cs">
       <DependentUpon>SequestDatasetPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Summary\Uniform\SpectrumBinUtils.cs" />
@@ -2165,7 +2264,7 @@
     <Compile Include="Proteomics\Summary\IdentifiedSpectrumBaseTextFormat.cs" />
     <Compile Include="Proteomics\Summary\PeptideTextReader.cs" />
     <Compile Include="Proteomics\Summary\Uniform\AbstractDatasetOptions.cs" />
-    <Compile Include="Proteomics\Summary\Uniform\SequestDatasetOptions.cs" />
+    <Compile Include="Proteomics\Sequest\SequestDatasetOptions.cs" />
     <Compile Include="Proteomics\Summary\PeptideFilterOptions.cs" />
     <Compile Include="Proteomics\Summary\Uniform\UniformSpectrumFixedCriteriaBuilder.cs" />
     <Compile Include="Proteomics\Summary\Uniform\UniformSpectrumPeptideFdrBuilder.cs" />
@@ -2637,75 +2736,75 @@
     <Compile Include="Proteomics\Statistic\SequestLogDistributionUI.Designer.cs">
       <DependentUpon>SequestLogDistributionUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Summary\AbstractSeparatorBySpectrumFilter.cs" />
-    <Compile Include="Tools\Summary\pFindSummaryBuilder2UI.cs">
+    <Compile Include="Proteomics\Summary\AbstractSeparatorBySpectrumFilter.cs" />
+    <Compile Include="Proteomics\Summary\pFindSummaryBuilder2UI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tools\Summary\pFindSummaryBuilder2UI.Designer.cs">
+    <Compile Include="Proteomics\Summary\pFindSummaryBuilder2UI.Designer.cs">
       <DependentUpon>pFindSummaryBuilder2UI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Summary\IdentifiedSpectrumSeparatorBySpectrumFilter.cs" />
-    <Compile Include="Tools\Summary\pFindSummaryBuilderUI.cs">
+    <Compile Include="Proteomics\Summary\IdentifiedSpectrumSeparatorBySpectrumFilter.cs" />
+    <Compile Include="Proteomics\Summary\pFindSummaryBuilderUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tools\Summary\pFindSummaryBuilderUI.Designer.cs">
+    <Compile Include="Proteomics\Summary\pFindSummaryBuilderUI.Designer.cs">
       <DependentUpon>pFindSummaryBuilderUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Summary\ExperimentalSpectrumForm.cs">
+    <Compile Include="Proteomics\Summary\ExperimentalSpectrumForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tools\Summary\ExperimentalSpectrumForm.Designer.cs">
+    <Compile Include="Proteomics\Summary\ExperimentalSpectrumForm.Designer.cs">
       <DependentUpon>ExperimentalSpectrumForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Summary\IdentifiedPeptidesMerger.cs" />
-    <Compile Include="Tools\Summary\IdentifiedPeptidesMergerUI.cs">
+    <Compile Include="Proteomics\Summary\IdentifiedPeptidesMerger.cs" />
+    <Compile Include="Proteomics\Summary\IdentifiedPeptidesMergerUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tools\Summary\IdentifiedPeptidesMergerUI.Designer.cs">
+    <Compile Include="Proteomics\Summary\IdentifiedPeptidesMergerUI.Designer.cs">
       <DependentUpon>IdentifiedPeptidesMergerUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Summary\IdentifiedResultSeparatorBySpectrumFilter.cs" />
-    <Compile Include="Tools\Summary\ITraqForm.cs">
+    <Compile Include="Proteomics\Summary\IdentifiedResultSeparatorBySpectrumFilter.cs" />
+    <Compile Include="Proteomics\Summary\ITraqForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tools\Summary\ITraqForm.Designer.cs">
+    <Compile Include="Proteomics\Summary\ITraqForm.Designer.cs">
       <DependentUpon>ITraqForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Summary\MascotDatSummaryBuilderUI.cs">
+    <Compile Include="Proteomics\Mascot\MascotDatSummaryBuilderUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tools\Summary\MascotDatSummaryBuilderUI.Designer.cs">
+    <Compile Include="Proteomics\Mascot\MascotDatSummaryBuilderUI.Designer.cs">
       <DependentUpon>MascotDatSummaryBuilderUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Summary\SequestSummaryBuilderUI.cs">
+    <Compile Include="Proteomics\Summary\SequestSummaryBuilderUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tools\Summary\SequestSummaryBuilderUI.Designer.cs">
+    <Compile Include="Proteomics\Summary\SequestSummaryBuilderUI.Designer.cs">
       <DependentUpon>SequestSummaryBuilderUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Summary\SummaryBuilderFromPeptidesUI.cs">
+    <Compile Include="Proteomics\Summary\SummaryBuilderFromPeptidesUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tools\Summary\SummaryBuilderFromPeptidesUI.Designer.cs">
+    <Compile Include="Proteomics\Summary\SummaryBuilderFromPeptidesUI.Designer.cs">
       <DependentUpon>SummaryBuilderFromPeptidesUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Summary\SummaryBuilderUI.cs">
+    <Compile Include="Proteomics\Summary\SummaryBuilderUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tools\Summary\SummaryBuilderUI.Designer.cs">
+    <Compile Include="Proteomics\Summary\SummaryBuilderUI.Designer.cs">
       <DependentUpon>SummaryBuilderUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Summary\SummaryUtils.cs" />
-    <Compile Include="Tools\Summary\UniformBuildSummaryUI.cs">
+    <Compile Include="Proteomics\Summary\UniformBuildSummaryUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tools\Summary\UniformBuildSummaryUI.Designer.cs">
+    <Compile Include="Proteomics\Summary\UniformBuildSummaryUI.Designer.cs">
       <DependentUpon>UniformBuildSummaryUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Summary\XTandemXmlSummaryBuilderUI.cs">
+    <Compile Include="Proteomics\Summary\XTandemXmlSummaryBuilderUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tools\Summary\XTandemXmlSummaryBuilderUI.Designer.cs">
+    <Compile Include="Proteomics\Summary\XTandemXmlSummaryBuilderUI.Designer.cs">
       <DependentUpon>XTandemXmlSummaryBuilderUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Utils\ChineseFileName2PinYingProcessor.cs" />

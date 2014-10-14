@@ -16,7 +16,7 @@ namespace RCPA.Proteomics.Summary.Uniform
     private RcpaDoubleField minPvalue;
     private RcpaCheckBox filterByMinPvalue;
 
-    private PeptideProphetDatasetOptions CurrentOptions { get { return Option as PeptideProphetDatasetOptions; } }
+    private PeptideProphetDatasetOptions CurrentOptions { get { return Options as PeptideProphetDatasetOptions; } }
 
     public PeptideProphetDatasetPanel()
     {
@@ -63,7 +63,7 @@ namespace RCPA.Proteomics.Summary.Uniform
         CurrentOptions.MinPValue = this.minPvalue.Value;     
       }
 
-      Option.PathNames = xmlFiles.FileNames.ToList();
+      Options.PathNames = xmlFiles.FileNames.ToList();
     }
 
   }

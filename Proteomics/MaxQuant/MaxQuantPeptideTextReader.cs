@@ -31,7 +31,6 @@ namespace RCPA.Proteomics.MaxQuant
     //private int proteinsIndex;
 
     private Regex modReg = new Regex(@"(\(.+?\))");
-    private string modChars = MascotDatSpectrumParser.MODIFICATION_CHAR.Trim();
     private Dictionary<string, string> modCharMap = new Dictionary<string, string>();
 
     public Dictionary<string, string> ModificationMap { get { return modCharMap; } }
@@ -124,7 +123,7 @@ namespace RCPA.Proteomics.MaxQuant
           string mod = m.Groups[1].Value;
           if (!modCharMap.ContainsKey(mod))
           {
-            modCharMap[mod] = modChars.Substring(modCharMap.Count, 1);
+            modCharMap[mod] = ModificationConsts.MODIFICATION_CHAR.Substring(modCharMap.Count, 1);
           }
           m = m.NextMatch();
         }

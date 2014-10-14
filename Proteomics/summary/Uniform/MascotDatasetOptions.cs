@@ -11,9 +11,9 @@ namespace RCPA.Proteomics.Summary.Uniform
 {
   public class MascotDatasetOptions : AbstractExpectValueDatasetOptions
   {
-    public override SearchEngineType SearchEngine
+    public MascotDatasetOptions()
     {
-      get { return SearchEngineType.MASCOT; }
+      this.SearchEngine = SearchEngineType.MASCOT;
     }
 
     public override IDatasetBuilder GetBuilder()
@@ -25,7 +25,7 @@ namespace RCPA.Proteomics.Summary.Uniform
     {
       var result = new MascotDatasetPanel();
 
-      result.Option = this;
+      result.Options = this;
 
       return result;
     }

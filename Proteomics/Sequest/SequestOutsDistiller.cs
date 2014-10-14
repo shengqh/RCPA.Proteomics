@@ -11,7 +11,7 @@ namespace RCPA.Proteomics.Sequest
 {
   public class SequestOutsDistiller : AbstractSequestSpectraDistiller
   {
-    public SequestOutsDistiller(ISequestOutParser parser, IFileFormat<List<IIdentifiedSpectrum>> peptideFormat)
+    public SequestOutsDistiller(ISpectrumParser parser, IFileFormat<List<IIdentifiedSpectrum>> peptideFormat)
       : base(parser, peptideFormat)
     { }
 
@@ -39,7 +39,7 @@ namespace RCPA.Proteomics.Sequest
         {
           Progress.SetMessage(MyConvert.Format("{0}/{1} : Parsing outs file {2}", stepCount, totalCount,
                                             outsFile.FullName));
-          subPeptides = parser.ParsePeptides(outsFile.FullName);
+          subPeptides = parser.ReadFromFile(outsFile.FullName);
 
           Protease defaultProtease = new SequestParamFile().ReadFromFile(outsFile.FullName).Protease;
           foreach (IIdentifiedSpectrum spectrum in subPeptides)

@@ -224,7 +224,7 @@ namespace RCPA.Proteomics.Mascot
 
       for (int i = 0; i < mods.Count; i++)
       {
-        this.modifications[mods[i]] = MascotDatSpectrumParser.MODIFICATION_CHAR[i + 1];
+        this.modifications[mods[i]] = ModificationConsts.MODIFICATION_CHAR[i + 1];
       }
 
       List<IIdentifiedSpectrum> spectra = result.GetSpectra();

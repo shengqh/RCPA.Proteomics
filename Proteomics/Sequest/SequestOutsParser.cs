@@ -4,7 +4,7 @@ using RCPA.Proteomics.Summary;
 
 namespace RCPA.Proteomics.Sequest
 {
-  public class SequestOutsParser : ProgressClass, ISequestOutParser
+  public class SequestOutsParser : AbstractSequestSpectrumParser
   {
     private readonly OutParser parser;
 
@@ -26,11 +26,11 @@ namespace RCPA.Proteomics.Sequest
     {
     }
 
-    public List<IIdentifiedSpectrum> ParsePeptides(string outsFilename)
+    public override List<IIdentifiedSpectrum> ReadFromFile(string fileName)
     {
       var result = new List<IIdentifiedSpectrum>();
 
-      using (var reader = new OutsReader(outsFilename))
+      using (var reader = new OutsReader(fileName))
       {
         Progress.SetRange(1, reader.FileCount);
 

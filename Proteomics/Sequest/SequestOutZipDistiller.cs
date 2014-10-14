@@ -11,7 +11,7 @@ namespace RCPA.Proteomics.Sequest
 {
   public class SequestOutZipDistiller : AbstractSequestSpectraDistiller
   {
-    public SequestOutZipDistiller(ISequestOutParser parser, IFileFormat<List<IIdentifiedSpectrum>> peptideFormat)
+    public SequestOutZipDistiller(ISpectrumParser parser, IFileFormat<List<IIdentifiedSpectrum>> peptideFormat)
       : base(parser, peptideFormat)
     { }
 
@@ -32,7 +32,7 @@ namespace RCPA.Proteomics.Sequest
         Progress.SetMessage(MyConvert.Format("{0}/{1} : Parsing zip file {2}", stepCount, totalCount,
                                           zipFile));
 
-        result = parser.ParsePeptides(zipFile);
+        result = parser.ReadFromFile(zipFile);
 
         peptideFormat.WriteToFile(peptideFilename, result);
 

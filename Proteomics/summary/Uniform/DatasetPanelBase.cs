@@ -27,7 +27,19 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     protected RcpaComponentList componentList { get; set; }
 
-    public IDatasetOptions Option { get; set; }
+    public virtual IDatasetOptions Options { get; set; }
+
+    public bool Enabled
+    {
+      get
+      {
+        return enabled.Checked;
+      }
+      set
+      {
+        enabled.Checked = value;
+      }
+    }
 
     public string DatasetName
     {
@@ -122,29 +134,29 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     public virtual void LoadFromDataset()
     {
-      this.datasetName.Text = Option.Name;
-      this.enabled.Checked = Option.Enabled;
+      this.datasetName.Text = Options.Name;
+      this.enabled.Checked = Options.Enabled;
 
-      cbFilterByPrecursor.Checked = Option.FilterByPrecursor;
-      cbFilterByPrecursorIsotopic.Checked = Option.FilterByPrecursorIsotopic;
-      cbFilterByDynamicPrecursorTolerance.Checked = Option.FilterByPrecursorDynamicTolerance;
-      if (Option.FilterByPrecursor)
+      cbFilterByPrecursor.Checked = Options.FilterByPrecursor;
+      cbFilterByPrecursorIsotopic.Checked = Options.FilterByPrecursorIsotopic;
+      cbFilterByDynamicPrecursorTolerance.Checked = Options.FilterByPrecursorDynamicTolerance;
+      if (Options.FilterByPrecursor)
       {
-        this.precursorPPMTolerance.Value = Option.PrecursorPPMTolerance;
+        this.precursorPPMTolerance.Value = Options.PrecursorPPMTolerance;
       }
     }
 
     public virtual void SaveToDataset()
     {
-      Option.Name = this.datasetName.Text;
-      Option.Enabled = this.enabled.Checked;
+      Options.Name = this.datasetName.Text;
+      Options.Enabled = this.enabled.Checked;
 
-      Option.FilterByPrecursor = this.filterPrecursorPPMTolerance.Checked;
-      Option.FilterByPrecursorIsotopic = this.filterPrecursorIsotopic.Checked;
-      Option.FilterByPrecursorDynamicTolerance = this.filterPrecursorByDynamicTolerance.Checked;
-      if (Option.FilterByPrecursor)
+      Options.FilterByPrecursor = this.filterPrecursorPPMTolerance.Checked;
+      Options.FilterByPrecursorIsotopic = this.filterPrecursorIsotopic.Checked;
+      Options.FilterByPrecursorDynamicTolerance = this.filterPrecursorByDynamicTolerance.Checked;
+      if (Options.FilterByPrecursor)
       {
-        Option.PrecursorPPMTolerance = this.precursorPPMTolerance.Value;
+        Options.PrecursorPPMTolerance = this.precursorPPMTolerance.Value;
       }
     }
   }

@@ -43,7 +43,7 @@ namespace RCPA.Proteomics.Format
       {
         InputFiles = mgfFiles.FileNames,
         TargetDir = GetOriginFile(),
-        Parser = new DefaultTitleParser()
+        Parser = new DefaultTitleParser(TitleParserUtils.GetTitleParsers())
       });
     }
 

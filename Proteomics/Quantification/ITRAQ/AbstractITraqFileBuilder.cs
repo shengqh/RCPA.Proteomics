@@ -12,9 +12,15 @@ namespace RCPA.Proteomics.Quantification.ITraq
   {
     public IsobaricDefinition Definition { get; private set; }
 
-    public ITraqFileBuilder(IsobaricDefinition definition)
+    public double MaxShiftDalton { get; set; }
+
+    public double MinPercentage { get; set; }
+
+    public ITraqFileBuilder(IsobaricDefinition definition, double maxShiftDalton = 0.02, double minPercentage = 0.3)
     {
       this.Definition = definition;
+      this.MaxShiftDalton = maxShiftDalton;
+      this.MinPercentage = minPercentage;
     }
 
     protected double GetPeakIntensity(Peak peak)
@@ -40,53 +46,36 @@ namespace RCPA.Proteomics.Quantification.ITraq
 
     protected void AddToDistance(List<double> distances, PeakList<Peak> pkl, double theoreticalMz)
     {
-      Peak peak = pkl.FindPeak(theoreticalMz, 0.45).FindMaxIntensityPeak();
+      Peak peak = pkl.FindPeak(theoreticalMz, 0.02).FindMaxIntensityPeak();
       if (peak != null)
       {
         distances.Add(peak.Mz - theoreticalMz);
       }
     }
 
-    protected List<MeanStandardDeviation> DoGetDistance(List<PeakList<Peak>> pkls, double[] ions)
-    {
-      var result = new List<MeanStandardDeviation>();
-      foreach (double ion in ions)
-      {
-        List<double> distances = new List<double>();
-
-        foreach (PeakList<Peak> pkl in pkls)
-        {
-          AddToDistance(distances, pkl, ion);
-        }
-
-        result.Add(new MeanStandardDeviation(distances));
-      }
-
-      return result;
-    }
-
     public virtual List<MeanStandardDeviation> GetDistances(IEnumerable<PeakList<Peak>> pkls)
     {
       double[] ions = GetIons();
-
       var result = new List<MeanStandardDeviation>();
       foreach (double ion in ions)
       {
-        List<double> distances = new List<double>();
+        var minion = ion - MaxShiftDalton;
+        var maxion = ion + MaxShiftDalton;
 
-        foreach (PeakList<Peak> pkl in pkls)
-        {
-          AddToDistance(distances, pkl, ion);
-        }
+        var detected = (from t in pkls
+                        from r in t
+                        where r.Mz >= minion && r.Mz <= maxion
+                        let cat = Math.Round(r.Mz * 100)
+                        select new { Cat = cat, Mz = r.Mz }).ToList();
 
-        if (distances.Count <= 1)
-        {
-          throw new Exception(string.Format("There is no iTraq ion {0:0.##}.", ion));
-        }
-        else
-        {
-          result.Add(new MeanStandardDeviation(distances));
-        }
+        var minCount = pkls.Count() * MinPercentage;
+        var groups = detected.GroupBy(m => m.Cat).Where(m => m.Count() >= minCount).OrderByDescending(m => m.Count()).ToList();
+        var candidate = groups.OrderBy(m => Math.Abs(m.Key - ion)).First();
+
+        var distances = (from c in candidate
+                         select c.Mz - ion).ToList();
+
+        result.Add(new MeanStandardDeviation(distances));
       }
 
       return result;

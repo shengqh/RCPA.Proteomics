@@ -52,11 +52,11 @@ namespace RCPA.Proteomics.Raw
       this.docRoot = XElement.Load(filename);
       this.FileName = filename;
 
-      this.msRun = docRoot.FindFirstChild("msRun");
+      this.msRun = docRoot.FindFirstDescendant("msRun");
 
       this.numSpectra = Convert.ToInt32(this.msRun.Attribute("scanCount").Value);
 
-      var dataProcessingNode = msRun.FindFirstChild("dataProcessing");
+      var dataProcessingNode = msRun.FindFirstDescendant("dataProcessing");
       if (null != dataProcessingNode.Attribute("centroided"))
       {
         this.centroid = dataProcessingNode.Attribute("centroided").Value.Equals("1");
@@ -206,7 +206,7 @@ namespace RCPA.Proteomics.Raw
       {
         XElement node = GetValidSpectrumNode(scan);
 
-        XElement precursor = node.FindFirstChild("precursorMz");
+        XElement precursor = node.FindFirstDescendant("precursorMz");
         result.Mz = MyConvert.ToDouble(precursor.GetValue());
         result.Intensity = MyConvert.ToDouble(precursor.Attribute("precursorIntensity").Value);
         if (precursor.Attributes().Count() > 1)
@@ -261,7 +261,7 @@ namespace RCPA.Proteomics.Raw
         return new double[] { };
       }
 
-      var peaksItem = node.FindFirstChild("peaks");
+      var peaksItem = node.FindFirstDescendant("peaks");
 
       var precision = Convert.ToInt32(peaksItem.Attribute("precision").Value);
       string peaksStr = peaksItem.GetValue();

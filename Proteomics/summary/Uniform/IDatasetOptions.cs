@@ -15,7 +15,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     BuildSummaryOptions Parent { get; set; }
 
-    SearchEngineType SearchEngine { get; }
+    SearchEngineType SearchEngine { get; set; }
 
     bool FilterByPrecursor { get; set; }
 

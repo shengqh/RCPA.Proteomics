@@ -5,6 +5,12 @@ using System.Text;
 using System.Xml.Linq;
 using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Sequest;
+using RCPA.Proteomics.XTandem;
+using RCPA.Proteomics.PFind;
+using RCPA.Proteomics.PeptideProphet;
+using RCPA.Proteomics.MyriMatch;
+using RCPA.Proteomics.MSGF;
+using RCPA.Proteomics.Omssa;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
@@ -46,12 +52,12 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     public static IDatasetOptions GetDatasetOption(string engine)
     {
-      SearchEngineType set = EnumUtils.StringToEnum(engine, SearchEngineType.NOTFOUND);
+      SearchEngineType set = EnumUtils.StringToEnum(engine, SearchEngineType.NotFound);
 
       IDatasetOptions op;
       switch (set)
       {
-        case SearchEngineType .NOTFOUND:
+        case SearchEngineType.NotFound:
           throw new ArgumentException("Unknown search engine " + engine);
         case SearchEngineType.MASCOT:
           op = new MascotDatasetOptions();
@@ -59,14 +65,23 @@ namespace RCPA.Proteomics.Summary.Uniform
         case SearchEngineType.SEQUEST:
           op = new SequestDatasetOptions();
           break;
-        case SearchEngineType.XTANDEM:
+        case SearchEngineType.XTandem:
           op = new XtandemDatasetOptions();
           break;
-        case SearchEngineType.PFIND:
+        case SearchEngineType.PFind:
           op = new PFindDatasetOptions();
           break;
-        case SearchEngineType.PEPTIDEPHOPHET:
+        case SearchEngineType.PeptidePhophet:
           op = new PeptideProphetDatasetOptions();
+          break;
+        case SearchEngineType.MyriMatch:
+          op = new MyriMatchDatasetOptions();
+          break;
+        case SearchEngineType.MSGF:
+          op = new MSGFDatasetOptions();
+          break;
+        case SearchEngineType.OMSSA:
+          op = new OmssaDatasetOptions();
           break;
         default:
           throw new ArgumentException("It's not defined that how to get dataset option for search engine " + engine);

@@ -14,7 +14,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 {
   public partial class MascotDatasetPanel : ExpectValueDatasetPanel
   {
-    private MascotDatasetOptions MascotOption { get { return Option as MascotDatasetOptions; } }
+    private MascotDatasetOptions MascotOption { get { return Options as MascotDatasetOptions; } }
 
     public MascotDatasetPanel()
     {

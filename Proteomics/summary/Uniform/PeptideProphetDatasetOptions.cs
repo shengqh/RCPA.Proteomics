@@ -6,11 +6,17 @@ using System.Xml.Linq;
 using RCPA.Proteomics.Summary;
 using System.Windows.Forms;
 using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.PeptideProphet;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
   public class PeptideProphetDatasetOptions : AbstractTitleDatasetOptions
   {
+    public PeptideProphetDatasetOptions()
+    {
+      this.SearchEngine = SearchEngineType.PeptidePhophet;
+    }
+
     private bool _filterByMinPValue;
     public bool FilterByMinPValue
     {
@@ -25,11 +31,6 @@ namespace RCPA.Proteomics.Summary.Uniform
       set { _minPValue = value; }
     }
 
-    public override SearchEngineType SearchEngine
-    {
-      get { return SearchEngineType.PEPTIDEPHOPHET; }
-    }
-
     public override IDatasetBuilder GetBuilder()
     {
       return new PeptideProphetDatasetBuilder(this);
@@ -39,7 +40,7 @@ namespace RCPA.Proteomics.Summary.Uniform
     {
       var result = new PeptideProphetDatasetPanel();
 
-      result.Option = this;
+      result.Options = this;
 
       return result;
     }

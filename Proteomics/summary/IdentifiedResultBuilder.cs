@@ -6,7 +6,7 @@ using RCPA.Gui;
 
 namespace RCPA.Proteomics.Summary
 {
-  public class IdentifiedResultBuilder : ProgressClass, IIdentifiedResultBuilder
+  public class IdentifiedResultBuilder : AbstractIdentifiedResultBuilder
   {
     private IStringParser<string> acParser;
 
@@ -18,36 +18,15 @@ namespace RCPA.Proteomics.Summary
       this.fastaFilename = fastaFilename;
     }
 
-    #region IIdentifiedResultBuilder Members
-
-    public IIdentifiedResult Build(List<IIdentifiedProteinGroup> groups)
+    protected override bool FillSequence(IIdentifiedResult groups)
     {
-      IdentifiedResult result = new IdentifiedResult();
-
-      result.AddRange(groups);
-      result.Sort();
-      result.BuildGroupIndex();
-
       if (File.Exists(fastaFilename))
       {
-        IdentifiedResultUtils.FillSequenceFromFasta(acParser, fastaFilename, result, Progress);
-
-        AveragePeptideMassCalculator massCalc = new AveragePeptideMassCalculator(new Aminoacids(), Atom.H.AverageMass, Atom.H.AverageMass + Atom.O.AverageMass);
-
-        Progress.SetMessage("Calculating coverage and mass weight ...");
-        foreach (IIdentifiedProteinGroup group in result)
-        {
-          foreach (IIdentifiedProtein protein in group)
-          {
-            protein.CalculateCoverage();
-            protein.MolecularWeight = massCalc.GetMass(protein.Sequence);
-          }
-        }
+        IdentifiedResultUtils.FillSequenceFromFasta(acParser, fastaFilename, groups, Progress);
+        return true;
       }
 
-      return result;
+      return false;
     }
-
-    #endregion
   }
 }

@@ -34,11 +34,14 @@ namespace RCPA.Proteomics
 
   public class Protease : IProtease
   {
+    public string Id { get; set; }
+
     private readonly string cleavageResidues;
 
     private readonly bool endoProtease = true;
 
     private readonly string name;
+
     private readonly string notCleaveResidues;
 
     public bool IsSemiSpecific { get; set; }

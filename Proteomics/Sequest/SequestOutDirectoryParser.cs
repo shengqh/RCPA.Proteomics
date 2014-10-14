@@ -7,9 +7,9 @@ using RCPA.Utils;
 
 namespace RCPA.Proteomics.Sequest
 {
-  public class SequestOutDirectoryParser : ProgressClass, ISequestOutParser
+  public class SequestOutDirectoryParser : AbstractSequestSpectrumParser
   {
-    private readonly OutParser parser;
+    private OutParser parser;
 
     public SequestOutDirectoryParser(bool raiseDuplicatedReferenceAbsentException)
     {
@@ -21,15 +21,17 @@ namespace RCPA.Proteomics.Sequest
       this.parser = new ModificationOutParser(raiseDuplicatedReferenceAbsentException, modificationDeltaScore);
     }
 
-    public SequestOutDirectoryParser() : this(true)
+    public SequestOutDirectoryParser()
+      : this(true)
     {
     }
 
-    public SequestOutDirectoryParser(double modificationDeltaScore) : this(true, modificationDeltaScore)
+    public SequestOutDirectoryParser(double modificationDeltaScore)
+      : this(true, modificationDeltaScore)
     {
     }
 
-    public List<IIdentifiedSpectrum> ParsePeptides(string outDirectory)
+    public override List<IIdentifiedSpectrum> ReadFromFile(string outDirectory)
     {
       var result = new List<IIdentifiedSpectrum>();
 

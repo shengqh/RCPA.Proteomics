@@ -10,25 +10,18 @@ using RCPA.Proteomics.Mascot;
 
 namespace RCPA.Proteomics.PFind
 {
-  public class PFindSpectrumParser : ProgressClass
+  public class PFindSpectrumParser : ProgressClass, ISpectrumParser
   {
-    public const string MODIFICATION_CHAR = " *#@&^%$~1234567890";
-
     private readonly Regex keyValueRegex = new Regex(@"^(.+?)=(.*)");
-
-    protected ITitleParser parser;
 
     private Dictionary<string, char> ModificationCharMap = new Dictionary<string, char>();
 
     public PFindSpectrumParser(ITitleParser parser)
     {
-      this.parser = parser;
+      this.TitleParser = parser;
     }
 
-    public PFindSpectrumParser()
-      : this(new DefaultTitleParser())
-    {
-    }
+    public PFindSpectrumParser() : this(new DefaultTitleParser()) { }
 
     public Dictionary<string, string> ParseSection(StreamReader sr, string sectionName)
     {
@@ -138,9 +131,9 @@ namespace RCPA.Proteomics.PFind
     /// </summary>
     /// <param name="filename">pFind proteins file</param>
     /// <returns>List of IIdentifiedSpectrum</returns>
-    public List<IIdentifiedSpectrum> ParsePeptides(string filename)
+    public List<IIdentifiedSpectrum> ReadFromFile(string fileName)
     {
-      Dictionary<int, List<IIdentifiedSpectrum>> queryPepMap = ParsePeptides(filename, 1);
+      Dictionary<int, List<IIdentifiedSpectrum>> queryPepMap = ParsePeptides(fileName, 1);
 
       var result = new List<IIdentifiedSpectrum>();
 
@@ -193,7 +186,7 @@ namespace RCPA.Proteomics.PFind
         {
           if (!this.ModificationCharMap.ContainsKey(mod.Modification))
           {
-            this.ModificationCharMap[mod.Modification] = MODIFICATION_CHAR[this.ModificationCharMap.Count + 1];
+            this.ModificationCharMap[mod.Modification] = ModificationConsts.MODIFICATION_CHAR[this.ModificationCharMap.Count + 1];
           }
         }
 
@@ -339,7 +332,7 @@ namespace RCPA.Proteomics.PFind
 
           var title = new FileInfo(peptideSection["Input"]).Name;
 
-          SequestFilename sf = this.parser.GetValue(title);
+          SequestFilename sf = this.TitleParser.GetValue(title);
           sf.Charge = charge;
 
           if (sf.Experimental == null || sf.Experimental.Length == 0)
@@ -386,6 +379,18 @@ namespace RCPA.Proteomics.PFind
         }
       }
       return string.Empty;
+    }
+
+    public SearchEngineType Engine
+    {
+      get { return SearchEngineType.PFind; }
+    }
+
+    public ITitleParser TitleParser { get; set; }
+
+    public ISpectrumParser Clone()
+    {
+      return new PFindSpectrumParser(this.TitleParser);
     }
   }
 }

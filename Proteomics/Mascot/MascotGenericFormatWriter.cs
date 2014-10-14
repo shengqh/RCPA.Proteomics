@@ -59,11 +59,6 @@ namespace RCPA.Proteomics.Mascot
 
     protected void WriteHeader(StreamWriter writer, PeakList<T> pl)
     {
-      if (null != pl.Experimental && pl.Experimental.Length > 0)
-      {
-        writer.WriteLine(MascotGenericFormatConstants.FILENAME_TAG + pl.Experimental);
-      }
-
       if (pl.ScanTimes.Count > 0)
       {
         writer.Write(MascotGenericFormatConstants.MSMS_SCAN_TAG + pl.ScanTimes[0].Scan);
@@ -109,6 +104,11 @@ namespace RCPA.Proteomics.Mascot
         }
         writer.WriteLine(MascotGenericFormatConstants.SCAN_TAG + "=" + pl.ScanTimes.Scans());
       }
+
+      //if (!string.IsNullOrWhiteSpace(pl.Experimental))
+      //{
+      //  writer.WriteLine(MascotGenericFormatConstants.RAWFILE_TAG + "=" + pl.Experimental);
+      //}
 
       WriteAnnotationTitle(writer, pl);
 

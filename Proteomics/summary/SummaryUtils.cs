@@ -28,7 +28,7 @@ namespace RCPA.Proteomics.Summary
       return string.Empty;
     }
 
-    public static void FindSourceFile(ListView lvDatFiles, string fileKey, int index)
+    public static void FindSourceFile(ListView lvDatFiles, string fileKey, int index, Func<string,bool> valid)
     {
       lvDatFiles.BeginUpdate();
       try
@@ -36,6 +36,11 @@ namespace RCPA.Proteomics.Summary
         foreach (ListViewItem item in lvDatFiles.Items)
         {
           string datFile = item.Text;
+          if (!valid(datFile))
+          {
+            continue;
+          }
+
           if (File.Exists(datFile))
           {
             while (item.SubItems.Count < index + 1)
@@ -99,12 +104,12 @@ namespace RCPA.Proteomics.Summary
 
     public static void FindPFindSource(ListView lvDatFiles)
     {
-      FindSourceFile(lvDatFiles, "InputPath=", 1);
+      FindSourceFile(lvDatFiles, "InputPath=", 1, m => true);
     }
 
     public static void FindPFindDatabase(ListView lvDatFiles)
     {
-      FindSourceFile(lvDatFiles, "Fasta=", 2);
+      FindSourceFile(lvDatFiles, "Fasta=", 2, m => true);
     }
 
     public static void RenameAsPFindSource(ListView lvDatFiles)
@@ -116,17 +121,17 @@ namespace RCPA.Proteomics.Summary
 
     public static void FindMgf(ListView lvDatFiles)
     {
-      FindSourceFile(lvDatFiles, "FILE=", 1);
+      FindSourceFile(lvDatFiles, "FILE=", 1, m => m.ToLower().EndsWith(".dat"));
     }
 
-    public static void FindDatDB(ListView lvDatFiles)
+    public static void FindDatDatabase(ListView lvDatFiles)
     {
       FindDatDB(lvDatFiles, 2);
     }
 
     public static void FindDatDB(ListView lvDatFiles, int index)
     {
-      FindSourceFile(lvDatFiles, "DB=", index);
+      FindSourceFile(lvDatFiles, "DB=", index, m => m.ToLower().EndsWith(".dat"));
     }
 
     public static void RenameAsMgf(ListView lvDatFiles)

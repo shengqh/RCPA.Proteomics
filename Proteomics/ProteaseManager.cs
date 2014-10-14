@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -111,20 +113,32 @@ namespace RCPA.Proteomics
       return result;
     }
 
+    private static string GetShortName(string name)
+    {
+      StringBuilder sb = new StringBuilder();
+      foreach (var c in name)
+      {
+        if (Char.IsLetterOrDigit(c))
+        {
+          sb.Append(Char.ToLower(c));
+        }
+      }
+      return sb.ToString();
+    }
     /**
      * Registers a protease and ensures its flyweight status
      * @param prot the Protease to register
      */
-
     public static void RegisterProtease(Protease protease)
     {
+      var name = GetShortName(protease.Name);
       if (Registered(protease.Name))
       {
         throw new ArgumentException(
           "A Protease has already been registered with the name "
           + protease.Name, "protease");
       }
-      name2Protease[protease.Name] = protease;
+      name2Protease[name] = protease;
     }
 
     /**
@@ -136,17 +150,18 @@ namespace RCPA.Proteomics
 
     public static Protease GetProteaseByName(string proteaseName)
     {
-      if (!name2Protease.ContainsKey(proteaseName))
+      var name = GetShortName(proteaseName);
+      if (!name2Protease.ContainsKey(name))
       {
         throw new ArgumentException("No protease has been registered by name " + proteaseName, "proteaseName");
       }
 
-      return name2Protease[proteaseName];
+      return name2Protease[name];
     }
 
     public static List<string> GetNames()
     {
-      return new List<string>(name2Protease.Keys);
+      return name2Protease.Values.ToList().ConvertAll(m => m.Name).ToList();
     }
 
     /**
@@ -157,12 +172,13 @@ namespace RCPA.Proteomics
 
     public static bool Registered(string proteaseName)
     {
-      return name2Protease.ContainsKey(proteaseName);
+      var name = GetShortName(proteaseName);
+      return name2Protease.ContainsKey(name);
     }
 
     private static FileInfo GetProteaseFile()
     {
-      return new FileInfo(new FileInfo(Application.ExecutablePath).DirectoryName + "\\protease.list");
+      return new FileInfo(FileUtils.AppPath() + "/protease.list");
     }
 
     public static void LoadFromFile(FileInfo proteaseFile)

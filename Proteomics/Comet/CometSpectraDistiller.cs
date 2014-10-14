@@ -1,5 +1,6 @@
 ﻿using RCPA.Proteomics.Sequest;
 using RCPA.Proteomics.Summary;
+using RCPA.Seq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,9 +11,7 @@ namespace RCPA.Proteomics.Comet
 {
   public class CometSpectraDistiller : AbstractSequestSpectraDistiller
   {
-    public CometSpectraDistiller(IFileFormat<List<IIdentifiedSpectrum>> peptideFormat)
-      : base(null, peptideFormat)
-    { }
+    public CometSpectraDistiller(IFileFormat<List<IIdentifiedSpectrum>> peptideFormat) : base(null, peptideFormat) { }
 
     public override List<IIdentifiedSpectrum> ParseSpectra(string xmlFile, string modStr, int stepCount, int totalCount)
     {
@@ -31,7 +30,10 @@ namespace RCPA.Proteomics.Comet
         Progress.SetMessage(MyConvert.Format("{0}/{1} : Parsing xml file {2}", stepCount, totalCount,
                                           xmlFile));
 
-        result = new CometXmlReader(new DefaultTitleParser()).ReadFromFile(xmlFile);
+        result = new CometXmlParser()
+        {
+          TitleParser = new DefaultTitleParser(TitleParserUtils.GetTitleParsers())
+        }.ReadFromFile(xmlFile);
 
         peptideFormat.WriteToFile(peptideFilename, result);
       }

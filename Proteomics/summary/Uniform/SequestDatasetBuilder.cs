@@ -9,6 +9,7 @@ using RCPA.Seq;
 using RCPA.Gui;
 using RCPA.Proteomics.Sequest;
 using RCPA.Proteomics.Comet;
+using RCPA.Proteomics.ProteomeDiscoverer;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
@@ -93,9 +94,14 @@ namespace RCPA.Proteomics.Summary.Uniform
           distiller = new CometSpectraDistiller(peptideFormat);
           engine = "COMET";
         }
+        else if (pathName.ToLower().EndsWith(".msf"))
+        {
+          distiller = new MsfSpectraDistiller(peptideFormat);
+          engine = "PD";
+        }
         else //zipfile
         {
-          ISequestOutParser zipParser;
+          ISpectrumParser zipParser;
           if (ZipUtils.HasFile(pathName, m => m.ToLower().EndsWith(".out")))
           {
             zipParser = outZipParser;

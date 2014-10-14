@@ -1,8 +1,8 @@
 #predefine_start
 
-outputdir<-"H:/shengquanhu/projects/rcpa/TurboRaw2Mgf/iTRAQ4/mascot/summary"
-inputfile<-"8-deisotopic-top10-removeitraq-range.noredundant.I114I115.isobaric.GK.tsv"
-outputfile<-"8-deisotopic-top10-removeitraq-range.noredundant.I114I115.isobaric.GK.sig.tsv"
+outputdir<-"H:/shengquanhu/projects/rcpa/IsobaricLabelling/iTRAQ4"
+inputfile<-"09-deisotopic-remove-isobaric-low.noredundant.I114I115.isobaric.peptides.details.tsv"
+outputfile<-"09-deisotopic-remove-isobaric-low.noredundant.I114I115.isobaric.peptides.tsv"
 references<-c("I114", "I115")
 samples<-c("I116", "I117")
 
@@ -20,30 +20,39 @@ showlm <- function(fit, samname, refname, data, estkey, name){
   lines(data[, refname], inter + data[, refname] * r, col="red")
 }
 
+showpca <- function(fit, samname, refname, data, name){
+  form<-paste0(" ~ ", samname, refname)
+  r <- fit$rotation[2,1] / fit$rotation[1,1]
+  inter <- fit$center[2] - r*fit$center[1]
+  perc<-(fit$sdev[1] ** 2) / (fit$sdev[1] ** 2 + fit$sdev[2] ** 2)
+  
+  plot(data[, refname], data[, samname], main=paste0(name, "\n", samname, " = ", sprintf("%.f", inter), " + ", sprintf("%.2f", r), " * ", refname,
+                                                     "\n", sprintf("perc=%.3f", perc)), xlab=refname, ylab=samname)
+  lines(data[, refname], inter + data[, refname] * r, col="red")
+}
+
 setwd(outputdir)
 
 alldata<-read.table(inputfile, header=T, sep="\t")
-groups<-unique(alldata$GroupIndex)
 
-ratio<-alldata[,references[1]] / alldata[,references[2]]
-logratio<-log(ratio)
-alldata$logratioSR<-log(alldata[,references[1]] / alldata[,references[2]])
-s1<-!scores(alldata$logratioSR, type="z", prob=0.95)
-
-
-group<-1
-for(group in groups){
-  data<-alldata[alldata$GroupIndex == group,]
+if(length(references) == 2){
+  ratio<-alldata[,references[1]] / alldata[,references[2]]
+  logratio<-log(ratio)
+  logratioSR<-log(alldata[,references[1]] / alldata[,references[2]])
+  s1<-!scores(logratioSR, type="z", prob=0.95)
+  alldata<-alldata[s1,]
   
-  if(length(references) == 2){
+  alldata$REF<-(alldata[,references[1]] + alldata[,references[2]])/2
+}else{
+  alldata$REF<-alldata[,references[1]]
+}
 
-    refdata<-data[,references]
-    data$REF<-apply(refdata, 1, mean)
-    data$CV<-apply(refdata, 1, function(x) 100*(sd(x,na.rm=TRUE)/mean(x,na.rm=TRUE)) )
-  }else{
-    data$REF<-data[,references[1]]
-    data$CV<-1
-  }
+groups<-unique(alldata$PurePeptide)
+datasets<-unique(alldata$Dataset)
+
+group<-groups[1]
+for(group in groups){
+  data<-alldata[alldata$PurePeptide == group,]
   
   data$logratioSR<-log(data$I115 / data$I114)
   s1<-!scores(data$logratioSR, type="z", prob=0.95)
