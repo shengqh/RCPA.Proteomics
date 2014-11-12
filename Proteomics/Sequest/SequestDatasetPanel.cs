@@ -137,9 +137,9 @@ namespace RCPA.Proteomics.Sequest
       this.dataDirs.AddDirectories(this.SequestOption.PathNames.ToArray());
     }
 
-    public override void SaveToDataset()
+    public override void SaveToDataset(bool selectedOnly)
     {
-      base.SaveToDataset();
+      base.SaveToDataset(selectedOnly);
 
       this.SequestOption.FilterByXcorr = this.filterByXcorr.Checked;
       this.SequestOption.FilterByDeltaCn = this.filterByDeltaCn.Checked;
@@ -156,7 +156,14 @@ namespace RCPA.Proteomics.Sequest
 
       this.SequestOption.MaxEvalue = this.maxEvalue.Value;
 
-      this.SequestOption.PathNames = new List<string>(dataDirs.GetAllItems());
+      if (selectedOnly)
+      {
+        this.SequestOption.PathNames = new List<string>(dataDirs.GetSelectedItems());
+      }
+      else
+      {
+        this.SequestOption.PathNames = new List<string>(dataDirs.GetAllItems());
+      }
     }
 
     private void btnAddSubDirectories_Click(object sender, EventArgs e)
@@ -187,6 +194,16 @@ namespace RCPA.Proteomics.Sequest
       {
         this.dataDirs.AddItems(dlg.FileNames);
       }
+    }
+
+    public override bool HasValidFile(bool selectedOnly)
+    {
+      if (selectedOnly)
+      {
+        return dataDirs.GetSelectedItems().Length > 0;
+      }
+
+      return dataDirs.GetAllItems().Length > 0;
     }
   }
 }

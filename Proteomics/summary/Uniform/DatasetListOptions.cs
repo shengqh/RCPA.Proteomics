@@ -52,39 +52,12 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     public static IDatasetOptions GetDatasetOption(string engine)
     {
-      SearchEngineType set = EnumUtils.StringToEnum(engine, SearchEngineType.NotFound);
+      SearchEngineType set = EnumUtils.StringToEnum(engine, SearchEngineType.Unknown);
 
-      IDatasetOptions op;
-      switch (set)
+      IDatasetOptions op = set.GetFactory().GetOptions();
+      if (op == null)
       {
-        case SearchEngineType.NotFound:
-          throw new ArgumentException("Unknown search engine " + engine);
-        case SearchEngineType.MASCOT:
-          op = new MascotDatasetOptions();
-          break;
-        case SearchEngineType.SEQUEST:
-          op = new SequestDatasetOptions();
-          break;
-        case SearchEngineType.XTandem:
-          op = new XtandemDatasetOptions();
-          break;
-        case SearchEngineType.PFind:
-          op = new PFindDatasetOptions();
-          break;
-        case SearchEngineType.PeptidePhophet:
-          op = new PeptideProphetDatasetOptions();
-          break;
-        case SearchEngineType.MyriMatch:
-          op = new MyriMatchDatasetOptions();
-          break;
-        case SearchEngineType.MSGF:
-          op = new MSGFDatasetOptions();
-          break;
-        case SearchEngineType.OMSSA:
-          op = new OmssaDatasetOptions();
-          break;
-        default:
-          throw new ArgumentException("It's not defined that how to get dataset option for search engine " + engine);
+        throw new ArgumentException("It's not defined that how to get dataset option for search engine " + engine);
       }
       return op;
     }

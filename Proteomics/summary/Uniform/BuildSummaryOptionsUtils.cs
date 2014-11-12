@@ -27,12 +27,12 @@ namespace RCPA.Proteomics.Summary.Uniform
       if (engineNode != null)
       {
         var engine = engineNode.Value;
-        SearchEngineType set = EnumUtils.StringToEnum(engine, SearchEngineType.NotFound);
+        SearchEngineType set = EnumUtils.StringToEnum(engine, SearchEngineType.Unknown);
 
         AbstractSummaryConfiguration conf;
         switch (set)
         {
-          case SearchEngineType.NotFound:
+          case SearchEngineType.Unknown:
             throw new ArgumentException("Unknown search engine " + engine);
           case SearchEngineType.MASCOT:
             conf = new MascotDatSummaryConfiguration("");

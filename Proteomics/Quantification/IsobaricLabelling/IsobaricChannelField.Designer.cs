@@ -36,18 +36,18 @@
       this.label1.Dock = System.Windows.Forms.DockStyle.Left;
       this.label1.Location = new System.Drawing.Point(0, 0);
       this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(107, 28);
+      this.label1.Size = new System.Drawing.Size(107, 30);
       this.label1.TabIndex = 13;
       this.label1.Text = "Select references";
-      this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+      this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       // 
-      // ITraqIonField
+      // IsobaricChannelField
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.Controls.Add(this.label1);
-      this.Name = "ITraqIonField";
-      this.Size = new System.Drawing.Size(872, 28);
+      this.Name = "IsobaricChannelField";
+      this.Size = new System.Drawing.Size(872, 30);
       this.ResumeLayout(false);
 
     }

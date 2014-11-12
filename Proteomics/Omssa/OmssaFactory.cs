@@ -32,5 +32,10 @@ namespace RCPA.Proteomics.Omssa
     {
       get { return SearchEngineType.OMSSA; }
     }
+
+    public IDatasetOptions GetOptions()
+    {
+      return new OmssaDatasetOptions();
+    }
   }
 }

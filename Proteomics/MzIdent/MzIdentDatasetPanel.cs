@@ -65,11 +65,12 @@ namespace RCPA.Proteomics.MzIdent
 
       datFiles.ClearItems();
       datFiles.AddItems(Options.PathNames.ToArray());
+      datFiles.SelectAll();
     }
 
-    public override void SaveToDataset()
+    public override void SaveToDataset(bool selectedOnly)
     {
-      base.SaveToDataset();
+      base.SaveToDataset(selectedOnly);
 
       mzIdentOptions.FilterByScore = this.filterByScore.Checked;
       if (mzIdentOptions.FilterByScore)
@@ -77,12 +78,29 @@ namespace RCPA.Proteomics.MzIdent
         mzIdentOptions.MinScore = this.minScore.Value;
       }
 
-      Options.PathNames = new List<string>(datFiles.GetAllItems());
+      if (selectedOnly)
+      {
+        Options.PathNames = new List<string>(datFiles.GetSelectedItems());
+      }
+      else
+      {
+        Options.PathNames = new List<string>(datFiles.GetAllItems());
+      }
     }
 
     private void lvDatFiles_SizeChanged(object sender, EventArgs e)
     {
       this.lvDatFiles.Columns[0].Width = this.lvDatFiles.ClientSize.Width - this.lvDatFiles.Columns[1].Width;
+    }
+
+    public override bool HasValidFile(bool selectedOnly)
+    {
+      if (selectedOnly)
+      {
+        return datFiles.GetSelectedItems().Length > 0;
+      }
+
+      return datFiles.GetAllItems().Length > 0;
     }
   }
 }

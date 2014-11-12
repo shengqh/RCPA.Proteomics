@@ -5,7 +5,7 @@ using System.Text;
 
 namespace RCPA.Proteomics.Statistic
 {
-  public class RawIonStatisticMainBuilder : AbstractParallelMainProcessor
+  public class RawIonStatisticMainBuilder : AbstractParallelMainFileProcessor
   {
     private double productIonPPM;
 

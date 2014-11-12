@@ -8,7 +8,7 @@ using System.IO;
 
 namespace RCPA.Proteomics.Format
 {
-  public class MultipleMgfPrecursorCorrectionTaskProcessor : AbstractParallelTaskProcessor
+  public class MultipleMgfPrecursorCorrectionTaskProcessor : AbstractParallelTaskFileProcessor
   {
     private string targetDir;
     private List<Pair<string, double>> ppmList;

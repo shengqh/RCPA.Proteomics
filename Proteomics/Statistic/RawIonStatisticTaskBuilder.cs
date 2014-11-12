@@ -12,7 +12,7 @@ using RCPA.R;
 
 namespace RCPA.Proteomics.Statistic
 {
-  public class RawIonStatisticTaskBuilder : AbstractParallelTaskProcessor
+  public class RawIonStatisticTaskBuilder : AbstractParallelTaskFileProcessor
   {
     private const int FULLMS_CHARGE = -1;
 

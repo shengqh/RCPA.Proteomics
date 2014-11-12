@@ -64,18 +64,13 @@
       // splitContainer3.Panel1
       // 
       this.splitContainer3.Panel1.Controls.Add(this.groupBox2);
-      this.splitContainer3.Size = new System.Drawing.Size(1016, 293);
       // 
       // label7
       // 
       this.label7.Location = new System.Drawing.Point(8, 6);
       // 
-      // splitContainer1
-      // 
-      // 
       // splitContainer2
       // 
-      this.splitContainer2.Size = new System.Drawing.Size(1016, 392);
       // 
       // groupBox1
       // 
@@ -83,7 +78,6 @@
       this.groupBox1.Controls.Add(this.txtMinScore);
       this.groupBox1.Controls.Add(this.cbFilterByEvalue);
       this.groupBox1.Controls.Add(this.cbFilterByScore);
-      this.groupBox1.Size = new System.Drawing.Size(1016, 95);
       this.groupBox1.Controls.SetChildIndex(this.cbFilterByScore, 0);
       this.groupBox1.Controls.SetChildIndex(this.cbFilterByEvalue, 0);
       this.groupBox1.Controls.SetChildIndex(this.txtMinScore, 0);
@@ -134,7 +128,7 @@
       this.lvDatFiles.HideSelection = false;
       this.lvDatFiles.Location = new System.Drawing.Point(3, 16);
       this.lvDatFiles.Name = "lvDatFiles";
-      this.lvDatFiles.Size = new System.Drawing.Size(885, 244);
+      this.lvDatFiles.Size = new System.Drawing.Size(885, 241);
       this.lvDatFiles.Sorting = System.Windows.Forms.SortOrder.Ascending;
       this.lvDatFiles.TabIndex = 15;
       this.lvDatFiles.UseCompatibleStateImageBehavior = false;
@@ -163,10 +157,10 @@
       this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
       this.groupBox2.Location = new System.Drawing.Point(0, 0);
       this.groupBox2.Name = "groupBox2";
-      this.groupBox2.Size = new System.Drawing.Size(1016, 263);
+      this.groupBox2.Size = new System.Drawing.Size(1016, 260);
       this.groupBox2.TabIndex = 56;
       this.groupBox2.TabStop = false;
-      this.groupBox2.Text = "Select data files you want to extract peptides (all files will be used)";
+      this.groupBox2.Text = "Select data files you want to extract peptides";
       // 
       // panel1
       // 
@@ -180,7 +174,7 @@
       this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
       this.panel1.Location = new System.Drawing.Point(888, 16);
       this.panel1.Name = "panel1";
-      this.panel1.Size = new System.Drawing.Size(125, 244);
+      this.panel1.Size = new System.Drawing.Size(125, 241);
       this.panel1.TabIndex = 19;
       // 
       // btnFindDatabase

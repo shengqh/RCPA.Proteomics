@@ -1,5 +1,6 @@
 ﻿using RCPA.Proteomics.ProteomeDiscoverer;
 using RCPA.Proteomics.Summary;
+using RCPA.Proteomics.Summary.Uniform;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,6 +35,11 @@ namespace RCPA.Proteomics.Mascot
     public SearchEngineType EngineType
     {
       get { return SearchEngineType.MASCOT; }
+    }
+
+    public IDatasetOptions GetOptions()
+    {
+      return new MascotDatasetOptions();
     }
   }
 }

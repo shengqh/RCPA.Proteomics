@@ -12,6 +12,7 @@ using RCPA.Proteomics.Database;
 using RCPA.Proteomics.Sequest;
 using RCPA.Proteomics.Mascot;
 using RCPA.Gui;
+using System.Windows.Forms;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
@@ -98,8 +99,15 @@ namespace RCPA.Proteomics.Summary.Uniform
 
       PeptideFilter.Load(docRoot);
 
-      DatasetList.Load(docRoot);
-      DatasetList.ForEach(m => m.Parent = this);
+      try
+      {
+        DatasetList.Load(docRoot);
+        DatasetList.ForEach(m => m.Parent = this);
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(ex.Message, "Error");
+      }
     }
 
     public virtual void SaveToFile(string fileName)

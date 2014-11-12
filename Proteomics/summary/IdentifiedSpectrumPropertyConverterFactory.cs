@@ -12,7 +12,7 @@ namespace RCPA.Proteomics.Summary
     {
       _ignoreKey.Add(QuantificationConsts.DUPLICATED_SPECTRA_KEY);
 
-      this.RegisterConverter(new IdentifiedSpectrumIdConverter<IIdentifiedSpectrum>());
+      this.RegisterConverter(new IdentifiedSpectrumIdConverter<IIdentifiedSpectrum>(), "SpectrumId");
 
       this.RegisterConverter(new IdentifiedSpectrumEngineConverter<IIdentifiedSpectrum>());
 
@@ -32,7 +32,7 @@ namespace RCPA.Proteomics.Summary
 
       this.RegisterConverter(new IdentifiedSpectrumObservedMHConverter<IIdentifiedSpectrum>(), "M+H+");
 
-      this.RegisterConverter(new IdentifiedSpectrumTheoreticalMHConverter<IIdentifiedSpectrum>(), "CalcM+H+", "MH");
+      this.RegisterConverter(new IdentifiedSpectrumTheoreticalMHConverter<IIdentifiedSpectrum>(), "CalcM+H+", "MH", "TheoreticalMH");
 
       this.RegisterConverter(new IdentifiedSpectrumTheoreticalMinusExperimentalMassConverter<IIdentifiedSpectrum>());
 
@@ -48,13 +48,13 @@ namespace RCPA.Proteomics.Summary
 
       this.RegisterConverter(new IdentifiedSpectrumDeltaScoreConverter<IIdentifiedSpectrum>(), "DeltCN", "DeltaCn");
 
-      this.RegisterConverter(new IdentifiedSpectrumSpScoreConverter<IIdentifiedSpectrum>());
+      this.RegisterConverter(new IdentifiedSpectrumSpScoreConverter<IIdentifiedSpectrum>(), "SvmScore");
 
       this.RegisterConverter(new IdentifiedSpectrumExpectValueConverter<IIdentifiedSpectrum>(), "SpScore", "Sp");
 
       this.RegisterConverter(new IdentifiedSpectrumSpRankConverter<IIdentifiedSpectrum>(), "SpRank");
 
-      this.RegisterConverter(new IdentifiedSpectrumQueryConverter<IIdentifiedSpectrum>());
+      this.RegisterConverter(new IdentifiedSpectrumQueryConverter<IIdentifiedSpectrum>(), "QueryId");
 
       this.RegisterConverter(new IdentifiedSpectrumIonsConverter<IIdentifiedSpectrum>());
 
@@ -76,7 +76,7 @@ namespace RCPA.Proteomics.Summary
 
       this.RegisterConverter(new IdentifiedSpectrumMatchCountConverter<IIdentifiedSpectrum>());
 
-      this.RegisterConverter(new IdentifiedSpectrumDecoyConverter<IIdentifiedSpectrum>(), "T/D Hit");
+      this.RegisterConverter(new IdentifiedSpectrumDecoyConverter<IIdentifiedSpectrum>(), "T/D Hit", "Target/Decoy");
 
       this.RegisterConverter(new IdentifiedSpectrumQValueConverter<IIdentifiedSpectrum>(), "FDR");
 

@@ -66,11 +66,7 @@ namespace RCPA.Numerics
       var ts = (from z in zs
                 select Math.Sqrt(lst.Length * (lst.Length - 2) * z * z / ((lst.Length - 1) * (lst.Length - 1) - lst.Length * z * z))).ToList();
 
-      var tdist = new StudentT()
-      {
-        DegreesOfFreedom = lst.Length - 2
-      };
-
+      var tdist = new StudentT(0.0,1.0, lst.Length-2);
       var ps = (from t in ts
                 select tdist.TwoTailProbability(t) * lst.Length).ToArray();
       return ps;

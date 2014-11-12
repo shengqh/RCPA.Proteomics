@@ -45,11 +45,12 @@ namespace RCPA.Proteomics.PeptideProphet
 
       xmlFiles.Items.Clear();
       xmlFiles.Items.AddRange(CurrentOptions.PathNames.ToArray());
+      xmlFiles.SelectAll();
     }
 
-    public override void SaveToDataset()
+    public override void SaveToDataset(bool selectedOnly)
     {
-      base.SaveToDataset();
+      base.SaveToDataset(selectedOnly);
 
       CurrentOptions.FilterByMinPValue = this.filterByMinPvalue.Checked;
       if (CurrentOptions.FilterByMinPValue)
@@ -57,8 +58,25 @@ namespace RCPA.Proteomics.PeptideProphet
         CurrentOptions.MinPValue = this.minPvalue.Value;     
       }
 
-      Options.PathNames = xmlFiles.FileNames.ToList();
+      if (selectedOnly)
+      {
+        Options.PathNames = xmlFiles.SelectedFileNames.ToList();
+      }
+      else
+      {
+        Options.PathNames = xmlFiles.FileNames.ToList();
+      }
     }
 
+
+    public override bool HasValidFile(bool selectedOnly)
+    {
+      if (selectedOnly)
+      {
+        return xmlFiles.SelectedFileNames.Length > 0;
+      }
+
+      return xmlFiles.FileNames.Length > 0;
+    }
   }
 }

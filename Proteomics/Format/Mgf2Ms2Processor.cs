@@ -10,7 +10,7 @@ using RCPA.Proteomics.IO;
 
 namespace RCPA.Proteomics.Format
 {
-  public class Mgf2Ms2Processor : AbstractParallelTaskProcessor
+  public class Mgf2Ms2Processor : AbstractParallelTaskFileProcessor
   {
     private static readonly Regex pattern = new Regex(@"Cmpd\s+(\d+),");
 

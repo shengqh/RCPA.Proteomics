@@ -71,5 +71,10 @@ namespace RCPA.Proteomics.Sequest
         return new SequestOutsParser(true, _modificationDeltaScore);
       }
     }
+
+    public IDatasetOptions GetOptions()
+    {
+      return new SequestDatasetOptions();
+    }
   }
 }

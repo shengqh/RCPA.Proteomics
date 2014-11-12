@@ -5,7 +5,6 @@ using System.Text;
 using MathNet.Numerics.LinearAlgebra;
 using RCPA.Utils;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative;
 
 namespace RCPA.Proteomics.Quantification.Srm
 {

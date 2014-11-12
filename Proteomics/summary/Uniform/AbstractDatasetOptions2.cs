@@ -5,17 +5,15 @@ using System.Text;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using RCPA.Proteomics.Sequest;
+using RCPA.Proteomics.Summary.Uniform;
+using RCPA.Proteomics.Summary;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
-  public class SequestDatasetOptions : AbstractDatasetOptions
+  public abstract class AbstractDatasetOptions2 : AbstractDatasetOptions
   {
-    public SequestDatasetOptions()
-    {
-      this.SkipSamePeptideButDifferentModificationSite = true;
-      this.MaxModificationDeltaCn = 0.08;
-      this.SearchEngine = SearchEngineType.SEQUEST;
-    }
+    public AbstractDatasetOptions2()
+    { }
 
     private bool _filterByXcorr;
 
@@ -65,22 +63,6 @@ namespace RCPA.Proteomics.Summary.Uniform
       set { _deltaCn = value; }
     }
 
-    private bool _filterBySpRank;
-
-    public bool FilterBySpRank
-    {
-      get { return _filterBySpRank; }
-      set { _filterBySpRank = value; }
-    }
-
-    private int _spRank;
-
-    public int MaxSpRank
-    {
-      get { return _spRank; }
-      set { _spRank = value; }
-    }
-
     private bool _filterByEvalue;
     public bool FilterByEvalue
     {
@@ -95,10 +77,6 @@ namespace RCPA.Proteomics.Summary.Uniform
       set { _maxEvalue = value; }
     }
 
-    public bool SkipSamePeptideButDifferentModificationSite { get; set; }
-
-    public double MaxModificationDeltaCn { get; set; }
-
     protected override void AddAdditionalFilterTo(List<IFilter<IIdentifiedSpectrum>> filters)
     {
       if (FilterByXcorr)
@@ -109,11 +87,6 @@ namespace RCPA.Proteomics.Summary.Uniform
       if (FilterByDeltaCn)
       {
         filters.Add(new IdentifiedSpectrumDeltaScoreFilter(MinDeltaCn));
-      }
-
-      if (FilterBySpRank)
-      {
-        filters.Add(new IdentifiedSpectrumSpRankFilter(MaxSpRank));
       }
 
       if (FilterByEvalue)
@@ -129,7 +102,6 @@ namespace RCPA.Proteomics.Summary.Uniform
         OptionUtils.FilterToXml("Xcorr2", _filterByXcorr, _xcorr2),
         OptionUtils.FilterToXml("Xcorr3", _filterByXcorr, _xcorr3),
         OptionUtils.FilterToXml("DeltaCn", _filterByDeltaCn, _deltaCn),
-        OptionUtils.FilterToXml("SpRank", _filterBySpRank, _spRank),
         OptionUtils.FilterToXml("Evalue", _filterByEvalue, _maxEvalue)
       }.ToList();
     }
@@ -140,7 +112,6 @@ namespace RCPA.Proteomics.Summary.Uniform
       OptionUtils.XmlToFilter(filterXml, "Xcorr2", out _filterByXcorr, out _xcorr2);
       OptionUtils.XmlToFilter(filterXml, "Xcorr3", out _filterByXcorr, out _xcorr3);
       OptionUtils.XmlToFilter(filterXml, "DeltaCn", out _filterByDeltaCn, out _deltaCn);
-      OptionUtils.XmlToFilter(filterXml, "SpRank", out _filterBySpRank, out _spRank);
       if (OptionUtils.HasFilter(filterXml, "Evalue"))
       {
         OptionUtils.XmlToFilter(filterXml, "Evalue", out _filterByEvalue, out _maxEvalue);
@@ -150,42 +121,6 @@ namespace RCPA.Proteomics.Summary.Uniform
         _filterByEvalue = false;
         _maxEvalue = 0.05;
       }
-    }
-
-    protected override List<XElement> GetOtherParams()
-    {
-      return new XElement[]{
-        new XElement("DeltaCnCalculation",
-          new XElement("SkipSamePeptideButDifferentModificationSite", SkipSamePeptideButDifferentModificationSite),
-          new XElement("MaxModificationDeltaCn", MaxModificationDeltaCn))
-      }.ToList();
-    }
-
-    protected override void ParseOtherParams(XElement parentNode)
-    {
-      var xml = parentNode.Element("DeltaCnCalculation");
-
-      SkipSamePeptideButDifferentModificationSite = Convert.ToBoolean(xml.Element("SkipSamePeptideButDifferentModificationSite").Value);
-      MaxModificationDeltaCn = MyConvert.ToDouble(xml.Element("MaxModificationDeltaCn").Value);
-    }
-
-    public override IDatasetBuilder GetBuilder()
-    {
-      return new SequestDatasetBuilder(this);
-    }
-
-    public override UserControl CreateControl()
-    {
-      var result = new SequestDatasetPanel();
-
-      result.Options = this;
-
-      return result;
-    }
-
-    protected override OptimalResultCalculator NewOptimalResultCalculator()
-    {
-      return new SequestOptimalXcorrCalculator();
     }
   }
 }

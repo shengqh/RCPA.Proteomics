@@ -67,7 +67,7 @@
       // 
       this.splitContainer2.Panel2.Controls.Add(this.outsGroup);
       this.splitContainer2.Size = new System.Drawing.Size(1016, 361);
-      this.splitContainer2.SplitterDistance = 130;
+      this.splitContainer2.SplitterDistance = 100;
       // 
       // groupBox1
       // 
@@ -83,7 +83,7 @@
       this.groupBox1.Controls.Add(this.txtXcorr1);
       this.groupBox1.Controls.Add(this.label6);
       this.groupBox1.Controls.Add(this.label7);
-      this.groupBox1.Size = new System.Drawing.Size(1016, 130);
+      this.groupBox1.Size = new System.Drawing.Size(1016, 100);
       this.groupBox1.Text = "Peptide Filter Criteria";
       this.groupBox1.Controls.SetChildIndex(this.label7, 0);
       this.groupBox1.Controls.SetChildIndex(this.label6, 0);
@@ -110,23 +110,23 @@
       // 
       // txtXcorr1
       // 
-      this.txtXcorr1.Location = new System.Drawing.Point(243, 47);
+      this.txtXcorr1.Location = new System.Drawing.Point(207, 47);
       this.txtXcorr1.Name = "txtXcorr1";
-      this.txtXcorr1.Size = new System.Drawing.Size(66, 20);
+      this.txtXcorr1.Size = new System.Drawing.Size(94, 20);
       this.txtXcorr1.TabIndex = 54;
       // 
       // txtXcorr2
       // 
-      this.txtXcorr2.Location = new System.Drawing.Point(445, 47);
+      this.txtXcorr2.Location = new System.Drawing.Point(429, 47);
       this.txtXcorr2.Name = "txtXcorr2";
-      this.txtXcorr2.Size = new System.Drawing.Size(66, 20);
+      this.txtXcorr2.Size = new System.Drawing.Size(94, 20);
       this.txtXcorr2.TabIndex = 53;
       // 
       // txtXcorr3
       // 
       this.txtXcorr3.Location = new System.Drawing.Point(655, 47);
       this.txtXcorr3.Name = "txtXcorr3";
-      this.txtXcorr3.Size = new System.Drawing.Size(66, 20);
+      this.txtXcorr3.Size = new System.Drawing.Size(94, 20);
       this.txtXcorr3.TabIndex = 52;
       // 
       // cbFilterByDeltaCn
@@ -141,7 +141,7 @@
       // 
       // txtMinDeltaCn
       // 
-      this.txtMinDeltaCn.Location = new System.Drawing.Point(161, 73);
+      this.txtMinDeltaCn.Location = new System.Drawing.Point(207, 72);
       this.txtMinDeltaCn.Name = "txtMinDeltaCn";
       this.txtMinDeltaCn.Size = new System.Drawing.Size(94, 20);
       this.txtMinDeltaCn.TabIndex = 58;
@@ -149,7 +149,7 @@
       // cbFilterBySpRank
       // 
       this.cbFilterBySpRank.AutoSize = true;
-      this.cbFilterBySpRank.Location = new System.Drawing.Point(9, 102);
+      this.cbFilterBySpRank.Location = new System.Drawing.Point(304, 75);
       this.cbFilterBySpRank.Name = "cbFilterBySpRank";
       this.cbFilterBySpRank.Size = new System.Drawing.Size(119, 17);
       this.cbFilterBySpRank.TabIndex = 55;
@@ -158,7 +158,7 @@
       // 
       // txtSpRank
       // 
-      this.txtSpRank.Location = new System.Drawing.Point(161, 100);
+      this.txtSpRank.Location = new System.Drawing.Point(429, 72);
       this.txtSpRank.Name = "txtSpRank";
       this.txtSpRank.Size = new System.Drawing.Size(94, 20);
       this.txtSpRank.TabIndex = 57;
@@ -188,11 +188,10 @@
       this.outsGroup.Dock = System.Windows.Forms.DockStyle.Fill;
       this.outsGroup.Location = new System.Drawing.Point(0, 0);
       this.outsGroup.Name = "outsGroup";
-      this.outsGroup.Size = new System.Drawing.Size(1016, 227);
+      this.outsGroup.Size = new System.Drawing.Size(1016, 257);
       this.outsGroup.TabIndex = 25;
       this.outsGroup.TabStop = false;
-      this.outsGroup.Text = "Select directories/files you want to extract peptides (all directories will be us" +
-    "ed)";
+      this.outsGroup.Text = "Select directories/files you want to extract peptides";
       // 
       // lvDirectories
       // 
@@ -203,7 +202,7 @@
       this.lvDirectories.HideSelection = false;
       this.lvDirectories.Location = new System.Drawing.Point(3, 16);
       this.lvDirectories.Name = "lvDirectories";
-      this.lvDirectories.Size = new System.Drawing.Size(885, 208);
+      this.lvDirectories.Size = new System.Drawing.Size(885, 238);
       this.lvDirectories.Sorting = System.Windows.Forms.SortOrder.Ascending;
       this.lvDirectories.TabIndex = 15;
       this.lvDirectories.UseCompatibleStateImageBehavior = false;
@@ -226,7 +225,7 @@
       this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
       this.panel1.Location = new System.Drawing.Point(888, 16);
       this.panel1.Name = "panel1";
-      this.panel1.Size = new System.Drawing.Size(125, 208);
+      this.panel1.Size = new System.Drawing.Size(125, 238);
       this.panel1.TabIndex = 21;
       // 
       // btnXml
@@ -304,7 +303,7 @@
       // 
       // txtMaxEvalue
       // 
-      this.txtMaxEvalue.Location = new System.Drawing.Point(528, 100);
+      this.txtMaxEvalue.Location = new System.Drawing.Point(655, 73);
       this.txtMaxEvalue.Name = "txtMaxEvalue";
       this.txtMaxEvalue.Size = new System.Drawing.Size(94, 20);
       this.txtMaxEvalue.TabIndex = 67;
@@ -312,7 +311,7 @@
       // cbFilterByEvalue
       // 
       this.cbFilterByEvalue.AutoSize = true;
-      this.cbFilterByEvalue.Location = new System.Drawing.Point(376, 102);
+      this.cbFilterByEvalue.Location = new System.Drawing.Point(539, 74);
       this.cbFilterByEvalue.Name = "cbFilterByEvalue";
       this.cbFilterByEvalue.Size = new System.Drawing.Size(113, 17);
       this.cbFilterByEvalue.TabIndex = 66;

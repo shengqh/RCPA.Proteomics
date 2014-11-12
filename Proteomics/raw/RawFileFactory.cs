@@ -42,10 +42,10 @@ namespace RCPA.Proteomics.Raw
       {
         result = new MzXMLImpl2();
       }
-      else if (Directory.Exists(fileName))
-      {
-        result = new AgilentDirectoryImpl();
-      }
+      //else if (Directory.Exists(fileName))
+      //{
+      //  result = new AgilentDirectoryImpl();
+      //}
       else if (fileName.EndsWith("mgf"))
       {
         result = new MascotGenericFormatImpl();

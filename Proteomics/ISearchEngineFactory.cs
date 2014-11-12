@@ -1,4 +1,5 @@
 ﻿using RCPA.Proteomics.Summary;
+using RCPA.Proteomics.Summary.Uniform;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,5 +33,11 @@ namespace RCPA.Proteomics
     /// <param name="source">Source spectra</param>
     /// <returns>High confident spectra</returns>
     List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source);
+
+    /// <summary>
+    /// Get search engine options
+    /// </summary>
+    /// <returns>Options</returns>
+    IDatasetOptions GetOptions();
   }
 }

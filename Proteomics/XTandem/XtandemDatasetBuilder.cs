@@ -3,8 +3,8 @@ using RCPA.Proteomics.Summary.Uniform;
 
 namespace RCPA.Proteomics.XTandem
 {
-  public class XtandemDatasetBuilder : AbstractOneParserDatasetBuilder<XtandemDatasetOptions>
+  public class XTandemDatasetBuilder : AbstractOneParserDatasetBuilder<XTandemDatasetOptions>
   {
-    public XtandemDatasetBuilder(XtandemDatasetOptions options) : base(options) { }
+    public XTandemDatasetBuilder(XTandemDatasetOptions options) : base(options) { }
   }
 }

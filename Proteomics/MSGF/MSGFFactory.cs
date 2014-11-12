@@ -32,5 +32,10 @@ namespace RCPA.Proteomics.MSGF
     {
       get { return SearchEngineType.MSGF; }
     }
+
+    public IDatasetOptions GetOptions()
+    {
+      return new MSGFDatasetOptions();
+    }
   }
 }

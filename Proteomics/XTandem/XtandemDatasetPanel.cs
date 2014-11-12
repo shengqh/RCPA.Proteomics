@@ -15,13 +15,13 @@ using RCPA.Proteomics.Summary;
 
 namespace RCPA.Proteomics.XTandem
 {
-  public partial class XtandemDatasetPanel : ExpectValueDatasetPanel
+  public partial class XTandemDatasetPanel : ExpectValueDatasetPanel
   {
-    private XtandemDatasetOptions XtandemOption { get { return Options as XtandemDatasetOptions; } }
+    private XTandemDatasetOptions XtandemOption { get { return Options as XTandemDatasetOptions; } }
 
     private RcpaCheckBox ignoreAnticipagedCleavageSite;
 
-    public XtandemDatasetPanel()
+    public XTandemDatasetPanel()
     {
       InitializeComponent();
 
@@ -51,9 +51,9 @@ namespace RCPA.Proteomics.XTandem
       this.ignoreAnticipagedCleavageSite.Checked = XtandemOption.IgnoreUnanticipatedPeptide;
     }
 
-    public override void SaveToDataset()
+    public override void SaveToDataset(bool selectedOnly)
     {
-      base.SaveToDataset();
+      base.SaveToDataset(selectedOnly);
 
       XtandemOption.IgnoreUnanticipatedPeptide = this.ignoreAnticipagedCleavageSite.Checked;
     }

@@ -449,6 +449,14 @@ namespace RCPA.Proteomics.Summary
       });
     }
 
+    public static void SortBySpScore<T>(List<T> spectra) where T : IIdentifiedSpectrum
+    {
+      spectra.Sort(delegate(T s1, T s2)
+      {
+        return -s1.SpScore.CompareTo(s2.SpScore);
+      });
+    }
+
     public static void SortByDeltaScore<T>(List<T> spectra) where T : IIdentifiedSpectrum
     {
       spectra.Sort(delegate(T s1, T s2)

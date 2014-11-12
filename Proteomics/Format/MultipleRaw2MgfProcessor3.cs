@@ -14,7 +14,7 @@ using RCPA.Proteomics.Processor;
 
 namespace RCPA.Proteomics.Format
 {
-  public class MultipleRaw2MgfProcessor3 : AbstractParallelMainProcessor
+  public class MultipleRaw2MgfProcessor3 : AbstractParallelMainFileProcessor
   {
     private Raw2MgfOption option;
 

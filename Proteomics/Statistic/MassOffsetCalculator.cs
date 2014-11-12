@@ -118,7 +118,7 @@ namespace RCPA.Proteomics.Statistic
     }
   }
 
-  public class MassOffsetCalculator : AbstractParallelTaskProcessor
+  public class MassOffsetCalculator : AbstractParallelTaskFileProcessor
   {
     protected double maxShiftPPM;
     protected MonitorIon[] monitorIons;

@@ -9,7 +9,7 @@ using RCPA.Proteomics.Mascot;
 
 namespace RCPA.Proteomics.Format
 {
-  public abstract class AbstractRawTandemSpectrumConverter : AbstractParallelTaskProcessor
+  public abstract class AbstractRawTandemSpectrumConverter : AbstractParallelTaskFileProcessor
   {
     public IProcessor<PeakList<Peak>> PeakListProcessor { get; set; }
 

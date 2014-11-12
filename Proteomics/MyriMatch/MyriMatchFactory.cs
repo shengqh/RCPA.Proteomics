@@ -32,5 +32,10 @@ namespace RCPA.Proteomics.MyriMatch
     {
       get { return SearchEngineType.MyriMatch; }
     }
+
+    public IDatasetOptions GetOptions()
+    {
+      return new MyriMatchDatasetOptions();
+    }
   }
 }

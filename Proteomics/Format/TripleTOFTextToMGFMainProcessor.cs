@@ -5,7 +5,7 @@ using System.Text;
 
 namespace RCPA.Proteomics.Format
 {
-  public class TripleTOFTextToMGFMainProcessor : AbstractParallelMainProcessor
+  public class TripleTOFTextToMGFMainProcessor : AbstractParallelMainFileProcessor
   {
     private string software;
 

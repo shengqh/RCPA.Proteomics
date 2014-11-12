@@ -10,7 +10,7 @@ using System.Text;
 
 namespace RCPA.Proteomics.Format
 {
-  public class MultipleRaw2DtaProcessor : AbstractParallelMainProcessor
+  public class MultipleRaw2DtaProcessor : AbstractParallelMainFileProcessor
   {
     private IProcessor<PeakList<Peak>> pklProcessor;
 

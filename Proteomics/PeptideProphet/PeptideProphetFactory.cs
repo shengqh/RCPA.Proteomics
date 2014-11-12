@@ -32,5 +32,10 @@ namespace RCPA.Proteomics.PeptideProphet
     {
       get { return SearchEngineType.PeptidePhophet; }
     }
+
+    public IDatasetOptions GetOptions()
+    {
+      return new PeptideProphetDatasetOptions();
+    }
   }
 }

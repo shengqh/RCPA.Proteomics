@@ -87,7 +87,7 @@ namespace RCPA.Tools.Summary
 
           if (!dsmap.ContainsKey(key))
           {
-            var dsoptions = new XtandemDatasetOptions();
+            var dsoptions = new XTandemDatasetOptions();
             dsoptions.Name = key;
             dsoptions.Parent = conf;
             dsoptions.TitleParserName = this.titleParsers.SelectedItem.FormatName;
@@ -100,7 +100,7 @@ namespace RCPA.Tools.Summary
         }
       }
 
-      foreach (XtandemDatasetOptions dataset in conf.DatasetList)
+      foreach (XTandemDatasetOptions dataset in conf.DatasetList)
       {
         dataset.FilterByScore = this.filterByScore.Checked;
         if (dataset.FilterByScore)
@@ -120,7 +120,7 @@ namespace RCPA.Tools.Summary
     {
       if (options.DatasetList.Count > 0)
       {
-        var conf = options.DatasetList[0] as XtandemDatasetOptions;
+        var conf = options.DatasetList[0] as XTandemDatasetOptions;
 
         this.filterByScore.Checked = conf.FilterByScore;
         if (conf.FilterByScore)

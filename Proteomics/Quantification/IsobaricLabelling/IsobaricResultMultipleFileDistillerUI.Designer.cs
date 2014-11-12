@@ -32,6 +32,7 @@
       this.progress = new RCPA.Gui.MultipleProgressField();
       this.saveDialog = new System.Windows.Forms.SaveFileDialog();
       this.groupBox2 = new System.Windows.Forms.GroupBox();
+      this.channels = new RCPA.Proteomics.Quantification.IsobaricLabelling.IsobaricChannelField();
       this.label3 = new System.Windows.Forms.Label();
       this.cbPlexType = new System.Windows.Forms.ComboBox();
       this.label2 = new System.Windows.Forms.Label();
@@ -43,7 +44,7 @@
       this.label1 = new System.Windows.Forms.Label();
       this.cbScanMode = new System.Windows.Forms.ComboBox();
       this.cbIndividual = new System.Windows.Forms.CheckBox();
-      this.channels = new RCPA.Proteomics.Quantification.IsobaricLabelling.IsobaricChannelField();
+      this.channelUsed = new RCPA.Proteomics.Quantification.IsobaricLabelling.IsobaricChannelField();
       this.groupBox2.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -83,7 +84,7 @@
       this.rawFiles.SelectedIndex = -1;
       this.rawFiles.SelectedItem = null;
       this.rawFiles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-      this.rawFiles.Size = new System.Drawing.Size(893, 415);
+      this.rawFiles.Size = new System.Drawing.Size(893, 383);
       this.rawFiles.TabIndex = 7;
       // 
       // progress
@@ -104,6 +105,7 @@
       // 
       // groupBox2
       // 
+      this.groupBox2.Controls.Add(this.channelUsed);
       this.groupBox2.Controls.Add(this.channels);
       this.groupBox2.Controls.Add(this.label3);
       this.groupBox2.Controls.Add(this.cbPlexType);
@@ -117,12 +119,25 @@
       this.groupBox2.Controls.Add(this.cbScanMode);
       this.groupBox2.Controls.Add(this.cbIndividual);
       this.groupBox2.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.groupBox2.Location = new System.Drawing.Point(0, 415);
+      this.groupBox2.Location = new System.Drawing.Point(0, 383);
       this.groupBox2.Name = "groupBox2";
-      this.groupBox2.Size = new System.Drawing.Size(893, 128);
+      this.groupBox2.Size = new System.Drawing.Size(893, 160);
       this.groupBox2.TabIndex = 24;
       this.groupBox2.TabStop = false;
       this.groupBox2.Text = "Options";
+      // 
+      // channels
+      // 
+      this.channels.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.channels.Description = "Channels required";
+      this.channels.Location = new System.Drawing.Point(17, 103);
+      this.channels.Name = "channels";
+      this.channels.PlexType = null;
+      this.channels.Required = false;
+      this.channels.SelectedIons = "";
+      this.channels.Size = new System.Drawing.Size(770, 30);
+      this.channels.TabIndex = 38;
       // 
       // label3
       // 
@@ -224,18 +239,18 @@
       this.cbIndividual.Text = "Generate individual result";
       this.cbIndividual.UseVisualStyleBackColor = true;
       // 
-      // channels
+      // channelUsed
       // 
-      this.channels.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+      this.channelUsed.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.channels.Description = "Required channels";
-      this.channels.Location = new System.Drawing.Point(17, 76);
-      this.channels.Name = "channels";
-      this.channels.PlexType = null;
-      this.channels.Required = false;
-      this.channels.SelectedIons = "";
-      this.channels.Size = new System.Drawing.Size(770, 30);
-      this.channels.TabIndex = 38;
+      this.channelUsed.Description = "Channels used";
+      this.channelUsed.Location = new System.Drawing.Point(17, 76);
+      this.channelUsed.Name = "channelUsed";
+      this.channelUsed.PlexType = null;
+      this.channelUsed.Required = false;
+      this.channelUsed.SelectedIons = "";
+      this.channelUsed.Size = new System.Drawing.Size(770, 30);
+      this.channelUsed.TabIndex = 39;
       // 
       // IsobaricResultMultipleFileDistillerUI
       // 
@@ -275,5 +290,6 @@
     private System.Windows.Forms.Label label2;
     private System.Windows.Forms.TextBox txtMinPeakCount;
     private IsobaricChannelField channels;
+    private IsobaricChannelField channelUsed;
   }
 }

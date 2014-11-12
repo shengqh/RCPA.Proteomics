@@ -9,7 +9,7 @@ using RCPA.Proteomics.Mascot;
 
 namespace RCPA.Proteomics.Format
 {
-  public class TripleTOFTextToMGFTaskResortProcessor : AbstractParallelTaskProcessor
+  public class TripleTOFTextToMGFTaskResortProcessor : AbstractParallelTaskFileProcessor
   {
     private string software;
 

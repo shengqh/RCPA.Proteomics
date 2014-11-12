@@ -13,6 +13,7 @@ namespace RCPA.Proteomics.Mascot
 {
   public class MascotDatSpectrumParser : ProgressClass, ISpectrumParser
   {
+    public static readonly string DECOY_PREFIX = "REVERSED_";
     private string delimiter = "--gc0p4Jq0M2Yt08jU534c0p";
     private readonly Regex keyValueRegex = new Regex(@"^(.+?)=(.*)");
 
@@ -156,11 +157,11 @@ namespace RCPA.Proteomics.Mascot
       return result;
     }
 
-    protected Dictionary<int, MascotQueryItem> ParseQueryItems(StreamReader sr, int queryCount)
+    protected Dictionary<int, MascotQueryItem> ParseQueryItems(StreamReader sr, int queryCount, string prefix = "")
     {
       string line;
 
-      SectionClass sc = new SectionClass("summary");
+      SectionClass sc = new SectionClass(prefix + "summary");
       while ((line = sr.ReadLine()) != null)
       {
         if (sc.IsStartLine(line))
@@ -339,6 +340,44 @@ namespace RCPA.Proteomics.Mascot
     /// <returns>Query/peptide map</returns>
     public Dictionary<int, List<IIdentifiedSpectrum>> ParsePeptides(string datFilename, int minRank, double minScore)
     {
+      var result = DoParsePeptides(datFilename, minRank, minScore, false);
+      var decoy = DoParsePeptides(datFilename, minRank, minScore, true);
+
+      if (decoy.Count > 0)
+      {
+        foreach (var d in decoy)
+        {
+          if (d.Value.Count == 0)
+          {
+            continue;
+          }
+
+          List<IIdentifiedSpectrum> target;
+          if (result.TryGetValue(d.Key, out target))
+          {
+            if(target.Count == 0 || target.First().Score < d.Value.First().Score)
+            {
+              result[d.Key] = d.Value;
+            }
+            else if (target.First().Score == d.Value.First().Score)
+            {
+              result[d.Key].AddRange(d.Value);
+            }
+          }
+          else
+          {
+            result[d.Key] = d.Value;
+          }
+        }
+      }
+
+      return result;
+    }
+
+    public Dictionary<int, List<IIdentifiedSpectrum>> DoParsePeptides(string datFilename, int minRank, double minScore, bool isDecoy)
+    {
+      var result = new Dictionary<int, List<IIdentifiedSpectrum>>();
+
       Dictionary<string, string> parameters;
       MascotModification mm;
       Dictionary<string, string> headers;
@@ -347,11 +386,20 @@ namespace RCPA.Proteomics.Mascot
       Dictionary<string, string> peptideSection;
       Protease protease = null;
 
+      var prefix = isDecoy ? "decoy_" : "";
+
       using (var sr = new StreamReader(datFilename))
       {
         InitializeBoundary(sr);
 
         parameters = ParseSection(sr, "parameters");
+
+        var hasDecoy = parameters["DECOY"].Equals("1");
+
+        if (!hasDecoy && isDecoy)
+        {
+          return result;
+        }
 
         var masses = ParseSection(sr, "masses");
 
@@ -366,12 +414,9 @@ namespace RCPA.Proteomics.Mascot
         headers = ParseSection(sr, "header");
         queryCount = int.Parse(headers["queries"]);
 
-        queryItems = ParseQueryItems(sr, queryCount);
-
-        peptideSection = ParseSection(sr, "peptides");
+        queryItems = ParseQueryItems(sr, queryCount, prefix);
+        peptideSection = ParseSection(sr, prefix + "peptides");
       }
-
-      var result = new Dictionary<int, List<IIdentifiedSpectrum>>();
 
       string file = parameters["FILE"];
       if (file.StartsWith("File Name: "))
@@ -416,7 +461,7 @@ namespace RCPA.Proteomics.Mascot
               break;
             }
 
-            string line = peptideSection["q" + queryId + "_p" + k];
+            string line = peptideSection[key];
             if (line == null || line.Equals("-1"))
             {
               if (null != lastHit)
@@ -513,6 +558,10 @@ namespace RCPA.Proteomics.Mascot
                                         termsMatch.Groups[2].Value);
 
               var name = proteinNameMatch.Groups[1].Value.Replace("/", "_");
+              if (isDecoy)
+              {
+                name = DECOY_PREFIX + name;
+              }
 
               bool findPeptide = false;
               for (int i = 0; i < mphit.Peptides.Count; i++)
@@ -572,8 +621,6 @@ namespace RCPA.Proteomics.Mascot
             mp.Query.Title = title;
             mp.Query.FileScan.LongFileName = sf.LongFileName;
           }
-
-          //PeakList<Peak> spectrum = ParseIons(querySection["Ions1"]
         }
       }
 

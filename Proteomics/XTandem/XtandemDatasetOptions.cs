@@ -6,9 +6,9 @@ using System.Xml.Linq;
 
 namespace RCPA.Proteomics.XTandem
 {
-  public class XtandemDatasetOptions : AbstractExpectValueDatasetOptions
+  public class XTandemDatasetOptions : AbstractExpectValueDatasetOptions
   {
-    public XtandemDatasetOptions()
+    public XTandemDatasetOptions()
     {
       this.SearchEngine = SearchEngineType.XTandem;
     }
@@ -36,12 +36,12 @@ namespace RCPA.Proteomics.XTandem
 
     public override IDatasetBuilder GetBuilder()
     {
-      return new XtandemDatasetBuilder(this);
+      return new XTandemDatasetBuilder(this);
     }
 
     public override UserControl CreateControl()
     {
-      var result = new XtandemDatasetPanel();
+      var result = new XTandemDatasetPanel();
 
       result.Options = this;
 

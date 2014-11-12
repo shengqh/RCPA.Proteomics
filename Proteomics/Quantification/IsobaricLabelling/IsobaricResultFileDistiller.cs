@@ -35,7 +35,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       return new[] { options.OutputFile };
     }
 
-    public IsobaricResult BuildIsobaricResult()
+    public virtual IsobaricResult BuildIsobaricResult()
     {
       Progress.SetMessage("Processing " + options.InputFile + " ...");
 

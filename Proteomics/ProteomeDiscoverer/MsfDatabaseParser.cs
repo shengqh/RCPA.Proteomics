@@ -191,17 +191,19 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
       return result;
     }
 
-    public Dictionary<int, ModificationEntry> ParseModifications(string fileName)
+    public Dictionary<int, ModificationEntry> ParseModifications(string fileName, HashSet<int> unexpectedModifications)
     {
       Dictionary<int, ModificationEntry> result = new Dictionary<int, ModificationEntry>();
 
-      AddModifications(fileName, result, "select distinct aam.AminoacidModificationID, aam.DeltaMass, aam.ModificationName, aam.PositionType from PeptidesAminoacidModifications as paam, AminoAcidModifications as aam where paam.AminoAcidModificationID=aam.AminoAcidModificationID");
-      AddModifications(fileName, result, "select distinct aam.AminoacidModificationID, aam.DeltaMass, aam.ModificationName, aam.PositionType from PeptidesTerminalModifications as paam, AminoAcidModifications as aam where paam.TerminalModificationID=aam.AminoAcidModificationID");
+      AddModifications(fileName, result, unexpectedModifications, "select distinct aam.AminoacidModificationID, aam.DeltaMass, aam.ModificationName, aam.PositionType from PeptidesAminoacidModifications as paam, AminoAcidModifications as aam where paam.AminoAcidModificationID=aam.AminoAcidModificationID");
+      AddModifications(fileName, result, unexpectedModifications, "select distinct aam.AminoacidModificationID, aam.DeltaMass, aam.ModificationName, aam.PositionType from PeptidesTerminalModifications as paam, AminoAcidModifications as aam where paam.TerminalModificationID=aam.AminoAcidModificationID");
+      AddModifications(fileName, result, unexpectedModifications, "select distinct aam.AminoacidModificationID, aam.DeltaMass, aam.ModificationName, aam.PositionType from PeptidesAminoacidModifications_decoy as paam, AminoAcidModifications as aam where paam.AminoAcidModificationID=aam.AminoAcidModificationID");
+      AddModifications(fileName, result, unexpectedModifications, "select distinct aam.AminoacidModificationID, aam.DeltaMass, aam.ModificationName, aam.PositionType from PeptidesTerminalModifications_decoy as paam, AminoAcidModifications as aam where paam.TerminalModificationID=aam.AminoAcidModificationID");
 
       return result;
     }
 
-    private static void AddModifications(string fileName, Dictionary<int, ModificationEntry> result, string sqlMod)
+    private static void AddModifications(string fileName, Dictionary<int, ModificationEntry> result, HashSet<int> unexpectedModifications, string sqlMod)
     {
       var modstr = ModificationConsts.MODIFICATION_CHAR;
 
@@ -210,8 +212,23 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
       while (modReader.Read())
       {
         var id = modReader.GetInt32(0);
-        var deltamass = modReader.GetDouble(1);
+        if (result.ContainsKey(id))
+        {
+          continue;
+        }
+
         var modname = modReader.GetString(2);
+        if (modname.StartsWith("Mapping"))
+        {
+          if (!unexpectedModifications.Contains(id))
+          {
+            unexpectedModifications.Add(id);
+          }
+
+          continue;
+        }
+
+        var deltamass = modReader.GetDouble(1);
         var positiontype = modReader.GetInt32(3);
 
         string position = string.Empty;
@@ -324,7 +341,7 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
       var aas = ParseAminoacids(fileName);
 
       //读取肽段列表
-      string sqlPeptide = string.Format("select pep.SpectrumID, pep.PeptideID, pep.TotalIonsCount, pep.MatchedIonsCount, pep.ConfidenceLevel, pep.Sequence, pep.MissedCleavages, ps.ScoreValue from Peptides{0} as pep, PeptideScores{0} as ps where pep.PeptideID=ps.PeptideID and ps.ScoreID={1} and pep.SearchEngineRank < 3 order by pep.SpectrumID, pep.SearchEngineRank", suffix, scoreid);
+      string sqlPeptide = string.Format("select pep.SpectrumID, pep.PeptideID, pep.TotalIonsCount, pep.MatchedIonsCount, pep.ConfidenceLevel, pep.Sequence, pep.MissedCleavages, ps.ScoreValue from Peptides{0} as pep, PeptideScores{0} as ps where pep.PeptideID=ps.PeptideID and ps.ScoreID={1} order by pep.SpectrumID, pep.SearchEngineRank", suffix, scoreid);
       var peptideReader = sqlite.ExecuteReader(sqlPeptide, null);
       Progress.SetMessage("Parsing peptides ...");
 
@@ -344,6 +361,7 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
         IIdentifiedSpectrum spectrum = spectra[specid];
         if (spectrum.Peptides.Count == 0)
         {
+          spectrum.Id = specid;
           spectrum.TheoreticalIonCount = peptideReader.GetInt32(2);
           spectrum.MatchedIonCount = peptideReader.GetInt32(3);
 
@@ -358,6 +376,8 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
 
           spectrum.DeltaScore = 1.0;
 
+          spectrum.FromDecoy = isDecoy;
+
           result[pepid] = peptide;
           continue;
         }
@@ -369,6 +389,7 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
             peptide.ConfidenceLevel = peptideReader.GetInt32(4);
             peptide.Sequence = seq;
             result[pepid] = peptide;
+
             continue;
           }
 
@@ -377,12 +398,17 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
             continue;
           }
 
-          spectrum.DeltaScore = (spectrum.Score - score) / spectrum.Score;
+          var dscore = (spectrum.Score - score) / spectrum.Score;
+          if (dscore < spectrum.DeltaScore)
+          {
+            spectrum.DeltaScore = dscore;
+          }
         }
       }
 
       //动态氨基酸修饰
-      var modMap = ParseModifications(fileName);
+      var unexpectedModifications = new HashSet<int>();
+      var modMap = ParseModifications(fileName, unexpectedModifications);
       string sqlPeptideMod = string.Format("select PeptideID, AminoAcidModificationID, Position from PeptidesAminoacidModifications{0} order by Position desc", suffix);
       var pepModReader = sqlite.ExecuteReader(sqlPeptideMod, null);
       Progress.SetMessage("Parsing peptide modifications ...");
@@ -396,6 +422,11 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
         }
 
         var modid = pepModReader.GetInt32(1);
+        if (unexpectedModifications.Contains(modid))
+        {
+          continue;
+        }
+
         var position = pepModReader.GetInt32(2);
 
         var mod = modMap[modid];
@@ -508,14 +539,55 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
 
         var pepMap = ParsePeptideMap(fileName, isdecoy);
 
+        if (pepMap.ContainsKey(1853))
+        {
+          Console.WriteLine("Before linkpeptide2protein, protein count = {0}", pepMap[1853].Proteins.Count);
+        }
+
         LinkPeptideToProtein(fileName, proMap, pepMap, isdecoy);
+
+        if (pepMap.ContainsKey(1853))
+        {
+          Console.WriteLine("After linkpeptide2protein, protein count = {0}", pepMap[1853].Proteins.Count);
+        }
 
         result.AddRange((from pep in pepMap.Values
                          select pep.Spectrum).Distinct());
       }
 
+      if (result.Any(m => m.FromDecoy))
+      {
+        var g = result.ToGroupDictionary(m => m.Query.FileScan.FirstScan);
+        foreach (var gg in g.Values)
+        {
+          if (gg.Count > 1)
+          {
+            gg.Sort((m1, m2) => m2.Score.CompareTo(m1.Score));
+            Console.WriteLine("specid={0}, scan={1}, score1={2}, isdecoy1={3}, peptide1={4}, score2={5}, isdecoy2={6}, peptide2={7}",
+              gg[0].Id,
+              gg[0].Query.FileScan.FirstScan,
+              gg[0].Score, gg[0].FromDecoy, gg[0].Sequence,
+              gg[1].Score, gg[1].FromDecoy, gg[1].Sequence);
+
+            gg.RemoveRange(1, gg.Count - 1);
+          }
+        }
+        result = (from gg in g select gg.Value.First()).ToList();
+      }
+
       //PD will generate some peptides without protein information, so we need to remove them.
-      result.RemoveAll(m => m.Proteins.Count == 0);
+      result.ForEach(m =>
+      {
+        for (int i = m.Peptides.Count - 1; i >= 0; i--)
+        {
+          if (m.Peptides[i].Proteins.Count == 0)
+          {
+            m.RemovePeptideAt(i);
+          }
+        }
+      });
+      //remove spectrum without peptide information
+      result.RemoveAll(m => m.Peptides.Count == 0);
 
       return result;
     }

@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
-  public abstract class AbstractTitleDatasetOptions : AbstractDatasetOptions
+  public abstract class AbstractTitleDatasetOptions : AbstractDatasetOptions, ITitleDatasetOptions
   {
     public string TitleParserName { get; set; }
 
@@ -26,7 +26,7 @@ namespace RCPA.Proteomics.Summary.Uniform
       TitleParserName = parentNode.GetChildValue("TitleFormat", DefaultTitleParser.FORMAT_NAME);
     }
 
-    public ITitleParser GetTitleParser()
+    public virtual ITitleParser GetTitleParser()
     {
       List<ITitleParser> allParsers = TitleParserUtils.GetTitleParsers();
       foreach (ITitleParser parser in allParsers)

@@ -9,7 +9,7 @@ using MathNet.Numerics.Statistics;
 
 namespace RCPA.Proteomics.Format
 {
-  public class MultipleMgfPrecursorCorrectionMainProcessor : AbstractParallelMainProcessor
+  public class MultipleMgfPrecursorCorrectionMainProcessor : AbstractParallelMainFileProcessor
   {
     private string targetDir;
 

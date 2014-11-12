@@ -69,24 +69,30 @@
       this.tcDatasetList = new System.Windows.Forms.TabControl();
       this.pnlAdd = new System.Windows.Forms.Panel();
       this.btnDelete = new System.Windows.Forms.Button();
+      this.btnAddPercolator = new System.Windows.Forms.Button();
       this.btnAddOmssa = new System.Windows.Forms.Button();
       this.btnAddMSGF = new System.Windows.Forms.Button();
       this.btnAddMyriMatch = new System.Windows.Forms.Button();
       this.btnAddPeptideProphet = new System.Windows.Forms.Button();
-      this.btnPFind = new System.Windows.Forms.Button();
-      this.btnXtandem = new System.Windows.Forms.Button();
-      this.button1 = new System.Windows.Forms.Button();
-      this.btnAdd = new System.Windows.Forms.Button();
+      this.btnAddPFind = new System.Windows.Forms.Button();
+      this.btnAddXtandem = new System.Windows.Forms.Button();
+      this.btnAddMascot = new System.Windows.Forms.Button();
+      this.btnAddSequest = new System.Windows.Forms.Button();
       this.btnSaveParam = new System.Windows.Forms.Button();
       this.btnLoadParam = new System.Windows.Forms.Button();
       this.btnNew = new System.Windows.Forms.Button();
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.tpGeneral = new System.Windows.Forms.TabPage();
+      this.label7 = new System.Windows.Forms.Label();
       this.tpDatasets = new System.Windows.Forms.TabPage();
+      this.panel1 = new System.Windows.Forms.Panel();
+      this.rbUseSelectedOnly = new RCPA.Gui.RcpaRadioField();
+      this.rbUseAll = new RCPA.Gui.RcpaRadioField();
       this.pnlAdd.SuspendLayout();
       this.tabControl1.SuspendLayout();
       this.tpGeneral.SuspendLayout();
       this.tpDatasets.SuspendLayout();
+      this.panel1.SuspendLayout();
       this.SuspendLayout();
       // 
       // lblProgress
@@ -136,7 +142,7 @@
       // cbMergeResultFromSameEngineButDifferentSearchParameters
       // 
       this.cbMergeResultFromSameEngineButDifferentSearchParameters.Key = "MergeResultFromSameEngineButDifferentSearchParameters";
-      this.cbMergeResultFromSameEngineButDifferentSearchParameters.Location = new System.Drawing.Point(25, 439);
+      this.cbMergeResultFromSameEngineButDifferentSearchParameters.Location = new System.Drawing.Point(25, 458);
       this.cbMergeResultFromSameEngineButDifferentSearchParameters.Name = "cbMergeResultFromSameEngineButDifferentSearchParameters";
       this.cbMergeResultFromSameEngineButDifferentSearchParameters.PreCondition = null;
       this.cbMergeResultFromSameEngineButDifferentSearchParameters.Size = new System.Drawing.Size(470, 21);
@@ -146,7 +152,7 @@
       // cbIndividual
       // 
       this.cbIndividual.Key = "RunIndividual";
-      this.cbIndividual.Location = new System.Drawing.Point(6, 545);
+      this.cbIndividual.Location = new System.Drawing.Point(6, 564);
       this.cbIndividual.Name = "cbIndividual";
       this.cbIndividual.PreCondition = null;
       this.cbIndividual.Size = new System.Drawing.Size(222, 21);
@@ -155,7 +161,7 @@
       // 
       // txtMinAgreeCount
       // 
-      this.txtMinAgreeCount.Location = new System.Drawing.Point(421, 460);
+      this.txtMinAgreeCount.Location = new System.Drawing.Point(421, 479);
       this.txtMinAgreeCount.Name = "txtMinAgreeCount";
       this.txtMinAgreeCount.Size = new System.Drawing.Size(93, 20);
       this.txtMinAgreeCount.TabIndex = 105;
@@ -164,7 +170,7 @@
       // label6
       // 
       this.label6.AutoSize = true;
-      this.label6.Location = new System.Drawing.Point(25, 463);
+      this.label6.Location = new System.Drawing.Point(25, 482);
       this.label6.Name = "label6";
       this.label6.Size = new System.Drawing.Size(397, 13);
       this.label6.TabIndex = 104;
@@ -173,7 +179,7 @@
       // 
       // txtContaminantDescriptionPattern
       // 
-      this.txtContaminantDescriptionPattern.Location = new System.Drawing.Point(481, 522);
+      this.txtContaminantDescriptionPattern.Location = new System.Drawing.Point(481, 541);
       this.txtContaminantDescriptionPattern.Name = "txtContaminantDescriptionPattern";
       this.txtContaminantDescriptionPattern.Size = new System.Drawing.Size(93, 20);
       this.txtContaminantDescriptionPattern.TabIndex = 103;
@@ -219,7 +225,7 @@
             "Protein",
             "Peptide",
             "Unique peptide"});
-      this.cbConflict.Location = new System.Drawing.Point(454, 412);
+      this.cbConflict.Location = new System.Drawing.Point(454, 431);
       this.cbConflict.Name = "cbConflict";
       this.cbConflict.Size = new System.Drawing.Size(178, 21);
       this.cbConflict.TabIndex = 97;
@@ -227,12 +233,12 @@
       // lblConflict
       // 
       this.lblConflict.AutoSize = true;
-      this.lblConflict.Location = new System.Drawing.Point(3, 415);
+      this.lblConflict.Location = new System.Drawing.Point(3, 434);
       this.lblConflict.Name = "lblConflict";
-      this.lblConflict.Size = new System.Drawing.Size(448, 13);
+      this.lblConflict.Size = new System.Drawing.Size(436, 13);
       this.lblConflict.TabIndex = 96;
-      this.lblConflict.Text = "If Peptide-Spectrum-Matches from different search engines are conflicted, what is" +
-    " your perfer :";
+      this.lblConflict.Text = "If Peptide-Spectrum-Matches from different search engines are conflict, what is y" +
+    "our perfer :";
       // 
       // txtDatabase
       // 
@@ -270,7 +276,7 @@
       // label8
       // 
       this.label8.AutoSize = true;
-      this.label8.Location = new System.Drawing.Point(31, 366);
+      this.label8.Location = new System.Drawing.Point(22, 366);
       this.label8.Name = "label8";
       this.label8.Size = new System.Drawing.Size(121, 13);
       this.label8.TabIndex = 92;
@@ -295,7 +301,7 @@
       // 
       // txtContaminantString
       // 
-      this.txtContaminantString.Location = new System.Drawing.Point(247, 520);
+      this.txtContaminantString.Location = new System.Drawing.Point(247, 539);
       this.txtContaminantString.Name = "txtContaminantString";
       this.txtContaminantString.Size = new System.Drawing.Size(93, 20);
       this.txtContaminantString.TabIndex = 89;
@@ -350,7 +356,7 @@
       // cbRemoveDecoyEntry
       // 
       this.cbRemoveDecoyEntry.AutoSize = true;
-      this.cbRemoveDecoyEntry.Location = new System.Drawing.Point(6, 499);
+      this.cbRemoveDecoyEntry.Location = new System.Drawing.Point(6, 518);
       this.cbRemoveDecoyEntry.Name = "cbRemoveDecoyEntry";
       this.cbRemoveDecoyEntry.Size = new System.Drawing.Size(223, 17);
       this.cbRemoveDecoyEntry.TabIndex = 82;
@@ -378,9 +384,9 @@
       this.label3.AutoSize = true;
       this.label3.Location = new System.Drawing.Point(22, 337);
       this.label3.Name = "label3";
-      this.label3.Size = new System.Drawing.Size(130, 13);
+      this.label3.Size = new System.Drawing.Size(133, 13);
       this.label3.TabIndex = 80;
-      this.label3.Text = "Decoy database pattern =";
+      this.label3.Text = "Decoy database pattern = ";
       // 
       // txtFdrModifiedAminoacids
       // 
@@ -394,9 +400,10 @@
       this.cbClassifyByModification.AutoSize = true;
       this.cbClassifyByModification.Location = new System.Drawing.Point(187, 190);
       this.cbClassifyByModification.Name = "cbClassifyByModification";
-      this.cbClassifyByModification.Size = new System.Drawing.Size(179, 17);
+      this.cbClassifyByModification.Size = new System.Drawing.Size(633, 17);
       this.cbClassifyByModification.TabIndex = 77;
-      this.cbClassifyByModification.Text = "modification state, amino acids =                                                      , '[' indicates N-terminal and ']' indicates C-terminal modification";
+      this.cbClassifyByModification.Text = "modification state, amino acids =                                                " +
+    "      , \'[\' indicates N-terminal and \']\' indicates C-terminal modification";
       this.cbClassifyByModification.UseVisualStyleBackColor = true;
       // 
       // cbFdrLevel
@@ -468,7 +475,7 @@
       // cbRemoveContamination
       // 
       this.cbRemoveContamination.AutoSize = true;
-      this.cbRemoveContamination.Location = new System.Drawing.Point(6, 522);
+      this.cbRemoveContamination.Location = new System.Drawing.Point(6, 541);
       this.cbRemoveContamination.Name = "cbRemoveContamination";
       this.cbRemoveContamination.Size = new System.Drawing.Size(472, 17);
       this.cbRemoveContamination.TabIndex = 102;
@@ -479,40 +486,52 @@
       // tcDatasetList
       // 
       this.tcDatasetList.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.tcDatasetList.Location = new System.Drawing.Point(142, 3);
+      this.tcDatasetList.Location = new System.Drawing.Point(142, 35);
       this.tcDatasetList.Name = "tcDatasetList";
       this.tcDatasetList.SelectedIndex = 0;
-      this.tcDatasetList.Size = new System.Drawing.Size(1036, 625);
+      this.tcDatasetList.Size = new System.Drawing.Size(1036, 593);
       this.tcDatasetList.TabIndex = 3;
       this.tcDatasetList.DoubleClick += new System.EventHandler(this.btnDelete_Click);
       // 
       // pnlAdd
       // 
       this.pnlAdd.Controls.Add(this.btnDelete);
+      this.pnlAdd.Controls.Add(this.btnAddPercolator);
       this.pnlAdd.Controls.Add(this.btnAddOmssa);
       this.pnlAdd.Controls.Add(this.btnAddMSGF);
       this.pnlAdd.Controls.Add(this.btnAddMyriMatch);
       this.pnlAdd.Controls.Add(this.btnAddPeptideProphet);
-      this.pnlAdd.Controls.Add(this.btnPFind);
-      this.pnlAdd.Controls.Add(this.btnXtandem);
-      this.pnlAdd.Controls.Add(this.button1);
-      this.pnlAdd.Controls.Add(this.btnAdd);
+      this.pnlAdd.Controls.Add(this.btnAddPFind);
+      this.pnlAdd.Controls.Add(this.btnAddXtandem);
+      this.pnlAdd.Controls.Add(this.btnAddMascot);
+      this.pnlAdd.Controls.Add(this.btnAddSequest);
       this.pnlAdd.Dock = System.Windows.Forms.DockStyle.Left;
-      this.pnlAdd.Location = new System.Drawing.Point(3, 3);
+      this.pnlAdd.Location = new System.Drawing.Point(3, 35);
       this.pnlAdd.Name = "pnlAdd";
-      this.pnlAdd.Size = new System.Drawing.Size(139, 625);
+      this.pnlAdd.Size = new System.Drawing.Size(139, 593);
       this.pnlAdd.TabIndex = 2;
       // 
       // btnDelete
       // 
       this.btnDelete.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnDelete.Location = new System.Drawing.Point(0, 200);
+      this.btnDelete.Location = new System.Drawing.Point(0, 225);
       this.btnDelete.Name = "btnDelete";
       this.btnDelete.Size = new System.Drawing.Size(139, 25);
       this.btnDelete.TabIndex = 13;
       this.btnDelete.Text = "Delete";
       this.btnDelete.UseVisualStyleBackColor = true;
       this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+      // 
+      // btnAddPercolator
+      // 
+      this.btnAddPercolator.Dock = System.Windows.Forms.DockStyle.Top;
+      this.btnAddPercolator.Location = new System.Drawing.Point(0, 200);
+      this.btnAddPercolator.Name = "btnAddPercolator";
+      this.btnAddPercolator.Size = new System.Drawing.Size(139, 25);
+      this.btnAddPercolator.TabIndex = 21;
+      this.btnAddPercolator.Text = "Add Percolator";
+      this.btnAddPercolator.UseVisualStyleBackColor = true;
+      this.btnAddPercolator.Click += new System.EventHandler(this.btnAddPercolator_Click);
       // 
       // btnAddOmssa
       // 
@@ -558,49 +577,49 @@
       this.btnAddPeptideProphet.UseVisualStyleBackColor = true;
       this.btnAddPeptideProphet.Click += new System.EventHandler(this.btnAddPeptideProphet_Click);
       // 
-      // btnPFind
+      // btnAddPFind
       // 
-      this.btnPFind.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnPFind.Location = new System.Drawing.Point(0, 75);
-      this.btnPFind.Name = "btnPFind";
-      this.btnPFind.Size = new System.Drawing.Size(139, 25);
-      this.btnPFind.TabIndex = 16;
-      this.btnPFind.Text = "Add pFind";
-      this.btnPFind.UseVisualStyleBackColor = true;
-      this.btnPFind.Click += new System.EventHandler(this.btnPFind_Click);
+      this.btnAddPFind.Dock = System.Windows.Forms.DockStyle.Top;
+      this.btnAddPFind.Location = new System.Drawing.Point(0, 75);
+      this.btnAddPFind.Name = "btnAddPFind";
+      this.btnAddPFind.Size = new System.Drawing.Size(139, 25);
+      this.btnAddPFind.TabIndex = 16;
+      this.btnAddPFind.Text = "Add pFind";
+      this.btnAddPFind.UseVisualStyleBackColor = true;
+      this.btnAddPFind.Click += new System.EventHandler(this.btnAddPFind_Click);
       // 
-      // btnXtandem
+      // btnAddXtandem
       // 
-      this.btnXtandem.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnXtandem.Location = new System.Drawing.Point(0, 50);
-      this.btnXtandem.Name = "btnXtandem";
-      this.btnXtandem.Size = new System.Drawing.Size(139, 25);
-      this.btnXtandem.TabIndex = 15;
-      this.btnXtandem.Text = "Add XTandem";
-      this.btnXtandem.UseVisualStyleBackColor = true;
-      this.btnXtandem.Click += new System.EventHandler(this.btnXtandem_Click);
+      this.btnAddXtandem.Dock = System.Windows.Forms.DockStyle.Top;
+      this.btnAddXtandem.Location = new System.Drawing.Point(0, 50);
+      this.btnAddXtandem.Name = "btnAddXtandem";
+      this.btnAddXtandem.Size = new System.Drawing.Size(139, 25);
+      this.btnAddXtandem.TabIndex = 15;
+      this.btnAddXtandem.Text = "Add XTandem";
+      this.btnAddXtandem.UseVisualStyleBackColor = true;
+      this.btnAddXtandem.Click += new System.EventHandler(this.btnAddXtandem_Click);
       // 
-      // button1
+      // btnAddMascot
       // 
-      this.button1.Dock = System.Windows.Forms.DockStyle.Top;
-      this.button1.Location = new System.Drawing.Point(0, 25);
-      this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(139, 25);
-      this.button1.TabIndex = 14;
-      this.button1.Text = "Add MASCOT";
-      this.button1.UseVisualStyleBackColor = true;
-      this.button1.Click += new System.EventHandler(this.btnAddMascot_Click);
+      this.btnAddMascot.Dock = System.Windows.Forms.DockStyle.Top;
+      this.btnAddMascot.Location = new System.Drawing.Point(0, 25);
+      this.btnAddMascot.Name = "btnAddMascot";
+      this.btnAddMascot.Size = new System.Drawing.Size(139, 25);
+      this.btnAddMascot.TabIndex = 14;
+      this.btnAddMascot.Text = "Add MASCOT";
+      this.btnAddMascot.UseVisualStyleBackColor = true;
+      this.btnAddMascot.Click += new System.EventHandler(this.btnAddMascot_Click);
       // 
-      // btnAdd
+      // btnAddSequest
       // 
-      this.btnAdd.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAdd.Location = new System.Drawing.Point(0, 0);
-      this.btnAdd.Name = "btnAdd";
-      this.btnAdd.Size = new System.Drawing.Size(139, 25);
-      this.btnAdd.TabIndex = 12;
-      this.btnAdd.Text = "Add SEQUEST";
-      this.btnAdd.UseVisualStyleBackColor = true;
-      this.btnAdd.Click += new System.EventHandler(this.btnAddSequest_Click);
+      this.btnAddSequest.Dock = System.Windows.Forms.DockStyle.Top;
+      this.btnAddSequest.Location = new System.Drawing.Point(0, 0);
+      this.btnAddSequest.Name = "btnAddSequest";
+      this.btnAddSequest.Size = new System.Drawing.Size(139, 25);
+      this.btnAddSequest.TabIndex = 12;
+      this.btnAddSequest.Text = "Add SEQUEST";
+      this.btnAddSequest.UseVisualStyleBackColor = true;
+      this.btnAddSequest.Click += new System.EventHandler(this.btnAddSequest_Click);
       // 
       // btnSaveParam
       // 
@@ -647,6 +666,7 @@
       // 
       // tpGeneral
       // 
+      this.tpGeneral.Controls.Add(this.label7);
       this.tpGeneral.Controls.Add(this.txtMinOneHitWonderPeptideCount);
       this.tpGeneral.Controls.Add(this.FilterOneHitWonder);
       this.tpGeneral.Controls.Add(this.cbMergeResultFromSameEngineButDifferentSearchParameters);
@@ -693,10 +713,22 @@
       this.tpGeneral.Text = "General";
       this.tpGeneral.UseVisualStyleBackColor = true;
       // 
+      // label7
+      // 
+      this.label7.AutoSize = true;
+      this.label7.ForeColor = System.Drawing.SystemColors.HotTrack;
+      this.label7.Location = new System.Drawing.Point(25, 396);
+      this.label7.Name = "label7";
+      this.label7.Size = new System.Drawing.Size(704, 13);
+      this.label7.TabIndex = 145;
+      this.label7.Text = "if your data is MSF format with decoy searching, set \"REVERSED_\" as decoy databas" +
+    "e pattern and select \"Whole Name\" as access number format";
+      // 
       // tpDatasets
       // 
       this.tpDatasets.Controls.Add(this.tcDatasetList);
       this.tpDatasets.Controls.Add(this.pnlAdd);
+      this.tpDatasets.Controls.Add(this.panel1);
       this.tpDatasets.Location = new System.Drawing.Point(4, 22);
       this.tpDatasets.Name = "tpDatasets";
       this.tpDatasets.Padding = new System.Windows.Forms.Padding(3);
@@ -704,6 +736,42 @@
       this.tpDatasets.TabIndex = 1;
       this.tpDatasets.Text = "Datasets";
       this.tpDatasets.UseVisualStyleBackColor = true;
+      // 
+      // panel1
+      // 
+      this.panel1.Controls.Add(this.rbUseSelectedOnly);
+      this.panel1.Controls.Add(this.rbUseAll);
+      this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+      this.panel1.Location = new System.Drawing.Point(3, 3);
+      this.panel1.Name = "panel1";
+      this.panel1.Size = new System.Drawing.Size(1175, 32);
+      this.panel1.TabIndex = 4;
+      // 
+      // rbUseSelectedOnly
+      // 
+      this.rbUseSelectedOnly.AutoSize = true;
+      this.rbUseSelectedOnly.Key = "rcpaRadioField1";
+      this.rbUseSelectedOnly.Location = new System.Drawing.Point(257, 9);
+      this.rbUseSelectedOnly.Name = "rbUseSelectedOnly";
+      this.rbUseSelectedOnly.PreCondition = null;
+      this.rbUseSelectedOnly.Size = new System.Drawing.Size(130, 17);
+      this.rbUseSelectedOnly.TabIndex = 2;
+      this.rbUseSelectedOnly.Text = "Use selected files only";
+      this.rbUseSelectedOnly.UseVisualStyleBackColor = true;
+      // 
+      // rbUseAll
+      // 
+      this.rbUseAll.AutoSize = true;
+      this.rbUseAll.Checked = true;
+      this.rbUseAll.Key = "rbUseAll";
+      this.rbUseAll.Location = new System.Drawing.Point(139, 9);
+      this.rbUseAll.Name = "rbUseAll";
+      this.rbUseAll.PreCondition = null;
+      this.rbUseAll.Size = new System.Drawing.Size(78, 17);
+      this.rbUseAll.TabIndex = 1;
+      this.rbUseAll.TabStop = true;
+      this.rbUseAll.Text = "Use all files";
+      this.rbUseAll.UseVisualStyleBackColor = true;
       // 
       // UniformBuildSummaryUI
       // 
@@ -728,6 +796,8 @@
       this.tpGeneral.ResumeLayout(false);
       this.tpGeneral.PerformLayout();
       this.tpDatasets.ResumeLayout(false);
+      this.panel1.ResumeLayout(false);
+      this.panel1.PerformLayout();
       this.ResumeLayout(false);
 
     }
@@ -779,15 +849,20 @@
     protected System.Windows.Forms.Panel pnlAdd;
     private System.Windows.Forms.Button btnDelete;
     protected System.Windows.Forms.Button btnAddPeptideProphet;
-    protected System.Windows.Forms.Button btnPFind;
-    protected System.Windows.Forms.Button btnXtandem;
-    protected System.Windows.Forms.Button button1;
-    protected System.Windows.Forms.Button btnAdd;
+    protected System.Windows.Forms.Button btnAddPFind;
+    protected System.Windows.Forms.Button btnAddXtandem;
+    protected System.Windows.Forms.Button btnAddMascot;
+    protected System.Windows.Forms.Button btnAddSequest;
     protected System.Windows.Forms.Button btnAddOmssa;
     protected System.Windows.Forms.Button btnAddMyriMatch;
     protected System.Windows.Forms.Button btnAddMSGF;
     private System.Windows.Forms.TabControl tabControl1;
     private System.Windows.Forms.TabPage tpGeneral;
     private System.Windows.Forms.TabPage tpDatasets;
+    private System.Windows.Forms.Panel panel1;
+    private Gui.RcpaRadioField rbUseSelectedOnly;
+    private Gui.RcpaRadioField rbUseAll;
+    private System.Windows.Forms.Label label7;
+    protected System.Windows.Forms.Button btnAddPercolator;
   }
 }

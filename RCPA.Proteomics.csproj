@@ -10,14 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RCPA</RootNamespace>
     <AssemblyName>RCPA.Proteomics</AssemblyName>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
     <Win32Resource>
     </Win32Resource>
     <FileUpgradeFlags>
@@ -42,6 +38,8 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -79,28 +77,76 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Win32|x64'">
+    <OutputPath>bin\x64\Win32\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Win32|x86'">
+    <OutputPath>bin\x86\Win32\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="alglibnet2">
       <HintPath>..\SQH.Lib\alglibnet2.dll</HintPath>
     </Reference>
-    <Reference Include="BaseCommon">
-      <HintPath>..\SQH.Lib\Agilent\BaseCommon.dll</HintPath>
-    </Reference>
-    <Reference Include="BaseDataAccess">
-      <HintPath>..\SQH.Lib\Agilent\BaseDataAccess.dll</HintPath>
-    </Reference>
-    <Reference Include="BaseError">
-      <HintPath>..\SQH.Lib\Agilent\BaseError.dll</HintPath>
-    </Reference>
-    <Reference Include="BaseTof, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SQH.Lib\Agilent\BaseTof.dll</HintPath>
-    </Reference>
     <Reference Include="DigitalRune.Windows.Docking">
       <HintPath>..\SQH.Lib\DigitalRune.Windows.Docking.dll</HintPath>
-    </Reference>
-    <Reference Include="HtmlAgilityPack">
-      <HintPath>..\SQH.Lib\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -109,34 +155,32 @@
     <Reference Include="MassSpecDataReader">
       <HintPath>..\SQH.Lib\Agilent\MassSpecDataReader.dll</HintPath>
     </Reference>
-    <Reference Include="MathNet.Numerics, Version=2.6.1.30, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MathNet.Numerics, Version=3.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MathNet.Numerics.2.6.2\lib\net40\MathNet.Numerics.dll</HintPath>
+      <HintPath>..\packages\MathNet.Numerics.3.2.3\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
-    <Reference Include="MathNet.Numerics.IO, Version=2.6.1.30, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Meta.Numerics, Version=2.2.0.0, Culture=neutral, PublicKeyToken=67d25c65a6631347, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MathNet.Numerics.2.6.2\lib\net40\MathNet.Numerics.IO.dll</HintPath>
-    </Reference>
-    <Reference Include="Meta.Numerics">
-      <HintPath>..\SQH.Lib\Meta.Numerics.dll</HintPath>
+      <HintPath>..\packages\Meta.Numerics.2.2.0\lib\Meta.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MwtWinDll">
       <HintPath>..\SQH.Lib\MwtWinDll.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite, Version=1.0.90.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+    <Reference Include="System.Data.SQLite, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\System.Data.SQLite.1.0.90.0\lib\net40\System.Data.SQLite.dll</HintPath>
+      <HintPath>..\SQH.Lib\System.Data.SQLite.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data.SQLite.Linq, Version=1.0.90.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\System.Data.SQLite.1.0.90.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
+      <HintPath>..\SQH.Lib\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
@@ -152,9 +196,8 @@
     <Reference Include="Winista.HtmlParser">
       <HintPath>..\SQH.Lib\Winista.HtmlParser.dll</HintPath>
     </Reference>
-    <Reference Include="ZedGraph, Version=5.1.6.417, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SQH.Lib\ZedGraph.dll</HintPath>
+    <Reference Include="ZedGraph">
+      <HintPath>..\packages\ZedGraph.5.1.6\lib\net35-Client\ZedGraph.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +236,30 @@
     <Compile Include="Proteomics\PeptideProphet\PeptideProphetModificationItem.cs" />
     <Compile Include="Proteomics\PeptideProphet\PeptideProphetModifications.cs" />
     <Compile Include="Proteomics\PeptideProphet\PeptideProphetFactory.cs" />
+    <Compile Include="Proteomics\Percolator\PercolatorInputXmlPsmReader.cs" />
+    <Compile Include="Proteomics\Percolator\PercolatorPeptideDistillerOptions.cs" />
+    <Compile Include="Proteomics\Percolator\MultiplePercolatorPeptideDistiller.cs" />
+    <Compile Include="Proteomics\Percolator\MultiplePercolatorPeptideDistillerOptions.cs" />
+    <Compile Include="Proteomics\Percolator\MultiplePercolatorPeptideDistillerUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Percolator\MultiplePercolatorPeptideDistillerUI.Designer.cs">
+      <DependentUpon>MultiplePercolatorPeptideDistillerUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\Percolator\PercolatorOutputXmlPeptideReader.cs" />
+    <Compile Include="Proteomics\Percolator\PercolatorPeptideDistiller.cs" />
+    <Compile Include="Proteomics\Percolator\PercolatorFactory.cs" />
+    <Compile Include="Proteomics\Percolator\PercolatorDatasetBuilder.cs" />
+    <Compile Include="Proteomics\Percolator\PercolatorDatasetOptions.cs" />
+    <Compile Include="Proteomics\Percolator\PercolatorDatasetPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Percolator\PercolatorDatasetPanel.Designer.cs">
+      <DependentUpon>PercolatorDatasetPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\Percolator\PercolatorFileParser.cs" />
+    <Compile Include="Proteomics\Percolator\PercolatorOutputXmlPsmReader.cs" />
+    <Compile Include="Proteomics\Percolator\PercolatorScoreFunctions.cs" />
     <Compile Include="Proteomics\PFind\PFindFactory.cs" />
     <Compile Include="Proteomics\ProteomeDiscoverer\MsfFastaDistillerUI.cs">
       <SubType>Form</SubType>
@@ -838,6 +905,7 @@
     <Compile Include="Proteomics\Summary\Uniform\FilePanel.Designer.cs">
       <DependentUpon>FilePanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Proteomics\Summary\Uniform\ITitleDatasetOptions.cs" />
     <Compile Include="Proteomics\Summary\Uniform\UniformSpectrumProteinFdrBuilder2.cs" />
     <Compile Include="Proteomics\Summary\Uniform\TargetDecoyConflictType.cs" />
     <Compile Include="Proteomics\MzIdent\MzIdentDatasetPanel.cs">
@@ -846,6 +914,8 @@
     <Compile Include="Proteomics\MzIdent\MzIdentDatasetPanel.Designer.cs">
       <DependentUpon>MzIdentDatasetPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Proteomics\Swath\MzXmlSwathWindowsProcessor.cs" />
+    <Compile Include="Proteomics\Swath\MzXmlSwathWindowsProcessorOptions.cs" />
     <Compile Include="Proteomics\XTandem\XTandemFactory.cs" />
     <Compile Include="Proteomics\XTandem\XTandemScoreFunctions.cs" />
     <Compile Include="Proteomics\XTandem\XTandemXmlSummaryConfiguration.cs" />
@@ -1080,6 +1150,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Mascot\MascotFilePanel.resx">
       <DependentUpon>MascotFilePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Percolator\MultiplePercolatorPeptideDistillerUI.resx">
+      <DependentUpon>MultiplePercolatorPeptideDistillerUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Percolator\PercolatorDatasetPanel.resx">
+      <DependentUpon>PercolatorDatasetPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\ProteomeDiscoverer\MsfFastaDistillerUI.resx">
       <DependentUpon>MsfFastaDistillerUI.cs</DependentUpon>
@@ -1397,12 +1475,8 @@
     <EmbeddedResource Include="Proteomics\MzIdent\MzIdentDatasetPanel.resx">
       <DependentUpon>MzIdentDatasetPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\XTandem\XtandemDatasetPanel.resx">
-      <DependentUpon>XtandemDatasetPanel.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Summary\Uniform\ExpectValueDatasetPanel2.resx">
-      <DependentUpon>ExpectValueDatasetPanel2.cs</DependentUpon>
+    <EmbeddedResource Include="Proteomics\XTandem\XTandemDatasetPanel.resx">
+      <DependentUpon>XTandemDatasetPanel.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Summary\Uniform\DatasetPanelBase.resx">
@@ -1549,10 +1623,6 @@
       <DependentUpon>SrmBrowserUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Quantification\AgilentToMS1BuilderUI.resx">
-      <DependentUpon>AgilentToMS1BuilderUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Tools\Quantification\CensusChroFileSplitterUI.resx">
       <DependentUpon>CensusChroFileSplitterUI.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1617,36 +1687,12 @@
       <DependentUpon>SilacQuantificationSummaryViewerUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Quantification\SmallMolecule\SmallMoleculeDataImageBuilderUI.resx">
-      <DependentUpon>SmallMoleculeDataImageBuilderUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Quantification\SmallMolecule\SmallMoleculeDataMostIntensityBuilderUI.resx">
-      <DependentUpon>SmallMoleculeDataMostIntensityBuilderUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Quantification\SmallMolecule\SmallMoleculeDataPreparationProcessorUI.resx">
-      <DependentUpon>SmallMoleculeDataPreparationProcessorUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Quantification\SmallMolecule\SmallMoleculeQuantificationViewerUI.resx">
-      <DependentUpon>SmallMoleculeQuantificationViewerUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Quantification\SmallMolecule\SmallMoleculeSignificantPeakFinderUI.resx">
-      <DependentUpon>SmallMoleculeSignificantPeakFinderUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Tools\Quantification\TurboCensusMs1BuilderUI.resx">
       <DependentUpon>TurboCensusMs1BuilderUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\Quantification\TurboCensusMs1IndexBuilderUI.resx">
       <DependentUpon>TurboCensusMs1IndexBuilderUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Raw\AgilentFileViewerUI.resx">
-      <DependentUpon>AgilentFileViewerUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\Raw\RawFileViewerUI.resx">
@@ -2081,20 +2127,14 @@
     <Compile Include="Proteomics\Summary\Uniform\OptimalFileTextWriter.cs" />
     <Compile Include="Proteomics\Summary\Uniform\SearchEngineConflictType.cs" />
     <Compile Include="Proteomics\Summary\Uniform\UniformHeader.cs" />
-    <Compile Include="Proteomics\XTandem\XtandemDatasetBuilder.cs" />
-    <Compile Include="Proteomics\XTandem\XtandemDatasetPanel.cs">
+    <Compile Include="Proteomics\XTandem\XTandemDatasetBuilder.cs" />
+    <Compile Include="Proteomics\XTandem\XTandemDatasetPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Proteomics\XTandem\XtandemDatasetPanel.Designer.cs">
-      <DependentUpon>XtandemDatasetPanel.cs</DependentUpon>
+    <Compile Include="Proteomics\XTandem\XTandemDatasetPanel.Designer.cs">
+      <DependentUpon>XTandemDatasetPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Proteomics\Summary\Uniform\ExpectValueDatasetPanel2.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Proteomics\Summary\Uniform\ExpectValueDatasetPanel2.Designer.cs">
-      <DependentUpon>ExpectValueDatasetPanel2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Proteomics\XTandem\XtandemDatasetOptions.cs" />
+    <Compile Include="Proteomics\XTandem\XTandemDatasetOptions.cs" />
     <Compile Include="Proteomics\Summary\Uniform\DatasetPanelBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -2115,11 +2155,6 @@
     <Compile Include="Proteomics\Mascot\MascotDatasetOptions.cs" />
     <Compile Include="Proteomics\Quantification\SILAC\DifferentRetentionTimeEnvelopes.cs" />
     <Compile Include="Proteomics\Quantification\SILAC\SilacQuantificationResultMultipleFileWriter.cs" />
-    <Compile Include="Proteomics\Quantification\SmallMolecule\FileData2.cs" />
-    <Compile Include="Proteomics\Quantification\SmallMolecule\FileData3.cs" />
-    <Compile Include="Proteomics\Quantification\SmallMolecule\FileData3RawReader.cs" />
-    <Compile Include="Proteomics\Quantification\SmallMolecule\FileData3XmlFormat.cs" />
-    <Compile Include="Proteomics\Quantification\SmallMolecule\PeakItem.cs" />
     <Compile Include="Proteomics\Raw\CacheRawFile.cs" />
     <Compile Include="Proteomics\Raw\IRawFormat.cs" />
     <Compile Include="Proteomics\Raw\ThermoRawFormat.cs" />
@@ -2173,13 +2208,7 @@
     <Compile Include="Proteomics\Quantification\SILAC\ZedGraphTheoreticalProfile.cs" />
     <Compile Include="Proteomics\Quantification\UpdateQuantificationItemEvent.cs" />
     <Compile Include="Proteomics\Quantification\SILAC\ZedGraphExperimentalScan.cs" />
-    <Compile Include="Proteomics\Quantification\SmallMolecule\FeatureData.cs" />
-    <Compile Include="Proteomics\Quantification\SmallMolecule\FileData.cs" />
-    <Compile Include="Proteomics\Quantification\SmallMolecule\UpdateSmallMoleculeFilePeakEventArgs.cs" />
-    <Compile Include="Proteomics\Quantification\SmallMolecule\ZedGraphSmallMoleculeFilePeak.cs" />
     <Compile Include="Proteomics\Quantification\UpdateEvent.cs" />
-    <Compile Include="Proteomics\Raw\AgilentDirectoryImpl.cs" />
-    <Compile Include="Proteomics\Raw\AgilentFileExtension.cs" />
     <Compile Include="Proteomics\Raw\RawFileHelper.cs" />
     <Compile Include="Proteomics\Sequest\SequestLogFormat.cs" />
     <Compile Include="Proteomics\Sequest\SequestLogReader.cs" />
@@ -2487,19 +2516,11 @@
       <DependentUpon>IdentifiedResultMultipleLabellingSeparatorUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Quantification\ITraq\AbstractITraqPeptideStatisticBuilder.cs" />
-    <Compile Include="Tools\Quantification\Agilent2Ms1DirectoryBuilder.cs" />
-    <Compile Include="Tools\Quantification\Agilent2Ms1FileBuilder.cs" />
     <Compile Include="Proteomics\Quantification\Srm\SrmBrowserUI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Proteomics\Quantification\Srm\SrmBrowserUI.Designer.cs">
       <DependentUpon>SrmBrowserUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Tools\Quantification\AgilentToMS1BuilderUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Tools\Quantification\AgilentToMS1BuilderUI.Designer.cs">
-      <DependentUpon>AgilentToMS1BuilderUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Quantification\CensusChroFileSplitter.cs" />
     <Compile Include="Tools\Quantification\CensusChroFileSplitterUI.cs">
@@ -2634,45 +2655,6 @@
     <Compile Include="Proteomics\Quantification\SILAC\SilacQuantificationSummaryViewerUI.Designer.cs">
       <DependentUpon>SilacQuantificationSummaryViewerUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculeDataImageBuilder.cs" />
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculeDataImageBuilderUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculeDataImageBuilderUI.Designer.cs">
-      <DependentUpon>SmallMoleculeDataImageBuilderUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculeDataMostIntensityBuilder.cs" />
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculeDataMostIntensityBuilderUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculeDataMostIntensityBuilderUI.Designer.cs">
-      <DependentUpon>SmallMoleculeDataMostIntensityBuilderUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculeDataPreparationProcessor.cs" />
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculeDataPreparationProcessorUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculeDataPreparationProcessorUI.Designer.cs">
-      <DependentUpon>SmallMoleculeDataPreparationProcessorUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculePeakInfo.cs" />
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculePeakInfoListTextFormat.cs" />
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculeQuantificationViewerUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculeQuantificationViewerUI.Designer.cs">
-      <DependentUpon>SmallMoleculeQuantificationViewerUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculeSignificantPeakFinder.cs" />
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculeSignificantPeakFinderUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculeSignificantPeakFinderUI.Designer.cs">
-      <DependentUpon>SmallMoleculeSignificantPeakFinderUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculeSignificantPeakImageBuilder.cs" />
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculeSignificantPeakImageBuilder2.cs" />
-    <Compile Include="Tools\Quantification\SmallMolecule\SmallMoleculeZedGraphUtils.cs" />
     <Compile Include="Tools\Quantification\TurboCensusMs1BuilderUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2684,12 +2666,6 @@
     </Compile>
     <Compile Include="Tools\Quantification\TurboCensusMs1IndexBuilderUI.Designer.cs">
       <DependentUpon>TurboCensusMs1IndexBuilderUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Tools\Raw\AgilentFileViewerUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Tools\Raw\AgilentFileViewerUI.Designer.cs">
-      <DependentUpon>AgilentFileViewerUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Raw\MsLevelCheckProcessor.cs" />
     <Compile Include="Tools\Raw\RawFileViewerUI.cs">
@@ -2821,12 +2797,6 @@
       <DependentUpon>RcpaGrouperUI.cs</DependentUpon>
     </Compile>
     <Content Include="extends\PeptideDetectabilityPredictor.exe" />
-    <Content Include="x64\SQLite.Interop.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x86\SQLite.Interop.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\ProteomicsLib.Format.FileDefinitionItem.datasource" />
     <None Include="Properties\DataSources\ProteomicsLib.Proteomics.SiliconePolymer.datasource" />
@@ -2844,6 +2814,7 @@
     <None Include="Resources\fileopen.png" />
     <None Include="Resources\cancel.bmp" />
     <None Include="Resources\ok.bmp" />
+    <Content Include="License-LGPL.txt" />
     <Content Include="Tools\Mascot\raw2mgf.ico" />
     <None Include="template\MultipleO18Quantification.r">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -2937,4 +2908,5 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

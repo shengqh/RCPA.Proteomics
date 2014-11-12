@@ -8,6 +8,8 @@ namespace RCPA.Proteomics.Mascot
 {
   public class MascotPeptideTextFormat : AbstractPeptideTextFormat
   {
+    public bool NotExportSummary { get; set; }
+
     public MascotPeptideTextFormat()
       : this(MascotHeader.MASCOT_PEPTIDE_HEADER)
     { }
@@ -75,29 +77,32 @@ namespace RCPA.Proteomics.Mascot
           sw.WriteLine(PeptideFormat.GetString(mph));
         }
 
-        sw.WriteLine();
-        sw.WriteLine("----- summary -----");
-        var totalCount = IdentifiedSpectrumUtils.GetSpectrumCount(t);
-        var totalUniqueCount = IdentifiedSpectrumUtils.GetUniquePeptideCount(t);
-        sw.WriteLine("Total spectra: " + totalCount);
-        sw.WriteLine("Total peptides: " + totalUniqueCount);
-
-        var tags = (from s in t
-                    select s.Tag).Distinct().ToList();
-        if (tags.Count > 1)
+        if (!NotExportSummary)
         {
-          tags.Sort();
-
           sw.WriteLine();
-          sw.WriteLine("Tag\tSpectra\tPeptides");
-          sw.WriteLine("All\t{0}\t{1}", totalCount, totalUniqueCount);
+          sw.WriteLine("----- summary -----");
+          var totalCount = IdentifiedSpectrumUtils.GetSpectrumCount(t);
+          var totalUniqueCount = IdentifiedSpectrumUtils.GetUniquePeptideCount(t);
+          sw.WriteLine("Total spectra: " + totalCount);
+          sw.WriteLine("Total peptides: " + totalUniqueCount);
 
-          foreach (var tag in tags)
+          var tags = (from s in t
+                      select s.Tag).Distinct().ToList();
+          if (tags.Count > 1)
           {
-            var tagspectra = from s in t
-                             where s.Tag == tag
-                             select s;
-            sw.WriteLine("{0}\t{1}\t{2}", tag, IdentifiedSpectrumUtils.GetSpectrumCount(tagspectra), IdentifiedSpectrumUtils.GetUniquePeptideCount(tagspectra));
+            tags.Sort();
+
+            sw.WriteLine();
+            sw.WriteLine("Tag\tSpectra\tPeptides");
+            sw.WriteLine("All\t{0}\t{1}", totalCount, totalUniqueCount);
+
+            foreach (var tag in tags)
+            {
+              var tagspectra = from s in t
+                               where s.Tag == tag
+                               select s;
+              sw.WriteLine("{0}\t{1}\t{2}", tag, IdentifiedSpectrumUtils.GetSpectrumCount(tagspectra), IdentifiedSpectrumUtils.GetUniquePeptideCount(tagspectra));
+            }
           }
         }
       }

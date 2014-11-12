@@ -22,8 +22,6 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
     public static string title = "Extract Protein Sequence From MSF File";
     public static string version = "1.0.0";
 
-    private RcpaCheckBox excelFormat;
-
     public MsfFastaDistillerUI()
     {
       InitializeComponent();

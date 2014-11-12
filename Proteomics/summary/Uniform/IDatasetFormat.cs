@@ -10,12 +10,14 @@ namespace RCPA.Proteomics.Summary.Uniform
   {
     string DatasetName { get; set; }
 
-    bool Enabled { get; set; }
+    bool DatasetEnabled { get; set; }
 
     void LoadFromDataset();
 
-    void SaveToDataset();
+    void SaveToDataset(bool selectedOnly);
 
     void ValidateComponents();
+
+    bool HasValidFile(bool selectedOnly);
   }
 }

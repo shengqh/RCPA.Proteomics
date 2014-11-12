@@ -7,7 +7,7 @@ using System.IO;
 
 namespace RCPA.Proteomics.Statistic
 {
-  public class ScanCountMainCalculator : AbstractParallelMainProcessor
+  public class ScanCountMainCalculator : AbstractParallelMainFileProcessor
   {
     private bool bMerge;
     public ScanCountMainCalculator(IEnumerable<string> ASourceFiles, bool bMerge)

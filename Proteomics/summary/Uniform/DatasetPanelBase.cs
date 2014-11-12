@@ -29,7 +29,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     public virtual IDatasetOptions Options { get; set; }
 
-    public bool Enabled
+    public bool DatasetEnabled
     {
       get
       {
@@ -146,7 +146,7 @@ namespace RCPA.Proteomics.Summary.Uniform
       }
     }
 
-    public virtual void SaveToDataset()
+    public virtual void SaveToDataset(bool selectedOnly)
     {
       Options.Name = this.datasetName.Text;
       Options.Enabled = this.enabled.Checked;
@@ -158,6 +158,11 @@ namespace RCPA.Proteomics.Summary.Uniform
       {
         Options.PrecursorPPMTolerance = this.precursorPPMTolerance.Value;
       }
+    }
+
+    public virtual bool HasValidFile(bool selectedOnly)
+    {
+      throw new NotImplementedException();
     }
   }
 }

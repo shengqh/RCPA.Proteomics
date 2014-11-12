@@ -32,5 +32,10 @@ namespace RCPA.Proteomics.XTandem
     {
       get { return SearchEngineType.XTandem; }
     }
+
+    public IDatasetOptions GetOptions()
+    {
+      return new XTandemDatasetOptions();
+    }
   }
 }

@@ -21,6 +21,7 @@ using RCPA.Proteomics.MyriMatch;
 using RCPA.Proteomics.Omssa;
 using RCPA.Proteomics.MSGF;
 using RCPA.Proteomics.Sequest;
+using RCPA.Proteomics.Percolator;
 
 namespace RCPA.Tools.Summary
 {
@@ -32,7 +33,7 @@ namespace RCPA.Tools.Summary
   public partial class UniformBuildSummaryUI : AbstractProcessorFileUI
   {
     public static string title = "BuildSummary - A general framework for assembling protein identifications";
-    public static string version = "7.0.7";
+    public static string version = "7.1.0";
 
     private BuildSummaryOptions Option;
 
@@ -120,6 +121,7 @@ namespace RCPA.Tools.Summary
                                                                   {
                                                                     FalseDiscoveryRateLevel.Peptide,
                                                                     FalseDiscoveryRateLevel.Protein,
+                                                                    FalseDiscoveryRateLevel.SimpleProtein,
                                                                     FalseDiscoveryRateLevel.UniquePeptide
                                                                   }, 1);
       AddComponent(this.fdrLevel);
@@ -204,8 +206,16 @@ namespace RCPA.Tools.Summary
 
         names.Add(dsf.DatasetName);
 
-        if (dsf.Enabled)
+        if (dsf.DatasetEnabled)
         {
+          if (rbUseSelectedOnly.Checked)
+          {
+            if (!dsf.HasValidFile(rbUseSelectedOnly.Checked))
+            {
+              throw new Exception("At least one file should be selected for dataset " + dsf.DatasetName);
+            }
+          }
+
           bFind = true;
         }
       }
@@ -470,7 +480,7 @@ namespace RCPA.Tools.Summary
       //Dataset
       foreach (TabPage ts in tcDatasetList.TabPages)
       {
-        (ts.Tag as IDatasetFormat).SaveToDataset();
+        (ts.Tag as IDatasetFormat).SaveToDataset(rbUseSelectedOnly.Checked);
       }
 
       Option.SaveToFile(fileName);
@@ -515,6 +525,15 @@ namespace RCPA.Tools.Summary
       }
     }
 
+    protected void DoAddDatasetOption(IDatasetOptions dsOption)
+    {
+      Option.DatasetList.Add(dsOption);
+
+      AddDatasetOption(dsOption, false);
+
+      this.ResumeLayout();
+    }
+
     private void btnNew_Click(object sender, EventArgs e)
     {
       this.Option = new BuildSummaryOptions();
@@ -522,12 +541,12 @@ namespace RCPA.Tools.Summary
       AssignValueFromOption();
     }
 
-    private void btnXtandem_Click(object sender, EventArgs e)
+    private void btnAddXtandem_Click(object sender, EventArgs e)
     {
-      DoAddDatasetOption(new XtandemDatasetOptions());
+      DoAddDatasetOption(new XTandemDatasetOptions());
     }
 
-    private void btnPFind_Click(object sender, EventArgs e)
+    private void btnAddPFind_Click(object sender, EventArgs e)
     {
       DoAddDatasetOption(new PFindDatasetOptions());
     }
@@ -547,15 +566,6 @@ namespace RCPA.Tools.Summary
       DoAddDatasetOption(new MascotDatasetOptions());
     }
 
-    protected void DoAddDatasetOption(IDatasetOptions dsOption)
-    {
-      Option.DatasetList.Add(dsOption);
-
-      AddDatasetOption(dsOption,false);
-
-      this.ResumeLayout();
-    }
-
     private void btnAddOmssa_Click(object sender, EventArgs e)
     {
       DoAddDatasetOption(new OmssaDatasetOptions());
@@ -569,6 +579,11 @@ namespace RCPA.Tools.Summary
     private void btnAddMSGF_Click(object sender, EventArgs e)
     {
       DoAddDatasetOption(new MSGFDatasetOptions());
+    }
+
+    private void btnAddPercolator_Click(object sender, EventArgs e)
+    {
+      DoAddDatasetOption(new PercolatorDatasetOptions());
     }
   }
 }

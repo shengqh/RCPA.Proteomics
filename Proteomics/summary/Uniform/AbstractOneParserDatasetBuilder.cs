@@ -17,7 +17,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     protected override List<IIdentifiedSpectrum> DoParse()
     {
-      var peptideFormat = new MascotPeptideTextFormat();
+      var peptideFormat = GetPeptideFormat();
 
       Progress.SetRange(0, options.PathNames.Count + 1);
 
@@ -38,7 +38,7 @@ namespace RCPA.Proteomics.Summary.Uniform
           throw new UserTerminatedException();
         }
 
-        var dataParser = Options.SearchEngine.GetFactory().GetParser(dataFile);
+        var dataParser = GetParser(dataFile);
 
         dataParser.Progress = this.Progress;
 
@@ -49,7 +49,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
         List<IIdentifiedSpectrum> curPeptides;
 
-        string peptideFilename = dataFile + ".peptides";
+        string peptideFilename = GetPeptideFile(dataFile);
         if (new FileInfo(peptideFilename).Exists)
         {
           Progress.SetMessage(MyConvert.Format("{0}/{1} : Reading peptides file {2}", stepCount, options.PathNames.Count, peptideFilename));
@@ -98,6 +98,21 @@ namespace RCPA.Proteomics.Summary.Uniform
         }
       }
       return result;
+    }
+
+    protected virtual string GetPeptideFile(string dataFile)
+    {
+      return dataFile + ".peptides";
+    }
+
+    protected virtual IIdentifiedPeptideTextFormat GetPeptideFormat()
+    {
+      return new MascotPeptideTextFormat();
+    }
+
+    protected virtual ISpectrumParser GetParser(string dataFile)
+    {
+      return Options.SearchEngine.GetFactory().GetParser(dataFile);
     }
 
     #endregion

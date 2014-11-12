@@ -46,7 +46,7 @@ namespace RCPA.Proteomics.Statistic
     }
   }
 
-  public class ScanCountTaskCalculator : AbstractParallelTaskProcessor
+  public class ScanCountTaskCalculator : AbstractParallelTaskFileProcessor
   {
     private string targetDir;
 

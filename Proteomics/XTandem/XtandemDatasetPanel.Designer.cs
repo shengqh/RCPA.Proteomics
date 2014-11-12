@@ -1,6 +1,6 @@
 ﻿namespace RCPA.Proteomics.XTandem
 {
-  partial class XtandemDatasetPanel
+  partial class XTandemDatasetPanel
   {
     /// <summary> 
     /// Required designer variable.

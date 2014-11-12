@@ -8,7 +8,7 @@ using RCPA.Proteomics.Spectrum;
 
 namespace RCPA.Proteomics.Format
 {
-  public class TripleTOFTextToMGFTaskProcessor : AbstractParallelTaskProcessor
+  public class TripleTOFTextToMGFTaskProcessor : AbstractParallelTaskFileProcessor
   {
     private string software;
 

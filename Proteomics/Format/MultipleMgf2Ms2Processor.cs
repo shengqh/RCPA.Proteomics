@@ -10,7 +10,7 @@ using RCPA.Proteomics.IO;
 
 namespace RCPA.Proteomics.Format
 {
-  public class MultipleMgf2Ms2Processor : AbstractParallelMainProcessor
+  public class MultipleMgf2Ms2Processor : AbstractParallelMainFileProcessor
   {
     private MultipleMgf2Ms2ProcessorOptions options;
 

@@ -56,9 +56,9 @@ namespace RCPA.Proteomics.Summary.Uniform
       }
     }
 
-    public override void SaveToDataset()
+    public override void SaveToDataset(bool selectedOnly)
     {
-      base.SaveToDataset();
+      base.SaveToDataset(selectedOnly);
 
       TitleOption.TitleParserName = titleParsers.SelectedItem.FormatName;
     }

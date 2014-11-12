@@ -11,7 +11,7 @@ namespace RCPA.Proteomics.PropertyConverter
 
     public override string GetProperty(T t)
     {
-      return MyConvert.Format("{0:0.0}", t.SpScore);
+      return MyConvert.Format("{0:0.00}", t.SpScore);
     }
 
     public override void SetProperty(T t, string value)

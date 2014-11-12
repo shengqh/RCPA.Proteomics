@@ -32,5 +32,10 @@ namespace RCPA.Proteomics.PFind
     {
       get { return SearchEngineType.PFind; }
     }
+
+    public IDatasetOptions GetOptions()
+    {
+      return new PFindDatasetOptions();
+    }
   }
 }
