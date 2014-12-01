@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml;
 using RCPA.Proteomics.Spectrum;
 using System.IO;
+using System.Xml.Linq;
+using System.Xml;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
@@ -131,7 +132,6 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
         reader.Close();
       }
     }
-
     /// <summary>
     /// 从XmlReader中读取IsobaricItem信息。
     /// </summary>
@@ -148,15 +148,16 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
       while (reader.MoveToElement("IsobaricScan"))
       {
-        reader.ReadStartElement();
+        XElement el = XNode.ReadFrom(reader) as XElement;
+        var dic = el.ToDictionary();
 
         result = new IsobaricScan(plexType);
-        reader.MoveToElement("Experimental");
-        result.Experimental = reader.ReadElementAsString("Experimental");
-        result.ScanMode = reader.ReadElementAsString("ScanMode");
-        result.Scan = new ScanTime(reader.ReadElementAsInt("Scan"), reader.ReadElementAsDouble("RetentionTime"));
-        result.Scan.IonInjectionTime = reader.ReadElementAsDouble("IonInjectionTime");
-        result.PrecursorPercentage = reader.ReadElementAsDouble("PrecursorPercentage");
+
+        result.Experimental = dic["Experimental"].Value;
+        result.ScanMode = dic["ScanMode"].Value;
+        result.Scan = new ScanTime(int.Parse(dic["Scan"].Value), double.Parse(dic["RetentionTime"].Value));
+        result.Scan.IonInjectionTime = double.Parse(dic["IonInjectionTime"].Value);
+        result.PrecursorPercentage = double.Parse(dic["PrecursorPercentage"].Value);
 
         if (null != accept && !accept(result))
         {
@@ -173,14 +174,31 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
         if (readReporters)
         {
-          ReadChannels(reader, plexType, result);
+          XElement ions;
+          if (dic.TryGetValue("Ions", out ions))
+          {
+            var ionsElement = ions.Elements().ToArray();
+            if (ionsElement.Length != plexType.Channels.Count)
+            {
+              throw new Exception(string.Format("Ions element number {0} is not equals to channel number {1} of plex type {2}",
+                ionsElement.Length,
+                plexType.Channels.Count,
+                 plexType.Name));
+            }
+
+            for (int i = 0; i < plexType.Channels.Count; i++)
+            {
+              result[i] = double.Parse(ionsElement[i].Value);
+            }
+          }
         }
 
         if (readPeaks)
         {
-          result.RawPeaks = ReadElementPeakList(reader, "RawPeaks", false);
+          result.RawPeaks = ReadElementPeakList(dic["RawPeaks"], false);
           result.RawPeaks.ScanTimes.Add(result.Scan);
-          result.PeakInIsolationWindow = ReadElementPeakList(reader, "PeakInIsolationWindow", true);
+
+          result.PeakInIsolationWindow = ReadElementPeakList(dic["PeakInIsolationWindow"], true);
         }
 
         break;
@@ -188,5 +206,37 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
       return result;
     }
+
+    public static PeakList<Peak> ReadElementPeakList(XElement ions, bool isPeakInWindow)
+    {
+      var result = new PeakList<Peak>();
+      foreach (var p in ions.FindElements("Peak"))
+      {
+        var mz = double.Parse(p.FindAttribute("mz").Value);
+        var intensity = double.Parse(p.FindAttribute("intensity").Value);
+        var charge = int.Parse(p.FindAttribute("charge").Value);
+        var peak = new Peak(mz, intensity, charge);
+        if (isPeakInWindow)
+        {
+          peak.Tag = int.Parse(p.FindAttribute("tag").Value);
+        }
+        result.Add(peak);
+      }
+
+      if (isPeakInWindow)
+      {
+        var precursor = ions.FindElement("Precursor");
+        var dic = precursor.ToDictionary();
+        result.Precursor.MasterScan = int.Parse(dic["MasterScan"].Value);
+        result.Precursor.MonoIsotopicMass = double.Parse(dic["MonoIsotopicMass"].Value);
+        result.Precursor.IsolationMass = double.Parse(dic["IsolationMass"].Value);
+        result.Precursor.IsolationWidth = double.Parse(dic["IsolationWidth"].Value);
+        result.Precursor.Charge = int.Parse(dic["Charge"].Value);
+        result.Precursor.Intensity = double.Parse(dic["Intensity"].Value);
+      }
+
+      return result;
+    }
+
   }
 }

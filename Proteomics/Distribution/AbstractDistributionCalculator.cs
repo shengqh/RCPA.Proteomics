@@ -231,7 +231,7 @@ namespace RCPA.Proteomics.Distribution
         modifiedStr,
         option.DistributionType,
         option.ClassificationPrinciple,
-        StringUtils.LeftFill(iMinCount, maxPeptideCountWidth, '0'));
+        iMinCount.ToString().PadLeft(maxPeptideCountWidth, '0'));
     }
 
     protected string GetResultFilePrefix(int iMinCount)

@@ -31,7 +31,8 @@ namespace RCPA.Proteomics.Format
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MultipleRaw2MgfProcessor3UI));
       this.rawFiles = new RCPA.Gui.MultipleFileField();
       this.tabControl1 = new System.Windows.Forms.TabControl();
-      this.tabPage1 = new System.Windows.Forms.TabPage();
+      this.tabGeneral = new System.Windows.Forms.TabPage();
+      this.rbMzXml = new RCPA.Gui.RcpaCheckField();
       this.cbByMsLevel = new RCPA.Gui.RcpaCheckField();
       this.groupBox1 = new System.Windows.Forms.GroupBox();
       this.label1 = new System.Windows.Forms.Label();
@@ -56,17 +57,25 @@ namespace RCPA.Proteomics.Format
       this.label3 = new System.Windows.Forms.Label();
       this.txtMWRangeFrom = new System.Windows.Forms.TextBox();
       this.label2 = new System.Windows.Forms.Label();
-      this.tabPage2 = new System.Windows.Forms.TabPage();
-      this.cbProteases = new System.Windows.Forms.ComboBox();
-      this.cbRemoveIsobaricIonsInHighRange = new RCPA.Gui.RcpaCheckField();
+      this.tabIons = new System.Windows.Forms.TabPage();
+      this.rbRemoveReporters = new RCPA.Gui.RcpaCheckField();
       this.cbRemoveIsobaricIons = new RCPA.Gui.RcpaCheckField();
       this.cbRemoveMassRange = new RCPA.Gui.RcpaCheckField();
+      this.cbProteases = new System.Windows.Forms.ComboBox();
+      this.cbRemoveIsobaricIonsInHighRange = new RCPA.Gui.RcpaCheckField();
       this.cbRemoveIsobaricIonsInLowRange = new RCPA.Gui.RcpaCheckField();
       this.txtIsobaricIons = new System.Windows.Forms.TextBox();
       this.cbxIsobaricTypes = new System.Windows.Forms.ComboBox();
       this.cbRemoveSpecialIons = new RCPA.Gui.RcpaCheckField();
       this.txtRemoveIonWindow = new System.Windows.Forms.TextBox();
       this.txtSpecialIons = new System.Windows.Forms.TextBox();
+      this.tabPrecursor = new System.Windows.Forms.TabPage();
+      this.cbRemoveIonsLargerThanPrecursor = new RCPA.Gui.RcpaCheckField();
+      this.rcpaCheckField1 = new RCPA.Gui.RcpaCheckField();
+      this.cbRemovePrecursor = new RCPA.Gui.RcpaCheckField();
+      this.txtPrecursorPPM = new System.Windows.Forms.TextBox();
+      this.txtNeutralLossComposition = new System.Windows.Forms.TextBox();
+      this.cbRemoveNeutralLoss = new RCPA.Gui.RcpaCheckField();
       this.tabPage3 = new System.Windows.Forms.TabPage();
       this.panel1 = new System.Windows.Forms.Panel();
       this.panel3 = new System.Windows.Forms.Panel();
@@ -74,6 +83,7 @@ namespace RCPA.Proteomics.Format
       this.txtRetentionTimeWindow = new System.Windows.Forms.TextBox();
       this.txtMaxShiftPPM = new System.Windows.Forms.TextBox();
       this.label7 = new System.Windows.Forms.Label();
+      this.siliconePolymers = new RCPA.Proteomics.SiliconePolymerIonField();
       this.rbMassCalibrationByFixed = new RCPA.Gui.RcpaRadioField();
       this.rbMassCalibrationByFile = new RCPA.Gui.RcpaRadioField();
       this.rbMassCalibrationAutomatically = new RCPA.Gui.RcpaRadioField();
@@ -86,22 +96,16 @@ namespace RCPA.Proteomics.Format
       this.rbMassCalibrationNone = new RCPA.Gui.RcpaRadioField();
       this.cbCalibrateProductIon = new RCPA.Gui.RcpaCheckField();
       this.cbCalibratePrecursor = new RCPA.Gui.RcpaCheckField();
-      this.tabPage4 = new System.Windows.Forms.TabPage();
-      this.cbRemoveIonsLargerThanPrecursor = new RCPA.Gui.RcpaCheckField();
-      this.txtNeutralLossComposition = new System.Windows.Forms.TextBox();
-      this.cbRemovePrecursor = new RCPA.Gui.RcpaCheckField();
-      this.rbRemoveReporters = new RCPA.Gui.RcpaCheckField();
-      this.siliconePolymers = new RCPA.Proteomics.SiliconePolymerIonField();
       this.pnlFile.SuspendLayout();
       this.tabControl1.SuspendLayout();
-      this.tabPage1.SuspendLayout();
+      this.tabGeneral.SuspendLayout();
       this.groupBox1.SuspendLayout();
-      this.tabPage2.SuspendLayout();
+      this.tabIons.SuspendLayout();
+      this.tabPrecursor.SuspendLayout();
       this.tabPage3.SuspendLayout();
       this.panel1.SuspendLayout();
       this.panel3.SuspendLayout();
       this.panel2.SuspendLayout();
-      this.tabPage4.SuspendLayout();
       this.SuspendLayout();
       // 
       // pnlFile
@@ -155,8 +159,8 @@ namespace RCPA.Proteomics.Format
       // 
       // tabControl1
       // 
-      this.tabControl1.Controls.Add(this.tabPage1);
-      this.tabControl1.Controls.Add(this.tabPage2);
+      this.tabControl1.Controls.Add(this.tabGeneral);
+      this.tabControl1.Controls.Add(this.tabIons);
       this.tabControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
       this.tabControl1.Location = new System.Drawing.Point(0, 289);
       this.tabControl1.Name = "tabControl1";
@@ -164,35 +168,47 @@ namespace RCPA.Proteomics.Format
       this.tabControl1.Size = new System.Drawing.Size(1083, 368);
       this.tabControl1.TabIndex = 50;
       // 
-      // tabPage1
+      // tabGeneral
       // 
-      this.tabPage1.Controls.Add(this.cbByMsLevel);
-      this.tabPage1.Controls.Add(this.groupBox1);
-      this.tabPage1.Controls.Add(this.txtTopX);
-      this.tabPage1.Controls.Add(this.cbKeepTopX);
-      this.tabPage1.Controls.Add(this.cbByMode);
-      this.tabPage1.Controls.Add(this.cbParallel);
-      this.tabPage1.Controls.Add(this.cbDefaultCharge);
-      this.tabPage1.Controls.Add(this.label10);
-      this.tabPage1.Controls.Add(this.label8);
-      this.tabPage1.Controls.Add(this.txtMinIonIntensity);
-      this.tabPage1.Controls.Add(this.label9);
-      this.tabPage1.Controls.Add(this.cbTitleFormat);
-      this.tabPage1.Controls.Add(this.label5);
-      this.tabPage1.Controls.Add(this.txtMWRangeTo);
-      this.tabPage1.Controls.Add(this.txtMinIonCount);
-      this.tabPage1.Controls.Add(this.label4);
-      this.tabPage1.Controls.Add(this.txtMinIonIntensityThreshold);
-      this.tabPage1.Controls.Add(this.label3);
-      this.tabPage1.Controls.Add(this.txtMWRangeFrom);
-      this.tabPage1.Controls.Add(this.label2);
-      this.tabPage1.Location = new System.Drawing.Point(4, 22);
-      this.tabPage1.Name = "tabPage1";
-      this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage1.Size = new System.Drawing.Size(1075, 342);
-      this.tabPage1.TabIndex = 0;
-      this.tabPage1.Text = "General option";
-      this.tabPage1.UseVisualStyleBackColor = true;
+      this.tabGeneral.Controls.Add(this.rbMzXml);
+      this.tabGeneral.Controls.Add(this.cbByMsLevel);
+      this.tabGeneral.Controls.Add(this.groupBox1);
+      this.tabGeneral.Controls.Add(this.txtTopX);
+      this.tabGeneral.Controls.Add(this.cbKeepTopX);
+      this.tabGeneral.Controls.Add(this.cbByMode);
+      this.tabGeneral.Controls.Add(this.cbParallel);
+      this.tabGeneral.Controls.Add(this.cbDefaultCharge);
+      this.tabGeneral.Controls.Add(this.label10);
+      this.tabGeneral.Controls.Add(this.label8);
+      this.tabGeneral.Controls.Add(this.txtMinIonIntensity);
+      this.tabGeneral.Controls.Add(this.label9);
+      this.tabGeneral.Controls.Add(this.cbTitleFormat);
+      this.tabGeneral.Controls.Add(this.label5);
+      this.tabGeneral.Controls.Add(this.txtMWRangeTo);
+      this.tabGeneral.Controls.Add(this.txtMinIonCount);
+      this.tabGeneral.Controls.Add(this.label4);
+      this.tabGeneral.Controls.Add(this.txtMinIonIntensityThreshold);
+      this.tabGeneral.Controls.Add(this.label3);
+      this.tabGeneral.Controls.Add(this.txtMWRangeFrom);
+      this.tabGeneral.Controls.Add(this.label2);
+      this.tabGeneral.Location = new System.Drawing.Point(4, 22);
+      this.tabGeneral.Name = "tabGeneral";
+      this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
+      this.tabGeneral.Size = new System.Drawing.Size(1075, 342);
+      this.tabGeneral.TabIndex = 0;
+      this.tabGeneral.Text = "General option";
+      this.tabGeneral.UseVisualStyleBackColor = true;
+      // 
+      // rbMzXml
+      // 
+      this.rbMzXml.Key = "OutputMzXml";
+      this.rbMzXml.Location = new System.Drawing.Point(257, 292);
+      this.rbMzXml.Name = "rbMzXml";
+      this.rbMzXml.PreCondition = null;
+      this.rbMzXml.Size = new System.Drawing.Size(199, 21);
+      this.rbMzXml.TabIndex = 75;
+      this.rbMzXml.Text = "Output mzXML format";
+      this.rbMzXml.CheckedChanged += new System.EventHandler(this.rbMzXml_CheckedChanged);
       // 
       // cbByMsLevel
       // 
@@ -261,7 +277,7 @@ namespace RCPA.Proteomics.Format
       // 
       // txtTopX
       // 
-      this.txtTopX.Location = new System.Drawing.Point(461, 184);
+      this.txtTopX.Location = new System.Drawing.Point(434, 185);
       this.txtTopX.Name = "txtTopX";
       this.txtTopX.Size = new System.Drawing.Size(32, 20);
       this.txtTopX.TabIndex = 72;
@@ -275,7 +291,7 @@ namespace RCPA.Proteomics.Format
       this.cbKeepTopX.Location = new System.Drawing.Point(257, 185);
       this.cbKeepTopX.Name = "cbKeepTopX";
       this.cbKeepTopX.PreCondition = null;
-      this.cbKeepTopX.Size = new System.Drawing.Size(218, 21);
+      this.cbKeepTopX.Size = new System.Drawing.Size(183, 21);
       this.cbKeepTopX.TabIndex = 71;
       this.cbKeepTopX.Text = "Keep top X peaks in 100 Dalton";
       // 
@@ -315,7 +331,7 @@ namespace RCPA.Proteomics.Format
       // label10
       // 
       this.label10.AutoSize = true;
-      this.label10.Location = new System.Drawing.Point(153, 161);
+      this.label10.Location = new System.Drawing.Point(165, 159);
       this.label10.Name = "label10";
       this.label10.Size = new System.Drawing.Size(77, 13);
       this.label10.TabIndex = 62;
@@ -324,7 +340,7 @@ namespace RCPA.Proteomics.Format
       // label8
       // 
       this.label8.AutoSize = true;
-      this.label8.Location = new System.Drawing.Point(135, 21);
+      this.label8.Location = new System.Drawing.Point(159, 19);
       this.label8.Name = "label8";
       this.label8.Size = new System.Drawing.Size(83, 13);
       this.label8.TabIndex = 59;
@@ -341,7 +357,7 @@ namespace RCPA.Proteomics.Format
       // label9
       // 
       this.label9.AutoSize = true;
-      this.label9.Location = new System.Drawing.Point(111, 77);
+      this.label9.Location = new System.Drawing.Point(136, 75);
       this.label9.Name = "label9";
       this.label9.Size = new System.Drawing.Size(106, 13);
       this.label9.TabIndex = 60;
@@ -386,7 +402,7 @@ namespace RCPA.Proteomics.Format
       // label4
       // 
       this.label4.AutoSize = true;
-      this.label4.Location = new System.Drawing.Point(135, 105);
+      this.label4.Location = new System.Drawing.Point(147, 103);
       this.label4.Name = "label4";
       this.label4.Size = new System.Drawing.Size(95, 13);
       this.label4.TabIndex = 54;
@@ -403,7 +419,7 @@ namespace RCPA.Proteomics.Format
       // label3
       // 
       this.label3.AutoSize = true;
-      this.label3.Location = new System.Drawing.Point(9, 133);
+      this.label3.Location = new System.Drawing.Point(67, 131);
       this.label3.Name = "label3";
       this.label3.Size = new System.Drawing.Size(175, 13);
       this.label3.TabIndex = 52;
@@ -420,54 +436,43 @@ namespace RCPA.Proteomics.Format
       // label2
       // 
       this.label2.AutoSize = true;
-      this.label2.Location = new System.Drawing.Point(75, 49);
+      this.label2.Location = new System.Drawing.Point(99, 47);
       this.label2.Name = "label2";
       this.label2.Size = new System.Drawing.Size(143, 13);
       this.label2.TabIndex = 50;
       this.label2.Text = "Precursor mass weight range";
       // 
-      // tabPage2
+      // tabIons
       // 
-      this.tabPage2.Controls.Add(this.rbRemoveReporters);
-      this.tabPage2.Controls.Add(this.cbProteases);
-      this.tabPage2.Controls.Add(this.cbRemoveIsobaricIonsInHighRange);
-      this.tabPage2.Controls.Add(this.cbRemoveIsobaricIonsInLowRange);
-      this.tabPage2.Controls.Add(this.txtIsobaricIons);
-      this.tabPage2.Controls.Add(this.cbxIsobaricTypes);
-      this.tabPage2.Controls.Add(this.cbRemoveMassRange);
-      this.tabPage2.Controls.Add(this.cbRemoveIsobaricIons);
-      this.tabPage2.Controls.Add(this.cbRemoveSpecialIons);
-      this.tabPage2.Controls.Add(this.txtRemoveIonWindow);
-      this.tabPage2.Controls.Add(this.txtSpecialIons);
-      this.tabPage2.Location = new System.Drawing.Point(4, 22);
-      this.tabPage2.Name = "tabPage2";
-      this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage2.Size = new System.Drawing.Size(1075, 342);
-      this.tabPage2.TabIndex = 1;
-      this.tabPage2.Text = "Isobaric Labeling";
-      this.tabPage2.UseVisualStyleBackColor = true;
+      this.tabIons.Controls.Add(this.rbRemoveReporters);
+      this.tabIons.Controls.Add(this.cbProteases);
+      this.tabIons.Controls.Add(this.cbRemoveIsobaricIonsInHighRange);
+      this.tabIons.Controls.Add(this.cbRemoveIsobaricIonsInLowRange);
+      this.tabIons.Controls.Add(this.txtIsobaricIons);
+      this.tabIons.Controls.Add(this.cbxIsobaricTypes);
+      this.tabIons.Controls.Add(this.cbRemoveMassRange);
+      this.tabIons.Controls.Add(this.cbRemoveIsobaricIons);
+      this.tabIons.Controls.Add(this.cbRemoveSpecialIons);
+      this.tabIons.Controls.Add(this.txtRemoveIonWindow);
+      this.tabIons.Controls.Add(this.txtSpecialIons);
+      this.tabIons.Location = new System.Drawing.Point(4, 22);
+      this.tabIons.Name = "tabIons";
+      this.tabIons.Padding = new System.Windows.Forms.Padding(3);
+      this.tabIons.Size = new System.Drawing.Size(1075, 342);
+      this.tabIons.TabIndex = 1;
+      this.tabIons.Text = "Remove ions";
+      this.tabIons.UseVisualStyleBackColor = true;
       // 
-      // cbProteases
+      // rbRemoveReporters
       // 
-      this.cbProteases.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-      this.cbProteases.FormattingEnabled = true;
-      this.cbProteases.Location = new System.Drawing.Point(238, 99);
-      this.cbProteases.Name = "cbProteases";
-      this.cbProteases.Size = new System.Drawing.Size(124, 21);
-      this.cbProteases.TabIndex = 99;
-      // 
-      // cbRemoveIsobaricIonsInHighRange
-      // 
-      this.cbRemoveIsobaricIonsInHighRange.Checked = true;
-      this.cbRemoveIsobaricIonsInHighRange.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.cbRemoveIsobaricIonsInHighRange.Key = "rbRemoveHighMassRange";
-      this.cbRemoveIsobaricIonsInHighRange.Location = new System.Drawing.Point(238, 154);
-      this.cbRemoveIsobaricIonsInHighRange.Name = "cbRemoveIsobaricIonsInHighRange";
-      this.cbRemoveIsobaricIonsInHighRange.PreCondition = this.cbRemoveIsobaricIons;
-      this.cbRemoveIsobaricIonsInHighRange.Size = new System.Drawing.Size(322, 21);
-      this.cbRemoveIsobaricIonsInHighRange.TabIndex = 98;
-      this.cbRemoveIsobaricIonsInHighRange.Text = "Remove isobaric relative ion in high mass range";
-      this.cbRemoveIsobaricIonsInHighRange.CheckedChanged += new System.EventHandler(this.cbxIsobaricTypes_SelectedIndexChanged);
+      this.rbRemoveReporters.Key = "rbRemoveLowMassRange";
+      this.rbRemoveReporters.Location = new System.Drawing.Point(238, 181);
+      this.rbRemoveReporters.Name = "rbRemoveReporters";
+      this.rbRemoveReporters.PreCondition = this.cbRemoveIsobaricIons;
+      this.rbRemoveReporters.Size = new System.Drawing.Size(334, 21);
+      this.rbRemoveReporters.TabIndex = 100;
+      this.rbRemoveReporters.Text = "Remove isobaric reporter and tag ions";
+      this.rbRemoveReporters.CheckedChanged += new System.EventHandler(this.cbxIsobaricTypes_SelectedIndexChanged);
       // 
       // cbRemoveIsobaricIons
       // 
@@ -490,6 +495,28 @@ namespace RCPA.Proteomics.Format
       this.cbRemoveMassRange.TabIndex = 95;
       this.cbRemoveMassRange.Text = "Remove ions, window (+-Da)";
       this.cbRemoveMassRange.UseVisualStyleBackColor = true;
+      // 
+      // cbProteases
+      // 
+      this.cbProteases.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.cbProteases.FormattingEnabled = true;
+      this.cbProteases.Location = new System.Drawing.Point(238, 99);
+      this.cbProteases.Name = "cbProteases";
+      this.cbProteases.Size = new System.Drawing.Size(124, 21);
+      this.cbProteases.TabIndex = 99;
+      // 
+      // cbRemoveIsobaricIonsInHighRange
+      // 
+      this.cbRemoveIsobaricIonsInHighRange.Checked = true;
+      this.cbRemoveIsobaricIonsInHighRange.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.cbRemoveIsobaricIonsInHighRange.Key = "rbRemoveHighMassRange";
+      this.cbRemoveIsobaricIonsInHighRange.Location = new System.Drawing.Point(238, 154);
+      this.cbRemoveIsobaricIonsInHighRange.Name = "cbRemoveIsobaricIonsInHighRange";
+      this.cbRemoveIsobaricIonsInHighRange.PreCondition = this.cbRemoveIsobaricIons;
+      this.cbRemoveIsobaricIonsInHighRange.Size = new System.Drawing.Size(322, 21);
+      this.cbRemoveIsobaricIonsInHighRange.TabIndex = 98;
+      this.cbRemoveIsobaricIonsInHighRange.Text = "Remove isobaric relative ion in high mass range";
+      this.cbRemoveIsobaricIonsInHighRange.CheckedChanged += new System.EventHandler(this.cbxIsobaricTypes_SelectedIndexChanged);
       // 
       // cbRemoveIsobaricIonsInLowRange
       // 
@@ -551,6 +578,79 @@ namespace RCPA.Proteomics.Format
       this.txtSpecialIons.Name = "txtSpecialIons";
       this.txtSpecialIons.Size = new System.Drawing.Size(770, 20);
       this.txtSpecialIons.TabIndex = 89;
+      // 
+      // tabPrecursor
+      // 
+      this.tabPrecursor.Controls.Add(this.cbRemoveIonsLargerThanPrecursor);
+      this.tabPrecursor.Controls.Add(this.rcpaCheckField1);
+      this.tabPrecursor.Controls.Add(this.cbRemovePrecursor);
+      this.tabPrecursor.Controls.Add(this.txtPrecursorPPM);
+      this.tabPrecursor.Controls.Add(this.txtNeutralLossComposition);
+      this.tabPrecursor.Controls.Add(this.cbRemoveNeutralLoss);
+      this.tabPrecursor.Location = new System.Drawing.Point(4, 22);
+      this.tabPrecursor.Name = "tabPrecursor";
+      this.tabPrecursor.Padding = new System.Windows.Forms.Padding(3);
+      this.tabPrecursor.Size = new System.Drawing.Size(1075, 342);
+      this.tabPrecursor.TabIndex = 2;
+      this.tabPrecursor.Text = "Precursor";
+      this.tabPrecursor.UseVisualStyleBackColor = true;
+      // 
+      // cbRemoveIonsLargerThanPrecursor
+      // 
+      this.cbRemoveIonsLargerThanPrecursor.Key = "RemoveIonsLargerThanPrecursor";
+      this.cbRemoveIonsLargerThanPrecursor.Location = new System.Drawing.Point(15, 121);
+      this.cbRemoveIonsLargerThanPrecursor.Name = "cbRemoveIonsLargerThanPrecursor";
+      this.cbRemoveIonsLargerThanPrecursor.PreCondition = null;
+      this.cbRemoveIonsLargerThanPrecursor.Size = new System.Drawing.Size(223, 21);
+      this.cbRemoveIonsLargerThanPrecursor.TabIndex = 108;
+      this.cbRemoveIonsLargerThanPrecursor.Text = "Remove ions larger than precursor";
+      // 
+      // rcpaCheckField1
+      // 
+      this.rcpaCheckField1.Key = "RemovePrecursor";
+      this.rcpaCheckField1.Location = new System.Drawing.Point(39, 84);
+      this.rcpaCheckField1.Name = "rcpaCheckField1";
+      this.rcpaCheckField1.PreCondition = null;
+      this.rcpaCheckField1.Size = new System.Drawing.Size(210, 21);
+      this.rcpaCheckField1.TabIndex = 107;
+      this.rcpaCheckField1.Text = "Remove less 1 charged precursor";
+      // 
+      // cbRemovePrecursor
+      // 
+      this.cbRemovePrecursor.AutoSize = true;
+      this.cbRemovePrecursor.Key = "RemoveMassRange";
+      this.cbRemovePrecursor.Location = new System.Drawing.Point(15, 24);
+      this.cbRemovePrecursor.Name = "cbRemovePrecursor";
+      this.cbRemovePrecursor.PreCondition = null;
+      this.cbRemovePrecursor.Size = new System.Drawing.Size(192, 17);
+      this.cbRemovePrecursor.TabIndex = 106;
+      this.cbRemovePrecursor.Text = "Remove precursor, tolerance (ppm)";
+      this.cbRemovePrecursor.UseVisualStyleBackColor = true;
+      // 
+      // txtPrecursorPPM
+      // 
+      this.txtPrecursorPPM.Location = new System.Drawing.Point(213, 22);
+      this.txtPrecursorPPM.Name = "txtPrecursorPPM";
+      this.txtPrecursorPPM.Size = new System.Drawing.Size(124, 20);
+      this.txtPrecursorPPM.TabIndex = 105;
+      // 
+      // txtNeutralLossComposition
+      // 
+      this.txtNeutralLossComposition.Location = new System.Drawing.Point(400, 58);
+      this.txtNeutralLossComposition.Name = "txtNeutralLossComposition";
+      this.txtNeutralLossComposition.Size = new System.Drawing.Size(124, 20);
+      this.txtNeutralLossComposition.TabIndex = 104;
+      this.txtNeutralLossComposition.Text = "NH3,OH,";
+      // 
+      // cbRemoveNeutralLoss
+      // 
+      this.cbRemoveNeutralLoss.Key = "RemovePrecursor";
+      this.cbRemoveNeutralLoss.Location = new System.Drawing.Point(39, 57);
+      this.cbRemoveNeutralLoss.Name = "cbRemoveNeutralLoss";
+      this.cbRemoveNeutralLoss.PreCondition = null;
+      this.cbRemoveNeutralLoss.Size = new System.Drawing.Size(364, 21);
+      this.cbRemoveNeutralLoss.TabIndex = 103;
+      this.cbRemoveNeutralLoss.Text = "Remove neutral loss (formula or absolute mass shift, seperated by \',\')";
       // 
       // tabPage3
       // 
@@ -624,6 +724,15 @@ namespace RCPA.Proteomics.Format
       this.label7.Size = new System.Drawing.Size(89, 13);
       this.label7.TabIndex = 114;
       this.label7.Text = "product ion (ppm)";
+      // 
+      // siliconePolymers
+      // 
+      this.siliconePolymers.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.siliconePolymers.Location = new System.Drawing.Point(186, 87);
+      this.siliconePolymers.Name = "siliconePolymers";
+      this.siliconePolymers.SelectedIon = "355,371,388,429,445,462,503,519,536,593";
+      this.siliconePolymers.Size = new System.Drawing.Size(703, 198);
+      this.siliconePolymers.TabIndex = 113;
       // 
       // rbMassCalibrationByFixed
       // 
@@ -757,67 +866,6 @@ namespace RCPA.Proteomics.Format
       this.cbCalibratePrecursor.TabIndex = 99;
       this.cbCalibratePrecursor.Text = "Precursor ion";
       // 
-      // tabPage4
-      // 
-      this.tabPage4.Controls.Add(this.cbRemoveIonsLargerThanPrecursor);
-      this.tabPage4.Controls.Add(this.txtNeutralLossComposition);
-      this.tabPage4.Controls.Add(this.cbRemovePrecursor);
-      this.tabPage4.Location = new System.Drawing.Point(4, 22);
-      this.tabPage4.Name = "tabPage4";
-      this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage4.Size = new System.Drawing.Size(1075, 342);
-      this.tabPage4.TabIndex = 3;
-      this.tabPage4.Text = "Precursor";
-      this.tabPage4.UseVisualStyleBackColor = true;
-      // 
-      // cbRemoveIonsLargerThanPrecursor
-      // 
-      this.cbRemoveIonsLargerThanPrecursor.Key = "RemoveIonsLargerThanPrecursor";
-      this.cbRemoveIonsLargerThanPrecursor.Location = new System.Drawing.Point(20, 47);
-      this.cbRemoveIonsLargerThanPrecursor.Name = "cbRemoveIonsLargerThanPrecursor";
-      this.cbRemoveIonsLargerThanPrecursor.PreCondition = null;
-      this.cbRemoveIonsLargerThanPrecursor.Size = new System.Drawing.Size(223, 21);
-      this.cbRemoveIonsLargerThanPrecursor.TabIndex = 82;
-      this.cbRemoveIonsLargerThanPrecursor.Text = "Remove ions larger than precursor";
-      // 
-      // txtNeutralLossComposition
-      // 
-      this.txtNeutralLossComposition.Location = new System.Drawing.Point(243, 20);
-      this.txtNeutralLossComposition.Name = "txtNeutralLossComposition";
-      this.txtNeutralLossComposition.Size = new System.Drawing.Size(92, 20);
-      this.txtNeutralLossComposition.TabIndex = 81;
-      this.txtNeutralLossComposition.Text = "NH3,OH,";
-      // 
-      // cbRemovePrecursor
-      // 
-      this.cbRemovePrecursor.Key = "RemovePrecursor";
-      this.cbRemovePrecursor.Location = new System.Drawing.Point(20, 21);
-      this.cbRemovePrecursor.Name = "cbRemovePrecursor";
-      this.cbRemovePrecursor.PreCondition = null;
-      this.cbRemovePrecursor.Size = new System.Drawing.Size(234, 21);
-      this.cbRemovePrecursor.TabIndex = 80;
-      this.cbRemovePrecursor.Text = "Remove precursor and neutral loss";
-      // 
-      // rbRemoveReporters
-      // 
-      this.rbRemoveReporters.Key = "rbRemoveLowMassRange";
-      this.rbRemoveReporters.Location = new System.Drawing.Point(238, 181);
-      this.rbRemoveReporters.Name = "rbRemoveReporters";
-      this.rbRemoveReporters.PreCondition = this.cbRemoveIsobaricIons;
-      this.rbRemoveReporters.Size = new System.Drawing.Size(334, 21);
-      this.rbRemoveReporters.TabIndex = 100;
-      this.rbRemoveReporters.Text = "Remove isobaric reporter and tag ions";
-      this.rbRemoveReporters.CheckedChanged += new System.EventHandler(this.cbxIsobaricTypes_SelectedIndexChanged);
-      // 
-      // siliconePolymers
-      // 
-      this.siliconePolymers.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-      this.siliconePolymers.Location = new System.Drawing.Point(186, 87);
-      this.siliconePolymers.Name = "siliconePolymers";
-      this.siliconePolymers.SelectedIon = "355,371,388,429,445,462,503,519,536,593";
-      this.siliconePolymers.Size = new System.Drawing.Size(703, 198);
-      this.siliconePolymers.TabIndex = 113;
-      // 
       // MultipleRaw2MgfProcessor3UI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -835,20 +883,20 @@ namespace RCPA.Proteomics.Format
       this.pnlFile.ResumeLayout(false);
       this.pnlFile.PerformLayout();
       this.tabControl1.ResumeLayout(false);
-      this.tabPage1.ResumeLayout(false);
-      this.tabPage1.PerformLayout();
+      this.tabGeneral.ResumeLayout(false);
+      this.tabGeneral.PerformLayout();
       this.groupBox1.ResumeLayout(false);
       this.groupBox1.PerformLayout();
-      this.tabPage2.ResumeLayout(false);
-      this.tabPage2.PerformLayout();
+      this.tabIons.ResumeLayout(false);
+      this.tabIons.PerformLayout();
+      this.tabPrecursor.ResumeLayout(false);
+      this.tabPrecursor.PerformLayout();
       this.tabPage3.ResumeLayout(false);
       this.panel1.ResumeLayout(false);
       this.panel3.ResumeLayout(false);
       this.panel3.PerformLayout();
       this.panel2.ResumeLayout(false);
       this.panel2.PerformLayout();
-      this.tabPage4.ResumeLayout(false);
-      this.tabPage4.PerformLayout();
       this.ResumeLayout(false);
 
     }
@@ -857,7 +905,7 @@ namespace RCPA.Proteomics.Format
 
     private RCPA.Gui.MultipleFileField rawFiles;
     private System.Windows.Forms.TabControl tabControl1;
-    private System.Windows.Forms.TabPage tabPage1;
+    private System.Windows.Forms.TabPage tabGeneral;
     private System.Windows.Forms.ComboBox cbDefaultCharge;
     private System.Windows.Forms.Label label10;
     private System.Windows.Forms.Label label8;
@@ -876,7 +924,7 @@ namespace RCPA.Proteomics.Format
     private Gui.RcpaCheckField cbByMode;
     private System.Windows.Forms.TextBox txtTopX;
     private Gui.RcpaCheckField cbKeepTopX;
-    private System.Windows.Forms.TabPage tabPage2;
+    private System.Windows.Forms.TabPage tabIons;
     private System.Windows.Forms.TextBox txtIsobaricIons;
     private System.Windows.Forms.ComboBox cbxIsobaricTypes;
     private Gui.RcpaCheckField cbRemoveMassRange;
@@ -890,10 +938,6 @@ namespace RCPA.Proteomics.Format
     private Gui.RcpaCheckField cbDeconvolution;
     private System.Windows.Forms.TextBox txtDeisotopic;
     private Gui.RcpaCheckField cbDeisotopic;
-    private System.Windows.Forms.TabPage tabPage4;
-    private Gui.RcpaCheckField cbRemoveIonsLargerThanPrecursor;
-    private System.Windows.Forms.TextBox txtNeutralLossComposition;
-    private Gui.RcpaCheckField cbRemovePrecursor;
     private Gui.RcpaCheckField cbRemoveIsobaricIonsInHighRange;
     private Gui.RcpaCheckField cbRemoveIsobaricIonsInLowRange;
     private System.Windows.Forms.Panel panel1;
@@ -918,5 +962,13 @@ namespace RCPA.Proteomics.Format
     private Gui.RcpaCheckField cbByMsLevel;
     private System.Windows.Forms.ComboBox cbProteases;
     private Gui.RcpaCheckField rbRemoveReporters;
+    private Gui.RcpaCheckField rbMzXml;
+    private System.Windows.Forms.TabPage tabPrecursor;
+    private Gui.RcpaCheckField cbRemoveIonsLargerThanPrecursor;
+    private Gui.RcpaCheckField rcpaCheckField1;
+    private Gui.RcpaCheckField cbRemovePrecursor;
+    private System.Windows.Forms.TextBox txtPrecursorPPM;
+    private System.Windows.Forms.TextBox txtNeutralLossComposition;
+    private Gui.RcpaCheckField cbRemoveNeutralLoss;
   }
 }

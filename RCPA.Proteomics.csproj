@@ -210,7 +210,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Format\Mgf2MzXmlProcessor.cs" />
+    <Compile Include="Proteomics\Format\Raw2MzXMLProcessor.cs" />
     <Compile Include="Proteomics\ISearchEngineFactory.cs" />
+    <Compile Include="Proteomics\Mascot\ITitleFormat.cs" />
     <Compile Include="Proteomics\Mascot\MascotFactory.cs" />
     <Compile Include="Proteomics\Mascot\MascotFilePanel.cs">
       <SubType>UserControl</SubType>
@@ -218,6 +220,10 @@
     <Compile Include="Proteomics\Mascot\MascotFilePanel.Designer.cs">
       <DependentUpon>MascotFilePanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Proteomics\Mascot\TitleFormatCmpd.cs" />
+    <Compile Include="Proteomics\Mascot\TitleFormatRawCmpd.cs" />
+    <Compile Include="Proteomics\Mascot\TitleFormatProteomeDiscoverer.cs" />
+    <Compile Include="Proteomics\Mascot\TitleFormatSequest.cs" />
     <Compile Include="Proteomics\ModificationConsts.cs" />
     <Compile Include="Proteomics\MSAmanda\MSAmandaParser.cs" />
     <Compile Include="Proteomics\AminoacidsBuilder.cs" />
@@ -261,6 +267,7 @@
     <Compile Include="Proteomics\Percolator\PercolatorOutputXmlPsmReader.cs" />
     <Compile Include="Proteomics\Percolator\PercolatorScoreFunctions.cs" />
     <Compile Include="Proteomics\PFind\PFindFactory.cs" />
+    <Compile Include="Proteomics\Processor\PeakListRemovePrecursorDaltonProcessor.cs" />
     <Compile Include="Proteomics\ProteomeDiscoverer\MsfFastaDistillerUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -273,6 +280,14 @@
     <Compile Include="Proteomics\Sequest\AbstractSequestSpectrumParser.cs" />
     <Compile Include="Proteomics\Sequest\SequestDatasetBuilder2.cs" />
     <Compile Include="Proteomics\Sequest\SequestFactory.cs" />
+    <Compile Include="Proteomics\Statistic\PrecursorOffsetStatisticTaskBuilder.cs" />
+    <Compile Include="Proteomics\Statistic\PrecursorOffsetStatisticMainBuilder.cs" />
+    <Compile Include="Proteomics\Statistic\PrecursorOffsetStatisticMainBuilderUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Statistic\PrecursorOffsetStatisticMainBuilderUI.Designer.cs">
+      <DependentUpon>PrecursorOffsetStatisticMainBuilderUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Proteomics\Statistic\RawIonStatisticMultipleFileBuilder.cs" />
     <Compile Include="Proteomics\Summary\SummaryBuilder2UI.cs">
       <SubType>Form</SubType>
@@ -1001,13 +1016,11 @@
     <Compile Include="Proteomics\Mascot\MascotModification.cs" />
     <Compile Include="Proteomics\Mascot\MascotProteinTextWriter.cs" />
     <Compile Include="Proteomics\Mascot\MascotUtils.cs" />
-    <Compile Include="Proteomics\Mascot\MascotGenericFormatSequestWriter.cs" />
     <Compile Include="Proteomics\IO\DtaWriter.cs" />
     <Compile Include="Proteomics\Format\Raw2DtaProcessor.cs" />
     <Compile Include="Proteomics\IO\MultipleRaw2OneMgfProcessor.cs" />
     <Compile Include="Proteomics\IO\MultipleRaw2OneMgfThreadProcessor.cs" />
     <Compile Include="Proteomics\IO\Raw2MgfDirectoryProcessor.cs" />
-    <Compile Include="Proteomics\Mascot\MascotGenericFormatSqhWriter.cs" />
     <Compile Include="Proteomics\Format\Mgf2DtaProcessor.cs" />
     <Compile Include="Proteomics\IO\Raw2MzXmlProcessor.cs" />
     <Compile Include="Proteomics\IO\Raw2MgfProcessor.cs" />
@@ -1103,7 +1116,6 @@
     <Compile Include="Proteomics\IO\Dta2MgfProcessor.cs" />
     <Compile Include="Proteomics\IO\DtaDirectoryIterator.cs" />
     <Compile Include="Proteomics\IO\DtaIO.cs" />
-    <Compile Include="Proteomics\Mascot\MascotGenericFormatYehiaWriter.cs" />
     <Compile Include="Proteomics\Isotopic\CHONSIsotopicProfileBuilder.cs" />
     <Compile Include="Proteomics\PeptideMassCalculator.cs" />
     <Compile Include="Proteomics\PrecursorUtils.cs" />
@@ -1165,6 +1177,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Statistic\BuildSummaryResultParserUI.resx">
       <DependentUpon>BuildSummaryResultParserUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Statistic\PrecursorOffsetStatisticMainBuilderUI.resx">
+      <DependentUpon>PrecursorOffsetStatisticMainBuilderUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Statistic\ScoreDistributionBuilderUI.resx">

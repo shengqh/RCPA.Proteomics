@@ -16,14 +16,14 @@ namespace RCPA.Proteomics.Processor
     {
       if (t.PrecursorCharge > 0)
       {
-        var precursorMass = t.PrecursorMZ * t.PrecursorCharge - Atom.H.MonoMass * (t.PrecursorCharge - 1);
+        var precursorMass = PrecursorUtils.MzToMass(t.PrecursorMZ, t.PrecursorCharge, true);
 
         t.RemoveAll(m =>
         {
           double mass;
           if (m.Charge > 1)
           {
-            mass = m.Mz * m.Charge - Atom.H.MonoMass * (m.Charge - 1);
+            mass = PrecursorUtils.MzToMass(m.Mz, m.Charge, true);
           }
           else
           {

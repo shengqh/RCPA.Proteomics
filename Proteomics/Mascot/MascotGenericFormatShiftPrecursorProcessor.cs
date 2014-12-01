@@ -16,7 +16,7 @@ namespace RCPA.Proteomics.Mascot
         pkl.PrecursorMZ = pkl.PrecursorMZ + 10.0;
       }
 
-      var writer = new MascotGenericFormatSqhWriter<Peak>();
+      var writer = new MascotGenericFormatWriter<Peak>();
 
       string resultFilename = FileUtils.ChangeExtension(filename, ".shift10.mgf");
       Progress.SetMessage("Writing peak list to " + resultFilename + "...");

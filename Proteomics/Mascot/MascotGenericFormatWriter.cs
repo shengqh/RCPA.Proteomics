@@ -10,28 +10,24 @@ namespace RCPA.Proteomics.Mascot
 {
   public class MascotGenericFormatWriter<T> : AbstractPeakListWriter<T> where T : IPeak
   {
-    protected List<string> comments = new List<string>();
+    public ITitleFormat TitleFormat { get; set; }
+
+    public int[] DefaultCharges { get; set; }
+
+    public List<string> Comments { get; private set; }
 
     public MascotGenericFormatWriter(int[] defaultCharges)
     {
       this.DefaultCharges = defaultCharges;
+      this.TitleFormat = new TitleFormatSequest();
+      this.Comments = new List<string>();
     }
 
-    public MascotGenericFormatWriter()
-    {
-      this.DefaultCharges = new[] { 2, 3 };
-    }
-
-    public int[] DefaultCharges { get; set; }
-
-    public List<string> Comments
-    {
-      get { return this.comments; }
-    }
+    public MascotGenericFormatWriter() : this(new[] { 2, 3 }) { }
 
     protected virtual void WriteFileHeader(StreamWriter sw)
     {
-      foreach (string comment in this.comments)
+      foreach (string comment in this.Comments)
       {
         sw.WriteLine("###" + comment);
       }
@@ -121,25 +117,19 @@ namespace RCPA.Proteomics.Mascot
       }
     }
 
-    public virtual string GetTitle(PeakList<T> pl)
+    protected void WriteAnnotationTitle(StreamWriter writer, PeakList<T> pl)
     {
+      string title;
       if (pl.Annotations.ContainsKey(MascotGenericFormatConstants.TITLE_TAG))
       {
-        return pl.Annotations[MascotGenericFormatConstants.TITLE_TAG].ToString();
+        title = pl.Annotations[MascotGenericFormatConstants.TITLE_TAG].ToString();
       }
       else
       {
-        return MyConvert.Format("{0}.{1}.{2}.{3}.dta",
-                             pl.Experimental,
-                             pl.GetFirstScanTime().Scan,
-                             pl.GetLastScanTime().Scan,
-                             pl.PrecursorCharge);
+        title = this.TitleFormat.Build(pl);
       }
-    }
 
-    protected void WriteAnnotationTitle(StreamWriter writer, PeakList<T> pl)
-    {
-      writer.WriteLine(MascotGenericFormatConstants.TITLE_TAG + "=" + GetTitle(pl));
+      writer.WriteLine(MascotGenericFormatConstants.TITLE_TAG + "=" + title);
     }
 
     protected void WritePeak(StreamWriter writer, PeakList<T> pl)

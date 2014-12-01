@@ -71,7 +71,7 @@ namespace RCPA.Seq
           foreach (var length in seqLengths)
           {
             index++;
-            var name = "SHF_" + StringUtils.LeftFill(index, 8, '0');
+            var name = "SHF_" + index.ToString().PadLeft(8, '0');
             var seq = new Sequence(name, shuffledSeq.Substring(pos, length));
             pos += length;
 

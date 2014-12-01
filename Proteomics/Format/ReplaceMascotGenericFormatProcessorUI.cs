@@ -21,7 +21,7 @@ namespace RCPA.Proteomics.Format
 
     private RcpaComboBox<ITitleParser> titlePeakParser;
 
-    private RcpaComboBox<MascotTitle> titleFormat;
+    private RcpaComboBox<ITitleFormat> titleFormat;
 
     private static string info = "This software will generate combined mgf file using the precursor m/z and precursor charge information from header mgf file and peak list information from peak file.";
 
@@ -43,7 +43,7 @@ namespace RCPA.Proteomics.Format
       this.titlePeakParser = new RcpaComboBox<ITitleParser>(cbPeakFormat, "PeakTitleFormat", TitleParserUtils.GetTitleParsers().ToArray(), 0);
       AddComponent(this.titlePeakParser);
 
-      this.titleFormat = new RcpaComboBox<MascotTitle>(cbTitleFormat, "TitleFormat", MascotTitleFactory.Titles, 0);
+      this.titleFormat = new RcpaComboBox<ITitleFormat>(cbTitleFormat, "TitleFormat", MascotTitleFactory.Titles, 0);
       AddComponent(this.titleFormat);
 
       this.Text = Constants.GetSQHTitle(title, version);
@@ -59,7 +59,10 @@ namespace RCPA.Proteomics.Format
       result.PeakFile = filePeak.FullName;
       result.PeakParser = titlePeakParser.SelectedItem;
       result.TargetFile = base.GetOriginFile();
-      result.Writer = titleFormat.SelectedItem.CreateWriter();
+      result.Writer = new MascotGenericFormatWriter<Peak>()
+      {
+        TitleFormat = titleFormat.SelectedItem
+      };
 
       return result;
     }

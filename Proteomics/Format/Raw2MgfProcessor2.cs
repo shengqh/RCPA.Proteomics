@@ -11,7 +11,7 @@ using RCPA.Proteomics.Processor;
 
 namespace RCPA.Proteomics.Format
 {
-  public class Raw2MgfProcessor2 : AbstractRawTandemSpectrumConverter
+  public class Raw2MgfProcessor2 : AbstractRawConverter
   {
     public static string version = "1.0.1";
 
@@ -89,7 +89,7 @@ namespace RCPA.Proteomics.Format
       return mgfFile;
     }
 
-    protected override void DoInitialize(string rawFileName)
+    protected override void DoInitialize(IRawFile2 rawReader, string rawFileName)
     {
       this.lastScanMode = string.Empty;
       this.lastWriter = null;
@@ -145,6 +145,11 @@ namespace RCPA.Proteomics.Format
           }
         }
       }
+    }
+
+    protected override bool DoAcceptMsLevel(int msLevel)
+    {
+      return msLevel > 1;
     }
   }
 }

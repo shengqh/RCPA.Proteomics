@@ -112,7 +112,7 @@ namespace RCPA.Proteomics.Format
         pkls[i].Annotations[MascotGenericFormatConstants.TITLE_TAG] = string.Format("{0}.{1}.{2:0}.{3}.dta", experimental, i + 1, pkls[i].PrecursorIntensity, charge);
       }
 
-      var writer = new MascotGenericFormatSqhWriter<Peak>();
+      var writer = new MascotGenericFormatWriter<Peak>();
       writer.Comments.AddRange(comments);
       writer.WriteToFile(result, pkls);
 

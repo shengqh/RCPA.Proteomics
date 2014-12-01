@@ -42,7 +42,7 @@ namespace RCPA.Proteomics.Format
       var hMap = ReadPeakMap(option.HeaderFile, option.HeaderParser);
       var pMap = ReadPeakMap(option.PeakFile, option.PeakParser);
 
-      var mgfFormat = new MascotGenericFormatSqhWriter<Peak>();
+      var mgfFormat = new MascotGenericFormatWriter<Peak>();
       foreach (var key in pMap.Keys)
       {
         if (hMap.ContainsKey(key))

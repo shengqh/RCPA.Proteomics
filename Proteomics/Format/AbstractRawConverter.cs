@@ -9,13 +9,13 @@ using RCPA.Proteomics.Mascot;
 
 namespace RCPA.Proteomics.Format
 {
-  public abstract class AbstractRawTandemSpectrumConverter : AbstractParallelTaskFileProcessor
+  public abstract class AbstractRawConverter : AbstractParallelTaskFileProcessor
   {
     public IProcessor<PeakList<Peak>> PeakListProcessor { get; set; }
 
     public string TargetDirectory { get; set; }
 
-    public AbstractRawTandemSpectrumConverter()
+    public AbstractRawConverter()
     { }
 
     protected string GetIgnoreScanFile(string rawFilename)
@@ -27,14 +27,14 @@ namespace RCPA.Proteomics.Format
     {
       var result = new List<string>();
 
-      DoInitialize(fileName);
-
       bool bReadAgain = false;
 
       using (var rawReader = RawFileFactory.GetRawFileReader(fileName))
       {
         try
         {
+          DoInitialize(rawReader, fileName);
+
           string experimental = rawReader.GetFileNameWithoutExtension(fileName);
 
           SetMessage("Processing " + fileName + " ...");
@@ -65,7 +65,7 @@ namespace RCPA.Proteomics.Format
 
             int msLevel = rawReader.GetMsLevel(scan);
 
-            if (msLevel == 1)
+            if (!DoAcceptMsLevel(msLevel))
             {
               continue;
             }
@@ -87,20 +87,28 @@ namespace RCPA.Proteomics.Format
               break;
             }
 
-            pkl.Precursor = new PrecursorPeak(rawReader.GetPrecursorPeak(scan));
-
             pkl.MsLevel = msLevel;
             pkl.Experimental = experimental;
             pkl.ScanTimes.Add(new ScanTime(scan, rawReader.ScanToRetentionTime(scan)));
 
             pkl.ScanMode = rawReader.GetScanMode(scan);
 
-            if (pkl.PrecursorCharge == 0)
+            PeakList<Peak> pklProcessed;
+            if (msLevel > 1)
             {
-              pkl.PrecursorCharge = PrecursorUtils.GuessPrecursorCharge(pkl, pkl.PrecursorMZ);
-            }
+              pkl.Precursor = new PrecursorPeak(rawReader.GetPrecursorPeak(scan));
 
-            PeakList<Peak> pklProcessed = this.PeakListProcessor.Process(pkl);
+              if (pkl.PrecursorCharge == 0)
+              {
+                pkl.PrecursorCharge = PrecursorUtils.GuessPrecursorCharge(pkl, pkl.PrecursorMZ);
+              }
+
+              pklProcessed = this.PeakListProcessor.Process(pkl);
+            }
+            else
+            {
+              pklProcessed = pkl;
+            }
 
             if (null != pklProcessed && pklProcessed.Count > 0)
             {
@@ -124,7 +132,9 @@ namespace RCPA.Proteomics.Format
       }
     }
 
-    protected abstract void DoInitialize(string rawFileName);
+    protected abstract void DoInitialize(IRawFile2 rawReader, string fileName);
+
+    protected abstract bool DoAcceptMsLevel(int msLevel);
 
     protected abstract void DoWritePeakList(IRawFile rawReader, PeakList<Peak> pkl, string rawFileName, List<string> result);
 

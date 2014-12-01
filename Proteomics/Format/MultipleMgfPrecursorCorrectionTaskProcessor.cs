@@ -28,7 +28,7 @@ namespace RCPA.Proteomics.Format
       }
 
       string resultFilename = new FileInfo(targetDir + "\\" + new FileInfo(fileName).Name).FullName;
-      var writer = new MascotGenericFormatSqhWriter<Peak>();
+      var writer = new MascotGenericFormatWriter<Peak>();
 
       using (StreamReader sr = new StreamReader(new FileStream(fileName, FileMode.Open)))
       {

@@ -1,6 +1,7 @@
 using System;
 using RCPA.Proteomics.Spectrum;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace RCPA.Proteomics.Processor
 {
@@ -8,20 +9,34 @@ namespace RCPA.Proteomics.Processor
   {
     private double[] offsets;
     private double ppmTolerance;
+    private bool removeLessOneCharge;
+    private bool removeIonLargerThanPrecursor;
 
-    public PeakListRemovePrecursorProcessor(double[] offsets, double ppmTolerance)
+    public PeakListRemovePrecursorProcessor(double[] neutralLoss, double ppmTolerance, bool removeLessOneCharge, bool removeIonLargerThanPrecursor)
     {
-      this.offsets = offsets;
+      this.offsets = neutralLoss;
       this.ppmTolerance = ppmTolerance;
+      this.removeLessOneCharge = removeLessOneCharge;
+      this.removeIonLargerThanPrecursor = removeIonLargerThanPrecursor;
     }
 
-    public PeakListRemovePrecursorProcessor(string atomCompositions, double ppmTolerance)
+    public PeakListRemovePrecursorProcessor(string neutralLoss, double ppmTolerance)
     {
-      var acs = atomCompositions.Split(new char[] { ',', ';', ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries);
-      var masses = (from acStr in acs
-                    let ac = new AtomComposition(acStr)
-                    select Atom.GetMonoMass(ac)).ToList();
-      masses.Insert(0, 0.0);
+      var acs = neutralLoss.Split(new char[] { ',', ';', ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries);
+      var masses = new List<double>();
+      foreach (var acStr in acs)
+      {
+        double mass;
+        if (double.TryParse(acStr, out mass))
+        {
+          masses.Add(mass);
+        }
+        else
+        {
+          var ac = new AtomComposition(acStr);
+          masses.Add(Atom.GetMonoMass(ac));
+        }
+      }
       this.offsets = masses.ToArray();
       this.ppmTolerance = ppmTolerance;
     }

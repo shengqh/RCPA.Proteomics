@@ -33,11 +33,16 @@ namespace RCPA.Proteomics.Format
   {
     public string ConverterName { get; set; }
 
+    public string ConverterVersion { get; set; }
+
     public string MascotTitleName { get; set; }
 
     public MascotGenericFormatWriter<Peak> GetWriter()
     {
-      var result = MascotTitleFactory.FindTitleOrDefault(MascotTitleName).CreateWriter();
+      var result = new MascotGenericFormatWriter<Peak>()
+      {
+        TitleFormat = MascotTitleFactory.FindTitleOrDefault(MascotTitleName)
+      };
 
       result.Comments.Clear();
       result.Comments.Add("Converter=" + ConverterName);
@@ -93,7 +98,7 @@ namespace RCPA.Proteomics.Format
 
     public bool RemoveIsobaricIons { get; set; }
 
-    public IsobaricType IsoType { get; set; }
+    public IsobaricType IsobaricType { get; set; }
 
     public string ProteaseName { get; set; }
 
@@ -112,6 +117,8 @@ namespace RCPA.Proteomics.Format
     public double ShiftPrecursorPPM { get; set; }
 
     public double ShiftProductIonPPM { get; set; }
+
+    public bool OutputMzXmlFormat { get; set; }
 
     private string _offsetFile;
 
@@ -173,14 +180,23 @@ namespace RCPA.Proteomics.Format
         }
       }
 
+      //In order to remove the isotopic ions of precursor, deisotopic should be performed before remove precursor.
       if (Deisotopic)
       {
         result.Add(new PeakListDeisotopicByChargeProcessor<Peak>(ProductIonPPM));
       }
 
-      if (RemovePrecursorAndNeutralLoss)
+      if (RemoveMassRange)
       {
-        result.Add(new PeakListRemovePrecursorProcessor<Peak>(NeutralLossAtomComposition, ProductIonPPM));
+        if (RemovePrecursorAndNeutralLoss)
+        {
+          result.Add(new PeakListRemovePrecursorDaltonProcessor<Peak>(NeutralLossAtomComposition, RemoveIonWindow));
+        }
+
+        if (RemoveIonsLargerThanPrecursor)
+        {
+          result.Add(new PeakListRemoveIonLargerThanPrecursorProcessor<Peak>());
+        }
       }
 
       if (ChargeDeconvolution)
@@ -190,11 +206,6 @@ namespace RCPA.Proteomics.Format
         {
           result.Add(new PeakListDeisotopicByChargeProcessor<Peak>(ProductIonPPM));
         }
-      }
-
-      if (RemoveIonsLargerThanPrecursor)
-      {
-        result.Add(new PeakListRemoveIonLargerThanPrecursorProcessor<Peak>());
       }
 
       if (KeepTopX)
@@ -207,7 +218,7 @@ namespace RCPA.Proteomics.Format
     public PeakListRemoveIsobaricIonProcessor<Peak> GetIsobaricProcessor()
     {
       var options = new PeakListRemoveIsobaricIonProcessorOptions();
-      options.IsoType = IsoType;
+      options.IsoType = IsobaricType;
       options.MzTolerance = RemoveIonWindow;
       options.Protease = IsobaricLabellingProteaseFactory.GetProtease(ProteaseName);
       options.RemoveLowerRange = RemoveIsobaricIonsInLowRange;

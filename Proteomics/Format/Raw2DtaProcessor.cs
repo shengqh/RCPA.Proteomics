@@ -8,7 +8,7 @@ using RCPA.Proteomics.IO;
 
 namespace RCPA.Proteomics.Format
 {
-  public class Raw2DtaProcessor : AbstractRawTandemSpectrumConverter
+  public class Raw2DtaProcessor : AbstractRawConverter
   {
     private readonly GetResultDir getDir;
 
@@ -46,7 +46,7 @@ namespace RCPA.Proteomics.Format
 
     #endregion
 
-    protected override void DoInitialize(string rawFileName)
+    protected override void DoInitialize(IRawFile2 rawFile, string rawFileName)
     { }
 
     protected override void DoWritePeakList(IRawFile rawReader, PeakList<Peak> pkl, string rawFileName, List<string> result)
@@ -88,5 +88,10 @@ namespace RCPA.Proteomics.Format
 
     protected override void DoFinalize(bool bReadAgain, IRawFile rawReader, string rawFileName, List<string> result)
     { }
+
+    protected override bool DoAcceptMsLevel(int msLevel)
+    {
+      return msLevel > 1;
+    }
   }
 }

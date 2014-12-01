@@ -25,9 +25,9 @@ namespace RCPA.Proteomics.Format
   {
     private static readonly string title = "TurboRawToMGF - " + RawFileFactory.SupportedRawFormatString + " To Mascot Generic Format Converter";
 
-    private static readonly string version = "2.0.2";
+    private static readonly string version = "2.0.5";
 
-    private RcpaComboBox<MascotTitle> titleFormat;
+    private RcpaComboBox<ITitleFormat> titleFormat;
     private RcpaDoubleField minMassRange;
     private RcpaDoubleField maxMassRange;
     private RcpaDoubleField minIonIntensity;
@@ -38,7 +38,7 @@ namespace RCPA.Proteomics.Format
     private RcpaIntegerField topX;
     private RcpaDoubleField productIonPPM;
     private RcpaTextField neutralLoss;
-    private RcpaTextField removeMassRange;
+    private RcpaTextField specialIons;
     private RcpaDoubleField removeIonWindow;
 
     private RcpaDoubleField maxShiftPPM;
@@ -58,7 +58,7 @@ namespace RCPA.Proteomics.Format
 
       this.SetDirectoryArgument("TargetDir", "Target MGF");
 
-      this.titleFormat = new RcpaComboBox<MascotTitle>(cbTitleFormat, "TitleFormat", MascotTitleFactory.Titles, 0);
+      this.titleFormat = new RcpaComboBox<ITitleFormat>(cbTitleFormat, "TitleFormat", MascotTitleFactory.Titles, 0);
       this.minMassRange = new RcpaDoubleField(txtMWRangeFrom, "MWRangeFrom", "Min Mass", 400, true);
       this.maxMassRange = new RcpaDoubleField(txtMWRangeTo, "MWRangeTo", "Max Mass", 5000, true);
       this.minIonIntensity = new RcpaDoubleField(txtMinIonIntensity, "MinIonIntensity", "Min Ion Intensity", 1.0, true);
@@ -94,15 +94,16 @@ namespace RCPA.Proteomics.Format
       productIonPPM = new RcpaDoubleField(txtDeisotopic, "DeisotopicPPM", "Deisotopic Product Ion Tolerance (ppm)", 20, false);
       AddComponent(productIonPPM);
 
-      removeMassRange = new RcpaTextField(txtSpecialIons, "RemoveIonMzRange", "Remove special mz range, for example, 113.5-117.5,145.5.0-155.5 for iTRAQ plex 4", "113.5-117.5", false);
-      removeMassRange.PreCondition = cbRemoveSpecialIons;
-      AddComponent(removeMassRange);
+      specialIons = new RcpaTextField(txtSpecialIons, "RemoveIonMzRange", "Remove special mz range, for example, 113.5-117.5,145.5.0-155.5 for iTRAQ plex 4", "113.5-117.5", false);
+      specialIons.PreCondition = cbRemoveSpecialIons;
+      AddComponent(specialIons);
 
       isobaricTypes = new RcpaComboBox<IsobaricType>(cbxIsobaricTypes, "IsobaricType", IsobaricTypeFactory.IsobaricTypes, 0);
       isobaricTypes.PreCondition = cbRemoveIsobaricIons;
       AddComponent(isobaricTypes);
 
       proteases = new RcpaComboBox<IIsobaricLabellingProtease>(cbProteases, "Protease", IsobaricLabellingProteaseFactory.Proteases, 0);
+      proteases.PreCondition = cbRemoveIsobaricIons;
       AddComponent(proteases);
 
       this.AddComponent(titleFormat);
@@ -115,6 +116,8 @@ namespace RCPA.Proteomics.Format
 
       cbRemoveSpecialIons.PreCondition = cbRemoveMassRange;
       cbRemoveIsobaricIons.PreCondition = cbRemoveMassRange;
+      cbRemoveIonsLargerThanPrecursor.PreCondition = cbRemoveMassRange;
+      cbRemovePrecursor.PreCondition = cbRemoveMassRange;
 
       txtOffsetFile = new RcpaFileField(btnShiftFile, txtShiftFile, "OffsetFile", new OpenFileArgument("Precursor Offset", "offset"), false);
       AddComponent(txtOffsetFile);
@@ -237,7 +240,10 @@ namespace RCPA.Proteomics.Format
 
     private MascotGenericFormatWriter<Peak> GetMascotGenericFormatWriter()
     {
-      MascotGenericFormatWriter<Peak> writer = titleFormat.SelectedItem.CreateWriter();
+      MascotGenericFormatWriter<Peak> writer = new MascotGenericFormatWriter<Peak>()
+      {
+        TitleFormat = titleFormat.SelectedItem
+      };
 
       writer.Comments.Clear();
       writer.Comments.AddRange(parameters);
@@ -292,8 +298,9 @@ namespace RCPA.Proteomics.Format
     {
       var result = new Raw2MgfOption();
 
-      result.ConverterName = this.Text;
-      result.MascotTitleName = titleFormat.SelectedItem.Name;
+      result.ConverterName = title;
+      result.ConverterVersion = version;
+      result.MascotTitleName = titleFormat.SelectedItem.FormatName;
       result.RawFiles = rawFiles.FileNames;
       result.TargetDirectory = GetOriginFile();
       result.GroupByMode = cbByMode.Checked;
@@ -312,7 +319,7 @@ namespace RCPA.Proteomics.Format
       result.RemoveSpecialIons = cbRemoveSpecialIons.Checked;
       result.SpecialIons = txtSpecialIons.Text;
       result.RemoveIsobaricIons = cbRemoveIsobaricIons.Checked;
-      result.IsoType = isobaricTypes.SelectedItem;
+      result.IsobaricType = isobaricTypes.SelectedItem;
       result.ProteaseName = proteases.SelectedItem.ToString();
       result.RemoveIsobaricIonsInLowRange = cbRemoveIsobaricIonsInLowRange.Checked;
       result.RemoveIsobaricIonsInHighRange = cbRemoveIsobaricIonsInHighRange.Checked;
@@ -345,7 +352,20 @@ namespace RCPA.Proteomics.Format
         }
       }
 
+      result.RemovePrecursorAndNeutralLoss = cbRemovePrecursor.Checked;
+      if (result.RemovePrecursorAndNeutralLoss)
+      {
+        result.NeutralLossAtomComposition = txtNeutralLossComposition.Text;
+      }
+
+      result.OutputMzXmlFormat = rbMzXml.Checked;
       return result;
+    }
+
+    private void rbMzXml_CheckedChanged(object sender, EventArgs e)
+    {
+      cbTitleFormat.Enabled = !rbMzXml.Checked;
+      cbDefaultCharge.Enabled = !rbMzXml.Checked;
     }
   }
 }

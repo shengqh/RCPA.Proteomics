@@ -37,16 +37,29 @@ namespace RCPA.Proteomics.Format
     {
       var taskProcessor = option.GetProcessor(fileName, Progress);
 
-      var newWriter = option.GetWriter();
-
-      return new Raw2MgfProcessor2()
+      if (option.OutputMzXmlFormat)
       {
-        Writer = newWriter,
-        PeakListProcessor = taskProcessor,
-        TargetDirectory = targetDir,
-        GroupByScanMode = option.GroupByMode,
-        GroupByMsLevel = option.GroupByMsLevel
-      };
+        return new Raw2MzXMLProcessor()
+        {
+          PeakListProcessor = taskProcessor,
+          TargetDirectory = targetDir,
+          DataProcessingSoftware = option.ConverterName,
+          DataProcessingSoftwareVersion = option.ConverterVersion
+        };
+      }
+      else
+      {
+        var newWriter = option.GetWriter();
+
+        return new Raw2MgfProcessor2()
+        {
+          Writer = newWriter,
+          PeakListProcessor = taskProcessor,
+          TargetDirectory = targetDir,
+          GroupByScanMode = option.GroupByMode,
+          GroupByMsLevel = option.GroupByMsLevel
+        };
+      }
     }
   }
 }
