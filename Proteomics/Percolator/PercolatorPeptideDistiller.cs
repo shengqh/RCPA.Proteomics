@@ -22,7 +22,8 @@ namespace RCPA.Proteomics.Percolator
       var scanMap = inputspec.ToDictionary(m => GetPsmId(m));
       spectra.ForEach(m =>
       {
-        var inputScan = scanMap[GetPsmId(m)];
+        var psmid = GetPsmId(m);
+        var inputScan = scanMap[psmid];
         m.Query.QueryId = inputScan.Query.QueryId;
         m.Query.FileScan.FirstScan = m.Query.QueryId;
         m.ExperimentalMH = inputScan.ExperimentalMH;

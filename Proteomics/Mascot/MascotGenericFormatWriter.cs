@@ -80,6 +80,7 @@ namespace RCPA.Proteomics.Mascot
     protected void WriteAnnotation(StreamWriter writer, PeakList<T> pl)
     {
       writer.WriteLine(MascotGenericFormatConstants.BEGIN_PEAK_LIST_TAG);
+      WriteAnnotationTitle(writer, pl);
       writer.Write(MascotGenericFormatConstants.PEPMASS_TAG + "=" + MyConvert.Format("{0:0.#####}", pl.PrecursorMZ));
       if (pl.PrecursorIntensity > 0.0)
       {
@@ -105,8 +106,6 @@ namespace RCPA.Proteomics.Mascot
       //{
       //  writer.WriteLine(MascotGenericFormatConstants.RAWFILE_TAG + "=" + pl.Experimental);
       //}
-
-      WriteAnnotationTitle(writer, pl);
 
       foreach (var de in pl.Annotations)
       {
