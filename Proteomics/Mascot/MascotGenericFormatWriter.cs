@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -135,7 +135,7 @@ namespace RCPA.Proteomics.Mascot
     {
       PeakList<T> pkl;
 
-      //Mascot Generic Format ÒªÇóÃ¿¸öspectrum²»ÄÜ³¬¹ý10000¸öÀë×Ó¡£
+      //Mascot Generic Format è¦æ±‚æ¯ä¸ªspectrumä¸èƒ½è¶…è¿‡10000ä¸ªç¦»å­ã€‚
       if (pl.Count > 10000)
       {
         pkl = new PeakList<T>(pl);
@@ -148,20 +148,20 @@ namespace RCPA.Proteomics.Mascot
         pkl = pl;
       }
 
-      if (pkl.Any(m => m.Charge > 0))
+      //if (pkl.Any(m => m.Charge > 0))
+      //{
+      //  foreach (T peak in pkl)
+      //  {
+      //    writer.WriteLine(MyConvert.Format("{0:0.#####} {1:0.0} {2}", peak.Mz, peak.Intensity, peak.Charge));
+      //  }
+      //}
+      //else
+      //{
+      foreach (T peak in pkl)
       {
-        foreach (T peak in pkl)
-        {
-          writer.WriteLine(MyConvert.Format("{0:0.#####} {1:0.0} {2}", peak.Mz, peak.Intensity, peak.Charge));
-        }
+        writer.WriteLine(MyConvert.Format("{0:0.#####} {1:0.0}", peak.Mz, peak.Intensity));
       }
-      else
-      {
-        foreach (T peak in pkl)
-        {
-          writer.WriteLine(MyConvert.Format("{0:0.#####} {1:0.0}", peak.Mz, peak.Intensity));
-        }
-      }
+      //}
 
       writer.WriteLine(MascotGenericFormatConstants.END_PEAK_LIST_TAG);
       writer.WriteLine();
