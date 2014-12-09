@@ -25,7 +25,7 @@ namespace RCPA.Proteomics.Format
   {
     private static readonly string title = "TurboRawToMGF - " + RawFileFactory.SupportedRawFormatString + " To Mascot Generic Format Converter";
 
-    private static readonly string version = "2.0.5";
+    private static readonly string version = "2.0.6";
 
     private RcpaComboBox<ITitleFormat> titleFormat;
     private RcpaDoubleField minMassRange;
@@ -40,6 +40,8 @@ namespace RCPA.Proteomics.Format
     private RcpaTextField neutralLoss;
     private RcpaTextField specialIons;
     private RcpaDoubleField removeIonWindow;
+
+    private RcpaDoubleField precursorPPM;
 
     private RcpaDoubleField maxShiftPPM;
     private RcpaDoubleField retentionTimeWindow;
@@ -116,7 +118,7 @@ namespace RCPA.Proteomics.Format
 
       cbRemoveSpecialIons.PreCondition = cbRemoveMassRange;
       cbRemoveIsobaricIons.PreCondition = cbRemoveMassRange;
-      cbRemoveIonsLargerThanPrecursor.PreCondition = cbRemoveMassRange;
+      cbRemovePrecursorLargeIons.PreCondition = cbRemoveMassRange;
       cbRemovePrecursor.PreCondition = cbRemoveMassRange;
 
       txtOffsetFile = new RcpaFileField(btnShiftFile, txtShiftFile, "OffsetFile", new OpenFileArgument("Precursor Offset", "offset"), false);
@@ -130,6 +132,10 @@ namespace RCPA.Proteomics.Format
 
       retentionTimeWindow = new RcpaDoubleField(txtRetentionTimeWindow, "RetentionTimeWindow", "Retention time window for smoothing offset", 0.5, false);
       AddComponent(retentionTimeWindow);
+
+      precursorPPM = new RcpaDoubleField(txtPrecursorPPM, "PrecursorPPM", "Precursor PPM", 50, false);
+      precursorPPM.PreCondition = cbRemovePrecursor;
+      AddComponent(precursorPPM);
     }
 
     protected override void DoBeforeValidate()
@@ -138,13 +144,18 @@ namespace RCPA.Proteomics.Format
 
       if (cbRemovePrecursor.Checked)
       {
+        var options = GetPrecursorOptions();
+
         try
         {
-          new PeakListRemovePrecursorProcessor<Peak>(txtNeutralLossComposition.Text, productIonPPM.Value);
+          if (options != null)
+          {
+            options.ParseOffsets();
+          }
         }
         catch (Exception)
         {
-          throw new Exception("Wrong format of neutral loss atom composition, should like (NH3,H2O)");
+          throw new Exception("Wrong format of neutral loss atom composition, should like (NH3,H2O, or -17,-18)");
         }
       }
 
@@ -169,6 +180,37 @@ namespace RCPA.Proteomics.Format
         {
           throw new Exception(string.Empty);
         }
+      }
+    }
+
+    private PeakListRemovePrecursorProcessorOptions GetPrecursorOptions()
+    {
+      if (cbRemovePrecursor.Checked || cbRemovePrecursorLargeIons.Checked)
+      {
+        var options = new PeakListRemovePrecursorProcessorOptions()
+        {
+          NeutralLoss = txtNeutralLossComposition.Text,
+          RemoveChargeMinus1Precursor = cbRemovePrecursorMinus1ChargeIon.Checked,
+          RemoveIonLargerThanPrecursor = cbRemovePrecursorLargeIons.Checked,
+          RemoveIsotopicIons = cbRemovePrecursorIsotopicIons.Checked,
+        };
+
+        if (cbRemovePrecursor.Checked)
+        {
+          try
+          {
+            options.PPMTolerance = double.Parse(txtPrecursorPPM.Text);
+          }
+          catch (Exception ex)
+          {
+            throw new Exception("Input precursor PPM first!");
+          }
+        }
+        return options;
+      }
+      else
+      {
+        return null;
       }
     }
 
@@ -297,6 +339,8 @@ namespace RCPA.Proteomics.Format
     private Raw2MgfOption GetConvertOption()
     {
       var result = new Raw2MgfOption();
+
+      result.PrecursorOptions = GetPrecursorOptions();
 
       result.ConverterName = title;
       result.ConverterVersion = version;

@@ -70,12 +70,13 @@ namespace RCPA.Proteomics.Format
       this.txtRemoveIonWindow = new System.Windows.Forms.TextBox();
       this.txtSpecialIons = new System.Windows.Forms.TextBox();
       this.tabPrecursor = new System.Windows.Forms.TabPage();
-      this.cbRemoveIonsLargerThanPrecursor = new RCPA.Gui.RcpaCheckField();
-      this.rcpaCheckField1 = new RCPA.Gui.RcpaCheckField();
+      this.cbRemovePrecursorIsotopicIons = new RCPA.Gui.RcpaCheckField();
+      this.cbRemovePrecursorLargeIons = new RCPA.Gui.RcpaCheckField();
+      this.cbRemovePrecursorMinus1ChargeIon = new RCPA.Gui.RcpaCheckField();
       this.cbRemovePrecursor = new RCPA.Gui.RcpaCheckField();
       this.txtPrecursorPPM = new System.Windows.Forms.TextBox();
       this.txtNeutralLossComposition = new System.Windows.Forms.TextBox();
-      this.cbRemoveNeutralLoss = new RCPA.Gui.RcpaCheckField();
+      this.cbRemovePrecursorNeutralLossIon = new RCPA.Gui.RcpaCheckField();
       this.tabPage3 = new System.Windows.Forms.TabPage();
       this.panel1 = new System.Windows.Forms.Panel();
       this.panel3 = new System.Windows.Forms.Panel();
@@ -161,6 +162,7 @@ namespace RCPA.Proteomics.Format
       // 
       this.tabControl1.Controls.Add(this.tabGeneral);
       this.tabControl1.Controls.Add(this.tabIons);
+      this.tabControl1.Controls.Add(this.tabPrecursor);
       this.tabControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
       this.tabControl1.Location = new System.Drawing.Point(0, 289);
       this.tabControl1.Name = "tabControl1";
@@ -581,12 +583,13 @@ namespace RCPA.Proteomics.Format
       // 
       // tabPrecursor
       // 
-      this.tabPrecursor.Controls.Add(this.cbRemoveIonsLargerThanPrecursor);
-      this.tabPrecursor.Controls.Add(this.rcpaCheckField1);
+      this.tabPrecursor.Controls.Add(this.cbRemovePrecursorIsotopicIons);
+      this.tabPrecursor.Controls.Add(this.cbRemovePrecursorLargeIons);
+      this.tabPrecursor.Controls.Add(this.cbRemovePrecursorMinus1ChargeIon);
       this.tabPrecursor.Controls.Add(this.cbRemovePrecursor);
       this.tabPrecursor.Controls.Add(this.txtPrecursorPPM);
       this.tabPrecursor.Controls.Add(this.txtNeutralLossComposition);
-      this.tabPrecursor.Controls.Add(this.cbRemoveNeutralLoss);
+      this.tabPrecursor.Controls.Add(this.cbRemovePrecursorNeutralLossIon);
       this.tabPrecursor.Location = new System.Drawing.Point(4, 22);
       this.tabPrecursor.Name = "tabPrecursor";
       this.tabPrecursor.Padding = new System.Windows.Forms.Padding(3);
@@ -595,30 +598,44 @@ namespace RCPA.Proteomics.Format
       this.tabPrecursor.Text = "Precursor";
       this.tabPrecursor.UseVisualStyleBackColor = true;
       // 
-      // cbRemoveIonsLargerThanPrecursor
+      // cbRemovePrecursorIsotopicIons
       // 
-      this.cbRemoveIonsLargerThanPrecursor.Key = "RemoveIonsLargerThanPrecursor";
-      this.cbRemoveIonsLargerThanPrecursor.Location = new System.Drawing.Point(15, 121);
-      this.cbRemoveIonsLargerThanPrecursor.Name = "cbRemoveIonsLargerThanPrecursor";
-      this.cbRemoveIonsLargerThanPrecursor.PreCondition = null;
-      this.cbRemoveIonsLargerThanPrecursor.Size = new System.Drawing.Size(223, 21);
-      this.cbRemoveIonsLargerThanPrecursor.TabIndex = 108;
-      this.cbRemoveIonsLargerThanPrecursor.Text = "Remove ions larger than precursor";
+      this.cbRemovePrecursorIsotopicIons.Checked = true;
+      this.cbRemovePrecursorIsotopicIons.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.cbRemovePrecursorIsotopicIons.Key = "RemovePrecursorIsotopic";
+      this.cbRemovePrecursorIsotopicIons.Location = new System.Drawing.Point(39, 111);
+      this.cbRemovePrecursorIsotopicIons.Name = "cbRemovePrecursorIsotopicIons";
+      this.cbRemovePrecursorIsotopicIons.PreCondition = this.cbRemovePrecursor;
+      this.cbRemovePrecursorIsotopicIons.Size = new System.Drawing.Size(210, 21);
+      this.cbRemovePrecursorIsotopicIons.TabIndex = 109;
+      this.cbRemovePrecursorIsotopicIons.Text = "Remove precursor isotopic ions";
       // 
-      // rcpaCheckField1
+      // cbRemovePrecursorLargeIons
       // 
-      this.rcpaCheckField1.Key = "RemovePrecursor";
-      this.rcpaCheckField1.Location = new System.Drawing.Point(39, 84);
-      this.rcpaCheckField1.Name = "rcpaCheckField1";
-      this.rcpaCheckField1.PreCondition = null;
-      this.rcpaCheckField1.Size = new System.Drawing.Size(210, 21);
-      this.rcpaCheckField1.TabIndex = 107;
-      this.rcpaCheckField1.Text = "Remove less 1 charged precursor";
+      this.cbRemovePrecursorLargeIons.Key = "RemoveIonsLargerThanPrecursor";
+      this.cbRemovePrecursorLargeIons.Location = new System.Drawing.Point(15, 147);
+      this.cbRemovePrecursorLargeIons.Name = "cbRemovePrecursorLargeIons";
+      this.cbRemovePrecursorLargeIons.PreCondition = null;
+      this.cbRemovePrecursorLargeIons.Size = new System.Drawing.Size(223, 21);
+      this.cbRemovePrecursorLargeIons.TabIndex = 108;
+      this.cbRemovePrecursorLargeIons.Text = "Remove ions larger than precursor";
+      // 
+      // cbRemovePrecursorMinus1ChargeIon
+      // 
+      this.cbRemovePrecursorMinus1ChargeIon.Checked = true;
+      this.cbRemovePrecursorMinus1ChargeIon.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.cbRemovePrecursorMinus1ChargeIon.Key = "RemovePrecursorLess1Charge";
+      this.cbRemovePrecursorMinus1ChargeIon.Location = new System.Drawing.Point(39, 84);
+      this.cbRemovePrecursorMinus1ChargeIon.Name = "cbRemovePrecursorMinus1ChargeIon";
+      this.cbRemovePrecursorMinus1ChargeIon.PreCondition = this.cbRemovePrecursor;
+      this.cbRemovePrecursorMinus1ChargeIon.Size = new System.Drawing.Size(210, 21);
+      this.cbRemovePrecursorMinus1ChargeIon.TabIndex = 107;
+      this.cbRemovePrecursorMinus1ChargeIon.Text = "Remove less 1 charged precursor";
       // 
       // cbRemovePrecursor
       // 
       this.cbRemovePrecursor.AutoSize = true;
-      this.cbRemovePrecursor.Key = "RemoveMassRange";
+      this.cbRemovePrecursor.Key = "RemovePrecursor";
       this.cbRemovePrecursor.Location = new System.Drawing.Point(15, 24);
       this.cbRemovePrecursor.Name = "cbRemovePrecursor";
       this.cbRemovePrecursor.PreCondition = null;
@@ -642,15 +659,15 @@ namespace RCPA.Proteomics.Format
       this.txtNeutralLossComposition.TabIndex = 104;
       this.txtNeutralLossComposition.Text = "NH3,OH,";
       // 
-      // cbRemoveNeutralLoss
+      // cbRemovePrecursorNeutralLossIon
       // 
-      this.cbRemoveNeutralLoss.Key = "RemovePrecursor";
-      this.cbRemoveNeutralLoss.Location = new System.Drawing.Point(39, 57);
-      this.cbRemoveNeutralLoss.Name = "cbRemoveNeutralLoss";
-      this.cbRemoveNeutralLoss.PreCondition = null;
-      this.cbRemoveNeutralLoss.Size = new System.Drawing.Size(364, 21);
-      this.cbRemoveNeutralLoss.TabIndex = 103;
-      this.cbRemoveNeutralLoss.Text = "Remove neutral loss (formula or absolute mass shift, seperated by \',\')";
+      this.cbRemovePrecursorNeutralLossIon.Key = "RemovePrecursorNeutralLoss";
+      this.cbRemovePrecursorNeutralLossIon.Location = new System.Drawing.Point(39, 57);
+      this.cbRemovePrecursorNeutralLossIon.Name = "cbRemovePrecursorNeutralLossIon";
+      this.cbRemovePrecursorNeutralLossIon.PreCondition = this.cbRemovePrecursor;
+      this.cbRemovePrecursorNeutralLossIon.Size = new System.Drawing.Size(364, 21);
+      this.cbRemovePrecursorNeutralLossIon.TabIndex = 103;
+      this.cbRemovePrecursorNeutralLossIon.Text = "Remove neutral loss (formula or absolute mass shift, seperated by \',\')";
       // 
       // tabPage3
       // 
@@ -964,11 +981,12 @@ namespace RCPA.Proteomics.Format
     private Gui.RcpaCheckField rbRemoveReporters;
     private Gui.RcpaCheckField rbMzXml;
     private System.Windows.Forms.TabPage tabPrecursor;
-    private Gui.RcpaCheckField cbRemoveIonsLargerThanPrecursor;
-    private Gui.RcpaCheckField rcpaCheckField1;
+    private Gui.RcpaCheckField cbRemovePrecursorLargeIons;
+    private Gui.RcpaCheckField cbRemovePrecursorMinus1ChargeIon;
     private Gui.RcpaCheckField cbRemovePrecursor;
     private System.Windows.Forms.TextBox txtPrecursorPPM;
     private System.Windows.Forms.TextBox txtNeutralLossComposition;
-    private Gui.RcpaCheckField cbRemoveNeutralLoss;
+    private Gui.RcpaCheckField cbRemovePrecursorNeutralLossIon;
+    private Gui.RcpaCheckField cbRemovePrecursorIsotopicIons;
   }
 }

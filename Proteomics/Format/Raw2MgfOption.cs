@@ -180,23 +180,14 @@ namespace RCPA.Proteomics.Format
         }
       }
 
-      //In order to remove the isotopic ions of precursor, deisotopic should be performed before remove precursor.
       if (Deisotopic)
       {
         result.Add(new PeakListDeisotopicByChargeProcessor<Peak>(ProductIonPPM));
       }
 
-      if (RemoveMassRange)
+      if (PrecursorOptions != null)
       {
-        if (RemovePrecursorAndNeutralLoss)
-        {
-          result.Add(new PeakListRemovePrecursorDaltonProcessor<Peak>(NeutralLossAtomComposition, RemoveIonWindow));
-        }
-
-        if (RemoveIonsLargerThanPrecursor)
-        {
-          result.Add(new PeakListRemoveIonLargerThanPrecursorProcessor<Peak>());
-        }
+        result.Add(new PeakListRemovePrecursorProcessor<Peak>(this.PrecursorOptions));
       }
 
       if (ChargeDeconvolution)
@@ -322,5 +313,7 @@ namespace RCPA.Proteomics.Format
 
       return result;
     }
+
+    public PeakListRemovePrecursorProcessorOptions PrecursorOptions { get; set; }
   }
 }

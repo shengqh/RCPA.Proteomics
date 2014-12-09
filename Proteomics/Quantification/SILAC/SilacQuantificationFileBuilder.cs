@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using RCPA;
@@ -20,7 +20,7 @@ using RCPA.Gui;
 namespace RCPA.Proteomics.Quantification.SILAC
 {
   /// <summary>
-  /// ¸ù¾İ¸ø¶¨µÄëÄ¶ÎÁĞ±í£¬ÔÚÒ»¸örawÎÄ¼şÖĞ½øĞĞ¶¨Á¿¡£
+  /// æ ¹æ®ç»™å®šçš„è‚½æ®µåˆ—è¡¨ï¼Œåœ¨ä¸€ä¸ªrawæ–‡ä»¶ä¸­è¿›è¡Œå®šé‡ã€‚
   /// </summary>
   public class SilacQuantificationFileBuilder : ProgressClass
   {
@@ -106,14 +106,14 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
           SilacCompoundInfo sci = GetSilacCompoundInfo(peptideInfo);
 
-          //Èç¹ûÇáÖØÀë×ÓÀíÂÛÖÊºÉ±ÈÒ»Ñù£¬ºöÂÔ
+          //å¦‚æœè½»é‡ç¦»å­ç†è®ºè´¨è·æ¯”ä¸€æ ·ï¼Œå¿½ç•¥
           if (!sci.IsSilacData())
           {
             spectrum.GetOrCreateQuantificationItem().RatioStr = "NOT_SILAC";
             continue;
           }
 
-          //Èç¹ûÇáÖØÀë×ÓÀíÂÛÖÊºÉ±ÈÓë¹Û²âÖµ²»Ò»ÖÂ£¬ºöÂÔ
+          //å¦‚æœè½»é‡ç¦»å­ç†è®ºè´¨è·æ¯”ä¸è§‚æµ‹å€¼ä¸ä¸€è‡´ï¼Œå¿½ç•¥
           if (!sci.IsMzEquals(spectrum.ObservedMz, MAX_DELTA_MZ))
           {
             ValidateModifications(seq);
@@ -122,7 +122,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
             continue;
           }
 
-          //Èç¹ûÃ»ÓĞÕÒµ½ÏàÓ¦µÄFullScan£¬ºöÂÔ
+          //å¦‚æœæ²¡æœ‰æ‰¾åˆ°ç›¸åº”çš„FullScanï¼Œå¿½ç•¥
           int identifiedFullScan = _rawReader.FindPreviousFullScan(startScan, firstScanNumber);
           if (-1 == identifiedFullScan)
           {
@@ -134,7 +134,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
           SilacEnvelopes envelope = pkls.FindSilacEnvelope(identifiedFullScan);
 
-          //Èç¹û¸Ãscan±»°üº¬ÔÚÒÑ¾­±»¶¨Á¿µÄ½á¹ûÖĞ£¬ºöÂÔ
+          //å¦‚æœè¯¥scanè¢«åŒ…å«åœ¨å·²ç»è¢«å®šé‡çš„ç»“æœä¸­ï¼Œå¿½ç•¥
           if (envelope != null)
           {
             envelope.SetScanIdentified(identifiedFullScan, spectrum.IsExtendedIdentification());
@@ -142,12 +142,12 @@ namespace RCPA.Proteomics.Quantification.SILAC
             continue;
           }
 
-          //´ÓÔ­Ê¼ÎÄ¼şÖĞÕÒ³ö¸ÃspectrumµÄ¶¨Á¿ĞÅÏ¢
+          //ä»åŸå§‹æ–‡ä»¶ä¸­æ‰¾å‡ºè¯¥spectrumçš„å®šé‡ä¿¡æ¯
           int maxIndex = Math.Min(_profileLength - 1, pkls.LightProfile.FindMaxIndex());
 
           double mzTolerance = PrecursorUtils.ppm2mz(sci.Light.Mz, _ppmTolerance);
 
-          //Èç¹ûFullScanÃ»ÓĞÏàÓ¦µÄÀë×Ó£¬ºöÂÔ¡££¨¼ø¶¨´íÎó»òÕßÀ©Õ¹¶¨Á¿Ê±ºò£¬»á³öÏÖÕÒ²»µ½pairµÄÏÖÏó£©
+          //å¦‚æœFullScanæ²¡æœ‰ç›¸åº”çš„ç¦»å­ï¼Œå¿½ç•¥ã€‚ï¼ˆé‰´å®šé”™è¯¯æˆ–è€…æ‰©å±•å®šé‡æ—¶å€™ï¼Œä¼šå‡ºç°æ‰¾ä¸åˆ°pairçš„ç°è±¡ï¼‰
           SilacPeakListPair splp = GetLightHeavyPeakList(_rawReader, sci, maxIndex, mzTolerance, identifiedFullScan);
           if (null == splp)
           {
@@ -161,7 +161,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
           SilacEnvelopes envelopes = new SilacEnvelopes();
           envelopes.Add(splp);
 
-          //ÏòÇ°²éÕÒ¶¨Á¿ĞÅÏ¢
+          //å‘å‰æŸ¥æ‰¾å®šé‡ä¿¡æ¯
           int fullScan = identifiedFullScan;
           while ((fullScan = _rawReader.FindPreviousFullScan(fullScan - 1, firstScanNumber)) != -1)
           {
@@ -180,7 +180,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
           }
           envelopes.Reverse();
 
-          //Ïòºó²éÕÒ¶¨Á¿ĞÅÏ¢
+          //å‘åæŸ¥æ‰¾å®šé‡ä¿¡æ¯
           fullScan = identifiedFullScan;
           while ((fullScan = _rawReader.FindNextFullScan(fullScan + 1, lastScanNumber)) != -1)
           {
@@ -198,7 +198,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
             envelopes.Add(item);
           }
 
-          //¶ÔÃ¿¸öscan¼ÆËãÇáÖØµÄÀë×Ó·á¶È
+          //å¯¹æ¯ä¸ªscanè®¡ç®—è½»é‡çš„ç¦»å­ä¸°åº¦
           envelopes.ForEach(m => m.CalculateIntensity(pkls.LightProfile, pkls.HeavyProfile));
 
           pkls.Add(envelopes);
@@ -408,13 +408,13 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
       PeakList<Peak> heavy = pkl.FindEnvelopeDirectly(sci.Heavy.Profile, _profileLength, mzTolerance, () => new Peak());
 
-      //Èç¹ûµçºÉ²»¶Ô£¬ÔòÈÏÎª¸ÃscanÎŞĞ§¡£
+      //å¦‚æœç”µè·ä¸å¯¹ï¼Œåˆ™è®¤ä¸ºè¯¥scanæ— æ•ˆã€‚
       if (!CheckPeakListCharge(heavy, maxIndex, sci.Heavy.Charge))
       {
         return null;
       }
 
-      //Èç¹ûÇá»òÕßÖØµÄ×ÜÇ¿¶ÈÎª0£¬ÔòÈÏÎª¸ÃscanÎŞĞ§¡£
+      //å¦‚æœè½»æˆ–è€…é‡çš„æ€»å¼ºåº¦ä¸º0ï¼Œåˆ™è®¤ä¸ºè¯¥scanæ— æ•ˆã€‚
       if (0 == light.Sum(m => m.Intensity) || 0 == heavy.Sum(m => m.Intensity))
       {
         return null;

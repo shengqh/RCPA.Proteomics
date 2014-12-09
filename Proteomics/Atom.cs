@@ -45,6 +45,8 @@ namespace RCPA.Proteomics
     public static readonly double ElectronMass = 0.00054858;
     public static readonly double IonHMass = H.MonoMass - ElectronMass;
 
+    public static readonly double C13_GAP = C13.MonoMass - C.MonoMass;
+
     private static readonly List<Atom> itemCHNOS = new List<Atom>(new[] { C, H, N, O, S });
 
     private static readonly List<Atom> items =
