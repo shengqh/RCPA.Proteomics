@@ -42,7 +42,7 @@ namespace RCPA.Proteomics.Summary
 
       this.RegisterConverter(new IdentifiedSpectrumRankConverter<IIdentifiedSpectrum>());
 
-      this.RegisterConverter(new IdentifiedSpectrumScoreConverter<IIdentifiedSpectrum>(), "pMatch Score", "XCorr", "XC");
+      this.RegisterConverter(new IdentifiedSpectrumScoreConverter<IIdentifiedSpectrum>(), "pMatch Score", "XCorr", "XC", "Amanda Score");
 
       this.RegisterConverter(new IdentifiedSpectrumPValueConverter<IIdentifiedSpectrum>());
 
@@ -62,7 +62,7 @@ namespace RCPA.Proteomics.Summary
 
       this.RegisterConverter(new IdentifiedSpectrumMissCleavageConverter<IIdentifiedSpectrum>());
 
-      this.RegisterConverter(new IdentifiedSpectrumModificationConverter<IIdentifiedSpectrum>());
+      this.RegisterConverter(new IdentifiedSpectrumModificationConverter<IIdentifiedSpectrum>(), "Modifications");
 
       this.RegisterConverter(new IdentifiedSpectrumIonProportionConverter<IIdentifiedSpectrum>());
 

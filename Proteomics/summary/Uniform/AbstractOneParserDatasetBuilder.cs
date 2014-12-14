@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using RCPA.Proteomics.Summary;
 using RCPA.Utils;
 using RCPA.Gui;
@@ -54,6 +55,38 @@ namespace RCPA.Proteomics.Summary.Uniform
         {
           Progress.SetMessage(MyConvert.Format("{0}/{1} : Reading peptides file {2}", stepCount, options.PathNames.Count, peptideFilename));
           curPeptides = peptideFormat.ReadFromFile(peptideFilename);
+          if (curPeptides.All(m => m.Proteins.Count == 0))
+          {
+            var proteinFile = peptideFilename + ".protein";
+            if (File.Exists(proteinFile))
+            {
+              IdentifiedSpectrumUtils.FillProteinInformation(curPeptides, proteinFile);
+            }
+            else
+            {
+              throw new Exception(string.Format("No protein information in peptides file {0} and no corresponding protein file exists {1}",
+                peptideFilename,
+                proteinFile));
+            }
+          }
+
+          if (curPeptides.All(m => string.IsNullOrEmpty(m.Query.FileScan.Experimental)))
+          {
+            curPeptides.ForEach(m => m.Query.FileScan.Experimental = Path.GetFileNameWithoutExtension(dataFile));
+          }
+
+          if (curPeptides.All(m => m.Query.FileScan.FirstScan == 0))
+          {
+
+            if (curPeptides.All(m => m.Id > 0))
+            {
+              curPeptides.ForEach(m => m.Query.FileScan.FirstScan = m.Id);
+            }
+            else if (curPeptides.All(m => m.Query.QueryId > 0))
+            {
+              curPeptides.ForEach(m => m.Query.FileScan.FirstScan = m.Query.QueryId);
+            }
+          }
         }
         else
         {
@@ -102,6 +135,11 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     protected virtual string GetPeptideFile(string dataFile)
     {
+      if (dataFile.EndsWith(".peptides"))
+      {
+        return dataFile;
+      }
+
       return dataFile + ".peptides";
     }
 

@@ -43,8 +43,6 @@ namespace RCPA.Proteomics.Summary.Uniform
 
       this.dsOptions = dsOptions;
 
-      var filter = dsOptions.Options.GetDecoySpectrumFilter();
-
       dsOptions.ForEach(m =>
       {
         var builder = m.GetBuilder();
@@ -57,10 +55,22 @@ namespace RCPA.Proteomics.Summary.Uniform
 
         //首先，获取所有通过了固定筛选标准的谱图。
         ds.Spectra = builder.ParseFromSearchResult();
-
-        //对每个谱图设置是否来自诱饵库
-        DecoyPeptideBuilder.AssignDecoy(ds.Spectra, filter);
       });
+
+      if (dsOptions.Options.FalseDiscoveryRate.FilterByFdr)
+      {
+        var filter = dsOptions.Options.GetDecoySpectrumFilter();
+        this.ForEach(m =>
+        {
+          //对每个谱图设置是否来自诱饵库
+          DecoyPeptideBuilder.AssignDecoy(m.Spectra, filter);
+
+          if (m.Spectra.All(l => !l.FromDecoy))
+          {
+            throw new Exception(string.Format("No decoy protein found at dataset {0}, make sure the protein access number parser and the decoy pattern are correctly defined!", m.Options.Name));
+          }
+        });
+      }
 
       //初始化实验列表
       this.ForEach(m => m.InitExperimentals());

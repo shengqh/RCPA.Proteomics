@@ -14,16 +14,18 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
   {
     private string rExecute;
     private IsobaricType plexType;
+    private List<UsedChannel> channels;
     private bool performPurityCorrection;
     private bool performGraph;
 
-    public IsobaricPurityCorrectionRCalculator(IsobaricType plexType, bool performPurityCorrection, bool performGraph)
-      : this(plexType, ExternalProgramConfig.GetExternalProgram("R"), performPurityCorrection, performGraph)
+    public IsobaricPurityCorrectionRCalculator(IsobaricType plexType, List<UsedChannel> channels, bool performPurityCorrection, bool performGraph)
+      : this(plexType, channels, ExternalProgramConfig.GetExternalProgram("R"), performPurityCorrection, performGraph)
     { }
 
-    public IsobaricPurityCorrectionRCalculator(IsobaricType plexType, string rExecute, bool performPurityCorrection, bool performGraph)
+    public IsobaricPurityCorrectionRCalculator(IsobaricType plexType, List<UsedChannel> channels, string rExecute, bool performPurityCorrection, bool performGraph)
     {
       this.plexType = plexType;
+      this.channels = channels;
       this.rExecute = rExecute;
       if (this.rExecute == null)
       {
@@ -45,7 +47,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       var dataFile = tempFilename + ".data";
       using (var sw = new StreamWriter(dataFile))
       {
-        sw.WriteLine("Scan\t{0}", (from c in plexType.Channels select c.Name).Merge("\t"));
+        sw.WriteLine("Scan\t{0}", (from c in channels select c.Name).Merge("\t"));
         foreach (var ii in ir)
         {
           sw.WriteLine("{0}\t{1}", ii.Scan.Scan, (from rep in ii.Reporters select string.Format("{0:0.##}", rep)).Merge("\t"));
@@ -56,13 +58,13 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       using (var sw = new StreamWriter(purityFile))
       {
         var purity = plexType.IsotopicTable;
-        sw.WriteLine("Channel\t{0}", (from c in plexType.Channels select c.Name).Merge("\t"));
-        for (int i = 0; i < plexType.Channels.Count; i++)
+        sw.WriteLine("Channel\t{0}", (from c in channels select c.Name).Merge("\t"));
+        for (int i = 0; i < channels.Count; i++)
         {
-          sw.Write(plexType.Channels[i].Name);
-          for (int j = 0; j < plexType.Channels.Count; j++)
+          sw.Write(channels[i].Name);
+          for (int j = 0; j < channels.Count; j++)
           {
-            sw.Write("\t{0:0.####}", purity[i, j] / 100);
+            sw.Write("\t{0:0.####}", purity[channels[i].Index, channels[j].Index] / 100);
           }
           sw.WriteLine();
         }

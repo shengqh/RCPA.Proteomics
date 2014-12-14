@@ -30,6 +30,8 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
     public List<IsobaricIndex> RequiredChannels { get; set; }
 
+    public List<IsobaricIndex> UsedChannels { get; set; }
+
     public bool PerformPurityCorrection { get; set; }
   }
 }

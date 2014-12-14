@@ -10,21 +10,29 @@ namespace RCPA.Proteomics.Mascot
   {
     public bool NotExportSummary { get; set; }
 
+    public bool IgnoreComments { get; set; }
+
     public MascotPeptideTextFormat()
       : this(MascotHeader.MASCOT_PEPTIDE_HEADER)
     { }
 
     public MascotPeptideTextFormat(string header)
       : base(header)
-    { }
+    {
+      IgnoreComments = true;
+    }
 
     public MascotPeptideTextFormat(List<IIdentifiedSpectrum> spectra)
       : base(MascotHeader.MASCOT_PEPTIDE_HEADER, spectra)
-    { }
+    {
+      IgnoreComments = true;
+    }
 
     public MascotPeptideTextFormat(string header, List<IIdentifiedSpectrum> spectra)
       : base(header, spectra)
-    { }
+    {
+      IgnoreComments = true;
+    }
 
     /// <summary>
     /// 当从文件读取数据后，可进行相应的一些预处理
@@ -41,6 +49,13 @@ namespace RCPA.Proteomics.Mascot
       using (var sr = new StreamReader(filename))
       {
         string line = sr.ReadLine();
+        if (IgnoreComments)
+        {
+          while (line != null && line.StartsWith("#"))
+          {
+            line = sr.ReadLine();
+          }
+        }
 
         this.PeptideFormat = new PeptideLineFormat(line);
 

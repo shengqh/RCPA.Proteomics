@@ -201,7 +201,7 @@ namespace RCPA.Proteomics.Format
           {
             options.PPMTolerance = double.Parse(txtPrecursorPPM.Text);
           }
-          catch (Exception ex)
+          catch (Exception)
           {
             throw new Exception("Input precursor PPM first!");
           }

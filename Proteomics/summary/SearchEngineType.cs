@@ -1,4 +1,5 @@
 ﻿using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.MSAmanda;
 using RCPA.Proteomics.MSGF;
 using RCPA.Proteomics.MyriMatch;
 using RCPA.Proteomics.Omssa;
@@ -32,6 +33,7 @@ namespace RCPA.Proteomics.Summary
       _map[SearchEngineType.MSGF] = new MSGFFactory();
       _map[SearchEngineType.OMSSA] = new OmssaFactory();
       _map[SearchEngineType.Percolator] = new PercolatorFactory();
+      _map[SearchEngineType.MSAmanda] = new MSAmandaFactory();
     }
 
     public static ISearchEngineFactory GetFactory(this SearchEngineType seType)
@@ -41,7 +43,7 @@ namespace RCPA.Proteomics.Summary
         return _map[seType];
       }
 
-      return null;
+      throw new Exception(string.Format("Undefined factory of engine {0}", seType));
     }
   }
 }

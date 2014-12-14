@@ -22,6 +22,7 @@ using RCPA.Proteomics.Omssa;
 using RCPA.Proteomics.MSGF;
 using RCPA.Proteomics.Sequest;
 using RCPA.Proteomics.Percolator;
+using RCPA.Proteomics.MSAmanda;
 
 namespace RCPA.Tools.Summary
 {
@@ -33,7 +34,7 @@ namespace RCPA.Tools.Summary
   public partial class UniformBuildSummaryUI : AbstractProcessorFileUI
   {
     public static string title = "BuildSummary - A general framework for assembling protein identifications";
-    public static string version = "7.1.0";
+    public static string version = "7.1.1";
 
     private BuildSummaryOptions Option;
 
@@ -584,6 +585,11 @@ namespace RCPA.Tools.Summary
     private void btnAddPercolator_Click(object sender, EventArgs e)
     {
       DoAddDatasetOption(new PercolatorDatasetOptions());
+    }
+
+    private void btnMSAmanda_Click(object sender, EventArgs e)
+    {
+      DoAddDatasetOption(new MSAmandaDatasetOptions());
     }
   }
 }

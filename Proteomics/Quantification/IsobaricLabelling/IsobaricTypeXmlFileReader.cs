@@ -14,10 +14,9 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     {
       var ele = XElement.Load(fileName);
       var result = new List<IsobaricType>();
-      foreach (var iso in ele.Elements("isobaric"))
+      foreach (var iso in ele.FindElements("isobaric"))
       {
         var item = ReadIsobaricType(iso);
-
         result.Add(item);
       }
       return result;
@@ -26,25 +25,29 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     public static IsobaricType ReadIsobaricType(XElement iso)
     {
       var item = new IsobaricType();
-      item.Name = iso.Element("name").Value;
-      foreach (var tag in iso.Elements("tag_mass"))
+      item.Name = iso.FindElement("name").Value;
+      foreach (var tag in iso.FindElements("tag_mass"))
       {
         item.TagMass.Add(double.Parse(tag.Value));
       }
 
-      foreach (var channel in iso.Elements("channel"))
+      var channels = iso.FindElements("channel");
+
+      for(int index = 0;index < channels.Count;index++)
       {
+        var channel = channels[index];
         var cha = new IsobaricChannel();
-        cha.Name = channel.Attribute("name").Value;
-        cha.Mz = double.Parse(channel.Attribute("mz").Value);
-        cha.Percentage = double.Parse(channel.Attribute("percentage").Value);
+        cha.Index = index;
+        cha.Name = channel.FindAttribute("name").Value;
+        cha.Mz = double.Parse(channel.FindAttribute("mz").Value);
+        cha.Percentage = double.Parse(channel.FindAttribute("percentage").Value);
         item.Channels.Add(cha);
 
-        foreach (var isotopic in channel.Elements("isotopic"))
+        foreach (var isotopic in channel.FindElements("isotopic"))
         {
           var isot = new IsobaricIsotope();
-          isot.Name = isotopic.Attribute("name").Value;
-          isot.Percentage = double.Parse(isotopic.Attribute("percentage").Value);
+          isot.Name = isotopic.FindAttribute("name").Value;
+          isot.Percentage = double.Parse(isotopic.FindAttribute("percentage").Value);
           cha.Isotopics.Add(isot);
         }
       }

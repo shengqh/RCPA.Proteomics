@@ -88,6 +88,7 @@
       this.panel1 = new System.Windows.Forms.Panel();
       this.rbUseSelectedOnly = new RCPA.Gui.RcpaRadioField();
       this.rbUseAll = new RCPA.Gui.RcpaRadioField();
+      this.btnMSAmanda = new System.Windows.Forms.Button();
       this.pnlAdd.SuspendLayout();
       this.tabControl1.SuspendLayout();
       this.tpGeneral.SuspendLayout();
@@ -496,6 +497,7 @@
       // pnlAdd
       // 
       this.pnlAdd.Controls.Add(this.btnDelete);
+      this.pnlAdd.Controls.Add(this.btnMSAmanda);
       this.pnlAdd.Controls.Add(this.btnAddPercolator);
       this.pnlAdd.Controls.Add(this.btnAddOmssa);
       this.pnlAdd.Controls.Add(this.btnAddMSGF);
@@ -514,7 +516,7 @@
       // btnDelete
       // 
       this.btnDelete.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnDelete.Location = new System.Drawing.Point(0, 225);
+      this.btnDelete.Location = new System.Drawing.Point(0, 250);
       this.btnDelete.Name = "btnDelete";
       this.btnDelete.Size = new System.Drawing.Size(139, 25);
       this.btnDelete.TabIndex = 13;
@@ -773,6 +775,17 @@
       this.rbUseAll.Text = "Use all files";
       this.rbUseAll.UseVisualStyleBackColor = true;
       // 
+      // btnMSAmanda
+      // 
+      this.btnMSAmanda.Dock = System.Windows.Forms.DockStyle.Top;
+      this.btnMSAmanda.Location = new System.Drawing.Point(0, 225);
+      this.btnMSAmanda.Name = "btnMSAmanda";
+      this.btnMSAmanda.Size = new System.Drawing.Size(139, 25);
+      this.btnMSAmanda.TabIndex = 22;
+      this.btnMSAmanda.Text = "Add MSAmanda";
+      this.btnMSAmanda.UseVisualStyleBackColor = true;
+      this.btnMSAmanda.Click += new System.EventHandler(this.btnMSAmanda_Click);
+      // 
       // UniformBuildSummaryUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -864,5 +877,6 @@
     private Gui.RcpaRadioField rbUseAll;
     private System.Windows.Forms.Label label7;
     protected System.Windows.Forms.Button btnAddPercolator;
+    protected System.Windows.Forms.Button btnMSAmanda;
   }
 }

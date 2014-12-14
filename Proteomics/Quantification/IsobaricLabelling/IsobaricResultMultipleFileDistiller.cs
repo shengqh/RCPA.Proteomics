@@ -28,12 +28,6 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       var format = new IsobaricResultXmlFormat();
 
       XmlTextWriter sw = null;
-      if (!options.Individual)
-      {
-        sw = new XmlTextWriter(targetFileName, Encoding.ASCII);
-        format.StartWriteDocument(sw, options.Reader.ToString(), options.PlexType.Name);
-      }
-
       try
       {
         for (int i = 0; i < options.RawFiles.Count(); i++)
@@ -52,7 +46,8 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
             MinPeakCount = options.MinPeakCount,
             PrecursorPPMTolerance = options.PrecursorPPMTolerance,
             ProductPPMTolerance = options.ProductPPMTolerance,
-            RequiredChannels = options.RequiredChannels
+            RequiredChannels = options.RequiredChannels,
+            UsedChannels = options.UsedChannels
           };
 
           var distiller = new IsobaricResultFileDistiller(fileoptions)
@@ -69,9 +64,18 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
           {
             var curResult = distiller.BuildIsobaricResult();
 
+            if (!options.Individual)
+            {
+              if (sw == null)
+              {
+                sw = new XmlTextWriter(targetFileName, Encoding.ASCII);
+                format.StartWriteDocument(sw, curResult);
+              }
+            }
+
             foreach (var item in curResult)
             {
-              format.WriteIsobaricItem(sw, options.PlexType, item);
+              format.WriteIsobaricItem(sw, curResult, item);
             }
 
             curResult = null;
@@ -85,7 +89,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       }
       finally
       {
-        if (!options.Individual)
+        if (!options.Individual && sw != null)
         {
           sw.Close();
         }

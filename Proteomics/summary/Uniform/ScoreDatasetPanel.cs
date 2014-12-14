@@ -11,57 +11,56 @@ using RCPA.Gui.FileArgument;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
-  public partial class ExpectValueDatasetPanel : ScoreDatasetPanel
+  public partial class ScoreDatasetPanel : TitleDatasetPanel
   {
-    protected RcpaCheckBox filterByExpectValue;
+    protected RcpaListViewMultipleFileField datFiles;
 
-    protected RcpaDoubleField maxExpectValue;
+    protected RcpaCheckBox filterByScore;
 
-    private AbstractExpectValueDatasetOptions ExpectValueOption { get { return Options as AbstractExpectValueDatasetOptions; } }
+    protected RcpaDoubleField minScore;
 
-    public ExpectValueDatasetPanel()
+    private AbstractScoreDatasetOptions ScoreOption { get { return Options as AbstractScoreDatasetOptions; } }
+
+    public ScoreDatasetPanel()
     {
       InitializeComponent();
 
-      this.filterByExpectValue = new RcpaCheckBox(this.cbFilterByEvalue, "FilterByEvalue", false);
-      AddComponent(this.filterByExpectValue);
+      this.filterByScore = new RcpaCheckBox(this.cbFilterByScore, "FilterByScore", false);
+      AddComponent(this.filterByScore);
 
-      this.maxExpectValue = new RcpaDoubleField(this.txtMaxEvalue, "MaxEvalue", "Max Evalue", 0.05, false);
-      AddComponent(this.maxExpectValue);
+      this.minScore = new RcpaDoubleField(this.txtMinScore, "MinScore", "Min score", 1.0, false);
+      AddComponent(this.minScore);
     }
 
     protected override void DoBeforeValidateComponent()
     {
       base.DoBeforeValidateComponent();
 
-      this.maxExpectValue.Required = this.filterByExpectValue.Checked;
+      this.minScore.Required = this.filterByScore.Checked;
     }
 
     public override void LoadFromDataset()
     {
       base.LoadFromDataset();
 
-      this.filterByExpectValue.Checked = ExpectValueOption.FilterByExpectValue;
-      if (ExpectValueOption.FilterByExpectValue)
+      this.filterByScore.Checked = ScoreOption.FilterByScore;
+      if (ScoreOption.FilterByScore)
       {
-        this.maxExpectValue.Value = ExpectValueOption.MaxExpectValue;
+        this.minScore.Value = ScoreOption.MinScore;
       }
+
+      datFiles.ClearItems();
+      datFiles.AddItems(Options.PathNames.ToArray());
     }
 
     public override void SaveToDataset(bool selectedOnly)
     {
       base.SaveToDataset(selectedOnly);
 
-      ExpectValueOption.FilterByScore = this.filterByScore.Checked;
-      if (ExpectValueOption.FilterByScore)
+      ScoreOption.FilterByScore = this.filterByScore.Checked;
+      if (ScoreOption.FilterByScore)
       {
-        ExpectValueOption.MinScore = this.minScore.Value;
-      }
-
-      ExpectValueOption.FilterByExpectValue = this.filterByExpectValue.Checked;
-      if (ExpectValueOption.FilterByExpectValue)
-      {
-        ExpectValueOption.MaxExpectValue = this.maxExpectValue.Value;
+        ScoreOption.MinScore = this.minScore.Value;
       }
 
       if (selectedOnly)

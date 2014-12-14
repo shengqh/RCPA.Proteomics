@@ -21,6 +21,8 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
   {
     private IsobaricResultFileDistillerOptions options;
 
+    private static readonly double MAX_SHIFT = 0.2;
+
     public IsobaricResultFileDistiller(IsobaricResultFileDistillerOptions options)
     {
       this.options = options;
@@ -75,26 +77,38 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
         result = format.ReadFromFile(options.OriginalXmlFileName);
       }
 
-      var allpkls = (from r in result select r.RawPeaks).ToList();
-      var validpkls = allpkls.Where(r => r.Count >= result.PlexType.Channels.Count).ToList();
-      if (validpkls.Count >= result.Count / 2)
-      {
-        //use confident peak lists for calibration
-        result.PlexType.CalibrateMass(validpkls);
-      }
-      else
-      {
-        //use all peak lists for calibration
-        result.PlexType.CalibrateMass(allpkls);
-      }
+      var usedChannels = (from ucha in options.UsedChannels
+                          let cha = options.PlexType.Channels[ucha.Index]
+                          select new UsedChannel() { Index = ucha.Index, Name = cha.Name, Mz = cha.Mz, MinMz = cha.Mz - MAX_SHIFT, MaxMz = cha.Mz + MAX_SHIFT }).ToList();
 
-      var builder = new IsobaricResultBuilder(result.PlexType, options.ProductPPMTolerance);
+      var allpkls = (from r in result select r.RawPeaks).ToList();
+
+      //Get all peak list with all used channel information
+      var validpkls = allpkls.Where(r =>
+      {
+        foreach (var channel in usedChannels)
+        {
+          if (!r.HasPeak(channel.Mz, channel.MinMz, channel.MaxMz))
+          {
+            return false;
+          }
+        }
+
+        return true;
+      }).ToList();
+
+      var calPeaks = validpkls.Count >= result.Count / 2 ? validpkls : allpkls;
+
+      usedChannels.CalibrateMass(calPeaks, MAX_SHIFT);
+
+      var builder = new IsobaricResultBuilder(usedChannels, options.ProductPPMTolerance);
       result = builder.BuildIsobaricResult(result, 1);
 
       result.RemoveAll(m => m.PeakCount() < options.MinPeakCount);
 
       if (options.RequiredChannels.Count > 0)
       {
+        options.RequiredChannels.ForEach(m => m.Index = usedChannels.FindIndex(l => l.Name.Equals(m.Name)));
         result.RemoveAll(m =>
         {
           foreach (var channel in options.RequiredChannels)
@@ -110,7 +124,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       }
 
       var tempFilename = options.OutputFile + ".tsv";
-      new IsobaricPurityCorrectionRCalculator(options.PlexType, options.RExecute, options.PerformPurityCorrection, true).Calculate(result, tempFilename);
+      new IsobaricPurityCorrectionRCalculator(options.PlexType, result.UsedChannels, options.RExecute, options.PerformPurityCorrection, true).Calculate(result, tempFilename);
 
       result.RemoveAll(m => m.PeakCount() < options.MinPeakCount);
       result.ForEach(m => m.PrecursorPercentage = m.PeakInIsolationWindow.GetPrecursorPercentage(options.PrecursorPPMTolerance));

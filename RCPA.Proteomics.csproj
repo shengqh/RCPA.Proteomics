@@ -225,8 +225,18 @@
     <Compile Include="Proteomics\Mascot\TitleFormatProteomeDiscoverer.cs" />
     <Compile Include="Proteomics\Mascot\TitleFormatSequest.cs" />
     <Compile Include="Proteomics\ModificationConsts.cs" />
-    <Compile Include="Proteomics\MSAmanda\MSAmandaParser.cs" />
     <Compile Include="Proteomics\AminoacidsBuilder.cs" />
+    <Compile Include="Proteomics\MSAmanda\MSAmandaDatasetBuilder.cs" />
+    <Compile Include="Proteomics\MSAmanda\MSAmandaDatasetOptions.cs" />
+    <Compile Include="Proteomics\MSAmanda\MSAmandaFactory.cs" />
+    <Compile Include="Proteomics\MSAmanda\MSAmandaParser.cs" />
+    <Compile Include="Proteomics\MSAmanda\MSAmandaScoreFunctions.cs" />
+    <Compile Include="Proteomics\MSAmanda\MSAmandaDatasetPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Proteomics\MSAmanda\MSAmandaDatasetPanel.Designer.cs">
+      <DependentUpon>MSAmandaDatasetPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Proteomics\MSGF\MSGFScoreFunctions.cs" />
     <Compile Include="Proteomics\MSGF\MSGFDatasetOptions.cs" />
     <Compile Include="Proteomics\MSGF\MSGFFactory.cs" />
@@ -242,6 +252,9 @@
     <Compile Include="Proteomics\PeptideProphet\PeptideProphetModificationItem.cs" />
     <Compile Include="Proteomics\PeptideProphet\PeptideProphetModifications.cs" />
     <Compile Include="Proteomics\PeptideProphet\PeptideProphetFactory.cs" />
+    <Compile Include="Proteomics\PeptideProphet\AbstractPepXmlWriter.cs" />
+    <Compile Include="Proteomics\PeptideProphet\PepXmlWriterParameters.cs" />
+    <Compile Include="Proteomics\Percolator\MascotPercolatorProcessor.cs" />
     <Compile Include="Proteomics\Percolator\PercolatorInputXmlPsmReader.cs" />
     <Compile Include="Proteomics\Percolator\PercolatorPeptideDistillerOptions.cs" />
     <Compile Include="Proteomics\Percolator\MultiplePercolatorPeptideDistiller.cs" />
@@ -278,6 +291,7 @@
     <Compile Include="Proteomics\ProteomeDiscoverer\MsfFastaDistiller.cs" />
     <Compile Include="Proteomics\ProteomeDiscoverer\ModificationEntry.cs" />
     <Compile Include="Proteomics\ProteomeDiscoverer\MsfDatabaseParser.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\UsedChannel.cs" />
     <Compile Include="Proteomics\Sequest\AbstractSequestSpectrumParser.cs" />
     <Compile Include="Proteomics\Sequest\SequestDatasetBuilder2.cs" />
     <Compile Include="Proteomics\Sequest\SequestFactory.cs" />
@@ -890,6 +904,7 @@
     <Compile Include="Proteomics\Summary\ScoreFunctions.cs" />
     <Compile Include="Proteomics\Summary\IdentifiedProteinGroupEnumerator.cs" />
     <Compile Include="Proteomics\Summary\SearchEngineType.cs" />
+    <Compile Include="Proteomics\Summary\Uniform\AbstractScoreDatasetOptions.cs" />
     <Compile Include="Proteomics\Summary\Uniform\BatchUniformIdentifiedResultBuilder.cs" />
     <Compile Include="Proteomics\Summary\Uniform\BatchUniformIdentifiedResultBuilderUI.cs">
       <SubType>Form</SubType>
@@ -909,6 +924,12 @@
     </Compile>
     <Compile Include="Proteomics\MzIdent\MzIdentDatasetBuilder.cs" />
     <Compile Include="Proteomics\MzIdent\AbstractMzIdentDatasetOptions.cs" />
+    <Compile Include="Proteomics\Summary\Uniform\ScoreDatasetPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Summary\Uniform\ScoreDatasetPanel.designer.cs">
+      <DependentUpon>ScoreDatasetPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Proteomics\Summary\Uniform\ExpectValueDatasetPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1163,6 +1184,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Mascot\MascotFilePanel.resx">
       <DependentUpon>MascotFilePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\MSAmanda\MSAmandaDatasetPanel.resx">
+      <DependentUpon>MSAmandaDatasetPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Percolator\MultiplePercolatorPeptideDistillerUI.resx">
       <DependentUpon>MultiplePercolatorPeptideDistillerUI.cs</DependentUpon>
@@ -1470,6 +1495,9 @@
     <EmbeddedResource Include="Proteomics\Omssa\OmssaDatasetPanel.resx">
       <DependentUpon>OmssaDatasetPanel.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Summary\Uniform\ScoreDatasetPanel.resx">
+      <DependentUpon>ScoreDatasetPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Summary\Uniform\ExpectValueDatasetPanel.resx">
       <DependentUpon>ExpectValueDatasetPanel.cs</DependentUpon>

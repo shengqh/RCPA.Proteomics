@@ -13,6 +13,8 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       this.Isotopics = new List<IsobaricIsotope>();
     }
 
+    public int Index { get; set; }
+
     public string Name { get; set; }
 
     public double Mz { get; set; }
@@ -25,6 +27,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     {
       var result = new IsobaricChannel();
 
+      result.Index = Index;
       result.Name = Name;
       result.Mz = Mz;
       result.Percentage = Percentage;

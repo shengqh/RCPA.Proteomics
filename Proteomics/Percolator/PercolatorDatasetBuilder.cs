@@ -19,10 +19,5 @@ namespace RCPA.Proteomics.Percolator
 
       return new PercolatorFileParser(baseParser);
     }
-
-    protected override string GetPeptideFile(string dataFile)
-    {
-      return dataFile + ".percolator.peptides";
-    }
   }
 }

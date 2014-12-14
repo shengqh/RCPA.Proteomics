@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using RCPA.Proteomics.Modification;
 using MathNet.Numerics.Statistics;
 using MathNet.Numerics.Distributions;
+using System.IO;
 
 namespace RCPA.Proteomics.Summary
 {
@@ -701,6 +702,51 @@ namespace RCPA.Proteomics.Summary
     public static IIdentifiedResult BuildGroupByUniquePeptide(List<IIdentifiedSpectrum> spectra)
     {
       return DoBuildGroupByPeptide(spectra, m => m.PureSequence);
+    }
+
+    /// <summary>
+    /// Fill protein information of each identified spectrum from corresponding protein map file.
+    /// The protein map file contains at least two columns, the first is protein name, the second is the peptide sequence
+    /// No modification should be included in peptide sequence.
+    /// Header of file is required.
+    /// </summary>
+    /// <param name="curPeptides">Spectrum of interest</param>
+    /// <param name="proteinFile">Protein/Peptide map file</param>
+    public static void FillProteinInformation(List<IIdentifiedSpectrum> curPeptides, string proteinFile)
+    {
+      var map = (from line in File.ReadAllLines(proteinFile).Skip(1)
+                 let parts = line.Split('\t')
+                 select new { Peptide = parts[1], Protein = parts[0] }).ToGroupDictionary(m => m.Peptide);
+
+      foreach (var sph in curPeptides)
+      {
+        foreach (var pep in sph.Peptides)
+        {
+          var pureseq = pep.PureSequence;
+          if (map.ContainsKey(pureseq))
+          {
+            var proteins = map[pureseq];
+            foreach (var pro in proteins)
+            {
+              pep.AddProtein(pro.Protein);
+            }
+          }
+        }
+
+        if (sph.Peptides.All(m => m.Proteins.Count == 0))
+        {
+          throw new Exception(string.Format("Cannot find corresponding protein information of {0}:{1} from {2}",
+            sph.Query.FileScan.LongFileName, sph.Peptide.PureSequence, proteinFile));
+        }
+
+        for (int i = sph.Peptides.Count - 1; i >= 0; i--)
+        {
+          if (sph.Peptides[i].Proteins.Count == 0)
+          {
+            sph.RemovePeptideAt(i);
+          }
+        }
+      }
     }
   }
 

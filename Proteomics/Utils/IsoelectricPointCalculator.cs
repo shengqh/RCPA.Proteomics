@@ -208,6 +208,8 @@ namespace RCPA.Proteomics.Utils
 
     private static int[] GetAminoacidComposition(String aSequence)
     {
+      aSequence = aSequence.ToUpper();
+
       var result = new int[26];
       for (int i = 0; i < 26; i++)
       {

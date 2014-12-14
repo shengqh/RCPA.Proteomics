@@ -25,6 +25,8 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
     public IsobaricType PlexType { get; set; }
 
+    public List<UsedChannel> UsedChannels { get; set; }
+
     public String Mode { get; set; }
   }
 }

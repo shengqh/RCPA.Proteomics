@@ -13,7 +13,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       this.Name = itype.Channels[index].Name;
     }
 
-    public int Index { get; private set; }
+    public int Index { get; set; }
 
     public double GetValue(IsobaricScan item)
     {

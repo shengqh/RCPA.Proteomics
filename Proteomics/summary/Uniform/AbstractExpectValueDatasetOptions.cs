@@ -8,24 +8,8 @@ using System.Windows.Forms;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
-  public abstract class AbstractExpectValueDatasetOptions : AbstractTitleDatasetOptions
+  public abstract class AbstractExpectValueDatasetOptions : AbstractScoreDatasetOptions
   {
-    private bool _filterByScore;
-
-    public bool FilterByScore
-    {
-      get { return _filterByScore; }
-      set { _filterByScore = value; }
-    }
-
-    private double _minScore;
-
-    public double MinScore
-    {
-      get { return _minScore; }
-      set { _minScore = value; }
-    }
-
     private bool _filterByExpectValue;
 
     public bool FilterByExpectValue
@@ -44,10 +28,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     protected override void AddAdditionalFilterTo(List<IFilter<IIdentifiedSpectrum>> filters)
     {
-      if (FilterByScore)
-      {
-        filters.Add(new IdentifiedSpectrumScoreFilter(MinScore));
-      }
+      base.AddAdditionalFilterTo(filters);
 
       if (FilterByExpectValue)
       {
@@ -57,15 +38,14 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     protected override List<XElement> GetPeptideFilters()
     {
-      return new XElement[]{
-        OptionUtils.FilterToXml("Score", _filterByScore, _minScore),
-        OptionUtils.FilterToXml("ExpectValue", _filterByExpectValue, _maxExpectValue)
-      }.ToList();
+      var result = base.GetPeptideFilters();
+      result.Add(OptionUtils.FilterToXml("ExpectValue", _filterByExpectValue, _maxExpectValue));
+      return result;
     }
 
     protected override void ParsePeptideFilters(XElement filterXml)
     {
-      OptionUtils.XmlToFilter(filterXml, "Score", out _filterByScore, out _minScore);
+      base.ParsePeptideFilters(filterXml);
       OptionUtils.XmlToFilter(filterXml, "ExpectValue", out _filterByExpectValue, out _maxExpectValue);
     }
   }

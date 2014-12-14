@@ -58,37 +58,33 @@ namespace RCPA.Proteomics
       this.IsSemiSpecific = false;
     }
 
-    /**
-     * The list of residues that the protease will cleave at.
-     * @return the residues as a SymbolList
-     */
-
+    /// <summary>
+    /// The list of residues that the protease will cleave at.
+    /// </summary>
     public string CleaveageResidues
     {
       get { return this.cleavageResidues; }
     }
 
-    /**
-     * Gets the name of this Protease
-     * @return the name as a String
-     */
-
+    /// <summary>
+    /// The name of this Protease
+    /// </summary>
     public string Name
     {
       get { return this.name; }
     }
 
-
-    /**
-     * The list of residues that will prevent cleavage if they follow the cleavage
-     * residue.
-     */
-
+    /// <summary>
+    /// The list of residues that will prevent cleavage if they follow the cleavage residue.
+    /// </summary>
     public string NotCleaveResidues
     {
       get { return this.notCleaveResidues; }
     }
 
+    /// <summary>
+    /// Is protease cut at C-terminal?
+    /// </summary>
     public bool IsEndoProtease
     {
       get { return this.endoProtease; }
@@ -158,24 +154,20 @@ namespace RCPA.Proteomics
       return result;
     }
 
-    /**
-     * Get the list of Protease names defined in the ProteaseManager
-     * (Internally calls ProteaseManager.
-     * @return A String array of protease names
-     */
-
+    /// <summary>
+    /// Get the list of Protease names defined in the ProteaseManager (Internally calls ProteaseManager).
+    /// </summary>
+    /// <returns>A string array of protease names</returns>
     public static List<string> GetProteaseList()
     {
       return ProteaseManager.GetNames();
     }
 
-    /**
-     * Retrieves a reference to the named Protease.
-     * (Internally calls ProteaseManager.getProteaseByName())
-     * @param proteaseName A protease name that is registered in the ProteaseManager (case sensitive)
-     * @return A Protease instance for the given protease name
-     */
-
+    /// <summary>
+    /// Retrieves a reference to the named Protease.(Internally calls ProteaseManager.getProteaseByName())
+    /// </summary>
+    /// <param name="proteaseName">A protease name that is registered in the ProteaseManager (case sensitive)</param>
+    /// <returns> A Protease instance for the given protease name</returns>
     public static Protease GetProteaseByName(string proteaseName)
     {
       return ProteaseManager.GetProteaseByName(proteaseName);

@@ -13,6 +13,11 @@ namespace RCPA.Proteomics.Percolator
     {
       var result = new List<IIdentifiedSpectrum>();
       XElement root = XElement.Load(fileName);
+      var features = root.FindElement("featureDescriptions");
+      var descriptions = features.FindElements("featureDescription");
+
+      var missIndex = FindIndex(fileName, descriptions, "# Missed Cleavages");
+
       var scans = root.FindElements("fragSpectrumScan");
       foreach (var scan in scans)
       {
@@ -30,11 +35,26 @@ namespace RCPA.Proteomics.Percolator
           var pep = new IdentifiedPeptide(spec);
           pep.Sequence = psm.FindElement("peptide").FindElement("peptideSequence").Value;
           pep.AddProtein(psm.FindElement("occurence").FindAttribute("proteinId").Value);
+
+          var featureEles = psm.FindElement("features").FindElements("feature");
+          //The first one is the score.
+          spec.Score = double.Parse(featureEles[0].Value);
+          spec.NumMissedCleavages = int.Parse(featureEles[missIndex].Value);
           result.Add(spec);
         }
       }
 
       return result;
+    }
+
+    private static int FindIndex(string fileName, List<XElement> descriptions, string featureDescription)
+    {
+      var expMHindex = descriptions.FindIndex(m => m.Attribute("description").Value.Equals(featureDescription));
+      if (expMHindex == -1)
+      {
+        throw new Exception(string.Format("Cannot find feature '{0}' in {1}", featureDescription, fileName));
+      }
+      return expMHindex;
     }
   }
 }

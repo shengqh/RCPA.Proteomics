@@ -1,6 +1,7 @@
 ﻿using RCPA.Proteomics.Summary;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -24,6 +25,7 @@ namespace RCPA.Proteomics.Percolator
         spec.Score = double.Parse(psm.FindElement("pep").Value);
         spec.PValue = double.Parse(psm.FindElement("p_value").Value);
         spec.TheoreticalMH = double.Parse(psm.FindElement("calc_mass").Value);
+        spec.Query.FileScan.Experimental = Path.GetFileName(fileName).StringBefore(".");
         var pep = new IdentifiedPeptide(spec);
         var pepseq = psm.FindElement("peptide_seq");
         pep.Sequence = pepseq.FindAttribute("seq").Value;

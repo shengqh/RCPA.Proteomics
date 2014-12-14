@@ -26,7 +26,12 @@ namespace RCPA.Proteomics.Percolator
         var inputScan = scanMap[psmid];
         m.Query.QueryId = inputScan.Query.QueryId;
         m.Query.FileScan.FirstScan = m.Query.QueryId;
+        m.Query.FileScan.LastScan = m.Query.QueryId;
+        m.Query.Charge = inputScan.Query.Charge;
         m.ExperimentalMH = inputScan.ExperimentalMH;
+        m.TheoreticalMH = inputScan.TheoreticalMH;
+        m.NumMissedCleavages = inputScan.NumMissedCleavages;
+        m.Score = inputScan.Score;
       });
       var specMap = spectra.GroupBy(m => m.Query.QueryId).ToList();
       var result = new List<IIdentifiedSpectrum>();
@@ -64,7 +69,7 @@ namespace RCPA.Proteomics.Percolator
 
       result.Sort((m1, m2) => m2.SpScore.CompareTo(m1.SpScore));
 
-      var format = new MascotPeptideTextFormat("QueryId\tSpectrumId\tSequence\tSvmScore\tQValue\tTheoreticalMH\tExperimentMH\tTarget/Decoy");
+      var format = new MascotPeptideTextFormat("QueryId\tSpectrumId\tFileScan\tSequence\tCharge\tScore\tSvmScore\tMissCleavage\tQValue\tTheoreticalMH\tExperimentMH\tTarget/Decoy");
 
       var targetFile = _options.PercolatorOutputFile + ".peptides";
       format.WriteToFile(targetFile, result);

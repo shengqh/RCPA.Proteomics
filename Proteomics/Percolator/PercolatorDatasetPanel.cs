@@ -24,7 +24,7 @@ namespace RCPA.Proteomics.Percolator
         this.btnSave,
         this.lvDatFiles,
         "PercolatorFiles",
-        new OpenFileArgument("Percolator MSF", "msf"),
+        new OpenFileArgument("Percolator MSF/Peptides", new[] { "msf", "peptides" }),
         true,
         false);
       AddComponent(this.datFiles);

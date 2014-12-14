@@ -67,6 +67,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       base.OnAfterLoadOption(e);
 
       channels.PlexType = plexTypes.SelectedItem;
+      channelUsed.PlexType = plexTypes.SelectedItem;
     }
     protected override IFileProcessor GetFileProcessor()
     {
@@ -83,7 +84,8 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
         RawFiles = rawFiles.FileNames,
         PrecursorPPMTolerance = precursorPPMTolerance.Value,
         ProductPPMTolerance = productPPMTolerance.Value,
-        RequiredChannels = channels.GetFuncs()
+        RequiredChannels = channels.GetFuncs(),
+        UsedChannels = channelUsed.GetFuncs()
       };
 
       //if (reader.PlexType == IsobaricType.PLEX8)
@@ -167,6 +169,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       if (plexTypes != null && plexTypes.SelectedItem != null)
       {
         channels.PlexType = plexTypes.SelectedItem;
+        channelUsed.PlexType = plexTypes.SelectedItem;
       }
     }
   }

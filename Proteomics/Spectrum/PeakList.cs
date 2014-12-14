@@ -231,6 +231,26 @@ namespace RCPA.Proteomics.Spectrum
       return result;
     }
 
+    public bool HasPeak(double mz, double minMz, double maxMz)
+    {
+      foreach (var p in this)
+      {
+        if (p.Mz < minMz)
+        {
+          continue;
+        }
+
+        if (p.Mz > maxMz)
+        {
+          break;
+        }
+
+        return true;
+      }
+
+      return false;
+    }
+
     public PeakList<T> FindPeak(double mz, double mzTolerance)
     {
       PeakList<T> result = NewSubPeakList();
@@ -280,6 +300,32 @@ namespace RCPA.Proteomics.Spectrum
         }
 
         result.Add(p);
+      }
+
+      return result;
+    }
+
+    public T FindMaxIntensityPeak(double minMz, double maxMz)
+    {
+      T result = default(T);
+      double maxIntensity = 0.0;
+      foreach (var p in this)
+      {
+        if (p.Mz < minMz)
+        {
+          continue;
+        }
+
+        if (p.Mz > maxMz)
+        {
+          break;
+        }
+
+        if (p.Intensity > maxIntensity)
+        {
+          result = p;
+          maxIntensity = p.Intensity;
+        }
       }
 
       return result;

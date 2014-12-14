@@ -13,13 +13,12 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
   /// </summary>
   public class IsobaricScan
   {
-    public IsobaricScan(IsobaricType plexType)
+    public IsobaricScan()
     {
       this.ScanMode = string.Empty;
       this.Valid = true;
       this.ValidProbability = 1;
       this.PrecursorPercentage = 1.0;
-      this.Reporters = new double[plexType.Channels.Count];
     }
 
     /// <summary>
@@ -85,18 +84,18 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     /// </summary>
     public double[] Reporters{get; private set;}
 
-    public void DetectReporter(IsobaricType plexType, double ppmTolerance)
+    public void DetectReporter(List<UsedChannel> list)
     {
       if (_rawPeaks == null)
       {
         throw new Exception("Assign RawPeaks first!");
       }
 
-      var map = plexType.GetChannelMzToleranceMap(ppmTolerance);
+      this.Reporters = new double[list.Count];
 
-      for (int i = 0; i < plexType.Channels.Count; i++)
+      for (int i = 0; i < list.Count; i++)
       {
-        var peak = _rawPeaks.FindPeak(plexType.Channels[i].Mz, map[plexType.Channels[i]]).FindMaxIntensityPeak();
+        var peak = _rawPeaks.FindMaxIntensityPeak(list[i].MinMz, list[i].MaxMz);
         if (peak == null)
         {
           Reporters[i] = IsobaricConsts.NULL_INTENSITY;
@@ -107,6 +106,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
         }
       }
     }
+
 
     public bool Valid { get; set; }
 
@@ -162,19 +162,19 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       return null;
     }
 
-    public static IsobaricScan FindOrCreateIsobaricItem(this IAnnotation ann, IsobaricType plexType)
-    {
-      if (ann.Annotations.ContainsKey(IsobaricConsts.TYPE))
-      {
-        return ann.Annotations[IsobaricConsts.TYPE] as IsobaricScan;
-      }
-      else
-      {
-        var result = new IsobaricScan(plexType);
-        ann.Annotations[IsobaricConsts.TYPE] = result;
-        return result;
-      }
-    }
+    //public static IsobaricScan FindOrCreateIsobaricItem(this IAnnotation ann, IsobaricType plexType)
+    //{
+    //  if (ann.Annotations.ContainsKey(IsobaricConsts.TYPE))
+    //  {
+    //    return ann.Annotations[IsobaricConsts.TYPE] as IsobaricScan;
+    //  }
+    //  else
+    //  {
+    //    var result = new IsobaricScan();
+    //    ann.Annotations[IsobaricConsts.TYPE] = result;
+    //    return result;
+    //  }
+    //}
 
     public static void SetIsobaricItem(this IAnnotation ann, IsobaricScan item)
     {

@@ -280,7 +280,7 @@ namespace RCPA.Proteomics.Summary
       HashSet<string> seqs = new HashSet<string>();
       foreach (IIdentifiedPeptide pep in this.peptides)
       {
-        seqs.Add(pep.PureSequence.Replace("I","L"));
+        seqs.Add(pep.PureSequence.ToUpper().Replace("I","L"));
       }
 
       var seq = Sequence.Replace("I", "L");

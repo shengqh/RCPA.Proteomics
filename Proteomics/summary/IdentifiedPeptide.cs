@@ -92,21 +92,22 @@ namespace RCPA.Proteomics.Summary
       {
         if (pureSequence == null && sequence != null)
         {
-          int ifirstpos = sequence.IndexOf('.');
+          var seq = sequence.ToUpper();
+          int ifirstpos = seq.IndexOf('.');
           if (-1 == ifirstpos)
           {
-            pureSequence = RemoveModificationChar(sequence, 0, sequence.Length);
+            pureSequence = RemoveModificationChar(seq, 0, seq.Length);
           }
           else
           {
 
-            int ilastpos = sequence.LastIndexOf('.');
+            int ilastpos = seq.LastIndexOf('.');
             if (-1 == ilastpos)
             {
-              ilastpos = sequence.Length;
+              ilastpos = seq.Length;
             }
 
-            pureSequence = RemoveModificationChar(sequence, ifirstpos, ilastpos);
+            pureSequence = RemoveModificationChar(seq, ifirstpos, ilastpos);
           }
         }
         return pureSequence;

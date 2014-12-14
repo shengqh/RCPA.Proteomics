@@ -151,7 +151,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
         XElement el = XNode.ReadFrom(reader) as XElement;
         var dic = el.ToDictionary();
 
-        result = new IsobaricScan(plexType);
+        result = new IsobaricScan();
 
         result.Experimental = dic["Experimental"].Value;
         result.ScanMode = dic["ScanMode"].Value;
@@ -238,5 +238,39 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       return result;
     }
 
+    public static List<UsedChannel> GetUsedChannels(string fileName, IsobaricType isobaricType)
+    {
+      using (var stream = new FileStream(fileName, FileMode.Open))
+      {
+        using (var reader = XmlReader.Create(stream))
+        {
+          if (reader.MoveToElement("IsobaricResult"))
+          {
+            if (reader.HasAttributes)
+            {
+              var hasUsedChannel = reader.GetAttribute("HasUsedChannel");
+              if (!string.IsNullOrEmpty(hasUsedChannel) && hasUsedChannel.Equals("True"))
+              {
+                reader.MoveToElement("UsedChannels");
+                XElement el = XNode.ReadFrom(reader) as XElement;
+
+                List<UsedChannel> result = new List<UsedChannel>();
+                foreach (var ele in el.FindElements("UsedChannel"))
+                {
+                  var item = new UsedChannel();
+                  item.Index = int.Parse(ele.Attribute("Index").Value);
+                  item.Name = ele.Attribute("Name").Value;
+                  item.Mz = double.Parse(ele.Attribute("Mz").Value);
+                  result.Add(item);
+                }
+                return result;
+              }
+            }
+          }
+        }
+      }
+
+      return null;
+    }
   }
 }

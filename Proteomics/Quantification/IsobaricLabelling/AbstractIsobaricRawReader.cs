@@ -95,7 +95,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
     protected void AppendScan(IRawFile2 rawReader, List<IsobaricScan> result, int scan, string mode, double isolationWidth)
     {
-      IsobaricScan item = new IsobaricScan(this.PlexType);
+      IsobaricScan item = new IsobaricScan();
 
       PeakList<Peak> pkl = rawReader.GetPeakList(scan, MinMz, MaxMz);
 
