@@ -30,12 +30,10 @@
     {
       this.btnIsobaricXmlFile = new System.Windows.Forms.Button();
       this.txtIsobaricXmlFile = new System.Windows.Forms.TextBox();
-      this.txtValidProbability = new System.Windows.Forms.TextBox();
       this.btnLoad = new System.Windows.Forms.Button();
       this.cbNormalize = new System.Windows.Forms.CheckBox();
       this.label1 = new System.Windows.Forms.Label();
       this.cbRatioCalculator = new System.Windows.Forms.ComboBox();
-      this.cbFilterPeptide = new System.Windows.Forms.CheckBox();
       this.cbModifiedOnly = new System.Windows.Forms.CheckBox();
       this.txtModifiedCharacter = new System.Windows.Forms.TextBox();
       this.pnlClassification = new RCPA.Proteomics.ClassificationPanel();
@@ -79,31 +77,24 @@
       // 
       this.btnGo.Location = new System.Drawing.Point(418, 8);
       // 
-      // btnRLocation
+      // btnIsobaricXmlFile
       // 
       this.btnIsobaricXmlFile.Location = new System.Drawing.Point(25, 57);
-      this.btnIsobaricXmlFile.Name = "btnRLocation";
+      this.btnIsobaricXmlFile.Name = "btnIsobaricXmlFile";
       this.btnIsobaricXmlFile.Size = new System.Drawing.Size(226, 25);
       this.btnIsobaricXmlFile.TabIndex = 8;
       this.btnIsobaricXmlFile.Text = "button1";
       this.btnIsobaricXmlFile.UseVisualStyleBackColor = true;
       // 
-      // txtRLocation
+      // txtIsobaricXmlFile
       // 
       this.txtIsobaricXmlFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
       this.txtIsobaricXmlFile.Location = new System.Drawing.Point(251, 60);
-      this.txtIsobaricXmlFile.Name = "txtRLocation";
+      this.txtIsobaricXmlFile.Name = "txtIsobaricXmlFile";
       this.txtIsobaricXmlFile.Size = new System.Drawing.Size(724, 20);
       this.txtIsobaricXmlFile.TabIndex = 9;
       this.txtIsobaricXmlFile.TextChanged += new System.EventHandler(this.txtRLocation_TextChanged);
-      // 
-      // txtValidProbability
-      // 
-      this.txtValidProbability.Location = new System.Drawing.Point(541, 123);
-      this.txtValidProbability.Name = "txtValidProbability";
-      this.txtValidProbability.Size = new System.Drawing.Size(100, 20);
-      this.txtValidProbability.TabIndex = 12;
       // 
       // btnLoad
       // 
@@ -119,21 +110,22 @@
       // cbNormalize
       // 
       this.cbNormalize.AutoSize = true;
-      this.cbNormalize.Location = new System.Drawing.Point(257, 154);
+      this.cbNormalize.Location = new System.Drawing.Point(249, 124);
       this.cbNormalize.Name = "cbNormalize";
-      this.cbNormalize.Size = new System.Drawing.Size(297, 17);
+      this.cbNormalize.Size = new System.Drawing.Size(234, 17);
       this.cbNormalize.TabIndex = 15;
-      this.cbNormalize.Text = "Normalize median value of ratio(channel/reference) to 1.0";
+      this.cbNormalize.Text = "Normalize channels by cyclic loess algorithm";
       this.cbNormalize.UseVisualStyleBackColor = true;
       // 
       // label1
       // 
       this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(249, 208);
+      this.label1.Location = new System.Drawing.Point(248, 177);
       this.label1.Name = "label1";
       this.label1.Size = new System.Drawing.Size(196, 13);
       this.label1.TabIndex = 16;
       this.label1.Text = "Calculate ratio from peptide to protein by";
+      this.label1.Visible = false;
       // 
       // cbRatioCalculator
       // 
@@ -141,37 +133,30 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.cbRatioCalculator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.cbRatioCalculator.FormattingEnabled = true;
-      this.cbRatioCalculator.Location = new System.Drawing.Point(514, 204);
+      this.cbRatioCalculator.Location = new System.Drawing.Point(450, 173);
       this.cbRatioCalculator.Name = "cbRatioCalculator";
-      this.cbRatioCalculator.Size = new System.Drawing.Size(453, 21);
+      this.cbRatioCalculator.Size = new System.Drawing.Size(525, 21);
       this.cbRatioCalculator.TabIndex = 17;
-      // 
-      // cbFilterPeptide
-      // 
-      this.cbFilterPeptide.AutoSize = true;
-      this.cbFilterPeptide.Location = new System.Drawing.Point(281, 126);
-      this.cbFilterPeptide.Name = "cbFilterPeptide";
-      this.cbFilterPeptide.Size = new System.Drawing.Size(254, 17);
-      this.cbFilterPeptide.TabIndex = 18;
-      this.cbFilterPeptide.Text = "Remove peptide by iTRAQ invalid probability <= ";
-      this.cbFilterPeptide.UseVisualStyleBackColor = true;
+      this.cbRatioCalculator.Visible = false;
       // 
       // cbModifiedOnly
       // 
       this.cbModifiedOnly.AutoSize = true;
-      this.cbModifiedOnly.Location = new System.Drawing.Point(257, 177);
+      this.cbModifiedOnly.Location = new System.Drawing.Point(249, 147);
       this.cbModifiedOnly.Name = "cbModifiedOnly";
       this.cbModifiedOnly.Size = new System.Drawing.Size(270, 17);
       this.cbModifiedOnly.TabIndex = 19;
       this.cbModifiedOnly.Text = "Quantify peptides with modification characters only :";
       this.cbModifiedOnly.UseVisualStyleBackColor = true;
+      this.cbModifiedOnly.Visible = false;
       // 
       // txtModifiedCharacter
       // 
-      this.txtModifiedCharacter.Location = new System.Drawing.Point(533, 175);
+      this.txtModifiedCharacter.Location = new System.Drawing.Point(525, 147);
       this.txtModifiedCharacter.Name = "txtModifiedCharacter";
       this.txtModifiedCharacter.Size = new System.Drawing.Size(100, 20);
       this.txtModifiedCharacter.TabIndex = 20;
+      this.txtModifiedCharacter.Visible = false;
       // 
       // pnlClassification
       // 
@@ -180,19 +165,20 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.pnlClassification.Description = "Experiment definition";
       this.pnlClassification.GetName = null;
-      this.pnlClassification.Location = new System.Drawing.Point(25, 231);
+      this.pnlClassification.Location = new System.Drawing.Point(25, 200);
       this.pnlClassification.Name = "pnlClassification";
       this.pnlClassification.Pattern = "(.*)";
-      this.pnlClassification.Size = new System.Drawing.Size(1033, 267);
+      this.pnlClassification.Size = new System.Drawing.Size(1033, 298);
       this.pnlClassification.TabIndex = 13;
       // 
       // refChannels
       // 
       this.refChannels.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.refChannels.PlexType = null;
+      this.refChannels.Description = "Select references";
       this.refChannels.Location = new System.Drawing.Point(152, 88);
       this.refChannels.Name = "refChannels";
+      this.refChannels.PlexType = null;
       this.refChannels.SelectedIons = "";
       this.refChannels.Size = new System.Drawing.Size(823, 30);
       this.refChannels.TabIndex = 21;
@@ -205,8 +191,6 @@
       this.Controls.Add(this.refChannels);
       this.Controls.Add(this.txtModifiedCharacter);
       this.Controls.Add(this.cbModifiedOnly);
-      this.Controls.Add(this.cbFilterPeptide);
-      this.Controls.Add(this.txtValidProbability);
       this.Controls.Add(this.btnIsobaricXmlFile);
       this.Controls.Add(this.txtIsobaricXmlFile);
       this.Controls.Add(this.cbRatioCalculator);
@@ -227,8 +211,6 @@
       this.Controls.SetChildIndex(this.btnIsobaricXmlFile, 0);
       this.Controls.SetChildIndex(this.progressBar, 0);
       this.Controls.SetChildIndex(this.lblProgress, 0);
-      this.Controls.SetChildIndex(this.txtValidProbability, 0);
-      this.Controls.SetChildIndex(this.cbFilterPeptide, 0);
       this.Controls.SetChildIndex(this.cbModifiedOnly, 0);
       this.Controls.SetChildIndex(this.txtModifiedCharacter, 0);
       this.Controls.SetChildIndex(this.refChannels, 0);
@@ -243,13 +225,11 @@
 
     protected System.Windows.Forms.Button btnIsobaricXmlFile;
     protected System.Windows.Forms.TextBox txtIsobaricXmlFile;
-    protected System.Windows.Forms.TextBox txtValidProbability;
     protected ClassificationPanel pnlClassification;
     protected System.Windows.Forms.Button btnLoad;
     protected System.Windows.Forms.CheckBox cbNormalize;
     protected System.Windows.Forms.Label label1;
     protected System.Windows.Forms.ComboBox cbRatioCalculator;
-    protected System.Windows.Forms.CheckBox cbFilterPeptide;
     protected System.Windows.Forms.CheckBox cbModifiedOnly;
     protected System.Windows.Forms.TextBox txtModifiedCharacter;
     private IsobaricChannelField refChannels;

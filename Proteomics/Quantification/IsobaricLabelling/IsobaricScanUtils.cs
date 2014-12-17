@@ -43,12 +43,9 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
                                           let fs = s.Query.FileScan
                                           select fs.Experimental + "," + fs.FirstScan.ToString());
 
-      using (var reader = IsobaricResultFileFormatFactory.GetXmlReader())
+      using (var reader = IsobaricResultFileFormatFactory.GetXmlReader(true, readPeaks))
       {
-        reader.ReadPeaks = readPeaks;
-        reader.Progress = progress;
-
-        var plexType = IsobaricScanXmlUtils.GetIsobaricType(isobaricFile);
+        var usedChannels = IsobaricScanXmlUtils.GetUsedChannels(isobaricFile);
 
         reader.Open(isobaricFile);
 
@@ -67,7 +64,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
           var fs = spectrum.Query.FileScan;
           if (reader.Has(fs.Experimental, fs.FirstScan))
           {
-            spectrum.SetIsobaricItem(reader.Read(fs.Experimental, fs.FirstScan, plexType));
+            spectrum.SetIsobaricItem(reader.Read(fs.Experimental, fs.FirstScan, usedChannels));
           }
           else
           {

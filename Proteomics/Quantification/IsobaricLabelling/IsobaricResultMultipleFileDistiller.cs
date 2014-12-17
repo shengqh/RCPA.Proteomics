@@ -43,6 +43,8 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
           {
             Reader = options.Reader,
             InputFile = options.RawFiles[i],
+            PerformMassCalibration = options.PerformMassCalibration,
+            PerformPurityCorrection = options.PerformPurityCorrection,
             MinPeakCount = options.MinPeakCount,
             PrecursorPPMTolerance = options.PrecursorPPMTolerance,
             ProductPPMTolerance = options.ProductPPMTolerance,

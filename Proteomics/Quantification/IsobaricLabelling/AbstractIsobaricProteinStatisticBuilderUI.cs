@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using System.Linq;
 using System.Windows.Forms;
 using RCPA.Gui;
 using RCPA.Proteomics.Raw;
@@ -25,9 +26,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
   public partial class AbstractIsobaricProteinStatisticBuilderUI : AbstractFileProcessorUI
   {
     private RcpaFileField iTraqFile;
-    private RcpaDoubleField minProbability;
     private RcpaCheckBox normalize;
-    private RcpaCheckBox filterPeptide;
     private RcpaCheckBox modifiedPeptideOnly;
     private RcpaTextField modifiedChar;
 
@@ -40,14 +39,8 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       this.iTraqFile = new RcpaFileField(btnIsobaricXmlFile, txtIsobaricXmlFile, "IsobaricXmlFile", new OpenFileArgument("Isobaric XML", "isobaric.xml"), true);
       this.AddComponent(this.iTraqFile);
 
-      minProbability = new RcpaDoubleField(txtValidProbability, "MinValidProbability", "Minimum valid probability", 0.01, true);
-      AddComponent(minProbability);
-
       normalize = new RcpaCheckBox(cbNormalize, "Normalize", false);
       AddComponent(normalize);
-
-      filterPeptide = new RcpaCheckBox(cbFilterPeptide, "FilterPeptide", true);
-      AddComponent(filterPeptide);
 
       modifiedPeptideOnly = new RcpaCheckBox(cbModifiedOnly, "ModifiedOnly", false);
       AddComponent(modifiedPeptideOnly);
@@ -67,6 +60,41 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       {
         this.Height = this.Height + 200;
       }
+    }
+
+    protected override void ValidateComponents()
+    {
+      base.ValidateComponents();
+
+      GetReferenceFuncs();
+    }
+
+    private List<IsobaricIndex> GetReferenceFuncs()
+    {
+      var usedChannels = IsobaricScanXmlUtils.GetUsedChannels(iTraqFile.FullName);
+      var result = refChannels.GetFuncs();
+      foreach (var refFunc in result)
+      {
+        bool bFound = false;
+        for (int i = 0; i < usedChannels.Count; i++)
+        {
+          if (usedChannels[i].Name.Equals(refFunc.Name))
+          {
+            refFunc.Index = i;
+            bFound = true;
+            break;
+          }
+        }
+
+        if (!bFound)
+        {
+          throw new Exception(string.Format("Channel {0} was not used in sample and cannot be used as reference, valid channels are {1}",
+            refFunc.Name,
+            usedChannels.ConvertAll(l => l.Name).Merge("/")));
+        }
+      }
+
+      return result;
     }
 
     protected override void DoBeforeValidate()
@@ -91,10 +119,11 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
       option.DatasetMap = pnlClassification.GetClassificationSet();
       option.IsobaricFileName = iTraqFile.FullName;
-      option.MinimumProbability = filterPeptide.Checked ? minProbability.Value : 0.0;
+      option.MinimumProbability = 0.0;
       option.QuantifyModifiedPeptideOnly = modifiedPeptideOnly.Checked;
       option.ModificationChars = modifiedChar.Text;
-      option.References = refChannels.GetFuncs();
+      option.References = GetReferenceFuncs();
+      option.PerformNormalizition = normalize.Checked;
       option.PlexType = IsobaricScanXmlUtils.GetIsobaricType(txtIsobaricXmlFile.Text);
 
       return option;

@@ -10,6 +10,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     public AbstractIsobaricResultFileDistillerOptions()
     {
       this.PerformPurityCorrection = true;
+      this.PerformMassCalibration = false;
     }
 
     public IIsobaricRawReader Reader { get; set; }
@@ -33,5 +34,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     public List<IsobaricIndex> UsedChannels { get; set; }
 
     public bool PerformPurityCorrection { get; set; }
+
+    public bool PerformMassCalibration { get; set; }
   }
 }

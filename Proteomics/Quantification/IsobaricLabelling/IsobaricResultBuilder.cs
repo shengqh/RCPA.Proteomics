@@ -12,26 +12,13 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
   {
     public List<UsedChannel> Channels { get; private set; }
 
-    private double ppmTolerance;
-
-    public IsobaricResultBuilder(List<UsedChannel> channels, double ppmTolerance)
+    public IsobaricResultBuilder(List<UsedChannel> channels)
     {
       this.Channels = channels;
-      this.ppmTolerance = ppmTolerance;
     }
 
-    public virtual IsobaricResult BuildIsobaricResult(IsobaricResult pkls, int minPeakCount)
+    public virtual void BuildIsobaricResult(IsobaricResult result, int minPeakCount)
     {
-      IsobaricResult result = new IsobaricResult(pkls);
-      result.Mode = pkls.Mode;
-      result.PlexType = pkls.PlexType;
-      result.UsedChannels = Channels;
-
-      result.ForEach(m => m.DetectReporter(Channels));
-
-      result.RemoveAll(m => m.PeakCount() < minPeakCount);
-
-      return result;
     }
   }
 }

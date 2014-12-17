@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using System.Linq;
 using RCPA.Proteomics.Spectrum;
 
@@ -69,15 +69,15 @@ namespace RCPA.Proteomics.Processor
 
       for (int i = 1; i < env.Count; i++)
       {
-        if (env[i].Intensity >= env[i - 1].Intensity)//µİÔö
+        if (env[i].Intensity >= env[i - 1].Intensity)//é€’å¢
         {
-          if (itype == IsotopicType.DECREASING)//Èç¹ûÇ°ÃæÊÇµİ¼õ£¬ÔòÕâ´ÎµİÔöÎŞĞ§¡£
+          if (itype == IsotopicType.DECREASING)//å¦‚æœå‰é¢æ˜¯é€’å‡ï¼Œåˆ™è¿™æ¬¡é€’å¢æ— æ•ˆã€‚
           {
             env.RemoveRange(i, env.Count - i);
             break;
           }
         }
-        else//µİ¼õ
+        else//é€’å‡
         {
           itype = IsotopicType.DECREASING;
         }

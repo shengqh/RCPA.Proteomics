@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -33,7 +34,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
     public string OriginalXmlFileName
     {
-      get { return MyConvert.Format("{0}.{1}.oisobaric.xml", this.InputFile, this.Reader.Name); }
+      get { return this.InputFile + ".oisobaric.xml"; }
     }
 
     private string _outputFile;
@@ -43,8 +44,9 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       {
         if (string.IsNullOrEmpty(_outputFile))
         {
+          var cali = this.PerformMassCalibration ? ".cali" : "";
           var corr = this.PerformPurityCorrection ? ".corr" : "";
-          return MyConvert.Format("{0}.{1}.isobaric.min{2}{3}.xml", this.InputFile, this.Reader.Name, this.MinPeakCount, corr);
+          return MyConvert.Format("{0}.min{1}{2}{3}.isobaric.xml", this.InputFile, this.MinPeakCount, cali, corr);
         }
         else
         {

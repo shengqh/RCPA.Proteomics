@@ -26,6 +26,21 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
     public List<IsobaricChannel> Channels { get; private set; }
 
+    public List<UsedChannel> ToUsedChannels()
+    {
+      var result = new List<UsedChannel>();
+      foreach (var cha in Channels)
+      {
+        result.Add(new UsedChannel()
+        {
+          Index = cha.Index,
+          Mz = cha.Mz,
+          Name = cha.Name
+        });
+      }
+      return result;
+    }
+
     public double[,] IsotopicTable { get; private set; }
 
     public Dictionary<string, int> NameIndexMap { get; private set; }

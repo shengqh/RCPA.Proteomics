@@ -82,7 +82,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     /// <summary>
     /// Reporter ion intensities
     /// </summary>
-    public double[] Reporters{get; private set;}
+    public Peak[] Reporters { get; set; }
 
     public void DetectReporter(List<UsedChannel> list)
     {
@@ -91,18 +91,18 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
         throw new Exception("Assign RawPeaks first!");
       }
 
-      this.Reporters = new double[list.Count];
+      this.Reporters = new Peak[list.Count];
 
       for (int i = 0; i < list.Count; i++)
       {
         var peak = _rawPeaks.FindMaxIntensityPeak(list[i].MinMz, list[i].MaxMz);
         if (peak == null)
         {
-          Reporters[i] = IsobaricConsts.NULL_INTENSITY;
+          Reporters[i] = new Peak(list[i].Mz, IsobaricConsts.NULL_INTENSITY);
         }
         else
         {
-          Reporters[i] = peak.Intensity;
+          Reporters[i] = new Peak(peak.Mz, peak.Intensity);
         }
       }
     }
@@ -127,7 +127,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       }
     }
 
-    public double this[int index]
+    public Peak this[int index]
     {
       get
       {
@@ -146,7 +146,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
     public int PeakCount()
     {
-      return this.Reporters.Count(m => m > IsobaricConsts.NULL_INTENSITY);
+      return this.Reporters.Count(m => m.Intensity > IsobaricConsts.NULL_INTENSITY);
     }
   }
 

@@ -32,7 +32,8 @@
       this.progress = new RCPA.Gui.MultipleProgressField();
       this.saveDialog = new System.Windows.Forms.SaveFileDialog();
       this.groupBox2 = new System.Windows.Forms.GroupBox();
-      this.channels = new RCPA.Proteomics.Quantification.IsobaricLabelling.IsobaricChannelField();
+      this.cbIndividual = new RCPA.Gui.RcpaCheckField();
+      this.cbPerformPurityCorrection = new RCPA.Gui.RcpaCheckField();
       this.label3 = new System.Windows.Forms.Label();
       this.cbPlexType = new System.Windows.Forms.ComboBox();
       this.label2 = new System.Windows.Forms.Label();
@@ -43,8 +44,9 @@
       this.txtPrecursorPPMTolerance = new System.Windows.Forms.TextBox();
       this.label1 = new System.Windows.Forms.Label();
       this.cbScanMode = new System.Windows.Forms.ComboBox();
-      this.cbIndividual = new System.Windows.Forms.CheckBox();
+      this.cbPerformMassCalibration = new RCPA.Gui.RcpaCheckField();
       this.channelUsed = new RCPA.Proteomics.Quantification.IsobaricLabelling.IsobaricChannelField();
+      this.channelRequired = new RCPA.Proteomics.Quantification.IsobaricLabelling.IsobaricChannelField();
       this.groupBox2.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -84,7 +86,7 @@
       this.rawFiles.SelectedIndex = -1;
       this.rawFiles.SelectedItem = null;
       this.rawFiles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-      this.rawFiles.Size = new System.Drawing.Size(893, 383);
+      this.rawFiles.Size = new System.Drawing.Size(893, 375);
       this.rawFiles.TabIndex = 7;
       // 
       // progress
@@ -105,8 +107,11 @@
       // 
       // groupBox2
       // 
+      this.groupBox2.Controls.Add(this.cbPerformMassCalibration);
+      this.groupBox2.Controls.Add(this.cbIndividual);
+      this.groupBox2.Controls.Add(this.cbPerformPurityCorrection);
       this.groupBox2.Controls.Add(this.channelUsed);
-      this.groupBox2.Controls.Add(this.channels);
+      this.groupBox2.Controls.Add(this.channelRequired);
       this.groupBox2.Controls.Add(this.label3);
       this.groupBox2.Controls.Add(this.cbPlexType);
       this.groupBox2.Controls.Add(this.label2);
@@ -117,27 +122,39 @@
       this.groupBox2.Controls.Add(this.txtPrecursorPPMTolerance);
       this.groupBox2.Controls.Add(this.label1);
       this.groupBox2.Controls.Add(this.cbScanMode);
-      this.groupBox2.Controls.Add(this.cbIndividual);
       this.groupBox2.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.groupBox2.Location = new System.Drawing.Point(0, 383);
+      this.groupBox2.Location = new System.Drawing.Point(0, 375);
       this.groupBox2.Name = "groupBox2";
-      this.groupBox2.Size = new System.Drawing.Size(893, 160);
+      this.groupBox2.Size = new System.Drawing.Size(893, 168);
       this.groupBox2.TabIndex = 24;
       this.groupBox2.TabStop = false;
       this.groupBox2.Text = "Options";
       // 
-      // channels
+      // cbIndividual
       // 
-      this.channels.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.channels.Description = "Channels required";
-      this.channels.Location = new System.Drawing.Point(17, 103);
-      this.channels.Name = "channels";
-      this.channels.PlexType = null;
-      this.channels.Required = false;
-      this.channels.SelectedIons = "";
-      this.channels.Size = new System.Drawing.Size(770, 30);
-      this.channels.TabIndex = 38;
+      this.cbIndividual.AutoSize = true;
+      this.cbIndividual.Key = "Individual";
+      this.cbIndividual.Location = new System.Drawing.Point(79, 81);
+      this.cbIndividual.Name = "cbIndividual";
+      this.cbIndividual.PreCondition = null;
+      this.cbIndividual.Size = new System.Drawing.Size(145, 17);
+      this.cbIndividual.TabIndex = 42;
+      this.cbIndividual.Text = "Generate individual result";
+      this.cbIndividual.UseVisualStyleBackColor = true;
+      // 
+      // cbPerformPurityCorrection
+      // 
+      this.cbPerformPurityCorrection.AutoSize = true;
+      this.cbPerformPurityCorrection.Checked = true;
+      this.cbPerformPurityCorrection.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.cbPerformPurityCorrection.Key = "PerformPurityCorrection";
+      this.cbPerformPurityCorrection.Location = new System.Drawing.Point(259, 81);
+      this.cbPerformPurityCorrection.Name = "cbPerformPurityCorrection";
+      this.cbPerformPurityCorrection.PreCondition = null;
+      this.cbPerformPurityCorrection.Size = new System.Drawing.Size(140, 17);
+      this.cbPerformPurityCorrection.TabIndex = 41;
+      this.cbPerformPurityCorrection.Text = "Perform purity correction";
+      this.cbPerformPurityCorrection.UseVisualStyleBackColor = true;
       // 
       // label3
       // 
@@ -171,7 +188,7 @@
       // 
       // txtMinPeakCount
       // 
-      this.txtMinPeakCount.Location = new System.Drawing.Point(542, 46);
+      this.txtMinPeakCount.Location = new System.Drawing.Point(542, 49);
       this.txtMinPeakCount.Name = "txtMinPeakCount";
       this.txtMinPeakCount.Size = new System.Drawing.Size(52, 20);
       this.txtMinPeakCount.TabIndex = 33;
@@ -229,28 +246,43 @@
       this.cbScanMode.Size = new System.Drawing.Size(278, 21);
       this.cbScanMode.TabIndex = 24;
       // 
-      // cbIndividual
+      // cbPerformMassCalibration
       // 
-      this.cbIndividual.AutoSize = true;
-      this.cbIndividual.Location = new System.Drawing.Point(616, 51);
-      this.cbIndividual.Name = "cbIndividual";
-      this.cbIndividual.Size = new System.Drawing.Size(145, 17);
-      this.cbIndividual.TabIndex = 23;
-      this.cbIndividual.Text = "Generate individual result";
-      this.cbIndividual.UseVisualStyleBackColor = true;
+      this.cbPerformMassCalibration.AutoSize = true;
+      this.cbPerformMassCalibration.Key = "PerformMassCalibration";
+      this.cbPerformMassCalibration.Location = new System.Drawing.Point(429, 81);
+      this.cbPerformMassCalibration.Name = "cbPerformMassCalibration";
+      this.cbPerformMassCalibration.PreCondition = null;
+      this.cbPerformMassCalibration.Size = new System.Drawing.Size(140, 17);
+      this.cbPerformMassCalibration.TabIndex = 43;
+      this.cbPerformMassCalibration.Text = "Perform mass calibration";
+      this.cbPerformMassCalibration.UseVisualStyleBackColor = true;
       // 
       // channelUsed
       // 
       this.channelUsed.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
       this.channelUsed.Description = "Channels used";
-      this.channelUsed.Location = new System.Drawing.Point(17, 76);
+      this.channelUsed.Location = new System.Drawing.Point(17, 104);
       this.channelUsed.Name = "channelUsed";
       this.channelUsed.PlexType = null;
       this.channelUsed.Required = false;
       this.channelUsed.SelectedIons = "";
-      this.channelUsed.Size = new System.Drawing.Size(770, 30);
+      this.channelUsed.Size = new System.Drawing.Size(751, 30);
       this.channelUsed.TabIndex = 39;
+      // 
+      // channelRequired
+      // 
+      this.channelRequired.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.channelRequired.Description = "Channels required";
+      this.channelRequired.Location = new System.Drawing.Point(17, 131);
+      this.channelRequired.Name = "channelRequired";
+      this.channelRequired.PlexType = null;
+      this.channelRequired.Required = false;
+      this.channelRequired.SelectedIons = "";
+      this.channelRequired.Size = new System.Drawing.Size(751, 30);
+      this.channelRequired.TabIndex = 38;
       // 
       // IsobaricResultMultipleFileDistillerUI
       // 
@@ -280,7 +312,6 @@
     private System.Windows.Forms.GroupBox groupBox2;
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.ComboBox cbScanMode;
-    private System.Windows.Forms.CheckBox cbIndividual;
     private System.Windows.Forms.Label label5;
     private System.Windows.Forms.TextBox txtPrecursorPPMTolerance;
     private System.Windows.Forms.Label label6;
@@ -289,7 +320,10 @@
     private System.Windows.Forms.ComboBox cbPlexType;
     private System.Windows.Forms.Label label2;
     private System.Windows.Forms.TextBox txtMinPeakCount;
-    private IsobaricChannelField channels;
+    private IsobaricChannelField channelRequired;
     private IsobaricChannelField channelUsed;
+    private Gui.RcpaCheckField cbIndividual;
+    private Gui.RcpaCheckField cbPerformPurityCorrection;
+    private Gui.RcpaCheckField cbPerformMassCalibration;
   }
 }

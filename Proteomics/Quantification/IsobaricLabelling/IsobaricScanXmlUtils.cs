@@ -11,24 +11,6 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
   public static class IsobaricScanXmlUtils
   {
-    public static String GetMode(string fileName)
-    {
-      using (var stream = new FileStream(fileName, FileMode.Open))
-      {
-        using (var reader = XmlReader.Create(stream))
-        {
-          if (reader.MoveToElement("IsobaricResult"))
-          {
-            if (reader.HasAttributes)
-            {
-              return reader.GetAttribute("Mode");
-            }
-          }
-        }
-      }
-      return string.Empty;
-    }
-
     public static IsobaricType GetIsobaricType(string fileName)
     {
       using (var stream = new FileStream(fileName, FileMode.Open))
@@ -37,27 +19,13 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
         {
           if (reader.MoveToElement("IsobaricResult"))
           {
-            if (reader.HasAttributes)
-            {
-              var result = reader.GetAttribute("IsobaricType");
-              if (string.IsNullOrEmpty(result))
-              {
-                if (reader.MoveToElement("IsobaricScan"))
-                {
-                  reader.ReadStartElement("IsobaricScan");
-                  result = reader.ReadElementAsString("PlexType");
-                }
-              }
-
-              if (!string.IsNullOrEmpty(result))
-              {
-                return IsobaricTypeFactory.Find(result);
-              }
-            }
+            var result = reader.GetAttribute("IsobaricType");
+            return IsobaricTypeFactory.Find(result);
           }
         }
       }
-      return null;
+
+      throw new Exception(string.Format("Cannot find isobaric type in file {0}", fileName));
     }
 
     private static XmlReaderSettings setting = new XmlReaderSettings()
@@ -66,19 +34,6 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       IgnoreWhitespace = true,
       IgnoreProcessingInstructions = true
     };
-
-    public static void ReadChannels(XmlReader reader, IsobaricType plexType, IsobaricScan item)
-    {
-      if (reader.MoveToElement("Ions"))
-      {
-        reader.ReadStartElement("Ions");
-
-        for (int i = 0; i < plexType.Channels.Count; i++)
-        {
-          item[i] = reader.ReadElementAsDouble(plexType.Channels[i].Name);
-        }
-      }
-    }
 
     public static PeakList<Peak> ReadElementPeakList(XmlReader reader, string pklName, bool isPeakInWindow)
     {
@@ -115,17 +70,17 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       return result;
     }
 
-    public static IsobaricScan Parse(string xml, IsobaricType plexType, bool readReporters, bool readPeaks, Predicate<IsobaricScan> accept)
+    public static IsobaricScan Parse(string xml, List<UsedChannel> used, bool readReporters, bool readPeaks, Predicate<IsobaricScan> accept)
     {
-      return Parse(Encoding.ASCII.GetBytes(xml), plexType, readReporters, readPeaks, accept);
+      return Parse(Encoding.ASCII.GetBytes(xml), used, readReporters, readPeaks, accept);
     }
 
-    public static IsobaricScan Parse(byte[] bytes, IsobaricType plexType, bool readReporters, bool readPeaks, Predicate<IsobaricScan> accept)
+    public static IsobaricScan Parse(byte[] bytes, List<UsedChannel> used, bool readReporters, bool readPeaks, Predicate<IsobaricScan> accept)
     {
       var reader = XmlReader.Create(new MemoryStream(bytes), setting);
       try
       {
-        return Parse(reader, plexType, readReporters, readPeaks, accept);
+        return Parse(reader, used, readReporters, readPeaks, accept);
       }
       finally
       {
@@ -136,13 +91,13 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     /// 从XmlReader中读取IsobaricItem信息。
     /// </summary>
     /// <param name="reader">XmlReader</param>
-    /// <param name="plexType">Isobaric Type</param>
+    /// <param name="used">Used channels</param>
     /// <param name="readReporters">是否读取Reporter信息</param>
     /// <param name="readPeaks">是否读取Peak信息</param>
     /// <param name="accept">在读取Peak前，对IsobaricItem进行筛选</param>
     /// <param name="untilSucceed">如果筛选失败，是否进行读取下一个IsobaricItem</param>
     /// <returns></returns>
-    public static IsobaricScan Parse(XmlReader reader, IsobaricType plexType, bool readReporters, bool readPeaks, Predicate<IsobaricScan> accept, bool untilSucceed = false)
+    public static IsobaricScan Parse(XmlReader reader, List<UsedChannel> used, bool readReporters, bool readPeaks, Predicate<IsobaricScan> accept, bool untilSucceed = false)
     {
       IsobaricScan result = null;
 
@@ -174,21 +129,24 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
         if (readReporters)
         {
+          result.Reporters = new Peak[used.Count];
+
           XElement ions;
-          if (dic.TryGetValue("Ions", out ions))
+          if (dic.TryGetValue("Reporters", out ions))
           {
-            var ionsElement = ions.Elements().ToArray();
-            if (ionsElement.Length != plexType.Channels.Count)
+            var ionsElement = ions.FindElements("Reporter");
+            if (ionsElement.Count != used.Count)
             {
-              throw new Exception(string.Format("Ions element number {0} is not equals to channel number {1} of plex type {2}",
-                ionsElement.Length,
-                plexType.Channels.Count,
-                 plexType.Name));
+              throw new Exception(string.Format("Reporter element number {0} is not equals to used channel number {1} in scan {2}",
+                ionsElement.Count,
+                used.Count,
+                result.Scan));
             }
 
-            for (int i = 0; i < plexType.Channels.Count; i++)
+            for (int i = 0; i < used.Count; i++)
             {
-              result[i] = double.Parse(ionsElement[i].Value);
+              var ionEle = ionsElement[i];
+              result[i] = new Peak(double.Parse(ionEle.FindAttribute("mz").Value), double.Parse(ionEle.FindAttribute("intensity").Value));
             }
           }
         }
@@ -238,6 +196,11 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       return result;
     }
 
+    public static List<UsedChannel> GetUsedChannels(string fileName)
+    {
+      return GetUsedChannels(fileName, GetIsobaricType(fileName));
+    }
+
     public static List<UsedChannel> GetUsedChannels(string fileName, IsobaricType isobaricType)
     {
       using (var stream = new FileStream(fileName, FileMode.Open))
@@ -249,7 +212,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
             if (reader.HasAttributes)
             {
               var hasUsedChannel = reader.GetAttribute("HasUsedChannel");
-              if (!string.IsNullOrEmpty(hasUsedChannel) && hasUsedChannel.Equals("True"))
+              if (!string.IsNullOrEmpty(hasUsedChannel) && hasUsedChannel.Equals(true.ToString()))
               {
                 reader.MoveToElement("UsedChannels");
                 XElement el = XNode.ReadFrom(reader) as XElement;
@@ -263,6 +226,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
                   item.Mz = double.Parse(ele.Attribute("Mz").Value);
                   result.Add(item);
                 }
+
                 return result;
               }
             }
@@ -271,6 +235,29 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       }
 
       return null;
+    }
+
+    public static Dictionary<string, string> GetComments(string fileName)
+    {
+      var result = new Dictionary<string, string>();
+
+      using (var stream = new FileStream(fileName, FileMode.Open))
+      {
+        using (var reader = XmlReader.Create(stream))
+        {
+          if (reader.MoveToElement("Comments"))
+          {
+            XElement el = XNode.ReadFrom(reader) as XElement;
+
+            foreach (var ele in el.FindElements("Comment"))
+            {
+              result[ele.Attribute("Key").Value] = ele.Attribute("Value").Value;
+            }
+          }
+        }
+      }
+
+      return result;
     }
   }
 }

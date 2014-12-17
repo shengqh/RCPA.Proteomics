@@ -31,6 +31,10 @@
       this.pnlFile.SuspendLayout();
       this.SuspendLayout();
       // 
+      // label1
+      // 
+      this.label1.Location = new System.Drawing.Point(248, 176);
+      // 
       // IsobaricProteinStatisticBuilderUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);

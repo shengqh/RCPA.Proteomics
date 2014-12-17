@@ -60,6 +60,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
             cb.Dock = DockStyle.Left;
             cb.BringToFront();
             cb.TextAlign = ContentAlignment.MiddleLeft;
+            cb.Checked = true;
 
             componentList[new RcpaCheckBox(cb, cb.Text, cb.Checked)] = true;
             channelList.Add(cb);
@@ -193,7 +194,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       {
         if (channel.Checked)
         {
-          result.Add(new IsobaricIndex(_plexType, _plexType.Channels.FindIndex(l => l.Name.Equals(channel.Text))));
+          result.Add(new IsobaricIndex(channel.Text, _plexType.Channels.FindIndex(l => l.Name.Equals(channel.Text))));
         }
       }
 

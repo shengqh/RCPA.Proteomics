@@ -9,24 +9,33 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
   public class IsobaricProteinStatisticBuilderOptions : IXml
   {
+    public IsobaricProteinStatisticBuilderOptions()
+    {
+      this.PerformNormalizition = true;
+    }
+
     public IsobaricType PlexType { get; set; }
 
     public string ProteinFileName { get; set; }
 
     public string IsobaricFileName { get; set; }
 
+    public bool PerformNormalizition { get; set; }
+
     public List<IsobaricIndex> References { get; set; }
 
     public List<IsobaricIndex> GetSamples()
     {
       var result = new List<IsobaricIndex>();
-      foreach (var channel in PlexType.Channels)
+      var used = IsobaricScanXmlUtils.GetUsedChannels(this.IsobaricFileName);
+      for (int i = 0; i < used.Count; i++)
       {
+        var channel = used[i];
         if (References.Any(m => m.Name.Equals(channel.Name)))
         {
           continue;
         }
-        result.Add(new IsobaricIndex(PlexType, PlexType.Channels.IndexOf(channel)));
+        result.Add(new IsobaricIndex(used[i].Name, i));
       }
 
       return result;
@@ -55,7 +64,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
         new XElement("ProteinFileName", ProteinFileName),
         new XElement("IsobaricFileName", IsobaricFileName),
         new XElement("References", from refFunc in References
-                                   select new XElement("Index", refFunc.Index)
+                                   select new XElement("Reference", new XAttribute("Name", refFunc.Name), new XAttribute("Index", refFunc.Index))
         ),
         new XElement("MinProbability", MinimumProbability),
         new XElement("QuantifyModifiedPeptideOnly", QuantifyModifiedPeptideOnly),
@@ -73,9 +82,8 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     {
       PlexType = IsobaricTypeFactory.Find(parentNode.Element("IsobaricType").Value);
       IsobaricFileName = parentNode.Element("IsobaricFileName").Value;
-      References = (from refname in parentNode.Element("References").Elements("Index")
-                    let index = int.Parse(refname.Value)
-                    select new IsobaricIndex(PlexType, index)).ToList();
+      References = (from reffunc in parentNode.Element("References").Elements("Reference")
+                    select new IsobaricIndex(reffunc.Attribute("Name").Value, int.Parse(reffunc.Attribute("Index").Value))).ToList();
       MinimumProbability = MyConvert.ToDouble(parentNode.Element("MinProbability").Value);
 
       if (parentNode.Element("QuantifyModifiedPeptideOnly") != null)

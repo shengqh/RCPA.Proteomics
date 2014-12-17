@@ -21,8 +21,6 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
   {
     private IsobaricResultFileDistillerOptions options;
 
-    private static readonly double MAX_SHIFT = 0.2;
-
     public IsobaricResultFileDistiller(IsobaricResultFileDistillerOptions options)
     {
       this.options = options;
@@ -32,8 +30,10 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     {
       IsobaricResult result = BuildIsobaricResult();
 
+      Progress.SetMessage("Saving data to {0} ...", options.OutputFile);
       IsobaricResultFileFormatFactory.GetXmlFormat().WriteToFile(options.OutputFile, result);
 
+      Progress.SetMessage("Done.");
       return new[] { options.OutputFile };
     }
 
@@ -65,7 +65,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
         }
 
         result = new IsobaricResult(pkls);
-        result.Mode = reader.ToString();
+        result.Comments["Mode"] = reader.ToString();
         result.PlexType = options.PlexType;
         result.ForEach(m => m.Experimental = experimental);
 
@@ -73,42 +73,37 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       }
       else
       {
-        Progress.SetMessage("Read xml information from " + options.OriginalXmlFileName + " ...");
+        Progress.SetMessage("Reading xml information from " + options.OriginalXmlFileName + " ...");
         result = format.ReadFromFile(options.OriginalXmlFileName);
       }
 
-      var usedChannels = (from ucha in options.UsedChannels
-                          let cha = options.PlexType.Channels[ucha.Index]
-                          select new UsedChannel() { Index = ucha.Index, Name = cha.Name, Mz = cha.Mz, MinMz = cha.Mz - MAX_SHIFT, MaxMz = cha.Mz + MAX_SHIFT }).ToList();
+      result.UsedChannels = (from ucha in options.UsedChannels
+                             let cha = options.PlexType.Channels[ucha.Index]
+                             select new UsedChannel() { Index = ucha.Index, Name = cha.Name, Mz = cha.Mz, MinMz = cha.Mz - IsobaricConsts.MAX_SHIFT, MaxMz = cha.Mz + IsobaricConsts.MAX_SHIFT }).ToList();
 
-      var allpkls = (from r in result select r.RawPeaks).ToList();
-
-      //Get all peak list with all used channel information
-      var validpkls = allpkls.Where(r =>
+      if (options.PerformMassCalibration)
       {
-        foreach (var channel in usedChannels)
-        {
-          if (!r.HasPeak(channel.Mz, channel.MinMz, channel.MaxMz))
-          {
-            return false;
-          }
-        }
+        Progress.SetMessage("Performing mass calibration ...");
+        var calPeaks = result.GetMassCalibrationPeaks();
+        result.UsedChannels.CalibrateMass(calPeaks, options.OutputFile + ".calibration");
+        result.Comments["PerformMassCalibration"] = true.ToString();
+      }
 
-        return true;
-      }).ToList();
+      foreach (var channel in result.UsedChannels)
+      {
+        var mztolerance = PrecursorUtils.ppm2mz(channel.Mz, options.ProductPPMTolerance);
+        channel.MinMz = channel.Mz - mztolerance;
+        channel.MaxMz = channel.Mz + mztolerance;
+      }
 
-      var calPeaks = validpkls.Count >= result.Count / 2 ? validpkls : allpkls;
-
-      usedChannels.CalibrateMass(calPeaks, MAX_SHIFT);
-
-      var builder = new IsobaricResultBuilder(usedChannels, options.ProductPPMTolerance);
-      result = builder.BuildIsobaricResult(result, 1);
-
+      Progress.SetMessage("Building isobaric result ...");
+      result.ForEach(m => m.DetectReporter(result.UsedChannels));
       result.RemoveAll(m => m.PeakCount() < options.MinPeakCount);
+      result.Comments["RequiredChannels"] = (from c in options.RequiredChannels select c.Name).Merge(",");
 
       if (options.RequiredChannels.Count > 0)
       {
-        options.RequiredChannels.ForEach(m => m.Index = usedChannels.FindIndex(l => l.Name.Equals(m.Name)));
+        options.RequiredChannels.ForEach(m => m.Index = result.UsedChannels.FindIndex(l => l.Name.Equals(m.Name)));
         result.RemoveAll(m =>
         {
           foreach (var channel in options.RequiredChannels)
@@ -123,13 +118,21 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
         });
       }
 
-      var tempFilename = options.OutputFile + ".tsv";
-      new IsobaricPurityCorrectionRCalculator(options.PlexType, result.UsedChannels, options.RExecute, options.PerformPurityCorrection, true).Calculate(result, tempFilename);
+      if (options.PerformPurityCorrection)
+      {
+        Progress.SetMessage("Performing purity correction ...");
+        var tempFilename = options.OutputFile + ".tsv";
+        new IsobaricPurityCorrectionRCalculator(options.PlexType, result.UsedChannels, options.RExecute, options.PerformPurityCorrection, true).Calculate(result, tempFilename);
+        result.Comments["PerformPurityCorrection"] = true.ToString();
+      }
 
       result.RemoveAll(m => m.PeakCount() < options.MinPeakCount);
+
+      Progress.SetMessage("Calculating precursor percentage ...");
       result.ForEach(m => m.PrecursorPercentage = m.PeakInIsolationWindow.GetPrecursorPercentage(options.PrecursorPPMTolerance));
 
       return result;
     }
+
   }
 }

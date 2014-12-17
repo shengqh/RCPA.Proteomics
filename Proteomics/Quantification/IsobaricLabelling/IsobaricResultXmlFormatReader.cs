@@ -62,11 +62,11 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       Dispose(false);
     }
 
-    public IsobaricScan Next(IsobaricType plexType)
+    public IsobaricScan Next(List<UsedChannel> used)
     {
       Progress.SetPosition(_stream.Position);
 
-      return IsobaricScanXmlUtils.Parse(_reader, plexType, ReadReporters, ReadPeaks, Accept, true);
+      return IsobaricScanXmlUtils.Parse(_reader, used, ReadReporters, ReadPeaks, Accept, true);
     }
 
     #region IDisposable Members

@@ -343,7 +343,7 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
       //读取肽段列表
       string sqlPeptide = string.Format("select pep.SpectrumID, pep.PeptideID, pep.TotalIonsCount, pep.MatchedIonsCount, pep.ConfidenceLevel, pep.Sequence, pep.MissedCleavages, ps.ScoreValue from Peptides{0} as pep, PeptideScores{0} as ps where pep.PeptideID=ps.PeptideID and ps.ScoreID={1} order by pep.SpectrumID, pep.SearchEngineRank", suffix, scoreid);
       var peptideReader = sqlite.ExecuteReader(sqlPeptide, null);
-      Progress.SetMessage("Parsing peptides ...");
+      Progress.SetMessage("Parsing peptides{0} ...", suffix);
 
       while (peptideReader.Read())
       {
@@ -411,7 +411,7 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
       var modMap = ParseModifications(fileName, unexpectedModifications);
       string sqlPeptideMod = string.Format("select PeptideID, AminoAcidModificationID, Position from PeptidesAminoacidModifications{0} order by Position desc", suffix);
       var pepModReader = sqlite.ExecuteReader(sqlPeptideMod, null);
-      Progress.SetMessage("Parsing peptide modifications ...");
+      Progress.SetMessage("Parsing peptide modifications{0} ...", suffix);
       while (pepModReader.Read())
       {
         var pepid = pepModReader.GetInt32(0);
@@ -456,7 +456,7 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
       //动态末端修饰
       string sqlTermMod = string.Format("select PeptideID, TerminalModificationID from PeptidesTerminalModifications{0}", suffix);
       var termModReader = sqlite.ExecuteReader(sqlTermMod, null);
-      Progress.SetMessage("Parsing terminal modifications ...");
+      Progress.SetMessage("Parsing terminal modifications{0} ...", suffix);
       while (termModReader.Read())
       {
         var pepid = termModReader.GetInt32(0);
@@ -498,6 +498,7 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
       }
 
       //其他Score
+      Progress.SetMessage("Parsing other scores{0} ...", suffix);
       var dcReader = sqlite.ExecuteReader(string.Format("select ps.PeptideID, pns.ScoreName, ps.ScoreValue from PeptideScores{0} as ps, ProcessingNodeScores as pns where ps.ScoreID=pns.ScoreID and pns.IsMainScore=0", suffix), null);
       while (dcReader.Read())
       {
@@ -557,24 +558,33 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
 
       if (result.Any(m => m.FromDecoy))
       {
+        Progress.SetMessage("Filtering PSMs from same spectrum by score ...");
         var g = result.ToGroupDictionary(m => m.Query.FileScan.FirstScan);
+        result.Clear();
         foreach (var gg in g.Values)
         {
           if (gg.Count > 1)
           {
-            gg.Sort((m1, m2) => m2.Score.CompareTo(m1.Score));
-            Console.WriteLine("specid={0}, scan={1}, score1={2}, isdecoy1={3}, peptide1={4}, score2={5}, isdecoy2={6}, peptide2={7}",
-              gg[0].Id,
-              gg[0].Query.FileScan.FirstScan,
-              gg[0].Score, gg[0].FromDecoy, gg[0].Sequence,
-              gg[1].Score, gg[1].FromDecoy, gg[1].Sequence);
-
-            gg.RemoveRange(1, gg.Count - 1);
+            double maxScore = double.MinValue;
+            IIdentifiedSpectrum maxScoreSpectrum = null;
+            foreach (var ggg in gg)
+            {
+              if (ggg.Score > maxScore)
+              {
+                maxScore = ggg.Score;
+                maxScoreSpectrum = ggg;
+              }
+            }
+            result.Add(maxScoreSpectrum);
+          }
+          else
+          {
+            result.Add(gg[0]);
           }
         }
-        result = (from gg in g select gg.Value.First()).ToList();
       }
 
+      Progress.SetMessage("Cleaning PSMs without protein infromation ...");
       //PD will generate some peptides without protein information, so we need to remove them.
       result.ForEach(m =>
       {
@@ -588,6 +598,8 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
       });
       //remove spectrum without peptide information
       result.RemoveAll(m => m.Peptides.Count == 0);
+
+      Progress.SetMessage("Total {0} PSMs readed.", result.Count);
 
       return result;
     }

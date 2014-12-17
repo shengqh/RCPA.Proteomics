@@ -7,17 +7,17 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
   public class IsobaricIndex
   {
-    public IsobaricIndex(IsobaricType itype, int index)
+    public IsobaricIndex(string name, int index)
     {
       this.Index = index;
-      this.Name = itype.Channels[index].Name;
+      this.Name = name;
     }
 
     public int Index { get; set; }
 
     public double GetValue(IsobaricScan item)
     {
-      return item[Index];
+      return item[Index].Intensity;
     }
 
     public string Name { get; set; }

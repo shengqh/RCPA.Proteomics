@@ -85,11 +85,11 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       return _indexItems.ContainsKey(key);
     }
 
-    public IsobaricScan Read(string experimental, int scan, IsobaricType plexType)
+    public IsobaricScan Read(string experimental, int scan, List<UsedChannel> used)
     {
       var xml = ReadXmlBytes(experimental, scan);
 
-      return IsobaricScanXmlUtils.Parse(xml, plexType, this.ReadReporters, this.ReadPeaks, this.Accept);
+      return IsobaricScanXmlUtils.Parse(xml, used, this.ReadReporters, this.ReadPeaks, this.Accept);
     }
 
     public void Close()

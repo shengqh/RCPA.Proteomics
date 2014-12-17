@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using System.Linq;
 using System.Windows.Forms;
 using RCPA.Gui;
 using RCPA.Gui.FileArgument;
@@ -19,8 +20,6 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     private static readonly string version = "1.4.5";
 
     private string[] rawExtentions = new string[] { "raw", "mzData.xml", "mzData", "mzXML", "mgf" };
-
-    private RcpaCheckBox individual;
 
     private RcpaIntegerField minPeakCount;
 
@@ -40,9 +39,6 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
       RcpaMultipleFileComponent adaptor = new RcpaMultipleFileComponent(rawFiles.GetItemInfos(), "RawFiles", "Raw File", false, true);
       AddComponent(adaptor);
-
-      individual = new RcpaCheckBox(cbIndividual, "Individual", false);
-      AddComponent(individual);
 
       minPeakCount = new RcpaIntegerField(txtMinPeakCount, "MinPeakCount", "Minmum peak count", 4, true);
       AddComponent(minPeakCount);
@@ -66,7 +62,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     {
       base.OnAfterLoadOption(e);
 
-      channels.PlexType = plexTypes.SelectedItem;
+      channelRequired.PlexType = plexTypes.SelectedItem;
       channelUsed.PlexType = plexTypes.SelectedItem;
     }
     protected override IFileProcessor GetFileProcessor()
@@ -79,12 +75,14 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       var options = new IsobaricResultMultipleFileDistillerOptions()
       {
         Reader = reader,
-        Individual = individual.Checked,
+        Individual = cbIndividual.EnabledAndChecked,
+        PerformMassCalibration = cbPerformMassCalibration.EnabledAndChecked,
+        PerformPurityCorrection = cbPerformPurityCorrection.EnabledAndChecked,
         MinPeakCount = mPeakCount,
         RawFiles = rawFiles.FileNames,
         PrecursorPPMTolerance = precursorPPMTolerance.Value,
         ProductPPMTolerance = productPPMTolerance.Value,
-        RequiredChannels = channels.GetFuncs(),
+        RequiredChannels = channelRequired.GetFuncs(),
         UsedChannels = channelUsed.GetFuncs()
       };
 
@@ -112,10 +110,21 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       {
         throw new Exception(string.Format("Invalid minimum peak count {0} for {1}", minCount, plexCount));
       }
+
+      var used = channelUsed.GetFuncs();
+      var required = channelRequired.GetFuncs();
+      foreach (var req in required)
+      {
+        if (!used.Any(l => l.Index == req.Index))
+        {
+          throw new Exception(string.Format("Required channel {0} is not included in used channels", req.Name));
+        }
+      }
     }
+
     protected override string GetOriginFile()
     {
-      if (individual.Checked)
+      if (cbIndividual.Checked)
       {
         return string.Empty;
       }
@@ -168,8 +177,9 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     {
       if (plexTypes != null && plexTypes.SelectedItem != null)
       {
-        channels.PlexType = plexTypes.SelectedItem;
+        channelRequired.PlexType = plexTypes.SelectedItem;
         channelUsed.PlexType = plexTypes.SelectedItem;
+        //cbPerformMassCalibration.Enabled = !plexTypes.SelectedItem.Name.Equals("TMT10");
       }
     }
   }
