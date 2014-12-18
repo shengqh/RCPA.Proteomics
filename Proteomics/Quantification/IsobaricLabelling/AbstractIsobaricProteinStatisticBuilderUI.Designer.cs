@@ -125,7 +125,6 @@
       this.label1.Size = new System.Drawing.Size(196, 13);
       this.label1.TabIndex = 16;
       this.label1.Text = "Calculate ratio from peptide to protein by";
-      this.label1.Visible = false;
       // 
       // cbRatioCalculator
       // 
@@ -137,7 +136,6 @@
       this.cbRatioCalculator.Name = "cbRatioCalculator";
       this.cbRatioCalculator.Size = new System.Drawing.Size(525, 21);
       this.cbRatioCalculator.TabIndex = 17;
-      this.cbRatioCalculator.Visible = false;
       // 
       // cbModifiedOnly
       // 

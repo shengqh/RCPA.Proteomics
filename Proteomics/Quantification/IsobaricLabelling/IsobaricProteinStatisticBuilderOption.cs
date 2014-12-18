@@ -22,6 +22,8 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
     public bool PerformNormalizition { get; set; }
 
+    public string PeptideToProteinMethod { get; set; }
+
     public List<IsobaricIndex> References { get; set; }
 
     public List<IsobaricIndex> GetSamples()
@@ -66,6 +68,8 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
         new XElement("References", from refFunc in References
                                    select new XElement("Reference", new XAttribute("Name", refFunc.Name), new XAttribute("Index", refFunc.Index))
         ),
+        new XElement("PeptideToProteinMethod", PeptideToProteinMethod),
+        new XElement("PerformNormalization", PerformNormalizition),
         new XElement("MinProbability", MinimumProbability),
         new XElement("QuantifyModifiedPeptideOnly", QuantifyModifiedPeptideOnly),
         new XElement("ModificationChars", ModificationChars),
@@ -84,6 +88,8 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       IsobaricFileName = parentNode.Element("IsobaricFileName").Value;
       References = (from reffunc in parentNode.Element("References").Elements("Reference")
                     select new IsobaricIndex(reffunc.Attribute("Name").Value, int.Parse(reffunc.Attribute("Index").Value))).ToList();
+      PeptideToProteinMethod = parentNode.Element("PeptideToProteinMethod").Value;
+      PerformNormalizition = bool.Parse(parentNode.Element("PerformNormalization").Value);
       MinimumProbability = MyConvert.ToDouble(parentNode.Element("MinProbability").Value);
 
       if (parentNode.Element("QuantifyModifiedPeptideOnly") != null)

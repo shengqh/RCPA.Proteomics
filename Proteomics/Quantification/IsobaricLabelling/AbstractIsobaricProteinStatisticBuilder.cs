@@ -202,8 +202,9 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
       var qoptions = new RTemplateProcessorOptions();
       qoptions.InputFile = pepfile;
-      qoptions.OutputFile = resultFileName + ".proteins.quan.tsv";
-      qoptions.RTemplate = FileUtils.GetTemplateDir() + "/Quantification.r";
+      qoptions.OutputFile = resultFileName + ".proteins.quan." + options.PeptideToProteinMethod + ".tsv";
+
+      qoptions.RTemplate = string.Format("{0}/Quantification{1}.r", FileUtils.GetTemplateDir(), options.PeptideToProteinMethod);
       qoptions.Parameters.Add(string.Format("proteinfile<-\"{0}\"", proteinpeptidefile.Replace("\\", "/")));
       qoptions.Parameters.Add(string.Format("peptidequanfile<-\"{0}\"", FileUtils.ChangeExtension(pepfile, ".quan.tsv").Replace("\\", "/")));
       qoptions.Parameters.Add(string.Format("missingvalue<-{0}", IsobaricConsts.NULL_INTENSITY));

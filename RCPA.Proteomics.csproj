@@ -2861,7 +2861,10 @@
     <None Include="Resources\ok.bmp" />
     <Content Include="License-LGPL.txt" />
     <Content Include="Tools\Mascot\raw2mgf.ico" />
-    <None Include="template\Quantification.r">
+    <None Include="template\QuantificationSum.r">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="template\QuantificationMedian.r">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="template\MultipleO18Quantification.r">

@@ -96,7 +96,7 @@ proteins<-unique(prodata$Protein)
 procolnames<-c("Protein")
 for(ds in datasets){
   for(sc in sampleChannels){
-    procolnames<-c(procolnames, paste0(ds, "_REF_", sc), paste0(ds, "_", sc), paste0(ds, "_", sc, "/REF"))
+    procolnames<-c(procolnames, paste0(ds, "_", sc, "/REF"))
   }
 }
 
@@ -120,7 +120,7 @@ for(protein in proteins){
       scresult<-na.omit(scresult)
       
       if(nrow(scresult) == 0){
-        values<-c(values, NA, NA, NA)
+        values<-c(values, NA)
         next
       }
       
@@ -144,9 +144,8 @@ for(protein in proteins){
         }
       }
       
-      screfsum <- sum(scresult[,2])
-      scsum = sum(scresult[,3])
-      values<-c(values, screfsum, scsum, screfsum / scsum)
+      logratio<-median(scresult$LogRatio)
+      values<-c(values, exp(logratio))
     }
   }
   proresult<-rbind(proresult, t(values))

@@ -29,6 +29,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     private RcpaCheckBox normalize;
     private RcpaCheckBox modifiedPeptideOnly;
     private RcpaTextField modifiedChar;
+    private RcpaComboBox<string> methods;
 
     public AbstractIsobaricProteinStatisticBuilderUI()
     {
@@ -48,6 +49,9 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       modifiedChar = new RcpaTextField(txtModifiedCharacter, "ModifiedChar", "Input modified characters which indicates isobaric labelling(such as @#)", "@#", false);
       modifiedChar.PreCondition = cbModifiedOnly;
       AddComponent(modifiedChar);
+
+      methods = new RcpaComboBox<string>(cbRatioCalculator, "PeptideToProteinMethod", new[] { "Median", "Sum" }, 0, true, "How to calculate protein ratio from peptide?");
+      AddComponent(methods);
 
       AddComponent(pnlClassification);
     }
@@ -119,11 +123,13 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
       option.DatasetMap = pnlClassification.GetClassificationSet();
       option.IsobaricFileName = iTraqFile.FullName;
+      option.ProteinFileName = GetOriginFile();
       option.MinimumProbability = 0.0;
       option.QuantifyModifiedPeptideOnly = modifiedPeptideOnly.Checked;
       option.ModificationChars = modifiedChar.Text;
       option.References = GetReferenceFuncs();
       option.PerformNormalizition = normalize.Checked;
+      option.PeptideToProteinMethod = methods.SelectedItem;
       option.PlexType = IsobaricScanXmlUtils.GetIsobaricType(txtIsobaricXmlFile.Text);
 
       return option;
