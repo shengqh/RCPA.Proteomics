@@ -1,10 +1,10 @@
 #predefine_start
 
 outputdir<-"E:/shengquanhu/projects/2014-suzhiduan-TMT/quantification/summary"
-inputfile<-"20141211_Tim_LiverLDs_proteome_assay1_06.noredundant.I126I129N.isobaric.peptides.tsv"
-outputfile<-"20141211_Tim_LiverLDs_proteome_assay1_06.noredundant.I126I129N.isobaric.proteins.quan.tsv"
-proteinfile<-"20141211_Tim_LiverLDs_proteome_assay1_06.noredundant.I126I129N.isobaric.proteins.tsv"
-peptidequanfile<-"20141211_Tim_LiverLDs_proteome_assay1_06.noredundant.I126I129N.isobaric.peptides.quan.tsv"
+inputfile<-"20141211_Tim_LiverLDs_proteome_assay1_06.noredundant.I126I129N.peptides.tsv"
+outputfile<-"20141211_Tim_LiverLDs_proteome_assay1_06.noredundant.I126I129N.proteins.quan.Median.tsv"
+proteinfile<-"20141211_Tim_LiverLDs_proteome_assay1_06.noredundant.I126I129N.proteins.tsv"
+peptidequanfile<-"20141211_Tim_LiverLDs_proteome_assay1_06.noredundant.I126I129N.peptides.quan.tsv"
 missingvalue<-0.1
 pvalue<-0.01
 minFinalCount<-3
@@ -86,28 +86,33 @@ colnames(result)<-colnames
 
 write.table(result, peptidequanfile, sep="\t", row.names=F, quote=F)
 
+result<-read.delim(peptidequanfile)
+
 for(index in c(3:ncol(result))){
   result[,index]<-as.numeric(result[,index])
 }
 
 prodata<-read.delim(proteinfile, stringsAsFactors=F)
-proteins<-unique(prodata$Protein)
+proteins<-unique(prodata$Index)
 
-procolnames<-c("Protein")
+datacolnames<-c()
 for(ds in datasets){
   for(sc in sampleChannels){
-    procolnames<-c(procolnames, paste0(ds, "_", sc, "/REF"))
+    datacolnames<-c(datacolnames, paste0(ds, "_", sc, "_Ratio"))
   }
 }
+procolnames<-c("GroupIndex", colnames(prodata)[3:ncol(prodata)], datacolnames)
 
-proresult<-as.data.frame(setNames(c(replicate(1, character(0)), replicate(length(procolnames) - 1,numeric(0), simplify = F)), procolnames),
-                      stringsAsFactors=F)
+proresult <- as.data.frame(matrix(nrow = length(proteins), ncol = length(procolnames), dimnames = list(NULL, procolnames)), stringsAsFactors=F)
 
 protein<-proteins[2]
+index<-0
 for(protein in proteins){
-  propeps<-prodata[prodata$Protein==protein,2]
+  index<-index+1
+  pdata<-prodata[prodata$Index==protein,]
+  propeps<-pdata$Peptide
   ds<-datasets[1]
-  values<-c(protein)
+  values<-c(protein, pdata[1,3:ncol(pdata)])
   for(ds in datasets){
     dsresult<-result[result$Dataset == ds,]
     subjects<-unique(dsresult$Subject)
@@ -148,10 +153,10 @@ for(protein in proteins){
       values<-c(values, exp(logratio))
     }
   }
-  proresult<-rbind(proresult, t(values))
+  proresult[index,]<-t(values)
 }
 
 colnames(proresult)<-procolnames
 
-write.table(proresult, outputfile, sep="\t", row.names=F)
+write.table(proresult, file=outputfile, sep="\t", row.names=F)
 

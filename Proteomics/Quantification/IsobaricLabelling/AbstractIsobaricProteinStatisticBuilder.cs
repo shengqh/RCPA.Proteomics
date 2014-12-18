@@ -187,15 +187,23 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       var proteinpeptidefile = string.Format("{0}.proteins.tsv", resultFileName);
       using (var sw = new StreamWriter(proteinpeptidefile))
       {
-        sw.WriteLine("Protein\tPeptide");
+        sw.WriteLine("Index\tPeptide\tProteins\tDescription\tPepCount\tUniquePepCount");
         foreach (var g in ir)
         {
           var peps = g.GetPeptides();
           var seqs = (from p in peps
                       select p.Peptide.PureSequence).Distinct().OrderBy(m => m).ToArray();
+          var proname = (from p in g select p.Name).Merge(" ! ");
+          var description = (from p in g select p.Description).Merge(" ! ");
           foreach (var seq in seqs)
           {
-            sw.WriteLine(g[0].Name + "\t" + seq);
+            sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}",
+              g.Index,
+              seq,
+              proname,
+              description,
+              g[0].PeptideCount,
+              g[0].UniquePeptideCount);
           }
         }
       }
