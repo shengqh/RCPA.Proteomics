@@ -36,44 +36,44 @@
       this.pnlFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
       this.pnlFile.Dock = System.Windows.Forms.DockStyle.Top;
       this.pnlFile.Location = new System.Drawing.Point(0, 0);
-      this.pnlFile.Size = new System.Drawing.Size(956, 22);
+      this.pnlFile.Size = new System.Drawing.Size(956, 24);
       // 
       // txtOriginalFile
       // 
       this.txtOriginalFile.Location = new System.Drawing.Point(302, 0);
-      this.txtOriginalFile.Size = new System.Drawing.Size(654, 21);
+      this.txtOriginalFile.Size = new System.Drawing.Size(654, 20);
       // 
       // btnOriginalFile
       // 
-      this.btnOriginalFile.Size = new System.Drawing.Size(302, 22);
+      this.btnOriginalFile.Size = new System.Drawing.Size(302, 24);
       // 
       // lblProgress
       // 
-      this.lblProgress.Location = new System.Drawing.Point(0, 35);
-      this.lblProgress.Size = new System.Drawing.Size(956, 21);
+      this.lblProgress.Location = new System.Drawing.Point(0, 37);
+      this.lblProgress.Size = new System.Drawing.Size(956, 23);
       // 
       // progressBar
       // 
-      this.progressBar.Location = new System.Drawing.Point(0, 56);
-      this.progressBar.Size = new System.Drawing.Size(956, 21);
+      this.progressBar.Location = new System.Drawing.Point(0, 60);
+      this.progressBar.Size = new System.Drawing.Size(956, 23);
       // 
       // btnClose
       // 
-      this.btnClose.Location = new System.Drawing.Point(526, 7);
+      this.btnClose.Location = new System.Drawing.Point(526, 9);
       // 
       // btnCancel
       // 
-      this.btnCancel.Location = new System.Drawing.Point(441, 7);
+      this.btnCancel.Location = new System.Drawing.Point(441, 9);
       // 
       // btnGo
       // 
-      this.btnGo.Location = new System.Drawing.Point(356, 7);
+      this.btnGo.Location = new System.Drawing.Point(356, 9);
       // 
       // ForwardReverseRatioCalibratorUI
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(956, 113);
+      this.ClientSize = new System.Drawing.Size(956, 122);
       this.Name = "ForwardReverseRatioCalibratorUI";
       this.TabText = "MaxQuantPeptideRatioDistillerUI";
       this.Text = "MaxQuantPeptideRatioDistillerUI";

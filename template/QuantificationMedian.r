@@ -39,12 +39,12 @@ for(ds in datasets){
   curres <- as.data.frame(matrix(nrow = length(subjects), ncol = length(colnames), dimnames = list(NULL, colnames)), stringsAsFactors=F)
   index<-0
   
-  #subject<-"AADHVEDLPGALSTLSDLHAHK"
+  #subject<-subjects[1]
   for(subject in subjects){
-    sdata<-dsdata[data$Subject==subject,]
+    sdata<-dsdata[dsdata$Subject==subject,]
     index <-index+1
     
-    sc<-"I127N"
+    #sc<-sampleChannels[1]
     values<-c(subject, ds)
     for(sc in sampleChannels){
       scdata<-sdata[,c("REF", sc)]

@@ -165,9 +165,9 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
         {
           refChannels.PlexType = IsobaricScanXmlUtils.GetIsobaricType(txtIsobaricXmlFile.Text);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-          MessageBox.Show(this, string.Format("{0} is not a valid isobaric xml file!", txtIsobaricXmlFile.Text));
+          MessageBox.Show(this, string.Format("Failed to get isobaric type from {0}, error: {1}", txtIsobaricXmlFile.Text, ex.Message));
         }
       }
     }

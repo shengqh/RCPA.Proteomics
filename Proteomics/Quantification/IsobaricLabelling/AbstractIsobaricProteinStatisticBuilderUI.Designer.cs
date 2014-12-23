@@ -173,6 +173,7 @@
       // 
       this.refChannels.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+      this.refChannels.Checked = false;
       this.refChannels.Description = "Select references";
       this.refChannels.Location = new System.Drawing.Point(152, 88);
       this.refChannels.Name = "refChannels";

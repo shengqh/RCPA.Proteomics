@@ -93,33 +93,37 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
         foreach (var isoFile in isoGroup)
         {
           var datafile = string.Format("{0}.{1}.tsv", resultFileName, isoFile.Key);
-          using (var sw = new StreamWriter(datafile))
+          var rresultfile = Path.ChangeExtension(datafile, ".norm.tsv");
+          //if (!File.Exists(rresultfile))
           {
-            sw.WriteLine("FileScan\t{0}", (from cha in options.PlexType.Channels select cha.Name).Merge("\t"));
-
-            foreach (var isoSpec in isoFile)
+            using (var sw = new StreamWriter(datafile))
             {
-              sw.Write("{0}", isoSpec.Query.FileScan.LongFileName);
-              var item = isoSpec.FindIsobaricItem();
-              for (int i = 0; i < options.PlexType.Channels.Count; i++)
+              sw.WriteLine("FileScan\t{0}", (from cha in options.PlexType.Channels select cha.Name).Merge("\t"));
+
+              foreach (var isoSpec in isoFile)
               {
-                sw.Write("\t{0:0.0}", item[i].Intensity);
+                sw.Write("{0}", isoSpec.Query.FileScan.LongFileName);
+                var item = isoSpec.FindIsobaricItem();
+                for (int i = 0; i < options.PlexType.Channels.Count; i++)
+                {
+                  sw.Write("\t{0:0.0}", item[i].Intensity);
+                }
+                sw.WriteLine();
               }
-              sw.WriteLine();
             }
+
+            var roptions = new RTemplateProcessorOptions();
+            roptions.InputFile = datafile;
+            roptions.OutputFile = rresultfile;
+            roptions.RTemplate = FileUtils.GetTemplateDir() + "/CyclicLoessNormalization.r";
+
+            new RTemplateProcessor(roptions).Process();
           }
-
-          var roptions = new RTemplateProcessorOptions();
-          roptions.InputFile = datafile;
-          roptions.OutputFile = Path.ChangeExtension(datafile, ".norm.tsv");
-          roptions.RTemplate = FileUtils.GetTemplateDir() + "/CyclicLoessNormalization.r";
-
-          new RTemplateProcessor(roptions).Process();
 
           var specMap = isoFile.ToDictionary(m => m.Query.FileScan.LongFileName);
 
           //read R result to replace the intensity of each spectrum
-          using (var sr = new StreamReader(roptions.OutputFile))
+          using (var sr = new StreamReader(rresultfile))
           {
             //ignore header
             string line = sr.ReadLine();
@@ -134,7 +138,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
               var parts = line.Split('\t');
               if (!specMap.TryGetValue(parts[0], out spec))
               {
-                throw new Exception(string.Format("{0} can not be found! The first column of normalization result file {1} must be FileScan!", parts[0], roptions.OutputFile));
+                throw new Exception(string.Format("{0} can not be found! The first column of normalization result file {1} must be FileScan!", parts[0], rresultfile));
               }
 
               var item = spec.FindIsobaricItem();

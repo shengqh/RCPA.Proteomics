@@ -60,7 +60,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
             cb.Dock = DockStyle.Left;
             cb.BringToFront();
             cb.TextAlign = ContentAlignment.MiddleLeft;
-            cb.Checked = true;
+            cb.Checked = Checked;
 
             componentList[new RcpaCheckBox(cb, cb.Text, cb.Checked)] = true;
             channelList.Add(cb);
@@ -138,6 +138,10 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
         }
       }
     }
+
+    [Localizable(true)]
+    [Category("IsobaricIons"), DescriptionAttribute("Gets or sets required"), DefaultValue(true)]
+    public bool Checked { get; set; }
 
     [Localizable(true)]
     [Category("IsobaricIons"), DescriptionAttribute("Gets or sets required"), DefaultValue(true)]
