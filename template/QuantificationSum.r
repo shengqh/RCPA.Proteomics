@@ -125,7 +125,7 @@ for(protein in proteins){
       scresult<-na.omit(scresult)
       
       if(nrow(scresult) == 0){
-        values<-c(values, NA)
+        values<-c(values, NA, NA, NA)
         next
       }
       
