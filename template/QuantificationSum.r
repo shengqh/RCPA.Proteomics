@@ -30,7 +30,7 @@ result<-as.data.frame(setNames(c(replicate(2,character(0), simplify = F),
                                  replicate(length(colnames)-2,numeric(0), simplify = F)), colnames),
                       stringsAsFactors=F)
 
-datasets<-unique(data$Dataset)
+datasets<-sort(unique(data$Dataset))
 #ds<-datasets[1]
 for(ds in datasets){
   dsdata<-data[data$Dataset == ds,]

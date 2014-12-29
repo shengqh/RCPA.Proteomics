@@ -53,7 +53,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
       builder.Quantify(spectra, detailDir.FullName);
 
-      SilacQuantificationSummaryOption option = new SilacQuantificationSummaryOption() { HighlightR2 = this.MinPeptideRegressionCorrelation };
+      SilacQuantificationSummaryOption option = new SilacQuantificationSummaryOption() { MinimumRSquare = this.MinPeptideRegressionCorrelation };
 
       spectra.ForEach(m =>
       {

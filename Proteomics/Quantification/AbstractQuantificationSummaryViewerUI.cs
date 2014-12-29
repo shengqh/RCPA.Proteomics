@@ -15,6 +15,7 @@ using RCPA.Proteomics.Summary;
 using RCPA.Utils;
 using ZedGraph;
 using RCPA.Proteomics.PropertyConverter;
+using RCPA.Proteomics.Quantification.SILAC;
 
 namespace RCPA.Proteomics.Quantification
 {
@@ -134,6 +135,11 @@ namespace RCPA.Proteomics.Quantification
 
       ProcessIdentifiedResult(mr);
 
+      RefreshAll();
+    }
+
+    protected virtual void RefreshAll()
+    {
       validSpectra = from p in mr.GetSpectra()
                      where option.IsPeptideRatioValid(p)
                      select p;
@@ -286,7 +292,7 @@ namespace RCPA.Proteomics.Quantification
           item.SubItems[i].Text = parts[proteinColumnIndecies[i]];
         }
       }
-      item.Checked = option.IsProteinRatioValid(mpg[0]);
+      item.Checked = option.IsProteinRatioValid(mpg[0]) && !option.IsProteinOutlier(mpg[0]);
 
       item.Tag = mpg;
 
@@ -302,7 +308,7 @@ namespace RCPA.Proteomics.Quantification
       {
         item.SubItems.Add(parts[peptideColumnIndecies[i]]);
       }
-      item.Checked = option.IsPeptideRatioValid(mph);
+      item.Checked = option.IsPeptideRatioValid(mph) && !option.IsPeptideOutlier(mph);
       item.Tag = mph;
 
       UpdatePeptideColor(mph, item);
@@ -829,6 +835,10 @@ namespace RCPA.Proteomics.Quantification
         ExportScanHeaders = form.GetCheckedScanHeaders();
         writer = GetScanWriter(detailDir, ExportScanHeaders.Merge("\t"));
       }
+      else
+      {
+        writer = null;
+      }
 
       IIdentifiedResultTextFormat result;
       if (form.IsSingleFile)
@@ -862,9 +872,9 @@ namespace RCPA.Proteomics.Quantification
 
       result.GroupWriter = groupWriter;
 
-      result.ValidGroup = (m => m[0].IsEnabled(true) && option.IsProteinRatioValid(m[0]));
+      result.ValidGroup = (m => m[0].IsEnabled(true) && option.IsProteinRatioValid(m[0]) && !option.IsProteinOutlier(m[0]));
 
-      result.ValidSpectrum = (m => m.IsEnabled(true) && option.IsPeptideRatioValid(m));
+      result.ValidSpectrum = (m => m.IsEnabled(true) && option.IsPeptideRatioValid(m) && !option.IsPeptideOutlier(m));
 
       return result;
     }
@@ -873,7 +883,7 @@ namespace RCPA.Proteomics.Quantification
     {
       var result = DoGetMultipleFileFormat();
       result.ProteinFormat = format.ProteinFormat.GetLineFormat(proteinColumns.Merge("\t"));
-      result.PeptideFormat = format.PeptideFormat.GetLineFormat(peptideColumns.Merge("\t"));
+      result.PeptideFormat = format.PeptideFormat.GetLineFormat(peptideColumns.Where(m => !string.IsNullOrWhiteSpace(m)).Merge("\t"));
       result.ScanWriter = writer;
       return result;
     }

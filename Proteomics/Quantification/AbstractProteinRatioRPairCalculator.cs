@@ -8,23 +8,21 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using RCPA.R;
 
-namespace RCPA.Proteomics.Quantification.O18
+namespace RCPA.Proteomics.Quantification
 {
-  public abstract class AbstractO18ProteinRatioRCalculator : IProteinRatioCalculator
+  public abstract class AbstractProteinRatioRPairCalculator : IProteinRatioCalculator
   {
     class WaitingEntry
     {
       public IIdentifiedProteinGroup Group { get; set; }
       public string IntensityFile { get; set; }
-      public double MaxReference { get; set; }
-      public double MaxSample { get; set; }
     }
 
     protected IGetRatioIntensity intensityFunc;
 
-    public IO18QuantificationOptions Option { get; set; }
+    public IPairQuantificationOptions Option { get; set; }
 
-    public AbstractO18ProteinRatioRCalculator(IGetRatioIntensity intensityFunc, IO18QuantificationOptions option)
+    public AbstractProteinRatioRPairCalculator(IGetRatioIntensity intensityFunc, IPairQuantificationOptions option)
     {
       this.intensityFunc = intensityFunc;
       this.Option = option;
@@ -33,6 +31,15 @@ namespace RCPA.Proteomics.Quantification.O18
     public IGetRatioIntensity IntensityFunc
     {
       get { return this.intensityFunc; }
+    }
+
+    private static double ParseDouble(string value, double valueForNA)
+    {
+      if (value.Equals("NA"))
+      {
+        return valueForNA;
+      }
+      return double.Parse(value);
     }
 
     public void Calculate(IIdentifiedResult mr, Func<IIdentifiedSpectrum, bool> validFunc)
@@ -52,10 +59,10 @@ namespace RCPA.Proteomics.Quantification.O18
         var listfile = (this.DetailDirectory + "/rlm_file.csv").Replace("\\", "/");
         using (var sw = new StreamWriter(listfile))
         {
-          sw.WriteLine("Protein,IntensityFile,MaxReference,MaxSample");
+          sw.WriteLine("Protein,IntensityFile");
           foreach (var we in proteinFiles)
           {
-            sw.WriteLine("{0},{1},{2},{3}", we.Group[0].Name, we.IntensityFile, we.MaxReference, we.MaxSample);
+            sw.WriteLine("\"{0}\",\"{1}\"", we.Group[0].Name, we.IntensityFile);
           }
         }
 
@@ -65,22 +72,16 @@ namespace RCPA.Proteomics.Quantification.O18
 
         roptions.InputFile = listfile;
         roptions.OutputFile = linearfile;
-        roptions.RTemplate = FileUtils.GetTemplateDir() + "/MultipleO18Quantification.r";
+        roptions.RTemplate = FileUtils.GetTemplateDir() + "/MultiplePairQuantification.r";
 
         new RTemplateProcessor(roptions).Process();
 
         var results = (from line in File.ReadAllLines(linearfile).Skip(1)
-                       let parts = line.Split(',')
+                       let parts = line.Split('\t')
                        select new
                        {
                          ProteinName = parts[0].StringAfter("\"").StringBefore("\""),
-                         MaxReference = double.Parse(parts[2]),
-                         MaxSample = double.Parse(parts[3]),
-                         Ratio = double.Parse(parts[4]),
-                         StdErr = double.Parse(parts[5]),
-                         TValue = double.Parse(parts[6]),
-                         PValue = double.Parse(parts[7]),
-                         Count = int.Parse(parts[8])
+                         LinearRegressionResult = ParseLinearRegressionRatioResult(parts, 2)
                        }).ToDictionary(m => m.ProteinName);
 
         foreach (var pg in mr)
@@ -88,25 +89,10 @@ namespace RCPA.Proteomics.Quantification.O18
           if (results.ContainsKey(pg[0].Name))
           {
             var res = results[pg[0].Name];
-            var lrrr = new LinearRegressionRatioResult(res.Ratio, res.StdErr) { PointCount = res.Count, FCalculatedValue = res.TValue, FProbability = res.PValue };
+            var lrrr = res.LinearRegressionResult;
             foreach (IIdentifiedProtein protein in pg)
             {
-              protein.SetEnabled(true);
-              protein.Annotations[O18QuantificationConstants.O18_RATIO] = lrrr;
-
-              var sam = res.MaxSample;
-              var refer = res.MaxReference;
-
-              if (refer > sam)
-              {
-                sam = refer * res.Ratio;
-              }
-              else
-              {
-                refer = sam / res.Ratio;
-              }
-              protein.Annotations[this.intensityFunc.ReferenceKey] = refer;
-              protein.Annotations[this.intensityFunc.SampleKey] = sam;
+              this.intensityFunc.SaveToAnnotation(protein, lrrr);
             }
           }
         }
@@ -126,14 +112,19 @@ namespace RCPA.Proteomics.Quantification.O18
 
       if (spectra.Count == 1)
       {
+        var lrrr = new LinearRegressionRatioResult(CalculatePeptideRatio(spectra[0]), 0.0)
+        {
+          PointCount = 1,
+          TValue = 0,
+          PValue = 1,
+          ReferenceIntensity = this.intensityFunc.GetReferenceIntensity(spectra[0]),
+          SampleIntensity = this.intensityFunc.GetSampleIntensity(spectra[0])
+        };
+
         var r = CalculatePeptideRatio(spectra[0]);
         foreach (var protein in proteinGroup)
         {
-          protein.SetEnabled(true);
-
-          protein.Annotations[O18QuantificationConstants.O18_RATIO] = new LinearRegressionRatioResult(r, 0.0) { PointCount = 1, FCalculatedValue = 0, FProbability = 1 };
-          protein.Annotations[this.intensityFunc.ReferenceKey] = spectra[0].Annotations[this.intensityFunc.ReferenceKey];
-          protein.Annotations[this.intensityFunc.SampleKey] = spectra[0].Annotations[this.intensityFunc.SampleKey];
+          this.intensityFunc.SaveToAnnotation(protein, lrrr);
         }
         return null;
       }
@@ -141,21 +132,34 @@ namespace RCPA.Proteomics.Quantification.O18
       {
         var intensities = this.intensityFunc.ConvertToArray(spectra);
 
-        double maxSam = intensities[0].Max();
-        double maxRef = intensities[1].Max();
+        double sumSam = intensities[0].Max();
+        double sumRef = intensities[1].Max();
 
-        LinearRegressionRatioResult ratioResult;
+        LinearRegressionRatioResult lrrr;
 
-        if (maxSam == 0.0)
+        if (sumSam == 0.0)
         {
-          ratioResult = new LinearRegressionRatioResult(20, 0.0) { PointCount = intensities.Count(), FCalculatedValue = 0, FProbability = 0 };
-          maxSam = maxRef / ratioResult.Ratio;
+          lrrr = new LinearRegressionRatioResult(20, 0.0)
+          {
+            PointCount = intensities.Count(),
+            TValue = 0,
+            PValue = 0,
+            ReferenceIntensity = sumRef,
+          };
+          lrrr.SampleIntensity = sumRef / lrrr.Ratio;
         }
         else
         {
-          if (maxRef == 0.0)
+          if (sumRef == 0.0)
           {
-            ratioResult = new LinearRegressionRatioResult(0.05, 0.0) { PointCount = intensities.Count(), FCalculatedValue = 0, FProbability = 0 };
+            lrrr = new LinearRegressionRatioResult(0.05, 0.0)
+            {
+              PointCount = intensities.Count(),
+              TValue = 0,
+              PValue = 0,
+              SampleIntensity = sumSam
+            };
+            lrrr.ReferenceIntensity = sumSam * lrrr.Ratio;
           }
           else
           {
@@ -168,9 +172,7 @@ namespace RCPA.Proteomics.Quantification.O18
               return new WaitingEntry()
               {
                 Group = proteinGroup,
-                IntensityFile = filename,
-                MaxReference = maxRef,
-                MaxSample = maxSam
+                IntensityFile = filename
               };
             }
 
@@ -180,61 +182,75 @@ namespace RCPA.Proteomics.Quantification.O18
 
             roptions.InputFile = filename;
             roptions.OutputFile = linearfile;
-            roptions.RTemplate = FileUtils.GetTemplateDir() + "/O18Quantification.r";
+            roptions.RTemplate = FileUtils.GetTemplateDir() + "/PairQuantification.r";
 
             new RTemplateProcessor(roptions).Process();
 
-            ratioResult = new LinearRegressionRatioResult();
-            var parts = File.ReadAllLines(linearfile).Skip(1).First().Split(',');
-            ratioResult.Ratio = double.Parse(parts[1]);
-            ratioResult.RSquare = double.Parse(parts[2]);
-            ratioResult.FCalculatedValue = double.Parse(parts[3]);
-            ratioResult.FProbability = double.Parse(parts[4]);
+            var parts = File.ReadAllLines(linearfile).Skip(1).First().Split('\t');
+
+            lrrr = ParseLinearRegressionRatioResult(parts, 0);
           }
-          maxRef = maxSam * ratioResult.Ratio;
         }
 
         foreach (IIdentifiedProtein protein in proteinGroup)
         {
-          protein.SetEnabled(true);
-
-          protein.Annotations[O18QuantificationConstants.O18_RATIO] = ratioResult;
-          protein.Annotations[this.intensityFunc.ReferenceKey] = maxRef;
-          protein.Annotations[this.intensityFunc.SampleKey] = maxSam;
+          this.intensityFunc.SaveToAnnotation(protein, lrrr);
         }
       }
       else
       {
         foreach (IIdentifiedProtein protein in proteinGroup)
         {
-          protein.SetEnabled(false);
-          protein.Annotations.Remove(O18QuantificationConstants.O18_RATIO);
-          protein.Annotations.Remove(this.intensityFunc.ReferenceKey);
-          protein.Annotations.Remove(this.intensityFunc.SampleKey);
+          this.intensityFunc.RemoveFromAnnotation(protein);
         }
       }
       return null;
+    }
+
+    private static LinearRegressionRatioResult ParseLinearRegressionRatioResult(string[] parts, int startIndex)
+    {
+      LinearRegressionRatioResult result;
+
+      result = new LinearRegressionRatioResult();
+      result.ReferenceIntensity = double.Parse(parts[startIndex]);
+      result.SampleIntensity = double.Parse(parts[startIndex + 1]);
+      result.Ratio = double.Parse(parts[startIndex + 2]);
+      result.Stdev = double.Parse(parts[startIndex + 3]);
+      //lrrr.RSquare = double.Parse(parts[2]);
+      result.TValue = ParseDouble(parts[startIndex + 4], 0);
+      result.PValue = ParseDouble(parts[startIndex + 5], 0);
+      result.PointCount = int.Parse(parts[startIndex + 6]);
+      if (result.ReferenceIntensity > result.SampleIntensity)
+      {
+        result.SampleIntensity = result.ReferenceIntensity * result.Ratio;
+      }
+      else
+      {
+        result.ReferenceIntensity = result.SampleIntensity / result.Ratio;
+      }
+      
+      return result;
     }
 
     protected abstract void PrepareIntensityFile(List<IIdentifiedSpectrum> spectra, string filename);
 
     public double CalculatePeptideRatio(IIdentifiedSpectrum mph)
     {
-      double o16 = this.intensityFunc.GetReferenceIntensity(mph);
-      double o18 = this.intensityFunc.GetSampleIntensity(mph);
+      double refIntensity = this.intensityFunc.GetReferenceIntensity(mph);
+      double samIntensity = this.intensityFunc.GetSampleIntensity(mph);
 
       double result = 0;
-      if (o16 == 0)
+      if (refIntensity == 0)
       {
         result = 20;
       }
-      else if (o18 == 0)
+      else if (samIntensity == 0)
       {
         result = 0.05;
       }
       else
       {
-        result = o18 / o16;
+        result = samIntensity / refIntensity;
       }
 
       result = Math.Min(20, Math.Max(result, 0.05));
@@ -249,19 +265,19 @@ namespace RCPA.Proteomics.Quantification.O18
 
     public bool HasProteinRatio(IIdentifiedProtein protein)
     {
-      if (!protein.Annotations.ContainsKey(O18QuantificationConstants.O18_RATIO))
+      if (!protein.Annotations.ContainsKey(this.intensityFunc.RatioKey))
       {
         return false;
       }
 
-      return protein.Annotations[O18QuantificationConstants.O18_RATIO] is LinearRegressionRatioResult;
+      return protein.Annotations[this.intensityFunc.RatioKey] is LinearRegressionRatioResult;
     }
 
     public double GetProteinRatio(IIdentifiedProtein protein)
     {
       if (HasProteinRatio(protein))
       {
-        return (protein.Annotations[O18QuantificationConstants.O18_RATIO] as LinearRegressionRatioResult).Ratio;
+        return (protein.Annotations[this.intensityFunc.RatioKey] as LinearRegressionRatioResult).Ratio;
       }
       else
       {

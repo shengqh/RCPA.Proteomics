@@ -28,43 +28,78 @@ namespace RCPA.Proteomics.Quantification.SILAC
     /// </summary>
     private void InitializeComponent()
     {
+      this.minRSquare = new RCPA.Gui.DoubleField();
+      this.btnUpdate = new System.Windows.Forms.Button();
+      this.pnlButton.SuspendLayout();
       this.SuspendLayout();
       // 
-      // zgcExperimentalScans
+      // pnlButton
       // 
-      this.zgcExperimentalScans.Size = new System.Drawing.Size(259, 387);
-      // 
-      // zgcPeptides
-      // 
-      this.zgcPeptides.Size = new System.Drawing.Size(253, 0);
-      // 
-      // zgcProtein
-      // 
-      this.zgcProtein.Size = new System.Drawing.Size(247, 229);
+      this.pnlButton.Controls.Add(this.btnUpdate);
+      this.pnlButton.Controls.Add(this.minRSquare);
+      this.pnlButton.Location = new System.Drawing.Point(0, 611);
+      this.pnlButton.Size = new System.Drawing.Size(1100, 39);
+      this.pnlButton.Controls.SetChildIndex(this.btnGo, 0);
+      this.pnlButton.Controls.SetChildIndex(this.btnCancel, 0);
+      this.pnlButton.Controls.SetChildIndex(this.btnClose, 0);
+      this.pnlButton.Controls.SetChildIndex(this.minRSquare, 0);
+      this.pnlButton.Controls.SetChildIndex(this.btnUpdate, 0);
       // 
       // btnClose
       // 
-      this.btnClose.Location = new System.Drawing.Point(741, 6);
+      this.btnClose.Location = new System.Drawing.Point(741, 7);
       // 
       // btnCancel
       // 
-      this.btnCancel.Location = new System.Drawing.Point(656, 6);
+      this.btnCancel.Location = new System.Drawing.Point(656, 7);
       // 
       // btnGo
       // 
-      this.btnGo.Location = new System.Drawing.Point(316, 6);
+      this.btnGo.Location = new System.Drawing.Point(304, 7);
+      // 
+      // minRSquare
+      // 
+      this.minRSquare.Caption = "Minimum R Sqaure : ";
+      this.minRSquare.CaptionWidth = 120;
+      this.minRSquare.DefaultValue = "0.9";
+      this.minRSquare.Description = "";
+      this.minRSquare.Key = "TextField";
+      this.minRSquare.Location = new System.Drawing.Point(12, 9);
+      this.minRSquare.Name = "minRSquare";
+      this.minRSquare.PreCondition = null;
+      this.minRSquare.Required = false;
+      this.minRSquare.Size = new System.Drawing.Size(172, 23);
+      this.minRSquare.TabIndex = 25;
+      this.minRSquare.TextWidth = 52;
+      this.minRSquare.Value = 0.9D;
+      // 
+      // btnUpdate
+      // 
+      this.btnUpdate.Location = new System.Drawing.Point(190, 8);
+      this.btnUpdate.Name = "btnUpdate";
+      this.btnUpdate.Size = new System.Drawing.Size(75, 23);
+      this.btnUpdate.TabIndex = 26;
+      this.btnUpdate.Text = "Update";
+      this.btnUpdate.UseVisualStyleBackColor = true;
+      this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
       // 
       // SilacQuantificationSummaryViewerUI
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-      this.ClientSize = new System.Drawing.Size(1100, 600);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+      this.ClientSize = new System.Drawing.Size(1100, 650);
       this.Name = "SilacQuantificationSummaryViewerUI";
       this.Load += new System.EventHandler(this.SilacQuantificationSummaryViewerUI_Load);
+      this.pnlButton.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 
     }
 
     #endregion
+
+    private System.Windows.Forms.Button btnUpdate;
+    private Gui.DoubleField minRSquare;
+
+
   }
 }

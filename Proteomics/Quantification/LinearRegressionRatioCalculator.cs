@@ -50,14 +50,14 @@ namespace RCPA.Proteomics.Quantification
       result.Ratio = x[0];
       result.RSquare = StatisticsUtils.RSquare(bList.ToArray(), bPredicted);
       result.PointCount = bList.Count;
-      result.FCalculatedValue = StatisticsUtils.FCalculatedValueForLinearRegression(bList.ToArray(), bPredicted);
+      result.TValue = StatisticsUtils.FCalculatedValueForLinearRegression(bList.ToArray(), bPredicted);
 
-      if (double.IsInfinity(result.FCalculatedValue) || double.IsNaN(result.FCalculatedValue) || result.FCalculatedValue < 0)
+      if (double.IsInfinity(result.TValue) || double.IsNaN(result.TValue) || result.TValue < 0)
       {
-        result.FCalculatedValue = 0;
+        result.TValue = 0;
       }
 
-      result.FProbability = StatisticsUtils.FProbabilityForLinearRegression(bList.Count, result.FCalculatedValue);
+      result.PValue = StatisticsUtils.FProbabilityForLinearRegression(bList.Count, result.TValue);
 
       return result;
     }
@@ -111,14 +111,14 @@ namespace RCPA.Proteomics.Quantification
       result.Distance = x[1];
       result.RSquare = StatisticsUtils.RSquare(intensities[1], bPredicted);
       result.PointCount = b.Length;
-      result.FCalculatedValue = StatisticsUtils.FCalculatedValueForLinearRegression(intensities[1], bPredicted);
+      result.TValue = StatisticsUtils.FCalculatedValueForLinearRegression(intensities[1], bPredicted);
 
-      if (double.IsInfinity(result.FCalculatedValue) || double.IsNaN(result.FCalculatedValue) || result.FCalculatedValue < 0)
+      if (double.IsInfinity(result.TValue) || double.IsNaN(result.TValue) || result.TValue < 0)
       {
-        result.FCalculatedValue = 0;
+        result.TValue = 0;
       }
 
-      result.FProbability = StatisticsUtils.FProbabilityForLinearRegression(len, result.FCalculatedValue);
+      result.PValue = StatisticsUtils.FProbabilityForLinearRegression(len, result.TValue);
 
       return result;
     }

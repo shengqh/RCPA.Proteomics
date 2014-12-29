@@ -7,7 +7,7 @@ using System.IO;
 
 namespace RCPA.Proteomics.Quantification.O18
 {
-  public class O18ProteinRatioRScanCalculator : AbstractO18ProteinRatioRCalculator
+  public class O18ProteinRatioRScanCalculator : AbstractProteinRatioRPairCalculator
   {
     public O18ProteinRatioRScanCalculator(IGetRatioIntensity intensityFunc, IO18QuantificationOptions option)
       :base(intensityFunc, option)

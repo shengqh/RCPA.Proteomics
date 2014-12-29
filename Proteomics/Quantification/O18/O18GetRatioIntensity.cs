@@ -3,9 +3,29 @@ using RCPA.Proteomics.Summary;
 
 namespace RCPA.Proteomics.Quantification.O18
 {
-  public class O18GetRatioIntensity : IGetRatioIntensity
+  public class O18GetRatioIntensity : AbstractGetRatioIntensity
   {
-    public double GetRatio(IAnnotation si)
+    public override string RatioKey
+    {
+      get { return O18QuantificationConstants.O18_RATIO; }
+    }
+
+    public override string ReferenceKey
+    {
+      get { return O18QuantificationConstants.O16_INTENSITY; }
+    }
+
+    public override string SampleKey
+    {
+      get { return O18QuantificationConstants.O18_INTENSITY; }
+    }
+
+    public override string PValueKey
+    {
+      get { return O18QuantificationConstants.O18_RATIO_PVALUE; }
+    }
+
+    public override double GetRatio(IAnnotation si)
     {
       try
       {
@@ -17,54 +37,24 @@ namespace RCPA.Proteomics.Quantification.O18
       }
     }
 
-    public double GetReferenceIntensity(IAnnotation si)
+    public override double GetReferenceIntensity(IAnnotation si)
     {
-      return GetIntensity(si, ReferenceKey);
+      return si.GetDoubleValue(ReferenceKey);
     }
 
-    public double GetSampleIntensity(IAnnotation si)
+    public override double GetSampleIntensity(IAnnotation si)
     {
-      return GetIntensity(si, SampleKey);
+      return si.GetDoubleValue(SampleKey);
     }
 
-    private static double GetIntensity(IAnnotation si, string key)
+    public override double GetPValue(IAnnotation si)
     {
-      if (!si.Annotations.ContainsKey(key))
-      {
-        throw new Exception("There is no intensity information of " + key);
-      }
-      return MyConvert.ToDouble(si.Annotations[key]);
+      return si.GetDoubleValue(PValueKey);
     }
 
-    public string RatioKey
+    public override bool HasRatio(IAnnotation si)
     {
-      get { return O18QuantificationConstants.O18_RATIO; }
+      return si.HasDoubleValue(RatioKey);
     }
-
-    public string ReferenceKey
-    {
-      get { return O18QuantificationConstants.O16_INTENSITY; }
-    }
-
-    public string SampleKey
-    {
-      get { return O18QuantificationConstants.O18_INTENSITY; }
-    }
-
-    #region IGetRatioIntensity Members
-
-
-    public bool HasRatio(IAnnotation si)
-    {
-      if (!si.Annotations.ContainsKey(RatioKey))
-      {
-        return false;
-      }
-
-      double value;
-      return MyConvert.TryParse(si.Annotations[RatioKey], out value);
-    }
-
-    #endregion
   }
 }

@@ -77,7 +77,11 @@ namespace RCPA.Proteomics.MSAmanda
         {
           peptide.Query.FileScan.Experimental = Path.GetFileNameWithoutExtension(fileName);
         }
-        peptide.Query.RetentionTime = double.Parse((peptide.Annotations[RT_KEY] as string).StringBefore("-"));
+        var rtstr = peptide.Annotations[RT_KEY] as string;
+        if (!string.IsNullOrWhiteSpace(rtstr))
+        {
+          peptide.Query.RetentionTime = double.Parse(rtstr.StringBefore("-"));
+        }
         peptide.Annotations.Remove(RT_KEY);
       }
 

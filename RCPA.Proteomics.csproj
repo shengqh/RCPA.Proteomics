@@ -226,6 +226,7 @@
     <Compile Include="Proteomics\Percolator\PercolatorOutputXmlPsmReader.cs" />
     <Compile Include="Proteomics\Percolator\PercolatorScoreFunctions.cs" />
     <Compile Include="Proteomics\PFind\PFindFactory.cs" />
+    <Compile Include="Proteomics\PFind\PNovoPlusParser.cs" />
     <Compile Include="Proteomics\Processor\PeakListRemovePrecursorDaltonProcessor.cs" />
     <Compile Include="Proteomics\Processor\PeakListRemovePrecursorProcessorOptions.cs" />
     <Compile Include="Proteomics\ProteomeDiscoverer\MsfFastaDistillerUI.cs">
@@ -237,7 +238,9 @@
     <Compile Include="Proteomics\ProteomeDiscoverer\MsfFastaDistiller.cs" />
     <Compile Include="Proteomics\ProteomeDiscoverer\ModificationEntry.cs" />
     <Compile Include="Proteomics\ProteomeDiscoverer\MsfDatabaseParser.cs" />
+    <Compile Include="Proteomics\Quantification\IPairQuantificationOptions.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\UsedChannel.cs" />
+    <Compile Include="Proteomics\Quantification\AbstractQuantificationSummaryOption.cs" />
     <Compile Include="Proteomics\Sequest\AbstractSequestSpectrumParser.cs" />
     <Compile Include="Proteomics\Sequest\SequestDatasetBuilder2.cs" />
     <Compile Include="Proteomics\Sequest\SequestFactory.cs" />
@@ -471,9 +474,8 @@
     </Compile>
     <Compile Include="Proteomics\Quantification\MaxQuant\IntensityEntry.cs" />
     <Compile Include="Proteomics\Quantification\MaxQuant\PeptideReader.cs" />
-    <Compile Include="Proteomics\Quantification\O18\AbstractO18ProteinRatioRCalculator.cs" />
+    <Compile Include="Proteomics\Quantification\AbstractProteinRatioRPairCalculator.cs" />
     <Compile Include="Proteomics\Quantification\O18\AbstractO18QuantificationOptions.cs" />
-    <Compile Include="Proteomics\Quantification\O18\AbstractO18ProteinRatioRCalculatorOld.cs" />
     <Compile Include="Proteomics\Quantification\O18\IO18QuantificationOptions.cs" />
     <Compile Include="Proteomics\Quantification\O18\O18ProteinRatioRPeptideCalculator.cs" />
     <Compile Include="Proteomics\Quantification\O18\O18ProteinRatioRScanCalculator.cs" />
@@ -2813,10 +2815,10 @@
     <None Include="template\QuantificationMedian.r">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="template\MultipleO18Quantification.r">
+    <None Include="template\MultiplePairQuantification.r">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="template\O18Quantification.r">
+    <None Include="template\PairQuantification.r">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="template\DetectSignificantIon.r">

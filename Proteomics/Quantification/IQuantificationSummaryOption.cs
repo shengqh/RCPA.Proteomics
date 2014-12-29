@@ -13,6 +13,11 @@ namespace RCPA.Proteomics.Quantification
     object ReadRatioFile(string file);
 
     /// <summary>
+    /// 线性回归的RSquare阈值
+    /// </summary>
+    double MinimumRSquare { get; set; }
+
+    /// <summary>
     /// 是否有ratio值
     /// </summary>
     /// <param name="ann"></param>

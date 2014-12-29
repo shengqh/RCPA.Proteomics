@@ -31,6 +31,8 @@ namespace RCPA.Proteomics.Quantification.O18
 
     public static readonly string O18_RATIO_FILE = "O18_RATIO_FILE";
 
+    public static readonly string O18_RATIO_PVALUE = "O18_PVALUE";
+
     public static readonly string O18_RATIO_SCANCOUNT = "O18_RATIO_COUNT";
 
     public static readonly string O18_EXPORT_PROTEIN_HEADER = "\tName\tDescription\tMW\tUniquePeptideCount\tLR_Ratio\tLR_RSquare\tLR_FCalc\tLR_FProbability";

@@ -99,7 +99,7 @@ namespace RCPA.Proteomics.PropertyConverter
       if (t.Annotations.ContainsKey(LinearRegressionRatioResult.Header))
       {
         var lrrr = t.Annotations[LinearRegressionRatioResult.Header] as LinearRegressionRatioResult;
-        return MyConvert.Format("{0:0.0000}", lrrr.FCalculatedValue);
+        return MyConvert.Format("{0:0.0000}", lrrr.TValue);
       }
 
       return "";
@@ -124,7 +124,7 @@ namespace RCPA.Proteomics.PropertyConverter
         lrrr = t.Annotations[LinearRegressionRatioResult.Header] as LinearRegressionRatioResult;
       }
 
-      lrrr.FCalculatedValue = MyConvert.ToDouble(value);
+      lrrr.TValue = MyConvert.ToDouble(value);
     }
   }
 
@@ -141,7 +141,7 @@ namespace RCPA.Proteomics.PropertyConverter
       if (t.Annotations.ContainsKey(LinearRegressionRatioResult.Header))
       {
         var lrrr = t.Annotations[LinearRegressionRatioResult.Header] as LinearRegressionRatioResult;
-        return MyConvert.Format("{0:0.0000}", lrrr.FProbability);
+        return MyConvert.Format("{0:0.0000}", lrrr.PValue);
       }
 
       return "";
@@ -166,7 +166,7 @@ namespace RCPA.Proteomics.PropertyConverter
         lrrr = t.Annotations[LinearRegressionRatioResult.Header] as LinearRegressionRatioResult;
       }
 
-      lrrr.FProbability = MyConvert.ToDouble(value);
+      lrrr.PValue = MyConvert.ToDouble(value);
     }
   }
 }

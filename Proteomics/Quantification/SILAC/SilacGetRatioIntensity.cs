@@ -3,26 +3,26 @@ using RCPA.Proteomics.Summary;
 
 namespace RCPA.Proteomics.Quantification.SILAC
 {
-  public class SilacGetRatioIntensity : IGetRatioIntensity
+  public class SilacGetRatioIntensity : AbstractGetRatioIntensity
   {
     #region IGetRatioIntensity Members
 
-    public string RatioKey
+    public override string RatioKey
     {
-      get { throw new NotImplementedException(); }
+      get { return "SILAC_RATIO"; }
     }
 
-    public string ReferenceKey
+    public override string ReferenceKey
     {
       get { return "Reference"; }
     }
 
-    public string SampleKey
+    public override string SampleKey
     {
       get { return "Sample"; }
     }
 
-    public double GetRatio(IAnnotation si)
+    public override double GetRatio(IAnnotation si)
     {
       if (si.HasRatio())
       {
@@ -34,7 +34,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
       }
     }
 
-    public double GetReferenceIntensity(IAnnotation si)
+    public override double GetReferenceIntensity(IAnnotation si)
     {
       if (si.HasRatio())
       {
@@ -46,7 +46,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
       }
     }
 
-    public double GetSampleIntensity(IAnnotation si)
+    public override double GetSampleIntensity(IAnnotation si)
     {
       if (si.HasRatio())
       {
@@ -58,11 +58,21 @@ namespace RCPA.Proteomics.Quantification.SILAC
       }
     }
 
-    public bool HasRatio(IAnnotation si)
+    public override bool HasRatio(IAnnotation si)
     {
       return si.HasRatio();
     }
 
     #endregion
+
+    public override string PValueKey
+    {
+      get { return "PValue"; }
+    }
+
+    public override double GetPValue(IAnnotation si)
+    {
+      return si.GetDoubleValue(PValueKey);
+    }
   }
 }

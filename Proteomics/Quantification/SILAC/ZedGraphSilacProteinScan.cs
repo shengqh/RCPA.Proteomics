@@ -152,7 +152,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
         if (pplTotal.Count > 0)
         {
           var lr = pplTotal.GetRegression();
-          var lr_text = MyConvert.Format("Ratio={0:0.00}, Correl={1:0.00}, FValue={2:0.00}, FProb={3:E4}", lr.Ratio, lr.RSquare, lr.FCalculatedValue, lr.FProbability);
+          var lr_text = MyConvert.Format("Ratio={0:0.00}, Correl={1:0.00}, FValue={2:0.00}, FProb={3:E4}", lr.Ratio, lr.RSquare, lr.TValue, lr.PValue);
           PointPairList line = pplTotal.GetRegressionLine();
 
           var lineItem = this.panel.AddCurve(lr_text, line, RegressionLineColor, SymbolType.None);

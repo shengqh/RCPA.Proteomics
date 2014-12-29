@@ -24,7 +24,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
   {
     public static string title = "Silac Quantification Summary Viewer";
 
-    public static string version = "1.0.8";
+    public static string version = "1.0.9";
 
     private ZedGraphSilacProteinScan proteinScan;
 
@@ -47,6 +47,12 @@ namespace RCPA.Proteomics.Quantification.SILAC
       factory.InsertConverter(new IdentifiedSpectrumScoreConverter<IIdentifiedSpectrum>("{0:0}"));
 
       this.format.PeptideFormat = new LineFormat<IIdentifiedSpectrum>(factory, "");
+    }
+
+    protected override void OnAfterLoadOption(EventArgs e)
+    {
+      base.OnAfterLoadOption(e);
+      this.option.MinimumRSquare = minRSquare.Value;
     }
 
     private void SilacQuantificationSummaryViewerUI_Load(object sender, EventArgs e)
@@ -153,5 +159,43 @@ namespace RCPA.Proteomics.Quantification.SILAC
     }
 
     #endregion
+
+    protected override void RefreshAll()
+    {
+      this.option.MinimumRSquare = minRSquare.Value;
+
+      foreach (var g in mr)
+      {
+        var spectra = g[0].GetSpectra();
+        bool bChanged = false;
+        foreach (var spec in spectra)
+        {
+          var item = spec.GetQuantificationItem();
+          if (item != null)
+          {
+            var enabled = item.Correlation >= this.option.MinimumRSquare;
+            if (item.Enabled != enabled)
+            {
+              item.Enabled = enabled;
+              bChanged = true;
+            }
+          }
+        }
+        if (bChanged)
+        {
+          calc.Calculate(g, m => true);
+        }
+      }
+
+      base.RefreshAll();
+    }
+
+    private void btnUpdate_Click(object sender, EventArgs e)
+    {
+      if (this.option.MinimumRSquare != minRSquare.Value)
+      {
+        RefreshAll();
+      }
+    }
   }
 }

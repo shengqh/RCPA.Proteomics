@@ -3,10 +3,6 @@ namespace RCPA.Proteomics.Quantification
   public class LinearRegressionRatioResult
   {
     public static readonly string Header = "LR_Ratio\tLR_RSquare\tLR_FCalc\tLR_FProbability";
-    private double fCalculatedValue;
-    private double fProbability;
-    private double ratio;
-    private double rSquare;
 
     public LinearRegressionRatioResult()
       : this(0.0, 0.0)
@@ -15,22 +11,24 @@ namespace RCPA.Proteomics.Quantification
 
     public LinearRegressionRatioResult(double ratio, double rSquare)
     {
-      this.ratio = ratio;
-      this.rSquare = rSquare;
+      this.Ratio = ratio;
+      this.RSquare = rSquare;
       this.PointCount = 0;
-      this.fCalculatedValue = 0.0;
-      this.fProbability = 0.0;
+      this.TValue = 0.0;
+      this.PValue = 0.0;
       this.Distance = 0.0;
+      this.ReferenceIntensity = 0.0;
+      this.SampleIntensity = 0.0;
     }
+
+    public double ReferenceIntensity { get; set; }
+
+    public double SampleIntensity { get; set; }
 
     /// <summary>
     /// Linear regression ratio
     /// </summary>
-    public double Ratio
-    {
-      get { return this.ratio; }
-      set { this.ratio = value; }
-    }
+    public double Ratio {get;set;}
 
     /// <summary>
     /// Linear regression distance
@@ -38,36 +36,29 @@ namespace RCPA.Proteomics.Quantification
     public double Distance { get; set; }
 
     /// <summary>
-    /// R Square of linear regression
+    /// R Square of linear regression model
     /// </summary>
-    public double RSquare
-    {
-      get { return this.rSquare; }
-      set { this.rSquare = value; }
-    }
+    public double RSquare{get;set;}
 
     /// <summary>
-    /// Point count in linear regression
+    /// Point count used in linear regression model
     /// </summary>
     public double PointCount { get; set; }
 
     /// <summary>
-    /// F-test calculated value of linear regression
+    /// t statistic value of linear regression model
     /// </summary>
-    public double FCalculatedValue
-    {
-      get { return this.fCalculatedValue; }
-      set { this.fCalculatedValue = value; }
-    }
+    public double TValue{get;set;}
 
     /// <summary>
-    /// F-test probability of linear regression
+    /// Stand deviation of linear regression model
     /// </summary>
-    public double FProbability
-    {
-      get { return this.fProbability; }
-      set { this.fProbability = value; }
-    }
+    public double Stdev { get; set; }
+
+    /// <summary>
+    /// Pvalue of linear regression model
+    /// </summary>
+    public double PValue{get;set;}
 
     //public override string ToString()
     //{
@@ -80,7 +71,8 @@ namespace RCPA.Proteomics.Quantification
 
     public override string ToString()
     {
-      return MyConvert.Format("{0:0.0000}", this.ratio);
+      return MyConvert.Format("{0:0.0000}", this.Ratio);
     }
+
   }
 }

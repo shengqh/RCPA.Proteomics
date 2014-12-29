@@ -17,7 +17,7 @@ namespace RCPA.Proteomics.Quantification.O18
   public partial class O18QuantificationFileProcessorUI : AbstractFileProcessorUI
   {
     public static string title = "O18 Quantification Calculator";
-    public static string version = "1.1.6";
+    public static string version = "1.1.7";
 
     private RcpaDirectoryField rawDir;
     private RcpaDoubleField purityOfWater;

@@ -42,7 +42,9 @@ namespace RCPA.Proteomics.Quantification.O18
       this.label4 = new System.Windows.Forms.Label();
       this.label5 = new System.Windows.Forms.Label();
       this.cbRawFormat = new System.Windows.Forms.ComboBox();
+      this.textBox1 = new System.Windows.Forms.TextBox();
       this.pnlFile.SuspendLayout();
+      this.pnlButton.SuspendLayout();
       this.SuspendLayout();
       // 
       // pnlFile
@@ -61,13 +63,18 @@ namespace RCPA.Proteomics.Quantification.O18
       // 
       // lblProgress
       // 
-      this.lblProgress.Location = new System.Drawing.Point(0, 202);
+      this.lblProgress.Location = new System.Drawing.Point(0, 250);
       this.lblProgress.Size = new System.Drawing.Size(875, 23);
       // 
       // progressBar
       // 
-      this.progressBar.Location = new System.Drawing.Point(0, 225);
+      this.progressBar.Location = new System.Drawing.Point(0, 273);
       this.progressBar.Size = new System.Drawing.Size(875, 23);
+      // 
+      // pnlButton
+      // 
+      this.pnlButton.Location = new System.Drawing.Point(0, 296);
+      this.pnlButton.Size = new System.Drawing.Size(875, 39);
       // 
       // btnClose
       // 
@@ -211,10 +218,25 @@ namespace RCPA.Proteomics.Quantification.O18
       this.cbRawFormat.Size = new System.Drawing.Size(121, 21);
       this.cbRawFormat.TabIndex = 18;
       // 
+      // textBox1
+      // 
+      this.textBox1.BackColor = System.Drawing.SystemColors.ButtonFace;
+      this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+      this.textBox1.Enabled = false;
+      this.textBox1.ForeColor = System.Drawing.Color.Blue;
+      this.textBox1.Location = new System.Drawing.Point(235, 192);
+      this.textBox1.Multiline = true;
+      this.textBox1.Name = "textBox1";
+      this.textBox1.Size = new System.Drawing.Size(512, 40);
+      this.textBox1.TabIndex = 20;
+      this.textBox1.Text = "IMPORTANT: install R and \"MASS\", \"outliers\" packages before you run this software" +
+    ". You also need to setup R location from Setup->External program.";
+      // 
       // O18QuantificationFileProcessorUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-      this.ClientSize = new System.Drawing.Size(875, 287);
+      this.ClientSize = new System.Drawing.Size(875, 335);
+      this.Controls.Add(this.textBox1);
       this.Controls.Add(this.cbRawFormat);
       this.Controls.Add(this.label5);
       this.Controls.Add(this.label4);
@@ -230,6 +252,7 @@ namespace RCPA.Proteomics.Quantification.O18
       this.Controls.Add(this.txtPurityOfO18Water);
       this.Controls.Add(this.label1);
       this.Name = "O18QuantificationFileProcessorUI";
+      this.Controls.SetChildIndex(this.pnlButton, 0);
       this.Controls.SetChildIndex(this.pnlFile, 0);
       this.Controls.SetChildIndex(this.label1, 0);
       this.Controls.SetChildIndex(this.txtPurityOfO18Water, 0);
@@ -247,8 +270,10 @@ namespace RCPA.Proteomics.Quantification.O18
       this.Controls.SetChildIndex(this.label4, 0);
       this.Controls.SetChildIndex(this.label5, 0);
       this.Controls.SetChildIndex(this.cbRawFormat, 0);
+      this.Controls.SetChildIndex(this.textBox1, 0);
       this.pnlFile.ResumeLayout(false);
       this.pnlFile.PerformLayout();
+      this.pnlButton.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -270,5 +295,6 @@ namespace RCPA.Proteomics.Quantification.O18
     private System.Windows.Forms.Label label4;
     private System.Windows.Forms.Label label5;
     private System.Windows.Forms.ComboBox cbRawFormat;
+    private System.Windows.Forms.TextBox textBox1;
   }
 }

@@ -21,6 +21,7 @@ namespace RCPA.Proteomics.MSAmanda
         true,
         false);
       AddComponent(this.datFiles);
+      minScore.DefaultValue = "100";
     }
   }
 }

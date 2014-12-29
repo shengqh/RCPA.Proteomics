@@ -84,7 +84,7 @@ namespace RCPA.Proteomics.Mascot
       writer.Write(MascotGenericFormatConstants.PEPMASS_TAG + "=" + MyConvert.Format("{0:0.#####}", pl.PrecursorMZ));
       if (pl.PrecursorIntensity > 0.0)
       {
-        writer.Write("\t" + MyConvert.Format("{0:0.0}", pl.PrecursorIntensity));
+        writer.Write("\t" + MyConvert.Format("{0:0.0###}", pl.PrecursorIntensity));
       }
       writer.WriteLine();
 
@@ -159,7 +159,7 @@ namespace RCPA.Proteomics.Mascot
       //{
       foreach (T peak in pkl)
       {
-        writer.WriteLine(MyConvert.Format("{0:0.#####} {1:0.0}", peak.Mz, peak.Intensity));
+        writer.WriteLine(MyConvert.Format("{0:0.#####} {1:0.0###}", peak.Mz, peak.Intensity));
       }
       //}
 

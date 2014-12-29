@@ -10,7 +10,7 @@ namespace RCPA.Proteomics.Quantification.O18
 {
   public class O18QuantificationSummaryViewerOptions : AbstractO18QuantificationOptions, IQuantificationSummaryOption
   {
-    public double HighlightR2 { get; private set; }
+    public double MinimumRSquare { get; set; }
 
     private string _summaryFile;
     public override string SummaryFile
@@ -21,10 +21,10 @@ namespace RCPA.Proteomics.Quantification.O18
       }
     }
 
-    public O18QuantificationSummaryViewerOptions(string summaryFile, double highlightR2 = 0.9 )
+    public O18QuantificationSummaryViewerOptions(string summaryFile, double minimumRSquare = 0.9 )
     {
       this._summaryFile = summaryFile;
-      this.HighlightR2 = highlightR2;
+      this.MinimumRSquare = minimumRSquare;
     }
 
     public object ReadRatioFile(string file)
@@ -56,7 +56,7 @@ namespace RCPA.Proteomics.Quantification.O18
 
       LinearRegressionRatioResult lrrr = ann.Annotations[O18QuantificationConstants.O18_RATIO] as LinearRegressionRatioResult;
 
-      return lrrr.RSquare < this.HighlightR2;
+      return lrrr.RSquare < this.MinimumRSquare;
     }
 
     public IQuantificationPeptideForm CreateForm()
@@ -82,7 +82,7 @@ namespace RCPA.Proteomics.Quantification.O18
     public string GetProteinRatioDescription(IIdentifiedProtein ann)
     {
       LinearRegressionRatioResult lrrr = ann.Annotations[O18QuantificationConstants.O18_RATIO] as LinearRegressionRatioResult;
-      return MyConvert.Format("Ratio={0:0.00}; StdErr={1:0.0000}; pValue={2:0.##E-000}", lrrr.Ratio, lrrr.RSquare, lrrr.FProbability);
+      return MyConvert.Format("Ratio={0:0.00}; StdErr={1:0.0000}; pValue={2:0.##E-000}", lrrr.Ratio, lrrr.RSquare, lrrr.PValue);
     }
 
     public string GetPeptideClassification(IIdentifiedSpectrum ann)

@@ -45,7 +45,7 @@ namespace RCPA.Proteomics.Quantification.O18
         {
           protein.SetEnabled(true);
 
-          protein.Annotations[O18QuantificationConstants.O18_RATIO] = new LinearRegressionRatioResult(r, 0.0) { PointCount = 1, FCalculatedValue = 0, FProbability = 1 };
+          protein.Annotations[O18QuantificationConstants.O18_RATIO] = new LinearRegressionRatioResult(r, 0.0) { PointCount = 1, TValue = 0, PValue = 1 };
           protein.Annotations[this.intensityFunc.ReferenceKey] = spectra[0].Annotations[this.intensityFunc.ReferenceKey];
           protein.Annotations[this.intensityFunc.SampleKey] = spectra[0].Annotations[this.intensityFunc.SampleKey];
         }
@@ -61,14 +61,14 @@ namespace RCPA.Proteomics.Quantification.O18
 
         if (maxA == 0.0)
         {
-          ratioResult = new LinearRegressionRatioResult(20, 0.0) { PointCount = intensities.Count(), FCalculatedValue = 0, FProbability = 0 };
+          ratioResult = new LinearRegressionRatioResult(20, 0.0) { PointCount = intensities.Count(), TValue = 0, PValue = 0 };
           maxA = maxB / ratioResult.Ratio;
         }
         else
         {
           if (maxB == 0.0)
           {
-            ratioResult = new LinearRegressionRatioResult(0.05, 0.0) { PointCount = intensities.Count(), FCalculatedValue = 0, FProbability = 0 };
+            ratioResult = new LinearRegressionRatioResult(0.05, 0.0) { PointCount = intensities.Count(), TValue = 0, PValue = 0 };
           }
           else
           {
