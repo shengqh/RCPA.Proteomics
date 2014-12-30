@@ -10,12 +10,12 @@ using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
 using RCPA.Gui;
 
-namespace RCPA.Tools.Format
+namespace RCPA.Proteomics.MaxQuant
 {
   public partial class MaxQuantSiteToPeptideProcessorUI : AbstractFileProcessorUI
   {
     public static readonly string title = "MaxQuant Sites To Mascot Peptide Converter";
-    public static readonly string version = "1.0.1";
+    public static readonly string version = "1.0.2";
 
     private RcpaDoubleField minLocalizationProbability;
     private RcpaDoubleField minScoreDiff;

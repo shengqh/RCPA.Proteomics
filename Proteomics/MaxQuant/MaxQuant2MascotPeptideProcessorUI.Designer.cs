@@ -1,4 +1,4 @@
-namespace RCPA.Tools.Format
+namespace RCPA.Proteomics.MaxQuant
 {
   partial class MaxQuantSiteToPeptideProcessorUI
   {

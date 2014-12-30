@@ -123,7 +123,7 @@ namespace RCPA.Proteomics.MaxQuant
           string mod = m.Groups[1].Value;
           if (!modCharMap.ContainsKey(mod))
           {
-            modCharMap[mod] = ModificationConsts.MODIFICATION_CHAR.Substring(modCharMap.Count, 1);
+            modCharMap[mod] = ModificationConsts.MODIFICATION_CHAR.Substring(modCharMap.Count + 1, 1);
           }
           m = m.NextMatch();
         }

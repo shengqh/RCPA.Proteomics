@@ -6,7 +6,7 @@ using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.MaxQuant;
 
-namespace RCPA.Tools.Format
+namespace RCPA.Proteomics.MaxQuant
 {
   public class MaxQuant2MascotPeptideProcessor2 : AbstractThreadFileProcessor
   {

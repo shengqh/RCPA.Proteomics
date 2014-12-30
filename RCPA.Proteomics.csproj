@@ -1552,7 +1552,7 @@
       <DependentUpon>IdentifiedResult2DtaSelectProcessorUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Format\MaxQuant2MascotPeptideProcessorUI.resx">
+    <EmbeddedResource Include="Proteomics\MaxQuant\MaxQuant2MascotPeptideProcessorUI.resx">
       <DependentUpon>MaxQuant2MascotPeptideProcessorUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -2405,7 +2405,7 @@
     </Compile>
     <Compile Include="Proteomics\Format\MaxQuantToMgfProcessor.cs" />
     <Compile Include="Proteomics\ChargeClass.cs" />
-    <Compile Include="Tools\Format\MaxQuant2MascotPeptideProcessor2.cs" />
+    <Compile Include="Proteomics\MaxQuant\MaxQuant2MascotPeptideProcessor2.cs" />
     <Compile Include="Tools\Format\IdentifiedResult2DtaSelectProcessor.cs" />
     <Compile Include="Tools\Format\IdentifiedResult2DtaSelectProcessorUI.cs">
       <SubType>Form</SubType>
@@ -2413,11 +2413,10 @@
     <Compile Include="Tools\Format\IdentifiedResult2DtaSelectProcessorUI.Designer.cs">
       <DependentUpon>IdentifiedResult2DtaSelectProcessorUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Format\MaxQuant2MascotPeptideProcessor.cs" />
-    <Compile Include="Tools\Format\MaxQuant2MascotPeptideProcessorUI.cs">
+    <Compile Include="Proteomics\MaxQuant\MaxQuant2MascotPeptideProcessorUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tools\Format\MaxQuant2MascotPeptideProcessorUI.Designer.cs">
+    <Compile Include="Proteomics\MaxQuant\MaxQuant2MascotPeptideProcessorUI.Designer.cs">
       <DependentUpon>MaxQuant2MascotPeptideProcessorUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Format\Raw2MgfOption.cs" />
