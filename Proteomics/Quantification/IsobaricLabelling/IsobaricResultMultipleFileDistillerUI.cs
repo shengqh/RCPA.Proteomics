@@ -15,7 +15,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
   public partial class IsobaricResultMultipleFileDistillerUI : AbstractProcessorFileUI
   {
-    private static readonly string title = "Isobaric Labelling Multiple File Distiller";
+    private static readonly string title = "Isobaric Labeling Multiple File Distiller";
 
     private static readonly string version = "1.4.5";
 
@@ -167,7 +167,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
       public string GetSecondLevelCommandItem()
       {
-        return MenuCommandType.Quantification_IsobaricLabelling + "_NEW";
+        return MenuCommandType.Quantification_IsobaricLabelling_NEW;
       }
 
       #endregion

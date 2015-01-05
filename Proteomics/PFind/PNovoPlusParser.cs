@@ -49,31 +49,6 @@ namespace RCPA.Proteomics.PFind
 
     /// <summary>
     /// 
-    /// Get top ten peptide list from pNovo file
-    /// 
-    /// </summary>
-    /// <param name="filename">pNovo file</param>
-    /// <returns>List of IIdentifiedSpectrum</returns>
-    public List<IIdentifiedSpectrum> ParsePeptides(string filename)
-    {
-      return ParsePeptides(filename, 10);
-    }
-
-    /// <summary>
-    /// 
-    /// Get the query/peptide map from pNovo file
-    /// 
-    /// </summary>
-    /// <param name="filename">pFind proteins file</param>
-    /// <param name="maxRank">Maximum rank of peptide identified in same spectrum</param>
-    /// <returns>Query/peptide map</returns>
-    public List<IIdentifiedSpectrum> ParsePeptides(string filename, int maxRank)
-    {
-      return ParsePeptides(filename, maxRank, 0.0);
-    }
-
-    /// <summary>
-    /// 
     /// Get the query/peptide map from pNovo result.
     /// 
     /// </summary>
@@ -81,14 +56,13 @@ namespace RCPA.Proteomics.PFind
     /// <param name="minRank">Minimum rank of peptide identified in same spectrum</param>
     /// <param name="minScore">Minimum score of peptide identified in same spectrum</param>
     /// <returns>Query/peptide map</returns>
-    public List<IIdentifiedSpectrum> ParsePeptides(string filename, int maxRank, double minScore)
+    public List<IIdentifiedSpectrum> ParsePeptides(string filename, int maxRank = 10, double minScore = 0.0)
     {
       var result = new List<IIdentifiedSpectrum>();
 
       SequestFilename sf = null;
 
-      int charge = 2;
-      double expmh = 0;
+      int curIndex = 0;
       using (var sr = new StreamReader(filename))
       {
         string line;
@@ -101,71 +75,51 @@ namespace RCPA.Proteomics.PFind
 
           if (line.StartsWith("S"))
           {
-
+            var title = line.StringAfter("\t");
+            sf = this.parser.GetValue(title);
+            curIndex = 0;
+            continue;
           }
-          var parts = line.Split('\t');
-          if (parts.Length <= 5)
-          { //spectrum information
-            var seqcount = Convert.ToInt32(parts.Last());
-            if (seqcount == 0)
-            {
-              continue;
-            }
 
-            sf = parser.GetValue(parts[0]);
-            expmh = MyConvert.ToDouble(parts[1]);
-            charge = Convert.ToInt32(parts[2]);
+          var parts = line.Split('\t');
+          var score = MyConvert.ToDouble(parts[2]);
+          if (score < minScore)
+          {
+            continue;
+          }
+
+          curIndex++;
+
+          IIdentifiedSpectrum curSpectrum;
+          if (curIndex == 1)
+          {
+            curSpectrum = new IdentifiedSpectrum();
+            curSpectrum.Query.FileScan = sf;
+            curSpectrum.Query.Charge = sf.Charge;
+            curSpectrum.Score = score;
+            curSpectrum.Rank = curIndex;
+            result.Add(curSpectrum);
+          }
+          else if(score == result.Last().Score)
+          {
+            curSpectrum = result.Last();
+          }
+          else if(curIndex > maxRank)
+          {
+            continue;
           }
           else
           {
-            int curIndex = Convert.ToInt32(parts[0]);
-
-            if (curIndex <= maxRank)
-            {
-              var score = MyConvert.ToDouble(parts[2]);
-              if (score < minScore)
-              {
-                continue;
-              }
-
-              var curSpectrum = new IdentifiedSpectrum();
-              curSpectrum.Query.FileScan = sf;
-              curSpectrum.Query.Charge = charge;
-              curSpectrum.ExperimentalMH = expmh;
-              curSpectrum.Score = score;
-              result.Add(curSpectrum);
-
-              IdentifiedPeptide pep = new IdentifiedPeptide(curSpectrum);
-              pep.Sequence = ModifySequence(parts[9]);
-              pep.Spectrum.TheoreticalMH = MyConvert.ToDouble(parts[11]);
-              pep.Spectrum.Rank = curIndex;
-            }
+            curSpectrum = new IdentifiedSpectrum();
+            curSpectrum.Query.FileScan = sf;
+            curSpectrum.Query.Charge = sf.Charge;
+            curSpectrum.Score = score;
+            curSpectrum.Rank = curIndex;
+            result.Add(curSpectrum);
           }
-        }
-      }
-      return result;
-    }
 
-    /// <summary>
-    /// 获取用于Denovo的谱图总数。
-    /// </summary>
-    /// <param name="filename">pNovo proteins file</param>
-    /// <returns>用于Denovo的谱图总数</returns>
-    public int GetSpectrumCount(string filename)
-    {
-      var result = 0;
-
-      using (var sr = new StreamReader(filename))
-      {
-        string line;
-        while ((line = sr.ReadLine()) != null)
-        {
-          var parts = line.Split('\t');
-          if (parts.Length <= 5 && parts.Length >= 3)
-          {
-            parser.GetValue(parts[0]);
-            result++;
-          }
+          IdentifiedPeptide pep = new IdentifiedPeptide(curSpectrum);
+          pep.Sequence = ModifySequence(parts[1]);
         }
       }
       return result;

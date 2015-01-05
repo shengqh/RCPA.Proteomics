@@ -23,37 +23,29 @@ using RCPA.Numerics;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
-  public partial class AbstractIsobaricProteinStatisticBuilderUI : AbstractFileProcessorUI
+  public partial class IsobaricLabelingExperimentalDesignBuilderUI : AbstractUI
   {
+    private RcpaFileField dataFile;
     private RcpaFileField iTraqFile;
-    private RcpaCheckBox normalize;
-    private RcpaCheckBox modifiedPeptideOnly;
-    private RcpaTextField modifiedChar;
-    private RcpaComboBox<string> methods;
 
-    public AbstractIsobaricProteinStatisticBuilderUI()
+    private SaveFileArgument saveArgument = new SaveFileArgument("Experimental Design", ".experimental.xml");
+    private OpenFileArgument loadArgument = new OpenFileArgument("Experimental Design", ".experimental.xml");
+
+    private static string title = "Isobaric Labeling Experimental Design Builder";
+    private static string version = "1.0.0";
+
+    public IsobaricLabelingExperimentalDesignBuilderUI()
     {
       InitializeComponent();
 
-      base.SetFileArgument("ProteinsFile", new OpenFileArgument("Proteins", "noredundant"));
+      this.dataFile = new RcpaFileField(btnDataFile, txtDataFile, "DataFile", new OpenFileArgument("Peptides/Proteins", new[] { "peptides", "noredundant" }), true);
+      this.dataFile.AfterBrowseFileEvent += btnLoad_Click;
+      this.AddComponent(this.dataFile);
 
       this.iTraqFile = new RcpaFileField(btnIsobaricXmlFile, txtIsobaricXmlFile, "IsobaricXmlFile", new OpenFileArgument("Isobaric XML", "isobaric.xml"), true);
       this.AddComponent(this.iTraqFile);
 
-      normalize = new RcpaCheckBox(cbNormalize, "Normalize", false);
-      AddComponent(normalize);
-
-      modifiedPeptideOnly = new RcpaCheckBox(cbModifiedOnly, "ModifiedOnly", false);
-      AddComponent(modifiedPeptideOnly);
-
-      modifiedChar = new RcpaTextField(txtModifiedCharacter, "ModifiedChar", "Input modified characters which indicates isobaric labelling(such as @#)", "@#", false);
-      modifiedChar.PreCondition = cbModifiedOnly;
-      AddComponent(modifiedChar);
-
-      methods = new RcpaComboBox<string>(cbRatioCalculator, "PeptideToProteinMethod", new[] { "Median", "Sum" }, 0, true, "How to calculate protein ratio from peptide?");
-      AddComponent(methods);
-
-      AddComponent(pnlClassification);
+      this.Text = Constants.GetSQHTitle(title, version);
     }
 
     protected override void OnAfterLoadOption(EventArgs e)
@@ -101,35 +93,13 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       return result;
     }
 
-    protected override void DoBeforeValidate()
+    protected IsobaricLabelingExperimentalDesign GetStatisticOption()
     {
-    }
-
-    protected override bool IsProcessorSupportProgress()
-    {
-      return false;
-    }
-
-    protected override IFileProcessor GetFileProcessor()
-    {
-      var option = GetStatisticOption();
-
-      return new IsobaricProteinStatisticBuilder(option);
-    }
-
-    protected IsobaricProteinStatisticBuilderOptions GetStatisticOption()
-    {
-      var option = new IsobaricProteinStatisticBuilderOptions();
+      var option = new IsobaricLabelingExperimentalDesign();
 
       option.DatasetMap = pnlClassification.GetClassificationSet();
       option.IsobaricFileName = iTraqFile.FullName;
-      option.ProteinFileName = GetOriginFile();
-      option.MinimumProbability = 0.0;
-      option.QuantifyModifiedPeptideOnly = modifiedPeptideOnly.Checked;
-      option.ModificationChars = modifiedChar.Text;
       option.References = GetReferenceFuncs();
-      option.PerformNormalizition = normalize.Checked;
-      option.PeptideToProteinMethod = methods.SelectedItem;
       option.PlexType = IsobaricScanXmlUtils.GetIsobaricType(txtIsobaricXmlFile.Text);
 
       return option;
@@ -139,9 +109,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     {
       try
       {
-        GetOriginFile();
-
-        HashSet<string> experimentals = new IdentifiedResultExperimentalReader().ReadFromFile(GetOriginFile());
+        HashSet<string> experimentals = new IdentifiedResultExperimentalReader().ReadFromFile(dataFile.FullName);
 
         List<string> sortedExperimentals = new List<string>(experimentals);
         sortedExperimentals.Sort();
@@ -157,7 +125,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       }
     }
 
-    private void txtRLocation_TextChanged(object sender, EventArgs e)
+    private void txtXmlFile_TextChanged(object sender, EventArgs e)
     {
       if (File.Exists(txtIsobaricXmlFile.Text))
       {
@@ -170,6 +138,78 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
           MessageBox.Show(this, string.Format("Failed to get isobaric type from {0}, error: {1}", txtIsobaricXmlFile.Text, ex.Message));
         }
       }
+    }
+
+    protected override void DoRealGo()
+    {
+      var dlg = saveArgument.GetFileDialog();
+      if (dlg.ShowDialog(this) == DialogResult.OK)
+      {
+        GetStatisticOption().SaveToFile(dlg.FileName);
+        MessageBox.Show(this, "Design saved to " + dlg.FileName, "Congratulation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+      }
+    }
+
+    private void btnCancel_Click(object sender, EventArgs e)
+    {
+      var dlg = loadArgument.GetFileDialog();
+      if (dlg.ShowDialog(this) == DialogResult.OK)
+      {
+        IsobaricLabelingExperimentalDesign option = new IsobaricLabelingExperimentalDesign();
+        try
+        {
+          option.LoadFromFile(dlg.FileName);
+          AssignFromOption(option);
+        }
+        catch (Exception ex)
+        {
+          MessageBox.Show(this, ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+      }
+    }
+
+    private void AssignFromOption(IsobaricLabelingExperimentalDesign option)
+    {
+      iTraqFile.FullName = option.IsobaricFileName;
+      refChannels.SelectedIons = (from f in option.References
+                                  select f.Name).Merge(",");
+      pnlClassification.SetClassificationSet(option.DatasetMap);
+    }
+
+    public class Command : IToolSecondLevelCommand
+    {
+      #region IToolCommand Members
+
+      public string GetClassification()
+      {
+        return MenuCommandType.Quantification;
+      }
+
+      public string GetCaption()
+      {
+        return title;
+      }
+
+      public string GetVersion()
+      {
+        return version;
+      }
+
+      public void Run()
+      {
+        new IsobaricLabelingExperimentalDesignBuilderUI().MyShow();
+      }
+
+      #endregion
+
+      #region IToolSecondLevelCommand Members
+
+      public string GetSecondLevelCommandItem()
+      {
+        return MenuCommandType.Quantification_IsobaricLabelling_NEW;
+      }
+
+      #endregion
     }
   }
 }

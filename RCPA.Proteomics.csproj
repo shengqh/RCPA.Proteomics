@@ -239,6 +239,28 @@
     <Compile Include="Proteomics\ProteomeDiscoverer\ModificationEntry.cs" />
     <Compile Include="Proteomics\ProteomeDiscoverer\MsfDatabaseParser.cs" />
     <Compile Include="Proteomics\Quantification\IPairQuantificationOptions.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricProteinStatisticBuilderUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricProteinStatisticBuilderUI.Designer.cs">
+      <DependentUpon>IsobaricProteinStatisticBuilderUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricProteinStatisticBuilder.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricPeptideStatisticBuilder.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricPeptideStatisticBuilderUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricPeptideStatisticBuilderUI.Designer.cs">
+      <DependentUpon>IsobaricPeptideStatisticBuilderUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricLabelingExperimentalDesignBuilderUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricLabelingExperimentalDesignBuilderUI.Designer.cs">
+      <DependentUpon>IsobaricLabelingExperimentalDesignBuilderUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricLabelingExperimentalDesign.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricPeptideStatisticBuilderOption.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\UsedChannel.cs" />
     <Compile Include="Proteomics\Quantification\AbstractQuantificationSummaryOption.cs" />
     <Compile Include="Proteomics\Sequest\AbstractSequestSpectrumParser.cs" />
@@ -397,13 +419,6 @@
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\AbstractIsobaricRawHCDMS3Reader.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\AbstractIsobaricRawReader.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\AbstractIsobaricResultXmlFormat.cs" />
-    <Compile Include="Proteomics\Quantification\IsobaricLabelling\AbstractIsobaricProteinStatisticBuilder.cs" />
-    <Compile Include="Proteomics\Quantification\IsobaricLabelling\AbstractIsobaricProteinStatisticBuilderUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Proteomics\Quantification\IsobaricLabelling\AbstractIsobaricProteinStatisticBuilderUI.Designer.cs">
-      <DependentUpon>AbstractIsobaricProteinStatisticBuilderUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\AbstractIsobaricResultFileDistillerOptions.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\IIsobaricLabellingProtease.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricIndex.cs" />
@@ -447,13 +462,6 @@
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResultFileDistiller.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResultFileFormatFactory.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResultXmlFormatRandomReader.cs" />
-    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricProteinStatisticBuilder.cs" />
-    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricProteinStatisticBuilderUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricProteinStatisticBuilderUI.Designer.cs">
-      <DependentUpon>IsobaricProteinStatisticBuilderUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricProteinStatisticBuilderOption.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricScanUtils.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResultMultipleFileDistillerUI.cs">
@@ -1149,6 +1157,18 @@
       <DependentUpon>MsfFastaDistillerUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Quantification\IsobaricLabelling\IsobaricProteinStatisticBuilderUI.resx">
+      <DependentUpon>IsobaricProteinStatisticBuilderUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Quantification\IsobaricLabelling\IsobaricPeptideStatisticBuilderUI.resx">
+      <DependentUpon>IsobaricPeptideStatisticBuilderUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Quantification\IsobaricLabelling\IsobaricLabelingExperimentalDesignBuilderUI.resx">
+      <DependentUpon>IsobaricLabelingExperimentalDesignBuilderUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Statistic\BuildSummaryResultParserUI.resx">
       <DependentUpon>BuildSummaryResultParserUI.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1239,19 +1259,11 @@
     <EmbeddedResource Include="Proteomics\MaxQuant\MaxQuantEvidenceToPeptideProcessorUI.resx">
       <DependentUpon>MaxQuantEvidenceToPeptideProcessorUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Quantification\IsobaricLabelling\AbstractIsobaricProteinStatisticBuilderUI.resx">
-      <DependentUpon>AbstractIsobaricProteinStatisticBuilderUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Quantification\IsobaricLabelling\IsobaricChannelField.resx">
       <DependentUpon>IsobaricChannelField.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Quantification\IsobaricLabelling\IsobaricLabelingEfficiencyCalculatorUI.resx">
       <DependentUpon>IsobaricLabelingEfficiencyCalculatorUI.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Quantification\IsobaricLabelling\IsobaricProteinStatisticBuilderUI.resx">
-      <DependentUpon>IsobaricProteinStatisticBuilderUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResultMultipleFileDistillerUI.resx">
       <DependentUpon>IsobaricResultMultipleFileDistillerUI.cs</DependentUpon>
@@ -2808,12 +2820,14 @@
     <None Include="Resources\ok.bmp" />
     <Content Include="License-LGPL.txt" />
     <Content Include="Tools\Mascot\raw2mgf.ico" />
-    <None Include="template\QuantificationSum.r">
+    <None Include="template\PeptideQuantification.r">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="template\QuantificationMedian.r">
+    <None Include="template\ProteinQuantification.r">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="template\QuantificationSum.r" />
+    <None Include="template\QuantificationMedian.r" />
     <None Include="template\MultiplePairQuantification.r">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

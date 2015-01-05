@@ -74,6 +74,8 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
       var massR = aas['R'].MonoMass + h2o;
       var massK = aas['K'].MonoMass + tagMH + Atom.H.MonoMass + Atom.O.MonoMass;
+      var massG_YIon = aas['G'].MonoMass + tagMH - Atom.H.MonoMass;
+
       this.highBYFreeWindow = Math.Min(massR, massK);
       if (massR < massK)
       {

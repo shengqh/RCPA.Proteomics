@@ -106,7 +106,7 @@ namespace RCPA.Proteomics.Summary.Uniform
       }
       catch (Exception ex)
       {
-        MessageBox.Show(ex.Message, "Error");
+        MessageBox.Show("Load dataset error :" + ex.Message);
       }
     }
 

@@ -132,7 +132,7 @@ namespace RCPA.Proteomics.Sequest
         OptionUtils.FilterToXml("Xcorr3", _filterByXcorr, _xcorr3),
         OptionUtils.FilterToXml("DeltaCn", _filterByDeltaCn, _deltaCn),
         OptionUtils.FilterToXml("SpRank", _filterBySpRank, _spRank),
-        OptionUtils.FilterToXml("Evalue", _filterByEvalue, _maxEvalue)
+        OptionUtils.FilterToXml("ExpectValue", _filterByEvalue, _maxEvalue)
       }.ToList();
     }
 
@@ -146,6 +146,10 @@ namespace RCPA.Proteomics.Sequest
       if (OptionUtils.HasFilter(filterXml, "Evalue"))
       {
         OptionUtils.XmlToFilter(filterXml, "Evalue", out _filterByEvalue, out _maxEvalue);
+      }
+      else if (OptionUtils.HasFilter(filterXml, "ExpectValue"))
+      {
+        OptionUtils.XmlToFilter(filterXml, "ExpectValue", out _filterByEvalue, out _maxEvalue);
       }
       else
       {

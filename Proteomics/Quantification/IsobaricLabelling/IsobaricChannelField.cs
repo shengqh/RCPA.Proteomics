@@ -119,7 +119,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
         {
           foreach (var part in parts)
           {
-            if (!channelList.Any(m => m.Name.Equals(part)))
+            if (!channelList.Any(m => m.Text.Equals(part)))
             {
               MessageBox.Show(string.Format("No isobaric channel of {0}", part));
               return;
@@ -133,7 +133,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
           foreach (var part in parts)
           {
-            channelList.Find(m => m.Name.Equals(part)).Checked = true;
+            channelList.Find(m => m.Text.Equals(part)).Checked = true;
           }
         }
       }

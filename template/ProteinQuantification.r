@@ -1,11 +1,12 @@
 #predefine_start
 
-outputfile<-"20141211_Tim_LiverLDs_proteome_assay1_06.noredundant.I126I129N.proteins.quan.Sum.tsv"
-proteinfile<-"20141211_Tim_LiverLDs_proteome_assay1_06.noredundant.I126I129N.proteins.tsv"
-inputfile<-"20141211_Tim_LiverLDs_proteome_assay1_06.noredundant.I126I129N.peptides.quan.tsv"
+outputdir<-"E:/shengquanhu/projects/2014-suzhiduan-TMT/quantification/summary"
+inputfile<-"E:/shengquanhu/projects/2014-suzhiduan-TMT/quantification/summary/Liver_LDs.peptides.I126I129N.quan.tsv"
+outputfile<-"E:/shengquanhu/projects/2014-suzhiduan-TMT/quantification/summary/Liver_LDs.noredundant.I126I129N.quan.Median.tsv"
+proteinfile<-"E:/shengquanhu/projects/2014-suzhiduan-TMT/quantification/summary/Liver_LDs.noredundant.I126I129N.pro_pep.tsv"
+method<-"Median"
 pvalue<-0.01
 minFinalCount<-3
-bysum<-1
 
 #predefine_end
 
@@ -13,14 +14,19 @@ library("outliers")
 
 setwd(outputdir)
 
-result<-read.delim(inputfile)
+data<-read.delim(inputfile)
 
-for(index in c(3:ncol(result))){
-  result[,index]<-as.numeric(result[,index])
+for(index in c(3:ncol(data))){
+  data[,index]<-as.numeric(data[,index])
 }
+
+datasets<-sort(unique(data$Dataset))
+sampleChannels<-colnames(data)[4:ncol(data)]
 
 prodata<-read.delim(proteinfile, stringsAsFactors=F)
 proteins<-unique(prodata$Index)
+
+ismedian<-method=="Median"
 
 datacolnames<-c()
 for(ds in datasets){
@@ -33,21 +39,22 @@ procolnames<-c("GroupIndex", colnames(prodata)[3:ncol(prodata)], datacolnames)
 
 proresult <- as.data.frame(matrix(nrow = length(proteins), ncol = length(procolnames), dimnames = list(NULL, procolnames)), stringsAsFactors=F)
 
-protein<-proteins[1]
+#protein<-proteins[1]
 index<-0
 for(protein in proteins){
   index<-index+1
+  cat(index, "/", length(proteins), " ...\n")
   pdata<-prodata[prodata$Index==protein,]
   propeps<-pdata$Peptide
-  ds<-datasets[1]
+  #ds<-datasets[1]
   values<-c(protein, pdata[1,3:ncol(pdata)])
   for(ds in datasets){
-    dsresult<-result[result$Dataset == ds,]
+    dsresult<-data[data$Dataset == ds,]
     subjects<-unique(dsresult$Subject)
     curpeps<-propeps[propeps %in% subjects]
     
     subjectresult<-dsresult[dsresult$Subject %in% curpeps,]
-    sc<-sampleChannels[1]
+    #sc<-sampleChannels[1]
     refvalues<-c()
     channelvalues<-c()
     channelratios<-c()
@@ -88,7 +95,14 @@ for(protein in proteins){
       scsum = sum(scresult[,3])
       refvalues<-c(refvalues,screfsum)
       channelvalues<-c(channelvalues,scsum)
-      channelratios<-c(channelratios,scsum / screfsum)
+      
+      if(ismedian){
+        ratio<-exp(median(scresult$LogRatio))
+      }else{
+        ratio<-scsum / screfsum
+      }
+      
+      channelratios<-c(channelratios,ratio)
     }
     
     rv<-refvalues[!is.na(refvalues)]
@@ -96,9 +110,13 @@ for(protein in proteins){
     values<-c(values, round(refmedian))
 
     for(i in c(1:length(refvalues))){
-      factor<-refvalues[i] / refmedian
-      channelvalues[i]<-channelvalues[i] * factor
-      values<-c(values, channelvalues[i], channelratios[i])
+      if(is.na(refvalues[i])){
+        values<-c(values, NA, NA)
+      }else{
+        rfactor<-refvalues[i] / refmedian
+        normalizedvalue<-channelvalues[i] / rfactor
+        values<-c(values, normalizedvalue, channelratios[i])
+      }
     }
   }
   proresult[index,]<-t(values)

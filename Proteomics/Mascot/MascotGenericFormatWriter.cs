@@ -79,6 +79,13 @@ namespace RCPA.Proteomics.Mascot
 
     protected void WriteAnnotation(StreamWriter writer, PeakList<T> pl)
     {
+      foreach (var de in pl.Annotations)
+      {
+        if (!de.Key.Equals(MascotGenericFormatConstants.TITLE_TAG))
+        {
+          writer.WriteLine("###" + de.Key + "=" + de.Value);
+        }
+      }
       writer.WriteLine(MascotGenericFormatConstants.BEGIN_PEAK_LIST_TAG);
       WriteAnnotationTitle(writer, pl);
       writer.Write(MascotGenericFormatConstants.PEPMASS_TAG + "=" + MyConvert.Format("{0:0.#####}", pl.PrecursorMZ));
@@ -106,14 +113,6 @@ namespace RCPA.Proteomics.Mascot
       //{
       //  writer.WriteLine(MascotGenericFormatConstants.RAWFILE_TAG + "=" + pl.Experimental);
       //}
-
-      foreach (var de in pl.Annotations)
-      {
-        if (!de.Key.Equals(MascotGenericFormatConstants.TITLE_TAG))
-        {
-          writer.WriteLine(de.Key + "=" + de.Value);
-        }
-      }
     }
 
     protected void WriteAnnotationTitle(StreamWriter writer, PeakList<T> pl)

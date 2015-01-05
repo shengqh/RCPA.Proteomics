@@ -14,7 +14,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
   public partial class IsobaricLabelingEfficiencyCalculatorUI : AbstractFileProcessorUI
   {
-    private static readonly string title = "Isobaric Labelling Efficiency Calculator";
+    private static readonly string title = "Isobaric Labeling Efficiency Calculator";
 
     private static readonly string version = "1.0.0";
 

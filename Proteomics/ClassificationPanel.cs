@@ -79,6 +79,29 @@ namespace RCPA.Proteomics
       return result;
     }
 
+    public void SetClassificationSet(Dictionary<string, List<string>> map)
+    {
+      var keys = map.Keys.OrderBy(m => m).ToList();
+      tvClassifications.BeginUpdate();
+      try
+      {
+        tvClassifications.Nodes.Clear();
+        foreach (var key in keys)
+        {
+          var node = tvClassifications.Nodes.Add(key);
+          var values = map[key].OrderBy(m => m).ToList();
+          foreach (var v in values)
+          {
+            node.Nodes.Add(v);
+          }
+        }
+      }
+      finally
+      {
+        tvClassifications.EndUpdate();
+      }
+    }
+
     public Dictionary<string, HashSet<string>> GetClassificationMap()
     {
       var result = new Dictionary<string, HashSet<string>>();
