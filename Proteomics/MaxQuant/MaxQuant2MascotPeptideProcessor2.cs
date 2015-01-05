@@ -5,52 +5,96 @@ using System.Linq;
 using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.MaxQuant;
+using System.IO;
+using RCPA.Seq;
 
 namespace RCPA.Proteomics.MaxQuant
 {
-  public class MaxQuant2MascotPeptideProcessor2 : AbstractThreadFileProcessor
+  public class MaxQuant2MascotPeptideProcessor2 : AbstractThreadProcessor
   {
-    private double minProbability;
-      private double minDeltaScore;
+    private MaxQuant2MascotPeptideProcessorOption options;
 
-      public MaxQuant2MascotPeptideProcessor2(double minProbability, double minDeltaScore)
+    public MaxQuant2MascotPeptideProcessor2(MaxQuant2MascotPeptideProcessorOption options)
     {
-      this.minDeltaScore = minDeltaScore;
-      this.minProbability = minProbability;
+      this.options = options;
     }
 
-    public class PeptideComparer : IEqualityComparer<IIdentifiedSpectrum>
+    public override IEnumerable<string> Process()
     {
-      bool IEqualityComparer<IIdentifiedSpectrum>.Equals(IIdentifiedSpectrum x, IIdentifiedSpectrum y)
+      var spectra = new MaxQuantPeptideTextReader().ReadFromFile(options.SiteFile);
+      spectra.RemoveAll(m => m.DeltaScore < options.MinDeltaScore || m.PValue < options.MinProbability);
+      spectra = (from g in spectra.GroupBy(m => m.Query.FileScan.ShortFileName)
+                 select g.OrderBy(l => l.Score).Last()).ToList();
+
+      if (options.IsSILAC)
       {
-        // Check whether the compared objects reference the same data.
-        if (Object.ReferenceEquals(x, y))
-          return true;
+        var spmap = spectra.ToDictionary(m => m.Query.FileScan.ShortFileName);
 
-        // Check whether any of the compared objects is null.
-        if (Object.ReferenceEquals(x, null) || Object.ReferenceEquals(y, null))
-          return false;
+        var existModificationChar = (from sp in spectra
+                                     from c in sp.Sequence
+                                     where !char.IsLetter(c)
+                                     select c).Distinct().Count();
 
-        return x.Query.FileScan.ShortFileName == y.Query.FileScan.ShortFileName;
+        Dictionary<char, char> labelChars = new Dictionary<char, char>();
+        foreach (var c in options.SILACAminoacids)
+        {
+          labelChars[c] = ModificationConsts.MODIFICATION_CHAR[++existModificationChar];
+        }
+
+        using (var sr = new StreamReader(options.MSMSFile))
+        {
+          var headers = sr.ReadLine().Split('\t');
+          var silacIndex = Array.IndexOf(headers, "SILAC State");
+          var rawIndex = Array.IndexOf(headers, "Raw File");
+          var scanIndex = Array.IndexOf(headers, "Scan Number");
+          string line;
+          while ((line = sr.ReadLine()) != null)
+          {
+            if (string.IsNullOrWhiteSpace(line))
+            {
+              break;
+            }
+
+            var parts = line.Split('\t');
+            if (parts[silacIndex].Equals("Light"))
+            {
+              continue;
+            }
+
+            var raw = parts[rawIndex];
+            var scan = int.Parse(parts[scanIndex]);
+            var sf = new SequestFilename(raw, scan, scan, 0, "");
+            var name = sf.ShortFileName;
+
+            IIdentifiedSpectrum sp;
+            if (spmap.TryGetValue(name, out sp))
+            {
+              foreach (var pep in sp.Peptides)
+              {
+                var seq = pep.Sequence;
+                StringBuilder sb = new StringBuilder();
+                for (int i = seq.Length - 1; i >= 0; i--)
+                {
+                  char heavyChar;
+                  if (labelChars.TryGetValue(seq[i], out heavyChar))
+                  {
+                    sb.Append(heavyChar);
+                  }
+                  sb.Append(seq[i]);
+                }
+                pep.Sequence = SequenceUtils.GetReversedSequence(sb.ToString());
+              }
+            }
+          }
+        }
       }
 
-      int IEqualityComparer<IIdentifiedSpectrum>.GetHashCode(IIdentifiedSpectrum obj)
-      {
-        return obj.Query.FileScan.ShortFileName.GetHashCode();
-      }
-    }
 
-    public override IEnumerable<string> Process(string filename)
-    {
-      var mr = new MaxQuantPeptideTextReader().ReadFromFile(filename);
-      mr.RemoveAll(m => m.DeltaScore < minDeltaScore || m.PValue < minProbability);
 
-      mr = mr.Distinct(new PeptideComparer()).ToList();
+      string resultFilename = options.SiteFile + ".peptides";
+      new MascotPeptideTextFormat("\t\"File, Scan(s)\"\tSequence\tCharge\tScore\tDeltaScore\tExpectValue\tPValue\tModification").WriteToFile(resultFilename, spectra);
 
-      string resultFilename = filename + ".peptides";
-      new MascotPeptideTextFormat("\t\"File, Scan(s)\"\tSequence\tCharge\tScore\tDeltaScore\tExpectValue\tPValue\tModification").WriteToFile(resultFilename, mr);
-
-      return new [] { resultFilename };
+      return new[] { resultFilename };
     }
   }
 }

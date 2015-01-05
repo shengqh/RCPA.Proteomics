@@ -12,19 +12,21 @@ using RCPA.Gui;
 
 namespace RCPA.Proteomics.MaxQuant
 {
-  public partial class MaxQuantSiteToPeptideProcessorUI : AbstractFileProcessorUI
+  public partial class MaxQuantSiteToPeptideProcessorUI : AbstractProcessorUI
   {
     public static readonly string title = "MaxQuant Sites To Mascot Peptide Converter";
-    public static readonly string version = "1.0.2";
+    public static readonly string version = "1.0.3";
 
     private RcpaDoubleField minLocalizationProbability;
     private RcpaDoubleField minScoreDiff;
+    private RcpaTextField silacAminoacids;
 
     public MaxQuantSiteToPeptideProcessorUI()
     {
       InitializeComponent();
 
-      base.SetFileArgument("MaxQuantSites", new OpenFileArgument("MaxQuant Sites", new string[] { "txt" }));
+      siteFile.FileArgument = new OpenFileArgument("MaxQuant Sites", new string[] { "txt" });
+      msmsFile.FileArgument = new OpenFileArgument("MaxQuant MSMS", new string[] { "txt" });
 
       this.minLocalizationProbability = new RcpaDoubleField(txtMinProbability, "minLocalizationProbability", "Minmum Localization Probability", 0.75, true);
       AddComponent(this.minLocalizationProbability);
@@ -32,12 +34,33 @@ namespace RCPA.Proteomics.MaxQuant
       this.minScoreDiff = new RcpaDoubleField(txtMinScoreDiff, "minScoreDiff", "Minmum Score Diff", 5.0, true);
       AddComponent(this.minScoreDiff);
 
+      this.silacAminoacids = new RcpaTextField(txtSILACAminoacids, "SILACAminoacids", "SILAC amino acids", "KR", false);
+      this.silacAminoacids.PreCondition = cbSILAC;
+      AddComponent(this.silacAminoacids);
+
       this.Text = Constants.GetSQHTitle(title, version);
     }
 
-    protected override IFileProcessor GetFileProcessor()
+    protected override void DoBeforeValidate()
     {
-      return new MaxQuant2MascotPeptideProcessor2(minLocalizationProbability.Value, minScoreDiff.Value);
+      base.DoBeforeValidate();
+      this.silacAminoacids.Required = cbSILAC.Checked;
+      this.msmsFile.Required = cbSILAC.Checked;
+    }
+
+    protected override IProcessor GetProcessor()
+    {
+      var option = new MaxQuant2MascotPeptideProcessorOption()
+      {
+        SiteFile = siteFile.FullName,
+        MinProbability = minLocalizationProbability.Value,
+        MinDeltaScore = minScoreDiff.Value,
+        IsSILAC = cbSILAC.Checked,
+        SILACAminoacids = silacAminoacids.Text,
+        MSMSFile = msmsFile.FullName
+      };
+     
+      return new MaxQuant2MascotPeptideProcessor2(option);
     }
 
     public class Command : IToolCommand

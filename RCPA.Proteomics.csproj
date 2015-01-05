@@ -170,6 +170,7 @@
     <Compile Include="Proteomics\Mascot\TitleFormatRawCmpd.cs" />
     <Compile Include="Proteomics\Mascot\TitleFormatProteomeDiscoverer.cs" />
     <Compile Include="Proteomics\Mascot\TitleFormatSequest.cs" />
+    <Compile Include="Proteomics\MaxQuant\MaxQuant2MascotPeptideProcessorOption.cs" />
     <Compile Include="Proteomics\ModificationConsts.cs" />
     <Compile Include="Proteomics\AminoacidsBuilder.cs" />
     <Compile Include="Proteomics\MSAmanda\MSAmandaDatasetBuilder.cs" />
