@@ -5,5 +5,5 @@ using System.Text;
 
 namespace RCPA.Proteomics.Quantification
 {
-  public enum QuantifyMode { qmAll, qmModifiedOnly, qmUnmodifiedOnly };
+  public enum QuantifyMode { qmAll, qmModificationSite, qmUnmodifiedPeptide };
 }

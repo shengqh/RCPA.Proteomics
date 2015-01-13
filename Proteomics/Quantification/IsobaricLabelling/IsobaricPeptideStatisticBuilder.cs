@@ -68,22 +68,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       Progress.SetMessage("Reading peptides...");
 
       List<IIdentifiedSpectrum> spectra = new MascotPeptideTextFormat().ReadFromFile(options.PeptideFile);
-      if (QuantifyMode.qmModifiedOnly == options.Mode)
-      {
-        spectra.RemoveAll(m =>
-        {
-          return !ModificationUtils.IsModifiedSequence(m.GetMatchSequence(), options.ModifiedAminoacids);
-        });
-      }
-      else if (QuantifyMode.qmUnmodifiedOnly == options.Mode)
-      {
-        spectra.RemoveAll(m =>
-        {
-          return ModificationUtils.IsModifiedSequence(m.GetMatchSequence(), options.ModifiedAminoacids);
-        });
-      }
-
-      IsobaricScanUtils.Load(spectra, options.DesignFile, false, this.Progress);
+      IsobaricScanUtils.Load(spectra, design.IsobaricFile, false, this.Progress);
 
       var isoSpectra = (from s in spectra
                         where s.FindIsobaricItem() != null
@@ -180,6 +165,20 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       }
 
       Progress.SetMessage("Quantifying peptide with outlier detection ...");
+      if (QuantifyMode.qmModificationSite == options.Mode)
+      {
+        isoSpectra.RemoveAll(m =>
+        {
+          return !ModificationUtils.IsModifiedSequence(m.GetMatchSequence(), options.ModifiedAminoacids);
+        });
+      }
+      else if (QuantifyMode.qmUnmodifiedPeptide == options.Mode)
+      {
+        isoSpectra.RemoveAll(m =>
+        {
+          return ModificationUtils.IsModifiedSequence(m.GetMatchSequence(), options.ModifiedAminoacids);
+        });
+      }
 
       var refFuncs = design.References;
       var samFuncs = design.GetSamples();
@@ -189,8 +188,17 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       {
         sw.WriteLine("Subject\tDataset\tFileScan\tSequence\tREF\t{0}",
           samFuncs.ConvertAll(m => m.Name).Merge("\t"));
+        Func<IIdentifiedSpectrum, string> keyFunc;
+        if (options.Mode == QuantifyMode.qmModificationSite)
+        {
+          keyFunc = m => m.GetMatchSequence();
+        }
+        else
+        {
+          keyFunc = m => m.Peptide.PureSequence;
+        }
 
-        var peptides = isoSpectra.ToGroupDictionary(m => m.Peptide.PureSequence).OrderBy(m => m.Key).ToList();
+        var peptides = isoSpectra.ToGroupDictionary(m => keyFunc(m)).OrderBy(m => m.Key).ToList();
         foreach (var pep in peptides)
         {
           foreach (var dsName in design.DatasetMap.Keys)

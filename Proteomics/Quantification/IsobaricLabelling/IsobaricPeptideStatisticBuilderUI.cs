@@ -67,7 +67,14 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     {
       base.ValidateComponents();
 
-      new IsobaricLabelingExperimentalDesign().LoadFromFile(designFile.FullName);
+      try
+      {
+        new IsobaricLabelingExperimentalDesign().LoadFromFile(designFile.FullName);
+      }
+      catch (Exception ex)
+      {
+        throw new Exception(string.Format("Parsing design file {0} error : {1}", designFile.FullName, ex.Message));
+      }
     }
 
     protected override IProcessor GetProcessor()

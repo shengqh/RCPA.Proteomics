@@ -54,10 +54,22 @@ namespace RCPA.Proteomics.Modification
       {
         if (IsModification(sequence[i]))
         {
-          char c = char.IsLetter(sequence[i]) ? char.ToUpper(sequence[i]) : sequence[i - 1];
-          if (modifiedAminoacids.IndexOf(c) != -1)
+          if (char.IsLetter(sequence[i]))
           {
-            return true;
+            if (modifiedAminoacids.IndexOf(char.ToUpper(sequence[i])) != -1)
+            {
+              return true;
+            }
+          }
+          else
+          {
+            if (i > 0)
+            {
+              if (modifiedAminoacids.IndexOf(sequence[i - 1]) != -1)
+              {
+                return true;
+              }
+            }
           }
         }
       }

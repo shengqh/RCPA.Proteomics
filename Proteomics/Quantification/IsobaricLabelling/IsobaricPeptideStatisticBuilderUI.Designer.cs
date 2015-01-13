@@ -97,7 +97,7 @@
       // 
       // txtModifiedAminoacids
       // 
-      this.txtModifiedAminoacids.Location = new System.Drawing.Point(665, 110);
+      this.txtModifiedAminoacids.Location = new System.Drawing.Point(700, 110);
       this.txtModifiedAminoacids.Name = "txtModifiedAminoacids";
       this.txtModifiedAminoacids.Size = new System.Drawing.Size(100, 20);
       this.txtModifiedAminoacids.TabIndex = 20;
@@ -115,15 +115,15 @@
       // 
       this.cbQuantifyMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.cbQuantifyMode.FormattingEnabled = true;
-      this.cbQuantifyMode.Location = new System.Drawing.Point(418, 110);
+      this.cbQuantifyMode.Location = new System.Drawing.Point(418, 109);
       this.cbQuantifyMode.Name = "cbQuantifyMode";
-      this.cbQuantifyMode.Size = new System.Drawing.Size(121, 21);
+      this.cbQuantifyMode.Size = new System.Drawing.Size(160, 21);
       this.cbQuantifyMode.TabIndex = 23;
       // 
       // label2
       // 
       this.label2.AutoSize = true;
-      this.label2.Location = new System.Drawing.Point(545, 113);
+      this.label2.Location = new System.Drawing.Point(580, 113);
       this.label2.Name = "label2";
       this.label2.Size = new System.Drawing.Size(114, 13);
       this.label2.TabIndex = 24;

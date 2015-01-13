@@ -14,7 +14,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
     public IsobaricType PlexType { get; set; }
 
-    public string IsobaricFileName { get; set; }
+    public string IsobaricFile { get; set; }
 
     public List<IsobaricIndex> References { get; set; }
 
@@ -32,7 +32,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     public List<IsobaricIndex> GetSamples()
     {
       var result = new List<IsobaricIndex>();
-      var used = IsobaricScanXmlUtils.GetUsedChannels(this.IsobaricFileName);
+      var used = IsobaricScanXmlUtils.GetUsedChannels(this.IsobaricFile);
       for (int i = 0; i < used.Count; i++)
       {
         var channel = used[i];
@@ -60,7 +60,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     {
       parentNode.Add(
         new XElement("IsobaricType", PlexType.Name),
-        new XElement("IsobaricFileName", IsobaricFileName),
+        new XElement("IsobaricFileName", IsobaricFile),
         new XElement("References", from refFunc in References
                                    select new XElement("Reference", new XAttribute("Name", refFunc.Name), new XAttribute("Index", refFunc.Index))
         ),
@@ -76,7 +76,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     public void Load(System.Xml.Linq.XElement parentNode)
     {
       PlexType = IsobaricTypeFactory.Find(parentNode.Element("IsobaricType").Value);
-      IsobaricFileName = parentNode.Element("IsobaricFileName").Value;
+      IsobaricFile = parentNode.Element("IsobaricFileName").Value;
       References = (from reffunc in parentNode.Element("References").Elements("Reference")
                     select new IsobaricIndex(reffunc.Attribute("Name").Value, int.Parse(reffunc.Attribute("Index").Value))).ToList();
       DatasetMap = new Dictionary<string, List<string>>();

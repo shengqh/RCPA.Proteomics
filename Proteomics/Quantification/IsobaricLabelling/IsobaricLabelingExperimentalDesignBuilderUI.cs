@@ -98,7 +98,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       var option = new IsobaricLabelingExperimentalDesign();
 
       option.DatasetMap = pnlClassification.GetClassificationSet();
-      option.IsobaricFileName = iTraqFile.FullName;
+      option.IsobaricFile = iTraqFile.FullName;
       option.References = GetReferenceFuncs();
       option.PlexType = IsobaricScanXmlUtils.GetIsobaricType(txtIsobaricXmlFile.Text);
 
@@ -170,7 +170,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
     private void AssignFromOption(IsobaricLabelingExperimentalDesign option)
     {
-      iTraqFile.FullName = option.IsobaricFileName;
+      iTraqFile.FullName = option.IsobaricFile;
       refChannels.SelectedIons = (from f in option.References
                                   select f.Name).Merge(",");
       pnlClassification.SetClassificationSet(option.DatasetMap);

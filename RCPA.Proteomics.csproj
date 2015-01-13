@@ -231,7 +231,6 @@
     <Compile Include="Proteomics\PFind\PNovoPlusParser.cs" />
     <Compile Include="Proteomics\Processor\PeakListRemovePrecursorDaltonProcessor.cs" />
     <Compile Include="Proteomics\Processor\PeakListRemovePrecursorProcessorOptions.cs" />
-    <Compile Include="Proteomics\ProteaseManagerOld.cs" />
     <Compile Include="Proteomics\ProteomeDiscoverer\MsfFastaDistillerUI.cs">
       <SubType>Form</SubType>
     </Compile>
