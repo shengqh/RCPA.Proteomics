@@ -23,45 +23,54 @@ using RCPA.Numerics;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
-  public partial class IsobaricPeptideStatisticBuilderUI : AbstractFileProcessorUI
+  public partial class IsobaricPeptideStatisticBuilderUI : AbstractProcessorUI
   {
     private static readonly string title = "Isobaric Labeling Peptide Statistic Builder";
-    private static readonly string version = "1.2.2";
+    private static readonly string version = "1.2.3";
 
-    private RcpaFileField isobaricFile;
+    private RcpaFileField peptideFile;
+    private RcpaFileField designFile;
     private RcpaCheckBox normalize;
-    private RcpaCheckBox modifiedPeptideOnly;
-    private RcpaTextField modifiedChar;
+    private RcpaTextField modifiedAminoacids;
+    private RcpaComboBox<QuantifyMode> modes;
 
     public IsobaricPeptideStatisticBuilderUI()
     {
       InitializeComponent();
 
-      base.SetFileArgument("PeptidesFile", new OpenFileArgument("Peptides", "peptides"));
+      peptideFile = new RcpaFileField(btnPeptideFile, txtPeptideFile, "PeptideFile", new OpenFileArgument("Peptides", "peptides"), true);
+      AddComponent(this.peptideFile);
 
-      this.isobaricFile = new RcpaFileField(btnDesignFile, txtIsobaricXmlFile, "IsobaricDesignFile", new OpenFileArgument("Isobaric Labeling Experimental Design", "experimental.xml"), true);
-      this.AddComponent(this.isobaricFile);
+      designFile = new RcpaFileField(btnDesignFile, txtDesignFile, "IsobaricDesignFile", new OpenFileArgument("Isobaric Labeling Experimental Design", "experimental.xml"), true);
+      AddComponent(this.designFile);
 
       normalize = new RcpaCheckBox(cbNormalize, "Normalize", false);
       AddComponent(normalize);
 
-      modifiedPeptideOnly = new RcpaCheckBox(cbModifiedOnly, "ModifiedOnly", false);
-      AddComponent(modifiedPeptideOnly);
+      modes = new RcpaComboBox<QuantifyMode>(cbQuantifyMode, "QuantifyMode", EnumUtils.EnumToArray<QuantifyMode>(), 0, true);
+      AddComponent(modes);
 
-      modifiedChar = new RcpaTextField(txtModifiedCharacter, "ModifiedChar", "Input modified characters which indicates isobaric labelling(such as @#)", "@#", false);
-      modifiedChar.PreCondition = cbModifiedOnly;
-      AddComponent(modifiedChar);
+      modifiedAminoacids = new RcpaTextField(txtModifiedAminoacids, "ModifiedAminoacids", "Input modified amino acids", "STY", false);
+      AddComponent(modifiedAminoacids);
 
       this.Text = Constants.GetSQHTitle(title, version);
+    }
+
+    protected override void DoBeforeValidate()
+    {
+      base.DoBeforeValidate();
+
+      modifiedAminoacids.Required = modes.SelectedItem != QuantifyMode.qmAll;
     }
 
     protected override void ValidateComponents()
     {
       base.ValidateComponents();
-      new IsobaricLabelingExperimentalDesign().LoadFromFile(isobaricFile.FullName);
+
+      new IsobaricLabelingExperimentalDesign().LoadFromFile(designFile.FullName);
     }
 
-    protected override IFileProcessor GetFileProcessor()
+    protected override IProcessor GetProcessor()
     {
       var option = GetStatisticOption();
 
@@ -70,22 +79,17 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
     protected IsobaricPeptideStatisticBuilderOption GetStatisticOption()
     {
-      var design = new IsobaricLabelingExperimentalDesign();
-      design.LoadFromFile(isobaricFile.FullName);
-
       var option = new IsobaricPeptideStatisticBuilderOption();
 
-      option.DatasetMap = design.DatasetMap;
-      option.IsobaricFileName = design.IsobaricFileName;
-      option.References = design.References;
-      option.PlexType = IsobaricScanXmlUtils.GetIsobaricType(design.IsobaricFileName);
-
-      option.QuantifyModifiedPeptideOnly = modifiedPeptideOnly.Checked;
-      option.ModificationChars = modifiedChar.Text;
+      option.PeptideFile = peptideFile.FullName;
+      option.DesignFile = designFile.FullName;
+      option.Mode = modes.SelectedItem;
+      option.ModifiedAminoacids = modifiedAminoacids.Text;
       option.PerformNormalizition = normalize.Checked;
 
       return option;
     }
+
     public class Command : IToolSecondLevelCommand
     {
       #region IToolCommand Members

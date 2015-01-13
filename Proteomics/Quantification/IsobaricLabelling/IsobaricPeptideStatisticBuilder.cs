@@ -13,10 +13,11 @@ using RCPA.Proteomics.Mascot;
 using MathNet.Numerics.Distributions;
 using RCPA.Numerics;
 using RCPA.R;
+using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
-  public class IsobaricPeptideStatisticBuilder : AbstractThreadFileProcessor
+  public class IsobaricPeptideStatisticBuilder : AbstractThreadProcessor
   {
     private IsobaricPeptideStatisticBuilderOption options;
 
@@ -54,21 +55,35 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
                                                           select string.Format("{0}{1}", k, dic[k])).Merge("_"));
     }
 
-    public override IEnumerable<string> Process(string fileName)
+    public override IEnumerable<string> Process()
     {
-      options.PeptideFileName = fileName;
+      var design = new IsobaricLabelingExperimentalDesign();
+      design.LoadFromFile(options.DesignFile);
 
-      var refNames = (from refF in options.References select refF.Name).Merge("");
-      string resultFileName = GetResultFilePrefix(fileName, refNames);
+      string resultFileName = GetResultFilePrefix(design);
 
       string paramFileName = Path.ChangeExtension(resultFileName, ".param");
       options.SaveToFile(paramFileName);
 
       Progress.SetMessage("Reading peptides...");
 
-      List<IIdentifiedSpectrum> spectra = new MascotPeptideTextFormat().ReadFromFile(fileName);
+      List<IIdentifiedSpectrum> spectra = new MascotPeptideTextFormat().ReadFromFile(options.PeptideFile);
+      if (QuantifyMode.qmModifiedOnly == options.Mode)
+      {
+        spectra.RemoveAll(m =>
+        {
+          return !ModificationUtils.IsModifiedSequence(m.GetMatchSequence(), options.ModifiedAminoacids);
+        });
+      }
+      else if (QuantifyMode.qmUnmodifiedOnly == options.Mode)
+      {
+        spectra.RemoveAll(m =>
+        {
+          return ModificationUtils.IsModifiedSequence(m.GetMatchSequence(), options.ModifiedAminoacids);
+        });
+      }
 
-      IsobaricScanUtils.Load(spectra, options.IsobaricFileName, false, this.Progress);
+      IsobaricScanUtils.Load(spectra, options.DesignFile, false, this.Progress);
 
       var isoSpectra = (from s in spectra
                         where s.FindIsobaricItem() != null
@@ -76,7 +91,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
       if (isoSpectra.Count == 0)
       {
-        throw new Exception(string.Format("No isobaric labelling information between {0} and {1}", fileName, options.IsobaricFileName));
+        throw new Exception(string.Format("No isobaric labelling information between {0} and {1}", options.PeptideFile, options.DesignFile));
       }
 
       if (options.PerformNormalizition)
@@ -109,13 +124,13 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
           {
             using (var sw = new StreamWriter(datafile))
             {
-              sw.WriteLine("FileScan\t{0}", (from cha in options.PlexType.Channels select cha.Name).Merge("\t"));
+              sw.WriteLine("FileScan\t{0}", (from cha in design.PlexType.Channels select cha.Name).Merge("\t"));
 
               foreach (var isoSpec in isoFile)
               {
                 sw.Write("{0}", isoSpec.Query.FileScan.LongFileName);
                 var item = isoSpec.FindIsobaricItem();
-                for (int i = 0; i < options.PlexType.Channels.Count; i++)
+                for (int i = 0; i < design.PlexType.Channels.Count; i++)
                 {
                   sw.Write("\t{0:0.0}", item[i].Intensity);
                 }
@@ -166,8 +181,8 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
       Progress.SetMessage("Quantifying peptide with outlier detection ...");
 
-      var refFuncs = options.References;
-      var samFuncs = options.GetSamples();
+      var refFuncs = design.References;
+      var samFuncs = design.GetSamples();
 
       var pepfile = resultFileName + ".tsv";
       using (var sw = new StreamWriter(pepfile))
@@ -178,9 +193,9 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
         var peptides = isoSpectra.ToGroupDictionary(m => m.Peptide.PureSequence).OrderBy(m => m.Key).ToList();
         foreach (var pep in peptides)
         {
-          foreach (var dsName in options.DatasetMap.Keys)
+          foreach (var dsName in design.DatasetMap.Keys)
           {
-            var dsSet = new HashSet<string>(options.DatasetMap[dsName]);
+            var dsSet = new HashSet<string>(design.DatasetMap[dsName]);
             var dsSpectra = (from s in pep.Value
                              where dsSet.Contains(s.Query.FileScan.Experimental)
                              orderby s.Peptide.Sequence
@@ -217,9 +232,9 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       return new[] { qoptions.OutputFile };
     }
 
-    protected virtual string GetResultFilePrefix(string fileName, string refNames)
+    protected virtual string GetResultFilePrefix(IsobaricLabelingExperimentalDesign design)
     {
-      return fileName + "." + refNames;
+      return string.Format("{0}.{1}.{2}", options.PeptideFile, options.Mode, design.GetReferenceNames(""));
     }
   }
 }

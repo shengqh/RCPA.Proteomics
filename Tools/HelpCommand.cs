@@ -27,7 +27,7 @@ namespace RCPA.Tools
 
     public void Run()
     {
-      System.Diagnostics.ProcessStartInfo Info = new System.Diagnostics.ProcessStartInfo("http://www.proteomics.ac.cn/software/proteomicstools/index.htm");
+      System.Diagnostics.ProcessStartInfo Info = new System.Diagnostics.ProcessStartInfo("https://github.com/shengqh/RCPA.Tools");
       System.Diagnostics.Process Pro = System.Diagnostics.Process.Start(Info);
     }
 

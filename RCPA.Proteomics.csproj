@@ -187,6 +187,7 @@
     <Compile Include="Proteomics\MSGF\MSGFScoreFunctions.cs" />
     <Compile Include="Proteomics\MSGF\MSGFDatasetOptions.cs" />
     <Compile Include="Proteomics\MSGF\MSGFFactory.cs" />
+    <Compile Include="Proteomics\MyriMatch\MyriMatchPepXmlParser.cs" />
     <Compile Include="Proteomics\MyriMatch\MyriMatchDatasetOptions.cs" />
     <Compile Include="Proteomics\MyriMatch\MyriMatchScoreFunctions.cs" />
     <Compile Include="Proteomics\MyriMatch\MyriMatchFactory.cs" />
@@ -230,6 +231,7 @@
     <Compile Include="Proteomics\PFind\PNovoPlusParser.cs" />
     <Compile Include="Proteomics\Processor\PeakListRemovePrecursorDaltonProcessor.cs" />
     <Compile Include="Proteomics\Processor\PeakListRemovePrecursorProcessorOptions.cs" />
+    <Compile Include="Proteomics\ProteaseManagerOld.cs" />
     <Compile Include="Proteomics\ProteomeDiscoverer\MsfFastaDistillerUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -264,9 +266,11 @@
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricPeptideStatisticBuilderOption.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\UsedChannel.cs" />
     <Compile Include="Proteomics\Quantification\AbstractQuantificationSummaryOption.cs" />
+    <Compile Include="Proteomics\Quantification\QuantifyMode.cs" />
     <Compile Include="Proteomics\Sequest\AbstractSequestSpectrumParser.cs" />
     <Compile Include="Proteomics\Sequest\SequestDatasetBuilder2.cs" />
     <Compile Include="Proteomics\Sequest\SequestFactory.cs" />
+    <Compile Include="Proteomics\Snp\PNovoSnpValidatorOptions.cs" />
     <Compile Include="Proteomics\Statistic\PrecursorOffsetStatisticTaskBuilder.cs" />
     <Compile Include="Proteomics\Statistic\PrecursorOffsetStatisticMainBuilder.cs" />
     <Compile Include="Proteomics\Statistic\PrecursorOffsetStatisticMainBuilderUI.cs">
@@ -725,7 +729,6 @@
     <Compile Include="Proteomics\Snp\CombineQuantificationResultProcessorUI.Designer.cs">
       <DependentUpon>CombineQuantificationResultProcessorUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Proteomics\Snp\PNovoSnpValidator2.cs" />
     <Compile Include="Proteomics\Snp\MascotSnpValidator2.cs" />
     <Compile Include="Proteomics\Snp\DatabaseSnpValidator.cs" />
     <Compile Include="Proteomics\Snp\DatabaseSnpValidatorUI.cs">

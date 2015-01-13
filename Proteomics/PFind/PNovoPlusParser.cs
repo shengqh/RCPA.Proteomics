@@ -124,5 +124,28 @@ namespace RCPA.Proteomics.PFind
       }
       return result;
     }
+  
+    /// <summary>
+    /// 获取用于Denovo的谱图总数。
+    /// </summary>
+    /// <param name="filename">pNovo proteins file</param>
+    /// <returns>用于Denovo的谱图总数</returns>
+    public int GetSpectrumCount(string filename)
+    {
+      var result = 0;
+
+      using (var sr = new StreamReader(filename))
+      {
+        string line;
+        while ((line = sr.ReadLine()) != null)
+        {
+          if (line.StartsWith("S"))
+          {
+            result++;
+          }
+        }
+      }
+      return result;
+    }
   }
 }

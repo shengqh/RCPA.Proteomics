@@ -13,7 +13,14 @@ namespace RCPA.Proteomics.MyriMatch
   {
     public Summary.ISpectrumParser GetParser(string name)
     {
-      return new MyriMatchMzIdentParser();
+      if (name.ToLower().EndsWith("mzid"))
+      {
+        return new MyriMatchMzIdentParser();
+      }
+      else
+      {
+        return new MyriMatchPepXmlParser();
+      }
     }
 
     public IScoreFunctions GetScoreFunctions()

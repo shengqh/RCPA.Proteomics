@@ -20,27 +20,25 @@ namespace RCPA.Proteomics.MaxQuant
       var moddic = new Dictionary<string, char>();
       foreach (var spectrum in evidences)
       {
-        spectrum.Modifications = spectrum.Annotations["Modifications"] as string;
-        if (spectrum.Modifications == "Unmodified")
+        if (spectrum.Modifications == null || spectrum.Modifications.Equals("Unmodified"))
         {
           spectrum.Modifications = string.Empty;
         }
 
-        var mq = spectrum.GetMaxQuantItemList();
-
-        if (mq == null)
+        if (spectrum.Annotations.ContainsKey("PEP"))
         {
-          spectrum.Score = double.Parse(spectrum.Annotations["Mascot Score"] as string);
-        }
-        else
-        {
-          spectrum.Score = double.Parse(mq.BestItem.MascotScore);
+          spectrum.ExpectValue = double.Parse(spectrum.Annotations["PEP"] as string);
         }
 
-        spectrum.Query.FileScan.Experimental = spectrum.Annotations["Raw File"] as string;
+        spectrum.Query.FileScan.Experimental = spectrum.Annotations["Raw file"] as string;
         spectrum.Query.FileScan.FirstScan = int.Parse(spectrum.Annotations["MS/MS Scan Number"] as string);
         spectrum.Query.FileScan.LastScan = spectrum.Query.FileScan.FirstScan;
         spectrum.TheoreticalMass = double.Parse(spectrum.Annotations["Mass"] as string);
+
+        if (spectrum.Annotations.ContainsKey("MS/MS m/z"))
+        {
+          spectrum.ObservedMz = double.Parse(spectrum.Annotations["MS/MS m/z"] as string);
+        }
         spectrum.Rank = 1;
 
         var newseq = spectrum.Sequence;
@@ -72,12 +70,11 @@ namespace RCPA.Proteomics.MaxQuant
         {
           spectrum.Peptide.AddProtein(protein);
         }
-        spectrum.DeltaScore = double.Parse(spectrum.Annotations["Mascot Delta"] as string);
         spectrum.Annotations.Clear();
       }
 
       var result = Path.ChangeExtension(fileName, "peptides");
-      new MascotPeptideTextFormat("\tFileScan\tQuery\tSequence\tObs\tMH+\tDiff(MH+)\tDiffPPM\tCharge\tRank\tScore\tExpectValue\tReference\tMissCleavage\tModification\tMatchCount	NumProteaseTermini").WriteToFile(result, evidences);
+      new MascotPeptideTextFormat("\tFileScan\tSequence\tObs\tMH+\tDiff(MH+)\tDiffPPM\tCharge\tRank\tScore\tExpectValue\tReference\tMissCleavage\tModification\tMatchCount\tNumProteaseTermini").WriteToFile(result, evidences);
 
       return new string[] { result };
     }

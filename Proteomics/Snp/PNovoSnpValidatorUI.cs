@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,19 +17,20 @@ using RCPA.Seq;
 namespace RCPA.Proteomics.Snp
 {
   /// <summary>
-  /// ¶ÁÈ¡fastaÎÄ¼şºÍÒ»ÏµÁĞµÄpNovo½á¹û£¬¸ù¾İ¸ø¶¨µÄ×îĞ¡score½øĞĞÉ¸Ñ¡£¬»ñÈ¡ÍêÈ«Ã¸½â¡¢Ã»ÓĞmissÎ»µã¡¢
-  /// ÓëÊı¾İ¿âÖĞµ¥Î»µãÍ»±äµÄëÄ¶Î£¬ÓëÔ­À´µÄÊı¾İ¿â¹¹½¨³ÉÒ»¸öĞÂµÄÊı¾İ¿â£¬ÒÔ±ã½øĞĞÊı¾İ¿âËÑË÷ÑéÖ¤¡£
+  /// è¯»å–fastaæ–‡ä»¶å’Œä¸€ç³»åˆ—çš„pNovoç»“æœï¼Œæ ¹æ®ç»™å®šçš„æœ€å°scoreè¿›è¡Œç­›é€‰ï¼Œè·å–å®Œå…¨é…¶è§£ã€æ²¡æœ‰missä½ç‚¹ã€
+  /// ä¸æ•°æ®åº“ä¸­å•ä½ç‚¹çªå˜çš„è‚½æ®µï¼Œä¸åŸæ¥çš„æ•°æ®åº“æ„å»ºæˆä¸€ä¸ªæ–°çš„æ•°æ®åº“ï¼Œä»¥ä¾¿è¿›è¡Œæ•°æ®åº“æœç´¢éªŒè¯ã€‚
   /// </summary>
   public partial class PNovoSnpValidatorUI : AbstractFileProcessorUI
   {
     private static readonly string title = "pNovo SAP Validator";
-    private static readonly string version = "2.1.5";
+    private static readonly string version = "2.1.6";
 
     private RcpaDoubleField minScore;
     private RcpaComboBox<ITitleParser> titleParsers;
     private RcpaComboBox<IAccessNumberParser> acParsers;
     private RcpaComboBox<string> proteases;
     private RcpaIntegerField threadCount;
+    private RcpaIntegerField minLength;
 
     public PNovoSnpValidatorUI()
     {
@@ -62,6 +63,9 @@ namespace RCPA.Proteomics.Snp
 
       this.proteases = new RcpaComboBox<string>(cbProtease, "Protease", ProteaseManager.GetNames().ToArray(), -1);
       AddComponent(this.proteases);
+
+      this.minLength = new RcpaIntegerField(txtMinLength, "MinLength", "Minimum Peptide Length", 6, true);
+      AddComponent(this.minLength);
     }
 
     protected override IFileProcessor GetFileProcessor()
@@ -75,12 +79,23 @@ namespace RCPA.Proteomics.Snp
       {
         dbFile = databaseFile.FullName;
       }
-      return new PNovoSnpValidator(pNovoFiles.SelectedFileNames, databaseFile.FullName, dbFile, titleParsers.SelectedItem, acParsers.SelectedItem, ProteaseManager.GetProteaseByName(proteases.SelectedItem), minScore.Value, threadCount.Value)
+
+      var options = new PNovoSnpValidatorOptions()
       {
+        PnovoFiles = pNovoFiles.SelectedFileNames,
+        DatabaseFastaFile = dbFile,
+        TitleParser = titleParsers.SelectedItem,
+        AccessNumberParser = acParsers.SelectedItem,
+        Enzyme = ProteaseManager.GetProteaseByName(proteases.SelectedItem),
+        MinScore = minScore.Value,
+        ThreadCount = threadCount.Value,
         IgnoreNtermMutation = ignoreNTerm.Checked,
         IgnoreDeamidatedMutation = ignoreDeamidatedMutation.Checked,
-        IgnoreMultipleNucleotideMutation = ignoreMultipleNucleotideMutation.Checked
+        IgnoreMultipleNucleotideMutation = ignoreMultipleNucleotideMutation.Checked,
+        MinLength = minLength.Value
       };
+
+      return new PNovoSnpValidator(options);
     }
 
     public class Command : IToolCommand

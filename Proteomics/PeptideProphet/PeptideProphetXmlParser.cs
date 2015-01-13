@@ -5,6 +5,7 @@ using System.Text;
 using RCPA.Proteomics.Summary;
 using System.Xml.Linq;
 using RCPA.Gui;
+using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.PeptideProphet
 {
@@ -134,6 +135,8 @@ namespace RCPA.Proteomics.PeptideProphet
       return defaultValue;
     }
 
+    private static Regex modReg = new Regex(@"[\d+]");
+
     private void ParseSearchHit(IIdentifiedSpectrum sph, XElement searchHit, PeptideProphetModifications ppmods)
     {
       var sp = new IdentifiedPeptide(sph);
@@ -144,7 +147,7 @@ namespace RCPA.Proteomics.PeptideProphet
       if (mod_info != null)
       {
         var modified_peptide = mod_info.Attribute("modified_peptide");
-        if (modified_peptide != null)
+        if (modified_peptide != null && !modReg.Match(modified_peptide.Value).Success)
         {
           seq = modified_peptide.Value;
         }

@@ -134,7 +134,7 @@ namespace RCPA.Proteomics.Statistic
           var maxPeak = pkl.FindMaxIntensityPeak();
           var minIntensity = maxPeak.Intensity * options.MinRelativeIntensity;
 
-          double precursorMass = precursor.Charge > 0 ? PrecursorUtils.MzToMass(precursor.Mz, precursor.Charge, true) : 0.0;
+          double precursorMass = precursor.Charge > 0 ? PrecursorUtils.MzToMH(precursor.Mz, precursor.Charge, true) : 0.0;
           foreach (var peak in pkl)
           {
             if (peak.Intensity > minIntensity)
@@ -143,7 +143,7 @@ namespace RCPA.Proteomics.Statistic
 
               if (precursor.Charge > 0)
               {
-                var peakMass = peak.Charge == 0 ? peak.Mz : PrecursorUtils.MzToMass(peak.Mz, peak.Charge, true);
+                var peakMass = peak.Charge == 0 ? peak.Mz : PrecursorUtils.MzToMH(peak.Mz, peak.Charge, true);
                 peakMass = precursorMass - peakMass;
                 AddPeak(compmap, maxPeak.Intensity, i, new Peak(peakMass, peak.Intensity, peak.Charge));
               }

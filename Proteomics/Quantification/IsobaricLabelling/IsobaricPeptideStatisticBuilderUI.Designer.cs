@@ -29,41 +29,30 @@
     private void InitializeComponent()
     {
       this.btnDesignFile = new System.Windows.Forms.Button();
-      this.txtIsobaricXmlFile = new System.Windows.Forms.TextBox();
+      this.txtDesignFile = new System.Windows.Forms.TextBox();
       this.cbNormalize = new System.Windows.Forms.CheckBox();
-      this.cbModifiedOnly = new System.Windows.Forms.CheckBox();
-      this.txtModifiedCharacter = new System.Windows.Forms.TextBox();
-      this.pnlFile.SuspendLayout();
+      this.txtModifiedAminoacids = new System.Windows.Forms.TextBox();
+      this.label1 = new System.Windows.Forms.Label();
+      this.cbQuantifyMode = new System.Windows.Forms.ComboBox();
+      this.label2 = new System.Windows.Forms.Label();
+      this.btnPeptideFile = new System.Windows.Forms.Button();
+      this.txtPeptideFile = new System.Windows.Forms.TextBox();
       this.pnlButton.SuspendLayout();
       this.SuspendLayout();
       // 
-      // pnlFile
-      // 
-      this.pnlFile.Location = new System.Drawing.Point(25, 24);
-      this.pnlFile.Size = new System.Drawing.Size(1024, 24);
-      // 
-      // txtOriginalFile
-      // 
-      this.txtOriginalFile.Location = new System.Drawing.Point(300, 0);
-      this.txtOriginalFile.Size = new System.Drawing.Size(724, 20);
-      // 
-      // btnOriginalFile
-      // 
-      this.btnOriginalFile.Size = new System.Drawing.Size(300, 24);
-      // 
       // lblProgress
       // 
-      this.lblProgress.Location = new System.Drawing.Point(0, 140);
+      this.lblProgress.Location = new System.Drawing.Point(0, 161);
       this.lblProgress.Size = new System.Drawing.Size(1080, 23);
       // 
       // progressBar
       // 
-      this.progressBar.Location = new System.Drawing.Point(0, 163);
+      this.progressBar.Location = new System.Drawing.Point(0, 184);
       this.progressBar.Size = new System.Drawing.Size(1080, 23);
       // 
       // pnlButton
       // 
-      this.pnlButton.Location = new System.Drawing.Point(0, 186);
+      this.pnlButton.Location = new System.Drawing.Point(0, 207);
       this.pnlButton.Size = new System.Drawing.Size(1080, 39);
       // 
       // btnClose
@@ -80,75 +69,113 @@
       // 
       // btnDesignFile
       // 
-      this.btnDesignFile.Location = new System.Drawing.Point(25, 57);
+      this.btnDesignFile.Location = new System.Drawing.Point(25, 51);
       this.btnDesignFile.Name = "btnDesignFile";
       this.btnDesignFile.Size = new System.Drawing.Size(300, 25);
       this.btnDesignFile.TabIndex = 8;
       this.btnDesignFile.Text = "btnDesignFile";
       this.btnDesignFile.UseVisualStyleBackColor = true;
       // 
-      // txtIsobaricXmlFile
+      // txtDesignFile
       // 
-      this.txtIsobaricXmlFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+      this.txtDesignFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.txtIsobaricXmlFile.Location = new System.Drawing.Point(325, 60);
-      this.txtIsobaricXmlFile.Name = "txtIsobaricXmlFile";
-      this.txtIsobaricXmlFile.Size = new System.Drawing.Size(724, 20);
-      this.txtIsobaricXmlFile.TabIndex = 9;
+      this.txtDesignFile.Location = new System.Drawing.Point(325, 54);
+      this.txtDesignFile.Name = "txtDesignFile";
+      this.txtDesignFile.Size = new System.Drawing.Size(724, 20);
+      this.txtDesignFile.TabIndex = 9;
       // 
       // cbNormalize
       // 
       this.cbNormalize.AutoSize = true;
-      this.cbNormalize.Location = new System.Drawing.Point(325, 92);
+      this.cbNormalize.Location = new System.Drawing.Point(325, 86);
       this.cbNormalize.Name = "cbNormalize";
       this.cbNormalize.Size = new System.Drawing.Size(234, 17);
       this.cbNormalize.TabIndex = 15;
       this.cbNormalize.Text = "Normalize channels by cyclic loess algorithm";
       this.cbNormalize.UseVisualStyleBackColor = true;
       // 
-      // cbModifiedOnly
+      // txtModifiedAminoacids
       // 
-      this.cbModifiedOnly.AutoSize = true;
-      this.cbModifiedOnly.Location = new System.Drawing.Point(591, 92);
-      this.cbModifiedOnly.Name = "cbModifiedOnly";
-      this.cbModifiedOnly.Size = new System.Drawing.Size(270, 17);
-      this.cbModifiedOnly.TabIndex = 19;
-      this.cbModifiedOnly.Text = "Quantify peptides with modification characters only :";
-      this.cbModifiedOnly.UseVisualStyleBackColor = true;
-      this.cbModifiedOnly.Visible = false;
+      this.txtModifiedAminoacids.Location = new System.Drawing.Point(665, 110);
+      this.txtModifiedAminoacids.Name = "txtModifiedAminoacids";
+      this.txtModifiedAminoacids.Size = new System.Drawing.Size(100, 20);
+      this.txtModifiedAminoacids.TabIndex = 20;
       // 
-      // txtModifiedCharacter
+      // label1
       // 
-      this.txtModifiedCharacter.Location = new System.Drawing.Point(858, 90);
-      this.txtModifiedCharacter.Name = "txtModifiedCharacter";
-      this.txtModifiedCharacter.Size = new System.Drawing.Size(100, 20);
-      this.txtModifiedCharacter.TabIndex = 20;
-      this.txtModifiedCharacter.Visible = false;
+      this.label1.AutoSize = true;
+      this.label1.Location = new System.Drawing.Point(323, 113);
+      this.label1.Name = "label1";
+      this.label1.Size = new System.Drawing.Size(95, 13);
+      this.label1.TabIndex = 22;
+      this.label1.Text = "Quantify peptides: ";
+      // 
+      // cbQuantifyMode
+      // 
+      this.cbQuantifyMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.cbQuantifyMode.FormattingEnabled = true;
+      this.cbQuantifyMode.Location = new System.Drawing.Point(418, 110);
+      this.cbQuantifyMode.Name = "cbQuantifyMode";
+      this.cbQuantifyMode.Size = new System.Drawing.Size(121, 21);
+      this.cbQuantifyMode.TabIndex = 23;
+      // 
+      // label2
+      // 
+      this.label2.AutoSize = true;
+      this.label2.Location = new System.Drawing.Point(545, 113);
+      this.label2.Name = "label2";
+      this.label2.Size = new System.Drawing.Size(114, 13);
+      this.label2.TabIndex = 24;
+      this.label2.Text = ", modified amino acids:";
+      // 
+      // btnPeptideFile
+      // 
+      this.btnPeptideFile.Location = new System.Drawing.Point(25, 22);
+      this.btnPeptideFile.Name = "btnPeptideFile";
+      this.btnPeptideFile.Size = new System.Drawing.Size(300, 25);
+      this.btnPeptideFile.TabIndex = 25;
+      this.btnPeptideFile.Text = "btnPeptideFile";
+      this.btnPeptideFile.UseVisualStyleBackColor = true;
+      // 
+      // txtPeptideFile
+      // 
+      this.txtPeptideFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.txtPeptideFile.Location = new System.Drawing.Point(325, 25);
+      this.txtPeptideFile.Name = "txtPeptideFile";
+      this.txtPeptideFile.Size = new System.Drawing.Size(724, 20);
+      this.txtPeptideFile.TabIndex = 26;
       // 
       // IsobaricPeptideStatisticBuilderUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1080, 225);
-      this.Controls.Add(this.txtModifiedCharacter);
-      this.Controls.Add(this.cbModifiedOnly);
+      this.ClientSize = new System.Drawing.Size(1080, 246);
+      this.Controls.Add(this.btnPeptideFile);
+      this.Controls.Add(this.txtPeptideFile);
+      this.Controls.Add(this.label2);
+      this.Controls.Add(this.cbQuantifyMode);
+      this.Controls.Add(this.label1);
+      this.Controls.Add(this.txtModifiedAminoacids);
       this.Controls.Add(this.btnDesignFile);
-      this.Controls.Add(this.txtIsobaricXmlFile);
+      this.Controls.Add(this.txtDesignFile);
       this.Controls.Add(this.cbNormalize);
       this.Name = "IsobaricPeptideStatisticBuilderUI";
       this.TabText = "";
-      this.Text = "Identified Protein iTRAQ Statistic Builder";
+      this.Text = "Isobaric Labeling Peptide Statistic Builder";
       this.Controls.SetChildIndex(this.pnlButton, 0);
-      this.Controls.SetChildIndex(this.pnlFile, 0);
       this.Controls.SetChildIndex(this.cbNormalize, 0);
-      this.Controls.SetChildIndex(this.txtIsobaricXmlFile, 0);
+      this.Controls.SetChildIndex(this.txtDesignFile, 0);
       this.Controls.SetChildIndex(this.btnDesignFile, 0);
       this.Controls.SetChildIndex(this.progressBar, 0);
       this.Controls.SetChildIndex(this.lblProgress, 0);
-      this.Controls.SetChildIndex(this.cbModifiedOnly, 0);
-      this.Controls.SetChildIndex(this.txtModifiedCharacter, 0);
-      this.pnlFile.ResumeLayout(false);
-      this.pnlFile.PerformLayout();
+      this.Controls.SetChildIndex(this.txtModifiedAminoacids, 0);
+      this.Controls.SetChildIndex(this.label1, 0);
+      this.Controls.SetChildIndex(this.cbQuantifyMode, 0);
+      this.Controls.SetChildIndex(this.label2, 0);
+      this.Controls.SetChildIndex(this.txtPeptideFile, 0);
+      this.Controls.SetChildIndex(this.btnPeptideFile, 0);
       this.pnlButton.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
@@ -158,10 +185,14 @@
     #endregion
 
     protected System.Windows.Forms.Button btnDesignFile;
-    protected System.Windows.Forms.TextBox txtIsobaricXmlFile;
+    protected System.Windows.Forms.TextBox txtDesignFile;
     protected System.Windows.Forms.CheckBox cbNormalize;
-    protected System.Windows.Forms.CheckBox cbModifiedOnly;
-    protected System.Windows.Forms.TextBox txtModifiedCharacter;
+    protected System.Windows.Forms.TextBox txtModifiedAminoacids;
+    private System.Windows.Forms.Label label1;
+    private System.Windows.Forms.ComboBox cbQuantifyMode;
+    private System.Windows.Forms.Label label2;
+    protected System.Windows.Forms.Button btnPeptideFile;
+    protected System.Windows.Forms.TextBox txtPeptideFile;
 
 
   }

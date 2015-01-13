@@ -77,7 +77,7 @@ namespace RCPA.Proteomics.Processor
           if (options.RemoveChargeMinus1Precursor && t.PrecursorCharge > 1)
           {
             //Get charge-1 precursor
-            var p1mz = PrecursorUtils.MassToMz(PrecursorUtils.MzToMass(t.PrecursorMZ, t.PrecursorCharge, true), t.PrecursorCharge - 1, true);
+            var p1mz = PrecursorUtils.MHToMz(PrecursorUtils.MzToMH(t.PrecursorMZ, t.PrecursorCharge, true), t.PrecursorCharge - 1, true);
             var p1Window = PrecursorUtils.ppm2mz(p1mz, options.PPMTolerance);
             var p1Ions = FindPeakConsideringCharge(t, p1mz, t.PrecursorCharge - 1, p1Window);
             if (p1Ions.Count > 0)
@@ -125,10 +125,10 @@ namespace RCPA.Proteomics.Processor
 
         if (options.RemoveIonLargerThanPrecursor)
         {
-          var pmass = PrecursorUtils.MzToMass(t.PrecursorMZ, t.PrecursorCharge, true);
+          var pmass = PrecursorUtils.MzToMH(t.PrecursorMZ, t.PrecursorCharge, true);
           t.RemoveAll(m =>
           {
-            var mass = m.Charge > 0 ? PrecursorUtils.MzToMass(m.Mz, m.Charge, true) : m.Mz;
+            var mass = m.Charge > 0 ? PrecursorUtils.MzToMH(m.Mz, m.Charge, true) : m.Mz;
             return mass >= pmass;
           });
         }

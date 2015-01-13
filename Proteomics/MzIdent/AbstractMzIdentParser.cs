@@ -202,8 +202,8 @@ namespace RCPA.Proteomics.MzIdent
           if (bFirst) //only parse score once
           {
             spectrum.Charge = int.Parse(sit.Attribute("chargeState").Value);
-            spectrum.TheoreticalMass = PrecursorUtils.MzToMass(double.Parse(sit.Attribute("calculatedMassToCharge").Value), spectrum.Charge, true);
-            spectrum.ExperimentalMass = PrecursorUtils.MzToMass(double.Parse(sit.Attribute("experimentalMassToCharge").Value), spectrum.Charge, true);
+            spectrum.TheoreticalMH = PrecursorUtils.MzToMH(double.Parse(sit.Attribute("calculatedMassToCharge").Value), spectrum.Charge, true);
+            spectrum.ExperimentalMH = PrecursorUtils.MzToMH(double.Parse(sit.Attribute("experimentalMassToCharge").Value), spectrum.Charge, true);
 
             var cvParams = GetCvParams(sit);
             if (cvParams.TryGetValue("MS:1001121", out value))

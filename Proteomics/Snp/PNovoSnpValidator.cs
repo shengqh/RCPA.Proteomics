@@ -15,22 +15,9 @@ namespace RCPA.Proteomics.Snp
 {
   public class PNovoSnpValidator : AbstractThreadFileProcessor
   {
-    private string[] pnovoFiles;
-    private string targetFastaFile;
-    private string dbFastaFile;
-    private ITitleParser parser;
-    private IAccessNumberParser acParser;
-    private Protease protease;
-    private double minScore;
-    private int threadCount;
+    private PNovoSnpValidatorOptions options;
 
     private Aminoacids aas = new Aminoacids();
-
-    public bool IgnoreNtermMutation { get; set; }
-
-    public bool IgnoreDeamidatedMutation { get; set; }
-
-    public bool IgnoreMultipleNucleotideMutation { get; set; }
 
     private class FindParam
     {
@@ -56,24 +43,13 @@ namespace RCPA.Proteomics.Snp
       public int FinishedCount { get; set; }
     }
 
-    public PNovoSnpValidator(string[] pnovoFiles, string targetFastaFile, string dbFastaFile, ITitleParser parser, IAccessNumberParser acParser, Protease protease, double minScore, int threadCount)
+    public PNovoSnpValidator(PNovoSnpValidatorOptions options)
     {
-      this.pnovoFiles = pnovoFiles;
-      this.targetFastaFile = targetFastaFile;
-      this.dbFastaFile = dbFastaFile;
-      this.parser = parser;
-      this.acParser = acParser;
-      this.protease = protease;
-      this.minScore = minScore;
-      this.threadCount = threadCount;
-      if (this.threadCount < 1)
+      this.options = options;
+      if (this.options.ThreadCount < 1)
       {
-        this.threadCount = 1;
+        this.options.ThreadCount = 1;
       }
-
-      IgnoreNtermMutation = true;
-      IgnoreDeamidatedMutation = false;
-      IgnoreMultipleNucleotideMutation = true;
     }
 
     private void FindMutation(object obj)
@@ -92,27 +68,27 @@ namespace RCPA.Proteomics.Snp
         string source = string.Empty;
         int site = -1;
 
-        //是否有一个mutation的匹配，非KR突变。
-        if (FindMutationOneType1(pnovoseq, ref source,ref site))
+        //是否有一个mutation的匹配，不改变酶切位点。
+        if (FindMutationOneType1(pnovoseq, ref source, ref site))
         {
-          var reference = string.Format("MUL_{0}_type1 source={1} mutation={2}{3}{4}", pnovoseq, source, source[site], site + 1, pnovoseq[site]);
+          var reference = string.Format("sp|MUL_{0}|type1 source={1} mutation={2}{3}{4}", pnovoseq, source, source[site], site + 1, pnovoseq[site]);
           param.Sequences.Add(new Sequence(reference, pnovoseq));
           param.Type1Count++;
           continue;
         }
 
-        //是否有一个mutation的匹配，从KR突变为其他氨基酸，导致pnovo解析得到序列更长。
+        //是否有一个mutation的匹配，从酶切位点突变为其他氨基酸，导致pnovo解析得到序列更长。
         if (FindMutationOneType2(pnovoseq, ref source))
         {
-          param.Sequences.Add(new Sequence("MUL_" + pnovoseq + "_type2 source=" + source, pnovoseq));
+          param.Sequences.Add(new Sequence("sp|MUL_" + pnovoseq + "|type2 source=" + source, pnovoseq));
           param.Type2Count++;
           continue;
         }
 
-        //是否有一个mutation的匹配，从其他氨基酸突变为KR，导致pnovo解析得到序列更短。
+        //是否有一个mutation的匹配，从其他氨基酸突变为酶切位点，导致pnovo解析得到序列更短。
         if (FindMutationOneType3(pnovoseq, ref source))
         {
-          param.Sequences.Add(new Sequence("MUL_" + pnovoseq + "_type3 source=" + source, pnovoseq));
+          param.Sequences.Add(new Sequence("sp|MUL_" + pnovoseq + "|type3 source=" + source, pnovoseq));
           param.Type3Count++;
           continue;
         }
@@ -133,8 +109,8 @@ namespace RCPA.Proteomics.Snp
       }
     }
 
-    private List<string> miss0 = new List<string>();
-    private List<string> miss1 = new List<string>();
+    private Dictionary<string, string> miss0 = new Dictionary<string, string>();
+    private Dictionary<string, string> miss1 = new Dictionary<string, string>();
     private Dictionary<string, List<Type2Sequence>> miss1type2_1 = new Dictionary<string, List<Type2Sequence>>();
     private Dictionary<string, List<string>> miss1type2_2 = new Dictionary<string, List<string>>();
     private Dictionary<int, List<string>> miss0group = new Dictionary<int, List<string>>();
@@ -149,7 +125,7 @@ namespace RCPA.Proteomics.Snp
     {
       HashSet<string> pnovoseqs = new HashSet<string>();
 
-      PNovoParser pnovoParser = new PNovoParser(this.parser);
+      var pnovoParser = new PNovoPlusParser(options.TitleParser);
       pnovoParser.Progress = this.Progress;
 
       //找到一个非酶切位点的氨基酸，可代表denovo序列前后氨基酸。
@@ -157,22 +133,22 @@ namespace RCPA.Proteomics.Snp
       for (int i = 0; i < 26; i++)
       {
         anotheraa = (char)('A' + i);
-        if (protease.CleaveageResidues.Contains(anotheraa) || protease.NotCleaveResidues.Contains(anotheraa))
+        if (options.Enzyme.CleaveageResidues.Contains(anotheraa) || options.Enzyme.NotCleaveResidues.Contains(anotheraa))
         {
           continue;
         }
         break;
       }
 
-      Progress.SetRange(0, pnovoFiles.Length);
+      Progress.SetRange(0, options.PnovoFiles.Length);
       int totalSpectrumCount = 0;
       int totalSpectrumPassScore = 0;
 
-      foreach (var pnovoFile in pnovoFiles)
+      foreach (var pnovoFile in options.PnovoFiles)
       {
         Progress.SetMessage("Reading " + pnovoFile + " ...");
         int spectrumCount = pnovoParser.GetSpectrumCount(pnovoFile);
-        var curSpectra = pnovoParser.ParsePeptides(pnovoFile, 10, minScore);
+        var curSpectra = pnovoParser.ParsePeptides(pnovoFile, 10, options.MinScore);
 
         totalSpectrumCount += spectrumCount;
         totalSpectrumPassScore += curSpectra.Count;
@@ -194,14 +170,12 @@ namespace RCPA.Proteomics.Snp
       }
 
       Progress.SetPosition(0);
-      Progress.SetMessage("Reading " + targetFastaFile + " ...");
-      var seqs = SequenceUtils.Read(new FastaFormat(), targetFastaFile);
+      Progress.SetMessage("Reading " + options.TargetFastaFile + " ...");
+      var seqs = SequenceUtils.Read(new FastaFormat(), options.TargetFastaFile);
 
       Progress.SetMessage("Digesting sequences ...");
-      miss0 = new List<string>();
-      miss1 = new List<string>();
 
-      GetDigestPeptide(seqs, miss0, miss1);
+      GetDigestPeptide(seqs);
 
       seqs.Clear();
       seqs.TrimExcess();
@@ -210,22 +184,33 @@ namespace RCPA.Proteomics.Snp
 
       //清除所有跟理论库一样的肽段。
       Progress.SetMessage("Removing identical peptides ...");
-      pnovoseqs.ExceptWith(miss0);
+      pnovoseqs.ExceptWith(miss0.Keys);
 
       var pnovoArray = pnovoseqs.ToArray();
       pnovoseqs.Clear();
       GC.Collect();
       GC.WaitForFullGCComplete();
 
-      miss0group = miss0.ToGroupDictionary(m => m.Length);
+      miss0group = miss0.Keys.ToGroupDictionary(m => m.Length);
 
       var type2seqs = new List<Type2Sequence>();
       var type2_2 = new List<string>();
-      foreach (var m in miss1)
+      foreach (var m in miss1.Keys)
       {
-        var kpos = m.IndexOf('K');
-        var rpos = m.IndexOf('R');
-        var maxpos = Math.Max(kpos, rpos);
+        int maxpos = -1;
+        for (int i = 1; i < m.Length; i++)
+        {
+          if (options.Enzyme.IsCleavageSite(m[i - 1], m[i], anotheraa))
+          {
+            maxpos = i - 1;
+            break;
+          }
+        }
+
+        if (maxpos == -1)
+        {
+          throw new Exception("There is no misscleavage in " + m);
+        }
 
         if (maxpos == 0)
         {
@@ -244,7 +229,7 @@ namespace RCPA.Proteomics.Snp
       miss1type2_1 = type2seqs.ToGroupDictionary(m => GetType2Key(m.Sequence));
       miss1type2_2 = type2_2.ToGroupDictionary(m => m.Substring(1));
 
-      miss0type3 = miss0.ToGroupDictionary(m => GetType3Key(m));
+      miss0type3 = miss0.Keys.ToGroupDictionary(m => GetType3Key(m));
 
       type2seqs.Clear();
       GC.Collect();
@@ -261,14 +246,14 @@ namespace RCPA.Proteomics.Snp
       }
 
       var totalCount = pnovoArray.Length;
-      var binSize = totalCount / this.threadCount;
+      var binSize = totalCount / options.ThreadCount;
       List<FindParam> fparams = new List<FindParam>();
       List<Thread> threads = new List<Thread>();
       var startPos = 0;
-      for (int i = 0; i < this.threadCount; i++)
+      for (int i = 0; i < options.ThreadCount; i++)
       {
         int count;
-        if (i == this.threadCount - 1)
+        if (i == options.ThreadCount - 1)
         {
           count = pnovoArray.Length - startPos;
         }
@@ -345,7 +330,7 @@ namespace RCPA.Proteomics.Snp
       int type2 = fparams.Sum(m => m.Type2Count);
       int type3 = fparams.Sum(m => m.Type3Count);
 
-      using (StreamWriter sw = new StreamWriter(pNovoStat,true))
+      using (StreamWriter sw = new StreamWriter(pNovoStat, true))
       {
         sw.WriteLine("Type1 Count\t" + type1.ToString());
         sw.WriteLine("Type2 Count\t" + type2.ToString());
@@ -356,10 +341,10 @@ namespace RCPA.Proteomics.Snp
                             from s in f.Sequences
                             select s).ToList();
 
-      string newFastaFile = new FileInfo(targetDir + "/" + FileUtils.ChangeExtension(new FileInfo(dbFastaFile).Name, "mutation.fasta")).FullName;
+      string newFastaFile = new FileInfo(targetDir + "/" + FileUtils.ChangeExtension(new FileInfo(options.DatabaseFastaFile).Name, "mutation.fasta")).FullName;
       using (StreamWriter sw = new StreamWriter(newFastaFile))
       {
-        using (StreamReader sr = new StreamReader(dbFastaFile))
+        using (StreamReader sr = new StreamReader(options.DatabaseFastaFile))
         {
           string line = sr.ReadToEnd();
           sw.WriteLine(line);
@@ -372,13 +357,13 @@ namespace RCPA.Proteomics.Snp
         }
       }
 
-      Progress.SetRange(0, pnovoFiles.Length);
+      Progress.SetRange(0, options.PnovoFiles.Length);
       var sapSequences = new HashSet<string>(singleMutation.ConvertAll(m => m.SeqString));
       List<IIdentifiedSpectrum> allSpectra = new List<IIdentifiedSpectrum>();
-      foreach (var pnovoFile in pnovoFiles)
+      foreach (var pnovoFile in options.PnovoFiles)
       {
         Progress.SetMessage("Reading " + pnovoFile + " ...");
-        var curSpectra = pnovoParser.ParsePeptides(pnovoFile, 10, minScore);
+        var curSpectra = pnovoParser.ParsePeptides(pnovoFile, 10, options.MinScore);
 
         RemoveMissCleavagePeptides(anotheraa, curSpectra);
 
@@ -388,7 +373,7 @@ namespace RCPA.Proteomics.Snp
       }
 
       var pNovoPeptides = targetDir + "\\pNovo.SAP.peptides";
-      new MascotPeptideTextFormat().WriteToFile(pNovoPeptides, allSpectra);
+      new MascotPeptideTextFormat("\tFileScan\tSequence\tCharge\tScore\tDeltaScore").WriteToFile(pNovoPeptides, allSpectra);
 
       Progress.SetMessage("Finished.");
       Progress.End();
@@ -402,13 +387,13 @@ namespace RCPA.Proteomics.Snp
       {
         //先设置denovo结果肽段的前后氨基酸，以防止末端氨基酸不是酶切位点的情况。
         var pureseq = spectrum.Peptide.PureSequence;
-        spectrum.NumMissedCleavages = protease.GetMissCleavageSiteCount(pureseq);
+        spectrum.NumMissedCleavages = options.Enzyme.GetMissCleavageSiteCount(pureseq);
 
-        if (protease.IsEndoProtease && !protease.IsCleavageSite(pureseq.Last(), anotheraa, '-'))
+        if (options.Enzyme.IsEndoProtease && !options.Enzyme.IsCleavageSite(pureseq.Last(), anotheraa, '-'))
         {
           spectrum.NumMissedCleavages++;
         }
-        else if (!protease.IsEndoProtease && !protease.IsCleavageSite(anotheraa, pureseq.First(), '-'))
+        else if (!options.Enzyme.IsEndoProtease && !options.Enzyme.IsCleavageSite(anotheraa, pureseq.First(), '-'))
         {
           spectrum.NumMissedCleavages++;
         }
@@ -430,7 +415,7 @@ namespace RCPA.Proteomics.Snp
     {
       var c = pnovoseq.Last();
 
-      if (c == 'K' || c == 'R')
+      if (this.options.Enzyme.CleaveageResidues.Contains(c))
       {
         var key = GetType3Key(pnovoseq);
         if (!miss0type3.ContainsKey(key))
@@ -444,7 +429,7 @@ namespace RCPA.Proteomics.Snp
         {
           if (m.StartsWith(p3))
           {
-            source = m;
+            source = miss0[m];
             //Console.WriteLine("TYPE3 : {0} ==> {1}", m, pnovoseq);
             return true;
           }
@@ -464,7 +449,7 @@ namespace RCPA.Proteomics.Snp
         {
           if (pnovoseq.StartsWith(m.PriorSequence) && pnovoseq.EndsWith(m.PostSequence))
           {
-            source = m.Sequence;
+            source = miss1[m.Sequence];
             //Console.WriteLine("TYPE2 : {0} ==> {1}", source, pnovoseq);
             return true;
           }
@@ -474,7 +459,7 @@ namespace RCPA.Proteomics.Snp
       var subs = pnovoseq.Substring(1);
       if (miss1type2_2.ContainsKey(subs))
       {
-        source = miss1type2_2[subs][0];
+        source = miss1[miss1type2_2[subs][0]];
         //Console.WriteLine("TYPE2 : {0} ==> {1}", source, pnovoseq);
         return true;
       }
@@ -492,9 +477,9 @@ namespace RCPA.Proteomics.Snp
       var lst = miss0group[pnovoseq.Length];
       foreach (var m in lst)
       {
-        if (MutationUtils.IsMutationOne2(m, pnovoseq, ref site, IgnoreNtermMutation, IgnoreDeamidatedMutation, IgnoreMultipleNucleotideMutation))
+        if (MutationUtils.IsMutationOne2(m, pnovoseq, ref site, options.IgnoreNtermMutation, options.IgnoreDeamidatedMutation, options.IgnoreMultipleNucleotideMutation))
         {
-          source = m;
+          source = miss0[m];
           //Console.WriteLine("TYPE1 : {0} ==> {1}", m, pnovoseq);
           return true;
         }
@@ -513,25 +498,22 @@ namespace RCPA.Proteomics.Snp
       return miss0group[pnovoseq.Length].Contains(pnovoseq);
     }
 
-    private void GetDigestPeptide(List<Sequence> seqs, List<string> miss0, List<string> miss1)
+    private void GetDigestPeptide(List<Sequence> seqs)
     {
-      miss0.Clear();
-      miss1.Clear();
-
-      var m0 = new HashSet<string>();
-      var m1 = new HashSet<string>();
+      miss0 = new Dictionary<string, string>();
+      miss1 = new Dictionary<string, string>();
 
       foreach (var seq in seqs)
       {
         Digest dig = new Digest();
-        dig.DigestProtease = this.protease;
+        dig.DigestProtease = options.Enzyme;
         dig.ProteinSequence = seq;
         dig.MaxMissedCleavages = 1;
         dig.AddDigestFeatures();
         var features = seq.GetDigestPeptideInfo();
         foreach (var feature in features)
         {
-          if (feature.PeptideSeq.Length < 6)
+          if (feature.PeptideSeq.Length < options.MinLength)
           {
             continue;
           }
@@ -539,17 +521,14 @@ namespace RCPA.Proteomics.Snp
           var pepseq = feature.PeptideSeq.Replace('I', 'L');
           if (feature.MissCleavage == 0)
           {
-            m0.Add(pepseq);
+            miss0[pepseq] = feature.PeptideSeq;
           }
           else
           {
-            m1.Add(pepseq);
+            miss1[pepseq] = feature.PeptideSeq;
           }
         }
       }
-
-      miss0.AddRange(m0);
-      miss1.AddRange(m1);
     }
   }
 }

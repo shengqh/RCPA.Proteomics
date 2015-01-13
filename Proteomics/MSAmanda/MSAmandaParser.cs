@@ -1,6 +1,7 @@
 ﻿using RCPA.Gui;
 using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.MzIdent;
+using RCPA.Proteomics.PeptideProphet;
 using RCPA.Proteomics.Summary;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,8 @@ namespace RCPA.Proteomics.MSAmanda
     {
       var result = new MascotPeptideTextFormat().ReadFromFile(fileName);
       result.RemoveAll(m => m.Rank != 1);
+
+      UpdateModifications(result);
 
       foreach (var peptide in result)
       {
@@ -86,6 +89,77 @@ namespace RCPA.Proteomics.MSAmanda
       }
 
       return result;
+    }
+
+    private static Regex modReg2 = new Regex(@"\S+?(\d+)\((\S+?)\|");
+    private void UpdateModifications(List<IIdentifiedSpectrum> result)
+    {
+      PeptideProphetModifications mods = new PeptideProphetModifications();
+      var map = new Dictionary<string, PeptideProphetModificationItem>();
+      foreach (var pep in result)
+      {
+        var curMods = pep.Modifications.Split(';');
+        foreach (var curMod in curMods)
+        {
+          var m = modReg2.Match(curMod);
+          if (m.Success)
+          {
+            var modname = m.Groups[2].Value;
+            if (!map.ContainsKey(modname))
+            {
+              var item = new PeptideProphetModificationItem();
+              item.Aminoacid = modname;
+              item.IsVariable = curMod.Contains("variable");
+              map[modname] = item;
+            }
+          }
+        }
+      }
+
+      map.OrderBy(m => m.Key).ToList().ForEach(m => mods.Add(m.Value));
+      mods.AssignModificationChar();
+
+      foreach (var spectrum in result)
+      {
+        if (string.IsNullOrEmpty(spectrum.Modifications))
+        {
+          continue;
+        }
+
+        Stack<Tuple<int, string>> vmods = new Stack<Tuple<int, string>>();
+        var curMods = spectrum.Modifications.Split(';');
+
+        foreach (var curMod in curMods)
+        {
+          if (!curMod.Contains("variable"))
+          {
+            continue;
+          }
+
+          var m = modReg2.Match(curMod);
+          if (m.Success)
+          {
+            var modname = m.Groups[2].Value;
+            var modchar = map[modname].ModificationChar;
+            var modpos = int.Parse(m.Groups[1].Value);
+            vmods.Push(new Tuple<int, string>(modpos, modchar));
+          }
+        }
+
+        foreach (var pep in spectrum.Peptides)
+        {
+          pep.Sequence = pep.Sequence.ToUpper();
+        }
+
+        while (vmods.Count > 0)
+        {
+          var vmod = vmods.Pop();
+          foreach (var pep in spectrum.Peptides)
+          {
+            pep.Sequence = pep.Sequence.Insert(vmod.Item1, vmod.Item2);
+          }
+        }
+      }
     }
   }
 }

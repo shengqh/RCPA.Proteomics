@@ -81,7 +81,7 @@ namespace RCPA.Proteomics.Format
             sw.WriteLine("S\t{0}\t{1}\t{2}", sf.FirstScan, sf.LastScan, pkl.PrecursorMZ);
             foreach (var charge in charges)
             {
-              sw.WriteLine("Z\t{0}\t{1:0.#####}", charge, PrecursorUtils.MzToMass(pkl.PrecursorMZ, charge, true));
+              sw.WriteLine("Z\t{0}\t{1:0.#####}", charge, PrecursorUtils.MzToMH(pkl.PrecursorMZ, charge, true));
             }
             foreach (var peak in pkl)
             {

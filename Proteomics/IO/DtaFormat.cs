@@ -44,7 +44,7 @@ namespace RCPA.Proteomics.IO
         string[] parts = Regex.Split(lastline, @"\s+");
         double precursorMass = MyConvert.ToDouble(parts[0]);
         result.PrecursorCharge = int.Parse(parts[1]);
-        result.PrecursorMZ = PrecursorUtils.MassToMz(precursorMass, result.PrecursorCharge, true);
+        result.PrecursorMZ = PrecursorUtils.MHToMz(precursorMass, result.PrecursorCharge, true);
 
         while ((lastline = filein.ReadLine()) != null)
         {
@@ -78,7 +78,7 @@ namespace RCPA.Proteomics.IO
     {
       using (var sw = new StreamWriter(dtaFilename))
       {
-        sw.WriteLine(MyConvert.Format("{0:0.####}\t{1}", PrecursorUtils.MzToMass(t.PrecursorMZ, t.PrecursorCharge, true),
+        sw.WriteLine(MyConvert.Format("{0:0.####}\t{1}", PrecursorUtils.MzToMH(t.PrecursorMZ, t.PrecursorCharge, true),
                                    t.PrecursorCharge));
         foreach (T peak in t)
         {

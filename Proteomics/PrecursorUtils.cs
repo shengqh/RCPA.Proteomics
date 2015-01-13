@@ -13,13 +13,13 @@ namespace RCPA.Proteomics
       return mzTolerance * 1000000 / precursorMz;
     }
 
-    public static double MassToMz(double mass, int charge, bool isMonoisotopic)
+    public static double MHToMz(double mass, int charge, bool isMonoisotopic)
     {
       double massH = isMonoisotopic ? Atom.H.MonoMass : Atom.H.AverageMass;
       return (mass + massH * (charge - 1)) / charge;
     }
 
-    public static double MzToMass(double mz, int charge, bool isMonoisotopic)
+    public static double MzToMH(double mz, int charge, bool isMonoisotopic)
     {
       if (charge == 0)
       {

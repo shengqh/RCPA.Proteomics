@@ -119,9 +119,12 @@ namespace RCPA.Proteomics.Omssa
           }
           spectrum.ExpectValue = evalue;
           spectrum.Score = -Math.Log(spectrum.ExpectValue);
-          spectrum.Query.Charge = int.Parse(hit.FindElement("MSHits_charge").Value);
-          spectrum.ObservedMz = double.Parse(hit.FindElement("MSHits_mass").Value) / scale;
-          spectrum.TheoreticalMass = PrecursorUtils.MzToMass(double.Parse(hit.FindElement("MSHits_theomass").Value) / scale, spectrum.Query.Charge, true);
+          if (spectrum.Query.Charge == 0) // trust the charge from title
+          {
+            spectrum.Query.Charge = int.Parse(hit.FindElement("MSHits_charge").Value);
+          }
+          spectrum.ExperimentalMass = double.Parse(hit.FindElement("MSHits_mass").Value) / scale;
+          spectrum.TheoreticalMass = double.Parse(hit.FindElement("MSHits_theomass").Value) / scale;
 
           var peptide = new IdentifiedPeptide(spectrum);
           var seq = hit.FindElement("MSHits_pepstring").Value;
@@ -137,7 +140,7 @@ namespace RCPA.Proteomics.Omssa
                            select new { Location = loc, ModType = modtype }).ToList();
             foreach (var modloc in modsloc)
             {
-              seq = seq.Insert(modloc.Location, modMap[modloc.ModType]);
+              seq = seq.Insert(modloc.Location + 1, modMap[modloc.ModType]);
             }
           }
 

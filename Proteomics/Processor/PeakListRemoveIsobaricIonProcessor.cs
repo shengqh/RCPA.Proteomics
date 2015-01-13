@@ -37,7 +37,7 @@ namespace RCPA.Proteomics.Processor
         double mass;
         if (peak.Charge > 1)
         {
-          mass = PrecursorUtils.MzToMass(peak.Mz, peak.Charge, true);
+          mass = PrecursorUtils.MzToMH(peak.Mz, peak.Charge, true);
           if (mass > options.MaxFixIonMz)
           {
             index++;
@@ -75,7 +75,7 @@ namespace RCPA.Proteomics.Processor
         }
       }
 
-      var precursorMass = PrecursorUtils.MzToMass(t.PrecursorMZ, t.PrecursorCharge, true);
+      var precursorMass = PrecursorUtils.MzToMH(t.PrecursorMZ, t.PrecursorCharge, true);
       if (options.RemoveHighRange)
       {
         var maxPeak = precursorMass - options.Protease.GetHighBYFreeWindow() - options.MzTolerance;
@@ -83,7 +83,7 @@ namespace RCPA.Proteomics.Processor
         {
           t.RemoveAll(peak =>
           {
-            double mass = PrecursorUtils.MzToMass(peak.Mz, peak.Charge, true);
+            double mass = PrecursorUtils.MzToMH(peak.Mz, peak.Charge, true);
             return mass >= maxPeak;
           });
         }
@@ -93,7 +93,7 @@ namespace RCPA.Proteomics.Processor
           var precursorLarge = precursorMass + options.MzTolerance;
           t.RemoveAll(peak =>
           {
-            double mass = PrecursorUtils.MzToMass(peak.Mz, peak.Charge, true);
+            double mass = PrecursorUtils.MzToMH(peak.Mz, peak.Charge, true);
             return (mass >= maxPeak && mass <= precursorLess) || mass > precursorLarge;
           });
         }
@@ -106,7 +106,7 @@ namespace RCPA.Proteomics.Processor
         var maxIonMass = ionmass + options.MzTolerance;
         t.RemoveAll(peak =>
         {
-          double mass = PrecursorUtils.MzToMass(peak.Mz, peak.Charge, true);
+          double mass = PrecursorUtils.MzToMH(peak.Mz, peak.Charge, true);
           return mass >= minIonMass && mass <= maxIonMass;
         });
       }

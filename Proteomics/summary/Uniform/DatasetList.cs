@@ -67,7 +67,8 @@ namespace RCPA.Proteomics.Summary.Uniform
 
           if (m.Spectra.All(l => !l.FromDecoy))
           {
-            throw new Exception(string.Format("No decoy protein found at dataset {0}, make sure the protein access number parser and the decoy pattern are correctly defined!", m.Options.Name));
+            Console.Error.WriteLine(string.Format("No decoy protein found at dataset {0}, make sure the protein access number parser and the decoy pattern are correctly defined!", m.Options.Name));
+            //throw new Exception(string.Format("No decoy protein found at dataset {0}, make sure the protein access number parser and the decoy pattern are correctly defined!", m.Options.Name));
           }
         });
       }

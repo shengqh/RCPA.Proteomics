@@ -240,12 +240,12 @@ namespace RCPA.Proteomics.Summary
 
     public double GetPrecursorMz()
     {
-      return PrecursorUtils.MassToMz(ExperimentalMH, Query.Charge, IsPrecursorMonoisotopic);
+      return PrecursorUtils.MHToMz(ExperimentalMH, Query.Charge, IsPrecursorMonoisotopic);
     }
 
     public double GetTheoreticalMz()
     {
-      return PrecursorUtils.MassToMz(TheoreticalMH, Query.Charge, IsPrecursorMonoisotopic);
+      return PrecursorUtils.MHToMz(TheoreticalMH, Query.Charge, IsPrecursorMonoisotopic);
     }
 
     public string GetMatchSequence()

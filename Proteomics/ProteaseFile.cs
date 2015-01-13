@@ -14,40 +14,42 @@ namespace RCPA.Proteomics
     {
       this.dtaProteaseMap = new Dictionary<string, Protease>();
 
-      var filein = new StreamReader(new FileStream(filename, FileMode.Open, FileAccess.Read));
-      var enzymeMap = new Dictionary<string, Protease>();
-      string sline;
-      while ((sline = filein.ReadLine()) != null && sline.Length > 0)
+      using (var filein = new StreamReader(new FileStream(filename, FileMode.Open, FileAccess.Read)))
       {
-        Protease enzyme = ProteaseManager.ValueOf(sline);
-        string[] lines = Regex.Split(sline, "\t");
-        enzymeMap[lines[0]] = enzyme;
-      }
-
-      while ((sline = filein.ReadLine()) != null)
-      {
-        if (sline.StartsWith("DEFAULT_ENZYME"))
+        var enzymeMap = new Dictionary<string, Protease>();
+        string sline;
+        while ((sline = filein.ReadLine()) != null && sline.Length > 0)
         {
+          Protease enzyme = ProteaseManager.ValueOf(sline);
           string[] lines = Regex.Split(sline, "\t");
-          this.defaultProtease = enzymeMap[lines[1]];
-          break;
+          enzymeMap[lines[0]] = enzyme;
         }
-      }
 
-      while ((sline = filein.ReadLine()) != null)
-      {
-        if (sline.Length == 0)
+        while ((sline = filein.ReadLine()) != null)
         {
-          continue;
+          if (sline.StartsWith("DEFAULT_ENZYME"))
+          {
+            string[] lines = Regex.Split(sline, "\t");
+            this.defaultProtease = enzymeMap[lines[1]];
+            break;
+          }
         }
 
-        string[] lines = Regex.Split(sline, "\t");
-        if (lines.Length < 2)
+        while ((sline = filein.ReadLine()) != null)
         {
-          break;
-        }
+          if (sline.Length == 0)
+          {
+            continue;
+          }
 
-        this.dtaProteaseMap[lines[0]] = enzymeMap[lines[1]];
+          string[] lines = Regex.Split(sline, "\t");
+          if (lines.Length < 2)
+          {
+            break;
+          }
+
+          this.dtaProteaseMap[lines[0]] = enzymeMap[lines[1]];
+        }
       }
     }
 

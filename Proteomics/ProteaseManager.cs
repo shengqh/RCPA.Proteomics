@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Linq;
 
 /*
  *                    BioJava development code
@@ -176,80 +178,41 @@ namespace RCPA.Proteomics
       return name2Protease.ContainsKey(name);
     }
 
-    private static FileInfo GetProteaseFile()
+    private static string GetProteaseFile()
     {
-      return new FileInfo(FileUtils.AppPath() + "/protease.list");
+      return FileUtils.AppPath() + "/proteases.xml";
     }
 
-    public static void LoadFromFile(FileInfo proteaseFile)
+    public static void LoadFromFile(string proteaseFile)
     {
       name2Protease.Clear();
-      if (!proteaseFile.Exists)
+      XElement root = XElement.Load(proteaseFile);
+      foreach (var ele in root.FindElements("protease"))
       {
-        CreateProtease("Arg-C", true, "R", "P");
-        CreateProtease("Glu-C-bicarbonate", true, "E", "G");
-        CreateProtease("Trypsin", true, "RK", "P");
-        CreateProtease("Trypsin/P", true, "RK", "-");
-        CreateProtease("Lys-C", true, "K", "P");
-        Save();
-      }
-      else
-      {
-        StreamReader sr = File.OpenText(proteaseFile.FullName);
-        try
+        var ruleEles = ele.FindElements("rule");
+        if (ruleEles == null || ruleEles.Count == 0)
         {
-          var regex = new Regex(@"\d+\.\t+(.+)\t+(\d)\t+(\S+)\t+(\S+)");
-          string line;
-          while (null != (line = sr.ReadLine()))
-          {
-            Match match = regex.Match(line);
-            if (match.Success)
-            {
-              CreateProtease(match.Groups[1].Value,
-                             match.Groups[2].Value.Equals("1"),
-                             match.Groups[3].Value,
-                             match.Groups[4].Value);
-            }
-          }
+          continue;
         }
-        finally
+
+        var name = ele.FindAttribute("name").Value;
+        var issemi = ele.FindAttribute("semispecific").Value;
+        if (issemi.Equals("true"))
         {
-          sr.Close();
+          continue;
         }
+
+        var isCterm = ruleEles[0].FindAttribute("sense").Value.Equals("C-Term");
+        var cleavages = ruleEles[0].FindAttribute("cleave").Value;
+        var notcleavages = ruleEles[0].FindAttribute("restrict").Value;
+
+        CreateProtease(name, isCterm, cleavages, notcleavages);
       }
     }
 
     public static void Load()
     {
-      FileInfo proteaseFile = GetProteaseFile();
-      LoadFromFile(proteaseFile);
-    }
-
-    public static void SaveToFile(FileInfo proteaseFile)
-    {
-      var sw = new StreamWriter(proteaseFile.FullName);
-      try
-      {
-        int index = 0;
-        foreach (Protease protease in name2Protease.Values)
-        {
-          sw.WriteLine("{0}.\t{1}\t{2}\t{3}\t{4}", index++,
-                       protease.Name,
-                       protease.IsEndoProtease ? 1 : 0,
-                       protease.CleaveageResidues,
-                       protease.NotCleaveResidues);
-        }
-      }
-      finally
-      {
-        sw.Close();
-      }
-    }
-
-    public static void Save()
-    {
-      FileInfo proteaseFile = GetProteaseFile();
-      SaveToFile(proteaseFile);
+      LoadFromFile(GetProteaseFile());
     }
   }
 }
