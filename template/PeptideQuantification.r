@@ -14,7 +14,7 @@ library("outliers")
 setwd(outputdir)
 
 data<-read.delim(inputfile, header=T, stringsAsFactors=F)
-data[data==missingvalue]<-NA
+data[data<=missingvalue]<-NA
 refindex<-which(colnames(data)=="REF")
 
 sampleChannels<-colnames(data)[(refindex+1):ncol(data)]
@@ -91,5 +91,7 @@ for(ds in datasets){
 }
 
 colnames(result)<-colnames
+
+result[is.na(result)]<-""
 
 write.table(result, outputfile, sep="\t", row.names=F, quote=F)

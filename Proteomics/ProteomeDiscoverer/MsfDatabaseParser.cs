@@ -361,7 +361,7 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
         IIdentifiedSpectrum spectrum = spectra[specid];
         if (spectrum.Peptides.Count == 0)
         {
-          spectrum.Id = specid;
+          spectrum.Id = specid.ToString();
           spectrum.TheoreticalIonCount = peptideReader.GetInt32(2);
           spectrum.MatchedIonCount = peptideReader.GetInt32(3);
 

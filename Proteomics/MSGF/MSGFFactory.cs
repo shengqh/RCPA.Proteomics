@@ -9,31 +9,28 @@ using System.Text;
 
 namespace RCPA.Proteomics.MSGF
 {
-  public class MSGFFactory : ISearchEngineFactory
+  public class MSGFFactory : AbstractSearchEngineFactory
   {
-    public Summary.ISpectrumParser GetParser(string name)
+    public MSGFFactory() : base(SearchEngineType.MSGF) { }
+
+    public override ISpectrumParser GetParser(string name)
     {
       return new MSGFMzIdentParser();
     }
 
-    public IScoreFunctions GetScoreFunctions()
+    public override IScoreFunction[] GetScoreFunctions()
     {
-      return new MSGFScoreFunctions();
+      return new IScoreFunction[] { new ExpectValueFunction(), new ScoreFunction() };
     }
 
-    public List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
+    public override List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
     {
       return (from pep in source
               where pep.Score > 100
               select pep).ToList();
     }
 
-    public SearchEngineType EngineType
-    {
-      get { return SearchEngineType.MSGF; }
-    }
-
-    public IDatasetOptions GetOptions()
+    public override IDatasetOptions GetOptions()
     {
       return new MSGFDatasetOptions();
     }

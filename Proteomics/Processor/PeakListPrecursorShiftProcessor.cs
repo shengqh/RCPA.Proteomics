@@ -44,11 +44,11 @@ namespace RCPA.Proteomics.Processor
     }
   }
 
-  public class PeakListPrecursorShiftProcessor<T> : IProcessor<PeakList<T>> where T : IPeak, new()
+  public class PeakListPrecursorShiftPPMProcessor<T> : IProcessor<PeakList<T>> where T : IPeak, new()
   {
     public double ShiftPPM { get; set; }
 
-    public PeakListPrecursorShiftProcessor(double shiftPPM)
+    public PeakListPrecursorShiftPPMProcessor(double shiftPPM)
     {
       this.ShiftPPM = shiftPPM;
     }
@@ -66,6 +66,31 @@ namespace RCPA.Proteomics.Processor
     public override string ToString()
     {
       return string.Format("PrecursorShift={0:0.####}ppm", ShiftPPM);
+    }
+  }
+
+  public class PeakListPrecursorShiftDaltonProcessor<T> : IProcessor<PeakList<T>> where T : IPeak, new()
+  {
+    public double ShiftDalton { get; set; }
+
+    public PeakListPrecursorShiftDaltonProcessor(double shiftDalton)
+    {
+      this.ShiftDalton = shiftDalton;
+    }
+
+    #region IProcessor<PeakList<T>> Members
+
+    public PeakList<T> Process(PeakList<T> t)
+    {
+      t.PrecursorMZ = t.PrecursorMZ + ShiftDalton / t.PrecursorCharge;
+      t.Experimental = t.Experimental + "_SHIFTED";
+      return t;
+    }
+
+    #endregion
+    public override string ToString()
+    {
+      return string.Format("PrecursorShift={0:0.####}dalton", ShiftDalton);
     }
   }
 }

@@ -9,33 +9,30 @@ using System.Text;
 
 namespace RCPA.Proteomics.PeptideProphet
 {
-  public class PeptideProphetFactory : ISearchEngineFactory
+  public class PeptideProphetFactory : AbstractSearchEngineFactory
   {
-    public Summary.ISpectrumParser GetParser(string name)
+    public PeptideProphetFactory() : base(SearchEngineType.PeptidePhophet) { }
+
+    public override ISpectrumParser GetParser(string name)
     {
       return new PeptideProphetXmlParser();
     }
 
-    public IScoreFunctions GetScoreFunctions()
-    {
-      return new PeptideProphetScoreFunctions();
-    }
-
-    public List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
+    public override List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
     {
       return (from pep in source
               where pep.PValue >= 0.99
               select pep).ToList();
     }
 
-    public SearchEngineType EngineType
-    {
-      get { return SearchEngineType.PeptidePhophet; }
-    }
-
-    public IDatasetOptions GetOptions()
+    public override IDatasetOptions GetOptions()
     {
       return new PeptideProphetDatasetOptions();
+    }
+
+    public override IScoreFunction[] GetScoreFunctions()
+    {
+      return new[] { new PValueFunction() };
     }
   }
 }

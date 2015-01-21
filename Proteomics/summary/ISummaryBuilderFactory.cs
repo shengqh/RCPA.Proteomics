@@ -11,6 +11,6 @@ namespace RCPA.Proteomics.Summary
 
     IIdentifiedSpectrumBuilder GetSpectrumBuilder(IProgressCallback iProgressCallback);
     
-    IScoreFunctions GetScoreFunctions();
+    IScoreFunction GetScoreFunctions();
   }
 }

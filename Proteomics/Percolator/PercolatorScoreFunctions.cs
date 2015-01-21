@@ -6,24 +6,16 @@ using System.Text;
 
 namespace RCPA.Proteomics.Percolator
 {
-  public class PercolatorScoreFunctions : IScoreFunctions
+  public class PercolatorScoreFunction : AbstractScoreFunction
   {
-    public double GetScoreBin(IIdentifiedSpectrum spectrum)
-    {
-      return Math.Abs(spectrum.SpScore);
-    }
+    public PercolatorScoreFunction() : base("SVMScore") { }
 
-    public string ScoreName
-    {
-      get { return "SVMScore"; }
-    }
-
-    public double GetScore(IIdentifiedSpectrum si)
+    public override double GetScore(IIdentifiedSpectrum si)
     {
       return si.SpScore;
     }
 
-    public SortSpectrumFunc SortSpectrum
+    public override SortSpectrumFunc SortSpectrum
     {
       get { return IdentifiedSpectrumUtils.SortBySpScore; }
     }

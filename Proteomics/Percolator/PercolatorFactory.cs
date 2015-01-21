@@ -10,31 +10,28 @@ using System.Text;
 
 namespace RCPA.Proteomics.Percolator
 {
-  public class PercolatorFactory : ISearchEngineFactory
+  public class PercolatorFactory : AbstractSearchEngineFactory
   {
-    public Summary.ISpectrumParser GetParser(string name)
+    public PercolatorFactory() : base(SearchEngineType.Percolator) { }
+
+    public override ISpectrumParser GetParser(string name)
     {
       return new PercolatorFileParser(new MsfDatabaseParser(Summary.SearchEngineType.Percolator));
     }
 
-    public IScoreFunctions GetScoreFunctions()
+    public override IScoreFunction[] GetScoreFunctions()
     {
-      return new PercolatorScoreFunctions();
+      return new[] { new PercolatorScoreFunction() };
     }
 
-    public List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
+    public override List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
     {
       return (from pep in source
               where pep.SpScore >= 30
               select pep).ToList();
     }
 
-    public SearchEngineType EngineType
-    {
-      get { return SearchEngineType.Percolator; }
-    }
-
-    public IDatasetOptions GetOptions()
+    public override IDatasetOptions GetOptions()
     {
       return new PercolatorDatasetOptions();
     }

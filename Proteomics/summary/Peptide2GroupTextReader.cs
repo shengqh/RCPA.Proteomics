@@ -8,7 +8,7 @@ namespace RCPA.Proteomics.Summary
 {
   public class Peptide2GroupTextReader
   {
-    public void LinkPeptideToGroup(string fileName, Dictionary<int, IIdentifiedSpectrum> spectra, Dictionary<int, IIdentifiedProteinGroup> groups)
+    public void LinkPeptideToGroup(string fileName, Dictionary<string, IIdentifiedSpectrum> spectra, Dictionary<int, IIdentifiedProteinGroup> groups)
     {
       if (!File.Exists(fileName))
       {
@@ -36,7 +36,7 @@ namespace RCPA.Proteomics.Summary
             break;
           }
 
-          int spectraId = int.Parse(parts[0]);
+          var spectraId = parts[0];
           int groupId = int.Parse(parts[1]);
 
           if (!groups.ContainsKey(groupId))

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace RCPA.Proteomics.PeptideProphet
 {
-  public class PeptideProphetScoreFunctions : IScoreFunctions
+  public class PeptideProphetScoreFunctions : IScoreFunction
   {
     public PeptideProphetScoreFunctions(){}
 

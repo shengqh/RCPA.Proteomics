@@ -27,7 +27,7 @@ namespace RCPA.Proteomics.Percolator
         {
           IIdentifiedSpectrum spec = new IdentifiedSpectrum();
           spec.Query.QueryId = scanNumber;
-          spec.Id = int.Parse(psm.FindAttribute("id").Value.StringAfter("decoy_"));
+          spec.Id = psm.FindAttribute("id").Value.StringAfter("decoy_");
           spec.FromDecoy = psm.FindAttribute("isDecoy").Value.Equals("true");
           spec.TheoreticalMH = double.Parse(psm.FindAttribute("calculatedMassToCharge").Value);
           spec.ExperimentalMH = double.Parse(psm.FindAttribute("experimentalMassToCharge").Value);

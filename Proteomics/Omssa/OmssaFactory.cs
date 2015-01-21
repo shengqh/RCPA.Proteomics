@@ -9,33 +9,30 @@ using System.Text;
 
 namespace RCPA.Proteomics.Omssa
 {
-  public class OmssaFactory : ISearchEngineFactory
+  public class OmssaFactory : AbstractSearchEngineFactory
   {
-    public Summary.ISpectrumParser GetParser(string name)
+    public OmssaFactory() : base(SearchEngineType.OMSSA) { }
+
+    public override ISpectrumParser GetParser(string name)
     {
       return new OmssaOmxParser();
     }
 
-    public IScoreFunctions GetScoreFunctions()
-    {
-      return new OmssaScoreFunctions();
-    }
-
-    public List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
+    public override List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
     {
       return (from s in source
               where s.ExpectValue < 0.001
               select s).ToList();
     }
 
-    public SearchEngineType EngineType
-    {
-      get { return SearchEngineType.OMSSA; }
-    }
-
-    public IDatasetOptions GetOptions()
+    public override IDatasetOptions GetOptions()
     {
       return new OmssaDatasetOptions();
+    }
+
+    public override IScoreFunction[] GetScoreFunctions()
+    {
+      return new[] { new ExpectValueFunction() };
     }
   }
 }

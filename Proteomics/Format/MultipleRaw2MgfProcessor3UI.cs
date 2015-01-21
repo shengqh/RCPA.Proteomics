@@ -23,9 +23,9 @@ namespace RCPA.Proteomics.Format
 {
   public partial class MultipleRaw2MgfProcessor3UI : AbstractFileProcessorUI
   {
-    private static readonly string title = "TurboRawToMGF - " + RawFileFactory.SupportedRawFormatString + " To Mascot Generic Format Converter";
+    public static readonly string Title = "TurboRawToMGF - " + RawFileFactory.SupportedRawFormatString + " To Mascot Generic Format Converter";
 
-    private static readonly string version = "2.0.6";
+    public static readonly string Version = "2.0.6";
 
     private RcpaComboBox<ITitleFormat> titleFormat;
     private RcpaDoubleField minMassRange;
@@ -56,7 +56,7 @@ namespace RCPA.Proteomics.Format
     {
       InitializeComponent();
 
-      this.Text = Constants.GetSQHTitle(title, version);
+      this.Text = Constants.GetSQHTitle(Title, Version);
 
       this.SetDirectoryArgument("TargetDir", "Target MGF");
 
@@ -306,12 +306,12 @@ namespace RCPA.Proteomics.Format
 
       public string GetCaption()
       {
-        return title;
+        return Title;
       }
 
       public string GetVersion()
       {
-        return version;
+        return Version;
       }
 
       public void Run()
@@ -342,8 +342,8 @@ namespace RCPA.Proteomics.Format
 
       result.PrecursorOptions = GetPrecursorOptions();
 
-      result.ConverterName = title;
-      result.ConverterVersion = version;
+      result.ConverterName = Title;
+      result.ConverterVersion = Version;
       result.MascotTitleName = titleFormat.SelectedItem.FormatName;
       result.RawFiles = rawFiles.FileNames;
       result.TargetDirectory = GetOriginFile();

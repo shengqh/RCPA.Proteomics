@@ -207,7 +207,7 @@ namespace RCPA.Proteomics
           acceptedEvalue = item.Result.ExpectValue;
         }
 
-        sw.WriteLine(MyConvert.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6:E3}\t{7}\t{8}",
+        sw.WriteLine(MyConvert.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5:E3}\t{6:E3}\t{7}\t{8}",
           cond.Classification,
           cond.ChargeString,
           cond.NumMissCleavageString,

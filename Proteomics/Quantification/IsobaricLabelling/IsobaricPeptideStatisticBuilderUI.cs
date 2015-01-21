@@ -26,7 +26,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
   public partial class IsobaricPeptideStatisticBuilderUI : AbstractProcessorUI
   {
     private static readonly string title = "Isobaric Labeling Peptide Statistic Builder";
-    private static readonly string version = "1.2.3";
+    private static readonly string version = "1.2.4";
 
     private RcpaFileField peptideFile;
     private RcpaFileField designFile;

@@ -17,7 +17,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
   {
     private static readonly string title = "Isobaric Labeling Multiple File Distiller";
 
-    private static readonly string version = "1.4.5";
+    private static readonly string version = "1.4.6";
 
     private string[] rawExtentions = new string[] { "raw", "mzData.xml", "mzData", "mzXML", "mgf" };
 

@@ -90,9 +90,9 @@
       this.cbNormalize.AutoSize = true;
       this.cbNormalize.Location = new System.Drawing.Point(325, 86);
       this.cbNormalize.Name = "cbNormalize";
-      this.cbNormalize.Size = new System.Drawing.Size(234, 17);
+      this.cbNormalize.Size = new System.Drawing.Size(204, 17);
       this.cbNormalize.TabIndex = 15;
-      this.cbNormalize.Text = "Normalize channels by cyclic loess algorithm";
+      this.cbNormalize.Text = "Normalize channels by loess algorithm";
       this.cbNormalize.UseVisualStyleBackColor = true;
       // 
       // txtModifiedAminoacids

@@ -121,8 +121,15 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       if (options.PerformPurityCorrection)
       {
         Progress.SetMessage("Performing purity correction ...");
-        var tempFilename = options.OutputFile + ".tsv";
+        var tempFilename = options.OutputFile + ".csv";
         new IsobaricPurityCorrectionRCalculator(options.PlexType, result.UsedChannels, options.RExecute, options.PerformPurityCorrection, true).Calculate(result, tempFilename);
+        result.ForEach(m => m.Reporters.ForEach(p =>
+        {
+          if (p.Intensity < IsobaricConsts.NULL_INTENSITY)
+          {
+            p.Intensity = IsobaricConsts.NULL_INTENSITY;
+          }
+        }));
         result.Comments["PerformPurityCorrection"] = true.ToString();
       }
 

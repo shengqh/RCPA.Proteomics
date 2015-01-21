@@ -5,7 +5,7 @@ namespace RCPA.Proteomics.Mascot
   public class MascotOptimalScoreCalculator : OptimalResultCalculator
   {
     public MascotOptimalScoreCalculator()
-      : base(new MascotScoreFunctions())
+      : base(new ScoreFunction())
     { }
   }
 }

@@ -4,8 +4,6 @@ namespace RCPA.Proteomics.Sequest
 {
   public class SequestOptimalXcorrCalculator : OptimalResultCalculator
   {
-    public SequestOptimalXcorrCalculator()
-      : base(new SequestXcorrFunctions())
-    { }
+    public SequestOptimalXcorrCalculator() : base(new ScoreFunction("Xcorr")) { }
   }
 }

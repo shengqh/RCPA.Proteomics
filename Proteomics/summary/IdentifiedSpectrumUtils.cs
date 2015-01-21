@@ -14,7 +14,7 @@ namespace RCPA.Proteomics.Summary
 {
   public delegate void SortSpectrumFunc(List<IIdentifiedSpectrum> spectra);
 
-  public delegate void CalculateQValueFunc(List<IIdentifiedSpectrum> spectra, IScoreFunctions scoreFuncs, IFalseDiscoveryRateCalculator fdrCalc);
+  public delegate void CalculateQValueFunc(List<IIdentifiedSpectrum> spectra, IScoreFunction scoreFuncs, IFalseDiscoveryRateCalculator fdrCalc);
 
   public static class IdentifiedSpectrumUtils
   {
@@ -318,7 +318,7 @@ namespace RCPA.Proteomics.Summary
     /// <param name="peptides">谱图列表</param>
     /// <param name="scoreFuncs">与分数提取、排序相关类</param>
     /// <param name="fdrCalc">FDR计算器</param>
-    public static void CalculateQValue(List<IIdentifiedSpectrum> peptides, IScoreFunctions scoreFuncs, IFalseDiscoveryRateCalculator fdrCalc)
+    public static void CalculateQValue(List<IIdentifiedSpectrum> peptides, IScoreFunction scoreFuncs, IFalseDiscoveryRateCalculator fdrCalc)
     {
       if (peptides.Count == 0)
       {
@@ -381,7 +381,7 @@ namespace RCPA.Proteomics.Summary
       }
     }
 
-    public static void CalculateUniqueQValue(List<IIdentifiedSpectrum> peptides, IScoreFunctions scoreFuncs, IFalseDiscoveryRateCalculator fdrCalc)
+    public static void CalculateUniqueQValue(List<IIdentifiedSpectrum> peptides, IScoreFunction scoreFuncs, IFalseDiscoveryRateCalculator fdrCalc)
     {
       if (peptides.Count == 0)
       {
@@ -442,11 +442,16 @@ namespace RCPA.Proteomics.Summary
       }
     }
 
+    /// <summary>
+    /// Larger score is better.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="spectra"></param>
     public static void SortByScore<T>(List<T> spectra) where T : IIdentifiedSpectrum
     {
       spectra.Sort(delegate(T s1, T s2)
       {
-        return -s1.Score.CompareTo(s2.Score);
+        return s2.Score.CompareTo(s1.Score);
       });
     }
 
@@ -458,14 +463,11 @@ namespace RCPA.Proteomics.Summary
       });
     }
 
-    public static void SortByDeltaScore<T>(List<T> spectra) where T : IIdentifiedSpectrum
-    {
-      spectra.Sort(delegate(T s1, T s2)
-      {
-        return -s1.DeltaScore.CompareTo(s2.DeltaScore);
-      });
-    }
-
+    /// <summary>
+    /// Lower qvalue is better
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="spectra"></param>
     public static void SortByQValue<T>(List<T> spectra) where T : IIdentifiedSpectrum
     {
       spectra.Sort(delegate(T s1, T s2)
@@ -474,11 +476,29 @@ namespace RCPA.Proteomics.Summary
       });
     }
 
+    /// <summary>
+    /// Lower expect value is better
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="spectra"></param>
     public static void SortByExpectValue<T>(List<T> spectra) where T : IIdentifiedSpectrum
     {
       spectra.Sort(delegate(T s1, T s2)
       {
         return s1.ExpectValue.CompareTo(s2.ExpectValue);
+      });
+    }
+
+    /// <summary>
+    /// Larger pvalue is better
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="spectra"></param>
+    public static void SortByPValue<T>(List<T> spectra) where T : IIdentifiedSpectrum
+    {
+      spectra.Sort(delegate(T s1, T s2)
+      {
+        return s2.PValue.CompareTo(s1.PValue);
       });
     }
 

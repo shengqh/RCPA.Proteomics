@@ -41,6 +41,10 @@ namespace RCPA.Proteomics.Comet
         {
           sph.SpRank = int.Parse(item.Attribute("value").Value);
         }
+        else if (name.Equals("expect"))
+        {
+          sph.ExpectValue = MyConvert.ToDouble(item.Attribute("value").Value);
+        }
       }
     }
 

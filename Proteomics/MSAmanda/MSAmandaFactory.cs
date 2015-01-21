@@ -9,31 +9,28 @@ using System.Text;
 
 namespace RCPA.Proteomics.MSAmanda
 {
-  public class MSAmandaFactory : ISearchEngineFactory
+  public class MSAmandaFactory : AbstractSearchEngineFactory
   {
-    public Summary.ISpectrumParser GetParser(string name)
+    public MSAmandaFactory() : base(SearchEngineType.MSAmanda) { }
+
+    public override ISpectrumParser GetParser(string name)
     {
       return new MSAmandaParser();
     }
 
-    public IScoreFunctions GetScoreFunctions()
+    public override IScoreFunction[] GetScoreFunctions()
     {
-      return new MSAmandaScoreFunctions();
+      return new[] {new  ScoreFunction("MSAmanda:Score") };
     }
 
-    public List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
+    public override List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
     {
       return (from pep in source
               where pep.Score > 50
               select pep).ToList();
     }
 
-    public SearchEngineType EngineType
-    {
-      get { return SearchEngineType.MSAmanda; }
-    }
-
-    public IDatasetOptions GetOptions()
+    public override IDatasetOptions GetOptions()
     {
       return new MSAmandaDatasetOptions();
     }

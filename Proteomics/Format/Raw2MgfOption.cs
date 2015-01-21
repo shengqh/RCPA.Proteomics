@@ -31,11 +31,33 @@ namespace RCPA.Proteomics.Format
 
   public class Raw2MgfOption
   {
-    public string ConverterName { get; set; }
+    public Raw2MgfOption()
+    {
+      this.ConverterName = MultipleRaw2MgfProcessor3UI.Title;
+      this.ConverterVersion = MultipleRaw2MgfProcessor3UI.Version;
 
-    public string ConverterVersion { get; set; }
+      this.MascotTitleName = "SEQUEST";
+      this.PrecursorMassRange = new MassRange(400, 5000);
+      this.MinimumIonIntensity = 1;
+      this.MinimumIonCount = 15;
+      this.MinimumTotalIonCount = 100;
+      this.DefaultCharges = new RCPA.Proteomics.ChargeClass(new[] { 2, 3 });
 
-    public string MascotTitleName { get; set; }
+      //CID
+      this.ProductIonPPM = 20;
+      this.ChargeDeconvolution = false;
+      this.Deisotopic = false;
+
+      this.TopX = 0;
+      this.GroupByMode = true;
+      this.GroupByMsLevel = true;
+
+      this.RemoveMassRange = false;
+      this.CalibratePrecursor = false;
+      this.CalibrateProductIon = false;
+
+      this.Shift10Dalton = false;
+    }
 
     public MascotGenericFormatWriter<Peak> GetWriter()
     {
@@ -53,6 +75,14 @@ namespace RCPA.Proteomics.Format
 
       return result;
     }
+
+    public bool Shift10Dalton { get; set; }
+
+    public string ConverterName { get; set; }
+
+    public string ConverterVersion { get; set; }
+
+    public string MascotTitleName { get; set; }
 
     public string[] RawFiles { get; set; }
 
@@ -203,6 +233,12 @@ namespace RCPA.Proteomics.Format
       {
         result.Add(new PeakListTopXProcessor<Peak>(TopX));
       }
+
+      if (Shift10Dalton)
+      {
+        result.Add(new PeakListPrecursorShiftDaltonProcessor<Peak>(10.0));
+      }
+
       return result;
     }
 

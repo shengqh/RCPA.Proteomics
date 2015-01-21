@@ -24,7 +24,7 @@ namespace RCPA.Proteomics.MaxQuant
     {
       foreach (var sp in spectra)
       {
-        sp.Id = int.Parse(sp.Annotations["id"] as string);
+        sp.Id = sp.Annotations["id"] as string;
         sp.Query.FileScan.Experimental = sp.Annotations["Raw File"] as string;
         sp.Query.FileScan.FirstScan = int.Parse(sp.Annotations["MS/MS Scan Number"] as string);
         sp.Query.FileScan.LastScan = sp.Query.FileScan.FirstScan;

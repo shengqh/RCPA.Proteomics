@@ -11,9 +11,9 @@ namespace RCPA.Proteomics.PeptideProphet
   {
     private readonly Aminoacids aas = new Aminoacids();
 
-    private SequestParam currentSequestParams;
+    //private SequestParam currentSequestParams;
 
-    private Dictionary<char, double> staticAminoacidModification;
+    //private Dictionary<char, double> staticAminoacidModification;
 
     private PepXmlWriterParameters parameters;
 

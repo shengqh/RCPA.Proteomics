@@ -8,7 +8,7 @@ namespace RCPA.Proteomics.Summary
 {
   public interface IIdentifiedSpectrum : IIdentifiedSpectrumBase, IAnnotation, IComparable<IIdentifiedSpectrum>
   {
-    int Id { get; set; }
+    string Id { get; set; }
 
     ISpectrumQuery Query { get; }
 

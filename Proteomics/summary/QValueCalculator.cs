@@ -8,11 +8,11 @@ namespace RCPA.Proteomics.Summary
 {
   public class QValueCalculator
   {
-    private IScoreFunctions scoreFunc;
+    private IScoreFunction scoreFunc;
 
     private IFalseDiscoveryRateCalculator fdrCalc;
 
-    public QValueCalculator(IScoreFunctions scoreFunc, IFalseDiscoveryRateCalculator fdrCalc)
+    public QValueCalculator(IScoreFunction scoreFunc, IFalseDiscoveryRateCalculator fdrCalc)
     {
       this.scoreFunc = scoreFunc;
       this.fdrCalc = fdrCalc;

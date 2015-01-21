@@ -69,7 +69,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     public virtual void InitializeQValue(List<IIdentifiedSpectrum> spectra)
     {
-      IScoreFunctions scoreFunctions = Options.SearchEngine.GetFactory().GetScoreFunctions();
+      IScoreFunction scoreFunctions = Options.ScoreFunction;
 
       CalculateQValueFunc qValueFunc = Options.Parent.FalseDiscoveryRate.GetQValueFunction();
 

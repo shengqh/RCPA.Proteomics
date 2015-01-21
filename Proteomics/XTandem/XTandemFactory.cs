@@ -9,31 +9,28 @@ using System.Text;
 
 namespace RCPA.Proteomics.XTandem
 {
-  public class XTandemFactory : ISearchEngineFactory
+  public class XTandemFactory : AbstractSearchEngineFactory
   {
-    public Summary.ISpectrumParser GetParser(string name)
+    public XTandemFactory() : base(SearchEngineType.XTandem) { }
+
+    public override ISpectrumParser GetParser(string name)
     {
       return new XTandemSpectrumXmlParser();
     }
 
-    public IScoreFunctions GetScoreFunctions()
+    public override IScoreFunction[] GetScoreFunctions()
     {
-      return new XTandemScoreFunctions();
+      return new IScoreFunction[] { new ExpectValueFunction(), new ScoreFunction() };
     }
 
-    public List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
+    public override List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
     {
       return (from pep in source
               where pep.ExpectValue < 0.001
               select pep).ToList();
     }
 
-    public SearchEngineType EngineType
-    {
-      get { return SearchEngineType.XTandem; }
-    }
-
-    public IDatasetOptions GetOptions()
+    public override IDatasetOptions GetOptions()
     {
       return new XTandemDatasetOptions();
     }

@@ -34,7 +34,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
     public string OriginalXmlFileName
     {
-      get { return this.InputFile + ".oisobaric.xml"; }
+      get { return this.InputFile + "." + this.PlexType.Name + ".oisobaric.xml"; }
     }
 
     private string _outputFile;

@@ -129,6 +129,7 @@ namespace RCPA.Proteomics.Summary.Uniform
         new XElement("SearchEngine", SearchEngine),
         new XElement("Enabled",Enabled),
         new XElement("Name", Name),
+        new XElement("ScoreName", ScoreFunction.ScoreName),
         new XElement("PeptideFilter",
           new XElement("FilterByPrecursor", 
             new XElement("Active",FilterByPrecursor),
@@ -154,6 +155,12 @@ namespace RCPA.Proteomics.Summary.Uniform
       Enabled = parentNode.GetChildValue("Enabled", true);
 
       Name = parentNode.GetChildValue("Name", Name);
+
+      if (parentNode.FindElement("ScoreName") != null)
+      {
+        var scoreName = parentNode.FindElement("ScoreName").Value;
+        ScoreFunction = SearchEngine.GetFactory().FindScoreFunction(scoreName);
+      }
 
       var filterXml = parentNode.Element("PeptideFilter");
       var preXml = filterXml.Element("FilterByPrecursor");
@@ -191,7 +198,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     public virtual IOptimalResultCalculator GetOptimalResultCalculator()
     {
-      OptimalResultCalculator result = new OptimalResultCalculator(this.SearchEngine.GetFactory().GetScoreFunctions());
+      OptimalResultCalculator result = new OptimalResultCalculator(this.ScoreFunction);
 
       result.FdrCalc = Parent.FalseDiscoveryRate.GetFalseDiscoveryRateCalculator();
 
@@ -210,5 +217,26 @@ namespace RCPA.Proteomics.Summary.Uniform
     //protected abstract OptimalResultCalculator NewOptimalResultCalculator();
 
     #endregion
+
+    private IScoreFunction scoreFunctions = null;
+
+    public IScoreFunction ScoreFunction
+    {
+      get
+      {
+        if (null == scoreFunctions)
+        {
+          return this.SearchEngine.GetFactory().GetScoreFunctions()[0];
+        }
+        else
+        {
+          return scoreFunctions;
+        }
+      }
+      set
+      {
+        this.scoreFunctions = value;
+      }
+    }
   }
 }

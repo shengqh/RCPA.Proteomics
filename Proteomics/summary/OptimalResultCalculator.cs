@@ -6,7 +6,7 @@ namespace RCPA.Proteomics.Summary
 {
   public class OptimalResultCalculator : IOptimalResultCalculator
   {
-    public IScoreFunctions ScoreFunc { get; set; }
+    public IScoreFunction ScoreFunc { get; set; }
 
     public double FdrValue { get; set; }
 
@@ -14,7 +14,7 @@ namespace RCPA.Proteomics.Summary
 
     public CalculateQValueFunc QValueFunc { get; set; }
 
-    public OptimalResultCalculator(IScoreFunctions scoreFunctions)
+    public OptimalResultCalculator(IScoreFunction scoreFunctions)
     {
       this.ScoreFunc = scoreFunctions;
     }

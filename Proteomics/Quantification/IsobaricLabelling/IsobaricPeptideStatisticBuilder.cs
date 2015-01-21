@@ -81,7 +81,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
       if (options.PerformNormalizition)
       {
-        var msg = "Normalizing channels using cyclic loess algorithm ";
+        var msg = "Normalizing channels using loess algorithm";
 
         var detailsDir = resultFileName + ".details";
         if (!Directory.Exists(detailsDir))
@@ -126,6 +126,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
             var roptions = new RTemplateProcessorOptions();
             roptions.InputFile = datafile;
             roptions.OutputFile = rresultfile;
+            roptions.Parameters.Add(string.Format("missingvalue<-{0}", IsobaricConsts.NULL_INTENSITY));
             roptions.RTemplate = FileUtils.GetTemplateDir() + "/CyclicLoessNormalization.r";
 
             new RTemplateProcessor(roptions).Process();

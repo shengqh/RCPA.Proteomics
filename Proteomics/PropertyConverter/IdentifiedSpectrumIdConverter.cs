@@ -11,12 +11,12 @@ namespace RCPA.Proteomics.PropertyConverter
 
     public override string GetProperty(T t)
     {
-      return t.Id.ToString();
+      return t.Id;
     }
 
     public override void SetProperty(T t, string value)
     {
-      t.Id = int.Parse(value);
+      t.Id = value;
     }
   }
 }

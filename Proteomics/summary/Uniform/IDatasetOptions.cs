@@ -25,6 +25,8 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     double PrecursorPPMTolerance { get; set; }
 
+    IScoreFunction ScoreFunction { get; set; }
+
     IFilter<IIdentifiedSpectrum> GetFilter();
 
     List<string> PathNames { get; set; }

@@ -3,7 +3,7 @@ using RCPA.Proteomics.Summary;
 
 namespace RCPA.Proteomics.PFind
 {
-  public class PFindExpectValueFunctions : IScoreFunctions
+  public class PFindExpectValueFunctions : IScoreFunction
   {
     public PFindExpectValueFunctions()
     { }

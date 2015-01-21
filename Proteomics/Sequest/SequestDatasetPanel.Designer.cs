@@ -51,6 +51,7 @@
       this.btnAddFiles = new System.Windows.Forms.Button();
       this.txtMaxEvalue = new System.Windows.Forms.TextBox();
       this.cbFilterByEvalue = new System.Windows.Forms.CheckBox();
+      this.label2 = new System.Windows.Forms.Label();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
       this.splitContainer2.Panel1.SuspendLayout();
       this.splitContainer2.Panel2.SuspendLayout();
@@ -71,6 +72,7 @@
       // 
       // groupBox1
       // 
+      this.groupBox1.Controls.Add(this.label2);
       this.groupBox1.Controls.Add(this.txtMaxEvalue);
       this.groupBox1.Controls.Add(this.cbFilterByEvalue);
       this.groupBox1.Controls.Add(this.cbFilterByXcorr);
@@ -97,6 +99,7 @@
       this.groupBox1.Controls.SetChildIndex(this.cbFilterByXcorr, 0);
       this.groupBox1.Controls.SetChildIndex(this.cbFilterByEvalue, 0);
       this.groupBox1.Controls.SetChildIndex(this.txtMaxEvalue, 0);
+      this.groupBox1.Controls.SetChildIndex(this.label2, 0);
       // 
       // cbFilterByXcorr
       // 
@@ -318,6 +321,16 @@
       this.cbFilterByEvalue.Text = "Filter by Evalue <=";
       this.cbFilterByEvalue.UseVisualStyleBackColor = true;
       // 
+      // label2
+      // 
+      this.label2.AutoSize = true;
+      this.label2.ForeColor = System.Drawing.Color.Red;
+      this.label2.Location = new System.Drawing.Point(785, 54);
+      this.label2.Name = "label2";
+      this.label2.Size = new System.Drawing.Size(194, 13);
+      this.label2.TabIndex = 68;
+      this.label2.Text = "ExpectValue only exists at Comet result!";
+      // 
       // SequestDatasetPanel
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -361,6 +374,7 @@
     private System.Windows.Forms.Button btnAddSubDirectories;
     private System.Windows.Forms.Button btnRemoveFiles;
     private System.Windows.Forms.Button btnAddFiles;
+    private System.Windows.Forms.Label label2;
 
   }
 }

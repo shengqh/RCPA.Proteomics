@@ -9,9 +9,11 @@ using System.Text;
 
 namespace RCPA.Proteomics.Mascot
 {
-  public class MascotFactory : ISearchEngineFactory
+  public class MascotFactory : AbstractSearchEngineFactory
   {
-    public Summary.ISpectrumParser GetParser(string name)
+    public MascotFactory() : base(SearchEngineType.MASCOT) { }
+
+    public override ISpectrumParser GetParser(string name)
     {
       if (name.ToLower().EndsWith(".msf"))
       {
@@ -20,26 +22,21 @@ namespace RCPA.Proteomics.Mascot
       return new MascotDatSpectrumParser();
     }
 
-    public IScoreFunctions GetScoreFunctions()
-    {
-      return new MascotScoreFunctions();
-    }
-
-    public List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
+    public override List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
     {
       return (from pep in source
               where pep.Score >= 30
               select pep).ToList();
     }
 
-    public SearchEngineType EngineType
-    {
-      get { return SearchEngineType.MASCOT; }
-    }
-
-    public IDatasetOptions GetOptions()
+    public override IDatasetOptions GetOptions()
     {
       return new MascotDatasetOptions();
+    }
+
+    public override IScoreFunction[] GetScoreFunctions()
+    {
+      return new IScoreFunction[] { new ScoreFunction(), new ExpectValueFunction() };
     }
   }
 }

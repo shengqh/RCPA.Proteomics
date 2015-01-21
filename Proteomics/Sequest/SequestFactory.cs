@@ -11,14 +11,16 @@ using System.Text;
 
 namespace RCPA.Proteomics.Sequest
 {
-  public class SequestFactory : ISearchEngineFactory
+  public class SequestFactory : AbstractSearchEngineFactory
   {
-    public IScoreFunctions GetScoreFunctions()
+    public SequestFactory() : base(SearchEngineType.SEQUEST) { }
+
+    public override IScoreFunction[] GetScoreFunctions()
     {
-      return new SequestXcorrFunctions();
+      return new IScoreFunction[] { new ScoreFunction("Xcorr"), new ExpectValueFunction("Comet:ExpectValue") };
     }
 
-    public List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
+    public override List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
     {
       IdentifiedSpectrumChargeScoreFilter filter = new IdentifiedSpectrumChargeScoreFilter(new double[] { 3, 3.5, 4 });
       return (from pep in source
@@ -26,13 +28,8 @@ namespace RCPA.Proteomics.Sequest
               select pep).ToList();
     }
 
-    public virtual SearchEngineType EngineType
-    {
-      get { return SearchEngineType.SEQUEST; }
-    }
-
     private static readonly double _modificationDeltaScore = 0.08;
-    public ISpectrumParser GetParser(string name)
+    public override ISpectrumParser GetParser(string name)
     {
       if (Directory.Exists(name))
       {
@@ -72,7 +69,7 @@ namespace RCPA.Proteomics.Sequest
       }
     }
 
-    public IDatasetOptions GetOptions()
+    public override IDatasetOptions GetOptions()
     {
       return new SequestDatasetOptions();
     }

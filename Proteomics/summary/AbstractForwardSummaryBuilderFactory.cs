@@ -33,7 +33,7 @@ namespace RCPA.Proteomics.Summary
       return this.factory.GetIdetifiedResultFormat();
     }
 
-    public IScoreFunctions GetScoreFunctions()
+    public IScoreFunction GetScoreFunctions()
     {
       return this.factory.GetScoreFunctions();
     }

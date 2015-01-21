@@ -77,10 +77,14 @@ namespace RCPA.Proteomics.Summary.Uniform
 
           if (curPeptides.All(m => m.Query.FileScan.FirstScan == 0))
           {
-
-            if (curPeptides.All(m => m.Id > 0))
+            if (curPeptides.All(m =>
             {
-              curPeptides.ForEach(m => m.Query.FileScan.FirstScan = m.Id);
+              int value;
+              if (int.TryParse(m.Id, out value)) { return value > 0; }
+              else { return false; }
+            }))
+            {
+              curPeptides.ForEach(m => m.Query.FileScan.FirstScan = int.Parse(m.Id));
             }
             else if (curPeptides.All(m => m.Query.QueryId > 0))
             {

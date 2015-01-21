@@ -177,24 +177,21 @@
     <Compile Include="Proteomics\MSAmanda\MSAmandaDatasetOptions.cs" />
     <Compile Include="Proteomics\MSAmanda\MSAmandaFactory.cs" />
     <Compile Include="Proteomics\MSAmanda\MSAmandaParser.cs" />
-    <Compile Include="Proteomics\MSAmanda\MSAmandaScoreFunctions.cs" />
     <Compile Include="Proteomics\MSAmanda\MSAmandaDatasetPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Proteomics\MSAmanda\MSAmandaDatasetPanel.Designer.cs">
       <DependentUpon>MSAmandaDatasetPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Proteomics\MSGF\MSGFScoreFunctions.cs" />
     <Compile Include="Proteomics\MSGF\MSGFDatasetOptions.cs" />
     <Compile Include="Proteomics\MSGF\MSGFFactory.cs" />
+    <Compile Include="Proteomics\MSGF\MSGFSearchParameters.cs" />
     <Compile Include="Proteomics\MyriMatch\MyriMatchPepXmlParser.cs" />
     <Compile Include="Proteomics\MyriMatch\MyriMatchDatasetOptions.cs" />
-    <Compile Include="Proteomics\MyriMatch\MyriMatchScoreFunctions.cs" />
     <Compile Include="Proteomics\MyriMatch\MyriMatchFactory.cs" />
     <Compile Include="Proteomics\MzXml\MzXmlFormat.cs" />
     <Compile Include="Proteomics\Omssa\OmssaOmxParser.cs" />
     <Compile Include="Proteomics\Omssa\OmssaConsts.cs" />
-    <Compile Include="Proteomics\Omssa\OmssaScoreFunctions.cs" />
     <Compile Include="Proteomics\Omssa\OmssaFactory.cs" />
     <Compile Include="Proteomics\PeptideProphet\ModificationAminoacidMass.cs" />
     <Compile Include="Proteomics\PeptideProphet\PeptideProphetModificationItem.cs" />
@@ -290,12 +287,6 @@
     <Compile Include="Proteomics\MzIdent\MzIdentSlimProcessorOptions.cs" />
     <Compile Include="Proteomics\Omssa\OmssaOmxSlimProcessor.cs" />
     <Compile Include="Proteomics\Omssa\OmssaOmxSlimProcessorOptions.cs" />
-    <Compile Include="Proteomics\Statistic\ScoreDistributionBuilderUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Proteomics\Statistic\ScoreDistributionBuilderUI.Designer.cs">
-      <DependentUpon>ScoreDistributionBuilderUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="Proteomics\Classification\IdentifiedPeptideTagClassification.cs" />
     <Compile Include="Proteomics\Comet\CometSpectraDistiller.cs" />
     <Compile Include="Proteomics\Comet\CometXmlParser.cs" />
@@ -819,7 +810,6 @@
     <Compile Include="Proteomics\Summary\IIdentifiedPeptideTextFormat.cs" />
     <Compile Include="Proteomics\Summary\IIdentifiedProteinGroupFilter.cs" />
     <Compile Include="Proteomics\Summary\ITitleParser.cs" />
-    <Compile Include="Proteomics\Mascot\MascotScoreFunctions.cs" />
     <Compile Include="Proteomics\Summary\mzIdentMLFormat.cs" />
     <Compile Include="Proteomics\Summary\PeakAlignment.cs" />
     <Compile Include="Proteomics\Summary\TitleParser.cs" />
@@ -840,7 +830,6 @@
     <Compile Include="Proteomics\Quantification\SILAC\SilacQuantificationSummaryItem.cs" />
     <Compile Include="Proteomics\Quantification\SILAC\SilacProteinRatioCalculator.cs" />
     <Compile Include="Proteomics\Sequest\SequestHeader.cs" />
-    <Compile Include="Proteomics\Sequest\SequestXcorrFunctions.cs" />
     <Compile Include="Proteomics\Summary\AbstractFdrSpectrumBuilder.cs" />
     <Compile Include="Proteomics\Summary\AbstractForwardSummaryBuilderFactory.cs" />
     <Compile Include="Proteomics\Summary\IdentifiedResultUtils.cs" />
@@ -913,7 +902,6 @@
     <Compile Include="Proteomics\Swath\MzXmlSwathWindowsProcessor.cs" />
     <Compile Include="Proteomics\Swath\MzXmlSwathWindowsProcessorOptions.cs" />
     <Compile Include="Proteomics\XTandem\XTandemFactory.cs" />
-    <Compile Include="Proteomics\XTandem\XTandemScoreFunctions.cs" />
     <Compile Include="Proteomics\XTandem\XTandemXmlSummaryConfiguration.cs" />
     <Compile Include="Proteomics\XTandem\XTandemSpectrumXmlParser.cs" />
     <Compile Include="Proteomics\Detectability\DetectabilityEntry.cs" />
@@ -1179,9 +1167,6 @@
     <EmbeddedResource Include="Proteomics\Statistic\PrecursorOffsetStatisticMainBuilderUI.resx">
       <DependentUpon>PrecursorOffsetStatisticMainBuilderUI.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Statistic\ScoreDistributionBuilderUI.resx">
-      <DependentUpon>ScoreDistributionBuilderUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\ClassificationPanel.resx">
       <DependentUpon>ClassificationPanel.cs</DependentUpon>
@@ -1821,7 +1806,6 @@
     <Compile Include="Proteomics\Statistic\BuildSummaryResultParserUI.Designer.cs">
       <DependentUpon>BuildSummaryResultParserUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Proteomics\Statistic\ScoreDistributionProcessor.cs" />
     <Compile Include="Proteomics\ClassificationPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>

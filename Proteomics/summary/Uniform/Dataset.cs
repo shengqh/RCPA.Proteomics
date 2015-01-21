@@ -31,7 +31,7 @@ namespace RCPA.Proteomics.Summary.Uniform
       this.Spectra.RemoveAll(m => !spectra.Contains(m));
     }
 
-    public void CalculateToleranceScore(IScoreFunctions scoreFunc)
+    public void CalculateToleranceScore(IScoreFunction scoreFunc)
     {
       scoreFunc.SortSpectrum(this.Spectra);
 
@@ -169,7 +169,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     public void CalculateToleranceScore()
     {
-      var scoreFunc = this.Options.SearchEngine.GetFactory().GetScoreFunctions();
+      var scoreFunc = this.Options.ScoreFunction;
       OptimalResults.ForEach(m => m.CalculateToleranceScore(scoreFunc));
     }
 

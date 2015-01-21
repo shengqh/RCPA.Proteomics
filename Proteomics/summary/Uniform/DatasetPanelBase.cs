@@ -25,9 +25,35 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     private RcpaCheckBox filterPrecursorByDynamicTolerance;
 
+    private RcpaComboBox<IScoreFunction> scoreFunctions;
+
     protected RcpaComponentList componentList { get; set; }
 
-    public virtual IDatasetOptions Options { get; set; }
+    private IDatasetOptions options;
+
+    public IDatasetOptions Options
+    {
+      get
+      {
+        return this.options;
+      }
+      set
+      {
+        this.options = value;
+
+        DoAfterSettingOptions();
+      }
+    }
+
+    protected virtual void DoAfterSettingOptions()
+    {
+      if (this.options != null)
+      {
+        RemoveComponent(this.scoreFunctions);
+        this.scoreFunctions = new RcpaComboBox<IScoreFunction>(cbScoreFunctions, "ScoreFunction", this.options.SearchEngine.GetFactory().GetScoreFunctions(), 0, true);
+        AddComponent(this.scoreFunctions);
+      }
+    }
 
     public bool DatasetEnabled
     {
@@ -112,7 +138,10 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     protected void RemoveComponent(IRcpaComponent comp)
     {
-      this.componentList.Remove(comp);
+      if (null != comp && this.componentList.ContainsKey(comp))
+      {
+        this.componentList.Remove(comp);
+      }
     }
 
     protected void SetComponentEnabled(IRcpaComponent comp, bool enabled)
@@ -144,6 +173,21 @@ namespace RCPA.Proteomics.Summary.Uniform
       {
         this.precursorPPMTolerance.Value = Options.PrecursorPPMTolerance;
       }
+
+      bool bFound = false;
+      for (int i = 0; i < scoreFunctions.Items.Length; i++)
+      {
+        if (scoreFunctions.Items[i].ScoreName.Equals(Options.ScoreFunction.ScoreName))
+        {
+          scoreFunctions.SelectedIndex = i;
+          bFound = true;
+          break;
+        }
+      }
+      if (!bFound)
+      {
+        scoreFunctions.SelectedIndex = 0;
+      }
     }
 
     public virtual void SaveToDataset(bool selectedOnly)
@@ -154,6 +198,8 @@ namespace RCPA.Proteomics.Summary.Uniform
       Options.FilterByPrecursor = this.filterPrecursorPPMTolerance.Checked;
       Options.FilterByPrecursorIsotopic = this.filterPrecursorIsotopic.Checked;
       Options.FilterByPrecursorDynamicTolerance = this.filterPrecursorByDynamicTolerance.Checked;
+      Options.ScoreFunction = scoreFunctions.SelectedItem;
+
       if (Options.FilterByPrecursor)
       {
         Options.PrecursorPPMTolerance = this.precursorPPMTolerance.Value;

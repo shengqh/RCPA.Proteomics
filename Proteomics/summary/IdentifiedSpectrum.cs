@@ -22,7 +22,7 @@ namespace RCPA.Proteomics.Summary
     public IdentifiedSpectrum()
     {
       SpRank = 1;
-      Id = 0;
+      Id = string.Empty;
       NumProteaseTermini = 2;
       Tag = string.Empty;
     }
@@ -34,7 +34,7 @@ namespace RCPA.Proteomics.Summary
 
     public string Engine { get; set; }
 
-    public int Id { get; set; }
+    public string Id { get; set; }
 
     public string Title
     {

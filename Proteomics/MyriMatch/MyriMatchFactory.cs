@@ -9,9 +9,11 @@ using System.Text;
 
 namespace RCPA.Proteomics.MyriMatch
 {
-  public class MyriMatchFactory : ISearchEngineFactory
+  public class MyriMatchFactory : AbstractSearchEngineFactory
   {
-    public Summary.ISpectrumParser GetParser(string name)
+    public MyriMatchFactory() : base(SearchEngineType.MyriMatch) { }
+
+    public override ISpectrumParser GetParser(string name)
     {
       if (name.ToLower().EndsWith("mzid"))
       {
@@ -23,26 +25,21 @@ namespace RCPA.Proteomics.MyriMatch
       }
     }
 
-    public IScoreFunctions GetScoreFunctions()
-    {
-      return new MyriMatchScoreFunctions();
-    }
-
-    public List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
+    public override List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
     {
       return (from pep in source
               where pep.Score > 100
               select pep).ToList();
     }
 
-    public SearchEngineType EngineType
-    {
-      get { return SearchEngineType.MyriMatch; }
-    }
-
-    public IDatasetOptions GetOptions()
+    public override IDatasetOptions GetOptions()
     {
       return new MyriMatchDatasetOptions();
+    }
+
+    public override IScoreFunction[] GetScoreFunctions()
+    {
+      return new[] { new ScoreFunction("MyriMatch:MVH") };
     }
   }
 }

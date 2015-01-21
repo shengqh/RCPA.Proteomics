@@ -18,7 +18,7 @@ namespace RCPA.Proteomics.Percolator
       foreach (var psm in psms)
       {
         IIdentifiedSpectrum spec = new IdentifiedSpectrum();
-        spec.Id = int.Parse(psm.FindAttribute("psm_id").Value.StringAfter("decoy_"));
+        spec.Id = psm.FindAttribute("psm_id").Value.StringAfter("decoy_");
         spec.FromDecoy = psm.FindAttribute("decoy").Value.Equals("true");
         spec.SpScore = double.Parse(psm.FindElement("svm_score").Value);
         spec.QValue = double.Parse(psm.FindElement("q_value").Value);

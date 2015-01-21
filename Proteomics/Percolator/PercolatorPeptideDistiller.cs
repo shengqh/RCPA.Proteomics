@@ -74,7 +74,7 @@ namespace RCPA.Proteomics.Percolator
       var targetFile = _options.PercolatorOutputFile + ".peptides";
       format.WriteToFile(targetFile, result);
 
-      new QValueCalculator(new PercolatorScoreFunctions(), new TargetFalseDiscoveryRateCalculator()).CalculateQValue(result);
+      new QValueCalculator(new PercolatorScoreFunction(), new TargetFalseDiscoveryRateCalculator()).CalculateQValue(result);
       result.RemoveAll(m => m.QValue >= 0.01);
       var target001file = FileUtils.ChangeExtension(targetFile, ".FDR0.01.peptides");
       format.WriteToFile(target001file, result);

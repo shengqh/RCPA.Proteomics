@@ -38,6 +38,8 @@
       this.cbFilterByPrecursorIsotopic = new System.Windows.Forms.CheckBox();
       this.txtPrecursorPPMTolerance = new System.Windows.Forms.TextBox();
       this.cbFilterByPrecursor = new System.Windows.Forms.CheckBox();
+      this.cbScoreFunctions = new System.Windows.Forms.ComboBox();
+      this.label1 = new System.Windows.Forms.Label();
       this.pnlName.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
       this.splitContainer2.Panel1.SuspendLayout();
@@ -104,6 +106,8 @@
       // 
       // groupBox1
       // 
+      this.groupBox1.Controls.Add(this.label1);
+      this.groupBox1.Controls.Add(this.cbScoreFunctions);
       this.groupBox1.Controls.Add(this.cbFilterByDynamicPrecursorTolerance);
       this.groupBox1.Controls.Add(this.cbFilterByPrecursorIsotopic);
       this.groupBox1.Controls.Add(this.txtPrecursorPPMTolerance);
@@ -119,7 +123,7 @@
       // cbFilterByDynamicPrecursorTolerance
       // 
       this.cbFilterByDynamicPrecursorTolerance.AutoSize = true;
-      this.cbFilterByDynamicPrecursorTolerance.Location = new System.Drawing.Point(544, 24);
+      this.cbFilterByDynamicPrecursorTolerance.Location = new System.Drawing.Point(396, 24);
       this.cbFilterByDynamicPrecursorTolerance.Name = "cbFilterByDynamicPrecursorTolerance";
       this.cbFilterByDynamicPrecursorTolerance.Size = new System.Drawing.Size(187, 17);
       this.cbFilterByDynamicPrecursorTolerance.TabIndex = 65;
@@ -129,7 +133,7 @@
       // cbFilterByPrecursorIsotopic
       // 
       this.cbFilterByPrecursorIsotopic.AutoSize = true;
-      this.cbFilterByPrecursorIsotopic.Location = new System.Drawing.Point(376, 24);
+      this.cbFilterByPrecursorIsotopic.Location = new System.Drawing.Point(263, 24);
       this.cbFilterByPrecursorIsotopic.Name = "cbFilterByPrecursorIsotopic";
       this.cbFilterByPrecursorIsotopic.Size = new System.Drawing.Size(137, 17);
       this.cbFilterByPrecursorIsotopic.TabIndex = 65;
@@ -140,7 +144,7 @@
       // 
       this.txtPrecursorPPMTolerance.Location = new System.Drawing.Point(207, 22);
       this.txtPrecursorPPMTolerance.Name = "txtPrecursorPPMTolerance";
-      this.txtPrecursorPPMTolerance.Size = new System.Drawing.Size(94, 20);
+      this.txtPrecursorPPMTolerance.Size = new System.Drawing.Size(50, 20);
       this.txtPrecursorPPMTolerance.TabIndex = 64;
       // 
       // cbFilterByPrecursor
@@ -152,6 +156,24 @@
       this.cbFilterByPrecursor.TabIndex = 63;
       this.cbFilterByPrecursor.Text = "Filter by precursor tolerance (ppm) =";
       this.cbFilterByPrecursor.UseVisualStyleBackColor = true;
+      // 
+      // cbScoreFunctions
+      // 
+      this.cbScoreFunctions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.cbScoreFunctions.FormattingEnabled = true;
+      this.cbScoreFunctions.Location = new System.Drawing.Point(788, 22);
+      this.cbScoreFunctions.Name = "cbScoreFunctions";
+      this.cbScoreFunctions.Size = new System.Drawing.Size(179, 21);
+      this.cbScoreFunctions.TabIndex = 66;
+      // 
+      // label1
+      // 
+      this.label1.AutoSize = true;
+      this.label1.Location = new System.Drawing.Point(625, 25);
+      this.label1.Name = "label1";
+      this.label1.Size = new System.Drawing.Size(163, 13);
+      this.label1.TabIndex = 67;
+      this.label1.Text = "Select score for FDR calculation:";
       // 
       // DatasetPanelBase
       // 
@@ -184,6 +206,8 @@
     private System.Windows.Forms.CheckBox cbFilterByPrecursorIsotopic;
     private System.Windows.Forms.TextBox txtPrecursorPPMTolerance;
     private System.Windows.Forms.CheckBox cbFilterByPrecursor;
+    private System.Windows.Forms.Label label1;
+    private System.Windows.Forms.ComboBox cbScoreFunctions;
 
   }
 }

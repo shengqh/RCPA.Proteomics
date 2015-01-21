@@ -90,7 +90,7 @@ namespace RCPA.Proteomics.Summary
       List<IIdentifiedSpectrum> allSpectra = identifiedResult.GetSpectra();
       for (int i = 0; i < allSpectra.Count; i++)
       {
-        allSpectra[i].Id = i;
+        allSpectra[i].Id = i.ToString();
       }
 
       string linkFilename = GetLinkFileName(fileName);
