@@ -12,14 +12,14 @@ using RCPA.Gui.Command;
 
 namespace RCPA.Proteomics.Snp
 {
-  public partial class DatabaseSnpValidatorUI : AbstractFileProcessorUI
+  public partial class DatabaseSAPValidatorUI : AbstractFileProcessorUI
   {
     private static readonly string title = "Database SAP Validator";
     private static readonly string version = "1.0.1";
 
     private RcpaFileField fastaFile;
 
-    public DatabaseSnpValidatorUI()
+    public DatabaseSAPValidatorUI()
     {
       InitializeComponent();
 
@@ -33,7 +33,7 @@ namespace RCPA.Proteomics.Snp
 
     protected override IFileProcessor GetFileProcessor()
     {
-      return new DatabaseSnpValidator(fastaFile.FullName);
+      return new DatabaseSAPValidator(fastaFile.FullName);
     }
 
     public class Command : IToolCommand
@@ -57,7 +57,7 @@ namespace RCPA.Proteomics.Snp
 
       public void Run()
       {
-        new DatabaseSnpValidatorUI().MyShow();
+        new DatabaseSAPValidatorUI().MyShow();
       }
 
       #endregion

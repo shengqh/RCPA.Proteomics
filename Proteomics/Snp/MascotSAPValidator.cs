@@ -14,7 +14,7 @@ using RCPA.Proteomics.PFind;
 
 namespace RCPA.Proteomics.Snp
 {
-  public class MascotSnpValidator : AbstractThreadFileProcessor
+  public class MascotSAPValidator : AbstractThreadFileProcessor
   {
     private Regex mutationReg;
     private string fastaFile;
@@ -82,7 +82,7 @@ namespace RCPA.Proteomics.Snp
       }
     }
 
-    public MascotSnpValidator(string mutationPattern, string fastaFile, IAccessNumberParser acParser, HashSet<int> charges, string pNovoPeptideFile)
+    public MascotSAPValidator(string mutationPattern, string fastaFile, IAccessNumberParser acParser, HashSet<int> charges, string pNovoPeptideFile)
     {
       IgnoreNtermMutation = true;
       IgnoreDeamidatedMutation = true;
@@ -150,7 +150,7 @@ namespace RCPA.Proteomics.Snp
         }
 
         var set = pNovoMap[key];
-        return !m.Peptides.Any(n => set.Contains(n.PureSequence.Replace('I','L')));
+        return !m.Peptides.Any(n => set.Contains(n.PureSequence.Replace('I', 'L')));
       });
 
       spectra.ForEach(m =>
@@ -428,8 +428,21 @@ namespace RCPA.Proteomics.Snp
 
           var pepMutation = MyConvert.Format("{0}{1}{2}", oriPureSeq[mutationSite], mutationSite + 1, mutFixPureSeq[mutationSite]);
 
+
+          List<Sequence> seqs = new List<Sequence>();
+          foreach (var p in curOriginalSpectrum.Proteins)
+          {
+            var ac = acParser.GetValue(p);
+            if (!proMap.ContainsKey(ac))
+            {
+              throw new Exception("Cannot find protein " + p + " in sequence database!");
+            }
+            seqs.Add(proMap[ac]);
+          }
+
           var proMutations = (from p in curOriginalSpectrum.Proteins
-                              let seq = proMap[p]
+                              let ac = acParser.GetValue(p)
+                              let seq = proMap[ac]
                               let pos = seq.SeqString.IndexOf(oriPureSeq)
                               let pmu = MyConvert.Format("{0}{1}{2}", oriPureSeq[mutationSite], pos + mutationSite + 1, mutFixPureSeq[mutationSite])
                               select new { ProteinName = p, Mutation = pmu }).ToList();
@@ -441,6 +454,11 @@ namespace RCPA.Proteomics.Snp
             foreach (var pro in proMutations)
             {
               var entry = GetUniprotEntry(pro.ProteinName);
+              if (entry == null)
+              {
+                continue;
+              }
+
               foreach (var sv in entry.SequenceVariants)
               {
                 var mut = string.Format("{0}{1}{2}", sv.Original, sv.Position, sv.Variation);
@@ -463,6 +481,11 @@ namespace RCPA.Proteomics.Snp
               foreach (var pro in proMutations)
               {
                 var entry = GetUniprotEntry(pro.ProteinName);
+                if (entry == null)
+                {
+                  continue;
+                }
+
                 foreach (var sv in entry.SequenceConflicts)
                 {
                   if ((sv.BeginPosition != sv.EndPosition) || sv.Original.Length != 1)
@@ -486,10 +509,7 @@ namespace RCPA.Proteomics.Snp
             }
           }
 
-
-          var proRefs = (from p in curOriginalSpectrum.Proteins
-                         let r = proMap[p].Description
-                         select r).ToList();
+          List<string> proRefs = seqs.ConvertAll(m => m.Description).ToList();
 
           int mutationCount;
           var dnaMutation = aas[oriPureSeq[mutationSite]].TransferTo(aas[mutFixPureSeq[mutationSite]], out mutationCount);

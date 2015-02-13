@@ -39,10 +39,10 @@ namespace RCPA.Proteomics.Processor
       var reporters = (from item in IsoType.Channels
                        select item.Mz).OrderBy(m => m).ToList();
       var reporterRange = new Pair<double, double>(reporters.First() - MzTolerance, reporters.Last() + MzTolerance);
-      var tagRanges = (from tag in IsoType.TagMass
+      var tagRanges = (from tag in IsoType.TagMassH
                        select new Pair<double, double>(tag - MzTolerance, tag + MzTolerance)).ToList();
 
-      Protease.InitializeByTag(IsoType.TagMass[0]);
+      Protease.InitializeByTag(IsoType.TagMassH[0]);
 
       if (RemoveLowerRange)
       {
@@ -57,10 +57,10 @@ namespace RCPA.Proteomics.Processor
 
       if (RemoveHighRange)
       {
-        if (IsoType.TagMass[0] > Protease.GetHighBYFreeWindow())
+        if (IsoType.TagMassH[0] > Protease.GetHighBYFreeWindow())
         {
           RemovePrecursorMinusLabel = true;
-          LabelMass = IsoType.TagMass[0];
+          LabelMass = IsoType.TagMassH[0];
         }
       }
 

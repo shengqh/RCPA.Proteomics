@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using IranianExperts;
 using RCPA.Proteomics.Raw;
 using RCPA.Utils;
 using RCPA.Proteomics.Spectrum;
@@ -127,7 +126,7 @@ namespace RCPA.Proteomics.IO
       string sha1;
       try
       {
-        sha1 = DTHasher.GetSHA1Hash(resultFile).ToLower();
+        sha1 = HashUtils.GetSHA1Hash(resultFile).ToLower();
       }
       catch (Exception ex)
       {
@@ -219,7 +218,7 @@ namespace RCPA.Proteomics.IO
       string sha1;
       try
       {
-        sha1 = DTHasher.GetSHA1Hash(sourceFile.FullName).ToLower();
+        sha1 = HashUtils.GetSHA1Hash(sourceFile.FullName).ToLower();
       }
       catch (Exception ex)
       {

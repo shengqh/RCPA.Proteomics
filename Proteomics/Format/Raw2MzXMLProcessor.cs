@@ -8,7 +8,6 @@ using RCPA.Utils;
 using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Statistic;
 using RCPA.Proteomics.Processor;
-using IranianExperts;
 
 namespace RCPA.Proteomics.Format
 {
@@ -84,7 +83,7 @@ endTime=""PT{2:0.000}S"">", scans.Count, startTime, endTime));
       string sha1;
       try
       {
-        sha1 = DTHasher.GetSHA1Hash(rawFileName).ToLower();
+        sha1 = HashUtils.GetSHA1Hash(rawFileName).ToLower();
       }
       catch (Exception ex)
       {
@@ -282,7 +281,7 @@ fileSha1=""{1}""/>", rawFileName.Replace("\\", "/"), sha1);
       var resultFile = GetResultFile(rawReader, rawFileName);
       try
       {
-        sha1 = DTHasher.GetSHA1Hash(resultFile).ToLower();
+        sha1 = HashUtils.GetSHA1Hash(resultFile).ToLower();
       }
       catch (Exception ex)
       {

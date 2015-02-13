@@ -16,13 +16,13 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     public IsobaricType()
     {
       this.Channels = new List<IsobaricChannel>();
-      this.TagMass = new List<double>();
+      this.TagMassH = new List<double>();
       this.NameIndexMap = new Dictionary<string, int>();
     }
 
     public string Name { get; set; }
 
-    public List<double> TagMass { get; private set; }
+    public List<double> TagMassH { get; private set; }
 
     public List<IsobaricChannel> Channels { get; private set; }
 
@@ -118,7 +118,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
       result.Name = Name;
 
-      result.TagMass = TagMass;
+      result.TagMassH = TagMassH;
 
       result.Channels = (from channel in Channels
                          select channel.Clone() as IsobaricChannel).ToList();

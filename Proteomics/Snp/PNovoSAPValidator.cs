@@ -13,9 +13,9 @@ using System.Threading;
 
 namespace RCPA.Proteomics.Snp
 {
-  public class PNovoSnpValidator : AbstractThreadFileProcessor
+  public class PNovoSAPValidator : AbstractThreadFileProcessor
   {
-    private PNovoSnpValidatorOptions options;
+    private PNovoSAPValidatorOptions options;
 
     private Aminoacids aas = new Aminoacids();
 
@@ -43,7 +43,7 @@ namespace RCPA.Proteomics.Snp
       public int FinishedCount { get; set; }
     }
 
-    public PNovoSnpValidator(PNovoSnpValidatorOptions options)
+    public PNovoSAPValidator(PNovoSAPValidatorOptions options)
     {
       this.options = options;
       if (this.options.ThreadCount < 1)

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,13 +17,13 @@ using RCPA.Seq;
 namespace RCPA.Proteomics.Snp
 {
   /// <summary>
-  /// ¶ÁÈ¡Mascot½øĞĞSNPËÑË÷µÄ½á¹û£¬¶Ô¼ø¶¨µ½µÄSNPÊı¾İÓë·ÇSNPÊı¾İ½øĞĞÅä¶Ô¡¢±È½Ï¡£
-  /// 20120210 - 2.0.4, ĞŞ¸´£º¶ÁÈ¡Uniprot XmlÎÄ¼ş½øĞĞ×¢ÊÍÊ±»á±¨¿ÕÖ¸Õë´íÎó¡£
+  /// è¯»å–Mascotè¿›è¡ŒSNPæœç´¢çš„ç»“æœï¼Œå¯¹é‰´å®šåˆ°çš„SNPæ•°æ®ä¸éSNPæ•°æ®è¿›è¡Œé…å¯¹ã€æ¯”è¾ƒã€‚
+  /// 20120210 - 2.0.4, ä¿®å¤ï¼šè¯»å–Uniprot Xmlæ–‡ä»¶è¿›è¡Œæ³¨é‡Šæ—¶ä¼šæŠ¥ç©ºæŒ‡é’ˆé”™è¯¯ã€‚
   /// </summary>
-  public partial class MascotSnpValidatorUI : AbstractFileProcessorUI
+  public partial class MascotSAPValidatorUI : AbstractFileProcessorUI
   {
     private static readonly string title = "Mascot SAP Validator";
-    private static readonly string version = "2.0.6";
+    private static readonly string version = "2.0.8";
 
     private RcpaTextField mutationPattern;
     private RcpaFileField fastaFile;
@@ -32,7 +32,7 @@ namespace RCPA.Proteomics.Snp
     private RcpaFileField dbFile;
     private RcpaFileField pnovoFile;
 
-    public MascotSnpValidatorUI()
+    public MascotSAPValidatorUI()
     {
       InitializeComponent();
 
@@ -61,7 +61,7 @@ namespace RCPA.Proteomics.Snp
 
     protected override IFileProcessor GetFileProcessor()
     {
-      return new MascotSnpValidator(mutationPattern.Text, fastaFile.FullName, acParsers.SelectedItem, new HashSet<int>(new[] { 1, 2, 3 }), pnovoFile.FullName)
+      return new MascotSAPValidator(mutationPattern.Text, fastaFile.FullName, acParsers.SelectedItem, new HashSet<int>(new[] { 1, 2, 3 }), pnovoFile.FullName)
       {
         ClassificationSet = pnlClassification.GetClassificationSet(),
         IgnoreNtermMutation = ignoreNTerm.Checked,
@@ -92,7 +92,7 @@ namespace RCPA.Proteomics.Snp
 
       public void Run()
       {
-        new MascotSnpValidatorUI().MyShow();
+        new MascotSAPValidatorUI().MyShow();
       }
 
       #endregion

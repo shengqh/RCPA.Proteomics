@@ -1,6 +1,6 @@
 ﻿namespace RCPA.Proteomics.Snp
 {
-  partial class DatabaseSnpValidatorUI
+  partial class DatabaseSAPValidatorUI
   {
     /// <summary>
     /// Required designer variable.

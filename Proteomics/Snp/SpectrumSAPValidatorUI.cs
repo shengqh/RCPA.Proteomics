@@ -17,7 +17,7 @@ using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.Snp
 {
-  public partial class SpectrumSnpValidatorUI : ComponentUI
+  public partial class SpectrumSAPValidatorUI : ComponentUI
   {
     private static readonly string title = "Spectrum SAP Validator";
     private static readonly string version = "1.0.1";
@@ -29,7 +29,7 @@ namespace RCPA.Proteomics.Snp
 
     private Func<IIdentifiedSpectrum, bool> colorFunc;
 
-    public SpectrumSnpValidatorUI()
+    public SpectrumSAPValidatorUI()
     {
       InitializeComponent();
       peptideFile = new RcpaFileField(btnPeptideFile, txtPeptideFile, "PeptideFile", new OpenFileArgument("Peptides", "peptides"), true);
@@ -268,7 +268,7 @@ namespace RCPA.Proteomics.Snp
 
       public void Run()
       {
-        new SpectrumSnpValidatorUI().MyShow();
+        new SpectrumSAPValidatorUI().MyShow();
       }
 
       #endregion

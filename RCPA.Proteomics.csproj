@@ -36,7 +36,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -53,6 +53,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>x64</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -65,6 +66,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -75,6 +77,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -86,6 +89,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="alglibnet2">
@@ -96,14 +100,14 @@
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SQH.Lib\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="MassSpecDataReader">
       <HintPath>..\SQH.Lib\Agilent\MassSpecDataReader.dll</HintPath>
     </Reference>
-    <Reference Include="MathNet.Numerics, Version=3.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MathNet.Numerics, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MathNet.Numerics.3.2.3\lib\net40\MathNet.Numerics.dll</HintPath>
+      <HintPath>..\packages\MathNet.Numerics.3.5.0\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Meta.Numerics, Version=2.2.0.0, Culture=neutral, PublicKeyToken=67d25c65a6631347, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -129,6 +133,8 @@
       <HintPath>..\SQH.Lib\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Management" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Windows.Forms" />
@@ -266,7 +272,7 @@
     <Compile Include="Proteomics\Sequest\AbstractSequestSpectrumParser.cs" />
     <Compile Include="Proteomics\Sequest\SequestDatasetBuilder2.cs" />
     <Compile Include="Proteomics\Sequest\SequestFactory.cs" />
-    <Compile Include="Proteomics\Snp\PNovoSnpValidatorOptions.cs" />
+    <Compile Include="Proteomics\Snp\PNovoSAPValidatorOptions.cs" />
     <Compile Include="Proteomics\Statistic\PrecursorOffsetStatisticTaskBuilder.cs" />
     <Compile Include="Proteomics\Statistic\PrecursorOffsetStatisticMainBuilder.cs" />
     <Compile Include="Proteomics\Statistic\PrecursorOffsetStatisticMainBuilderUI.cs">
@@ -719,36 +725,35 @@
     <Compile Include="Proteomics\Snp\CombineQuantificationResultProcessorUI.Designer.cs">
       <DependentUpon>CombineQuantificationResultProcessorUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Proteomics\Snp\MascotSnpValidator2.cs" />
-    <Compile Include="Proteomics\Snp\DatabaseSnpValidator.cs" />
-    <Compile Include="Proteomics\Snp\DatabaseSnpValidatorUI.cs">
+    <Compile Include="Proteomics\Snp\DatabaseSAPValidator.cs" />
+    <Compile Include="Proteomics\Snp\DatabaseSAPValidatorUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Proteomics\Snp\DatabaseSnpValidatorUI.Designer.cs">
-      <DependentUpon>DatabaseSnpValidatorUI.cs</DependentUpon>
+    <Compile Include="Proteomics\Snp\DatabaseSAPValidatorUI.Designer.cs">
+      <DependentUpon>DatabaseSAPValidatorUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Proteomics\Snp\MascotSnpValidator.cs" />
-    <Compile Include="Proteomics\Snp\PNovoSnpValidator.cs" />
-    <Compile Include="Proteomics\Snp\MascotSnpValidatorUI.cs">
+    <Compile Include="Proteomics\Snp\MascotSAPValidator.cs" />
+    <Compile Include="Proteomics\Snp\PNovoSAPValidator.cs" />
+    <Compile Include="Proteomics\Snp\MascotSAPValidatorUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Proteomics\Snp\MascotSnpValidatorUI.Designer.cs">
-      <DependentUpon>MascotSnpValidatorUI.cs</DependentUpon>
+    <Compile Include="Proteomics\Snp\MascotSAPValidatorUI.Designer.cs">
+      <DependentUpon>MascotSAPValidatorUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Snp\MutationUtils.cs" />
-    <Compile Include="Proteomics\Snp\PNovoSnpValidatorUI.cs">
+    <Compile Include="Proteomics\Snp\PNovoSAPValidatorUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Proteomics\Snp\PNovoSnpValidatorUI.Designer.cs">
-      <DependentUpon>PNovoSnpValidatorUI.cs</DependentUpon>
+    <Compile Include="Proteomics\Snp\PNovoSAPValidatorUI.Designer.cs">
+      <DependentUpon>PNovoSAPValidatorUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Snp\SapPtmTable.cs" />
     <Compile Include="Proteomics\Snp\SnpCode.cs" />
-    <Compile Include="Proteomics\Snp\SpectrumSnpValidatorUI.cs">
+    <Compile Include="Proteomics\Snp\SpectrumSAPValidatorUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Proteomics\Snp\SpectrumSnpValidatorUI.Designer.cs">
-      <DependentUpon>SpectrumSnpValidatorUI.cs</DependentUpon>
+    <Compile Include="Proteomics\Snp\SpectrumSAPValidatorUI.Designer.cs">
+      <DependentUpon>SpectrumSAPValidatorUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Spectrum\IPeakListDeduction.cs" />
     <Compile Include="Proteomics\Spectrum\PeakListCountProcessor.cs" />
@@ -1391,19 +1396,19 @@
     <EmbeddedResource Include="Proteomics\Snp\CombineQuantificationResultProcessorUI.resx">
       <DependentUpon>CombineQuantificationResultProcessorUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Snp\DatabaseSnpValidatorUI.resx">
-      <DependentUpon>DatabaseSnpValidatorUI.cs</DependentUpon>
+    <EmbeddedResource Include="Proteomics\Snp\DatabaseSAPValidatorUI.resx">
+      <DependentUpon>DatabaseSAPValidatorUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Snp\MascotSnpValidatorUI.resx">
-      <DependentUpon>MascotSnpValidatorUI.cs</DependentUpon>
+    <EmbeddedResource Include="Proteomics\Snp\MascotSAPValidatorUI.resx">
+      <DependentUpon>MascotSAPValidatorUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Snp\PNovoSnpValidatorUI.resx">
-      <DependentUpon>PNovoSnpValidatorUI.cs</DependentUpon>
+    <EmbeddedResource Include="Proteomics\Snp\PNovoSAPValidatorUI.resx">
+      <DependentUpon>PNovoSAPValidatorUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Snp\SpectrumSnpValidatorUI.resx">
-      <DependentUpon>SpectrumSnpValidatorUI.cs</DependentUpon>
+    <EmbeddedResource Include="Proteomics\Snp\SpectrumSAPValidatorUI.resx">
+      <DependentUpon>SpectrumSAPValidatorUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Statistic\ProteinPeptideCorrelationCalculatorUI.resx">
       <DependentUpon>ProteinPeptideCorrelationCalculatorUI.cs</DependentUpon>

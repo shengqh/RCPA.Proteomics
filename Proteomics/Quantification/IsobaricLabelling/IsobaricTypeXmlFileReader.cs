@@ -26,9 +26,9 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     {
       var item = new IsobaricType();
       item.Name = iso.FindElement("name").Value;
-      foreach (var tag in iso.FindElements("tag_mass"))
+      foreach (var tag in iso.FindElements("tag_mz"))
       {
-        item.TagMass.Add(double.Parse(tag.Value));
+        item.TagMassH.Add(double.Parse(tag.Value));
       }
 
       var channels = iso.FindElements("channel");
@@ -59,7 +59,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     public static void WriteIsobaricType(XElement iso, IsobaricType item)
     {
       iso.Add(new XElement("name", item.Name));
-      foreach (var tag in item.TagMass)
+      foreach (var tag in item.TagMassH)
       {
         iso.Add(new XElement("tag_mass", tag));
       }

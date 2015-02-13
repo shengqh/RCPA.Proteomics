@@ -11,11 +11,11 @@ namespace RCPA.Proteomics.Snp
   /// <summary>
   /// 读取SNP数据库，将我们筛选得到的one2one结果跟数据库比对，看有多少是SNP数据库里面已经得到验证的。
   /// </summary>
-  public class DatabaseSnpValidator : AbstractThreadFileProcessor
+  public class DatabaseSAPValidator : AbstractThreadFileProcessor
   {
     private string database;
 
-    public DatabaseSnpValidator(string database)
+    public DatabaseSAPValidator(string database)
     {
       this.database = database;
     }

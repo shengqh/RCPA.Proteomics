@@ -7,7 +7,7 @@ using System.Text;
 
 namespace RCPA.Proteomics.Snp
 {
-  public class PNovoSnpValidatorOptions
+  public class PNovoSAPValidatorOptions
   {
     public string[] PnovoFiles { get; set; }
 
