@@ -26,12 +26,13 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
   public partial class IsobaricPeptideStatisticBuilderUI : AbstractProcessorUI
   {
     private static readonly string title = "Isobaric Labeling Peptide Statistic Builder";
-    private static readonly string version = "1.2.4";
+    private static readonly string version = "1.2.5";
 
     private RcpaFileField peptideFile;
     private RcpaFileField designFile;
     private RcpaCheckBox normalize;
     private RcpaTextField modifiedAminoacids;
+    private RcpaDoubleField minimumSiteProbability;
     private RcpaComboBox<QuantifyMode> modes;
 
     public IsobaricPeptideStatisticBuilderUI()
@@ -53,6 +54,9 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       modifiedAminoacids = new RcpaTextField(txtModifiedAminoacids, "ModifiedAminoacids", "Input modified amino acids", "STY", false);
       AddComponent(modifiedAminoacids);
 
+      minimumSiteProbability = new RcpaDoubleField(txtMinimumSiteProbability, "MinimumSiteProbability", "Input minimum phosphylation site probability", 0.9, false);
+      AddComponent(minimumSiteProbability);
+
       this.Text = Constants.GetSQHTitle(title, version);
     }
 
@@ -61,6 +65,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       base.DoBeforeValidate();
 
       modifiedAminoacids.Required = modes.SelectedItem != QuantifyMode.qmAll;
+      minimumSiteProbability.Required = modes.SelectedItem == QuantifyMode.qmModificationSite;
     }
 
     protected override void ValidateComponents()
@@ -84,15 +89,19 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       return new IsobaricPeptideStatisticBuilder(option);
     }
 
-    protected IsobaricPeptideStatisticBuilderOption GetStatisticOption()
+    protected IsobaricPeptideStatisticBuilderOptions GetStatisticOption()
     {
-      var option = new IsobaricPeptideStatisticBuilderOption();
+      var option = new IsobaricPeptideStatisticBuilderOptions();
 
       option.PeptideFile = peptideFile.FullName;
       option.DesignFile = designFile.FullName;
       option.Mode = modes.SelectedItem;
       option.ModifiedAminoacids = modifiedAminoacids.Text;
       option.PerformNormalizition = normalize.Checked;
+      if (option.Mode == QuantifyMode.qmModificationSite)
+      {
+        option.MinimumSiteProbability = minimumSiteProbability.Value;
+      }
 
       return option;
     }

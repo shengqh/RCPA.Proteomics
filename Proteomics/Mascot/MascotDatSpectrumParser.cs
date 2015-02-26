@@ -8,6 +8,7 @@ using RCPA.Proteomics.Summary;
 using RCPA.Utils;
 using RCPA.Proteomics.Spectrum;
 using System.Globalization;
+using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.Mascot
 {

@@ -28,54 +28,71 @@
     /// </summary>
     private void InitializeComponent()
     {
-      this.pnlFile.SuspendLayout();
+      this.evidenceFile = new RCPA.Gui.FileField();
+      this.pnlButton.SuspendLayout();
       this.SuspendLayout();
-      // 
-      // pnlFile
-      // 
-      this.pnlFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
-      this.pnlFile.Dock = System.Windows.Forms.DockStyle.Top;
-      this.pnlFile.Location = new System.Drawing.Point(0, 0);
-      this.pnlFile.Size = new System.Drawing.Size(1000, 22);
-      // 
-      // txtOriginalFile
-      // 
-      this.txtOriginalFile.Size = new System.Drawing.Size(754, 21);
       // 
       // lblProgress
       // 
-      this.lblProgress.Size = new System.Drawing.Size(1000, 21);
+      this.lblProgress.Location = new System.Drawing.Point(0, 69);
+      this.lblProgress.Size = new System.Drawing.Size(1000, 23);
       // 
       // progressBar
       // 
-      this.progressBar.Size = new System.Drawing.Size(1000, 21);
+      this.progressBar.Location = new System.Drawing.Point(0, 92);
+      this.progressBar.Size = new System.Drawing.Size(1000, 23);
+      // 
+      // pnlButton
+      // 
+      this.pnlButton.Location = new System.Drawing.Point(0, 115);
+      this.pnlButton.Size = new System.Drawing.Size(1000, 39);
       // 
       // btnClose
       // 
-      this.btnClose.Location = new System.Drawing.Point(548, 7);
+      this.btnClose.Location = new System.Drawing.Point(548, 8);
       // 
       // btnCancel
       // 
-      this.btnCancel.Location = new System.Drawing.Point(463, 7);
+      this.btnCancel.Location = new System.Drawing.Point(463, 8);
       // 
       // btnGo
       // 
-      this.btnGo.Location = new System.Drawing.Point(378, 7);
+      this.btnGo.Location = new System.Drawing.Point(378, 8);
       // 
-      // MaxQuantEvidenceToPeptideConverterUI
+      // evidenceFile
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+      this.evidenceFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.evidenceFile.FullName = "";
+      this.evidenceFile.Key = "EvidenceFile";
+      this.evidenceFile.Location = new System.Drawing.Point(23, 28);
+      this.evidenceFile.Name = "evidenceFile";
+      this.evidenceFile.OpenButtonText = "Browse All File ...";
+      this.evidenceFile.PreCondition = null;
+      this.evidenceFile.Size = new System.Drawing.Size(947, 23);
+      this.evidenceFile.TabIndex = 9;
+      this.evidenceFile.WidthOpenButton = 226;
+      // 
+      // MaxQuantEvidenceToPeptideProcessorUI
+      // 
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1000, 112);
-      this.Name = "MaxQuantEvidenceToPeptideConverterUI";
+      this.ClientSize = new System.Drawing.Size(1000, 154);
+      this.Controls.Add(this.evidenceFile);
+      this.Name = "MaxQuantEvidenceToPeptideProcessorUI";
       this.TabText = "MaxQuantEvidenceToPeptideConverterUI";
       this.Text = "MaxQuantEvidenceToPeptideConverterUI";
-      this.pnlFile.ResumeLayout(false);
-      this.pnlFile.PerformLayout();
+      this.Controls.SetChildIndex(this.pnlButton, 0);
+      this.Controls.SetChildIndex(this.progressBar, 0);
+      this.Controls.SetChildIndex(this.lblProgress, 0);
+      this.Controls.SetChildIndex(this.evidenceFile, 0);
+      this.pnlButton.ResumeLayout(false);
       this.ResumeLayout(false);
 
     }
 
     #endregion
+
+    private Gui.FileField evidenceFile;
   }
 }

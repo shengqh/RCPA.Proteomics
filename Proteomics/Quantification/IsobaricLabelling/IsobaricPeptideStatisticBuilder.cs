@@ -19,9 +19,9 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
   public class IsobaricPeptideStatisticBuilder : AbstractThreadProcessor
   {
-    private IsobaricPeptideStatisticBuilderOption options;
+    private IsobaricPeptideStatisticBuilderOptions options;
 
-    public IsobaricPeptideStatisticBuilder(IsobaricPeptideStatisticBuilderOption options)
+    public IsobaricPeptideStatisticBuilder(IsobaricPeptideStatisticBuilderOptions options)
     {
       this.options = options;
     }
@@ -166,20 +166,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       }
 
       Progress.SetMessage("Quantifying peptide with outlier detection ...");
-      if (QuantifyMode.qmModificationSite == options.Mode)
-      {
-        isoSpectra.RemoveAll(m =>
-        {
-          return !ModificationUtils.IsModifiedSequence(m.GetMatchSequence(), options.ModifiedAminoacids);
-        });
-      }
-      else if (QuantifyMode.qmUnmodifiedPeptide == options.Mode)
-      {
-        isoSpectra.RemoveAll(m =>
-        {
-          return ModificationUtils.IsModifiedSequence(m.GetMatchSequence(), options.ModifiedAminoacids);
-        });
-      }
+      FilterSpectraByQuantifyMode(isoSpectra);
 
       var refFuncs = design.References;
       var samFuncs = design.GetSamples();
@@ -239,6 +226,34 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       Progress.SetMessage("Finished.");
 
       return new[] { qoptions.OutputFile };
+    }
+
+    /// <summary>
+    /// Filter spectra by quantify mode
+    /// </summary>
+    /// <param name="isoSpectra"></param>
+    public void FilterSpectraByQuantifyMode(List<IIdentifiedSpectrum> isoSpectra)
+    {
+      if (QuantifyMode.qmModificationSite == options.Mode)
+      {
+        isoSpectra.RemoveAll(m => !ModificationUtils.IsModifiedSequence(m.GetMatchSequence(), options.ModifiedAminoacids));
+
+        if (isoSpectra.Any(m => m.Peptide.GetSiteProbabilities().Any(l => l.Probability > 0.0)))
+        {
+          isoSpectra.RemoveAll(m => m.Peptide.GetSiteProbabilities().Any(l => l.Probability < options.MinimumSiteProbability));
+        }
+        else
+        {
+          Progress.SetMessage("There is no site probability in spectra, cannot filter spectra by minimum site probability, filter ignored.");
+        }
+      }
+      else if (QuantifyMode.qmUnmodifiedPeptide == options.Mode)
+      {
+        isoSpectra.RemoveAll(m =>
+        {
+          return ModificationUtils.IsModifiedSequence(m.GetMatchSequence(), options.ModifiedAminoacids);
+        });
+      }
     }
 
     protected virtual string GetResultFilePrefix(IsobaricLabelingExperimentalDesign design)

@@ -11,6 +11,7 @@ using RCPA.Utils;
 using System.IO;
 using System.Xml.Linq;
 using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.XTandem
 {

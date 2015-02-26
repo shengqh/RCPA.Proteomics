@@ -65,9 +65,9 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       return new IsobaricProteinStatisticBuilder(option);
     }
 
-    protected IsobaricProteinStatisticBuilderOption GetStatisticOption()
+    protected IsobaricProteinStatisticBuilderOptions GetStatisticOption()
     {
-      var option = new IsobaricProteinStatisticBuilderOption();
+      var option = new IsobaricProteinStatisticBuilderOptions();
 
       option.ProteinFileName = proteinFile.FullName;
       option.ExpermentalDesignFile = designFile.FullName;

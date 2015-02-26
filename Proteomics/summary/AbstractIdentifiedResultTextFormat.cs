@@ -7,6 +7,7 @@ using System.Linq;
 using RCPA.Proteomics.Summary;
 using RCPA.Utils;
 using RCPA.Gui;
+using RCPA.Proteomics.PropertyConverter;
 
 namespace RCPA.Proteomics.Summary
 {

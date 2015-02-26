@@ -45,51 +45,57 @@ namespace RCPA.Proteomics.Snp
       this.btnPnovoPeptide = new System.Windows.Forms.Button();
       this.txtPnovoPeptide = new System.Windows.Forms.TextBox();
       this.pnlFile.SuspendLayout();
+      this.pnlButton.SuspendLayout();
       this.SuspendLayout();
       // 
       // pnlFile
       // 
-      this.pnlFile.Location = new System.Drawing.Point(40, 24);
-      this.pnlFile.Size = new System.Drawing.Size(882, 22);
+      this.pnlFile.Location = new System.Drawing.Point(35, 26);
+      this.pnlFile.Size = new System.Drawing.Size(887, 24);
       // 
       // txtOriginalFile
       // 
       this.txtOriginalFile.Location = new System.Drawing.Point(245, 0);
-      this.txtOriginalFile.Size = new System.Drawing.Size(637, 21);
+      this.txtOriginalFile.Size = new System.Drawing.Size(642, 20);
       // 
       // btnOriginalFile
       // 
-      this.btnOriginalFile.Size = new System.Drawing.Size(245, 22);
+      this.btnOriginalFile.Size = new System.Drawing.Size(245, 24);
       // 
       // lblProgress
       // 
-      this.lblProgress.Location = new System.Drawing.Point(0, 574);
-      this.lblProgress.Size = new System.Drawing.Size(1039, 21);
+      this.lblProgress.Location = new System.Drawing.Point(0, 621);
+      this.lblProgress.Size = new System.Drawing.Size(1039, 23);
       // 
       // progressBar
       // 
-      this.progressBar.Location = new System.Drawing.Point(0, 595);
-      this.progressBar.Size = new System.Drawing.Size(1039, 21);
+      this.progressBar.Location = new System.Drawing.Point(0, 644);
+      this.progressBar.Size = new System.Drawing.Size(1039, 23);
+      // 
+      // pnlButton
+      // 
+      this.pnlButton.Location = new System.Drawing.Point(0, 667);
+      this.pnlButton.Size = new System.Drawing.Size(1039, 39);
       // 
       // btnClose
       // 
-      this.btnClose.Location = new System.Drawing.Point(567, 7);
+      this.btnClose.Location = new System.Drawing.Point(567, 9);
       // 
       // btnCancel
       // 
-      this.btnCancel.Location = new System.Drawing.Point(482, 7);
+      this.btnCancel.Location = new System.Drawing.Point(482, 9);
       // 
       // btnGo
       // 
-      this.btnGo.Location = new System.Drawing.Point(397, 7);
+      this.btnGo.Location = new System.Drawing.Point(397, 9);
       // 
       // txtFastaFile
       // 
       this.txtFastaFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.txtFastaFile.Location = new System.Drawing.Point(286, 53);
+      this.txtFastaFile.Location = new System.Drawing.Point(280, 57);
       this.txtFastaFile.Name = "txtFastaFile";
-      this.txtFastaFile.Size = new System.Drawing.Size(712, 21);
+      this.txtFastaFile.Size = new System.Drawing.Size(718, 20);
       this.txtFastaFile.TabIndex = 12;
       // 
       // cbAccessNumberPattern
@@ -102,17 +108,17 @@ namespace RCPA.Proteomics.Snp
             "(IPI\\d+)",
             "(gi:\\d+)",
             "(IPI\\d+|gi:\\d+)"});
-      this.cbAccessNumberPattern.Location = new System.Drawing.Point(286, 108);
+      this.cbAccessNumberPattern.Location = new System.Drawing.Point(280, 117);
       this.cbAccessNumberPattern.Name = "cbAccessNumberPattern";
-      this.cbAccessNumberPattern.Size = new System.Drawing.Size(712, 20);
+      this.cbAccessNumberPattern.Size = new System.Drawing.Size(718, 21);
       this.cbAccessNumberPattern.TabIndex = 26;
       // 
       // label8
       // 
       this.label8.AutoSize = true;
-      this.label8.Location = new System.Drawing.Point(143, 111);
+      this.label8.Location = new System.Drawing.Point(156, 120);
       this.label8.Name = "label8";
-      this.label8.Size = new System.Drawing.Size(137, 12);
+      this.label8.Size = new System.Drawing.Size(118, 13);
       this.label8.TabIndex = 25;
       this.label8.Text = "Access number format :";
       // 
@@ -120,25 +126,25 @@ namespace RCPA.Proteomics.Snp
       // 
       this.txtPattern.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.txtPattern.Location = new System.Drawing.Point(286, 134);
+      this.txtPattern.Location = new System.Drawing.Point(280, 145);
       this.txtPattern.Name = "txtPattern";
-      this.txtPattern.Size = new System.Drawing.Size(712, 21);
+      this.txtPattern.Size = new System.Drawing.Size(718, 20);
       this.txtPattern.TabIndex = 31;
       // 
       // label3
       // 
       this.label3.AutoSize = true;
-      this.label3.Location = new System.Drawing.Point(167, 137);
+      this.label3.Location = new System.Drawing.Point(184, 148);
       this.label3.Name = "label3";
-      this.label3.Size = new System.Drawing.Size(113, 12);
+      this.label3.Size = new System.Drawing.Size(90, 13);
       this.label3.TabIndex = 30;
       this.label3.Text = "Mutation pattern :";
       // 
       // btnFastaFile
       // 
-      this.btnFastaFile.Location = new System.Drawing.Point(35, 53);
+      this.btnFastaFile.Location = new System.Drawing.Point(35, 54);
       this.btnFastaFile.Name = "btnFastaFile";
-      this.btnFastaFile.Size = new System.Drawing.Size(245, 23);
+      this.btnFastaFile.Size = new System.Drawing.Size(245, 25);
       this.btnFastaFile.TabIndex = 32;
       this.btnFastaFile.Text = "button1";
       this.btnFastaFile.UseVisualStyleBackColor = true;
@@ -146,9 +152,9 @@ namespace RCPA.Proteomics.Snp
       // btnLoad
       // 
       this.btnLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnLoad.Location = new System.Drawing.Point(923, 24);
+      this.btnLoad.Location = new System.Drawing.Point(923, 26);
       this.btnLoad.Name = "btnLoad";
-      this.btnLoad.Size = new System.Drawing.Size(75, 23);
+      this.btnLoad.Size = new System.Drawing.Size(75, 25);
       this.btnLoad.TabIndex = 34;
       this.btnLoad.Text = "&Load";
       this.btnLoad.UseVisualStyleBackColor = true;
@@ -157,39 +163,39 @@ namespace RCPA.Proteomics.Snp
       // ignoreNTerm
       // 
       this.ignoreNTerm.Key = "IgnoreNTermMutation";
-      this.ignoreNTerm.Location = new System.Drawing.Point(286, 163);
+      this.ignoreNTerm.Location = new System.Drawing.Point(281, 178);
       this.ignoreNTerm.Name = "ignoreNTerm";
       this.ignoreNTerm.PreCondition = null;
-      this.ignoreNTerm.Size = new System.Drawing.Size(191, 21);
+      this.ignoreNTerm.Size = new System.Drawing.Size(191, 23);
       this.ignoreNTerm.TabIndex = 37;
       this.ignoreNTerm.Text = "Ignore N Terminal Mutation";
       // 
       // ignoreDeamidatedMutation
       // 
       this.ignoreDeamidatedMutation.Key = "IgnoreDeamidatedMutation";
-      this.ignoreDeamidatedMutation.Location = new System.Drawing.Point(482, 164);
+      this.ignoreDeamidatedMutation.Location = new System.Drawing.Point(482, 178);
       this.ignoreDeamidatedMutation.Name = "ignoreDeamidatedMutation";
       this.ignoreDeamidatedMutation.PreCondition = null;
-      this.ignoreDeamidatedMutation.Size = new System.Drawing.Size(191, 21);
+      this.ignoreDeamidatedMutation.Size = new System.Drawing.Size(191, 23);
       this.ignoreDeamidatedMutation.TabIndex = 40;
       this.ignoreDeamidatedMutation.Text = "Ignore N->D, Q->E Mutation";
       // 
       // ignoreMultipleNucleotideMutation
       // 
       this.ignoreMultipleNucleotideMutation.Key = "KeepSingleNucleotideMutationOnly";
-      this.ignoreMultipleNucleotideMutation.Location = new System.Drawing.Point(679, 165);
+      this.ignoreMultipleNucleotideMutation.Location = new System.Drawing.Point(679, 179);
       this.ignoreMultipleNucleotideMutation.Name = "ignoreMultipleNucleotideMutation";
       this.ignoreMultipleNucleotideMutation.PreCondition = null;
-      this.ignoreMultipleNucleotideMutation.Size = new System.Drawing.Size(260, 19);
+      this.ignoreMultipleNucleotideMutation.Size = new System.Drawing.Size(260, 21);
       this.ignoreMultipleNucleotideMutation.TabIndex = 39;
       this.ignoreMultipleNucleotideMutation.Text = "Keep Single Nucleotide Mutation Only";
       // 
       // btnBrowse
       // 
       this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnBrowse.Location = new System.Drawing.Point(923, 187);
+      this.btnBrowse.Location = new System.Drawing.Point(923, 203);
       this.btnBrowse.Name = "btnBrowse";
-      this.btnBrowse.Size = new System.Drawing.Size(75, 23);
+      this.btnBrowse.Size = new System.Drawing.Size(75, 25);
       this.btnBrowse.TabIndex = 42;
       this.btnBrowse.Text = "button1";
       this.btnBrowse.UseVisualStyleBackColor = true;
@@ -198,20 +204,20 @@ namespace RCPA.Proteomics.Snp
       // 
       this.txtDBFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.txtDBFile.Location = new System.Drawing.Point(286, 187);
+      this.txtDBFile.Location = new System.Drawing.Point(281, 203);
       this.txtDBFile.Name = "txtDBFile";
-      this.txtDBFile.Size = new System.Drawing.Size(631, 21);
+      this.txtDBFile.Size = new System.Drawing.Size(636, 20);
       this.txtDBFile.TabIndex = 41;
       // 
       // cbAnnotatedByDB
       // 
       this.cbAnnotatedByDB.Key = "DatabaseAnnotation";
-      this.cbAnnotatedByDB.Location = new System.Drawing.Point(115, 187);
+      this.cbAnnotatedByDB.Location = new System.Drawing.Point(135, 203);
       this.cbAnnotatedByDB.Name = "cbAnnotatedByDB";
       this.cbAnnotatedByDB.PreCondition = null;
-      this.cbAnnotatedByDB.Size = new System.Drawing.Size(165, 19);
+      this.cbAnnotatedByDB.Size = new System.Drawing.Size(145, 21);
       this.cbAnnotatedByDB.TabIndex = 43;
-      this.cbAnnotatedByDB.Text = "Annotation by database";
+      this.cbAnnotatedByDB.Text = "Annotation by database :";
       // 
       // pnlClassification
       // 
@@ -220,17 +226,17 @@ namespace RCPA.Proteomics.Snp
             | System.Windows.Forms.AnchorStyles.Right)));
       this.pnlClassification.Description = "Description";
       this.pnlClassification.GetName = null;
-      this.pnlClassification.Location = new System.Drawing.Point(40, 216);
+      this.pnlClassification.Location = new System.Drawing.Point(40, 234);
       this.pnlClassification.Name = "pnlClassification";
       this.pnlClassification.Pattern = "(.+)_(\\d){1,2}";
-      this.pnlClassification.Size = new System.Drawing.Size(961, 337);
+      this.pnlClassification.Size = new System.Drawing.Size(961, 365);
       this.pnlClassification.TabIndex = 33;
       // 
       // btnPnovoPeptide
       // 
-      this.btnPnovoPeptide.Location = new System.Drawing.Point(35, 80);
+      this.btnPnovoPeptide.Location = new System.Drawing.Point(35, 84);
       this.btnPnovoPeptide.Name = "btnPnovoPeptide";
-      this.btnPnovoPeptide.Size = new System.Drawing.Size(245, 23);
+      this.btnPnovoPeptide.Size = new System.Drawing.Size(245, 25);
       this.btnPnovoPeptide.TabIndex = 45;
       this.btnPnovoPeptide.Text = "button1";
       this.btnPnovoPeptide.UseVisualStyleBackColor = true;
@@ -239,15 +245,15 @@ namespace RCPA.Proteomics.Snp
       // 
       this.txtPnovoPeptide.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.txtPnovoPeptide.Location = new System.Drawing.Point(286, 80);
+      this.txtPnovoPeptide.Location = new System.Drawing.Point(280, 87);
       this.txtPnovoPeptide.Name = "txtPnovoPeptide";
-      this.txtPnovoPeptide.Size = new System.Drawing.Size(712, 21);
+      this.txtPnovoPeptide.Size = new System.Drawing.Size(718, 20);
       this.txtPnovoPeptide.TabIndex = 44;
       // 
-      // MascotSnpValidatorUI
+      // MascotSAPValidatorUI
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-      this.ClientSize = new System.Drawing.Size(1039, 652);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+      this.ClientSize = new System.Drawing.Size(1039, 706);
       this.Controls.Add(this.btnPnovoPeptide);
       this.Controls.Add(this.txtPnovoPeptide);
       this.Controls.Add(this.cbAnnotatedByDB);
@@ -264,7 +270,8 @@ namespace RCPA.Proteomics.Snp
       this.Controls.Add(this.cbAccessNumberPattern);
       this.Controls.Add(this.label8);
       this.Controls.Add(this.txtFastaFile);
-      this.Name = "MascotSnpValidatorUI";
+      this.Name = "MascotSAPValidatorUI";
+      this.Controls.SetChildIndex(this.pnlButton, 0);
       this.Controls.SetChildIndex(this.pnlFile, 0);
       this.Controls.SetChildIndex(this.progressBar, 0);
       this.Controls.SetChildIndex(this.lblProgress, 0);
@@ -286,6 +293,7 @@ namespace RCPA.Proteomics.Snp
       this.Controls.SetChildIndex(this.btnPnovoPeptide, 0);
       this.pnlFile.ResumeLayout(false);
       this.pnlFile.PerformLayout();
+      this.pnlButton.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 

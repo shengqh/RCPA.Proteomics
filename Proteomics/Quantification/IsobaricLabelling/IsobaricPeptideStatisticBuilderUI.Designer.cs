@@ -37,22 +37,24 @@
       this.label2 = new System.Windows.Forms.Label();
       this.btnPeptideFile = new System.Windows.Forms.Button();
       this.txtPeptideFile = new System.Windows.Forms.TextBox();
+      this.txtMinimumSiteProbability = new System.Windows.Forms.TextBox();
+      this.label3 = new System.Windows.Forms.Label();
       this.pnlButton.SuspendLayout();
       this.SuspendLayout();
       // 
       // lblProgress
       // 
-      this.lblProgress.Location = new System.Drawing.Point(0, 161);
+      this.lblProgress.Location = new System.Drawing.Point(0, 215);
       this.lblProgress.Size = new System.Drawing.Size(1080, 23);
       // 
       // progressBar
       // 
-      this.progressBar.Location = new System.Drawing.Point(0, 184);
+      this.progressBar.Location = new System.Drawing.Point(0, 238);
       this.progressBar.Size = new System.Drawing.Size(1080, 23);
       // 
       // pnlButton
       // 
-      this.pnlButton.Location = new System.Drawing.Point(0, 207);
+      this.pnlButton.Location = new System.Drawing.Point(0, 261);
       this.pnlButton.Size = new System.Drawing.Size(1080, 39);
       // 
       // btnClose
@@ -97,7 +99,7 @@
       // 
       // txtModifiedAminoacids
       // 
-      this.txtModifiedAminoacids.Location = new System.Drawing.Point(700, 110);
+      this.txtModifiedAminoacids.Location = new System.Drawing.Point(535, 144);
       this.txtModifiedAminoacids.Name = "txtModifiedAminoacids";
       this.txtModifiedAminoacids.Size = new System.Drawing.Size(100, 20);
       this.txtModifiedAminoacids.TabIndex = 20;
@@ -123,11 +125,11 @@
       // label2
       // 
       this.label2.AutoSize = true;
-      this.label2.Location = new System.Drawing.Point(580, 113);
+      this.label2.Location = new System.Drawing.Point(415, 147);
       this.label2.Name = "label2";
-      this.label2.Size = new System.Drawing.Size(114, 13);
+      this.label2.Size = new System.Drawing.Size(108, 13);
       this.label2.TabIndex = 24;
-      this.label2.Text = ", modified amino acids:";
+      this.label2.Text = "modified amino acids:";
       // 
       // btnPeptideFile
       // 
@@ -147,13 +149,32 @@
       this.txtPeptideFile.Size = new System.Drawing.Size(724, 20);
       this.txtPeptideFile.TabIndex = 26;
       // 
+      // textBox1
+      // 
+      this.txtMinimumSiteProbability.Location = new System.Drawing.Point(604, 170);
+      this.txtMinimumSiteProbability.Name = "textBox1";
+      this.txtMinimumSiteProbability.Size = new System.Drawing.Size(100, 20);
+      this.txtMinimumSiteProbability.TabIndex = 27;
+      // 
+      // label3
+      // 
+      this.label3.AutoSize = true;
+      this.label3.Location = new System.Drawing.Point(415, 173);
+      this.label3.Name = "label3";
+      this.label3.Size = new System.Drawing.Size(462, 13);
+      this.label3.TabIndex = 24;
+      this.label3.Text = "minimum phosphylation site probability:                                      (for" +
+    " ProtemeDiscoverer result only)";
+      // 
       // IsobaricPeptideStatisticBuilderUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1080, 246);
+      this.ClientSize = new System.Drawing.Size(1080, 300);
+      this.Controls.Add(this.txtMinimumSiteProbability);
       this.Controls.Add(this.btnPeptideFile);
       this.Controls.Add(this.txtPeptideFile);
+      this.Controls.Add(this.label3);
       this.Controls.Add(this.label2);
       this.Controls.Add(this.cbQuantifyMode);
       this.Controls.Add(this.label1);
@@ -174,8 +195,10 @@
       this.Controls.SetChildIndex(this.label1, 0);
       this.Controls.SetChildIndex(this.cbQuantifyMode, 0);
       this.Controls.SetChildIndex(this.label2, 0);
+      this.Controls.SetChildIndex(this.label3, 0);
       this.Controls.SetChildIndex(this.txtPeptideFile, 0);
       this.Controls.SetChildIndex(this.btnPeptideFile, 0);
+      this.Controls.SetChildIndex(this.txtMinimumSiteProbability, 0);
       this.pnlButton.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
@@ -193,6 +216,8 @@
     private System.Windows.Forms.Label label2;
     protected System.Windows.Forms.Button btnPeptideFile;
     protected System.Windows.Forms.TextBox txtPeptideFile;
+    protected System.Windows.Forms.TextBox txtMinimumSiteProbability;
+    private System.Windows.Forms.Label label3;
 
 
   }

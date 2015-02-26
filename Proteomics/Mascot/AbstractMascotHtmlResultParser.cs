@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using RCPA.Proteomics.Isotopic;
 using RCPA.Proteomics.Summary;
 using RCPA.Utils;
+using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.Mascot
 {

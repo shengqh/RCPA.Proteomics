@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using RCPA.Gui;
 using RCPA.Proteomics.PeptideProphet;
 using System.Text.RegularExpressions;
+using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.Omssa
 {

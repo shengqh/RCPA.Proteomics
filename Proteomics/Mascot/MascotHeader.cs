@@ -3,7 +3,7 @@ namespace RCPA.Proteomics.Mascot
   public static class MascotHeader
   {
     public static readonly string MASCOT_PEPTIDE_HEADER =
-      "\tFileScan\tQuery\tSequence\tObs\tMH+\tDiff(MH+)\tDiffPPM\tCharge\tRank\tScore\tDeltaScore\tExpectValue\tReference\tMissCleavage\tModification\tMatchCount\tNumProteaseTermini";
+      "\tFileScan\tQuery\tSequence\tObs\tMH+\tDiff(MH+)\tDiffPPM\tCharge\tRank\tScore\tDeltaScore\tExpectValue\tReference\tMissCleavage\tModification\tMatchCount\tNumProteaseTermini\tSiteProbability";
 
     public static readonly string MASCOT_PROTEIN_HEADER =
       "\tName\tDescription\tUniquePeptideCount\tPepCount\tMass\tTotalScore";

@@ -1,3 +1,4 @@
+using RCPA.Proteomics.Modification;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -59,5 +60,9 @@ namespace RCPA.Proteomics.Summary
     void ClearProteins();
 
     bool IsTopOne();
+
+    string SiteProbability { get; set; }
+
+    List<ModificationSiteProbability> GetSiteProbabilities();
   }
 }

@@ -12,6 +12,7 @@ using System.IO;
 using System.Data.SQLite;
 using RCPA.Proteomics.Mascot;
 using RCPA.Seq;
+using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.ProteomeDiscoverer
 {

@@ -7,6 +7,7 @@ using RCPA.Gui;
 using System.Text.RegularExpressions;
 using RCPA.Proteomics.Mascot;
 using System.Text;
+using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.MaxQuant
 {

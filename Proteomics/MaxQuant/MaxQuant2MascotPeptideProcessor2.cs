@@ -7,6 +7,7 @@ using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.MaxQuant;
 using System.IO;
 using RCPA.Seq;
+using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.MaxQuant
 {

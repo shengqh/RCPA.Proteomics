@@ -40,6 +40,7 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>9dff07e9</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -65,7 +66,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
@@ -98,6 +99,12 @@
     <Reference Include="DigitalRune.Windows.Docking">
       <HintPath>..\SQH.Lib\DigitalRune.Windows.Docking.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -126,11 +133,14 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SQH.Lib\System.Data.SQLite.dll</HintPath>
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.94.0\lib\net45\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6">
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.94.0\lib\net45\System.Data.SQLite.EF6.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.SQLite.Linq, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SQH.Lib\System.Data.SQLite.Linq.dll</HintPath>
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.94.1\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
@@ -177,8 +187,10 @@
     <Compile Include="Proteomics\Mascot\TitleFormatProteomeDiscoverer.cs" />
     <Compile Include="Proteomics\Mascot\TitleFormatSequest.cs" />
     <Compile Include="Proteomics\MaxQuant\MaxQuant2MascotPeptideProcessorOption.cs" />
-    <Compile Include="Proteomics\ModificationConsts.cs" />
+    <Compile Include="Proteomics\MaxQuant\MaxQuantEvidenceToPeptideProcessorOptions.cs" />
+    <Compile Include="Proteomics\Modification\ModificationConsts.cs" />
     <Compile Include="Proteomics\AminoacidsBuilder.cs" />
+    <Compile Include="Proteomics\Modification\ModificationSiteProbability.cs" />
     <Compile Include="Proteomics\MSAmanda\MSAmandaDatasetBuilder.cs" />
     <Compile Include="Proteomics\MSAmanda\MSAmandaDatasetOptions.cs" />
     <Compile Include="Proteomics\MSAmanda\MSAmandaFactory.cs" />
@@ -234,6 +246,7 @@
     <Compile Include="Proteomics\PFind\PNovoPlusParser.cs" />
     <Compile Include="Proteomics\Processor\PeakListRemovePrecursorDaltonProcessor.cs" />
     <Compile Include="Proteomics\Processor\PeakListRemovePrecursorProcessorOptions.cs" />
+    <Compile Include="Proteomics\PropertyConverter\IdentifiedSpectrumSiteProbabilityConverter.cs" />
     <Compile Include="Proteomics\ProteomeDiscoverer\MsfFastaDistillerUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -265,13 +278,21 @@
       <DependentUpon>IsobaricLabelingExperimentalDesignBuilderUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricLabelingExperimentalDesign.cs" />
-    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricPeptideStatisticBuilderOption.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricPeptideStatisticBuilderOptions.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\UsedChannel.cs" />
     <Compile Include="Proteomics\Quantification\AbstractQuantificationSummaryOption.cs" />
     <Compile Include="Proteomics\Quantification\QuantifyMode.cs" />
+    <Compile Include="Proteomics\SearchResultToPeptideBuilder.cs" />
     <Compile Include="Proteomics\Sequest\AbstractSequestSpectrumParser.cs" />
     <Compile Include="Proteomics\Sequest\SequestDatasetBuilder2.cs" />
     <Compile Include="Proteomics\Sequest\SequestFactory.cs" />
+    <Compile Include="Proteomics\Snp\AminoacidInsertionBuilder.cs" />
+    <Compile Include="Proteomics\Snp\AminoacidInsertionBuilderUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Snp\AminoacidInsertionBuilderUI.Designer.cs">
+      <DependentUpon>AminoacidInsertionBuilderUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Proteomics\Snp\PNovoSAPValidatorOptions.cs" />
     <Compile Include="Proteomics\Statistic\PrecursorOffsetStatisticTaskBuilder.cs" />
     <Compile Include="Proteomics\Statistic\PrecursorOffsetStatisticMainBuilder.cs" />
@@ -463,7 +484,7 @@
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResultFileDistiller.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResultFileFormatFactory.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResultXmlFormatRandomReader.cs" />
-    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricProteinStatisticBuilderOption.cs" />
+    <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricProteinStatisticBuilderOptions.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricScanUtils.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricResultMultipleFileDistillerUI.cs">
       <SubType>Form</SubType>
@@ -1163,6 +1184,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Quantification\IsobaricLabelling\IsobaricLabelingExperimentalDesignBuilderUI.resx">
       <DependentUpon>IsobaricLabelingExperimentalDesignBuilderUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Snp\AminoacidInsertionBuilderUI.resx">
+      <DependentUpon>AminoacidInsertionBuilderUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Statistic\BuildSummaryResultParserUI.resx">
@@ -1920,7 +1945,6 @@
     <Compile Include="Proteomics\MaxQuant\MaxQuantConverters.cs" />
     <Compile Include="Proteomics\MaxQuant\MaxQuantPeptideTextFormat.cs" />
     <Compile Include="Proteomics\MaxQuant\MaxQuantTagMatchRole.cs" />
-    <Compile Include="Proteomics\Modification.cs" />
     <Compile Include="Proteomics\Modification\SameModificationPeptides.cs" />
     <Compile Include="Proteomics\Modification\SequenceModificationSitePair.cs" />
     <Compile Include="Proteomics\PeptideProphet\ProteinProphetXmlReader.cs" />
@@ -2913,4 +2937,11 @@
     </PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets'))" />
+  </Target>
 </Project>

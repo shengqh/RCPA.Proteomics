@@ -4,9 +4,7 @@ namespace RCPA.Proteomics.Mascot
 {
   public class MascotResultTextFormat : AbstractIdentifiedResultSingleFileTextFormat
   {
-    public MascotResultTextFormat()
-    {
-    }
+    public MascotResultTextFormat() { }
 
     public MascotResultTextFormat(string proteinHeaders, string peptideHeaders)
       : base(proteinHeaders, peptideHeaders)

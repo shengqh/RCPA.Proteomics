@@ -11,9 +11,9 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
   public class IsobaricProteinStatisticBuilder : AbstractThreadProcessor
   {
-    private IsobaricProteinStatisticBuilderOption options;
+    private IsobaricProteinStatisticBuilderOptions options;
 
-    public IsobaricProteinStatisticBuilder(IsobaricProteinStatisticBuilderOption options)
+    public IsobaricProteinStatisticBuilder(IsobaricProteinStatisticBuilderOptions options)
     {
       this.options = options;
     }

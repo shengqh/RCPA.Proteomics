@@ -12,23 +12,27 @@ using RCPA.Gui.Command;
 
 namespace RCPA.Proteomics.MaxQuant
 {
-  public partial class MaxQuantEvidenceToPeptideProcessorUI : AbstractFileProcessorUI
+  public partial class MaxQuantEvidenceToPeptideProcessorUI : AbstractProcessorUI
   {
     static string title = "MaxQuant Evidence To Peptide";
-    static string version = "1.0.1";
+    static string version = "1.0.2";
 
     public MaxQuantEvidenceToPeptideProcessorUI()
     {
       InitializeComponent();
 
-      SetFileArgument("MaxQuantEvidence", new OpenFileArgument("MaxQuant Evidence", "txt"));
+      evidenceFile.FileArgument = new OpenFileArgument("MaxQuant Evidence", "txt");
 
       this.Text = Constants.GetSQHTitle(title, version);
     }
 
-    protected override IFileProcessor GetFileProcessor()
+    protected override IProcessor GetProcessor()
     {
-      return new MaxQuantEvidenceToPeptideProcessor();
+      var options = new MaxQuantEvidenceToPeptideProcessorOptions()
+      {
+        InputFile = evidenceFile.FullName
+      };
+      return new MaxQuantEvidenceToPeptideProcessor(options);
     }
 
     #region Nested type: Command

@@ -32,6 +32,8 @@ namespace RCPA.Proteomics.Summary
 
       this.RegisterConverter(new IdentifiedSpectrumObservedMHConverter<IIdentifiedSpectrum>(), "M+H+");
 
+      this.RegisterConverter(new IdentifiedSpectrumSiteProbabilityConverter<IIdentifiedSpectrum>());
+
       this.RegisterConverter(new IdentifiedSpectrumTheoreticalMHConverter<IIdentifiedSpectrum>(), "CalcM+H+", "MH", "TheoreticalMH");
 
       this.RegisterConverter(new IdentifiedSpectrumTheoreticalMinusExperimentalMassConverter<IIdentifiedSpectrum>());

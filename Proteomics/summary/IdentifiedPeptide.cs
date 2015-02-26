@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using RCPA.Proteomics.Summary;
 using System.Collections.ObjectModel;
+using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.Summary
 {
@@ -12,6 +13,8 @@ namespace RCPA.Proteomics.Summary
     public IdentifiedPeptide(IIdentifiedSpectrumBase spectrum)
     {
       DoSetSpectrum(spectrum);
+
+      this.SiteProbability = string.Empty;
     }
 
     public int ConfidenceLevel { get; set; }
@@ -212,6 +215,14 @@ namespace RCPA.Proteomics.Summary
       }
 
       return Spectrum.Peptides.IndexOf(this) == 0;
+    }
+
+    public string SiteProbability { get; set; }
+
+
+    public List<ModificationSiteProbability> GetSiteProbabilities()
+    {
+      return ModificationUtils.ParseProbability(this.SiteProbability);
     }
   }
 }

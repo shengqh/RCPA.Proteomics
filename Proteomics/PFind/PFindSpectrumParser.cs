@@ -7,6 +7,7 @@ using RCPA.Gui;
 using RCPA.Proteomics.Summary;
 using RCPA.Utils;
 using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.PFind
 {

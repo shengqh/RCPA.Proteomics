@@ -12,6 +12,7 @@ using System.IO;
 using System.Data.SQLite;
 using RCPA.Proteomics.Mascot;
 using RCPA.Seq;
+using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.ProteomeDiscoverer
 {
@@ -315,7 +316,7 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
       return result;
     }
 
-    public Dictionary<int, IIdentifiedPeptide> ParsePeptideMap(string fileName, bool isDecoy)
+    public virtual Dictionary<int, IIdentifiedPeptide> ParsePeptideMap(string fileName, bool isDecoy)
     {
       var suffix = isDecoy ? "_decoy" : "";
 
@@ -520,6 +521,31 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
             }
           }
         }
+      }
+
+      var pniProb = sqlite.ExecuteReader("select FieldId from CustomDataFields where DisplayName='phosphoRS Site Probabilities'", null);
+      if (!pniProb.Read())
+      {
+        Progress.SetMessage("Not phosphoylation data!");
+        return result;
+      }
+      var fieldid = pniProb.GetInt32(0);
+
+      string sqlPhospho = string.Format("select PeptideID, FieldValue from CustomDataPeptides where FieldId={0}", fieldid);
+      var phosphoReader = sqlite.ExecuteReader(sqlPhospho, null);
+      Progress.SetMessage("Parsing peptide phosphoylation probability ...");
+      while (phosphoReader.Read())
+      {
+        var pepid = phosphoReader.GetInt32(0);
+
+        IIdentifiedPeptide peptide;
+
+        if (!result.TryGetValue(pepid, out peptide))
+        {
+          continue;
+        }
+
+        peptide.SiteProbability = ModificationUtils.FilterSiteProbability(peptide.Sequence, phosphoReader.GetString(1));
       }
 
       return result;
