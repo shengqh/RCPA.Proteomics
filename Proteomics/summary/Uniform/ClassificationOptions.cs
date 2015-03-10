@@ -9,10 +9,11 @@ namespace RCPA.Proteomics.Summary.Uniform
 {
   public class ClassificationOptions : IXml
   {
-    private static bool DEFAULT_ClassifyByCharge = true;
-    private static bool DEFAULT_ClassifyByMissCleavage = true;
-    private static bool DEFAULT_ClassifyByNumProteaseTermini = true;
-    private static bool DEFAULT_ClassifyByModification = false;
+    public static bool DEFAULT_ClassifyByCharge = true;
+    public static bool DEFAULT_ClassifyByMissCleavage = true;
+    public static bool DEFAULT_ClassifyByNumProteaseTermini = true;
+    public static bool DEFAULT_ClassifyByModification = false;
+    public static int DEFAULT_MinimumSpectraPerGroup = 1;
 
     public ClassificationOptions()
     {
@@ -20,6 +21,8 @@ namespace RCPA.Proteomics.Summary.Uniform
       this.ClassifyByMissCleavage = DEFAULT_ClassifyByMissCleavage;
       this.ClassifyByNumProteaseTermini = DEFAULT_ClassifyByNumProteaseTermini;
       this.ClassifyByModification = DEFAULT_ClassifyByModification;
+      this.MinimumSpectraPerGroup = DEFAULT_MinimumSpectraPerGroup;
+
       this.ModifiedAminoacids = string.Empty;
     }
 
@@ -30,6 +33,8 @@ namespace RCPA.Proteomics.Summary.Uniform
     public bool ClassifyByModification { get; set; }
 
     public bool ClassifyByNumProteaseTermini { get; set; }
+
+    public int MinimumSpectraPerGroup { get; set; }
 
     public string ModifiedAminoacids { get; set; }
 
@@ -132,6 +137,21 @@ namespace RCPA.Proteomics.Summary.Uniform
       }
 
       var result = resultMap.Values.ToList();
+
+      if (this.MinimumSpectraPerGroup > 1)
+      {
+        result.Sort((m1, m2) => m2.Spectra.Count.CompareTo(m1.Spectra.Count));
+        for (int i = result.Count - 1; i > 0; i--)
+        {
+          if (result[i].Spectra.Count < this.MinimumSpectraPerGroup)
+          {
+            result[i - 1].Spectra.AddRange(result[i].Spectra);
+            result[i - 1].Condition.MergedConditions.Add(result[i].Condition);
+            result.RemoveAt(i);
+          }
+        }
+      }
+
       result.Sort((m1, m2) => m1.Condition.CompareTo(m2.Condition));
       return result;
     }
@@ -145,7 +165,8 @@ namespace RCPA.Proteomics.Summary.Uniform
         new XElement("ClassifyByMissCleavage", ClassifyByMissCleavage.ToString()),
         new XElement("ClassifyByModification", ClassifyByModification.ToString()),
         new XElement("ClassifyByNumProteaseTermini", ClassifyByNumProteaseTermini.ToString()),
-        new XElement("ModifiedAminoacid", ModifiedAminoacids)));
+        new XElement("ModifiedAminoacid", ModifiedAminoacids),
+        new XElement("MinimumSpectraPerGroup", MinimumSpectraPerGroup)));
     }
 
     public void Load(XElement parentNode)
@@ -157,6 +178,14 @@ namespace RCPA.Proteomics.Summary.Uniform
       this.ClassifyByNumProteaseTermini = xml.GetChildValue("ClassifyByNumProteaseTermini", DEFAULT_ClassifyByNumProteaseTermini);
       this.ClassifyByModification = xml.GetChildValue("ClassifyByModification", DEFAULT_ClassifyByModification);
       this.ModifiedAminoacids = xml.Element("ModifiedAminoacid").Value;
+      if (xml.FindElement("MinimumSpectraPerGroup") != null)
+      {
+        this.MinimumSpectraPerGroup = int.Parse(xml.FindElement("MinimumSpectraPerGroup").Value);
+      }
+      else
+      {
+        this.MinimumSpectraPerGroup = DEFAULT_MinimumSpectraPerGroup;
+      }
     }
 
     #endregion

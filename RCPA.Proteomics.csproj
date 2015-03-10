@@ -96,6 +96,10 @@
     <Reference Include="alglibnet2">
       <HintPath>..\SQH.Lib\alglibnet2.dll</HintPath>
     </Reference>
+    <Reference Include="CommandLine, Version=1.9.8.1, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SQH.Lib\CommandLine.dll</HintPath>
+    </Reference>
     <Reference Include="DigitalRune.Windows.Docking">
       <HintPath>..\SQH.Lib\DigitalRune.Windows.Docking.dll</HintPath>
     </Reference>
@@ -171,6 +175,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Proteomics\DatasetOption.cs" />
     <Compile Include="Proteomics\Format\Mgf2MzXmlProcessor.cs" />
     <Compile Include="Proteomics\Format\Raw2MzXMLProcessor.cs" />
     <Compile Include="Proteomics\ISearchEngineFactory.cs" />
@@ -204,9 +209,10 @@
     <Compile Include="Proteomics\MSGF\MSGFDatasetOptions.cs" />
     <Compile Include="Proteomics\MSGF\MSGFFactory.cs" />
     <Compile Include="Proteomics\MSGF\MSGFSearchParameters.cs" />
-    <Compile Include="Proteomics\MyriMatch\MyriMatchPepXmlParser.cs" />
     <Compile Include="Proteomics\MyriMatch\MyriMatchDatasetOptions.cs" />
+    <Compile Include="Proteomics\MyriMatch\MyriMatchPepXmlParser.cs" />
     <Compile Include="Proteomics\MyriMatch\MyriMatchFactory.cs" />
+    <Compile Include="Proteomics\MyriMatch\MyriMatchSearchParameters.cs" />
     <Compile Include="Proteomics\MzXml\MzXmlFormat.cs" />
     <Compile Include="Proteomics\Omssa\OmssaOmxParser.cs" />
     <Compile Include="Proteomics\Omssa\OmssaConsts.cs" />
@@ -294,6 +300,8 @@
       <DependentUpon>AminoacidInsertionBuilderUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Snp\PNovoSAPValidatorOptions.cs" />
+    <Compile Include="Proteomics\Statistic\BuildSummaryResultParserCommand.cs" />
+    <Compile Include="Proteomics\Statistic\BuildSummaryResultParserOptions.cs" />
     <Compile Include="Proteomics\Statistic\PrecursorOffsetStatisticTaskBuilder.cs" />
     <Compile Include="Proteomics\Statistic\PrecursorOffsetStatisticMainBuilder.cs" />
     <Compile Include="Proteomics\Statistic\PrecursorOffsetStatisticMainBuilderUI.cs">

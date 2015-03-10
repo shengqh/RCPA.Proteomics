@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace RCPA.Proteomics.Snp
 {
-  public class PNovoSAPValidator : AbstractThreadFileProcessor
+  public class PNovoSAPValidator : AbstractThreadProcessor
   {
     private PNovoSAPValidatorOptions options;
 
@@ -121,7 +121,7 @@ namespace RCPA.Proteomics.Snp
     /// </summary>
     /// <param name="fileName">fasta</param>
     /// <returns>result file</returns>
-    public override IEnumerable<string> Process(string targetDir)
+    public override IEnumerable<string> Process()
     {
       HashSet<string> pnovoseqs = new HashSet<string>();
 
@@ -162,7 +162,7 @@ namespace RCPA.Proteomics.Snp
       }
 
 
-      var pNovoStat = targetDir + "\\pNovo.SAP.stat";
+      var pNovoStat = Path.Combine(options.TargetDirectory , "pNovo.SAP.stat");
       using (StreamWriter sw = new StreamWriter(pNovoStat))
       {
         sw.WriteLine("Total Spectrum Count\t" + totalSpectrumCount.ToString());
@@ -341,7 +341,7 @@ namespace RCPA.Proteomics.Snp
                             from s in f.Sequences
                             select s).ToList();
 
-      string newFastaFile = new FileInfo(targetDir + "/" + FileUtils.ChangeExtension(new FileInfo(options.DatabaseFastaFile).Name, "mutation.fasta")).FullName;
+      string newFastaFile = new FileInfo(options.TargetDirectory + "/" + FileUtils.ChangeExtension(new FileInfo(options.DatabaseFastaFile).Name, "mutation.fasta")).FullName;
       using (StreamWriter sw = new StreamWriter(newFastaFile))
       {
         using (StreamReader sr = new StreamReader(options.DatabaseFastaFile))
@@ -372,7 +372,7 @@ namespace RCPA.Proteomics.Snp
         Progress.Increment(1);
       }
 
-      var pNovoPeptides = targetDir + "\\pNovo.SAP.peptides";
+      var pNovoPeptides = Path.Combine(options.TargetDirectory, "pNovo.SAP.peptides");
       new MascotPeptideTextFormat("\tFileScan\tSequence\tCharge\tScore\tDeltaScore").WriteToFile(pNovoPeptides, allSpectra);
 
       Progress.SetMessage("Finished.");

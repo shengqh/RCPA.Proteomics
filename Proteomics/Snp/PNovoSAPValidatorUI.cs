@@ -20,7 +20,7 @@ namespace RCPA.Proteomics.Snp
   /// 读取fasta文件和一系列的pNovo结果，根据给定的最小score进行筛选，获取完全酶解、没有miss位点、
   /// 与数据库中单位点突变的肽段，与原来的数据库构建成一个新的数据库，以便进行数据库搜索验证。
   /// </summary>
-  public partial class PNovoSAPValidatorUI : AbstractFileProcessorUI
+  public partial class PNovoSAPValidatorUI : AbstractProcessorUI
   {
     private static readonly string title = "pNovo SAP Validator";
     private static readonly string version = "2.1.6";
@@ -35,8 +35,6 @@ namespace RCPA.Proteomics.Snp
     public PNovoSAPValidatorUI()
     {
       InitializeComponent();
-
-      base.SetDirectoryArgument("TargetDir", "Target");
 
       this.Text = Constants.GetSQHTitle(title, version);
 
@@ -68,7 +66,7 @@ namespace RCPA.Proteomics.Snp
       AddComponent(this.minLength);
     }
 
-    protected override IFileProcessor GetFileProcessor()
+    protected override IProcessor GetProcessor()
     {
       string dbFile;
       if (fastaFile.Exists)
@@ -92,7 +90,9 @@ namespace RCPA.Proteomics.Snp
         IgnoreNtermMutation = ignoreNTerm.Checked,
         IgnoreDeamidatedMutation = ignoreDeamidatedMutation.Checked,
         IgnoreMultipleNucleotideMutation = ignoreMultipleNucleotideMutation.Checked,
-        MinLength = minLength.Value
+        MinLength = minLength.Value,
+        TargetDirectory = targetDirectory.FullName,
+        TargetFastaFile = databaseFile.FullName
       };
 
       return new PNovoSAPValidator(options);

@@ -32,5 +32,7 @@ namespace RCPA.Proteomics.Snp
     public bool IgnoreMultipleNucleotideMutation { get; set; }
 
     public int MinLength { get; set; }
+
+    public string TargetDirectory { get; set; }
   }
 }

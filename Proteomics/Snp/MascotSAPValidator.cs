@@ -114,10 +114,6 @@ namespace RCPA.Proteomics.Snp
     {
       var aas = new Aminoacids();
 
-      var format = new MascotPeptideTextFormat();
-      Progress.SetMessage("reading peptide-spectra-matches from " + fileName + " ...");
-      var spectra = format.ReadFromFile(fileName);
-
       Progress.SetMessage("reading pNovo result from " + pNovoPeptideFile + " ...");
       var pNovoSpectra = new MascotPeptideTextFormat().ReadFromFile(pNovoPeptideFile);
       var pNovoMap = new Dictionary<string, HashSet<string>>();
@@ -131,10 +127,25 @@ namespace RCPA.Proteomics.Snp
         pNovoMap[key].UnionWith(from p in pep.Peptides select p.PureSequence);
       }
 
-      Progress.SetMessage("preparing peptide-spectra-matches ...");
+      var format = new MascotPeptideTextFormat();
+      Progress.SetMessage("reading peptide-spectra-matches from " + fileName + " ...");
+      var spectra = format.ReadFromFile(fileName);
       //价位筛选
       spectra.RemoveAll(m => !charges.Contains(m.Charge));
+      //对于有不确定的氨基酸，直接忽略。
+      spectra.ForEach(m =>
+      {
+        for (int i = m.Peptides.Count - 1; i >= 0; i--)
+        {
+          if (m.Peptides[i].PureSequence.Any(n => aas[n].Codes.Length == 0))
+          {
+            m.RemovePeptideAt(i);
+          }
+        }
+      });
+      spectra.RemoveAll(m => m.Peptides.Count == 0);
 
+      Progress.SetMessage("comparing peptide-spectra-matches with pNovo result...");
       //与pNovo判定的mutation是否一致？
       spectra.RemoveAll(m =>
       {
@@ -153,44 +164,32 @@ namespace RCPA.Proteomics.Snp
         return !m.Peptides.Any(n => set.Contains(n.PureSequence.Replace('I', 'L')));
       });
 
-      spectra.ForEach(m =>
-      {
-        for (int i = m.Peptides.Count - 1; i >= 0; i--)
-        {
-          //对于有不确定的氨基酸，直接忽略。
-          if (m.Peptides[i].PureSequence.Any(n => aas[n].Codes.Length == 0))
-          {
-            m.RemovePeptideAt(i);
-          }
-        }
-      });
-      spectra.RemoveAll(m => m.Peptides.Count == 0);
-
+      //Get spectra whose peptides are all from mutated version
       var mutSpectra = spectra.FindAll(m => IsMutationPeptide(m)).ToList();
-      var fromSpectra = spectra.Except(mutSpectra).ToList();
-      fromSpectra.RemoveAll(m => m.Proteins.Any(n => mutationReg.Match(n).Success));
-
       var mutPeptides = (from s in mutSpectra
                          from p in s.Peptides
                          select p).ToList();
+      var mutGroup = mutPeptides.GroupBy(m => m.PureSequence);
 
+      //Get specra whose peptides are all from wide version
+      var fromSpectra = spectra.Except(mutSpectra).ToList();
+      fromSpectra.RemoveAll(m => m.Proteins.Any(n => mutationReg.Match(n).Success));
       var fromPeptides = (from s in fromSpectra
                           from p in s.Peptides
                           select p).ToList();
+      var fromGroup = fromPeptides.GroupBy(m => m.PureSequence).ToGroupDictionary(n => n.Key.Length);
+      var minLength = fromGroup.Count == 0 ? 6 : fromGroup.Min(m => m.Key);
+      var maxLength = fromGroup.Count == 0 ? 30 : fromGroup.Max(m => m.Key);
 
+      //Check the mutation type
       var type1 = new List<List<IGrouping<string, IIdentifiedPeptide>>>();
       var type2 = new List<List<IGrouping<string, IIdentifiedPeptide>>>();
       var type3 = new List<List<IGrouping<string, IIdentifiedPeptide>>>();
 
-      var mutGroup = mutPeptides.GroupBy(m => m.PureSequence);
-      var fromGroup = fromPeptides.GroupBy(m => m.PureSequence).ToGroupDictionary(n => n.Key.Length);
-
-      var minLength = fromGroup.Count == 0 ? 6 : fromGroup.Min(m => m.Key);
-      var maxLength = fromGroup.Count == 0 ? 30 : fromGroup.Max(m => m.Key);
-
       Progress.SetRange(0, mutGroup.Count());
       Progress.SetPosition(0);
       Progress.SetMessage("finding mutation-original pairs ...");
+
       foreach (var mut in mutGroup)
       {
         var matched = new List<IGrouping<string, IIdentifiedPeptide>>();
@@ -238,7 +237,7 @@ namespace RCPA.Proteomics.Snp
             }
           }
         }
-        else
+        else if (protein.EndsWith("type1"))
         {
           type = type1;
 
@@ -254,6 +253,10 @@ namespace RCPA.Proteomics.Snp
               }
             }
           }
+        }
+        else
+        {
+          throw new Exception("There is no mutation type information at protein name: " + protein + "\nIt should be like MUL_NHLGQK_type1, MUL_NHLGQK_type2 or MUL_NHLGQK_type3");
         }
 
         type.Add(matched);

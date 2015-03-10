@@ -8,31 +8,41 @@ using RCPA.Utils;
 
 namespace RCPA.Proteomics.Statistic
 {
-  public class BuildSummaryResultParser : AbstractThreadFileProcessor
+  public class BuildSummaryResultParser : AbstractThreadProcessor
   {
-    private IFalseDiscoveryRateCalculator calc;
+    private BuildSummaryResultParserOptions options;
 
-    private string decoyPattern;
+    public BuildSummaryResultParser(BuildSummaryResultParserOptions options)
+    {
+      this.options = options;
+    }
 
     public BuildSummaryResultParser(IFalseDiscoveryRateCalculator calc, string decoyPattern)
     {
-      this.calc = calc;
-      this.decoyPattern = decoyPattern;
+      this.options = new BuildSummaryResultParserOptions()
+      {
+        Calculator = calc,
+        DecoyPattern = decoyPattern
+      };
     }
 
-    public override IEnumerable<string> Process(string dir)
+    public IEnumerable<string> Process(string dir)
     {
-      var noredundantFiles = Directory.GetFiles(dir, "*.noredundant").ToList();
+      this.options.InputDirectory = dir;
+      return Process();
+    }
+
+    public override IEnumerable<string> Process()
+    {
+      var noredundantFiles = Directory.GetFiles(options.InputDirectory, "*.noredundant").ToList();
       noredundantFiles.Sort();
 
-      var result = dir + "\\summary.txt.xls";
-
-      using (StreamWriter sw = new StreamWriter(result))
+      using (StreamWriter sw = new StreamWriter(options.OutputFile))
       {
         List<IdentificationSummary> summaries = new List<IdentificationSummary>();
         foreach (var file in noredundantFiles)
         {
-          summaries.Add(IdentificationSummary.Parse(file, decoyPattern, calc));
+          summaries.Add(IdentificationSummary.Parse(file, options.DecoyPattern, options.Calculator));
         }
 
         bool hasSemi = summaries.Any(m => m.SemiSpectrumCount != 0);
@@ -92,7 +102,7 @@ namespace RCPA.Proteomics.Statistic
         }
       }
 
-      return new string[] { result };
+      return new string[] { options.OutputFile };
     }
   }
 }

@@ -9,23 +9,18 @@ namespace RCPA.Proteomics
 {
   public class OptimalResultCondition : IComparable<OptimalResultCondition>
   {
-    private static string DEFAULT_CLASSIFICATION = "DEFAULT";
-    public OptimalResultCondition(int precursorCharge, int missCleavageSiteCount, int numberOfProteaseTerminal, int modificationCount)
-    {
-      this._precursorCharge = precursorCharge;
-      this._missCleavageSiteCount = missCleavageSiteCount;
-      this._numProteaseTermini = numberOfProteaseTerminal;
-      this._modificationCount = modificationCount;
-      this.classification = DEFAULT_CLASSIFICATION;
-    }
+    private const string DEFAULT_CLASSIFICATION = "DEFAULT";
+    
+    public List<OptimalResultCondition> MergedConditions { get; private set; }
 
-    public OptimalResultCondition(int precursorCharge, int missCleavageSiteCount, int numberOfProteaseTerminal, int modificationCount, string classification)
+    public OptimalResultCondition(int precursorCharge, int missCleavageSiteCount, int numberOfProteaseTerminal, int modificationCount, string classification = DEFAULT_CLASSIFICATION)
     {
       this._precursorCharge = precursorCharge;
       this._missCleavageSiteCount = missCleavageSiteCount;
       this._numProteaseTermini = numberOfProteaseTerminal;
       this._modificationCount = modificationCount;
       this.Classification = classification;
+      this.MergedConditions = new List<OptimalResultCondition>();
     }
 
     private string classification;

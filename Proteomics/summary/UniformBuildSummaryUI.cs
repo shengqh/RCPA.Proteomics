@@ -41,11 +41,12 @@ namespace RCPA.Tools.Summary
     private readonly RcpaComboBox<IAccessNumberParser> acParsers;
 
     private readonly RcpaCheckBox classifyByCharge;
-
     private readonly RcpaCheckBox classifyByMissCleavage;
     private readonly RcpaCheckBox classifyByNumberOfProteaseTermini;
-
     private readonly RcpaCheckBox classifyByModification;
+    private RcpaIntegerField minimumSpectraPerGroup;
+
+    
     private readonly RcpaFileField database;
     private readonly RcpaTextField decoyPattern;
     private readonly RcpaComboBox<FalseDiscoveryRateLevel> fdrLevel;
@@ -140,20 +141,24 @@ namespace RCPA.Tools.Summary
                                                                 }, 0);
       AddComponent(this.fdrType);
 
-      this.classifyByCharge = new RcpaCheckBox(this.cbClassifyByCharge, "ClassifyByCharge", true);
+      this.classifyByCharge = new RcpaCheckBox(this.cbClassifyByCharge, "ClassifyByCharge", ClassificationOptions.DEFAULT_ClassifyByCharge);
       AddComponent(this.classifyByCharge);
 
-      this.classifyByMissCleavage = new RcpaCheckBox(this.cbClassifyByMissCleavage, "ClassifyByMissCleavage", true);
+      this.classifyByMissCleavage = new RcpaCheckBox(this.cbClassifyByMissCleavage, "ClassifyByMissCleavage", ClassificationOptions.DEFAULT_ClassifyByMissCleavage);
       AddComponent(this.classifyByMissCleavage);
 
-      this.classifyByNumberOfProteaseTermini = new RcpaCheckBox(this.cbClassifyByPreteaseTermini, "ClassifyByNumberOfProteaseTermini", true);
+      this.classifyByNumberOfProteaseTermini = new RcpaCheckBox(this.cbClassifyByPreteaseTermini, "ClassifyByNumberOfProteaseTermini", ClassificationOptions.DEFAULT_ClassifyByNumProteaseTermini);
       AddComponent(this.classifyByNumberOfProteaseTermini);
 
-      this.classifyByModification = new RcpaCheckBox(this.cbClassifyByModification, "ClassifyByModification", true);
+      this.classifyByModification = new RcpaCheckBox(this.cbClassifyByModification, "ClassifyByModification", ClassificationOptions.DEFAULT_ClassifyByModification);
       AddComponent(this.classifyByModification);
 
       this.modifiedAminoacids = new RcpaTextField(this.txtFdrModifiedAminoacids, "ModifiedAminoacids", "Modified Aminoacids", "STY", true);
+      this.modifiedAminoacids.PreCondition = this.cbClassifyByModification;
       AddComponent(this.modifiedAminoacids);
+
+      this.minimumSpectraPerGroup = new RcpaIntegerField(this.txtMinimumSpectraPerGroup, "MinimumSpectraPerGroup", "MinimumSpectraPerGroup", ClassificationOptions.DEFAULT_MinimumSpectraPerGroup, true);
+      AddComponent(this.minimumSpectraPerGroup);
 
       this.filterSequenceLength = new RcpaCheckBox(this.cbSequenceLength, "FilterSequenceLength", false);
       AddComponent(this.filterSequenceLength);

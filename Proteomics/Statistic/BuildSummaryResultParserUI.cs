@@ -11,14 +11,14 @@ using RCPA.Proteomics.Summary.Uniform;
 
 namespace RCPA.Proteomics.Statistic
 {
-  public partial class BuildSummaryResultParserUI : AbstractFileProcessorUI
+  public partial class BuildSummaryResultParserUI : AbstractProcessorUI
   {
     private static string title = "BuildSummary Result Parser";
     private static string version = "1.0.2";
 
     private RcpaTextField decoyPattern;
 
-    private RcpaComboBox<FalseDiscoveryRateType> fdrType;
+    private RcpaComboBox<IFalseDiscoveryRateCalculator> fdrType;
 
     public BuildSummaryResultParserUI()
     {
@@ -27,11 +27,11 @@ namespace RCPA.Proteomics.Statistic
       this.decoyPattern = new RcpaTextField(this.txtDecoyPattern, "DecoyPattern", "Decoy Database Pattern", "^REVERSED_", false);
       AddComponent(this.decoyPattern);
 
-      this.fdrType = new RcpaComboBox<FalseDiscoveryRateType>(this.cbFdrType, "FdrType",
-                                                              new[]
+      this.fdrType = new RcpaComboBox<IFalseDiscoveryRateCalculator>(this.cbFdrType, "FdrType",
+                                                              new IFalseDiscoveryRateCalculator[]
                                                                 {
-                                                                  FalseDiscoveryRateType.Target,
-                                                                  FalseDiscoveryRateType.Total
+                                                                  new TargetFalseDiscoveryRateCalculator(),
+                                                                  new TotalFalseDiscoveryRateCalculator()
                                                                 },
                                                               new[]
                                                                 {
@@ -40,24 +40,19 @@ namespace RCPA.Proteomics.Statistic
                                                                 }, 0);
       AddComponent(this.fdrType);
 
-      base.SetDirectoryArgument("Directory", "BuildSummary");
-
       Text = Constants.GetSQHTitle(title, version);
     }
 
-    protected override IFileProcessor GetFileProcessor()
+    protected override IProcessor GetProcessor()
     {
-      IFalseDiscoveryRateCalculator calc;
-      if (fdrType.SelectedItem == FalseDiscoveryRateType.Target)
+      var options = new BuildSummaryResultParserOptions()
       {
-        calc = new TargetFalseDiscoveryRateCalculator();
-      }
-      else
-      {
-        calc = new TotalFalseDiscoveryRateCalculator();
-      }
+        InputDirectory = inputDirectory.FullName,
+        DecoyPattern = decoyPattern.Text,
+        Calculator = fdrType.SelectedItem
+      };
 
-      return new BuildSummaryResultParser(calc, decoyPattern.Text);
+      return new BuildSummaryResultParser(options);
     }
 
     public class Command : IToolCommand

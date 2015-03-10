@@ -23,8 +23,12 @@ namespace RCPA.Proteomics.Snp
     public static string TransferTo(this Aminoacid from, Aminoacid to, out int mutationCount)
     {
       var fromCodes = from.Codes;
-
       var toCodes = to.Codes;
+      if (fromCodes.Length == 0 || toCodes.Length == 0)
+      {
+        mutationCount = int.MaxValue;
+        return string.Empty;
+      }
 
       var lst = (from f in fromCodes
                  from t in toCodes

@@ -163,7 +163,14 @@ dev.off()
         }
       }
 
-      new RProcessor(rExecute, rfile, tempFilename).Process();
+      var roptions = new RProcessorOptions()
+      {
+        RExecute = rExecute,
+        RFile = rfile,
+        ExpectResultFile = tempFilename
+      };
+
+      new RProcessor(roptions).Process();
 
       if (!File.Exists(tempFilename))
       {

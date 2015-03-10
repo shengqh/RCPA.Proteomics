@@ -32,6 +32,9 @@ namespace RCPA.Proteomics.Snp
       this.pNovoFiles = new RCPA.Gui.MultipleFileField();
       this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
       this.panel1 = new System.Windows.Forms.Panel();
+      this.targetDirectory = new RCPA.Gui.DirectoryField();
+      this.txtMinLength = new System.Windows.Forms.TextBox();
+      this.label4 = new System.Windows.Forms.Label();
       this.fastaFile = new RCPA.Gui.FileField();
       this.databaseFile = new RCPA.Gui.FileField();
       this.ignoreDeamidatedMutation = new RCPA.Gui.RcpaCheckField();
@@ -48,28 +51,9 @@ namespace RCPA.Proteomics.Snp
       this.label8 = new System.Windows.Forms.Label();
       this.label7 = new System.Windows.Forms.Label();
       this.cbTitleFormat = new System.Windows.Forms.ComboBox();
-      this.txtMinLength = new System.Windows.Forms.TextBox();
-      this.label4 = new System.Windows.Forms.Label();
-      this.pnlFile.SuspendLayout();
       this.pnlButton.SuspendLayout();
       this.panel1.SuspendLayout();
       this.SuspendLayout();
-      // 
-      // pnlFile
-      // 
-      this.pnlFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
-      this.pnlFile.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.pnlFile.Location = new System.Drawing.Point(0, 620);
-      this.pnlFile.Size = new System.Drawing.Size(1215, 24);
-      // 
-      // txtOriginalFile
-      // 
-      this.txtOriginalFile.Location = new System.Drawing.Point(250, 0);
-      this.txtOriginalFile.Size = new System.Drawing.Size(965, 20);
-      // 
-      // btnOriginalFile
-      // 
-      this.btnOriginalFile.Size = new System.Drawing.Size(250, 24);
       // 
       // lblProgress
       // 
@@ -88,15 +72,15 @@ namespace RCPA.Proteomics.Snp
       // 
       // btnClose
       // 
-      this.btnClose.Location = new System.Drawing.Point(655, 9);
+      this.btnClose.Location = new System.Drawing.Point(655, 8);
       // 
       // btnCancel
       // 
-      this.btnCancel.Location = new System.Drawing.Point(570, 9);
+      this.btnCancel.Location = new System.Drawing.Point(570, 8);
       // 
       // btnGo
       // 
-      this.btnGo.Location = new System.Drawing.Point(485, 9);
+      this.btnGo.Location = new System.Drawing.Point(485, 8);
       // 
       // pNovoFiles
       // 
@@ -110,7 +94,7 @@ namespace RCPA.Proteomics.Snp
       this.pNovoFiles.SelectedIndex = -1;
       this.pNovoFiles.SelectedItem = null;
       this.pNovoFiles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-      this.pNovoFiles.Size = new System.Drawing.Size(1215, 428);
+      this.pNovoFiles.Size = new System.Drawing.Size(1215, 407);
       this.pNovoFiles.TabIndex = 13;
       this.pNovoFiles.ValidateSelectedItemOnly = true;
       // 
@@ -120,6 +104,7 @@ namespace RCPA.Proteomics.Snp
       // 
       // panel1
       // 
+      this.panel1.Controls.Add(this.targetDirectory);
       this.panel1.Controls.Add(this.txtMinLength);
       this.panel1.Controls.Add(this.label4);
       this.panel1.Controls.Add(this.fastaFile);
@@ -139,10 +124,40 @@ namespace RCPA.Proteomics.Snp
       this.panel1.Controls.Add(this.label7);
       this.panel1.Controls.Add(this.cbTitleFormat);
       this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.panel1.Location = new System.Drawing.Point(0, 428);
+      this.panel1.Location = new System.Drawing.Point(0, 407);
       this.panel1.Name = "panel1";
-      this.panel1.Size = new System.Drawing.Size(1215, 192);
+      this.panel1.Size = new System.Drawing.Size(1215, 237);
       this.panel1.TabIndex = 41;
+      // 
+      // targetDirectory
+      // 
+      this.targetDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.targetDirectory.FullName = "";
+      this.targetDirectory.Key = "TargetDirectory";
+      this.targetDirectory.Location = new System.Drawing.Point(3, 190);
+      this.targetDirectory.Name = "targetDirectory";
+      this.targetDirectory.OpenButtonText = "Browse  Directory ...";
+      this.targetDirectory.OpenButtonWidth = 250;
+      this.targetDirectory.PreCondition = null;
+      this.targetDirectory.Size = new System.Drawing.Size(1200, 23);
+      this.targetDirectory.TabIndex = 60;
+      // 
+      // txtMinLength
+      // 
+      this.txtMinLength.Location = new System.Drawing.Point(938, 20);
+      this.txtMinLength.Name = "txtMinLength";
+      this.txtMinLength.Size = new System.Drawing.Size(75, 20);
+      this.txtMinLength.TabIndex = 59;
+      // 
+      // label4
+      // 
+      this.label4.AutoSize = true;
+      this.label4.Location = new System.Drawing.Point(843, 25);
+      this.label4.Name = "label4";
+      this.label4.Size = new System.Drawing.Size(84, 13);
+      this.label4.TabIndex = 58;
+      this.label4.Text = "Minmum length :";
       // 
       // fastaFile
       // 
@@ -305,37 +320,18 @@ namespace RCPA.Proteomics.Snp
       this.cbTitleFormat.Size = new System.Drawing.Size(953, 21);
       this.cbTitleFormat.TabIndex = 41;
       // 
-      // txtMinLength
-      // 
-      this.txtMinLength.Location = new System.Drawing.Point(938, 20);
-      this.txtMinLength.Name = "txtMinLength";
-      this.txtMinLength.Size = new System.Drawing.Size(75, 20);
-      this.txtMinLength.TabIndex = 59;
-      // 
-      // label4
-      // 
-      this.label4.AutoSize = true;
-      this.label4.Location = new System.Drawing.Point(843, 25);
-      this.label4.Name = "label4";
-      this.label4.Size = new System.Drawing.Size(84, 13);
-      this.label4.TabIndex = 58;
-      this.label4.Text = "Minmum length :";
-      // 
-      // PNovoSnpValidatorUI
+      // PNovoSAPValidatorUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.ClientSize = new System.Drawing.Size(1215, 729);
       this.Controls.Add(this.pNovoFiles);
       this.Controls.Add(this.panel1);
-      this.Name = "PNovoSnpValidatorUI";
+      this.Name = "PNovoSAPValidatorUI";
       this.Controls.SetChildIndex(this.pnlButton, 0);
       this.Controls.SetChildIndex(this.progressBar, 0);
       this.Controls.SetChildIndex(this.lblProgress, 0);
-      this.Controls.SetChildIndex(this.pnlFile, 0);
       this.Controls.SetChildIndex(this.panel1, 0);
       this.Controls.SetChildIndex(this.pNovoFiles, 0);
-      this.pnlFile.ResumeLayout(false);
-      this.pnlFile.PerformLayout();
       this.pnlButton.ResumeLayout(false);
       this.panel1.ResumeLayout(false);
       this.panel1.PerformLayout();
@@ -366,5 +362,6 @@ namespace RCPA.Proteomics.Snp
     private Gui.FileField databaseFile;
     private System.Windows.Forms.TextBox txtMinLength;
     private System.Windows.Forms.Label label4;
+    private Gui.DirectoryField targetDirectory;
   }
 }
