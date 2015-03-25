@@ -61,5 +61,10 @@ namespace RCPA.Proteomics.Summary
     /// Get or set summary line
     /// </summary>
     string SummaryLine { get; set; }
+
+    /// <summary>
+    /// Sort peptide by sequence
+    /// </summary>
+    void SortPeptides();
   }
 }

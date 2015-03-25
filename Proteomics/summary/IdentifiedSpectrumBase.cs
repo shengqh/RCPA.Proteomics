@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using RCPA.Proteomics.Utils;
 using RCPA.Utils;
 using System.Text;
+using RCPA.Seq;
 
 namespace RCPA.Proteomics.Summary
 {
@@ -95,7 +96,7 @@ namespace RCPA.Proteomics.Summary
 
     public int CompareTo(object obj)
     {
-      if( null == obj)
+      if (null == obj)
       {
         return 1;
       }
@@ -110,5 +111,10 @@ namespace RCPA.Proteomics.Summary
     }
 
     #endregion
+
+    public void SortPeptides()
+    {
+      this.peptides.Sort((m1, m2) => PeptideUtils.GetMatchedSequence(m1.Sequence).CompareTo(PeptideUtils.GetMatchedSequence(m2.Sequence)));
+    }
   }
 }

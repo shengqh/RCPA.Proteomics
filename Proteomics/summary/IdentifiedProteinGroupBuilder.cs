@@ -72,21 +72,7 @@ namespace RCPA.Proteomics.Summary
       Progress.SetMessage("Removing redundant protein groups ...");
       Progress.SetRange(0, result.Count);
 
-      result.ForEach(m =>
-      {
-        foreach (var pep in m.GetPeptides())
-        {
-          pep.GroupCount = 0;
-        }
-      });
-
-      result.ForEach(m =>
-      {
-        foreach (var pep in m.GetPeptides())
-        {
-          pep.GroupCount++;
-        }
-      });
+      InitializePeptideGroupCount(result);
 
       var temp = result;
       result = new List<IIdentifiedProteinGroup>();
@@ -122,9 +108,49 @@ namespace RCPA.Proteomics.Summary
         }
       }
 
+      //删除没有unique peptide的group
+      while (true)
+      {
+        InitializePeptideGroupCount(temp);
+        bool bFind = false;
+        for (int i = temp.Count - 1; i > 0; i--)
+        {
+          if (temp[i].GetPeptides().All(m => m.GroupCount > 1))
+          {
+            bFind = true;
+            temp.RemoveAt(i);
+            break;
+          }
+        }
+        if (!bFind)
+        {
+          break;
+        }
+      }
+
       result.AddRange(temp);
 
       return result;
+    }
+
+    private static void InitializePeptideGroupCount(List<IIdentifiedProteinGroup> result)
+    {
+      result.ForEach(m =>
+      {
+        foreach (var pep in m.GetPeptides())
+        {
+          pep.GroupCount = 0;
+        }
+      });
+
+      result.ForEach(m =>
+      {
+        foreach (var pep in m.GetPeptides())
+        {
+          pep.GroupCount++;
+        }
+      });
+
     }
 
     #endregion

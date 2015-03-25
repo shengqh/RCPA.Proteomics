@@ -28,6 +28,11 @@ namespace RCPA.Proteomics.Summary
     string PureSequence { get; }
 
     /// <summary>
+    /// Get the pure sequence without modification, prior/next aminoacid and I replaced by L.
+    /// </summary>
+    string PureILReplacedSequence { get; }
+
+    /// <summary>
     /// Get readonly protein collection
     /// </summary>
     ReadOnlyCollection<string> Proteins { get; }

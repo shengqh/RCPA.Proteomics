@@ -18,7 +18,7 @@ namespace RCPA.Proteomics.Summary
 
     double ObservedMz { get; set; }
 
-    string Tag{get;set;}
+    string Tag { get; set; }
 
     string ClassificationTag { get; set; }
 

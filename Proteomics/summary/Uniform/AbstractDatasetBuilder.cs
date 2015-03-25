@@ -65,6 +65,10 @@ namespace RCPA.Proteomics.Summary.Uniform
       Progress.SetMessage("Parsing protein access number ...");
       IdentifiedSpectrumUtils.ResetProteinByAccessNumberParser(result, options.Parent.Database.GetAccessNumberParser());
       Progress.SetMessage("Parsing protein access number finished.");
+
+      Progress.SetMessage("Sorting peptide sequence ...");
+      result.ForEach(m => m.SortPeptides());
+      Progress.SetMessage("Sorting peptide sequence finished.");
     }
 
     public virtual void InitializeQValue(List<IIdentifiedSpectrum> spectra)

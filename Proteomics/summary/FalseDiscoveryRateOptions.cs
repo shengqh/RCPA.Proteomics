@@ -81,14 +81,7 @@ namespace RCPA.Proteomics.Summary
 
       if (FdrLevel == FalseDiscoveryRateLevel.Protein)
       {
-        if (FilterOneHitWonder && MinOneHitWonderPeptideCount > 1)
-        {
-          return new UniformSpectrumProteinFdrBuilder2();
-        }
-        else
-        {
-          return new UniformSpectrumProteinFdrBuilder();
-        }
+        return new UniformSpectrumProteinFdrBuilder();
       }
       else if (FdrLevel == FalseDiscoveryRateLevel.SimpleProtein)
       {

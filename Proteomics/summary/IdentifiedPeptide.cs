@@ -61,6 +61,7 @@ namespace RCPA.Proteomics.Summary
     {
       sequence = value;
       pureSequence = null;
+      pureILReplacedSequence = null;
     }
 
     #region IIdentifiedPeptide Members
@@ -114,6 +115,20 @@ namespace RCPA.Proteomics.Summary
           }
         }
         return pureSequence;
+      }
+    }
+
+    private string pureILReplacedSequence;
+
+    public string PureILReplacedSequence
+    {
+      get
+      {
+        if (pureILReplacedSequence == null && sequence != null)
+        {
+          pureILReplacedSequence = PureSequence.Replace("I", "L");
+        }
+        return pureILReplacedSequence;
       }
     }
 

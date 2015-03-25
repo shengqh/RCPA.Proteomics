@@ -34,24 +34,21 @@ namespace RCPA.Proteomics.Summary
       return result;
     }
 
-    public static HashSet<string> GetUniquePeptide<T>(IEnumerable<T> peptides) where T : IIdentifiedSpectrum
+    public static HashSet<string> GetUniquePeptide<T>(IEnumerable<T> spectra) where T : IIdentifiedSpectrum
     {
-      HashSet<string> result = new HashSet<string>();
-      foreach (T pep in peptides)
-      {
-        result.Add(pep.Peptide.PureSequence);
-      }
-      return result;
+      return IdentifiedPeptideUtils.GetUniquePeptides(from spec in spectra
+                                                      from pep in spec.Peptides
+                                                      select pep);
     }
 
-    public static int GetUniquePeptideCount<T>(IEnumerable<T> peptides) where T : IIdentifiedSpectrum
+    public static int GetUniquePeptideCount<T>(IEnumerable<T> spectra) where T : IIdentifiedSpectrum
     {
-      return GetUniquePeptide(peptides).Count;
+      return GetUniquePeptide(spectra).Count;
     }
 
-    public static int GetSpectrumCount<T>(IEnumerable<T> peptides) where T : IIdentifiedSpectrum
+    public static int GetSpectrumCount<T>(IEnumerable<T> spectra) where T : IIdentifiedSpectrum
     {
-      return (from p in peptides
+      return (from p in spectra
               select p.Query.FileScan.LongFileName).Distinct().Count();
     }
 

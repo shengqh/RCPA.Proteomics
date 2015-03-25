@@ -894,7 +894,7 @@
     <Compile Include="Proteomics\Summary\Uniform\BatchUniformIdentifiedResultBuilderUI.Designer.cs">
       <DependentUpon>BatchUniformIdentifiedResultBuilderUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Proteomics\Summary\Uniform\AbstractUniformSpectrumProteinFdrBuilder.cs" />
+    <Compile Include="Proteomics\Summary\Uniform\UniformSpectrumProteinFdrBuilder.cs" />
     <Compile Include="Proteomics\Summary\Uniform\AbstractOneParserDatasetBuilder.cs" />
     <Compile Include="Proteomics\Omssa\OmssaDatasetBuilder.cs" />
     <Compile Include="Proteomics\Omssa\OmssaDatasetOptions.cs" />
@@ -925,7 +925,6 @@
       <DependentUpon>FilePanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Summary\Uniform\ITitleDatasetOptions.cs" />
-    <Compile Include="Proteomics\Summary\Uniform\UniformSpectrumProteinFdrBuilder2.cs" />
     <Compile Include="Proteomics\Summary\Uniform\TargetDecoyConflictType.cs" />
     <Compile Include="Proteomics\MzIdent\MzIdentDatasetPanel.cs">
       <SubType>UserControl</SubType>
@@ -2152,7 +2151,6 @@
     <Compile Include="Proteomics\Summary\Uniform\IDatasetFactory.cs" />
     <Compile Include="Proteomics\Summary\Uniform\MascotDatasetFactory.cs" />
     <Compile Include="Proteomics\Summary\Uniform\UniformProteinFdrOptimalResultCalculator.cs" />
-    <Compile Include="Proteomics\Summary\Uniform\UniformSpectrumProteinFdrBuilder.cs" />
     <Compile Include="Proteomics\Summary\Uniform\OptimalFileTextWriter.cs" />
     <Compile Include="Proteomics\Summary\Uniform\SearchEngineConflictType.cs" />
     <Compile Include="Proteomics\Summary\Uniform\UniformHeader.cs" />

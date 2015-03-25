@@ -27,6 +27,12 @@ namespace RCPA.Proteomics.Summary
       Tag = string.Empty;
     }
 
+    public IdentifiedSpectrum(SequestFilename sf)
+      : this()
+    {
+      query.FileScan = sf;
+    }
+
     //~IdentifiedSpectrum()
     //{
     //  Console.WriteLine("IdentifiedSpectrum destroyed");
