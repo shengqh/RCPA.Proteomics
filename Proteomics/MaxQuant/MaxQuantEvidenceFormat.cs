@@ -28,8 +28,8 @@ namespace RCPA.Proteomics.MaxQuant
         sp.Query.FileScan.Experimental = sp.Annotations["Raw File"] as string;
         sp.Query.FileScan.FirstScan = int.Parse(sp.Annotations["MS/MS Scan Number"] as string);
         sp.Query.FileScan.LastScan = sp.Query.FileScan.FirstScan;
-        sp.Query.RetentionTime = ParseDouble(sp, "Calibrated Retention Time");
-        sp.Query.RetentionLength = ParseDouble(sp, "Retention Length");
+        sp.Query.FileScan.RetentionTime = ParseDouble(sp, "Calibrated Retention Time");
+        sp.Query.FileScan.RetentionLength = ParseDouble(sp, "Retention Length");
       }
     }
 

@@ -19,6 +19,8 @@ namespace RCPA.Proteomics.Summary
 
     private Regex mainRegex = null;
 
+    private Regex rtRegex = null;
+
     public TitleParser(ParserFormat format)
     {
       this.format = format;
@@ -37,6 +39,10 @@ namespace RCPA.Proteomics.Summary
         else if (item.ItemName.Equals("scanNumber") && item.RegularExpression.Length > 0)
         {
           scanNumberRegex = new Regex(item.RegularExpression);
+        }
+        else if (item.ItemName.Equals("retentionTime") && item.RegularExpression.Length > 0)
+        {
+          rtRegex = new Regex(item.RegularExpression);
         }
       }
 
@@ -80,6 +86,17 @@ namespace RCPA.Proteomics.Summary
         {
           result.LastScan = result.FirstScan;
         }
+      }
+
+      if (rtRegex != null)
+      {
+        Match m = rtRegex.Match(obj);
+        if (!m.Success)
+        {
+          throw new ArgumentException("Cannot parse retention time from title " + obj);
+        }
+
+        result.RetentionTime = double.Parse(m.Groups[1].Value);
       }
 
       result.Extension = "dta";

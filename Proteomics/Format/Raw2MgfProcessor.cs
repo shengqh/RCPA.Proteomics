@@ -11,7 +11,7 @@ using RCPA.Proteomics.Processor;
 
 namespace RCPA.Proteomics.Format
 {
-  public class Raw2MgfProcessor2 : AbstractRawConverter
+  public class Raw2MgfProcessor : AbstractRawConverter
   {
     public static string version = "1.0.1";
 
@@ -21,15 +21,11 @@ namespace RCPA.Proteomics.Format
 
     private List<string> mgfFiles;
 
-    private string lastScanMode;
-
-    private StreamWriter lastWriter = null;
-
     public bool GroupByScanMode { get; set; }
 
     public bool GroupByMsLevel { get; set; }
 
-    public Raw2MgfProcessor2()
+    public Raw2MgfProcessor()
     {
       this.swMap = new Dictionary<string, StreamWriter>();
       this.mgfFiles = new List<string>();
@@ -91,20 +87,13 @@ namespace RCPA.Proteomics.Format
 
     protected override void DoInitialize(IRawFile2 rawReader, string rawFileName)
     {
-      this.lastScanMode = string.Empty;
-      this.lastWriter = null;
     }
 
     protected override void DoWritePeakList(IRawFile rawReader, PeakList<Peak> pkl, string rawFileName, List<string> result)
     {
-      if (pkl.ScanMode != lastScanMode)
-      {
-        lastWriter = GetStreamWriter(rawReader, pkl.ScanMode, pkl.MsLevel, rawFileName);
+      var sw = GetStreamWriter(rawReader, pkl.ScanMode, pkl.MsLevel, rawFileName);
 
-        lastScanMode = pkl.ScanMode;
-      }
-
-      Writer.Write(lastWriter, pkl);
+      Writer.Write(sw, pkl);
     }
 
     protected override void DoFinalize(bool bReadAgain, IRawFile rawReader, string rawFileName, List<string> result)
@@ -116,15 +105,18 @@ namespace RCPA.Proteomics.Format
 
       if (!Progress.IsCancellationPending() && !IsLoopStopped && !bReadAgain)
       {
-        if (mgfFiles.Count == 1 && GroupByScanMode)
+        if (mgfFiles.Count == 1 && (GroupByScanMode || GroupByMsLevel))
         {
           var resultFile = GetResultFile(rawReader, rawFileName);
-          if (File.Exists(resultFile))
+          if (!resultFile.Equals(mgfFiles[0]))
           {
-            File.Delete(resultFile);
-          }
+            if (File.Exists(resultFile))
+            {
+              File.Delete(resultFile);
+            }
 
-          File.Move(mgfFiles[0], resultFile);
+            File.Move(mgfFiles[0], resultFile);
+          }
           result.Add(resultFile);
         }
         else

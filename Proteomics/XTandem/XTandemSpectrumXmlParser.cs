@@ -253,7 +253,7 @@ namespace RCPA.Proteomics.XTandem
           if (title.StartsWith("RTINSECONDS"))
           {
             var rtvalue = title.StringAfter("=").StringBefore(" ").StringBefore("-");
-            spectrum.Query.RetentionTime = double.Parse(rtvalue);
+            spectrum.Query.FileScan.RetentionTime = double.Parse(rtvalue);
             title = title.StringAfter(" ").Trim();
           }
 
@@ -262,8 +262,11 @@ namespace RCPA.Proteomics.XTandem
           {
             sf.Experimental = sourceFilename;
           }
-
           spectrum.Query.FileScan.LongFileName = sf.LongFileName;
+          if (sf.RetentionTime > 0 && spectrum.Query.FileScan.RetentionTime == 0)
+          {
+            spectrum.Query.FileScan.RetentionTime = sf.RetentionTime;
+          }
 
           spectrum.Query.Charge = int.Parse(groupNode.Attributes["z"].Value);
           spectrum.Query.Title = title;

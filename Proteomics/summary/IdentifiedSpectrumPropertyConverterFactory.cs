@@ -100,6 +100,8 @@ namespace RCPA.Proteomics.Summary
       this.RegisterConverter(new TMTPlex6I126Converter<IIdentifiedSpectrum>());
 
       this.RegisterConverter(new IdentifiedSpectrumTheoreticalMinusExperimentalMassPPMConverter<IIdentifiedSpectrum>());
+
+      this.RegisterConverter(new IdentifiedSpectrumRetentionTimeConverter<IIdentifiedSpectrum>());
     }
 
     private static IdentifiedSpectrumPropertyConverterFactory factory;

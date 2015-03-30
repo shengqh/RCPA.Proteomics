@@ -15,8 +15,12 @@ namespace RCPA.Proteomics.Format
 
     public string TargetDirectory { get; set; }
 
+    public bool ExtractRawMS3 { get; set; }
+
     public AbstractRawConverter()
-    { }
+    {
+      this.ExtractRawMS3 = false;
+    }
 
     protected string GetIgnoreScanFile(string rawFilename)
     {
@@ -103,7 +107,14 @@ namespace RCPA.Proteomics.Format
                 pkl.PrecursorCharge = PrecursorUtils.GuessPrecursorCharge(pkl, pkl.PrecursorMZ);
               }
 
-              pklProcessed = this.PeakListProcessor.Process(pkl);
+              if (ExtractRawMS3 && pkl.MsLevel == 3)
+              {
+                pklProcessed = pkl;
+              }
+              else
+              {
+                pklProcessed = this.PeakListProcessor.Process(pkl);
+              }
             }
             else
             {

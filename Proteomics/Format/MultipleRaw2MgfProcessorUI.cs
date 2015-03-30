@@ -21,11 +21,11 @@ using RCPA.Proteomics.Quantification.IsobaricLabelling;
 
 namespace RCPA.Proteomics.Format
 {
-  public partial class MultipleRaw2MgfProcessor3UI : AbstractFileProcessorUI
+  public partial class MultipleRaw2MgfProcessorUI : AbstractFileProcessorUI
   {
     public static readonly string Title = "TurboRawToMGF - " + RawFileFactory.SupportedRawFormatString + " To Mascot Generic Format Converter";
 
-    public static readonly string Version = "2.0.6";
+    public static readonly string Version = "2.0.7";
 
     private RcpaComboBox<ITitleFormat> titleFormat;
     private RcpaDoubleField minMassRange;
@@ -52,7 +52,7 @@ namespace RCPA.Proteomics.Format
 
     private RcpaFileField txtOffsetFile;
 
-    public MultipleRaw2MgfProcessor3UI()
+    public MultipleRaw2MgfProcessorUI()
     {
       InitializeComponent();
 
@@ -274,7 +274,7 @@ namespace RCPA.Proteomics.Format
     {
       var option = GetConvertOption();
 
-      return new MultipleRaw2MgfProcessor3(option)
+      return new MultipleRaw2MgfProcessor(option)
       {
         ParallelMode = cbParallel.EnabledAndChecked
       };
@@ -316,7 +316,7 @@ namespace RCPA.Proteomics.Format
 
       public void Run()
       {
-        new MultipleRaw2MgfProcessor3UI().MyShow();
+        new MultipleRaw2MgfProcessorUI().MyShow();
       }
 
       #endregion
@@ -336,9 +336,9 @@ namespace RCPA.Proteomics.Format
       }
     }
 
-    private Raw2MgfOption GetConvertOption()
+    private MultipleRaw2MgfOptions GetConvertOption()
     {
-      var result = new Raw2MgfOption();
+      var result = new MultipleRaw2MgfOptions();
 
       result.PrecursorOptions = GetPrecursorOptions();
 
@@ -349,6 +349,7 @@ namespace RCPA.Proteomics.Format
       result.TargetDirectory = GetOriginFile();
       result.GroupByMode = cbByMode.Checked;
       result.GroupByMsLevel = cbByMsLevel.Checked;
+      result.ExtractRawMS3 = cbExtractRawMS3.Checked;
       result.PrecursorMassRange = new MassRange(minMassRange.Value, maxMassRange.Value);
       result.MinimumIonIntensity = minIonIntensity.Value;
       result.MinimumIonCount = minIonCount.Value;

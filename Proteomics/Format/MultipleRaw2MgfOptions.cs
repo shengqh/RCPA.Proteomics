@@ -29,12 +29,12 @@ namespace RCPA.Proteomics.Format
     public double To { get; set; }
   }
 
-  public class Raw2MgfOption
+  public class MultipleRaw2MgfOptions
   {
-    public Raw2MgfOption()
+    public MultipleRaw2MgfOptions()
     {
-      this.ConverterName = MultipleRaw2MgfProcessor3UI.Title;
-      this.ConverterVersion = MultipleRaw2MgfProcessor3UI.Version;
+      this.ConverterName = MultipleRaw2MgfProcessorUI.Title;
+      this.ConverterVersion = MultipleRaw2MgfProcessorUI.Version;
 
       this.MascotTitleName = "SEQUEST";
       this.PrecursorMassRange = new MassRange(400, 5000);
@@ -42,6 +42,8 @@ namespace RCPA.Proteomics.Format
       this.MinimumIonCount = 15;
       this.MinimumTotalIonCount = 100;
       this.DefaultCharges = new RCPA.Proteomics.ChargeClass(new[] { 2, 3 });
+
+      this.ExtractRawMS3 = false;
 
       //CID
       this.ProductIonPPM = 20;
@@ -351,5 +353,7 @@ namespace RCPA.Proteomics.Format
     }
 
     public PeakListRemovePrecursorProcessorOptions PrecursorOptions { get; set; }
+
+    public bool ExtractRawMS3 { get; set; }
   }
 }

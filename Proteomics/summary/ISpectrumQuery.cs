@@ -17,9 +17,5 @@ namespace RCPA.Proteomics.Summary
     int MatchCount { get; set; }
 
     string Title { get; set; }
-
-    double RetentionTime { get; set; }
-
-    double RetentionLength { get; set; }
   }
 }

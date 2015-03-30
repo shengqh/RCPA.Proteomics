@@ -18,6 +18,9 @@ namespace RCPA.Proteomics
     private string longFileName;
     private string shortFileName;
 
+    public double RetentionTime { get; set; }
+    public double RetentionLength { get; set; }
+
     private void initFileName()
     {
       longFileName = GetLongFilename();
@@ -26,6 +29,11 @@ namespace RCPA.Proteomics
 
     public SequestFilename()
     {
+    }
+
+    public SequestFilename(string longFilename)
+    {
+      this.LongFileName = longFilename;
     }
 
     public SequestFilename(string experimental, int firstScan, int lastScan, int charge, string extension)

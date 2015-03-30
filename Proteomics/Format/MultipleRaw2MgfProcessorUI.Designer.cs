@@ -1,6 +1,6 @@
 namespace RCPA.Proteomics.Format
 {
-  partial class MultipleRaw2MgfProcessor3UI
+  partial class MultipleRaw2MgfProcessorUI
   {
     /// <summary>
     /// Required designer variable.
@@ -28,7 +28,7 @@ namespace RCPA.Proteomics.Format
     /// </summary>
     private void InitializeComponent()
     {
-      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MultipleRaw2MgfProcessor3UI));
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MultipleRaw2MgfProcessorUI));
       this.rawFiles = new RCPA.Gui.MultipleFileField();
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.tabGeneral = new System.Windows.Forms.TabPage();
@@ -71,9 +71,9 @@ namespace RCPA.Proteomics.Format
       this.txtSpecialIons = new System.Windows.Forms.TextBox();
       this.tabPrecursor = new System.Windows.Forms.TabPage();
       this.cbRemovePrecursorIsotopicIons = new RCPA.Gui.RcpaCheckField();
+      this.cbRemovePrecursor = new RCPA.Gui.RcpaCheckField();
       this.cbRemovePrecursorLargeIons = new RCPA.Gui.RcpaCheckField();
       this.cbRemovePrecursorMinus1ChargeIon = new RCPA.Gui.RcpaCheckField();
-      this.cbRemovePrecursor = new RCPA.Gui.RcpaCheckField();
       this.txtPrecursorPPM = new System.Windows.Forms.TextBox();
       this.txtNeutralLossComposition = new System.Windows.Forms.TextBox();
       this.cbRemovePrecursorNeutralLossIon = new RCPA.Gui.RcpaCheckField();
@@ -97,7 +97,9 @@ namespace RCPA.Proteomics.Format
       this.rbMassCalibrationNone = new RCPA.Gui.RcpaRadioField();
       this.cbCalibrateProductIon = new RCPA.Gui.RcpaCheckField();
       this.cbCalibratePrecursor = new RCPA.Gui.RcpaCheckField();
+      this.cbExtractRawMS3 = new RCPA.Gui.RcpaCheckField();
       this.pnlFile.SuspendLayout();
+      this.pnlButton.SuspendLayout();
       this.tabControl1.SuspendLayout();
       this.tabGeneral.SuspendLayout();
       this.groupBox1.SuspendLayout();
@@ -129,6 +131,11 @@ namespace RCPA.Proteomics.Format
       // 
       this.progressBar.Location = new System.Drawing.Point(0, 680);
       this.progressBar.Size = new System.Drawing.Size(1083, 23);
+      // 
+      // pnlButton
+      // 
+      this.pnlButton.Location = new System.Drawing.Point(0, 703);
+      this.pnlButton.Size = new System.Drawing.Size(1083, 39);
       // 
       // btnClose
       // 
@@ -172,6 +179,7 @@ namespace RCPA.Proteomics.Format
       // 
       // tabGeneral
       // 
+      this.tabGeneral.Controls.Add(this.cbExtractRawMS3);
       this.tabGeneral.Controls.Add(this.rbMzXml);
       this.tabGeneral.Controls.Add(this.cbByMsLevel);
       this.tabGeneral.Controls.Add(this.groupBox1);
@@ -610,6 +618,18 @@ namespace RCPA.Proteomics.Format
       this.cbRemovePrecursorIsotopicIons.TabIndex = 109;
       this.cbRemovePrecursorIsotopicIons.Text = "Remove precursor isotopic ions";
       // 
+      // cbRemovePrecursor
+      // 
+      this.cbRemovePrecursor.AutoSize = true;
+      this.cbRemovePrecursor.Key = "RemovePrecursor";
+      this.cbRemovePrecursor.Location = new System.Drawing.Point(15, 24);
+      this.cbRemovePrecursor.Name = "cbRemovePrecursor";
+      this.cbRemovePrecursor.PreCondition = null;
+      this.cbRemovePrecursor.Size = new System.Drawing.Size(192, 17);
+      this.cbRemovePrecursor.TabIndex = 106;
+      this.cbRemovePrecursor.Text = "Remove precursor, tolerance (ppm)";
+      this.cbRemovePrecursor.UseVisualStyleBackColor = true;
+      // 
       // cbRemovePrecursorLargeIons
       // 
       this.cbRemovePrecursorLargeIons.Key = "RemoveIonsLargerThanPrecursor";
@@ -631,18 +651,6 @@ namespace RCPA.Proteomics.Format
       this.cbRemovePrecursorMinus1ChargeIon.Size = new System.Drawing.Size(210, 21);
       this.cbRemovePrecursorMinus1ChargeIon.TabIndex = 107;
       this.cbRemovePrecursorMinus1ChargeIon.Text = "Remove less 1 charged precursor";
-      // 
-      // cbRemovePrecursor
-      // 
-      this.cbRemovePrecursor.AutoSize = true;
-      this.cbRemovePrecursor.Key = "RemovePrecursor";
-      this.cbRemovePrecursor.Location = new System.Drawing.Point(15, 24);
-      this.cbRemovePrecursor.Name = "cbRemovePrecursor";
-      this.cbRemovePrecursor.PreCondition = null;
-      this.cbRemovePrecursor.Size = new System.Drawing.Size(192, 17);
-      this.cbRemovePrecursor.TabIndex = 106;
-      this.cbRemovePrecursor.Text = "Remove precursor, tolerance (ppm)";
-      this.cbRemovePrecursor.UseVisualStyleBackColor = true;
       // 
       // txtPrecursorPPM
       // 
@@ -883,7 +891,17 @@ namespace RCPA.Proteomics.Format
       this.cbCalibratePrecursor.TabIndex = 99;
       this.cbCalibratePrecursor.Text = "Precursor ion";
       // 
-      // MultipleRaw2MgfProcessor3UI
+      // rbExtractRawMS3
+      // 
+      this.cbExtractRawMS3.Key = "ExtractRawMS3";
+      this.cbExtractRawMS3.Location = new System.Drawing.Point(382, 265);
+      this.cbExtractRawMS3.Name = "rbExtractRawMS3";
+      this.cbExtractRawMS3.PreCondition = null;
+      this.cbExtractRawMS3.Size = new System.Drawing.Size(142, 21);
+      this.cbExtractRawMS3.TabIndex = 76;
+      this.cbExtractRawMS3.Text = "Extract raw MS3";
+      // 
+      // MultipleRaw2MgfProcessorUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -891,7 +909,8 @@ namespace RCPA.Proteomics.Format
       this.Controls.Add(this.rawFiles);
       this.Controls.Add(this.tabControl1);
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-      this.Name = "MultipleRaw2MgfProcessor3UI";
+      this.Name = "MultipleRaw2MgfProcessorUI";
+      this.Controls.SetChildIndex(this.pnlButton, 0);
       this.Controls.SetChildIndex(this.progressBar, 0);
       this.Controls.SetChildIndex(this.lblProgress, 0);
       this.Controls.SetChildIndex(this.tabControl1, 0);
@@ -899,6 +918,7 @@ namespace RCPA.Proteomics.Format
       this.Controls.SetChildIndex(this.rawFiles, 0);
       this.pnlFile.ResumeLayout(false);
       this.pnlFile.PerformLayout();
+      this.pnlButton.ResumeLayout(false);
       this.tabControl1.ResumeLayout(false);
       this.tabGeneral.ResumeLayout(false);
       this.tabGeneral.PerformLayout();
@@ -988,5 +1008,6 @@ namespace RCPA.Proteomics.Format
     private System.Windows.Forms.TextBox txtNeutralLossComposition;
     private Gui.RcpaCheckField cbRemovePrecursorNeutralLossIon;
     private Gui.RcpaCheckField cbRemovePrecursorIsotopicIons;
+    private Gui.RcpaCheckField cbExtractRawMS3;
   }
 }

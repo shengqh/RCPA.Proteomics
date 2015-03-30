@@ -252,6 +252,7 @@
     <Compile Include="Proteomics\PFind\PNovoPlusParser.cs" />
     <Compile Include="Proteomics\Processor\PeakListRemovePrecursorDaltonProcessor.cs" />
     <Compile Include="Proteomics\Processor\PeakListRemovePrecursorProcessorOptions.cs" />
+    <Compile Include="Proteomics\PropertyConverter\IdentifiedSpectrumRetentionTimeConverter.cs" />
     <Compile Include="Proteomics\PropertyConverter\IdentifiedSpectrumSiteProbabilityConverter.cs" />
     <Compile Include="Proteomics\ProteomeDiscoverer\MsfFastaDistillerUI.cs">
       <SubType>Form</SubType>
@@ -369,7 +370,7 @@
     </Compile>
     <Compile Include="Proteomics\Format\MultipleMgfPrecursorCorrectionMainProcessor.cs" />
     <Compile Include="Proteomics\Format\MultipleMgfPrecursorCorrectionTaskProcessor.cs" />
-    <Compile Include="Proteomics\Format\Raw2MgfOption.cs" />
+    <Compile Include="Proteomics\Format\MultipleRaw2MgfOptions.cs" />
     <Compile Include="Proteomics\Format\ReplaceMascotGenericFormatProcessor.cs" />
     <Compile Include="Proteomics\Format\TripleTOFTextToMGFTaskResortProcessor.cs" />
     <Compile Include="Proteomics\Format\TripleTOFTextToMGFMainProcessorUI.cs">
@@ -412,14 +413,14 @@
       <DependentUpon>InputImageParameterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Image\MascotPeptideResult.cs" />
-    <Compile Include="Proteomics\Format\MultipleRaw2MgfProcessor3UI.cs">
+    <Compile Include="Proteomics\Format\MultipleRaw2MgfProcessorUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Proteomics\Format\MultipleRaw2MgfProcessor3UI.Designer.cs">
-      <DependentUpon>MultipleRaw2MgfProcessor3UI.cs</DependentUpon>
+    <Compile Include="Proteomics\Format\MultipleRaw2MgfProcessorUI.Designer.cs">
+      <DependentUpon>MultipleRaw2MgfProcessorUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Proteomics\Format\MultipleRaw2MgfProcessor3.cs" />
-    <Compile Include="Proteomics\Format\Raw2MgfProcessor2.cs" />
+    <Compile Include="Proteomics\Format\MultipleRaw2MgfProcessor.cs" />
+    <Compile Include="Proteomics\Format\Raw2MgfProcessor.cs" />
     <Compile Include="Proteomics\Image\MatchImageBuilder.cs" />
     <Compile Include="Proteomics\IProtease.cs" />
     <Compile Include="Proteomics\Database\TheoreticalDigestionStatisticCalculatorUI.cs">
@@ -1277,8 +1278,8 @@
     <EmbeddedResource Include="Proteomics\Image\InputImageParameterForm.resx">
       <DependentUpon>InputImageParameterForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Format\MultipleRaw2MgfProcessor3UI.resx">
-      <DependentUpon>MultipleRaw2MgfProcessor3UI.cs</DependentUpon>
+    <EmbeddedResource Include="Proteomics\Format\MultipleRaw2MgfProcessorUI.resx">
+      <DependentUpon>MultipleRaw2MgfProcessorUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\MaxQuant\MaxQuantEvidenceToPeptideProcessorUI.resx">

@@ -620,7 +620,7 @@ namespace RCPA.Proteomics.Mascot
           foreach (IIdentifiedSpectrum mp in iPeps)
           {
             mp.Query.Title = title;
-            mp.Query.FileScan.LongFileName = sf.LongFileName;
+            mp.Query.FileScan = sf;
           }
         }
       }
