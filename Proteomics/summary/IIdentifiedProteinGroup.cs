@@ -30,5 +30,7 @@ namespace RCPA.Proteomics.Summary
     List<IIdentifiedSpectrum> GetSortedPeptides();
 
     void InitUniquePeptideCount();
+
+    void SortByProteinName();
   }
 }

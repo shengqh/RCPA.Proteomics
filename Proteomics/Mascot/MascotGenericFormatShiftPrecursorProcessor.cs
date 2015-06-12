@@ -6,6 +6,13 @@ namespace RCPA.Proteomics.Mascot
 {
   public class MascotGenericFormatShiftPrecursorProcessor : AbstractThreadFileProcessor
   {
+    private double shift;
+
+    public MascotGenericFormatShiftPrecursorProcessor(double shift)
+    {
+      this.shift = shift;
+    }
+
     public override IEnumerable<string> Process(string filename)
     {
       Progress.SetMessage("Reading peak list from " + filename + "...");
@@ -13,12 +20,12 @@ namespace RCPA.Proteomics.Mascot
 
       foreach (var pkl in pklList)
       {
-        pkl.PrecursorMZ = pkl.PrecursorMZ + 10.0;
+        pkl.PrecursorMZ = PrecursorUtils.MHToMz(shift, pkl.PrecursorCharge, true) + pkl.PrecursorMZ;
       }
 
       var writer = new MascotGenericFormatWriter<Peak>();
 
-      string resultFilename = FileUtils.ChangeExtension(filename, ".shift10.mgf");
+      string resultFilename = FileUtils.ChangeExtension(filename, ".shift" + shift.ToString() +".mgf");
       Progress.SetMessage("Writing peak list to " + resultFilename + "...");
       writer.WriteToFile(resultFilename, pklList);
 

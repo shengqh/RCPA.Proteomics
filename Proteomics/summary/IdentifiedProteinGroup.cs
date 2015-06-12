@@ -165,7 +165,6 @@ namespace RCPA.Proteomics.Summary
 
     #endregion
 
-
     #region ICloneable Members
 
     public object Clone()
@@ -181,5 +180,10 @@ namespace RCPA.Proteomics.Summary
     }
 
     #endregion
+
+    public void SortByProteinName()
+    {
+      this.Sort((m1, m2) => m1.Name.CompareTo(m2.Name));
+    }
   }
 }

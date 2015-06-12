@@ -15,25 +15,20 @@ namespace RCPA.Proteomics.Format
   {
     public static string version = "1.0.1";
 
+    private MultipleRaw2MgfOptions options { get; set; }
+
     public MascotGenericFormatWriter<Peak> Writer { get; set; }
 
     private Dictionary<string, StreamWriter> swMap;
 
     private List<string> mgfFiles;
 
-    public bool GroupByScanMode { get; set; }
-
-    public bool GroupByMsLevel { get; set; }
-
-    public Raw2MgfProcessor()
+    public Raw2MgfProcessor(MultipleRaw2MgfOptions options):base(options)
     {
+      this.options = options;
+      this.Writer = options.GetMGFWriter();
       this.swMap = new Dictionary<string, StreamWriter>();
       this.mgfFiles = new List<string>();
-    }
-
-    public string GetResultFile(IRawFile rawReader, string rawFileName)
-    {
-      return new FileInfo(this.TargetDirectory + "\\" + rawReader.GetFileNameWithoutExtension(rawFileName) + ".mgf").FullName;
     }
 
     private StreamWriter GetStreamWriter(IRawFile rawReader, string peakMode, int msLevel, string fileName)
@@ -63,28 +58,6 @@ namespace RCPA.Proteomics.Format
       return result;
     }
 
-    private string GetPeakModeFileName(IRawFile rawReader, string peakMode, int msLevel, string fileName)
-    {
-      var resultFile = GetResultFile(rawReader, fileName);
-
-      string mgfFile;
-      if (GroupByScanMode)
-      {
-        mgfFile = FileUtils.ChangeExtension(resultFile, peakMode + ".mgf");
-      }
-      else
-      {
-        mgfFile = FileUtils.ChangeExtension(resultFile, ".mgf");
-      }
-
-      if (GroupByMsLevel && (msLevel != 2))
-      {
-        mgfFile = FileUtils.ChangeExtension(mgfFile, string.Format("ms{0}.mgf", msLevel));
-      }
-
-      return mgfFile;
-    }
-
     protected override void DoInitialize(IRawFile2 rawReader, string rawFileName)
     {
     }
@@ -105,7 +78,7 @@ namespace RCPA.Proteomics.Format
 
       if (!Progress.IsCancellationPending() && !IsLoopStopped && !bReadAgain)
       {
-        if (mgfFiles.Count == 1 && (GroupByScanMode || GroupByMsLevel))
+        if (mgfFiles.Count == 1 && (options.GroupByMode || options.GroupByMsLevel))
         {
           var resultFile = GetResultFile(rawReader, rawFileName);
           if (!resultFile.Equals(mgfFiles[0]))

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using RCPA.Proteomics.Modification;
@@ -221,10 +221,10 @@ namespace RCPA.Proteomics
     }
 
     /// <summary>
-    /// ¸ù¾ÝÐòÁÐ¹¹½¨°±»ùËáÐÅÏ¢ÁÐ±í¡£¸ÃÐÅÏ¢ÁÐ±íÖÐÒÑ½«ÐÞÊÎÖÊÁ¿¼Óµ½°±»ùËáÉÏ£¬¿É·½±ãµØÓÃÓÚ¹¹½¨Àë×ÓÁÐ±í¡£
+    /// æ ¹æ®åºåˆ—æž„å»ºæ°¨åŸºé…¸ä¿¡æ¯åˆ—è¡¨ã€‚è¯¥ä¿¡æ¯åˆ—è¡¨ä¸­å·²å°†ä¿®é¥°è´¨é‡åŠ åˆ°æ°¨åŸºé…¸ä¸Šï¼Œå¯æ–¹ä¾¿åœ°ç”¨äºŽæž„å»ºç¦»å­åˆ—è¡¨ã€‚
     /// </summary>
-    /// <param name="sequence">°±»ùËáÐòÁÐ£¬°üº¬ÐÞÊÎ×Ö·û¡£</param>
-    /// <returns>°±»ùËáÐÅÏ¢ÁÐ±í</returns>
+    /// <param name="sequence">æ°¨åŸºé…¸åºåˆ—ï¼ŒåŒ…å«ä¿®é¥°å­—ç¬¦ã€‚</param>
+    /// <returns>æ°¨åŸºé…¸ä¿¡æ¯åˆ—è¡¨</returns>
     public List<AminoacidInfo> BuildInfo(string sequence)
     {
       var matchedSequence = PeptideUtils.GetMatchedSequence(sequence);
@@ -251,9 +251,9 @@ namespace RCPA.Proteomics
     }
 
     /// <summary>
-    /// ÉèÖÃÐÞÊÎ¡£¶ÔÓÚ¹Ì¶¨ÐÞÊÎ¶øÑÔ£¬keyÖµ¾ÍÊÇ°±»ùËá¡£¶ÔÓÚ¶¯Ì¬ÐÞÊÎ¶øÑÔ£¬keyÖµ¾ÍÊÇÌØÕ÷×Ö·û£¨ÀýÈç*,#µÈµÈ£©
+    /// è®¾ç½®ä¿®é¥°ã€‚å¯¹äºŽå›ºå®šä¿®é¥°è€Œè¨€ï¼Œkeyå€¼å°±æ˜¯æ°¨åŸºé…¸ã€‚å¯¹äºŽåŠ¨æ€ä¿®é¥°è€Œè¨€ï¼Œkeyå€¼å°±æ˜¯ç‰¹å¾å­—ç¬¦ï¼ˆä¾‹å¦‚*,#ç­‰ç­‰ï¼‰
     /// </summary>
-    /// <param name="mods">ÐÞÊÎ±í</param>
+    /// <param name="mods">ä¿®é¥°è¡¨</param>
     public void SetModification(Dictionary<char, double> mods)
     {
       foreach (var sm in mods)

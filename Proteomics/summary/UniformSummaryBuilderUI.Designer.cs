@@ -1,6 +1,6 @@
 ﻿namespace RCPA.Tools.Summary
 {
-  partial class UniformBuildSummaryUI
+  partial class UniformSummaryBuilderUI
   {
     /// <summary>
     /// Required designer variable.

@@ -182,14 +182,34 @@ namespace RCPA.Proteomics.Summary.Uniform
       return new MascotPeptideTextFormat(UniformHeader.PEPTIDE_HEADER);
     }
 
-    public IFileFormat<IIdentifiedResult> GetIdetifiedResultFormat()
-    {
-      return new MascotResultTextFormat(UniformHeader.PROTEIN_HEADER, UniformHeader.PEPTIDE_HEADER);
-    }
+    //public IFileFormat<IIdentifiedResult> GetIdetifiedResultFormat()
+    //{
+    //  return new MascotResultTextFormat(UniformHeader.PROTEIN_HEADER, UniformHeader.PEPTIDE_HEADER);
+    //}
 
     public IConflictProcessor GetConflictFunc()
     {
       return ConflictType.GetProcessor();
+    }
+
+    public IFileFormat<IIdentifiedResult> GetIdetifiedResultFormat(IIdentifiedResult finalResult, IProgressCallback progress)
+    {
+      //保存非冗余蛋白质列表文件
+      var peptideHeader = GetPeptideHeader(finalResult);
+      return new MascotResultTextFormat(UniformHeader.PROTEIN_HEADER, peptideHeader)
+      {
+        Progress = progress
+      };
+    }
+
+    private static string GetPeptideHeader(IIdentifiedResult finalResult)
+    {
+      var peptideHeader = UniformHeader.PEPTIDE_HEADER;
+      if (finalResult.All(m => m.All(l => l.Peptides.All(k => k.Spectrum.Query.FileScan.RetentionTime == 0.0))))
+      {
+        peptideHeader = peptideHeader.Replace("\tRetentionTime", "");
+      }
+      return peptideHeader;
     }
   }
 }

@@ -8,6 +8,7 @@ using RCPA.Gui;
 using RCPA.Proteomics.PeptideProphet;
 using System.Text.RegularExpressions;
 using RCPA.Proteomics.Modification;
+using System.IO;
 
 namespace RCPA.Proteomics.MzIdent
 {
@@ -136,7 +137,7 @@ namespace RCPA.Proteomics.MzIdent
       var seqs = root.FindElement("SequenceCollection");
       var proteinMap = (from ele in seqs.FindElements("DBSequence")
                         let id = ele.Attribute("id").Value
-                        let accession = ele.Attribute("accession").Value
+                        let accession = ParseAccession(ele.Attribute("accession").Value)
                         let db = ele.Attribute("searchDatabase_ref").Value
                         select new { Id = id, Accession = accession, DB = db }).ToDictionary(m => m.Id);
 
@@ -184,7 +185,16 @@ namespace RCPA.Proteomics.MzIdent
         }
         else
         {
-          spectrum.Query.FileScan.Experimental = spectrumId;
+          if (spectrumId.StartsWith("index="))
+          {
+            spectrum.Query.FileScan.Experimental = Path.GetFileNameWithoutExtension(fileName);
+            spectrum.Query.FileScan.FirstScan = int.Parse(spectrumId.StringAfter("index="));
+            spectrum.Query.FileScan.LastScan = spectrum.Query.FileScan.FirstScan;
+          }
+          else
+          {
+            spectrum.Query.FileScan.Experimental = spectrumId;
+          }
         }
 
         if (sirCvParams.TryGetValue("MS:1001115", out value))
@@ -242,6 +252,11 @@ namespace RCPA.Proteomics.MzIdent
       }
 
       return result;
+    }
+
+    protected virtual string ParseAccession(string accession)
+    {
+      return accession;
     }
 
     private string GetModifiedSequence(string seq, MzIdentModificationItem[] mods)

@@ -23,17 +23,35 @@ namespace RCPA.Proteomics.Format
 
     public Dictionary<string, string> dataProcessingOperations { get; set; }
 
+    private MultipleRaw2MgfOptions options;
+
     private List<Pair<int, long>> scanIndeies;
 
-    public Raw2MzXMLProcessor()
+    private Dictionary<string, StreamWriter> swMap = null;
+
+    private List<string> mgfFiles = null;
+
+    public Raw2MzXMLProcessor(MultipleRaw2MgfOptions options):base(options)
     {
+      this.options = options;
       this.dataProcessingOperations = new Dictionary<string, string>();
       this.scanIndeies = new List<Pair<int, long>>();
     }
 
-    public string GetResultFile(IRawFile rawReader, string rawFileName)
+    private StreamWriter GetStreamWriter(IRawFile rawReader, string peakMode, int msLevel, string fileName)
     {
-      return new FileInfo(this.TargetDirectory + "\\" + rawReader.GetFileNameWithoutExtension(rawFileName) + ".mzXML").FullName;
+      string curFile = GetPeakModeFileName(rawReader, peakMode, msLevel, fileName);
+
+      if (swMap.ContainsKey(curFile))
+      {
+        return swMap[curFile];
+      }
+
+      mgfFiles.Add(curFile);
+
+      var result = new StreamWriter(curFile);
+      swMap[curFile] = result;
+      return result;
     }
 
     private List<int> GetOutputScans(IRawFile2 rawFile)

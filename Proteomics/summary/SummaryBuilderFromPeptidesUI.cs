@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.IO;
 using System.Windows.Forms;
 using RCPA.Gui;
@@ -13,11 +13,11 @@ using RCPA.Proteomics.Summary.Uniform;
 namespace RCPA.Tools.Summary
 {
   /// <summary>
-  /// ´ÓÉ¾Ñ¡Íê±ÏµÄëÄ¶Î³ö·¢¹¹½¨µ°°×ÖÊÁĞ±í
+  /// ä»åˆ é€‰å®Œæ¯•çš„è‚½æ®µå‡ºå‘æ„å»ºè›‹ç™½è´¨åˆ—è¡¨
   /// 20100126 ver 1.0.1 
-  /// Ôö¼ÓÁË¶ÔĞÂµÄbuildsummary²ÎÊıÎÄ¼şµÄ¼æÈİĞÔ¡£
+  /// å¢åŠ äº†å¯¹æ–°çš„buildsummaryå‚æ•°æ–‡ä»¶çš„å…¼å®¹æ€§ã€‚
   /// </summary>
-  public partial class SummaryBuilderFromPeptidesUI : AbstractFileProcessorUI
+  public partial class SummaryBuilderFromPeptidesUI : AbstractProcessorUI
   {
     public static readonly string title = "BuildSummary - From Peptides File";
 
@@ -27,26 +27,31 @@ namespace RCPA.Tools.Summary
     {
       InitializeComponent();
 
-      SetFileArgument("PeptideFile", new OpenFileArgument("Peptides", "peptides"));
+      this.peptideFile.FileArgument = new OpenFileArgument("Peptides", "peptides");
 
       this.Text = Constants.GetSQHTitle(title, version);
     }
 
-    protected override string GetOriginFile()
+    protected override IProcessor GetProcessor()
     {
-      string peptidesFilename = originalFile.FullName;
-      return FileUtils.ChangeExtension(peptidesFilename, "param");
+      var paramFile = GetParamFile();
+      return new UniformSummaryBuilder(new UniformSummaryBuilderOptions()
+      {
+        InputFile = paramFile,
+        PeptideFile = peptideFile.FullName
+      });
     }
 
-    protected override IFileProcessor GetFileProcessor()
+    private string GetParamFile()
     {
-      return new UniformIdentifiedResultBuilder(originalFile.FullName);
+      var paramFile = Path.ChangeExtension(peptideFile.FullName, "param");
+      return paramFile;
     }
 
     protected override void ValidateComponents()
     {
       base.ValidateComponents();
-      string paramFile = GetOriginFile();
+      string paramFile = GetParamFile();
       if (!new FileInfo(paramFile).Exists)
       {
         throw new FileNotFoundException(paramFile);

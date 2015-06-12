@@ -85,7 +85,7 @@ namespace RCPA.Proteomics.Quantification.Srm
 
     public event UpdateMRMPairedPeptideItemEventHandler CompoundModePeptideItemUpdate;
 
-    [RcpaOptionAttribute("ViewDecoy", RcpaOptionType.Boolean)]
+    [RcpaOption("ViewDecoy", RcpaOptionType.Boolean)]
     protected bool ViewDecoy
     {
       get
@@ -99,7 +99,7 @@ namespace RCPA.Proteomics.Quantification.Srm
       }
     }
 
-    [RcpaOptionAttribute("ViewValidOnly", RcpaOptionType.Boolean)]
+    [RcpaOption("ViewValidOnly", RcpaOptionType.Boolean)]
     protected bool ViewValidOnly
     {
       get
@@ -113,7 +113,7 @@ namespace RCPA.Proteomics.Quantification.Srm
       }
     }
 
-    [RcpaOptionAttribute("ViewGreenLine", RcpaOptionType.Boolean)]
+    [RcpaOption("ViewGreenLine", RcpaOptionType.Boolean)]
     protected bool ViewGreenLine
     {
       get
@@ -127,7 +127,7 @@ namespace RCPA.Proteomics.Quantification.Srm
       }
     }
 
-    [RcpaOptionAttribute("ViewCurrentHighlight", RcpaOptionType.Boolean)]
+    [RcpaOption("ViewCurrentHighlight", RcpaOptionType.Boolean)]
     protected bool ViewCurrentHighlight
     {
       get
@@ -141,7 +141,7 @@ namespace RCPA.Proteomics.Quantification.Srm
       }
     }
 
-    [RcpaOptionAttribute("ViewInvalidCompoundAsNA", RcpaOptionType.Boolean)]
+    [RcpaOption("ViewInvalidCompoundAsNA", RcpaOptionType.Boolean)]
     protected bool ViewInvalidCompoundAsNA
     {
       get
@@ -157,7 +157,7 @@ namespace RCPA.Proteomics.Quantification.Srm
 
     private bool _ratioByArea = true;
 
-    [RcpaOptionAttribute("RatioByArea", RcpaOptionType.Boolean)]
+    [RcpaOption("RatioByArea", RcpaOptionType.Boolean)]
     protected bool RatioByArea
     {
       get

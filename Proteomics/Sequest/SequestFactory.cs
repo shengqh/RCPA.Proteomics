@@ -58,6 +58,11 @@ namespace RCPA.Proteomics.Sequest
         return new MsfDatabaseParser(this.EngineType);
       }
 
+      if (name.ToLower().EndsWith(".sqt"))
+      {
+        return new ProLuCIDSqtParser();
+      }
+
       //zipfile
       if (ZipUtils.HasFile(name, m => m.ToLower().EndsWith(".out")))
       {

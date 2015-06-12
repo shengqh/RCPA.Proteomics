@@ -218,30 +218,30 @@ namespace RCPA.Proteomics.Image
 
     private void btnOpen_Click(object sender, EventArgs e)
     {
-      var mgf = @"E:\backup\data\SAP\20111116_ZDSu_v_SAP_26_JPT_HCD.raw.mgf";
-      //if (mgfFile.GetFileDialog().ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
-      //{
-        //var mgf = mgfFile.GetFileDialog().FileName;
+      //var mgf = @"E:\backup\data\SAP\20111116_ZDSu_v_SAP_26_JPT_HCD.raw.mgf";
+      if (mgfFile.GetFileDialog().ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+      {
+        var mgf = mgfFile.GetFileDialog().FileName;
         var mgfReader = new Mascot.MascotGenericFormatReader<MatchedPeak>();
         var spectra = mgfReader.ReadFromFile(mgf);
         spectra.ForEach(m => m.Experimental = m.Experimental.Substring(0, m.Experimental.Length - 4));
         mgfMap = spectra.ToDictionary(m => string.Format("{0}_{1}", m.Experimental, m.ScanTimes[0].Scan));
-      //}
-      //else
-      //{
-      //  return;
-      //}
+      }
+      else
+      {
+        return;
+      }
 
-        var peptideFile = @"E:\backup\data\SAP\final.peptides.type1.paired.one2one.mut";
-      //if (pepFile.GetFileDialog().ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
-      //{
-      //  var peptideFile = pepFile.GetFileDialog().FileName;
+      //var peptideFile = @"E:\backup\data\SAP\final.peptides.type1.paired.one2one.mut";
+      if (pepFile.GetFileDialog().ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+      {
+        var peptideFile = pepFile.GetFileDialog().FileName;
         peptides = new MascotPeptideTextFormat().ReadFromFile(peptideFile);
-      //}
-      //else
-      //{
-      //  return;
-      //}
+      }
+      else
+      {
+        return;
+      }
 
       var annKeys = new string[] { "OriginalSequence", "PepMutation", "_PepCount", "_OriginalCount" };
 

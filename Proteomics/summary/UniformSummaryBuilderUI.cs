@@ -23,6 +23,7 @@ using RCPA.Proteomics.MSGF;
 using RCPA.Proteomics.Sequest;
 using RCPA.Proteomics.Percolator;
 using RCPA.Proteomics.MSAmanda;
+using RCPA.Commandline;
 
 namespace RCPA.Tools.Summary
 {
@@ -31,7 +32,7 @@ namespace RCPA.Tools.Summary
   /// 20110128，增加了对peptideprophet的兼容。
   /// 20140928，增加了对proteome discoverer的兼容。
   /// </summary>
-  public partial class UniformBuildSummaryUI : AbstractProcessorFileUI
+  public partial class UniformSummaryBuilderUI : AbstractProcessorUI
   {
     public static string title = "BuildSummary - A general framework for assembling protein identifications";
     public static string version = "7.1.5";
@@ -46,7 +47,7 @@ namespace RCPA.Tools.Summary
     private readonly RcpaCheckBox classifyByModification;
     private RcpaIntegerField minimumSpectraPerGroup;
 
-    
+
     private readonly RcpaFileField database;
     private readonly RcpaTextField decoyPattern;
     private readonly RcpaComboBox<FalseDiscoveryRateLevel> fdrLevel;
@@ -82,7 +83,7 @@ namespace RCPA.Tools.Summary
     [RcpaOption("ParamFile", RcpaOptionType.String)]
     public string ParamFile { get; set; }
 
-    public UniformBuildSummaryUI()
+    public UniformSummaryBuilderUI()
     {
       InitializeComponent();
 
@@ -297,7 +298,7 @@ namespace RCPA.Tools.Summary
 
     #region Nested type: Command
 
-    public class Command : IToolCommand
+    public class Command : AbstractCommandLineCommand<UniformSummaryBuilderOptions>, IToolCommand
     {
       #region IToolCommand Members
 
@@ -318,10 +319,25 @@ namespace RCPA.Tools.Summary
 
       public void Run()
       {
-        new UniformBuildSummaryUI().MyShow();
+        new UniformSummaryBuilderUI().MyShow();
       }
 
       #endregion
+
+      public override string Name
+      {
+        get { return "buildsummary"; }
+      }
+
+      public override string Description
+      {
+        get { return "Build summary from database searching result"; }
+      }
+
+      public override RCPA.IProcessor GetProcessor(UniformSummaryBuilderOptions options)
+      {
+        return new UniformSummaryBuilder(options);
+      }
     }
 
     #endregion
@@ -511,19 +527,17 @@ namespace RCPA.Tools.Summary
       }
     }
 
-    protected override IFileProcessor GetFileProcessor()
-    {
-      return new UniformIdentifiedResultBuilder();
-    }
-
-    protected override string GetOriginFile()
+    protected override IProcessor GetProcessor()
     {
       FileDialog dlg = this.saveParamFile.GetFileDialog();
       if (dlg.ShowDialog() == DialogResult.OK)
       {
         ParamFile = dlg.FileName;
         SaveParamToFile(ParamFile);
-        return dlg.FileName;
+        return new UniformSummaryBuilder(new UniformSummaryBuilderOptions()
+        {
+          InputFile = ParamFile
+        });
       }
       else
       {

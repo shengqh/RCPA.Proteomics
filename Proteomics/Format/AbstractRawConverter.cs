@@ -13,18 +13,43 @@ namespace RCPA.Proteomics.Format
   {
     public IProcessor<PeakList<Peak>> PeakListProcessor { get; set; }
 
-    public string TargetDirectory { get; set; }
+    private AbstractRawConverterOptions options;
 
-    public bool ExtractRawMS3 { get; set; }
-
-    public AbstractRawConverter()
+    public AbstractRawConverter(AbstractRawConverterOptions options)
     {
-      this.ExtractRawMS3 = false;
+      this.options = options;
     }
 
     protected string GetIgnoreScanFile(string rawFilename)
     {
       return rawFilename + ".ignorescan";
+    }
+
+    public string GetResultFile(IRawFile rawReader, string rawFileName)
+    {
+      return new FileInfo(options.TargetDirectory + "\\" + rawReader.GetFileNameWithoutExtension(rawFileName) + "." + options.Extension).FullName;
+    }
+
+    protected string GetPeakModeFileName(IRawFile rawReader, string peakMode, int msLevel, string fileName)
+    {
+      var resultFile = GetResultFile(rawReader, fileName);
+
+      string result;
+      if (options.GroupByMode)
+      {
+        result = FileUtils.ChangeExtension(resultFile, peakMode + "." + options.Extension);
+      }
+      else
+      {
+        result = FileUtils.ChangeExtension(resultFile, "." + options.Extension);
+      }
+
+      if (options.GroupByMsLevel && (msLevel != 2))
+      {
+        result = FileUtils.ChangeExtension(result, string.Format("ms{0}." + options.Extension));
+      }
+
+      return result;
     }
 
     protected IEnumerable<string> DoProcess(string fileName, List<int> ignoreScans)
@@ -107,7 +132,7 @@ namespace RCPA.Proteomics.Format
                 pkl.PrecursorCharge = PrecursorUtils.GuessPrecursorCharge(pkl, pkl.PrecursorMZ);
               }
 
-              if (ExtractRawMS3 && pkl.MsLevel == 3)
+              if (options.ExtractRawMS3 && pkl.MsLevel == 3)
               {
                 pklProcessed = pkl;
               }

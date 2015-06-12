@@ -9,34 +9,34 @@ namespace RCPA.Proteomics.Quantification.O18
 {
   public class O18QuantificationFileProcessorOptions : AbstractO18QuantificationOptions
   {
-    [RcpaOptionAttribute("PPMTolerance", RcpaOptionType.Double)]
+    [RcpaOption("PPMTolerance", RcpaOptionType.Double)]
     public double PPMTolerance { get; set; }
 
-    [RcpaOptionAttribute("PurityOfO18Water", RcpaOptionType.Double)]
+    [RcpaOption("PurityOfO18Water", RcpaOptionType.Double)]
     public double PurityOfO18Water { get; set; }
 
-    [RcpaOptionAttribute("IsPostDigestionLabelling", RcpaOptionType.Boolean)]
+    [RcpaOption("IsPostDigestionLabelling", RcpaOptionType.Boolean)]
     public bool IsPostDigestionLabelling { get; set; }
 
-    [RcpaOptionAttribute("ProteinFile", RcpaOptionType.String)]
+    [RcpaOption("ProteinFile", RcpaOptionType.String)]
     public string ProteinFile { get; set; }
 
-    [RcpaOptionAttribute("RawDirectory", RcpaOptionType.String)]
+    [RcpaOption("RawDirectory", RcpaOptionType.String)]
     public string RawDirectory { get; set; }
 
-    [RcpaOptionAttribute("RawExtension", RcpaOptionType.String)]
+    [RcpaOption("RawExtension", RcpaOptionType.String)]
     public string RawExtension { get; set; }
 
-    [RcpaOptionAttribute("SoftwareVersion", RcpaOptionType.String)]
+    [RcpaOption("SoftwareVersion", RcpaOptionType.String)]
     public string SoftwareVersion { get; set; }
 
-    [RcpaOptionAttribute("IsScanLimited", RcpaOptionType.Boolean)]
+    [RcpaOption("IsScanLimited", RcpaOptionType.Boolean)]
     public bool IsScanLimited { get; set; }
 
-    [RcpaOptionAttribute("ScanPercentageStart", RcpaOptionType.Double)]
+    [RcpaOption("ScanPercentageStart", RcpaOptionType.Double)]
     public double ScanPercentageStart { get; set; }
 
-    [RcpaOptionAttribute("ScanPercentageEnd", RcpaOptionType.Double)]
+    [RcpaOption("ScanPercentageEnd", RcpaOptionType.Double)]
     public double ScanPercentageEnd { get; set; }
 
     public O18QuantificationFileProcessorOptions()
@@ -70,13 +70,13 @@ namespace RCPA.Proteomics.Quantification.O18
     public static O18QuantificationFileProcessorOptions Load(string fileName)
     {
       O18QuantificationFileProcessorOptions result = new O18QuantificationFileProcessorOptions();
-      RcpaOptionAttributeUtils.LoadFromXml(result, fileName);
+      RcpaOptionUtils.LoadFromXml(result, fileName);
       return result;
     }
 
     public void Save(string fileName)
     {
-      RcpaOptionAttributeUtils.SaveToXml(this, fileName);
+      RcpaOptionUtils.SaveToXml(this, fileName);
     }
 
     public override IProteinRatioCalculator GetProteinRatioCalculator()

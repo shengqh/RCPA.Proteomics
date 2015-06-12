@@ -19,13 +19,13 @@ namespace RCPA.Proteomics.Quantification.Reproducibility
     public void LoadFromFile(string fileName)
     {
       XElement option = XElement.Load(fileName, LoadOptions.SetBaseUri);
-      RcpaOptionAttributeUtils.LoadFromXml(this, option);
+      RcpaOptionUtils.LoadFromXml(this, option);
     }
 
     public void SaveToFile(string fileName)
     {
       XElement option = new XElement("configuration");
-      RcpaOptionAttributeUtils.SaveToXml(this, option);
+      RcpaOptionUtils.SaveToXml(this, option);
       option.Save(fileName);
     }
   }

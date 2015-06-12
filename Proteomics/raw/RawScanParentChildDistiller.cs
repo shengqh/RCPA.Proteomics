@@ -22,16 +22,8 @@ namespace RCPA.Proteomics.Raw
       using (var rawFile = RawFileFactory.GetRawFileReader(_options.InputFile))
       {
         var levels = GetScanLevels(rawFile);
+        new ScanLevelFormat().WriteToFile(_options.OutputFile, levels);
 
-        using (var sw = new StreamWriter(_options.OutputFile))
-        {
-          sw.WriteLine("Scan\tLevel\tParent");
-          foreach (var level in levels)
-          {
-            sw.WriteLine("{0}\t{1}\t{2}",
-              level.Scan, level.Level, level.Parent == null ? 0 : level.Parent.Scan);
-          }
-        }
       }
 
       return new[] { _options.OutputFile };
@@ -63,6 +55,11 @@ namespace RCPA.Proteomics.Raw
     public static void BuildScanLevels(List<ScanLevel> levels)
     {
       var level1 = new List<ScanLevel>();
+
+      var ms2count = levels.Count(m => m.Level == 2);
+      var ms3count = levels.Count(m => m.Level == 3);
+      var one_ms2_multiple_ms3 = ms3count > ms2count;
+      
       var level3Count = -1;
       ScanLevel last = null;
       foreach (var level in levels)
@@ -78,7 +75,14 @@ namespace RCPA.Proteomics.Raw
             break;
           case 3:
             level3Count++;
-            level.Parent = level1.Last().Children[level3Count];
+            if (one_ms2_multiple_ms3)
+            {
+              level.Parent = level1.Last().Children.Last();
+            }
+            else
+            {
+              level.Parent = level1.Last().Children[level3Count];
+            }
             break;
           default:
             if (last.Level == level.Level)

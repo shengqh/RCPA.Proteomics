@@ -21,7 +21,7 @@ namespace RCPA.Proteomics.MaxQuant
 
     private RcpaFileField targetFile;
 
-    [RcpaOptionAttribute("MatchRoles", RcpaOptionType.IXml)]
+    [RcpaOption("MatchRoles", RcpaOptionType.IXml)]
     public MaxQuantTagMatchRoles Roles { get; set; }
 
     private OpenFileArgument rolesOpenDlg = new OpenFileArgument("MaxQuant Tag Roles", "roles");

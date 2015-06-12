@@ -22,7 +22,15 @@ namespace RCPA.Proteomics.Summary
     {
       if (File.Exists(fastaFilename))
       {
-        IdentifiedResultUtils.FillSequenceFromFasta(acParser, fastaFilename, groups, Progress);
+        try
+        {
+          IdentifiedResultUtils.FillSequenceFromFasta(acParser, fastaFilename, groups, Progress);
+        }
+        catch (Exception ex)
+        {
+          Progress.SetMessage("ERROR: fill sequence failed, file = {0}, error = {1}, trace = {2}", fastaFilename, ex.Message, ex.StackTrace);
+          return false;
+        }
         return true;
       }
 

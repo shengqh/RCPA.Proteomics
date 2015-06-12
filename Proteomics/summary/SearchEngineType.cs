@@ -14,7 +14,7 @@ using System.Text;
 
 namespace RCPA.Proteomics.Summary
 {
-  public enum SearchEngineType { Unknown, MASCOT, SEQUEST, Comet, XTandem, PFind, PeptidePhophet, MyriMatch, MSGF, OMSSA, MSAmanda, Percolator }
+  public enum SearchEngineType { Unknown, MASCOT, SEQUEST, Comet, XTandem, PFind, PeptidePhophet, MyriMatch, MSGF, OMSSA, MSAmanda, Percolator, ProLuCID }
 
   public static class SearchEngineTypeExtension
   {
@@ -26,6 +26,7 @@ namespace RCPA.Proteomics.Summary
       _map[SearchEngineType.MASCOT] = new MascotFactory();
       _map[SearchEngineType.SEQUEST] = new SequestFactory();
       _map[SearchEngineType.Comet] = new SequestFactory();
+      _map[SearchEngineType.ProLuCID] = new SequestFactory();
       _map[SearchEngineType.XTandem] = new XTandemFactory();
       _map[SearchEngineType.PFind] = new PFindFactory();
       _map[SearchEngineType.PeptidePhophet] = new PeptideProphetFactory();

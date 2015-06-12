@@ -130,6 +130,8 @@ namespace RCPA.Proteomics.Summary
 
       result.AddRange(temp);
 
+      result.ForEach(m => m.SortByProteinName());
+
       return result;
     }
 

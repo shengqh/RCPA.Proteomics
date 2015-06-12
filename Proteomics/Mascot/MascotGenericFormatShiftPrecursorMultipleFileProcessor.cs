@@ -7,9 +7,9 @@ namespace RCPA.Proteomics.Mascot
   {
     private readonly MascotGenericFormatShiftPrecursorProcessor processor;
 
-    public MascotGenericFormatShiftPrecursorMultipleFileProcessor()
+    public MascotGenericFormatShiftPrecursorMultipleFileProcessor(double shift)
     {
-      this.processor = new MascotGenericFormatShiftPrecursorProcessor();
+      this.processor = new MascotGenericFormatShiftPrecursorProcessor(shift);
     }
 
     public override IEnumerable<string> Process(string mgfDirectory)

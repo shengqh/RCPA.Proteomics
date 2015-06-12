@@ -6,28 +6,25 @@ using RCPA.Utils;
 using RCPA.Gui;
 using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Statistic;
+using RCPA.Proteomics.Summary.Uniform;
+using RCPA.Proteomics.Sequest;
 
-namespace RCPA.Proteomics.Summary.Uniform
+namespace RCPA.Proteomics.Summary
 {
-  public class UniformIdentifiedResultBuilder : AbstractThreadFileProcessor
+  public class UniformSummaryBuilder : AbstractThreadProcessor
   {
-    private string peptideFile;
+    private UniformSummaryBuilderOptions options;
 
-    public UniformIdentifiedResultBuilder()
+    public UniformSummaryBuilder(UniformSummaryBuilderOptions options)
     {
-      this.peptideFile = null;
+      this.options = options;
     }
 
-    public UniformIdentifiedResultBuilder(string peptideFile)
-    {
-      this.peptideFile = peptideFile;
-    }
-
-    public override IEnumerable<string> Process(string parameterFile)
+    public override IEnumerable<string> Process()
     {
       var result = new List<string>();
 
-      BuildSummaryOptions conf = BuildSummaryOptionsUtils.LoadFromFile(parameterFile);
+      BuildSummaryOptions conf = BuildSummaryOptionsUtils.LoadFromFile(options.InputFile);
 
       if (!conf.MergeResult)
       {
@@ -35,7 +32,7 @@ namespace RCPA.Proteomics.Summary.Uniform
         {
           for (int j = 0; j < conf.DatasetList[i].PathNames.Count; j++)
           {
-            var curConf = BuildSummaryOptionsUtils.LoadFromFile(parameterFile);
+            var curConf = BuildSummaryOptionsUtils.LoadFromFile(options.InputFile);
             for (int k = curConf.DatasetList.Count - 1; k >= 0; k--)
             {
               if (k != i)
@@ -55,7 +52,7 @@ namespace RCPA.Proteomics.Summary.Uniform
             curConf.MergeResult = false;
             var curFile = curConf.DatasetList[0].PathNames[0];
 
-            var curParamFile = Path.GetDirectoryName(parameterFile) + "\\" + Path.ChangeExtension(new FileInfo(curFile).Name, ".param");
+            var curParamFile = Path.GetDirectoryName(options.InputFile) + "\\" + Path.ChangeExtension(new FileInfo(curFile).Name, ".param");
             curConf.SaveToFile(curParamFile);
 
             RunCurrentParameter(curParamFile, result, curConf);
@@ -64,7 +61,7 @@ namespace RCPA.Proteomics.Summary.Uniform
       }
       else
       {
-        RunCurrentParameter(parameterFile, result, conf);
+        RunCurrentParameter(options.InputFile, result, conf);
       }
 
       return result;
@@ -82,7 +79,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
       List<IIdentifiedSpectrum> finalPeptides;
 
-      if (this.peptideFile == null)
+      if (string.IsNullOrEmpty(options.PeptideFile))
       { //parse from configuration
         //build spectrum list
         IIdentifiedSpectrumBuilder spectrumBuilder = conf.GetSpectrumBuilder();
@@ -95,7 +92,8 @@ namespace RCPA.Proteomics.Summary.Uniform
       }
       else
       {
-        finalPeptides = new MascotPeptideTextFormat().ReadFromFile(this.peptideFile);
+        Progress.SetMessage("Reading peptides from {0} ...", options.PeptideFile);
+        finalPeptides = new MascotPeptideTextFormat().ReadFromFile(options.PeptideFile);
         conf.SavePeptidesFile = false;
       }
 
@@ -160,8 +158,7 @@ namespace RCPA.Proteomics.Summary.Uniform
         }
 
         Progress.SetMessage("Calculating precursor offset...");
-        new PrecursorOffsetCalculator().Process(peptideFile);
-        result.AddRange(new PrecursorOffsetCalculator().Process(peptideFile));
+        result.AddRange(new PrecursorOffsetCalculator(finalPeptides).Process(peptideFile));
       }
 
       Progress.SetMessage("Building protein...");
@@ -195,12 +192,8 @@ namespace RCPA.Proteomics.Summary.Uniform
       CalculateIsoelectricPoint(finalResult.GetProteins());
 
       //保存非冗余蛋白质列表文件
-      IFileFormat<IIdentifiedResult> resultFormat = conf.GetIdetifiedResultFormat();
 
-      if (resultFormat is ProgressClass)
-      {
-        (resultFormat as ProgressClass).Progress = this.Progress;
-      }
+      var resultFormat = conf.GetIdetifiedResultFormat(finalResult, this.Progress);
 
       string noredundantFile = FileUtils.ChangeExtension(parameterFile, ".noredundant");
       Progress.SetMessage("Writing noredundant file...");

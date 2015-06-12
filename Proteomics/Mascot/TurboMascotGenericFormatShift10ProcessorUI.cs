@@ -10,17 +10,22 @@ using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
 using RCPA.Gui;
 
-namespace RCPA.Tools.Mascot
+namespace RCPA.Proteomics.Mascot
 {
   public partial class TurboMascotGenericFormatShift10ProcessorUI : AbstractTurboProcessorUI
   {
-    public static readonly string title = "Turbo Mascot Generic Format Precursor Shift 10Da Processor";
+    public static readonly string title = "Turbo Mascot Generic Format Precursor Shift Processor";
 
-    public static readonly string version = "1.0.1";
+    public static readonly string version = "1.0.2";
+
+    private RcpaDoubleField shift;
 
     public TurboMascotGenericFormatShift10ProcessorUI()
     {
       InitializeComponent();
+
+      this.shift = new RcpaDoubleField(txtShift, "ShiftMass", "Shift Mass", 10, true);
+      AddComponent(this.shift);
 
       base.SetFileArgument("MgfFile", new OpenFileArgument("Mascot Generic Format", new string[] { "mgf", "msm" }));
 
@@ -33,11 +38,11 @@ namespace RCPA.Tools.Mascot
     {
       if (tcBatchMode.SelectedIndex == 0)
       {
-        return new MascotGenericFormatShiftPrecursorProcessor();
+        return new MascotGenericFormatShiftPrecursorProcessor(this.shift.Value);
       }
       else
       {
-        return new MascotGenericFormatShiftPrecursorMultipleFileProcessor();
+        return new MascotGenericFormatShiftPrecursorMultipleFileProcessor(this.shift.Value);
       }
     }
 

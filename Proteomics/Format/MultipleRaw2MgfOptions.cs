@@ -29,7 +29,7 @@ namespace RCPA.Proteomics.Format
     public double To { get; set; }
   }
 
-  public class MultipleRaw2MgfOptions
+  public class MultipleRaw2MgfOptions : AbstractRawConverterOptions
   {
     public MultipleRaw2MgfOptions()
     {
@@ -43,16 +43,12 @@ namespace RCPA.Proteomics.Format
       this.MinimumTotalIonCount = 100;
       this.DefaultCharges = new RCPA.Proteomics.ChargeClass(new[] { 2, 3 });
 
-      this.ExtractRawMS3 = false;
-
       //CID
       this.ProductIonPPM = 20;
       this.ChargeDeconvolution = false;
       this.Deisotopic = false;
 
       this.TopX = 0;
-      this.GroupByMode = true;
-      this.GroupByMsLevel = true;
 
       this.RemoveMassRange = false;
       this.CalibratePrecursor = false;
@@ -61,7 +57,7 @@ namespace RCPA.Proteomics.Format
       this.Shift10Dalton = false;
     }
 
-    public MascotGenericFormatWriter<Peak> GetWriter()
+    public MascotGenericFormatWriter<Peak> GetMGFWriter()
     {
       var result = new MascotGenericFormatWriter<Peak>()
       {
@@ -87,12 +83,6 @@ namespace RCPA.Proteomics.Format
     public string MascotTitleName { get; set; }
 
     public string[] RawFiles { get; set; }
-
-    public string TargetDirectory { get; set; }
-
-    public bool GroupByMode { get; set; }
-
-    public bool GroupByMsLevel { get; set; }
 
     public MassRange PrecursorMassRange { get; set; }
 
@@ -354,6 +344,19 @@ namespace RCPA.Proteomics.Format
 
     public PeakListRemovePrecursorProcessorOptions PrecursorOptions { get; set; }
 
-    public bool ExtractRawMS3 { get; set; }
+    public override string Extension
+    {
+      get
+      {
+        if (this.OutputMzXmlFormat)
+        {
+          return "mzXML";
+        }
+        else
+        {
+          return "mgf";
+        }
+      }
+    }
   }
 }

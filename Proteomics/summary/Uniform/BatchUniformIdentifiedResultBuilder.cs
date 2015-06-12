@@ -12,12 +12,12 @@ namespace RCPA.Proteomics.Summary.Uniform
     {
       var paramFiles = Directory.GetFiles(dir, "*.param").OrderBy(m => m).ToList();
 
-      var builder = new UniformIdentifiedResultBuilder();
-      builder.Progress = Progress;
-
       foreach (var paramFile in paramFiles)
       {
-        builder.Process(paramFile);
+        new UniformSummaryBuilder(new UniformSummaryBuilderOptions()
+        {
+          InputFile = paramFile
+        }) { Progress = this.Progress }.Process();
       }
 
       return null;

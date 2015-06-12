@@ -130,21 +130,20 @@ namespace RCPA.Proteomics.Summary
           if (acMap.ContainsKey(ac))
           {
             IIdentifiedProtein protein = acMap[ac];
-            protein.Name = seq.Name.Replace("/"," ");
+            protein.Name = seq.Name.Replace("/", " ");
             protein.Description = seq.Description.Replace("\t", " ").Replace("/", " ");
             protein.Sequence = seq.SeqString;
           }
         }
       }
 
-      foreach (IIdentifiedProtein protein in acMap.Values)
+      var failed = acMap.Values.Where(l => l.Sequence == null).ToList();
+      if (failed.Count > 0)
       {
-        if (protein.Sequence == null)
+        var proteinNames = failed.ConvertAll(l => l.Name).ToArray();
+        if (!proteinNames.All(l => l.StartsWith("XXX_")))
         {
-          throw new Exception(
-            MyConvert.Format(
-              "Couldn't find sequence of protein {0}, change access number pattern or select another database.",
-              protein.Name));
+          throw new Exception(string.Format("Couldn't find sequence of following protein(s), change access number pattern or select another database\n{0}", proteinNames.Merge("/")));
         }
       }
 
