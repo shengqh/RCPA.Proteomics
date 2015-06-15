@@ -159,7 +159,7 @@ namespace RCPA.Proteomics.Isotopic
       string line;
       while ((line = filein.ReadLine()) != null)
       {
-        if (line.Length == 0)
+        if (line.Trim().Length == 0)
         {
           break;
         }
