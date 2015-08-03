@@ -154,7 +154,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     protected virtual ISpectrumParser GetParser(string dataFile)
     {
-      return Options.SearchEngine.GetFactory().GetParser(dataFile);
+      return Options.SearchEngine.GetFactory().GetParser(dataFile, false);
     }
 
     #endregion

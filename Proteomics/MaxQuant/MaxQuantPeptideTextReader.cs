@@ -109,7 +109,7 @@ namespace RCPA.Proteomics.MaxQuant
       result.Score = MyConvert.ToDouble(parts[mascotScoreIndex]);
       result.DeltaScore = MyConvert.ToDouble(parts[scoreDiffIndex]);
       result.ExpectValue = MyConvert.ToDouble(parts[pepIndex]);
-      result.PValue = MyConvert.ToDouble(parts[localizationProbIndex]);
+      result.Probability = MyConvert.ToDouble(parts[localizationProbIndex]);
 
       string seq = parts[sequenceIndex];
 

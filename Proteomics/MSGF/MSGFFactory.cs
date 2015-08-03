@@ -13,9 +13,12 @@ namespace RCPA.Proteomics.MSGF
   {
     public MSGFFactory() : base(SearchEngineType.MSGF) { }
 
-    public override ISpectrumParser GetParser(string name)
+    public override ISpectrumParser GetParser(string name, bool extractRank2)
     {
-      return new MSGFMzIdentParser();
+      return new MSGFMzIdentParser()
+        {
+          ExtractRank2 = extractRank2
+        };
     }
 
     public override IScoreFunction[] GetScoreFunctions()

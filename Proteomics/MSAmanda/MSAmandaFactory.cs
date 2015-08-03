@@ -13,14 +13,21 @@ namespace RCPA.Proteomics.MSAmanda
   {
     public MSAmandaFactory() : base(SearchEngineType.MSAmanda) { }
 
-    public override ISpectrumParser GetParser(string name)
+    public override ISpectrumParser GetParser(string name, bool extractRank2)
     {
-      return new MSAmandaParser();
+      if (extractRank2)
+      {
+        return new MSAmandaRank2Parser();
+      }
+      else
+      {
+        return new MSAmandaParser();
+      }
     }
 
     public override IScoreFunction[] GetScoreFunctions()
     {
-      return new[] {new  ScoreFunction("MSAmanda:Score") };
+      return new[] { new ScoreFunction("MSAmanda:Score") };
     }
 
     public override List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)

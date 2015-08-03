@@ -19,7 +19,7 @@ namespace RCPA.Proteomics
     /// </summary>
     /// <param name="name">File or directory name</param>
     /// <returns>Spectrum parser</returns>
-    ISpectrumParser GetParser(string name);
+    ISpectrumParser GetParser(string name, bool extractRank2);
 
     /// <summary>
     /// Get all possible score functions used for false discovery rate calculation.
@@ -73,7 +73,7 @@ namespace RCPA.Proteomics
       return lst[0];
     }
 
-    public abstract ISpectrumParser GetParser(string name);
+    public abstract ISpectrumParser GetParser(string name, bool extractRank2);
 
     public abstract List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source);
 

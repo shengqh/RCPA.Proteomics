@@ -71,20 +71,20 @@ namespace RCPA.Proteomics.Summary
     }
   }
 
-  public class PValueFunction : AbstractScoreFunction
+  public class ProbabilityFunction : AbstractScoreFunction
   {
-    public PValueFunction() : base("PValue") { }
+    public ProbabilityFunction() : base("Probability") { }
 
-    public PValueFunction(string scoreName) : base(scoreName) { }
+    public ProbabilityFunction(string scoreName) : base(scoreName) { }
 
     public override double GetScore(IIdentifiedSpectrum si)
     {
-      return si.PValue;
+      return si.Probability;
     }
 
     public override SortSpectrumFunc SortSpectrum
     {
-      get { return IdentifiedSpectrumUtils.SortByPValue; }
+      get { return IdentifiedSpectrumUtils.SortByProbability; }
     }
   }
 }

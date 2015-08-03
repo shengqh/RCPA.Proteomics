@@ -9,6 +9,8 @@ namespace RCPA.Proteomics.MyriMatch
 {
   public class MyriMatchMzIdentParser : AbstractMzIdentParser
   {
+    public MyriMatchMzIdentParser(ITitleParser parser, bool extractRank2) : base(parser, extractRank2) { }
+
     public MyriMatchMzIdentParser(ITitleParser parser) : base(parser) { }
 
     public MyriMatchMzIdentParser() : base() { }

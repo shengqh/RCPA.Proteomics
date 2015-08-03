@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System;
+using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.Mascot
 {
@@ -11,6 +12,7 @@ namespace RCPA.Proteomics.Mascot
     public double DeltaMass { get; set; }
     public string Type { get; set; }
     public string Name { get; set; }
+    public char Symbol { get; set; }
     public override string ToString()
     {
       return MyConvert.Format("{0:0.000000} {1} ({2})", DeltaMass, Name, Type);
@@ -81,6 +83,12 @@ namespace RCPA.Proteomics.Mascot
     public void Parse(Dictionary<string, string> values)
     {
       this.dynamicModification.Parse(values);
+
+      for (int i = 0; i < this.dynamicModification.Count; i++)
+      {
+        this.dynamicModification[i].Symbol = ModificationConsts.MODIFICATION_CHAR[i + 1];
+      }
+
       this.staticModification.Parse(values);
     }
   }

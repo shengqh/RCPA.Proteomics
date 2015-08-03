@@ -27,7 +27,7 @@ namespace RCPA.Proteomics
 
     public override IEnumerable<string> Process()
     {
-      var parser = options.Engine.GetFactory().GetParser(options.InputFile);
+      var parser = options.Engine.GetFactory().GetParser(options.InputFile, false);
       var spectra = parser.ReadFromFile(options.InputFile);
       new MascotPeptideTextFormat().WriteToFile(options.OutputFile, spectra);
 

@@ -36,6 +36,11 @@ namespace RCPA.Proteomics.Summary
     string Name { get; set; }
 
     /// <summary>
+    /// Gets and Sets FromDecoy
+    /// </summary>
+    bool FromDecoy { get; set; }
+
+    /// <summary>
     /// Gets and Sets 蛋白描述
     /// </summary>
     string Description { get; set; }

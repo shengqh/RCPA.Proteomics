@@ -13,8 +13,12 @@ namespace RCPA.Proteomics.Omssa
   {
     public OmssaFactory() : base(SearchEngineType.OMSSA) { }
 
-    public override ISpectrumParser GetParser(string name)
+    public override ISpectrumParser GetParser(string name, bool extractRank2)
     {
+      if (extractRank2)
+      {
+        throw new Exception("Extract rank2 PSM is not supported for Omssa");
+      }
       return new OmssaOmxParser();
     }
 

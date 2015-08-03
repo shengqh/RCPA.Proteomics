@@ -5,7 +5,7 @@ using System.Text;
 
 namespace RCPA.Proteomics.PeptideProphet
 {
-  public class PeptideProphetModificationItem
+  public class PepXmlModificationItem
   {
     public bool IsAminoacid { get; set; }
     public bool IsProteinTerminal { get; set; }
@@ -15,7 +15,7 @@ namespace RCPA.Proteomics.PeptideProphet
     public double Mass { get; set; }
     public double MassDiff { get; set; }
     public bool IsVariable { get; set; }
-    public string ModificationChar { get; set; }
+    public string Symbol { get; set; }
 
     public override string ToString()
     {

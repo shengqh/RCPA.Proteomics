@@ -14,8 +14,12 @@ namespace RCPA.Proteomics.Percolator
   {
     public PercolatorFactory() : base(SearchEngineType.Percolator) { }
 
-    public override ISpectrumParser GetParser(string name)
+    public override ISpectrumParser GetParser(string name, bool extractRank2)
     {
+      if (extractRank2)
+      {
+        throw new Exception("Extract rank2 PSM is not supported for Percolator");
+      }
       return new PercolatorFileParser(new MsfDatabaseParser(Summary.SearchEngineType.Percolator));
     }
 

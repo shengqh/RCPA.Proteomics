@@ -491,11 +491,11 @@ namespace RCPA.Proteomics.Summary
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="spectra"></param>
-    public static void SortByPValue<T>(List<T> spectra) where T : IIdentifiedSpectrum
+    public static void SortByProbability<T>(List<T> spectra) where T : IIdentifiedSpectrum
     {
       spectra.Sort(delegate(T s1, T s2)
       {
-        return s2.PValue.CompareTo(s1.PValue);
+        return s2.Probability.CompareTo(s1.Probability);
       });
     }
 

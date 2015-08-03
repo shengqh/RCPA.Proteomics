@@ -13,14 +13,22 @@ namespace RCPA.Proteomics.MyriMatch
   {
     public MyriMatchFactory() : base(SearchEngineType.MyriMatch) { }
 
-    public override ISpectrumParser GetParser(string name)
+    public override ISpectrumParser GetParser(string name, bool extractRank2)
     {
       if (name.ToLower().EndsWith("mzid"))
       {
-        return new MyriMatchMzIdentParser();
+        return new MyriMatchMzIdentParser()
+        {
+          ExtractRank2 = extractRank2
+        };
       }
       else
       {
+        if (extractRank2)
+        {
+          throw new Exception("Extract rank2 PSM is not supported for MyriMatch pepXML format");
+        }
+
         return new MyriMatchPepXmlParser();
       }
     }

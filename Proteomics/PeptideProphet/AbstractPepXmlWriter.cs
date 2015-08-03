@@ -4,16 +4,13 @@ using System.IO;
 using System.Linq;
 using RCPA.Proteomics.Sequest;
 using RCPA.Proteomics.Summary;
+using RCPA.Proteomics.Utils;
 
 namespace RCPA.Proteomics.PeptideProphet
 {
   public class AbstractPepXmlWriter : IFileWriter<List<IIdentifiedSpectrum>>
   {
     private readonly Aminoacids aas = new Aminoacids();
-
-    //private SequestParam currentSequestParams;
-
-    //private Dictionary<char, double> staticAminoacidModification;
 
     private PepXmlWriterParameters parameters;
 
@@ -22,63 +19,28 @@ namespace RCPA.Proteomics.PeptideProphet
       this.parameters = parameters;
     }
 
-    //private void WriteModifications(SequestParam sp)
-    //{
-    //  var aas = new Aminoacids();
-    //  foreach (SequestStaticModification ssm in sp.StaticModification.Keys)
-    //  {
-    //    double addMass = sp.StaticModification[ssm];
-    //    if (addMass != 0.0)
-    //    {
-    //      switch (ssm)
-    //      {
-    //        case SequestStaticModification.add_Cterm_peptide:
-    //        case SequestStaticModification.add_Cterm_protein:
-    //        case SequestStaticModification.add_Nterm_peptide:
-    //        case SequestStaticModification.add_Nterm_protein:
-    //          break;
-    //        default:
-    //          char aa = SequestParam.ModificationToAminoacid(ssm);
-    //          sw.WriteLine(
-    //            "      <aminoacid_modification aminoacid=\"{0}\" massdiff=\"{1:0.0000}\" mass=\"{2:0.0000}\" variable=\"N\"/>",
-    //            aa, addMass, aas[aa].MonoMass + addMass);
-    //          break;
-    //      }
-    //    }
-    //  }
-    //  foreach (String aminoacids in sp.Diff_search_options.Keys)
-    //  {
-    //    double addMass = sp.Diff_search_options[aminoacids];
-    //    foreach (char aa in aminoacids)
-    //    {
-    //      sw.WriteLine(
-    //        "      <aminoacid_modification aminoacid=\"{0}\" massdiff=\"{1:0.0000}\" mass=\"{2:0.0000}\" variable=\"Y\"/>",
-    //        aa, addMass, aas[aa].MonoMass + addMass);
-    //    }
-    //  }
-    //}
-
     public void WriteToFile(string fileName, List<IIdentifiedSpectrum> t)
     {
       var resultFile = new FileInfo(fileName);
 
       using (var sw = new StreamWriter(fileName))
       {
+        sw.NewLine = "\n";
         sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         DateTime dt = DateTime.Now;
         sw.WriteLine("<msms_pipeline_analysis date=\"{0}\" xmlns=\"http://regis-web.systemsbiology.net/pepXML\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://sashimi.sourceforge.net/schema_revision/pepXML/pepXML_v117.xsd\" summary_xml=\"{1}\">",
           dt.ToString("yyyy-MM-dd\\THH:mm:ss"),
-          fileName.Replace("\\", "/"));
+          Path.GetFileName(fileName));
 
         //Start of msms_run_summary
-        sw.WriteLine("  <msms_run_summary base_name=\"{0}\" msManufacturer=\"unknown\" msModel=\"unknown\" raw_data_type=\"raw\" raw_data=\"{1}\">",
+        sw.WriteLine("  <msms_run_summary base_name=\"{0}\" raw_data_type=\"raw\" raw_data=\"{1}\">",
           FileUtils.ChangeExtension(this.parameters.SourceFile, ""),
           Path.GetExtension(parameters.SourceFile));
 
         //Export protease information
-        sw.WriteLine(@"<sample_enzyme name=""{0}"">
-<specificity cut=""{1}"" no_cut=""{2}"" sense=""{3}""/>
-</sample_enzyme>)",
+        sw.WriteLine(@"  <sample_enzyme name=""{0}"">
+    <specificity cut=""{1}"" no_cut=""{2}"" sense=""{3}""/>
+  </sample_enzyme>",
                   parameters.Protease.Name,
                   parameters.Protease.CleaveageResidues,
                   parameters.Protease.NotCleaveResidues,
@@ -99,36 +61,11 @@ namespace RCPA.Proteomics.PeptideProphet
           t.Max(l => l.NumMissedCleavages),
           t.Min(l => l.NumProteaseTermini));
 
-        //WriteModifications(sp);
+        WriteModifications(sw, parameters.Modifications);
 
-        //parameters
-        //sw.WriteLine("      <parameter name=\"peptide_mass_tol\" value=\"{0:0.0000}\"/>", sp.Peptide_mass_tolerance);
-        //sw.WriteLine("      <parameter name=\"ion_series\" value=\"{0}\"/>", sp.Ion_series);
-        //sw.WriteLine("      <parameter name=\"fragment_ion_tol\" value=\"{0:0.0000}\"/>", sp.Fragment_ion_tolerance);
-        //sw.WriteLine("      <parameter name=\"num_output_lines\" value=\"{0}\"/>", sp.Num_output_lines);
-        //sw.WriteLine("      <parameter name=\"num_results\" value=\"{0}\"/>", sp.Num_results);
-        //sw.WriteLine("      <parameter name=\"num_description_lines\" value=\"{0}\"/>", sp.Num_description_lines);
-        //sw.WriteLine("      <parameter name=\"show_fragment_ions\" value=\"{0}\"/>", sp.Show_fragment_ions);
-        //sw.WriteLine("      <parameter name=\"print_duplicate_references\" value=\"{0}\"/>",
-        //                  sp.Print_duplicate_references);
-        //sw.WriteLine("      <parameter name=\"max_num_differential_AA_per_mod\" value=\"{0}\"/>",
-        //                  sp.Max_num_differential_AA_per_mod);
-        //sw.WriteLine("      <parameter name=\"nucleotide_reading_frame\" value=\"{0}\"/>",
-        //                  sp.Nucleotide_reading_frame);
-        //sw.WriteLine("      <parameter name=\"normalize_Score\" value=\"{0}\"/>", sp.Normalize_Score);
-        //sw.WriteLine("      <parameter name=\"remove_precursor_peak\" value=\"{0}\"/>", sp.Remove_precursor_peak);
-        //sw.WriteLine("      <parameter name=\"ion_cutoff_percentage\" value=\"{0:0.0000}\"/>",
-        //                  sp.Ion_cutoff_percentage);
-        //sw.WriteLine("      <parameter name=\"max_num_internal_cleavage_sites\" value=\"{0}\"/>",
-        //                  sp.Max_num_internal_cleavage_sites);
-        //sw.WriteLine("      <parameter name=\"protein_mass_filter\" value=\"{0} {1}\"/>",
-        //                  sp.Protein_mass_filter.First, sp.Protein_mass_filter.Second);
-        //sw.WriteLine("      <parameter name=\"match_peak_count\" value=\"{0}\"/>", sp.Match_peak_count);
-        //sw.WriteLine("      <parameter name=\"match_peak_allowed_error\" value=\"{0}\"/>",
-        //                  sp.Match_peak_allowed_error);
-        //sw.WriteLine("      <parameter name=\"match_peak_tolerance\" value=\"{0}\"/>", sp.Match_peak_tolerance);
-        //sw.WriteLine("      <parameter name=\"partial_sequence\" value=\"{0}\"/>", sp.Partial_sequence);
-        //sw.WriteLine("      <parameter name=\"sequence_header_filter\" value=\"{0}\"/>", sp.Sequence_header_filter);
+        var modChars = parameters.Modifications.Where(m => m.IsVariable).ToDictionary(m => m.Symbol[0], m => m.Mass);
+
+        WriteParameters(sw, parameters.Parameters);
 
         //End of search_summary
         sw.WriteLine("    </search_summary>");
@@ -151,82 +88,176 @@ namespace RCPA.Proteomics.PeptideProphet
 
           double massDiff = sph.TheoreticalMinusExperimentalMass;
 
-          if (sph.Peptides[0].Proteins.Count > 0)
+          if (!parameters.NotCombineRank1PSMs)
           {
-            sw.WriteLine(
-              "        <search_hit hit_rank=\"1\" peptide=\"{0}\" protein=\"{1}\" num_tot_proteins=\"{2}\" num_matched_ions=\"{3}\" tot_num_ions=\"{4}\" calc_neutral_pep_mass=\"{5:0.0000}\" massdiff=\"{6}{7:0.0000}00\" num_tol_term=\"{8}\" num_missed_cleavages=\"{9}\" is_rejected=\"0\">",
-              sph.Peptides[0].PureSequence,
-              sph.Peptides[0].Proteins[0],
-              sph.Peptides[0].Proteins.Count,
-              sph.MatchedIonCount,
-              sph.TheoreticalIonCount,
-              sph.TheoreticalMH - Atom.H.AverageMass,
-              sph.TheoreticalMinusExperimentalMass <= 0 ? "+" : "",
-              -sph.TheoreticalMinusExperimentalMass,
-              2,
-              sph.NumMissedCleavages);
+            var pep = sph.Peptide;
+            WritePeptide(sw, sph, pep);
+
+            if (pep.Proteins.Count > 1)
+            {
+              for (int iProtein = 1; iProtein < pep.Proteins.Count; iProtein++)
+              {
+                WritePeptideProtein(sw, pep, iProtein);
+              }
+            }
+
+            for (int i = 1; i < sph.Peptides.Count; i++)
+            {
+              for (int iProtein = 0; iProtein < sph.Peptides[i].Proteins.Count; iProtein++)
+              {
+                WritePeptideProtein(sw, sph.Peptides[i], iProtein);
+              }
+            }
+            WriteModificationAndScore(sw, modChars, sph, pep);
+            sw.WriteLine("        </search_hit>");
           }
           else
           {
-            sw.WriteLine(
-              "        <search_hit hit_rank=\"1\" peptide=\"{0}\" num_matched_ions=\"{1}\" tot_num_ions=\"{2}\" calc_neutral_pep_mass=\"{3:0.0000}\" massdiff=\"{4}{5:0.0000}00\" num_tol_term=\"{6}\" num_missed_cleavages=\"{7}\" is_rejected=\"0\">",
-              sph.Peptides[0].PureSequence,
-              sph.MatchedIonCount,
-              sph.TheoreticalIonCount,
-              sph.TheoreticalMH - Atom.H.AverageMass,
-              sph.TheoreticalMinusExperimentalMass <= 0 ? "+" : "",
-              -sph.TheoreticalMinusExperimentalMass,
-              sph.NumProteaseTermini,
-              sph.NumMissedCleavages);
-          }
+            var peps = sph.Peptides.GroupBy(m => PeptideUtils.GetMatchedSequence(m.Sequence)).ToList().ConvertAll(m => m.ToArray()).ToList();
 
-          //if (this.currentSequestParams.StaticModification.Count > 0)
-          //{
-          //  bool bFirst = true;
-          //  for (int i = 0; i < sph.Peptides[0].PureSequence.Length; i++)
-          //  {
-          //    char c = sph.Peptides[0].PureSequence[i];
-          //    if (this.staticAminoacidModification.ContainsKey(c))
-          //    {
-          //      double mass = this.staticAminoacidModification[c];
-          //      if (0.0 == mass)
-          //      {
-          //        continue;
-          //      }
-
-          //      if (bFirst)
-          //      {
-          //        sw.WriteLine("          <modification_info>");
-          //        bFirst = false;
-          //      }
-          //      sw.WriteLine("            <mod_aminoacid_mass position=\"{0}\" mass=\"{1:0.0000}\"/>", i + 1,
-          //                        this.aas[c].MonoMass + this.staticAminoacidModification[c]);
-          //    }
-          //  }
-          //  if (!bFirst)
-          //  {
-          //    sw.WriteLine("          </modification_info>");
-          //  }
-          //}
-
-          WriteScore(sw, sph);
-
-          if (sph.Peptides[0].Proteins.Count > 1)
-          {
-            for (int iProtein = 1; iProtein < sph.Peptides[0].Proteins.Count; iProtein++)
+            foreach (var pepList in peps)
             {
-              sw.WriteLine("          <alternative_protein protein=\"{0}\" />",
-                                sph.Peptides[0].Proteins[iProtein]);
+              var pep = pepList.First();
+              WritePeptide(sw, sph, pep);
+
+              if (pep.Proteins.Count > 1)
+              {
+                for (int iProtein = 1; iProtein < pep.Proteins.Count; iProtein++)
+                {
+                  WritePeptideProtein(sw, pep, iProtein);
+                }
+              }
+
+              for (int i = 1; i < pepList.Length; i++)
+              {
+                for (int iProtein = 0; iProtein < pepList[i].Proteins.Count; iProtein++)
+                {
+                  WritePeptideProtein(sw, pepList[i], iProtein);
+                }
+              }
+              WriteModificationAndScore(sw, modChars, sph, pep);
+
+              sw.WriteLine("        </search_hit>");
             }
           }
-
-          sw.WriteLine("        </search_hit>");
           sw.WriteLine("      </search_result>");
           sw.WriteLine("    </spectrum_query>");
         }
 
         //End of msms_run_summary
         sw.WriteLine("  </msms_run_summary>");
+        sw.WriteLine("</msms_pipeline_analysis>");
+      }
+    }
+
+    private void WriteModificationAndScore(StreamWriter sw, Dictionary<char, double> modChars, IIdentifiedSpectrum sph, IIdentifiedPeptide pep)
+    {
+
+      var matchSeq = PeptideUtils.GetMatchedSequence(pep.Sequence);
+
+      if (matchSeq.Any(m => modChars.ContainsKey(m))) // modification
+      {
+        if (modChars.ContainsKey(matchSeq[0]))//Nterminal
+        {
+          sw.Write("          <modification_info mod_nterm_mass=\"{0:0.######}\"", modChars[matchSeq[0]]);
+        }
+        else
+        {
+          sw.Write("          <modification_info ");
+        }
+        sw.WriteLine(" modified_peptide=\"{0}\">", matchSeq);
+        int pos = 1;
+        double mass;
+        for (int i = 0; i < matchSeq.Length; i++)
+        {
+          if (modChars.TryGetValue(matchSeq[i], out mass))
+          {
+            if (i == 0)
+            {
+              continue;
+            }
+
+            sw.WriteLine("            <mod_aminoacid_mass position=\"{0}\" mass=\"{1:0.######}\"/>", pos, mass);
+          }
+          else
+          {
+            pos++;
+          }
+        }
+        sw.WriteLine("          </modification_info>");
+      }
+
+      WriteScore(sw, sph);
+    }
+
+    private static void WritePeptideProtein(StreamWriter sw, IIdentifiedPeptide pep, int iProtein)
+    {
+      sw.WriteLine("          <alternative_protein protein=\"{0}\" peptide_prev_aa=\"{1}\" peptide_next_aa=\"{2}\"/>",
+        pep.Proteins[iProtein],
+        pep.Sequence[1] == '.' ? pep.Sequence[0] : ' ',
+        pep.Sequence[pep.Sequence.Length - 2] == '.' ? pep.Sequence[pep.Sequence.Length - 1] : ' ');
+    }
+
+    private static void WritePeptide(StreamWriter sw, IIdentifiedSpectrum sph, IIdentifiedPeptide pep)
+    {
+      sw.WriteLine(
+        "        <search_hit hit_rank=\"1\" peptide=\"{0}\" peptide_prev_aa=\"{1}\" peptide_next_aa=\"{2}\" protein=\"{3}\" num_tot_proteins=\"{4}\" num_matched_ions=\"{5}\" tot_num_ions=\"{6}\" calc_neutral_pep_mass=\"{7:0.0000}\" massdiff=\"{8}{9:0.0000}\" num_tol_term=\"{10}\" num_missed_cleavages=\"{11}\" is_rejected=\"0\">",
+        pep.PureSequence,
+        pep.Sequence[1] == '.' ? pep.Sequence[0] : ' ',
+        pep.Sequence[pep.Sequence.Length - 2] == '.' ? pep.Sequence[pep.Sequence.Length - 1] : ' ',
+        pep.Proteins[0],
+        pep.Proteins.Count,
+        sph.MatchedIonCount,
+        sph.TheoreticalIonCount,
+        sph.TheoreticalMH - Atom.H.AverageMass,
+        sph.TheoreticalMinusExperimentalMass <= 0 ? "+" : "",
+        -sph.TheoreticalMinusExperimentalMass,
+        2,
+        sph.NumMissedCleavages);
+    }
+
+    private void WriteParameters(StreamWriter sw, Dictionary<string, string> parameters)
+    {
+      foreach (var param in parameters)
+      {
+        sw.WriteLine("      <parameter name=\"{0}\" value=\"{1}\"/>", param.Key, param.Value);
+      }
+    }
+
+    private void WriteModifications(StreamWriter sw, PepXmlModifications sp)
+    {
+      var aas = new Aminoacids();
+      foreach (var ssm in sp)
+      {
+        if (ssm.MassDiff != 0.0)
+        {
+          if (ssm.IsAminoacid)
+          {
+            sw.Write("      <aminoacid_modification aminoacid=\"{0}\" massdiff=\"{1:0.0000}\" mass=\"{2:0.0000}\" variable=\"{3}\"",
+              ssm.Aminoacid,
+              ssm.MassDiff,
+              ssm.Mass,
+              ssm.IsVariable ? "Y" : "N");
+          }
+          else
+          {
+            sw.Write("      <terminal_modification terminus=\"{0}\" massdiff=\"{1:0.0000}\" mass=\"{2:0.0000}\" variable=\"{3}\" protein_terminus=\"{4}\"",
+              ssm.IsTerminalN ? "n" : "c",
+              ssm.MassDiff,
+              ssm.Mass,
+              ssm.IsVariable ? "Y" : "N",
+              ssm.IsProteinTerminal ? (ssm.IsTerminalN ? "n" : "c") : "");
+          }
+
+          if (string.IsNullOrEmpty(ssm.Symbol))
+          {
+            sw.WriteLine("/>");
+          }
+          else
+          {
+            sw.WriteLine(" symbol=\"{0}\"/>", ssm.Symbol);
+          }
+        }
       }
     }
 

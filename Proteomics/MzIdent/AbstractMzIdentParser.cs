@@ -18,15 +18,17 @@ namespace RCPA.Proteomics.MzIdent
 
     public ITitleParser TitleParser { get; set; }
 
-    public AbstractMzIdentParser(ITitleParser parser)
+    public bool ExtractRank2 { get; set; }
+
+    public AbstractMzIdentParser(ITitleParser parser, bool extractRank2 = false)
     {
       this.TitleParser = parser;
+      this.ExtractRank2 = extractRank2;
     }
 
-    public AbstractMzIdentParser()
-    {
-      this.TitleParser = new DefaultTitleParser();
-    }
+    public AbstractMzIdentParser(bool extractRank2 = false)
+      : this(new DefaultTitleParser(), extractRank2)
+    { }
 
     public Dictionary<string, MzIdentModificationDefinitionItem> ParseSearchModificationMap(XElement mods)
     {
@@ -149,12 +151,19 @@ namespace RCPA.Proteomics.MzIdent
                                     where mod != null
                                     orderby mod.Location descending
                                     select mod).ToArray()
-                        let numMiss = protease == null?0:protease.GetMissCleavageSiteCount(seq)
-                        select new { Id = id, PureSequence = seq, Modifications = mods, Sequence = GetModifiedSequence(seq, mods) , NumMissCleavage = numMiss}).ToDictionary(m => m.Id);
+                        let numMiss = protease == null ? 0 : protease.GetMissCleavageSiteCount(seq)
+                        select new MzIdentPeptideItem()
+                        {
+                          Id = id,
+                          PureSequence = seq,
+                          Modifications = mods,
+                          Sequence = GetModifiedSequence(seq, mods),
+                          NumMissCleavage = numMiss
+                        }).ToDictionary(m => m.Id);
 
       var peptideEvidenceMap = (from g in
                                   (from ele in seqs.FindElements("PeptideEvidence")
-                                   select new
+                                   select new MzIdentPeptideEvidenceItem()
                                    {
                                      Id = ele.Attribute("id").Value,
                                      PeptideRef = ele.Attribute("peptide_ref").Value,
@@ -172,6 +181,13 @@ namespace RCPA.Proteomics.MzIdent
       var idList = analysisData.FindElement("SpectrumIdentificationList");
       foreach (var sir in idList.FindElements("SpectrumIdentificationResult"))
       {
+        var items = FilterItems(sir.FindElements("SpectrumIdentificationItem"), peptideMap, peptideEvidenceMap);
+
+        if (items.Count == 0)
+        {
+          continue;
+        }
+
         var spectrum = new IdentifiedSpectrum();
         result.Add(spectrum);
 
@@ -203,13 +219,9 @@ namespace RCPA.Proteomics.MzIdent
         }
 
         bool bFirst = true;
-        foreach (var sit in sir.FindElements("SpectrumIdentificationItem"))
-        {
-          if (!sit.Attribute("rank").Value.Equals("1"))
-          {
-            break;
-          }
 
+        foreach (var sit in items)
+        {
           if (bFirst) //only parse score once
           {
             spectrum.Charge = int.Parse(sit.Attribute("chargeState").Value);
@@ -249,6 +261,65 @@ namespace RCPA.Proteomics.MzIdent
             peptide.AddProtein(protein.Accession);
           }
         }
+      }
+
+      return result;
+    }
+
+    private List<XElement> FilterItems(List<XElement> list, Dictionary<string, MzIdentPeptideItem> peptideMap, Dictionary<string, MzIdentPeptideEvidenceItem> peptideEvidenceMap)
+    {
+      if (ExtractRank2)
+      {
+        return FilterItemsByRank2(list, peptideMap, peptideEvidenceMap);
+      }
+      else
+      {
+        return FilterItemsByRank1(list, peptideMap, peptideEvidenceMap);
+      }
+    }
+
+    /// <summary>
+    /// Filter items for parsing, default is keep rank 1 only
+    /// </summary>
+    /// <param name="items"></param>
+    protected virtual List<XElement> FilterItemsByRank1(List<XElement> items, Dictionary<string, MzIdentPeptideItem> peptideMap, Dictionary<string, MzIdentPeptideEvidenceItem> peptideEvidenceMap)
+    {
+      return items.Where(m => m.Attribute("rank").Value.Equals("1")).ToList();
+    }
+
+    /// <summary>
+    /// Filter items for parsing, default is keep rank 1 only
+    /// </summary>
+    /// <param name="items"></param>
+    protected virtual List<XElement> FilterItemsByRank2(List<XElement> items, Dictionary<string, MzIdentPeptideItem> peptideMap, Dictionary<string, MzIdentPeptideEvidenceItem> peptideEvidenceMap)
+    {
+      var rank1items = FilterItemsByRank1(items, peptideMap, peptideEvidenceMap);
+
+      HashSet<string> rank1seq = new HashSet<string>();
+      foreach (var sit in rank1items)
+      {
+        var pep_ref = sit.Attribute("peptide_ref").Value;
+        var pep = peptideMap[pep_ref];
+        rank1seq.Add(pep.PureSequence);
+      }
+
+      List<XElement> result = new List<XElement>();
+      foreach (var item in items)
+      {
+        if (rank1items.Contains(item))
+        {
+          continue;
+        }
+
+        var pep_ref = item.Attribute("peptide_ref").Value;
+        var pep = peptideMap[pep_ref];
+        if (rank1seq.Contains(pep.PureSequence))
+        {
+          continue;
+        }
+
+        result.Add(item);
+        break;
       }
 
       return result;

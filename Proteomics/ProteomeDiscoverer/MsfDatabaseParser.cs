@@ -517,7 +517,7 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
             }
             else if (name.Equals("ProbabilityScore"))
             {
-              pep.Spectrum.PValue = value;
+              pep.Spectrum.Probability = value;
             }
           }
         }

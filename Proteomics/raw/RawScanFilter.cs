@@ -23,32 +23,32 @@ namespace RCPA.Proteomics.Raw
     string SpectrumType { get; }
 
     string Filter { get; set; }
-  } ;
+
+    string ActivationMethod { get; }
+  }
 
   public class RawScanFilter : IRawScanFilter
   {
     private static readonly Regex filterRegex = new Regex(@"([a+-])\s([cp])\s(?:.+\s){0,1}(\S+)\sms([\s\d])");
-    private static readonly Regex collisionEnergyRegex = new Regex(@"([\d.]+)");
-    private double collisionEnergy;
+    private static readonly Regex collisionEnergyRegex = new Regex(@"([a-zA-Z]*)([\d.]+)");
 
     private string filter = "";
-    private int msLevel = 1;
-    private string polarity = "+";
-    private double precursorMZ;
-    private string scanType = "Full";
-    private string spectrumType = "Profile";
+    public RawScanFilter()
+    {
+      MsLevel = 1;
+      Polarity = "+";
+      PrecursorMZ = 0.0;
+      ScanType = "Full";
+      SpectrumType = "Profile";
+      CollisionEnergy = 0.0;
+      ActivationMethod = "unknown";
+    }
 
     #region IRawScanFilter Members
 
-    public int MsLevel
-    {
-      get { return this.msLevel; }
-    }
+    public int MsLevel { get; private set; }
 
-    public double PrecursorMZ
-    {
-      get { return this.precursorMZ; }
-    }
+    public double PrecursorMZ { get; private set; }
 
     public string Filter
     {
@@ -56,25 +56,15 @@ namespace RCPA.Proteomics.Raw
       set { SetFilter(value); }
     }
 
-    public string ScanType
-    {
-      get { return this.scanType; }
-    }
+    public string ScanType { get; private set; }
 
-    public string Polarity
-    {
-      get { return this.polarity; }
-    }
+    public string Polarity { get; private set; }
 
-    public string SpectrumType
-    {
-      get { return this.spectrumType; }
-    }
+    public string SpectrumType { get; private set; }
 
-    public double CollisionEnergy
-    {
-      get { return this.collisionEnergy; }
-    }
+    public double CollisionEnergy { get; private set; }
+
+    public string ActivationMethod { get; private set; }
 
     #endregion
 
@@ -100,44 +90,44 @@ namespace RCPA.Proteomics.Raw
 
       if ("a" == match.Groups[1].Value)
       {
-        this.polarity = "any";
+        this.Polarity = "any";
       }
       else
       {
-        this.polarity = match.Groups[1].Value;
+        this.Polarity = match.Groups[1].Value;
       }
 
       if ("c" == match.Groups[2].Value)
       {
-        this.spectrumType = "Centroided";
+        this.SpectrumType = "Centroided";
       }
       else
       {
-        this.spectrumType = "Profile";
+        this.SpectrumType = "Profile";
       }
 
       if ("Z" == match.Groups[3].Value)
       {
-        this.scanType = "zoom";
+        this.ScanType = "zoom";
       }
       else
       {
-        this.scanType = match.Groups[3].Value;
+        this.ScanType = match.Groups[3].Value;
       }
 
       if (" " == match.Groups[4].Value)
       {
-        this.msLevel = 1;
-        this.precursorMZ = 0.0;
+        this.MsLevel = 1;
+        this.PrecursorMZ = 0.0;
       }
       else
       {
-        this.msLevel = int.Parse(match.Groups[4].Value);
+        this.MsLevel = int.Parse(match.Groups[4].Value);
 
         int pos = filter.IndexOf('[');
         if (pos == -1)
         {
-          this.precursorMZ = 0.0;
+          this.PrecursorMZ = 0.0;
         }
         else
         {
@@ -153,12 +143,14 @@ namespace RCPA.Proteomics.Raw
               var parts = precursorStr.Split('@');
               if (MyConvert.TryParse(parts[0], out precursorMz))
               {
-                this.precursorMZ = precursorMz;
+                this.PrecursorMZ = precursorMz;
 
+                //657.81@hcd31.50
                 var m = collisionEnergyRegex.Match(parts[1]);
                 if (m.Success)
                 {
-                  this.collisionEnergy = MyConvert.ToDouble(m.Groups[1].Value);
+                  this.ActivationMethod = m.Groups[1].Value;
+                  this.CollisionEnergy = MyConvert.ToDouble(m.Groups[2].Value);
                 }
                 break;
               }
@@ -167,8 +159,8 @@ namespace RCPA.Proteomics.Raw
             {
               if (MyConvert.TryParse(precursorStr, out precursorMz))
               {
-                this.precursorMZ = precursorMz;
-                this.collisionEnergy = 0;
+                this.PrecursorMZ = precursorMz;
+                this.CollisionEnergy = 0;
                 break;
               }
             }
@@ -176,5 +168,5 @@ namespace RCPA.Proteomics.Raw
         }
       }
     }
-  } ;
+  }
 }

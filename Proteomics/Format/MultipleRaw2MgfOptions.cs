@@ -181,7 +181,10 @@ namespace RCPA.Proteomics.Format
     {
       CompositeProcessor<PeakList<Peak>> result = new CompositeProcessor<PeakList<Peak>>();
 
-      AddGeneralProcessor(result);
+      if (!this.OutputMzXmlFormat)
+      {
+        AddGeneralProcessor(result);
+      }
 
       AddCalibrationProcessor(result, fileName, callBack);
 

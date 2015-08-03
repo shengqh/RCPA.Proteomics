@@ -13,8 +13,12 @@ namespace RCPA.Proteomics.Mascot
   {
     public MascotFactory() : base(SearchEngineType.MASCOT) { }
 
-    public override ISpectrumParser GetParser(string name)
+    public override ISpectrumParser GetParser(string name, bool extractRank2)
     {
+      if (extractRank2)
+      {
+        throw new Exception("Extract rank2 PSM is not supported for mascot");
+      }
       if (name.ToLower().EndsWith(".msf"))
       {
         return new MsfDatabaseParser(Summary.SearchEngineType.MASCOT);

@@ -14,7 +14,7 @@ namespace RCPA.Proteomics.PeptideProphet
     {
       spectra.Sort(delegate(IIdentifiedSpectrum s1, IIdentifiedSpectrum s2)
       {
-        return -s1.PValue.CompareTo(s2.PValue);
+        return -s1.Probability.CompareTo(s2.Probability);
       });
     }
 
@@ -27,7 +27,7 @@ namespace RCPA.Proteomics.PeptideProphet
 
     public double GetScore(IIdentifiedSpectrum si)
     {
-      return si.PValue;
+      return si.Probability;
     }
 
     public SortSpectrumFunc SortSpectrum
@@ -37,7 +37,7 @@ namespace RCPA.Proteomics.PeptideProphet
 
     public double GetScoreBin(IIdentifiedSpectrum spectrum)
     {
-      return Math.Round(Math.Log(spectrum.PValue));
+      return Math.Round(Math.Log(spectrum.Probability));
     }
     #endregion
   }

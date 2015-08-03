@@ -25,7 +25,7 @@ namespace RCPA.Proteomics.Format
   {
     public static readonly string Title = "TurboRawToMGF - " + RawFileFactory.SupportedRawFormatString + " To Mascot Generic Format Converter";
 
-    public static readonly string Version = "2.0.7";
+    public static readonly string Version = "2.0.8";
 
     private RcpaComboBox<ITitleFormat> titleFormat;
     private RcpaDoubleField minMassRange;
@@ -407,10 +407,21 @@ namespace RCPA.Proteomics.Format
       return result;
     }
 
+    private void CheckMzXmlEnabled(Control control)
+    {
+      foreach (Control ctl in control.Controls)
+      {
+        if ("1".Equals(ctl.Tag))
+        {
+          ctl.Enabled = !rbMzXml.Checked;
+        }
+        CheckMzXmlEnabled(ctl);
+      }
+    }
+
     private void rbMzXml_CheckedChanged(object sender, EventArgs e)
     {
-      cbTitleFormat.Enabled = !rbMzXml.Checked;
-      cbDefaultCharge.Enabled = !rbMzXml.Checked;
+      CheckMzXmlEnabled(this);
     }
   }
 }

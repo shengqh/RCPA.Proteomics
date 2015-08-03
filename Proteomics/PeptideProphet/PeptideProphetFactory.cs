@@ -13,15 +13,19 @@ namespace RCPA.Proteomics.PeptideProphet
   {
     public PeptideProphetFactory() : base(SearchEngineType.PeptidePhophet) { }
 
-    public override ISpectrumParser GetParser(string name)
+    public override ISpectrumParser GetParser(string name, bool extractRank2)
     {
+      if (extractRank2)
+      {
+        throw new Exception("Extract rank2 PSM is not supported for PeptideProphet");
+      }
       return new PeptideProphetXmlParser();
     }
 
     public override List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
     {
       return (from pep in source
-              where pep.PValue >= 0.99
+              where pep.Probability >= 0.99
               select pep).ToList();
     }
 
@@ -32,7 +36,7 @@ namespace RCPA.Proteomics.PeptideProphet
 
     public override IScoreFunction[] GetScoreFunctions()
     {
-      return new[] { new PValueFunction() };
+      return new[] { new ProbabilityFunction() };
     }
   }
 }

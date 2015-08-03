@@ -35,7 +35,7 @@ namespace RCPA.Tools.Summary
   public partial class UniformSummaryBuilderUI : AbstractProcessorUI
   {
     public static string title = "BuildSummary - A general framework for assembling protein identifications";
-    public static string version = "7.1.5";
+    public static string version = "7.1.6";
 
     private BuildSummaryOptions Option;
 
@@ -609,6 +609,11 @@ namespace RCPA.Tools.Summary
     private void btnMSAmanda_Click(object sender, EventArgs e)
     {
       DoAddDatasetOption(new MSAmandaDatasetOptions());
+    }
+
+    private void btnIprophet_Click(object sender, EventArgs e)
+    {
+      DoAddDatasetOption(new InterProphetDatasetOptions());
     }
   }
 }

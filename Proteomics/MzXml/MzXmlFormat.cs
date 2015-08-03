@@ -194,10 +194,7 @@ namespace RCPA.Proteomics.MzXml
       /* 
          begin msRun 
       */
-      sw.Write(MyConvert.Format(" <msRun scanCount=\"{0}\"" + lf
-                             + "        startTime=\"PT{1:0.000}S\"" + lf
-                             + "        endTime=\"PT{2:0.000}S\">" + lf,
-                             scans.Count, startTime, endTime));
+      sw.Write(MyConvert.Format(" <msRun scanCount=\"{0}\" startTime=\"PT{1:0.000}S\" endTime=\"PT{2:0.000}S\">" + lf, scans.Count, startTime, endTime));
 
       string sha1;
       try
@@ -212,9 +209,7 @@ namespace RCPA.Proteomics.MzXml
       /* 
          parent (raw input) file 
       */
-      sw.Write("  <parentFile fileName=\"file://" + sourceFile.Name + "\"" + lf
-               + "              fileType=\"RAWData\"" + lf
-               + "              fileSha1=\"" + sha1 + "\"/>" + lf);
+      sw.Write("  <parentFile fileName=\"file://" + sourceFile.Name + "\" fileType=\"RAWData\" fileSha1=\"" + sha1 + "\"/>" + lf);
 
       /* 
          mass spec instrument section 
@@ -226,12 +221,12 @@ namespace RCPA.Proteomics.MzXml
       string instSoftVersion = this.rawFile.GetInstSoftwareVersion();
 
       sw.Write("  <msInstrument>" + lf
-               + "   <msManufacturer category=\"msManufacturer\" value=\"ThermoFinnigan\"/>" + lf
+               + "   <msManufacturer category=\"msManufacturer\" value=\"Thermo Finnigan\"/>" + lf
                + "   <msModel category=\"msModel\" value=\"" + instModel + "\"/>" + lf
                + "   <msIonisation category=\"msIonisation\" value=\"ESI\"/>" + lf
                + "   <msMassAnalyzer category=\"msMassAnalyzer\" value=\"Ion Trap\"/>" + lf
                + "   <msDetector category=\"msDetector\" value=\"EMT\"/>" + lf);
-      sw.Write("   <software type=\"acquisition\"" + lf
+      sw.Write("    <software type=\"acquisition\"" + lf
                + "             name=\"Xcalibur\"" + lf
                + "             version=\"" + instSoftVersion + "\"/>" + lf
                + "  </msInstrument>" + lf);

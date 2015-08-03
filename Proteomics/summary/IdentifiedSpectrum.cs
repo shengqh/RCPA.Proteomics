@@ -74,6 +74,8 @@ namespace RCPA.Proteomics.Summary
 
     public bool FromDecoy { get; set; }
 
+    public bool AssignedDecoy { get; set; }
+
     public bool IsContaminant { get; set; }
 
     public int SpRank { get; set; }
@@ -173,7 +175,7 @@ namespace RCPA.Proteomics.Summary
 
     public double Score { get; set; }
 
-    public double PValue { get; set; }
+    public double Probability { get; set; }
 
     public double QValue { get; set; }
 

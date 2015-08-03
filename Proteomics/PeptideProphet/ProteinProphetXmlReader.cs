@@ -14,7 +14,7 @@ namespace RCPA.Proteomics.PeptideProphet
 
     public IIdentifiedResult ReadFromFile(string fileName)
     {
-      PeptideProphetModifications ppmods = new PeptideProphetModifications();
+      PepXmlModifications ppmods = new PepXmlModifications();
 
       XElement root = XElement.Load(fileName);
 
@@ -67,7 +67,7 @@ namespace RCPA.Proteomics.PeptideProphet
             peptide.Sequence = peptideEle.Attribute("peptide_sequence").Value;
             spectrum.Query.FileScan.Charge = Convert.ToInt32(peptideEle.Attribute("charge").Value);
             spectrum.Query.FileScan.Experimental = string.Empty;
-            spectrum.PValue = MyConvert.ToDouble(peptideEle.Attribute("initial_probability").Value);
+            spectrum.Probability = MyConvert.ToDouble(peptideEle.Attribute("initial_probability").Value);
             spectrum.NumProteaseTermini = Convert.ToInt32(peptideEle.Attribute("n_enzymatic_termini").Value);
             spectrum.TheoreticalMass = MyConvert.ToDouble(peptideEle.Attribute("calc_neutral_pep_mass").Value);
 
@@ -83,7 +83,7 @@ namespace RCPA.Proteomics.PeptideProphet
                 {
                   if (!ppmods.HasModification(modaa.Mass))
                   {
-                    ppmods.Add(new PeptideProphetModificationItem()
+                    ppmods.Add(new PepXmlModificationItem()
                     {
                       Mass = modaa.Mass,
                       IsAminoacid = true,

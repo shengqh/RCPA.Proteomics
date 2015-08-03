@@ -30,6 +30,14 @@ namespace RCPA.Proteomics.Mascot
 
     private readonly Regex termsRegex = new Regex(@"([A-Z\-]),([A-Z\-])");
 
+    public Protease CurrentProtease { get; private set; }
+
+    public MascotModification CurrentModifications { get; private set; }
+
+    public Dictionary<string, string> CurrentParameters { get; private set; }
+
+    public static string HomologyScoreKey = "HomologyScore";
+
     public MascotDatSpectrumParser(ITitleParser parser)
     {
       this.TitleParser = parser;
@@ -212,6 +220,12 @@ namespace RCPA.Proteomics.Mascot
           if (line.StartsWith("qmatch"))
           {
             item.MatchCount = Convert.ToInt32(GetValue(line));
+            line = sr.ReadLine();
+          }
+
+          if (line.StartsWith("qplughole"))
+          {
+            item.HomologyScore = Convert.ToDouble(GetValue(line));
           }
 
           result[item.QueryId] = item;
@@ -379,13 +393,10 @@ namespace RCPA.Proteomics.Mascot
     {
       var result = new Dictionary<int, List<IIdentifiedSpectrum>>();
 
-      Dictionary<string, string> parameters;
-      MascotModification mm;
       Dictionary<string, string> headers;
       int queryCount;
       Dictionary<int, MascotQueryItem> queryItems;
       Dictionary<string, string> peptideSection;
-      Protease protease = null;
 
       var prefix = isDecoy ? "decoy_" : "";
 
@@ -393,9 +404,9 @@ namespace RCPA.Proteomics.Mascot
       {
         InitializeBoundary(sr);
 
-        parameters = ParseSection(sr, "parameters");
+        CurrentParameters = ParseSection(sr, "parameters");
 
-        var hasDecoy = parameters["DECOY"].Equals("1");
+        var hasDecoy = CurrentParameters["DECOY"].Equals("1");
 
         if (!hasDecoy && isDecoy)
         {
@@ -404,11 +415,11 @@ namespace RCPA.Proteomics.Mascot
 
         var masses = ParseSection(sr, "masses");
 
-        mm = ParseModification(masses);
+        CurrentModifications = ParseModification(masses);
 
         long curPos = sr.GetCharpos();
 
-        protease = ParseEnzyme(sr);
+        CurrentProtease = ParseEnzyme(sr);
 
         sr.SetCharpos(curPos);
 
@@ -419,16 +430,16 @@ namespace RCPA.Proteomics.Mascot
         peptideSection = ParseSection(sr, prefix + "peptides");
       }
 
-      string file = parameters["FILE"];
+      string file = CurrentParameters["FILE"];
       if (file.StartsWith("File Name: "))
       {
         file = file.Substring(10).Trim();
       }
       string defaultExperimental = FileUtils.ChangeExtension(new FileInfo(file).Name, "");
       bool isPrecursorMonoisotopic = true;
-      if (parameters.ContainsKey("MASS"))
+      if (CurrentParameters.ContainsKey("MASS"))
       {
-        isPrecursorMonoisotopic = parameters["MASS"].Equals("Monoisotopic");
+        isPrecursorMonoisotopic = CurrentParameters["MASS"].Equals("Monoisotopic");
       }
 
       using (var sr = new StreamReader(datFilename))
@@ -524,8 +535,12 @@ namespace RCPA.Proteomics.Mascot
               mphit.Query.ObservedMz = queryItem.Observed;
               mphit.Query.Charge = queryItem.Charge;
               mphit.Query.MatchCount = queryItem.MatchCount;
+              if (queryItem.HomologyScore != 0)
+              {
+                mphit.Annotations[HomologyScoreKey] = queryItem.HomologyScore;
+              }
 
-              if (protease.IsSemiSpecific)
+              if (CurrentProtease.IsSemiSpecific)
               {
                 mphit.NumProteaseTermini = 1;
               }
@@ -536,7 +551,7 @@ namespace RCPA.Proteomics.Mascot
             var pureSeq = mDetail.Groups["Sequence"].Value;
             string modification = mDetail.Groups["Modification"].Value;
             var seq = ModifySequence(pureSeq, modification);
-            AssignModification(mphit, modification, mm);
+            AssignModification(mphit, modification, CurrentModifications);
 
             string proteins = mDetail.Groups["ProteinNames"].Value;
             Match proteinNameMatch = this.proteinNameRegex.Match(proteins);
@@ -581,10 +596,10 @@ namespace RCPA.Proteomics.Mascot
                 mp.Sequence = fullSeq;
                 mp.AddProtein(name);
 
-                if (protease.IsSemiSpecific)
+                if (CurrentProtease.IsSemiSpecific)
                 {
                   int position = Convert.ToInt32(proteinNameMatch.Groups[2].Value);
-                  int count = protease.GetNumProteaseTermini(termsMatch.Groups[1].Value[0], pureSeq, termsMatch.Groups[2].Value[0], '-', position);
+                  int count = CurrentProtease.GetNumProteaseTermini(termsMatch.Groups[1].Value[0], pureSeq, termsMatch.Groups[2].Value[0], '-', position);
                   numProteaseTermini = Math.Max(numProteaseTermini, count);
                 }
               }
@@ -593,7 +608,7 @@ namespace RCPA.Proteomics.Mascot
               termsMatch = termsMatch.NextMatch();
             }
 
-            if (protease.IsSemiSpecific)
+            if (CurrentProtease.IsSemiSpecific)
             {
               mphit.NumProteaseTermini = Math.Max(mphit.NumProteaseTermini, numProteaseTermini);
             }

@@ -20,6 +20,10 @@ namespace RCPA.Proteomics.Mascot
 
       foreach (var pkl in pklList)
       {
+        if (pkl.PrecursorCharge == 0)
+        {
+          pkl.PrecursorCharge = 2;
+        }
         pkl.PrecursorMZ = PrecursorUtils.MHToMz(shift, pkl.PrecursorCharge, true) + pkl.PrecursorMZ;
       }
 

@@ -48,5 +48,19 @@ namespace RCPA.Proteomics.Summary
       var parsers = GetTitleParsers();
       return GuessTitleParser(title, parsers);
     }
+
+    public static ITitleParser FindByName(string titleName)
+    {
+      var parsers = GetTitleParsers();
+      foreach (var parser in parsers)
+      {
+        if (parser.FormatName.Equals(titleName))
+        {
+          return parser;
+        }
+      }
+
+      return null;
+    }
   }
 }

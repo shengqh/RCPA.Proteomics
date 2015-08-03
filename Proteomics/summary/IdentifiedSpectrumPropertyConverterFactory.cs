@@ -46,7 +46,7 @@ namespace RCPA.Proteomics.Summary
 
       this.RegisterConverter(new IdentifiedSpectrumScoreConverter<IIdentifiedSpectrum>(), "pMatch Score", "XCorr", "XC", "Amanda Score");
 
-      this.RegisterConverter(new IdentifiedSpectrumPValueConverter<IIdentifiedSpectrum>());
+      this.RegisterConverter(new IdentifiedSpectrumProbabilityConverter<IIdentifiedSpectrum>(), "PValue");
 
       this.RegisterConverter(new IdentifiedSpectrumDeltaScoreConverter<IIdentifiedSpectrum>(), "DeltCN", "DeltaCn");
 

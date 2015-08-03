@@ -17,14 +17,14 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
       {
         if (_isobaricTypes == null)
         {
-          var executeDir = FileUtils.GetAssemblyPath();
-          if (Directory.Exists(executeDir))
+          string xmlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "isobaric.xml");
+          if (File.Exists(xmlFile))
           {
-            string xmlFile = executeDir + "\\isobaric.xml";
-            if (File.Exists(xmlFile))
-            {
-              _isobaricTypes = IsobaricTypeXmlFileReader.ReadFromFile(xmlFile).ToArray();
-            }
+            _isobaricTypes = IsobaricTypeXmlFileReader.ReadFromFile(xmlFile).ToArray();
+          }
+          else
+          {
+            throw new FileNotFoundException("File not exists: " + xmlFile);
           }
         }
         return _isobaricTypes;

@@ -37,8 +37,8 @@ namespace RCPA.Proteomics.PeptideProphet
     {
       base.LoadFromDataset();
 
-      this.filterByMinPvalue.Checked = CurrentOptions.FilterByMinPValue;
-      if (CurrentOptions.FilterByMinPValue)
+      this.filterByMinPvalue.Checked = CurrentOptions.FilterByMinProbability;
+      if (CurrentOptions.FilterByMinProbability)
       {
         this.minPvalue.Value = CurrentOptions.MinPValue;
       }
@@ -52,8 +52,8 @@ namespace RCPA.Proteomics.PeptideProphet
     {
       base.SaveToDataset(selectedOnly);
 
-      CurrentOptions.FilterByMinPValue = this.filterByMinPvalue.Checked;
-      if (CurrentOptions.FilterByMinPValue)
+      CurrentOptions.FilterByMinProbability = this.filterByMinPvalue.Checked;
+      if (CurrentOptions.FilterByMinProbability)
       {
         CurrentOptions.MinPValue = this.minPvalue.Value;     
       }

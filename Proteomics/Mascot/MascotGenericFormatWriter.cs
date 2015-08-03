@@ -106,7 +106,11 @@ namespace RCPA.Proteomics.Mascot
         {
           writer.WriteLine(MascotGenericFormatConstants.RETENTION_TIME_TAG + "=" + pl.ScanTimes.RetentionTimesInSecond());
         }
-        writer.WriteLine(MascotGenericFormatConstants.SCAN_TAG + "=" + pl.ScanTimes.Scans());
+        var scans = pl.ScanTimes.Scans();
+        if (!string.IsNullOrEmpty(scans) && !scans.Equals("0") && !scans.Equals("0-0"))
+        {
+          writer.WriteLine(MascotGenericFormatConstants.SCAN_TAG + "=" + scans);
+        }
       }
 
       //if (!string.IsNullOrWhiteSpace(pl.Experimental))

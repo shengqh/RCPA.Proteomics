@@ -25,6 +25,8 @@ namespace RCPA.Proteomics.Summary
 
     public string Name { get; set; }
 
+    public bool FromDecoy { get; set; }
+
     private string description = "";
     public string Description
     {

@@ -175,13 +175,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Proteomics\Comet\CometXmlRank2Parser.cs" />
     <Compile Include="Proteomics\DatasetOption.cs" />
     <Compile Include="Proteomics\Format\AbstractRawConverterOptions.cs" />
     <Compile Include="Proteomics\Format\Mgf2MzXmlProcessor.cs" />
     <Compile Include="Proteomics\Format\MultipleRaw2MgfOptions.cs" />
+    <Compile Include="Proteomics\Format\Mgf2Ms2Converter.cs" />
+    <Compile Include="Proteomics\Format\Mgf2Ms2ConverterCommand.cs" />
+    <Compile Include="Proteomics\Format\Mgf2Ms2ConverterOptions.cs" />
     <Compile Include="Proteomics\Format\Raw2MzXMLProcessor.cs" />
     <Compile Include="Proteomics\ISearchEngineFactory.cs" />
     <Compile Include="Proteomics\Mascot\ITitleFormat.cs" />
+    <Compile Include="Proteomics\Mascot\MascotDatToPepXmlConverterOptions.cs" />
     <Compile Include="Proteomics\Mascot\MascotFactory.cs" />
     <Compile Include="Proteomics\Mascot\MascotFilePanel.cs">
       <SubType>UserControl</SubType>
@@ -193,6 +198,13 @@
     <Compile Include="Proteomics\Mascot\TitleFormatRawCmpd.cs" />
     <Compile Include="Proteomics\Mascot\TitleFormatProteomeDiscoverer.cs" />
     <Compile Include="Proteomics\Mascot\TitleFormatSequest.cs" />
+    <Compile Include="Proteomics\Mascot\MascotDatToPepXmlConverter.cs" />
+    <Compile Include="Proteomics\Mascot\MascotDatToPepXmlConverterUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Mascot\MascotDatToPepXmlConverterUI.Designer.cs">
+      <DependentUpon>MascotDatToPepXmlConverterUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Proteomics\MaxQuant\MaxQuant2MascotPeptideProcessorOption.cs" />
     <Compile Include="Proteomics\MaxQuant\MaxQuantEvidenceToPeptideProcessorOptions.cs" />
     <Compile Include="Proteomics\Modification\ModificationConsts.cs" />
@@ -201,6 +213,7 @@
     <Compile Include="Proteomics\MSAmanda\MSAmandaDatasetBuilder.cs" />
     <Compile Include="Proteomics\MSAmanda\MSAmandaDatasetOptions.cs" />
     <Compile Include="Proteomics\MSAmanda\MSAmandaFactory.cs" />
+    <Compile Include="Proteomics\MSAmanda\MSAmandaRank2Parser.cs" />
     <Compile Include="Proteomics\MSAmanda\MSAmandaParser.cs" />
     <Compile Include="Proteomics\MSAmanda\MSAmandaDatasetPanel.cs">
       <SubType>UserControl</SubType>
@@ -215,16 +228,32 @@
     <Compile Include="Proteomics\MyriMatch\MyriMatchPepXmlParser.cs" />
     <Compile Include="Proteomics\MyriMatch\MyriMatchFactory.cs" />
     <Compile Include="Proteomics\MyriMatch\MyriMatchSearchParameters.cs" />
+    <Compile Include="Proteomics\MzIdent\MzIdentPeptideEvidenceItem.cs" />
+    <Compile Include="Proteomics\MzIdent\MzIdentPeptideItem.cs" />
     <Compile Include="Proteomics\MzXml\MzXmlFormat.cs" />
     <Compile Include="Proteomics\Omssa\OmssaOmxParser.cs" />
     <Compile Include="Proteomics\Omssa\OmssaConsts.cs" />
     <Compile Include="Proteomics\Omssa\OmssaFactory.cs" />
+    <Compile Include="Proteomics\PeptideProphet\MascotPepXmlReader.cs" />
     <Compile Include="Proteomics\PeptideProphet\ModificationAminoacidMass.cs" />
-    <Compile Include="Proteomics\PeptideProphet\PeptideProphetModificationItem.cs" />
-    <Compile Include="Proteomics\PeptideProphet\PeptideProphetModifications.cs" />
+    <Compile Include="Proteomics\PeptideProphet\InterProphetFactory.cs" />
+    <Compile Include="Proteomics\PeptideProphet\InterProphetDatasetOptions.cs" />
+    <Compile Include="Proteomics\PeptideProphet\InterProphetDatasetBuilder.cs" />
+    <Compile Include="Proteomics\PeptideProphet\PepXmlModificationItem.cs" />
+    <Compile Include="Proteomics\PeptideProphet\PepXmlModifications.cs" />
     <Compile Include="Proteomics\PeptideProphet\PeptideProphetFactory.cs" />
     <Compile Include="Proteomics\PeptideProphet\AbstractPepXmlWriter.cs" />
+    <Compile Include="Proteomics\PeptideProphet\InterProphetXmlParser.cs" />
+    <Compile Include="Proteomics\PeptideProphet\MascotPepXmlParser.cs" />
+    <Compile Include="Proteomics\PeptideProphet\PepXmlParser.cs" />
     <Compile Include="Proteomics\PeptideProphet\PepXmlWriterParameters.cs" />
+    <Compile Include="Proteomics\PeptideProphet\UpdatePepXmlModificationProcessor.cs" />
+    <Compile Include="Proteomics\PeptideProphet\UpdatePepXmlModificationUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\PeptideProphet\UpdatePepXmlModificationUI.Designer.cs">
+      <DependentUpon>UpdatePepXmlModificationUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Proteomics\Percolator\MascotPercolatorProcessor.cs" />
     <Compile Include="Proteomics\Percolator\PercolatorInputXmlPsmReader.cs" />
     <Compile Include="Proteomics\Percolator\PercolatorPeptideDistillerOptions.cs" />
@@ -305,14 +334,24 @@
     <Compile Include="Proteomics\Snp\AminoacidInsertionBuilderUI.Designer.cs">
       <DependentUpon>AminoacidInsertionBuilderUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Proteomics\Snp\MS2Item.cs" />
+    <Compile Include="Proteomics\Snp\MS2ItemXmlFormat.cs" />
+    <Compile Include="Proteomics\Snp\MS3XcorrItem.cs" />
     <Compile Include="Proteomics\Snp\MS3MatchItem.cs" />
     <Compile Include="Proteomics\Snp\PNovoSAPValidatorOptions.cs" />
+    <Compile Include="Proteomics\Snp\SpectrumXcorrValidatorUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Snp\SpectrumXcorrValidatorUI.Designer.cs">
+      <DependentUpon>SpectrumXcorrValidatorUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Proteomics\Snp\SpectrumScanValidatorUI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Proteomics\Snp\SpectrumScanValidatorUI.Designer.cs">
       <DependentUpon>SpectrumScanValidatorUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Proteomics\Spectrum\SpectrumXcorr.cs" />
     <Compile Include="Proteomics\Statistic\BuildSummaryResultParserCommand.cs" />
     <Compile Include="Proteomics\Statistic\BuildSummaryResultParserOptions.cs" />
     <Compile Include="Proteomics\Statistic\PrecursorOffsetStatisticTaskBuilder.cs" />
@@ -850,6 +889,17 @@
     <Compile Include="Proteomics\Summary\ITitleParser.cs" />
     <Compile Include="Proteomics\Summary\mzIdentMLFormat.cs" />
     <Compile Include="Proteomics\Summary\PeakAlignment.cs" />
+    <Compile Include="Proteomics\Summary\PeptideSpectrumMatchDistiller.cs" />
+    <Compile Include="Proteomics\Summary\PeptideSpectrumMatchDistillerCommand.cs" />
+    <Compile Include="Proteomics\Summary\PeptideSpectrumMatchDistillerOptions.cs" />
+    <Compile Include="Proteomics\Summary\PeptideSpectrumMatchDistillerUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Summary\PeptideSpectrumMatchDistillerUI.designer.cs">
+      <DependentUpon>PeptideSpectrumMatchDistillerUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\Summary\ProteinFDREstimator.cs" />
+    <Compile Include="Proteomics\Summary\ProteinFDREstimatorOptions.cs" />
     <Compile Include="Proteomics\Summary\SummaryBuilderFromPeptidesUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1064,7 +1114,6 @@
     <Compile Include="Proteomics\Summary\DtaselectResultReader.cs" />
     <Compile Include="Proteomics\Summary\IOptimalResultCalculator.cs" />
     <Compile Include="Proteomics\Summary\OptimalResultCondition.cs" />
-    <Compile Include="Proteomics\PeptideProphet\MascotPepXmlReader.cs" />
     <Compile Include="Proteomics\PeptideProphet\MascotPeptideProphetItem.cs" />
     <Compile Include="Proteomics\Processor\Outs2PepXmlDirectoryProcessor.cs" />
     <Compile Include="Proteomics\Processor\Outs2PepXmlProcessor.cs" />
@@ -1174,8 +1223,16 @@
     <EmbeddedResource Include="Proteomics\Mascot\MascotFilePanel.resx">
       <DependentUpon>MascotFilePanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Mascot\MascotDatToPepXmlConverterUI.resx">
+      <DependentUpon>MascotDatToPepXmlConverterUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\MSAmanda\MSAmandaDatasetPanel.resx">
       <DependentUpon>MSAmandaDatasetPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\PeptideProphet\UpdatePepXmlModificationUI.resx">
+      <DependentUpon>UpdatePepXmlModificationUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Percolator\MultiplePercolatorPeptideDistillerUI.resx">
@@ -1205,6 +1262,9 @@
     <EmbeddedResource Include="Proteomics\Snp\AminoacidInsertionBuilderUI.resx">
       <DependentUpon>AminoacidInsertionBuilderUI.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Snp\SpectrumXcorrValidatorUI.resx">
+      <DependentUpon>SpectrumXcorrValidatorUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Snp\SpectrumScanValidatorUI.resx">
       <DependentUpon>SpectrumScanValidatorUI.cs</DependentUpon>
@@ -1481,6 +1541,9 @@
     <EmbeddedResource Include="Proteomics\Summary\ExportIdentifiedResultForm.resx">
       <DependentUpon>ExportIdentifiedResultForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Summary\PeptideSpectrumMatchDistillerUI.resx">
+      <DependentUpon>PeptideSpectrumMatchDistillerUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Summary\SummaryBuilderFromPeptidesUI.resx">
       <DependentUpon>SummaryBuilderFromPeptidesUI.cs</DependentUpon>
@@ -1947,7 +2010,7 @@
     <Compile Include="Proteomics\PFind\PMatchResultAnalyzer.cs" />
     <Compile Include="Proteomics\PropertyConverter\IdentifiedSpectrumExperimentalMinusTheoreticalMassConverter.cs" />
     <Compile Include="Proteomics\PropertyConverter\IdentifiedSpectrumQValueConverter.cs" />
-    <Compile Include="Proteomics\PropertyConverter\IdentifiedSpectrumPValueConverter.cs" />
+    <Compile Include="Proteomics\PropertyConverter\IdentifiedSpectrumProbabilityConverter.cs" />
     <Compile Include="Proteomics\Quantification\Srm\ExportCompoundForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2758,6 +2821,7 @@
     <None Include="Properties\DataSources\ProteomicsLib.Proteomics.Spectrum.IPeak.datasource" />
     <None Include="Properties\DataSources\ProteomicsLib.Proteomics.Spectrum.Peak.datasource" />
     <None Include="Properties\DataSources\RCPA.Proteomics.Snp.MS3MatchItem.datasource" />
+    <None Include="Properties\DataSources\RCPA.Proteomics.Snp.MS3XcorrItem.datasource" />
     <None Include="Resources\compoundMode.png" />
     <None Include="Resources\fileMode.png" />
     <None Include="Resources\save.png" />

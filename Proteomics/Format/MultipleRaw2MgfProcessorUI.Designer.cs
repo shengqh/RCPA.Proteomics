@@ -32,6 +32,7 @@ namespace RCPA.Proteomics.Format
       this.rawFiles = new RCPA.Gui.MultipleFileField();
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.tabGeneral = new System.Windows.Forms.TabPage();
+      this.cbExtractRawMS3 = new RCPA.Gui.RcpaCheckField();
       this.rbMzXml = new RCPA.Gui.RcpaCheckField();
       this.cbByMsLevel = new RCPA.Gui.RcpaCheckField();
       this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -84,7 +85,6 @@ namespace RCPA.Proteomics.Format
       this.txtRetentionTimeWindow = new System.Windows.Forms.TextBox();
       this.txtMaxShiftPPM = new System.Windows.Forms.TextBox();
       this.label7 = new System.Windows.Forms.Label();
-      this.siliconePolymers = new RCPA.Proteomics.SiliconePolymerIonField();
       this.rbMassCalibrationByFixed = new RCPA.Gui.RcpaRadioField();
       this.rbMassCalibrationByFile = new RCPA.Gui.RcpaRadioField();
       this.rbMassCalibrationAutomatically = new RCPA.Gui.RcpaRadioField();
@@ -97,7 +97,7 @@ namespace RCPA.Proteomics.Format
       this.rbMassCalibrationNone = new RCPA.Gui.RcpaRadioField();
       this.cbCalibrateProductIon = new RCPA.Gui.RcpaCheckField();
       this.cbCalibratePrecursor = new RCPA.Gui.RcpaCheckField();
-      this.cbExtractRawMS3 = new RCPA.Gui.RcpaCheckField();
+      this.siliconePolymers = new RCPA.Proteomics.SiliconePolymerIonField();
       this.pnlFile.SuspendLayout();
       this.pnlButton.SuspendLayout();
       this.tabControl1.SuspendLayout();
@@ -209,6 +209,16 @@ namespace RCPA.Proteomics.Format
       this.tabGeneral.Text = "General option";
       this.tabGeneral.UseVisualStyleBackColor = true;
       // 
+      // cbExtractRawMS3
+      // 
+      this.cbExtractRawMS3.Key = "ExtractRawMS3";
+      this.cbExtractRawMS3.Location = new System.Drawing.Point(382, 265);
+      this.cbExtractRawMS3.Name = "cbExtractRawMS3";
+      this.cbExtractRawMS3.PreCondition = null;
+      this.cbExtractRawMS3.Size = new System.Drawing.Size(142, 21);
+      this.cbExtractRawMS3.TabIndex = 76;
+      this.cbExtractRawMS3.Text = "Extract raw MS3";
+      // 
       // rbMzXml
       // 
       this.rbMzXml.Key = "OutputMzXml";
@@ -230,6 +240,7 @@ namespace RCPA.Proteomics.Format
       this.cbByMsLevel.PreCondition = null;
       this.cbByMsLevel.Size = new System.Drawing.Size(142, 21);
       this.cbByMsLevel.TabIndex = 74;
+      this.cbByMsLevel.Tag = "1";
       this.cbByMsLevel.Text = "Group by ms level";
       // 
       // groupBox1
@@ -315,6 +326,7 @@ namespace RCPA.Proteomics.Format
       this.cbByMode.PreCondition = null;
       this.cbByMode.Size = new System.Drawing.Size(142, 21);
       this.cbByMode.TabIndex = 66;
+      this.cbByMode.Tag = "1";
       this.cbByMode.Text = "Group by scan mode";
       // 
       // cbParallel
@@ -337,6 +349,7 @@ namespace RCPA.Proteomics.Format
       this.cbDefaultCharge.Name = "cbDefaultCharge";
       this.cbDefaultCharge.Size = new System.Drawing.Size(132, 21);
       this.cbDefaultCharge.TabIndex = 63;
+      this.cbDefaultCharge.Tag = "1";
       // 
       // label10
       // 
@@ -345,6 +358,7 @@ namespace RCPA.Proteomics.Format
       this.label10.Name = "label10";
       this.label10.Size = new System.Drawing.Size(77, 13);
       this.label10.TabIndex = 62;
+      this.label10.Tag = "1";
       this.label10.Text = "Default charge";
       // 
       // label8
@@ -354,6 +368,7 @@ namespace RCPA.Proteomics.Format
       this.label8.Name = "label8";
       this.label8.Size = new System.Drawing.Size(83, 13);
       this.label8.TabIndex = 59;
+      this.label8.Tag = "1";
       this.label8.Text = "Scan title format";
       // 
       // txtMinIonIntensity
@@ -362,6 +377,7 @@ namespace RCPA.Proteomics.Format
       this.txtMinIonIntensity.Name = "txtMinIonIntensity";
       this.txtMinIonIntensity.Size = new System.Drawing.Size(132, 20);
       this.txtMinIonIntensity.TabIndex = 61;
+      this.txtMinIonIntensity.Tag = "1";
       this.txtMinIonIntensity.Text = "1.0";
       // 
       // label9
@@ -371,6 +387,7 @@ namespace RCPA.Proteomics.Format
       this.label9.Name = "label9";
       this.label9.Size = new System.Drawing.Size(106, 13);
       this.label9.TabIndex = 60;
+      this.label9.Tag = "1";
       this.label9.Text = "Minimum ion intensity";
       // 
       // cbTitleFormat
@@ -383,6 +400,7 @@ namespace RCPA.Proteomics.Format
       this.cbTitleFormat.Name = "cbTitleFormat";
       this.cbTitleFormat.Size = new System.Drawing.Size(812, 21);
       this.cbTitleFormat.TabIndex = 58;
+      this.cbTitleFormat.Tag = "1";
       // 
       // label5
       // 
@@ -391,6 +409,7 @@ namespace RCPA.Proteomics.Format
       this.label5.Name = "label5";
       this.label5.Size = new System.Drawing.Size(13, 13);
       this.label5.TabIndex = 57;
+      this.label5.Tag = "1";
       this.label5.Text = "--";
       // 
       // txtMWRangeTo
@@ -399,6 +418,7 @@ namespace RCPA.Proteomics.Format
       this.txtMWRangeTo.Name = "txtMWRangeTo";
       this.txtMWRangeTo.Size = new System.Drawing.Size(60, 20);
       this.txtMWRangeTo.TabIndex = 56;
+      this.txtMWRangeTo.Tag = "1";
       this.txtMWRangeTo.Text = "3500.00";
       // 
       // txtMinIonCount
@@ -407,6 +427,7 @@ namespace RCPA.Proteomics.Format
       this.txtMinIonCount.Name = "txtMinIonCount";
       this.txtMinIonCount.Size = new System.Drawing.Size(132, 20);
       this.txtMinIonCount.TabIndex = 55;
+      this.txtMinIonCount.Tag = "1";
       this.txtMinIonCount.Text = "5";
       // 
       // label4
@@ -416,6 +437,7 @@ namespace RCPA.Proteomics.Format
       this.label4.Name = "label4";
       this.label4.Size = new System.Drawing.Size(95, 13);
       this.label4.TabIndex = 54;
+      this.label4.Tag = "1";
       this.label4.Text = "Minimum ion count";
       // 
       // txtMinIonIntensityThreshold
@@ -424,6 +446,7 @@ namespace RCPA.Proteomics.Format
       this.txtMinIonIntensityThreshold.Name = "txtMinIonIntensityThreshold";
       this.txtMinIonIntensityThreshold.Size = new System.Drawing.Size(132, 20);
       this.txtMinIonIntensityThreshold.TabIndex = 53;
+      this.txtMinIonIntensityThreshold.Tag = "1";
       this.txtMinIonIntensityThreshold.Text = "100";
       // 
       // label3
@@ -433,6 +456,7 @@ namespace RCPA.Proteomics.Format
       this.label3.Name = "label3";
       this.label3.Size = new System.Drawing.Size(175, 13);
       this.label3.TabIndex = 52;
+      this.label3.Tag = "1";
       this.label3.Text = "Absolute total ion intensity threshold";
       // 
       // txtMWRangeFrom
@@ -441,6 +465,7 @@ namespace RCPA.Proteomics.Format
       this.txtMWRangeFrom.Name = "txtMWRangeFrom";
       this.txtMWRangeFrom.Size = new System.Drawing.Size(43, 20);
       this.txtMWRangeFrom.TabIndex = 51;
+      this.txtMWRangeFrom.Tag = "1";
       this.txtMWRangeFrom.Text = "600.00";
       // 
       // label2
@@ -450,6 +475,7 @@ namespace RCPA.Proteomics.Format
       this.label2.Name = "label2";
       this.label2.Size = new System.Drawing.Size(143, 13);
       this.label2.TabIndex = 50;
+      this.label2.Tag = "1";
       this.label2.Text = "Precursor mass weight range";
       // 
       // tabIons
@@ -750,15 +776,6 @@ namespace RCPA.Proteomics.Format
       this.label7.TabIndex = 114;
       this.label7.Text = "product ion (ppm)";
       // 
-      // siliconePolymers
-      // 
-      this.siliconePolymers.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-      this.siliconePolymers.Location = new System.Drawing.Point(186, 87);
-      this.siliconePolymers.Name = "siliconePolymers";
-      this.siliconePolymers.SelectedIon = "355,371,388,429,445,462,503,519,536,593";
-      this.siliconePolymers.Size = new System.Drawing.Size(703, 198);
-      this.siliconePolymers.TabIndex = 113;
-      // 
       // rbMassCalibrationByFixed
       // 
       this.rbMassCalibrationByFixed.AutoSize = true;
@@ -891,15 +908,14 @@ namespace RCPA.Proteomics.Format
       this.cbCalibratePrecursor.TabIndex = 99;
       this.cbCalibratePrecursor.Text = "Precursor ion";
       // 
-      // rbExtractRawMS3
+      // siliconePolymers
       // 
-      this.cbExtractRawMS3.Key = "ExtractRawMS3";
-      this.cbExtractRawMS3.Location = new System.Drawing.Point(382, 265);
-      this.cbExtractRawMS3.Name = "rbExtractRawMS3";
-      this.cbExtractRawMS3.PreCondition = null;
-      this.cbExtractRawMS3.Size = new System.Drawing.Size(142, 21);
-      this.cbExtractRawMS3.TabIndex = 76;
-      this.cbExtractRawMS3.Text = "Extract raw MS3";
+      this.siliconePolymers.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.siliconePolymers.Location = new System.Drawing.Point(186, 87);
+      this.siliconePolymers.Name = "siliconePolymers";
+      this.siliconePolymers.SelectedIon = "355,371,388,429,445,462,503,519,536,593";
+      this.siliconePolymers.Size = new System.Drawing.Size(703, 198);
+      this.siliconePolymers.TabIndex = 113;
       // 
       // MultipleRaw2MgfProcessorUI
       // 

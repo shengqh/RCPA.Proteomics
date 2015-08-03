@@ -16,9 +16,10 @@ namespace RCPA.Proteomics.MSAmanda
   {
     public MSAmandaParser() { }
 
-    private static readonly string TITLE_KEY = "Title";
-    private static readonly string PROTEIN_KEY = "Protein Accessions";
-    private static readonly string RT_KEY = "RT";
+    public static readonly string TITLE_KEY = "Title";
+    public static readonly string PROTEIN_KEY = "Protein Accessions";
+    public static readonly string RT_KEY = "RT";
+
     private static Regex modReg = new Regex(@"(.+?)\((.+?)\|\S+?\|(\S+?);{0,1}");
 
     public ITitleParser TitleParser { get; set; }
@@ -34,7 +35,8 @@ namespace RCPA.Proteomics.MSAmanda
     public List<IIdentifiedSpectrum> ReadFromFile(string fileName)
     {
       var result = new MascotPeptideTextFormat().ReadFromFile(fileName);
-      result.RemoveAll(m => m.Rank != 1);
+
+      FilterSpectra(result);
 
       UpdateModifications(result);
 
@@ -91,11 +93,16 @@ namespace RCPA.Proteomics.MSAmanda
       return result;
     }
 
+    protected virtual void FilterSpectra(List<IIdentifiedSpectrum> result)
+    {
+      result.RemoveAll(m => m.Rank != 1);
+    }
+
     private static Regex modReg2 = new Regex(@"\S+?(\d+)\((\S+?)\|");
     private void UpdateModifications(List<IIdentifiedSpectrum> result)
     {
-      PeptideProphetModifications mods = new PeptideProphetModifications();
-      var map = new Dictionary<string, PeptideProphetModificationItem>();
+      PepXmlModifications mods = new PepXmlModifications();
+      var map = new Dictionary<string, PepXmlModificationItem>();
       foreach (var pep in result)
       {
         var curMods = pep.Modifications.Split(';');
@@ -107,7 +114,7 @@ namespace RCPA.Proteomics.MSAmanda
             var modname = m.Groups[2].Value;
             if (!map.ContainsKey(modname))
             {
-              var item = new PeptideProphetModificationItem();
+              var item = new PepXmlModificationItem();
               item.Aminoacid = modname;
               item.IsVariable = curMod.Contains("variable");
               map[modname] = item;
@@ -140,7 +147,7 @@ namespace RCPA.Proteomics.MSAmanda
           if (m.Success)
           {
             var modname = m.Groups[2].Value;
-            var modchar = map[modname].ModificationChar;
+            var modchar = map[modname].Symbol;
             var modpos = int.Parse(m.Groups[1].Value);
             vmods.Push(new Tuple<int, string>(modpos, modchar));
           }

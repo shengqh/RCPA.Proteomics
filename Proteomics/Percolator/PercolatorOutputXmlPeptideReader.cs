@@ -26,7 +26,7 @@ namespace RCPA.Proteomics.Percolator
         spec.Score = double.Parse(peptide.FindElement("pep").Value);
         spec.TheoreticalMass = double.Parse(peptide.FindElement("calc_mass").Value);
         pep.AddProtein(peptide.FindElement("protein_id").Value);
-        spec.PValue = double.Parse(peptide.FindElement("p_value").Value);
+        spec.Probability = double.Parse(peptide.FindElement("p_value").Value);
         result.Add(spec);
       }
 

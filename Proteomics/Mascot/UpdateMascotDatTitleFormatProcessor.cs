@@ -32,7 +32,7 @@ namespace RCPA.Proteomics.Mascot
         var sourceDir = new FileInfo(sourceFile).DirectoryName;
         string targetFile;
         bool isSame = sourceDir.ToUpper() == targetDir.ToUpper();
-        if(isSame)
+        if (isSame)
         {
           targetFile = sourceFile + ".tmp";
         }
@@ -47,20 +47,42 @@ namespace RCPA.Proteomics.Mascot
           using (StreamWriter sw = new StreamWriter(targetFile))
           {
             string line;
+            string filename = null;
             while ((line = sr.ReadLine()) != null)
             {
               if (line.StartsWith("title="))
               {
                 string title = Uri.UnescapeDataString(line.Substring(6));
                 SequestFilename sf = this.parser.GetValue(title);
+                if (string.IsNullOrEmpty(sf.Experimental))
+                {
+                  if (string.IsNullOrEmpty(filename))
+                  {
+                    filename = Path.GetFileNameWithoutExtension(sourceFile);
+                  }
+                  sf.Experimental = filename;
+                }
 
-                var chargeLine = sr.ReadLine();
+                List<string> lines = new List<string>();
+                while ((line = sr.ReadLine()) != null)
+                {
+                  lines.Add(line);
+                  if (line.StartsWith("--"))
+                  {
+                    break;
+                  }
+                }
+                var chargeLine = lines.Where(m => m.StartsWith("charge=")).First();
                 sf.Charge = Convert.ToInt32(chargereg.Match(chargeLine).Groups[1].Value);
 
                 line = "title=" + Uri.EscapeDataString(sf.LongFileName);
 
                 sw.WriteLine(line);
-                sw.WriteLine(chargeLine);
+                lines.ForEach(m => sw.WriteLine(m));
+              }
+              else if (line.StartsWith("FILE="))
+              {
+                filename = Path.GetFileNameWithoutExtension(line.StringAfter("File Name:").Trim());
               }
               else
               {

@@ -18,5 +18,7 @@ namespace RCPA.Proteomics.Mascot
     public int Charge { get; set; }
 
     public int MatchCount { get; set; }
+
+    public double HomologyScore { get; set; }
   }
 }

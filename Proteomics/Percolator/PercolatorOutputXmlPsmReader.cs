@@ -23,7 +23,7 @@ namespace RCPA.Proteomics.Percolator
         spec.SpScore = double.Parse(psm.FindElement("svm_score").Value);
         spec.QValue = double.Parse(psm.FindElement("q_value").Value);
         spec.Score = double.Parse(psm.FindElement("pep").Value);
-        spec.PValue = double.Parse(psm.FindElement("p_value").Value);
+        spec.Probability = double.Parse(psm.FindElement("p_value").Value);
         spec.TheoreticalMH = double.Parse(psm.FindElement("calc_mass").Value);
         spec.Query.FileScan.Experimental = Path.GetFileName(fileName).StringBefore(".");
         var pep = new IdentifiedPeptide(spec);

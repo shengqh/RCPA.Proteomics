@@ -48,8 +48,8 @@
       // splitContainer3.Panel1
       // 
       this.splitContainer3.Panel1.Controls.Add(this.xmlFiles);
-      this.splitContainer3.Size = new System.Drawing.Size(1016, 260);
-      this.splitContainer3.SplitterDistance = 227;
+      this.splitContainer3.Size = new System.Drawing.Size(1016, 262);
+      this.splitContainer3.SplitterDistance = 194;
       // 
       // label7
       // 
@@ -64,13 +64,12 @@
       // 
       // splitContainer2
       // 
-      this.splitContainer2.Size = new System.Drawing.Size(1016, 359);
+      this.splitContainer2.Size = new System.Drawing.Size(1016, 361);
       // 
       // groupBox1
       // 
       this.groupBox1.Controls.Add(this.cbFilterByPValue);
       this.groupBox1.Controls.Add(this.txtMinProbabilityValue);
-      this.groupBox1.Size = new System.Drawing.Size(1016, 95);
       this.groupBox1.Controls.SetChildIndex(this.txtMinProbabilityValue, 0);
       this.groupBox1.Controls.SetChildIndex(this.cbFilterByPValue, 0);
       // 
@@ -78,7 +77,7 @@
       // 
       this.xmlFiles.Dock = System.Windows.Forms.DockStyle.Fill;
       this.xmlFiles.FileArgument = null;
-      this.xmlFiles.FileDescription = "PeptidePhophet Xml Files";
+      this.xmlFiles.FileDescription = "pepXml Files";
       this.xmlFiles.FileNames = new string[0];
       this.xmlFiles.Key = "File";
       this.xmlFiles.Location = new System.Drawing.Point(0, 0);
@@ -86,7 +85,7 @@
       this.xmlFiles.SelectedIndex = -1;
       this.xmlFiles.SelectedItem = null;
       this.xmlFiles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-      this.xmlFiles.Size = new System.Drawing.Size(1016, 227);
+      this.xmlFiles.Size = new System.Drawing.Size(1016, 194);
       this.xmlFiles.TabIndex = 0;
       // 
       // cbFilterByPValue

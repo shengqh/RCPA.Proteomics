@@ -51,5 +51,11 @@ namespace RCPA.Proteomics.PeptideProphet
     public string MassTypeParentAnnotation { get; set; }
 
     public string MassTypeFragmentAnnotation { get; set; }
+
+    public PepXmlModifications Modifications { get; set; }
+
+    public Dictionary<string,string> Parameters { get; set; }
+
+    public bool NotCombineRank1PSMs { get; set; }
   }
 }

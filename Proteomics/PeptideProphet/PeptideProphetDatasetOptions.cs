@@ -18,11 +18,11 @@ namespace RCPA.Proteomics.PeptideProphet
       this.SearchEngine = SearchEngineType.PeptidePhophet;
     }
 
-    private bool _filterByMinPValue;
-    public bool FilterByMinPValue
+    private bool _filterByMinProbability;
+    public bool FilterByMinProbability
     {
-      get { return _filterByMinPValue; }
-      set { _filterByMinPValue = value; }
+      get { return _filterByMinProbability; }
+      set { _filterByMinProbability = value; }
     }
 
     private double _minPValue;
@@ -48,22 +48,22 @@ namespace RCPA.Proteomics.PeptideProphet
 
     protected override void AddAdditionalFilterTo(List<IFilter<IIdentifiedSpectrum>> filters)
     {
-      if (_filterByMinPValue)
+      if (_filterByMinProbability)
       {
-        filters.Add(new IdentifiedSpectrumMinPValueFilter(_minPValue));
+        filters.Add(new IdentifiedSpectrumMinProbabilityFilter(_minPValue));
       }
     }
 
     protected override List<XElement> GetPeptideFilters()
     {
       return new XElement[]{
-        OptionUtils.FilterToXml("MinPValue", _filterByMinPValue, _minPValue),
+        OptionUtils.FilterToXml("MinProbability", _filterByMinProbability, _minPValue),
       }.ToList();
     }
 
     protected override void ParsePeptideFilters(XElement filterXml)
     {
-      OptionUtils.XmlToFilter(filterXml, "MinPValue", out _filterByMinPValue, out _minPValue);
+      OptionUtils.XmlToFilter(filterXml, "MinProbability", out _filterByMinProbability, out _minPValue);
     }
   }
 }

@@ -46,13 +46,13 @@ namespace RCPA.Proteomics.Format
 
       if (options.GroupByMsLevel && (msLevel != 2))
       {
-        result = FileUtils.ChangeExtension(result, string.Format("ms{0}." + options.Extension));
+        result = FileUtils.ChangeExtension(result, string.Format("ms{0}.{1}", msLevel, options.Extension));
       }
 
       return result;
     }
 
-    protected IEnumerable<string> DoProcess(string fileName, List<int> ignoreScans)
+    protected virtual IEnumerable<string> DoProcess(string fileName, List<int> ignoreScans)
     {
       var result = new List<string>();
 
@@ -70,6 +70,7 @@ namespace RCPA.Proteomics.Format
 
           int firstSpectrumNumber = rawReader.GetFirstSpectrumNumber();
           int lastSpectrumNumber = rawReader.GetLastSpectrumNumber();
+//          int lastSpectrumNumber = 5000;
 
           SetRange(firstSpectrumNumber, lastSpectrumNumber);
 

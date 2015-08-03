@@ -9,6 +9,8 @@ namespace RCPA.Proteomics.MSGF
 {
   public class MSGFMzIdentParser : AbstractMzIdentParser
   {
+    public MSGFMzIdentParser(ITitleParser parser, bool extractRank2) : base(parser, extractRank2) { }
+
     public MSGFMzIdentParser(ITitleParser parser) : base(parser) { }
 
     public MSGFMzIdentParser() : base() { }

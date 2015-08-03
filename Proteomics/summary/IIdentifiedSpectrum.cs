@@ -26,6 +26,8 @@ namespace RCPA.Proteomics.Summary
 
     bool FromDecoy { get; set; }
 
+    bool AssignedDecoy { get; set; }
+
     bool IsContaminant { get; set; }
 
     ReadOnlyCollection<string> Proteins { get; }
@@ -54,7 +56,7 @@ namespace RCPA.Proteomics.Summary
 
     double Score { get; set; }
 
-    double PValue { get; set; }
+    double Probability { get; set; }
 
     double QValue { get; set; }
 

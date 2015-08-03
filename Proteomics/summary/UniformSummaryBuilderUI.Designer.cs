@@ -84,13 +84,14 @@
       this.btnNew = new System.Windows.Forms.Button();
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.tpGeneral = new System.Windows.Forms.TabPage();
+      this.label10 = new System.Windows.Forms.Label();
+      this.txtMinimumSpectraPerGroup = new System.Windows.Forms.TextBox();
       this.label7 = new System.Windows.Forms.Label();
       this.tpDatasets = new System.Windows.Forms.TabPage();
       this.panel1 = new System.Windows.Forms.Panel();
       this.rbUseSelectedOnly = new RCPA.Gui.RcpaRadioField();
       this.rbUseAll = new RCPA.Gui.RcpaRadioField();
-      this.label10 = new System.Windows.Forms.Label();
-      this.txtMinimumSpectraPerGroup = new System.Windows.Forms.TextBox();
+      this.btnIprophet = new System.Windows.Forms.Button();
       this.pnlButton.SuspendLayout();
       this.pnlAdd.SuspendLayout();
       this.tabControl1.SuspendLayout();
@@ -510,6 +511,7 @@
       this.pnlAdd.Controls.Add(this.btnAddOmssa);
       this.pnlAdd.Controls.Add(this.btnAddMSGF);
       this.pnlAdd.Controls.Add(this.btnAddMyriMatch);
+      this.pnlAdd.Controls.Add(this.btnIprophet);
       this.pnlAdd.Controls.Add(this.btnAddPeptideProphet);
       this.pnlAdd.Controls.Add(this.btnAddPFind);
       this.pnlAdd.Controls.Add(this.btnAddXtandem);
@@ -524,7 +526,7 @@
       // btnDelete
       // 
       this.btnDelete.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnDelete.Location = new System.Drawing.Point(0, 250);
+      this.btnDelete.Location = new System.Drawing.Point(0, 275);
       this.btnDelete.Name = "btnDelete";
       this.btnDelete.Size = new System.Drawing.Size(139, 25);
       this.btnDelete.TabIndex = 13;
@@ -535,7 +537,7 @@
       // btnMSAmanda
       // 
       this.btnMSAmanda.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnMSAmanda.Location = new System.Drawing.Point(0, 225);
+      this.btnMSAmanda.Location = new System.Drawing.Point(0, 250);
       this.btnMSAmanda.Name = "btnMSAmanda";
       this.btnMSAmanda.Size = new System.Drawing.Size(139, 25);
       this.btnMSAmanda.TabIndex = 22;
@@ -546,7 +548,7 @@
       // btnAddPercolator
       // 
       this.btnAddPercolator.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddPercolator.Location = new System.Drawing.Point(0, 200);
+      this.btnAddPercolator.Location = new System.Drawing.Point(0, 225);
       this.btnAddPercolator.Name = "btnAddPercolator";
       this.btnAddPercolator.Size = new System.Drawing.Size(139, 25);
       this.btnAddPercolator.TabIndex = 21;
@@ -557,7 +559,7 @@
       // btnAddOmssa
       // 
       this.btnAddOmssa.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddOmssa.Location = new System.Drawing.Point(0, 175);
+      this.btnAddOmssa.Location = new System.Drawing.Point(0, 200);
       this.btnAddOmssa.Name = "btnAddOmssa";
       this.btnAddOmssa.Size = new System.Drawing.Size(139, 25);
       this.btnAddOmssa.TabIndex = 19;
@@ -568,7 +570,7 @@
       // btnAddMSGF
       // 
       this.btnAddMSGF.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddMSGF.Location = new System.Drawing.Point(0, 150);
+      this.btnAddMSGF.Location = new System.Drawing.Point(0, 175);
       this.btnAddMSGF.Name = "btnAddMSGF";
       this.btnAddMSGF.Size = new System.Drawing.Size(139, 25);
       this.btnAddMSGF.TabIndex = 20;
@@ -579,7 +581,7 @@
       // btnAddMyriMatch
       // 
       this.btnAddMyriMatch.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddMyriMatch.Location = new System.Drawing.Point(0, 125);
+      this.btnAddMyriMatch.Location = new System.Drawing.Point(0, 150);
       this.btnAddMyriMatch.Name = "btnAddMyriMatch";
       this.btnAddMyriMatch.Size = new System.Drawing.Size(139, 25);
       this.btnAddMyriMatch.TabIndex = 18;
@@ -736,6 +738,22 @@
       this.tpGeneral.Text = "General";
       this.tpGeneral.UseVisualStyleBackColor = true;
       // 
+      // label10
+      // 
+      this.label10.AutoSize = true;
+      this.label10.Location = new System.Drawing.Point(190, 216);
+      this.label10.Name = "label10";
+      this.label10.Size = new System.Drawing.Size(183, 13);
+      this.label10.TabIndex = 147;
+      this.label10.Text = "maximum spectrum count per group =";
+      // 
+      // txtMinimumSpectraPerGroup
+      // 
+      this.txtMinimumSpectraPerGroup.Location = new System.Drawing.Point(374, 214);
+      this.txtMinimumSpectraPerGroup.Name = "txtMinimumSpectraPerGroup";
+      this.txtMinimumSpectraPerGroup.Size = new System.Drawing.Size(47, 20);
+      this.txtMinimumSpectraPerGroup.TabIndex = 146;
+      // 
       // label7
       // 
       this.label7.AutoSize = true;
@@ -796,23 +814,18 @@
       this.rbUseAll.Text = "Use all files";
       this.rbUseAll.UseVisualStyleBackColor = true;
       // 
-      // label10
+      // btnIprophet
       // 
-      this.label10.AutoSize = true;
-      this.label10.Location = new System.Drawing.Point(190, 216);
-      this.label10.Name = "label10";
-      this.label10.Size = new System.Drawing.Size(183, 13);
-      this.label10.TabIndex = 147;
-      this.label10.Text = "maximum spectrum count per group =";
+      this.btnIprophet.Dock = System.Windows.Forms.DockStyle.Top;
+      this.btnIprophet.Location = new System.Drawing.Point(0, 125);
+      this.btnIprophet.Name = "btnIprophet";
+      this.btnIprophet.Size = new System.Drawing.Size(139, 25);
+      this.btnIprophet.TabIndex = 23;
+      this.btnIprophet.Text = "Add iProphet";
+      this.btnIprophet.UseVisualStyleBackColor = true;
+      this.btnIprophet.Click += new System.EventHandler(this.btnIprophet_Click);
       // 
-      // txtMinimumSpectraPerGroup
-      // 
-      this.txtMinimumSpectraPerGroup.Location = new System.Drawing.Point(374, 214);
-      this.txtMinimumSpectraPerGroup.Name = "txtMinimumSpectraPerGroup";
-      this.txtMinimumSpectraPerGroup.Size = new System.Drawing.Size(47, 20);
-      this.txtMinimumSpectraPerGroup.TabIndex = 146;
-      // 
-      // UniformBuildSummaryUI
+      // UniformSummaryBuilderUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -821,7 +834,7 @@
       this.Controls.Add(this.tabControl1);
       this.Controls.Add(this.btnNew);
       this.Controls.Add(this.btnSaveParam);
-      this.Name = "UniformBuildSummaryUI";
+      this.Name = "UniformSummaryBuilderUI";
       this.TabText = "UniformBuildSummaryUI";
       this.Text = "UniformBuildSummaryUI";
       this.Controls.SetChildIndex(this.pnlButton, 0);
@@ -908,5 +921,6 @@
     protected System.Windows.Forms.Button btnMSAmanda;
     private System.Windows.Forms.Label label10;
     private System.Windows.Forms.TextBox txtMinimumSpectraPerGroup;
+    protected System.Windows.Forms.Button btnIprophet;
   }
 }

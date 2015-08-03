@@ -29,8 +29,31 @@ namespace RCPA.Proteomics.Sequest
     }
 
     private static readonly double _modificationDeltaScore = 0.08;
-    public override ISpectrumParser GetParser(string name)
+    public override ISpectrumParser GetParser(string name, bool extractRank2)
     {
+      if (name.ToLower().EndsWith(".xml"))
+      {
+        if (extractRank2)
+        {
+          return new CometXmlRank2Parser()
+          {
+            TitleParser = new DefaultTitleParser(TitleParserUtils.GetTitleParsers())
+          };
+        }
+        else
+        {
+          return new CometXmlParser()
+          {
+            TitleParser = new DefaultTitleParser(TitleParserUtils.GetTitleParsers())
+          };
+        }
+      }
+
+      if (extractRank2)
+      {
+        throw new Exception("Extract rank2 PSM is not supported for Sequest");
+      }
+
       if (Directory.Exists(name))
       {
         var dir = new DirectoryInfo(name);
@@ -45,13 +68,6 @@ namespace RCPA.Proteomics.Sequest
         }
       }
 
-      if (name.ToLower().EndsWith(".xml"))
-      {
-        return new CometXmlParser()
-        {
-          TitleParser = new DefaultTitleParser(TitleParserUtils.GetTitleParsers())
-        };
-      }
 
       if (name.ToLower().EndsWith(".msf"))
       {

@@ -107,23 +107,23 @@ namespace RCPA.Proteomics.Summary
     }
   }
 
-  public class IdentifiedSpectrumMinPValueFilter : IFilter<IIdentifiedSpectrum>
+  public class IdentifiedSpectrumMinProbabilityFilter : IFilter<IIdentifiedSpectrum>
   {
-    private double minPValue;
+    private double minProbability;
 
-    public IdentifiedSpectrumMinPValueFilter(double minPValue)
+    public IdentifiedSpectrumMinProbabilityFilter(double minProbability)
     {
-      this.minPValue = minPValue;
+      this.minProbability = minProbability;
     }
 
     public bool Accept(IIdentifiedSpectrum e)
     {
-      return e.PValue >= minPValue;
+      return e.Probability >= minProbability;
     }
 
     public override string ToString()
     {
-      return string.Format("PValue >= {0:0.######}", minPValue);
+      return string.Format("Probability >= {0:0.######}", minProbability);
     }
   }
 

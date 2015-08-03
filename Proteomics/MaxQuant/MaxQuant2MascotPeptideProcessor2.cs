@@ -23,7 +23,7 @@ namespace RCPA.Proteomics.MaxQuant
     public override IEnumerable<string> Process()
     {
       var spectra = new MaxQuantPeptideTextReader().ReadFromFile(options.SiteFile);
-      spectra.RemoveAll(m => m.DeltaScore < options.MinDeltaScore || m.PValue < options.MinProbability);
+      spectra.RemoveAll(m => m.DeltaScore < options.MinDeltaScore || m.Probability < options.MinProbability);
       spectra = (from g in spectra.GroupBy(m => m.Query.FileScan.ShortFileName)
                  select g.OrderBy(l => l.Score).Last()).ToList();
 
