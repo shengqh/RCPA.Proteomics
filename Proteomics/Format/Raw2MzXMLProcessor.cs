@@ -274,6 +274,12 @@ namespace RCPA.Proteomics.Format
       {
         DoWritePeakList(rawReader, pklProcessed, fileName, returnFiles);
 
+        if (!options.MzXmlNestedScan)
+        {
+          var intent = GetScanIntent(pkl.MsLevel);
+          sw.WriteLine(intent + "</scan>");
+        }
+
         while (result < lastSpectrumNumber && rawReader.GetMsLevel(result) > msLevel)
         {
           result = DoWritePeakList(rawReader, result, fileName, returnFiles, experimental, lastSpectrumNumber, ignoreScans, ref bReadAgain);
@@ -283,11 +289,26 @@ namespace RCPA.Proteomics.Format
           }
         }
 
-        var intent = new string(' ', pkl.MsLevel + 1);
-        sw.WriteLine(intent + "</scan>");
+        if (options.MzXmlNestedScan)
+        {
+          var intent = GetScanIntent(pkl.MsLevel);
+          sw.WriteLine(intent + "</scan>");
+        }
       }
 
       return result;
+    }
+
+    private string GetScanIntent(int msLevel)
+    {
+      if (options.MzXmlNestedScan)
+      {
+        return new string(' ', msLevel + 1);
+      }
+      else
+      {
+        return "  ";
+      }
     }
 
     private const string lf = "\n";
@@ -301,7 +322,7 @@ namespace RCPA.Proteomics.Format
 
       var activationMethod = string.Empty;
 
-      var intent = new string(' ', pkl.MsLevel + 1);
+      var intent = GetScanIntent(pkl.MsLevel);
 
       if (rawFile is RawFileImpl)
       {

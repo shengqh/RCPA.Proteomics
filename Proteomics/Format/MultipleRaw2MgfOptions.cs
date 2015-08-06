@@ -55,6 +55,8 @@ namespace RCPA.Proteomics.Format
       this.CalibrateProductIon = false;
 
       this.Shift10Dalton = false;
+
+      this.MzXmlNestedScan = false;
     }
 
     public MascotGenericFormatWriter<Peak> GetMGFWriter()
@@ -141,6 +143,11 @@ namespace RCPA.Proteomics.Format
     public double ShiftProductIonPPM { get; set; }
 
     public bool OutputMzXmlFormat { get; set; }
+
+    /// <summary>
+    /// Will the tandem scan be included in its parent scan?
+    /// </summary>
+    public bool MzXmlNestedScan { get; set; }
 
     private string _offsetFile;
 

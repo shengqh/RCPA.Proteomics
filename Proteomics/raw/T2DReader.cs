@@ -5,6 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.IO;
 using System.IO.Compression;
+using ICSharpCode.SharpZipLib.GZip;
 
 namespace RCPA.Proteomics.Raw
 {
@@ -263,7 +264,7 @@ namespace RCPA.Proteomics.Raw
       return this.fis.ReadUInt32();
     }
 
-    double readDouble(GZipStream gz)
+    double readDouble(GZipInputStream gz)
     {
       byte[] b = new byte[8];
       gz.Read(b, 0, 8);
