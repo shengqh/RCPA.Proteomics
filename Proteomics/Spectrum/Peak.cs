@@ -42,6 +42,8 @@ namespace RCPA.Proteomics.Spectrum
 
     public int Tag { get; set; }
 
+    public int CombinedCount { get; set; }
+
     public Dictionary<string, object> Annotations
     {
       get

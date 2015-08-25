@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RCPA.Proteomics.Spectrum;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,6 +21,58 @@ namespace RCPA.Proteomics.Snp
       XElement root = XElement.Load(fileName);
 
       List<MS2Item> result = new List<MS2Item>();
+      foreach (var ms2ele in root.Elements("MS2"))
+      {
+        var item = new MS2Item();
+        result.Add(item);
+
+        item.CombinedCount = int.Parse(ms2ele.Attribute("PKL").Value);
+        item.Precursor = double.Parse(ms2ele.Attribute("MZ").Value);
+        item.Charge = int.Parse(ms2ele.Attribute("Z").Value);
+        if (ms2ele.Attribute("Seq") != null)
+        {
+          item.Peptide = ms2ele.Attribute("Seq").Value;
+        }
+        if (ms2ele.Attribute("Mod") != null)
+        {
+          item.Modification = ms2ele.Attribute("Mod").Value;
+        }
+        if (ms2ele.Attribute("FileScan") != null)
+        {
+          item.FileScan = new SequestFilename(ms2ele.Attribute("FileScan").Value);
+        }
+        foreach (var ms3ele in ms2ele.Elements("MS3"))
+        {
+          var ms3 = new PeakList<Peak>();
+          item.MS3Spectra.Add(ms3);
+
+          if (item.CombinedCount > 1)
+          {
+            ms3.CombinedCount = int.Parse(ms3ele.Attribute("PKL").Value);
+          }
+          else
+          {
+            ms3.CombinedCount = 1;
+          }
+          ms3.PrecursorMZ = double.Parse(ms3ele.Attribute("MZ").Value);
+          foreach (var pEle in ms3ele.Elements("P"))
+          {
+            var peak = new Peak();
+            ms3.Add(peak);
+
+            peak.Mz = double.Parse(pEle.Attribute("MZ").Value);
+            peak.Intensity = double.Parse(pEle.Attribute("I").Value);
+            if (ms3.CombinedCount > 1)
+            {
+              peak.CombinedCount = int.Parse(pEle.Attribute("PKL").Value);
+            }
+            else
+            {
+              peak.CombinedCount = 1;
+            }
+          }
+        }
+      }
 
       return result;
     }
@@ -28,19 +81,25 @@ namespace RCPA.Proteomics.Snp
     {
       XElement root = new XElement("Library",
         from ms2 in items
+        let ms3tag = ms2.CombinedCount > 1
         select new XElement("MS2",
-          new XElement("Seq", ms2.Peptide),
-          new XElement("MZ", string.Format("{0:0.#####}", ms2.Precursor)),
-          new XElement("Z", ms2.Charge),
-          new XElement("Mod", ms2.Modification),
+          new XAttribute("PKL", ms2.CombinedCount),
+          new XAttribute("MZ", string.Format("{0:0.#####}", ms2.Precursor)),
+          new XAttribute("Z", ms2.Charge),
+          string.IsNullOrEmpty(ms2.Peptide) ? null : new XAttribute("Seq", ms2.Peptide),
+          string.IsNullOrEmpty(ms2.Modification) ? null : new XAttribute("Mod", ms2.Modification),
+          ms2.FileScan == null ? null : new XAttribute("FileScan", ms2.FileScan.LongFileName),
           from ms3 in ms2.MS3Spectra
+          let peaktag = ms3tag && ms3.CombinedCount > 1
           orderby ms3.PrecursorMZ
           select new XElement("MS3",
+            ms3tag ? new XAttribute("PKL", ms3.CombinedCount) : null,
             new XAttribute("MZ", string.Format("{0:0.#####}", ms3.PrecursorMZ)),
             from peak in ms3
             select new XElement("P",
               new XAttribute("MZ", string.Format("{0:0.#####}", peak.Mz)),
-              new XAttribute("I", string.Format("{0:0.#}", peak.Intensity))))));
+              new XAttribute("I", string.Format("{0:0.#}", peak.Intensity)),
+              peaktag ? new XAttribute("PKL", peak.CombinedCount) : null))));
 
       root.Save(fileName);
     }

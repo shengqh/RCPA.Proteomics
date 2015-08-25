@@ -154,19 +154,21 @@ namespace RCPA.Proteomics.Snp
           return false;
         }
 
-        if (ignoreMultipleNucleotideMutation)
+        if (ignoreMultipleNucleotideMutation && IsSingleNucleotideMutation(fromPeptide[mutationSite], toPeptide[mutationSite]))
         {
-          int mutationCount;
-          var dnaMutation = aas[fromPeptide[mutationSite]].TransferTo(aas[toPeptide[mutationSite]], out mutationCount);
-          if (mutationCount > 1)
-          {
-            return false;
-          }
+          return false;
         }
 
         return true;
       }
       return false;
+    }
+
+    public static bool IsSingleNucleotideMutation(char fromAA, char toAA)
+    {
+      int mutationCount;
+      var dnaMutation = aas[fromAA].TransferTo(aas[toAA], out mutationCount);
+      return mutationCount == 1;
     }
 
     /// <summary>

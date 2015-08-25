@@ -27,6 +27,7 @@ namespace RCPA.Proteomics.Spectrum
       ScanMode = string.Empty;
       PrecursorPercentage = 0.0;
       Precursor = new PrecursorPeak();
+      CombinedCount = 1;
     }
 
     public PeakList(T source)
@@ -1098,6 +1099,10 @@ namespace RCPA.Proteomics.Spectrum
 
       return result;
     }
+
+    public int Tag { get; set; }
+
+    public int CombinedCount { get; set; }
   }
 
   public class PeakListMzAscendingComparer<T> : IComparer<PeakList<T>> where T : IPeak

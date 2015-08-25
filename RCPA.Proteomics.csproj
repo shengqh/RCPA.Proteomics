@@ -337,11 +337,34 @@
     <Compile Include="Proteomics\Snp\AminoacidInsertionBuilderUI.Designer.cs">
       <DependentUpon>AminoacidInsertionBuilderUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Proteomics\Snp\BestSpectrumTopSharedPeaksBuilder.cs" />
+    <Compile Include="Proteomics\Snp\IBestSpectrumBuilder.cs" />
     <Compile Include="Proteomics\Snp\MS2Item.cs" />
     <Compile Include="Proteomics\Snp\MS2ItemXmlFormat.cs" />
+    <Compile Include="Proteomics\Snp\MS3LibraryBuilder.cs" />
+    <Compile Include="Proteomics\Snp\MS3LibraryPredictorUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Snp\MS3LibraryPredictorUI.Designer.cs">
+      <DependentUpon>MS3LibraryPredictorUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\Snp\MS3LibraryPredictorOptions.cs" />
+    <Compile Include="Proteomics\Snp\MS3LibraryBuilderOptions.cs" />
+    <Compile Include="Proteomics\Snp\MS3LibraryPredictor.cs" />
     <Compile Include="Proteomics\Snp\MS3XcorrItem.cs" />
     <Compile Include="Proteomics\Snp\MS3MatchItem.cs" />
     <Compile Include="Proteomics\Snp\PNovoSAPValidatorOptions.cs" />
+    <Compile Include="Proteomics\Snp\MS3LibraryBuilderUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Snp\MS3LibraryBuilderUI.Designer.cs">
+      <DependentUpon>MS3LibraryBuilderUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\Snp\SapPredictedWriter.cs" />
+    <Compile Include="Proteomics\Snp\SapValidationScan.cs" />
+    <Compile Include="Proteomics\Snp\SapPredicted.cs" />
+    <Compile Include="Proteomics\Snp\SapMatchedCount.cs" />
+    <Compile Include="Proteomics\Snp\SapPredictedValidationWriter.cs" />
     <Compile Include="Proteomics\Snp\SpectrumXcorrValidatorUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -354,6 +377,7 @@
     <Compile Include="Proteomics\Snp\SpectrumScanValidatorUI.Designer.cs">
       <DependentUpon>SpectrumScanValidatorUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Proteomics\Snp\TargetSAP.cs" />
     <Compile Include="Proteomics\Spectrum\SpectrumXcorr.cs" />
     <Compile Include="Proteomics\Statistic\BuildSummaryResultParserCommand.cs" />
     <Compile Include="Proteomics\Statistic\BuildSummaryResultParserOptions.cs" />
@@ -1264,6 +1288,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Snp\AminoacidInsertionBuilderUI.resx">
       <DependentUpon>AminoacidInsertionBuilderUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Snp\MS3LibraryPredictorUI.resx">
+      <DependentUpon>MS3LibraryPredictorUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Snp\MS3LibraryBuilderUI.resx">
+      <DependentUpon>MS3LibraryBuilderUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Snp\SpectrumXcorrValidatorUI.resx">
