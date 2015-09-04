@@ -55,12 +55,12 @@ namespace RCPA.Proteomics.Quantification.SILAC
       // 
       // btnGo
       // 
-      this.btnGo.Location = new System.Drawing.Point(304, 7);
+      this.btnGo.Location = new System.Drawing.Point(316, 7);
       // 
       // minRSquare
       // 
-      this.minRSquare.Caption = "Minimum R Sqaure : ";
-      this.minRSquare.CaptionWidth = 120;
+      this.minRSquare.Caption = "Filter by minimum R sqaure : ";
+      this.minRSquare.CaptionWidth = 150;
       this.minRSquare.DefaultValue = "0.9";
       this.minRSquare.Description = "";
       this.minRSquare.Key = "TextField";
@@ -68,14 +68,14 @@ namespace RCPA.Proteomics.Quantification.SILAC
       this.minRSquare.Name = "minRSquare";
       this.minRSquare.PreCondition = null;
       this.minRSquare.Required = false;
-      this.minRSquare.Size = new System.Drawing.Size(172, 23);
+      this.minRSquare.Size = new System.Drawing.Size(200, 23);
       this.minRSquare.TabIndex = 25;
-      this.minRSquare.TextWidth = 52;
+      this.minRSquare.TextWidth = 50;
       this.minRSquare.Value = 0.9D;
       // 
       // btnUpdate
       // 
-      this.btnUpdate.Location = new System.Drawing.Point(190, 8);
+      this.btnUpdate.Location = new System.Drawing.Point(218, 9);
       this.btnUpdate.Name = "btnUpdate";
       this.btnUpdate.Size = new System.Drawing.Size(75, 23);
       this.btnUpdate.TabIndex = 26;

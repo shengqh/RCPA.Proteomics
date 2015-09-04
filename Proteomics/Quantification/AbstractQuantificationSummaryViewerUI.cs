@@ -102,6 +102,9 @@ namespace RCPA.Proteomics.Quantification
       this.ExportScanHeaders = new List<string>();
 
       bFirstLoad = true;
+
+      lvProteins.DoubleBuffered(true);
+      lvPeptides.DoubleBuffered(true);
     }
 
     protected override void OnAfterLoadOption(EventArgs e)
@@ -273,6 +276,7 @@ namespace RCPA.Proteomics.Quantification
 
     private void UpdateProteinEntry(ListViewItem item, IIdentifiedProteinGroup mpg, int index)
     {
+      item.ImageIndex = index;
       IIdentifiedProtein mp = mpg[index];
       var parts = new List<string>(this.format.ProteinFormat.GetString(mp).Split(new[] { '\t' }));
 
@@ -292,7 +296,8 @@ namespace RCPA.Proteomics.Quantification
           item.SubItems[i].Text = parts[proteinColumnIndecies[i]];
         }
       }
-      item.Checked = option.IsProteinRatioValid(mpg[0]) && !option.IsProteinOutlier(mpg[0]);
+      //item.Checked = option.IsProteinRatioValid(mpg[0]) && !option.IsProteinOutlier(mpg[0]);
+      item.Checked = option.IsProteinRatioValid(mpg[0]);
 
       item.Tag = mpg;
 
@@ -308,7 +313,8 @@ namespace RCPA.Proteomics.Quantification
       {
         item.SubItems.Add(parts[peptideColumnIndecies[i]]);
       }
-      item.Checked = option.IsPeptideRatioValid(mph) && !option.IsPeptideOutlier(mph);
+      //item.Checked = option.IsPeptideRatioValid(mph) && !option.IsPeptideOutlier(mph);
+      item.Checked = option.IsPeptideRatioValid(mph);
       item.Tag = mph;
 
       UpdatePeptideColor(mph, item);
@@ -602,11 +608,20 @@ namespace RCPA.Proteomics.Quantification
         option.SetProteinRatioValid(protein, e.Item.Checked);
       }
 
-      UpdateProteinColor(group[0], e.Item);
+      lvProteins.BeginUpdate();
+      try
+      {
+        UpdateProteinEntry(e.Item, group, e.Item.ImageIndex);
+        //UpdateProteinColor(group[0], e.Item);
 
-      DoUpdateResult();
+        DoUpdateResult();
 
-      DoUpdateProtein();
+        DoUpdateProtein();
+      }
+      finally
+      {
+        lvProteins.EndUpdate();
+      }
 
       this.btnSave.Enabled = true;
     }
