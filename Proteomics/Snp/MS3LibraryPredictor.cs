@@ -49,11 +49,11 @@ namespace RCPA.Proteomics.Snp
 
       //new MS2ItemXmlFormat().WriteToFile(options.OutputFile + ".xml", result);
 
-      var minDeltaMass = options.AllowedMassChangeMap.Values.Min(l => l.Min(k => k.DeltaMass));
-      var maxDeltaMass = options.AllowedMassChangeMap.Values.Max(l => l.Max(k => k.DeltaMass));
-
       Progress.SetMessage("Finding SAP ...");
       List<SapPredicted> predicted = new List<SapPredicted>();
+
+      var minDeltaMass = options.AllowedMassChangeMap.Values.Min(l => l.Min(k => k.DeltaMass));
+      var maxDeltaMass = options.AllowedMassChangeMap.Values.Max(l => l.Max(k => k.DeltaMass));
 
       Progress.SetRange(0, result.Count);
       Progress.Begin();
@@ -71,48 +71,78 @@ namespace RCPA.Proteomics.Snp
           foreach (var libms2 in libms2s)
           {
             var diff = (ms2.Precursor - libms2.Precursor) * ms2.Charge;
-            if (diff < minDeltaMass || diff > maxDeltaMass)
+            if (diff >= minDeltaMass && diff <= maxDeltaMass) //subsitution
             {
-              continue;
-            }
-
-            var ms3match = GetMS3MatchedCount(libms2, ms2, options.MinimumMs3PrecursorMz);
-
-            if (!ms3match.MS3Matched.Any(l => l > 1))
-            {
-              continue;
-            }
-
-            foreach (var aa in libms2.AminoacidCompsition)
-            {
-              var lst = options.AllowedMassChangeMap[aa];
-              foreach (var ts in lst)
+              var ms3match = GetMS3MatchedCount(libms2, ms2, options.MinimumMs3PrecursorMz);
+              if (ms3match.MS3Matched.Any(l => l > 1))
               {
-                var targetMz = libms2.Precursor + ts.DeltaMass / libms2.Charge;
-                if (targetMz < minMz)
+                foreach (var aa in libms2.AminoacidCompsition)
                 {
-                  continue;
+                  var lst = options.AllowedMassChangeMap[aa];
+                  foreach (var ts in lst)
+                  {
+                    var targetMz = libms2.Precursor + ts.DeltaMass / libms2.Charge;
+                    if (targetMz < minMz)
+                    {
+                      continue;
+                    }
+
+                    if (targetMz >= maxMz)
+                    {
+                      break;
+                    }
+
+                    var curp = new SapPredicted()
+                    {
+                      Ms2 = ms2,
+                      LibMs2 = libms2,
+                      Matched = ms3match,
+                      Target = new TargetSAP()
+                      {
+                        IsNterminalLoss = false,
+                        Source = ts.Source,
+                        Target = ts.Target,
+                        DeltaMass = ts.DeltaMass
+                      }
+                    };
+
+                    predicted.Add(curp);
+                  }
                 }
+              }
+            }
 
-                if (targetMz >= maxMz)
+            if (options.AllowNTerminalLoss)
+            {
+              foreach (var nl in libms2.NterminalLoss)
+              {
+                if (nl.Item2 >= minMz && nl.Item2 <= maxMz)
                 {
-                  break;
+                  var ms3match = GetMS3MatchedCount(libms2, ms2, options.MinimumMs3PrecursorMz);
+                  if (ms3match.MS3Matched.Any(l => l > 1))
+                  {
+                    var curp = new SapPredicted()
+                    {
+                      Ms2 = ms2,
+                      LibMs2 = libms2,
+                      Matched = ms3match,
+                      Target = new TargetSAP()
+                      {
+                        IsNterminalLoss = true,
+                        Source = PeptideUtils.GetPureSequence(libms2.Peptide),
+                        Target = nl.Item1,
+                        DeltaMass = (nl.Item2 - libms2.Precursor) * libms2.Charge
+                      }
+                    };
+
+                    predicted.Add(curp);
+                  }
                 }
-
-                var curp = new SapPredicted()
-                {
-                  Ms2 = ms2,
-                  LibMs2 = libms2,
-                  Matched = ms3match,
-                  Target = ts
-                };
-
-                predicted.Add(curp);
               }
             }
           }
 
-          var groups = predicted.GroupBy(m => m.Ms2.FileScan.LongFileName).ToList();
+          var groups = predicted.GroupBy(m => m.Ms2.FileScan).ToList();
           predicted.Clear();
           foreach (var g in groups)
           {
@@ -147,37 +177,46 @@ namespace RCPA.Proteomics.Snp
         }
       }
 
-
       if (File.Exists(options.MatchedFile))
       {
         new SapPredictedValidationWriter(options.MatchedFile).WriteToFile(options.OutputFile, predicted);
       }
       else
       {
-        new SapPredictedWriter().WriteToFile(options.OutputFile + ".table", predicted);
+        new SapPredictedWriter().WriteToFile(options.OutputTableFile, predicted);
 
         Progress.SetMessage("Generating SAP sequence ...");
         List<Sequence> predictedSeq = new List<Sequence>();
         foreach (var predict in predicted)
         {
           var seq = PeptideUtils.GetPureSequence(predict.LibMs2.Peptide);
-          for (int i = 0; i < seq.Length; i++)
+          if (!predict.Target.IsNterminalLoss)
           {
-            if (seq[i] == predict.Target.Source)
+            for (int i = 0; i < seq.Length; i++)
             {
-              string targetSeq;
-              if (i == 0)
+              if (seq[i] == predict.Target.Source[0])
               {
-                targetSeq = predict.Target.Target + seq.Substring(1);
-              }
-              else
-              {
-                targetSeq = seq.Substring(0, i) + predict.Target.Target + seq.Substring(i + 1);
-              }
+                string targetSeq;
+                if (i == 0)
+                {
+                  targetSeq = predict.Target.Target + seq.Substring(1);
+                }
+                else
+                {
+                  targetSeq = seq.Substring(0, i) + predict.Target.Target + seq.Substring(i + 1);
+                }
 
-              var reference = string.Format("sp|SAP_{0}|{1}_{2}_{3}_{4}", targetSeq, seq, predict.Target.Source, i + 1, predict.Target.Target);
-              predictedSeq.Add(new Sequence(reference, targetSeq));
+                var reference = string.Format("sp|SAP_{0}|{1}_{2}_{3}_{4}", targetSeq, seq, predict.Target.Source, i + 1, predict.Target.Target);
+                predictedSeq.Add(new Sequence(reference, targetSeq));
+              }
             }
+          }
+          else
+          {
+            string targetSeq = predict.Target.Target;
+
+            var reference = string.Format("sp|SAP_{0}|{1}_loss_nterm_{2}", targetSeq, seq, seq.Substring(0, seq.Length - targetSeq.Length));
+            predictedSeq.Add(new Sequence(reference, targetSeq));
           }
         }
 
@@ -205,7 +244,7 @@ namespace RCPA.Proteomics.Snp
 
       Progress.End();
 
-      return new string[] { options.OutputFile };
+      return new string[] { options.OutputFile, options.OutputTableFile };
     }
 
     private SapMatchedCount GetMS3MatchedCount(MS2Item libms2, MS2Item ms2, double minPrecursorMz)
@@ -318,7 +357,7 @@ namespace RCPA.Proteomics.Snp
                 FirstScan = scan,
                 LastScan = scan,
                 Charge = ms2precursor.Charge
-              }
+              }.LongFileName
             };
 
             for (int ms3scan = scan + 1; ms3scan < lastScan; ms3scan++)

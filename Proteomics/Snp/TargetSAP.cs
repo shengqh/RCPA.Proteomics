@@ -8,8 +8,16 @@ namespace RCPA.Proteomics.Snp
 {
   public class TargetSAP
   {
-    public char Source { get; set; }
-    public char Target { get; set; }
+    public TargetSAP()
+    {
+      IsNterminalLoss = false;
+      Source = string.Empty;
+      Target = string.Empty;
+      DeltaMass = 0.0;
+    }
+    public bool IsNterminalLoss { get; set; }
+    public string Source { get; set; }
+    public string Target { get; set; }
     public double DeltaMass { get; set; }
   }
 }

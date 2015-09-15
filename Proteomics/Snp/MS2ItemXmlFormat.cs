@@ -39,8 +39,13 @@ namespace RCPA.Proteomics.Snp
         }
         if (ms2ele.Attribute("FileScan") != null)
         {
-          item.FileScan = new SequestFilename(ms2ele.Attribute("FileScan").Value);
+          item.FileScan = ms2ele.Attribute("FileScan").Value;
         }
+        foreach (var ele in ms2ele.Elements("NterminalLoss"))
+        {
+          item.NterminalLoss.Add(new Tuple<string, double>(ele.Attribute("Seq").Value, double.Parse(ele.Attribute("MZ").Value)));
+        }
+
         foreach (var ms3ele in ms2ele.Elements("MS3"))
         {
           var ms3 = new PeakList<Peak>();
@@ -74,6 +79,12 @@ namespace RCPA.Proteomics.Snp
         }
       }
 
+      if (result.All(l => l.NterminalLoss.Count == 0))
+      {
+        var aas = new Aminoacids();
+        result.ForEach(l => l.InitNterminalLoss(aas));
+      }
+
       return result;
     }
 
@@ -88,7 +99,9 @@ namespace RCPA.Proteomics.Snp
           new XAttribute("Z", ms2.Charge),
           string.IsNullOrEmpty(ms2.Peptide) ? null : new XAttribute("Seq", ms2.Peptide),
           string.IsNullOrEmpty(ms2.Modification) ? null : new XAttribute("Mod", ms2.Modification),
-          ms2.FileScan == null ? null : new XAttribute("FileScan", ms2.FileScan.LongFileName),
+          new XAttribute("FileScan", ms2.FileScan),
+          from nl in ms2.NterminalLoss
+          select new XElement("NterminalLoss", new XAttribute("Seq", nl.Item1), new XAttribute("MZ", nl.Item2)),
           from ms3 in ms2.MS3Spectra
           let peaktag = ms3tag && ms3.CombinedCount > 1
           orderby ms3.PrecursorMZ

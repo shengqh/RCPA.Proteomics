@@ -19,7 +19,7 @@ namespace RCPA.Proteomics.Snp
   public partial class MS3LibraryPredictorUI : AbstractProcessorUI
   {
     private static readonly string title = "MS3 SAP Predictor";
-    private static readonly string version = "1.0.0";
+    private static readonly string version = "1.0.1";
 
     private RcpaDoubleField precursorPPM;
     private RcpaDoubleField fragmentPPM;
@@ -75,7 +75,8 @@ namespace RCPA.Proteomics.Snp
         LibraryFile = this.libraryFile.FullName,
         DatabaseFastaFile = this.fastaFile.FullName,
         RawFiles = this.rawFiles.FileNames,
-        OutputFile = this.outputFile.FullName
+        OutputFile = this.outputFile.FullName,
+        AllowNTerminalLoss = cbAllowNterminalLoss.Checked
       };
 
       return new MS3LibraryPredictor(options);

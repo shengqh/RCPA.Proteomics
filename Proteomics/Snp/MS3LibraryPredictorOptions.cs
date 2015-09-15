@@ -17,6 +17,7 @@ namespace RCPA.Proteomics.Snp
       MinimumMs3PrecursorMz = 200;
       MinimumMatchedMs3IonCount = 2;
       MinimumDeltaMass = 1.5;
+      AllowNTerminalLoss = false;
     }
 
     public double PrecursorPPMTolerance { get; set; }
@@ -42,6 +43,8 @@ namespace RCPA.Proteomics.Snp
     public bool IgnoreDeamidatedMutation { get; set; }
 
     public bool IgnoreMultipleNucleotideMutation { get; set; }
+
+    public bool AllowNTerminalLoss { get; set; }
 
     public string OutputFile { get; set; }
 
@@ -96,7 +99,7 @@ namespace RCPA.Proteomics.Snp
             continue;
           }
 
-          result[ai].Add(new TargetSAP() { Source = ai, Target = aj, DeltaMass = deltaMass });
+          result[ai].Add(new TargetSAP() { Source = ai.ToString(), Target = aj.ToString(), DeltaMass = deltaMass });
         }
       }
 
@@ -134,5 +137,7 @@ namespace RCPA.Proteomics.Snp
     public double MinimumMs3PrecursorMz { get; set; }
 
     public int MinimumMatchedMs3IonCount { get; set; }
+
+    public string OutputTableFile { get { return this.OutputFile + ".tsv"; } }
   }
 }

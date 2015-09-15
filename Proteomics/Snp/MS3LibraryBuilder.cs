@@ -56,7 +56,8 @@ namespace RCPA.Proteomics.Snp
               Peptide = peptide.Peptide.Sequence,
               Precursor = peptide.GetPrecursorMz(),
               Charge = peptide.Query.Charge,
-              Modification = peptide.Modifications
+              Modification = peptide.Modifications,
+              FileScan = peptide.Query.FileScan.LongFileName
             };
 
             for (int ms3scan = peptide.Query.FileScan.FirstScan + 1; ms3scan < lastScan; ms3scan++)
@@ -97,6 +98,7 @@ namespace RCPA.Proteomics.Snp
 
         var gitem = g.First();
         gitem.CombinedCount = g.Count();
+        gitem.FileScan = (from gg in g select gg.FileScan).Merge(";");
 
         gitem.Precursor = g.Average(m => m.Precursor);
         foreach (var ms2 in g.Skip(1))
