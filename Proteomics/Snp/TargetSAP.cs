@@ -19,5 +19,9 @@ namespace RCPA.Proteomics.Snp
     public string Source { get; set; }
     public string Target { get; set; }
     public double DeltaMass { get; set; }
+    public bool IsTerminalLoss
+    {
+      get { return this.Source.Length > 1; }
+    }
   }
 }

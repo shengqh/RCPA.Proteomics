@@ -35,18 +35,19 @@ namespace RCPA.Proteomics.Snp
         predict.Matched.MS3Matched.ConvertAll(m => m.ToString()).Merge(";"),
         predict.LibMs2.FileScan,
         predict.LibMs2.Peptide,
-        predict.Target.IsNterminalLoss,
+        predict.Target.IsTerminalLoss && predict.Target.IsNterminalLoss,
+        predict.Target.IsTerminalLoss && !predict.Target.IsNterminalLoss,
         predict.Target.Source,
         predict.Target.Target,
         predict.Target.DeltaMass,
         (predict.Ms2.Precursor - predict.LibMs2.Precursor) * predict.Ms2.Charge,
-        predict.Target.IsNterminalLoss ? false : MutationUtils.IsDeamidatedMutation(predict.Target.Source[0], predict.Target.Target[0]),
-        predict.Target.IsNterminalLoss ? false : MutationUtils.IsSingleNucleotideMutation(predict.Target.Source[0], predict.Target.Target[0]));
+        predict.Target.IsTerminalLoss ? false : MutationUtils.IsDeamidatedMutation(predict.Target.Source[0], predict.Target.Target[0]),
+        predict.Target.IsTerminalLoss ? false : MutationUtils.IsSingleNucleotideMutation(predict.Target.Source[0], predict.Target.Target[0]));
     }
 
     protected virtual string GetHeader()
     {
-      return "FileScan\tPrecursor\tCharge\tLibPrecursor\tMatchedMs3Precursor\tMatchedMs3Ions\tLibFileScan\tLibSequence\tIsNertualLoss\tFrom\tTo\tExpectDeltaMass\tRealDeltaMass\tIsDeamidatedMutation\tIsSingleNucleotideMutation";
+      return "FileScan\tPrecursor\tCharge\tLibPrecursor\tMatchedMs3Precursor\tMatchedMs3Ions\tLibFileScan\tLibSequence\tIsNterminalLoss\tIsCterminalLoss\tFrom\tTo\tExpectDeltaMass\tRealDeltaMass\tIsDeamidatedMutation\tIsSingleNucleotideMutation";
     }
   }
 }

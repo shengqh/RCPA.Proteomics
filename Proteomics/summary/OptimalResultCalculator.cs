@@ -39,8 +39,9 @@ namespace RCPA.Proteomics.Summary
 
       ScoreFunc.SortSpectrum(preFiltered);
 
+      //Use top score spectra for Qvalue calculation
       var topSpectra = new List<IIdentifiedSpectrum>(preFiltered);
-      IdentifiedSpectrumUtils.KeepTopPeptideFromSameEngineDifferentParameters(topSpectra);
+      IdentifiedSpectrumUtils.KeepTopPeptideFromSameEngineDifferentParameters(topSpectra, ScoreFunc);
 
       //计算QValue。
       QValueFunc(topSpectra, ScoreFunc, FdrCalc);

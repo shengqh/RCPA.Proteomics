@@ -74,6 +74,7 @@
       this.btnAddOmssa = new System.Windows.Forms.Button();
       this.btnAddMSGF = new System.Windows.Forms.Button();
       this.btnAddMyriMatch = new System.Windows.Forms.Button();
+      this.btnIprophet = new System.Windows.Forms.Button();
       this.btnAddPeptideProphet = new System.Windows.Forms.Button();
       this.btnAddPFind = new System.Windows.Forms.Button();
       this.btnAddXtandem = new System.Windows.Forms.Button();
@@ -91,7 +92,8 @@
       this.panel1 = new System.Windows.Forms.Panel();
       this.rbUseSelectedOnly = new RCPA.Gui.RcpaRadioField();
       this.rbUseAll = new RCPA.Gui.RcpaRadioField();
-      this.btnIprophet = new System.Windows.Forms.Button();
+      this.txtMaxMissCleavage = new System.Windows.Forms.TextBox();
+      this.cbMaxMissCleavage = new System.Windows.Forms.CheckBox();
       this.pnlButton.SuspendLayout();
       this.pnlAdd.SuspendLayout();
       this.tabControl1.SuspendLayout();
@@ -589,6 +591,17 @@
       this.btnAddMyriMatch.UseVisualStyleBackColor = true;
       this.btnAddMyriMatch.Click += new System.EventHandler(this.btnAddMyriMatch_Click);
       // 
+      // btnIprophet
+      // 
+      this.btnIprophet.Dock = System.Windows.Forms.DockStyle.Top;
+      this.btnIprophet.Location = new System.Drawing.Point(0, 125);
+      this.btnIprophet.Name = "btnIprophet";
+      this.btnIprophet.Size = new System.Drawing.Size(139, 25);
+      this.btnIprophet.TabIndex = 23;
+      this.btnIprophet.Text = "Add iProphet";
+      this.btnIprophet.UseVisualStyleBackColor = true;
+      this.btnIprophet.Click += new System.EventHandler(this.btnIprophet_Click);
+      // 
       // btnAddPeptideProphet
       // 
       this.btnAddPeptideProphet.Dock = System.Windows.Forms.DockStyle.Top;
@@ -689,6 +702,8 @@
       // 
       // tpGeneral
       // 
+      this.tpGeneral.Controls.Add(this.txtMaxMissCleavage);
+      this.tpGeneral.Controls.Add(this.cbMaxMissCleavage);
       this.tpGeneral.Controls.Add(this.label10);
       this.tpGeneral.Controls.Add(this.txtMinimumSpectraPerGroup);
       this.tpGeneral.Controls.Add(this.label7);
@@ -814,16 +829,22 @@
       this.rbUseAll.Text = "Use all files";
       this.rbUseAll.UseVisualStyleBackColor = true;
       // 
-      // btnIprophet
+      // txtMaxMissCleavage
       // 
-      this.btnIprophet.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnIprophet.Location = new System.Drawing.Point(0, 125);
-      this.btnIprophet.Name = "btnIprophet";
-      this.btnIprophet.Size = new System.Drawing.Size(139, 25);
-      this.btnIprophet.TabIndex = 23;
-      this.btnIprophet.Text = "Add iProphet";
-      this.btnIprophet.UseVisualStyleBackColor = true;
-      this.btnIprophet.Click += new System.EventHandler(this.btnIprophet_Click);
+      this.txtMaxMissCleavage.Location = new System.Drawing.Point(620, 277);
+      this.txtMaxMissCleavage.Name = "txtMaxMissCleavage";
+      this.txtMaxMissCleavage.Size = new System.Drawing.Size(94, 20);
+      this.txtMaxMissCleavage.TabIndex = 149;
+      // 
+      // cbMaxMissCleavage
+      // 
+      this.cbMaxMissCleavage.AutoSize = true;
+      this.cbMaxMissCleavage.Location = new System.Drawing.Point(338, 279);
+      this.cbMaxMissCleavage.Name = "cbMaxMissCleavage";
+      this.cbMaxMissCleavage.Size = new System.Drawing.Size(289, 17);
+      this.cbMaxMissCleavage.TabIndex = 148;
+      this.cbMaxMissCleavage.Text = "Filter by max number of missed internal cleavage sites = ";
+      this.cbMaxMissCleavage.UseVisualStyleBackColor = true;
       // 
       // UniformSummaryBuilderUI
       // 
@@ -922,5 +943,7 @@
     private System.Windows.Forms.Label label10;
     private System.Windows.Forms.TextBox txtMinimumSpectraPerGroup;
     protected System.Windows.Forms.Button btnIprophet;
+    private System.Windows.Forms.TextBox txtMaxMissCleavage;
+    private System.Windows.Forms.CheckBox cbMaxMissCleavage;
   }
 }

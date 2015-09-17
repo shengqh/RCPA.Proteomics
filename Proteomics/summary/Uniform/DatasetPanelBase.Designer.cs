@@ -34,12 +34,13 @@
       this.lblName = new System.Windows.Forms.Label();
       this.splitContainer2 = new System.Windows.Forms.SplitContainer();
       this.groupBox1 = new System.Windows.Forms.GroupBox();
+      this.label1 = new System.Windows.Forms.Label();
+      this.cbScoreFunctions = new System.Windows.Forms.ComboBox();
       this.cbFilterByDynamicPrecursorTolerance = new System.Windows.Forms.CheckBox();
       this.cbFilterByPrecursorIsotopic = new System.Windows.Forms.CheckBox();
       this.txtPrecursorPPMTolerance = new System.Windows.Forms.TextBox();
       this.cbFilterByPrecursor = new System.Windows.Forms.CheckBox();
-      this.cbScoreFunctions = new System.Windows.Forms.ComboBox();
-      this.label1 = new System.Windows.Forms.Label();
+      this.cbSearchedByDifferentParameters = new System.Windows.Forms.CheckBox();
       this.pnlName.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
       this.splitContainer2.Panel1.SuspendLayout();
@@ -108,6 +109,7 @@
       // 
       this.groupBox1.Controls.Add(this.label1);
       this.groupBox1.Controls.Add(this.cbScoreFunctions);
+      this.groupBox1.Controls.Add(this.cbSearchedByDifferentParameters);
       this.groupBox1.Controls.Add(this.cbFilterByDynamicPrecursorTolerance);
       this.groupBox1.Controls.Add(this.cbFilterByPrecursorIsotopic);
       this.groupBox1.Controls.Add(this.txtPrecursorPPMTolerance);
@@ -119,6 +121,24 @@
       this.groupBox1.TabIndex = 55;
       this.groupBox1.TabStop = false;
       this.groupBox1.Text = "Peptide criteria";
+      // 
+      // label1
+      // 
+      this.label1.AutoSize = true;
+      this.label1.Location = new System.Drawing.Point(625, 25);
+      this.label1.Name = "label1";
+      this.label1.Size = new System.Drawing.Size(163, 13);
+      this.label1.TabIndex = 67;
+      this.label1.Text = "Select score for FDR calculation:";
+      // 
+      // cbScoreFunctions
+      // 
+      this.cbScoreFunctions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.cbScoreFunctions.FormattingEnabled = true;
+      this.cbScoreFunctions.Location = new System.Drawing.Point(788, 22);
+      this.cbScoreFunctions.Name = "cbScoreFunctions";
+      this.cbScoreFunctions.Size = new System.Drawing.Size(179, 21);
+      this.cbScoreFunctions.TabIndex = 66;
       // 
       // cbFilterByDynamicPrecursorTolerance
       // 
@@ -157,23 +177,15 @@
       this.cbFilterByPrecursor.Text = "Filter by precursor tolerance (ppm) =";
       this.cbFilterByPrecursor.UseVisualStyleBackColor = true;
       // 
-      // cbScoreFunctions
+      // cbSearchedByDifferentParameters
       // 
-      this.cbScoreFunctions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-      this.cbScoreFunctions.FormattingEnabled = true;
-      this.cbScoreFunctions.Location = new System.Drawing.Point(788, 22);
-      this.cbScoreFunctions.Name = "cbScoreFunctions";
-      this.cbScoreFunctions.Size = new System.Drawing.Size(179, 21);
-      this.cbScoreFunctions.TabIndex = 66;
-      // 
-      // label1
-      // 
-      this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(625, 25);
-      this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(163, 13);
-      this.label1.TabIndex = 67;
-      this.label1.Text = "Select score for FDR calculation:";
+      this.cbSearchedByDifferentParameters.AutoSize = true;
+      this.cbSearchedByDifferentParameters.Location = new System.Drawing.Point(628, 59);
+      this.cbSearchedByDifferentParameters.Name = "cbSearchedByDifferentParameters";
+      this.cbSearchedByDifferentParameters.Size = new System.Drawing.Size(340, 17);
+      this.cbSearchedByDifferentParameters.TabIndex = 65;
+      this.cbSearchedByDifferentParameters.Text = "Containing result from same sample but different search parameters";
+      this.cbSearchedByDifferentParameters.UseVisualStyleBackColor = true;
       // 
       // DatasetPanelBase
       // 
@@ -208,6 +220,7 @@
     private System.Windows.Forms.CheckBox cbFilterByPrecursor;
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.ComboBox cbScoreFunctions;
+    private System.Windows.Forms.CheckBox cbSearchedByDifferentParameters;
 
   }
 }

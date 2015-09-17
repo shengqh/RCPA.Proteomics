@@ -17,6 +17,8 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     SearchEngineType SearchEngine { get; set; }
 
+    bool SearchedByDifferentParameters { get; set; }
+
     bool FilterByPrecursor { get; set; }
 
     bool FilterByPrecursorIsotopic { get; set; }

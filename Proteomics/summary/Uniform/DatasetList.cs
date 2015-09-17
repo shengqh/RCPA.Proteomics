@@ -63,38 +63,48 @@ namespace RCPA.Proteomics.Summary.Uniform
         this.ForEach(m =>
         {
           //对每个谱图设置是否来自诱饵库
+          progress.SetMessage("Assigning decoy information...");
           DecoyPeptideBuilder.AssignDecoy(m.Spectra, filter);
-
-          if (m.Spectra.All(l => !l.FromDecoy))
+          var decoyCount = m.Spectra.Count(l => l.FromDecoy);
+          if (decoyCount == 0)
           {
-            Console.Error.WriteLine(string.Format("No decoy protein found at dataset {0}, make sure the protein access number parser and the decoy pattern are correctly defined!", m.Options.Name));
-            //throw new Exception(string.Format("No decoy protein found at dataset {0}, make sure the protein access number parser and the decoy pattern are correctly defined!", m.Options.Name));
+            throw new Exception(string.Format("No decoy protein found at dataset {0}, make sure the protein access number parser and the decoy pattern are correctly defined!", m.Options.Name));
           }
+
+          progress.SetMessage("{0} decoys out of {1} hits found", decoyCount, m.Spectra.Count);
         });
       }
 
       //初始化实验列表
       this.ForEach(m => m.InitExperimentals());
 
-      if (dsOptions.Options.KeepTopPeptideFromSameEngineButDifferentSearchParameters)
+      if (dsOptions.Count > 1)
       {
-        //合并/删除那些相同搜索引擎，不同参数得到的结果。
-        ProcessDatasetFromSameEngine(progress, m => IdentifiedSpectrumUtils.KeepTopPeptideFromSameEngineDifferentParameters(m), false);
+        if (dsOptions.Options.KeepTopPeptideFromSameEngineButDifferentSearchParameters)
+        {
+          //合并/删除那些相同搜索引擎，不同参数得到的结果。
+          ProcessDatasetFromSameEngine(progress, (peptides, score) => IdentifiedSpectrumUtils.KeepTopPeptideFromSameEngineDifferentParameters(peptides, score), false);
+        }
+        else
+        {
+          ProcessDatasetFromSameEngine(progress, (peptides, score) => IdentifiedSpectrumUtils.KeepUnconflictPeptidesFromSameEngineDifferentParameters(peptides, score), true);
+        }
+
+        //初始化不同搜索引擎搜索的dataset之间的overlap关系。
+        this.OverlapBySearchEngine = FindOverlap((m1, m2) => m1.Options.SearchEngine != m2.Options.SearchEngine);
+
+
+        //初始化没有交集的dataset
+        var overlaps = new HashSet<Dataset>(from m in OverlapBySearchEngine
+                                            from s in m
+                                            select s);
+        this.NoOverlaps = this.Where(m => !overlaps.Contains(m)).ToList();
       }
       else
       {
-        ProcessDatasetFromSameEngine(progress, m => IdentifiedSpectrumUtils.KeepUnconflictPeptidesFromSameEngineDifferentParameters(m), true);
+        this.NoOverlaps = new List<Dataset>(this);
+        this.OverlapBySearchEngine = new List<List<Dataset>>();
       }
-
-      //初始化不同搜索引擎搜索的dataset之间的overlap关系。
-      this.OverlapBySearchEngine = FindOverlap((m1, m2) => m1.Options.SearchEngine != m2.Options.SearchEngine);
-
-
-      //初始化没有交集的dataset
-      var overlaps = new HashSet<Dataset>(from m in OverlapBySearchEngine
-                                          from s in m
-                                          select s);
-      this.NoOverlaps = this.Where(m => !overlaps.Contains(m)).ToList();
     }
 
     public void BuildSpectrumBin()
@@ -106,7 +116,7 @@ namespace RCPA.Proteomics.Summary.Uniform
       });
     }
 
-    private void ProcessDatasetFromSameEngine(IProgressCallback progress, Action<List<IIdentifiedSpectrum>> process, bool hasDuplicatedSpectrum)
+    private void ProcessDatasetFromSameEngine(IProgressCallback progress, Action<List<IIdentifiedSpectrum>, IScoreFunction> process, bool hasDuplicatedSpectrum)
     {
       Func<Dataset, Dataset, bool> preFunc = (m1, m2) => m1.Options.SearchEngine == m2.Options.SearchEngine;
 
@@ -122,7 +132,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
           Console.Write(spectra.Count);
 
-          process(spectra);
+          process(spectra, dsList.First().Options.ScoreFunction);
 
           Console.WriteLine(" -> {0}", spectra.Count);
 
@@ -331,7 +341,7 @@ namespace RCPA.Proteomics.Summary.Uniform
     /// 直接将该指定谱图集合赋值给该Dataset并重建SpectrumBin。
     /// </summary>
     /// <param name="spectra"></param>
-    public void KeepOptimalResultInSetOnly(HashSet<IIdentifiedSpectrum> spectra)
+    public void KeepOptimalResultInSetOnly(IEnumerable<IIdentifiedSpectrum> spectra)
     {
       if (Count == 1)
       {
@@ -340,7 +350,15 @@ namespace RCPA.Proteomics.Summary.Uniform
       }
       else
       {
-        this.ForEach(m => m.KeepOptimalResultInSetOnly(spectra));
+        if (spectra is HashSet<IIdentifiedSpectrum>)
+        {
+          this.ForEach(m => m.KeepOptimalResultInSetOnly(spectra as HashSet<IIdentifiedSpectrum>));
+        }
+        else
+        {
+          var set = new HashSet<IIdentifiedSpectrum>(spectra);
+          this.ForEach(m => m.KeepOptimalResultInSetOnly(set));
+        }
       }
     }
 

@@ -53,76 +53,6 @@ namespace RCPA.Proteomics.Summary
     }
 
     /// <summary>
-    /// 将来自同一个谱图，假设为相同电荷，根据不同搜索条件（例如根据SILAC的重标和轻标）得到的多个鉴定结果合并。
-    /// 只保留Score最高的那个，其他的全部抛弃。
-    /// 该函数用于进行肽段筛选之前去冗余。
-    /// </summary>
-    /// <param name="peptides">鉴定谱图列表</param>
-    /// <returns></returns>
-    public static void KeepTopPeptideFromSameEngineDifferentParameters<T>(List<T> peptides) where T : IIdentifiedSpectrum
-    {
-      SortByScanChargeScore(peptides);
-      int index = 0;
-      while (index < peptides.Count - 1)
-      {
-        //if (!peptides[index].Query.FileScan.ShortFileName.Equals("20111128_CLi_v_4-2k_2mg_TiO2_iTRAQ,4992"))
-        //{
-        //  index++;
-        //  continue;
-        //}
-
-        if (peptides[index + 1].Query.FileScan.EqualScanCharge(peptides[index].Query.FileScan))
-        {
-          peptides.RemoveAt(index + 1);
-        }
-        else
-        {
-          index++;
-        }
-      }
-    }
-
-    /// <summary>
-    /// 将来自同一个谱图，假设为相同电荷，根据不同搜索条件（例如根据SILAC的重标和轻标）得到的多个鉴定结果比较。
-    /// 以Score最高的那个为准，如果其他的跟他一致，则保留，否则抛弃。
-    /// 该函数用于进行肽段筛选之前去冗余。
-    /// </summary>
-    /// <param name="peptides">鉴定谱图列表</param>
-    /// <returns></returns>
-    public static void KeepUnconflictPeptidesFromSameEngineDifferentParameters<T>(List<T> peptides) where T : IIdentifiedSpectrum
-    {
-      SortByScanChargeScore(peptides);
-      int index = 0;
-      while (index < peptides.Count)
-      {
-        var topSeqs = peptides[index].GetSequencesSet();
-        int j = index + 1;
-        while (j < peptides.Count)
-        {
-          if (!peptides[j].Query.FileScan.EqualScanCharge(peptides[index].Query.FileScan))
-          {
-            index = j;
-            break;
-          }
-
-          if (peptides[j].Peptides.Any(m => topSeqs.Contains(m.Sequence)))
-          {
-            j++;
-          }
-          else
-          {
-            peptides.RemoveAt(j);
-          }
-        }
-
-        if (j == peptides.Count)
-        {
-          break;
-        }
-      }
-    }
-
-    /// <summary>
     /// 过滤同一个谱图，假设为不同电荷，但通过了所有过滤条件的结果，保留分数最高的一个，删除其他的。
     /// 对于同一个谱图，相同价位（例如通过不同搜索条件得到结果），本函数不做处理。
     /// 该函数用于进行肽段筛选之后去冗余。
@@ -765,6 +695,129 @@ namespace RCPA.Proteomics.Summary
         }
       }
     }
-  }
 
+    /// <summary>
+    /// 将来自同一个谱图，假设为相同电荷，根据不同搜索条件（例如根据SILAC的重标和轻标）得到的多个鉴定结果合并。
+    /// 只保留Score最高的那个，其他的全部抛弃。
+    /// 该函数用于进行肽段筛选之前去冗余。
+    /// </summary>
+    /// <param name="peptides">鉴定谱图列表</param>
+    /// <param name="score">Score function for sorting the spectra</param>
+    public static void KeepTopPeptideFromSameEngineDifferentParameters(List<IIdentifiedSpectrum> peptides, IScoreFunction score)
+    {
+      var dic = peptides.ToGroupDictionary(m => m.Query.FileScan.Experimental);
+      bool changed = false;
+      foreach (var v in dic.Values)
+      {
+        var vdic = v.ToGroupDictionary(m => m.Query.FileScan.FirstScan);
+        bool currentChanged = false;
+        foreach (var peps in vdic.Values)
+        {
+          if (peps.Count > 1)
+          {
+            score.SortSpectrum(peps);
+            peps.RemoveRange(1, peps.Count - 1);
+            currentChanged = true;
+          }
+        }
+
+        if (currentChanged)
+        {
+          changed = true;
+          v.Clear();
+          foreach (var peps in vdic.Values)
+          {
+            v.Add(peps[0]);
+          }
+        }
+      }
+
+      if (changed)
+      {
+        peptides.Clear();
+        foreach (var v in dic.Values)
+        {
+          peptides.AddRange(v);
+        }
+      }
+    }
+
+    /// <summary>
+    /// 将来自同一个谱图，假设为相同电荷，根据不同搜索条件（例如根据SILAC的重标和轻标）得到的多个鉴定结果比较。
+    /// 以Score最高的那个为准，如果其他的跟他一致，则保留，否则抛弃。
+    /// 该函数用于进行肽段筛选之前去冗余。
+    /// </summary>
+    /// <param name="peptides">鉴定谱图列表</param>
+    /// <returns></returns>
+    public static void KeepUnconflictPeptidesFromSameEngineDifferentParameters(List<IIdentifiedSpectrum> peptides, IScoreFunction score)
+    {
+      var dic = peptides.ToGroupDictionary(m => m.Query.FileScan.Experimental);
+      bool changed = false;
+      foreach (var v in dic.Values)
+      {
+        var vdic = v.ToGroupDictionary(m => m.Query.FileScan.FirstScan);
+        bool currentChanged = false;
+        foreach (var peps in vdic.Values)
+        {
+          if (peps.Count > 1)
+          {
+            score.SortSpectrum(peps);
+            peps.RemoveRange(1, peps.Count - 1);
+            currentChanged = true;
+          }
+        }
+
+        if (currentChanged)
+        {
+          changed = true;
+          v.Clear();
+          foreach (var peps in vdic.Values)
+          {
+            v.Add(peps[0]);
+          }
+        }
+      }
+
+      if (changed)
+      {
+        peptides.Clear();
+        foreach (var v in dic.Values)
+        {
+          peptides.AddRange(v);
+        }
+      }
+
+
+
+      SortByScanChargeScore(peptides);
+      int index = 0;
+      while (index < peptides.Count)
+      {
+        var topSeqs = peptides[index].GetSequencesSet();
+        int j = index + 1;
+        while (j < peptides.Count)
+        {
+          if (!peptides[j].Query.FileScan.EqualScanCharge(peptides[index].Query.FileScan))
+          {
+            index = j;
+            break;
+          }
+
+          if (peptides[j].Peptides.Any(m => topSeqs.Contains(m.Sequence)))
+          {
+            j++;
+          }
+          else
+          {
+            peptides.RemoveAt(j);
+          }
+        }
+
+        if (j == peptides.Count)
+        {
+          break;
+        }
+      }
+    }
+  }
 }

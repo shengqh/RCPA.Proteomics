@@ -115,21 +115,21 @@
       // 
       this.txtXcorr1.Location = new System.Drawing.Point(207, 47);
       this.txtXcorr1.Name = "txtXcorr1";
-      this.txtXcorr1.Size = new System.Drawing.Size(94, 20);
+      this.txtXcorr1.Size = new System.Drawing.Size(50, 20);
       this.txtXcorr1.TabIndex = 54;
       // 
       // txtXcorr2
       // 
-      this.txtXcorr2.Location = new System.Drawing.Point(429, 47);
+      this.txtXcorr2.Location = new System.Drawing.Point(366, 47);
       this.txtXcorr2.Name = "txtXcorr2";
-      this.txtXcorr2.Size = new System.Drawing.Size(94, 20);
+      this.txtXcorr2.Size = new System.Drawing.Size(57, 20);
       this.txtXcorr2.TabIndex = 53;
       // 
       // txtXcorr3
       // 
-      this.txtXcorr3.Location = new System.Drawing.Point(655, 47);
+      this.txtXcorr3.Location = new System.Drawing.Point(528, 47);
       this.txtXcorr3.Name = "txtXcorr3";
-      this.txtXcorr3.Size = new System.Drawing.Size(94, 20);
+      this.txtXcorr3.Size = new System.Drawing.Size(55, 20);
       this.txtXcorr3.TabIndex = 52;
       // 
       // cbFilterByDeltaCn
@@ -144,15 +144,15 @@
       // 
       // txtMinDeltaCn
       // 
-      this.txtMinDeltaCn.Location = new System.Drawing.Point(207, 72);
+      this.txtMinDeltaCn.Location = new System.Drawing.Point(135, 73);
       this.txtMinDeltaCn.Name = "txtMinDeltaCn";
-      this.txtMinDeltaCn.Size = new System.Drawing.Size(94, 20);
+      this.txtMinDeltaCn.Size = new System.Drawing.Size(60, 20);
       this.txtMinDeltaCn.TabIndex = 58;
       // 
       // cbFilterBySpRank
       // 
       this.cbFilterBySpRank.AutoSize = true;
-      this.cbFilterBySpRank.Location = new System.Drawing.Point(304, 75);
+      this.cbFilterBySpRank.Location = new System.Drawing.Point(201, 75);
       this.cbFilterBySpRank.Name = "cbFilterBySpRank";
       this.cbFilterBySpRank.Size = new System.Drawing.Size(119, 17);
       this.cbFilterBySpRank.TabIndex = 55;
@@ -161,15 +161,15 @@
       // 
       // txtSpRank
       // 
-      this.txtSpRank.Location = new System.Drawing.Point(429, 72);
+      this.txtSpRank.Location = new System.Drawing.Point(317, 73);
       this.txtSpRank.Name = "txtSpRank";
-      this.txtSpRank.Size = new System.Drawing.Size(94, 20);
+      this.txtSpRank.Size = new System.Drawing.Size(57, 20);
       this.txtSpRank.TabIndex = 57;
       // 
       // label6
       // 
       this.label6.AutoSize = true;
-      this.label6.Location = new System.Drawing.Point(536, 50);
+      this.label6.Location = new System.Drawing.Point(429, 50);
       this.label6.Name = "label6";
       this.label6.Size = new System.Drawing.Size(102, 13);
       this.label6.TabIndex = 60;
@@ -178,7 +178,7 @@
       // label7
       // 
       this.label7.AutoSize = true;
-      this.label7.Location = new System.Drawing.Point(327, 50);
+      this.label7.Location = new System.Drawing.Point(264, 50);
       this.label7.Name = "label7";
       this.label7.Size = new System.Drawing.Size(96, 13);
       this.label7.TabIndex = 59;
@@ -306,15 +306,15 @@
       // 
       // txtMaxEvalue
       // 
-      this.txtMaxEvalue.Location = new System.Drawing.Point(655, 73);
+      this.txtMaxEvalue.Location = new System.Drawing.Point(528, 73);
       this.txtMaxEvalue.Name = "txtMaxEvalue";
-      this.txtMaxEvalue.Size = new System.Drawing.Size(94, 20);
+      this.txtMaxEvalue.Size = new System.Drawing.Size(55, 20);
       this.txtMaxEvalue.TabIndex = 67;
       // 
       // cbFilterByEvalue
       // 
       this.cbFilterByEvalue.AutoSize = true;
-      this.cbFilterByEvalue.Location = new System.Drawing.Point(539, 74);
+      this.cbFilterByEvalue.Location = new System.Drawing.Point(409, 75);
       this.cbFilterByEvalue.Name = "cbFilterByEvalue";
       this.cbFilterByEvalue.Size = new System.Drawing.Size(113, 17);
       this.cbFilterByEvalue.TabIndex = 66;
@@ -325,7 +325,7 @@
       // 
       this.label2.AutoSize = true;
       this.label2.ForeColor = System.Drawing.Color.Red;
-      this.label2.Location = new System.Drawing.Point(785, 54);
+      this.label2.Location = new System.Drawing.Point(785, 46);
       this.label2.Name = "label2";
       this.label2.Size = new System.Drawing.Size(194, 13);
       this.label2.TabIndex = 68;

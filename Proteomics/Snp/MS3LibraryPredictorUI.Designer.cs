@@ -35,6 +35,7 @@ namespace RCPA.Proteomics.Snp
       this.libraryFile = new RCPA.Gui.FileField();
       this.fastaFile = new RCPA.Gui.FileField();
       this.ignoreDeamidatedMutation = new RCPA.Gui.RcpaCheckField();
+      this.cbAllowTerminalLoss = new RCPA.Gui.RcpaCheckField();
       this.ignoreMultipleNucleotideMutation = new RCPA.Gui.RcpaCheckField();
       this.txtMinimumMatchedMs3IonCount = new System.Windows.Forms.TextBox();
       this.label5 = new System.Windows.Forms.Label();
@@ -48,7 +49,6 @@ namespace RCPA.Proteomics.Snp
       this.label4 = new System.Windows.Forms.Label();
       this.peptideFile = new RCPA.Gui.FileField();
       this.outputFile = new RCPA.Gui.FileField();
-      this.cbAllowNterminalLoss = new RCPA.Gui.RcpaCheckField();
       this.pnlButton.SuspendLayout();
       this.panel1.SuspendLayout();
       this.SuspendLayout();
@@ -105,7 +105,7 @@ namespace RCPA.Proteomics.Snp
       this.panel1.Controls.Add(this.libraryFile);
       this.panel1.Controls.Add(this.fastaFile);
       this.panel1.Controls.Add(this.ignoreDeamidatedMutation);
-      this.panel1.Controls.Add(this.cbAllowNterminalLoss);
+      this.panel1.Controls.Add(this.cbAllowTerminalLoss);
       this.panel1.Controls.Add(this.ignoreMultipleNucleotideMutation);
       this.panel1.Controls.Add(this.txtMinimumMatchedMs3IonCount);
       this.panel1.Controls.Add(this.label5);
@@ -157,6 +157,8 @@ namespace RCPA.Proteomics.Snp
       // 
       // ignoreDeamidatedMutation
       // 
+      this.ignoreDeamidatedMutation.Checked = true;
+      this.ignoreDeamidatedMutation.CheckState = System.Windows.Forms.CheckState.Checked;
       this.ignoreDeamidatedMutation.Key = "IgnoreDeamidatedMutation";
       this.ignoreDeamidatedMutation.Location = new System.Drawing.Point(888, 6);
       this.ignoreDeamidatedMutation.Name = "ignoreDeamidatedMutation";
@@ -165,8 +167,22 @@ namespace RCPA.Proteomics.Snp
       this.ignoreDeamidatedMutation.TabIndex = 66;
       this.ignoreDeamidatedMutation.Text = "Ignore N->D, Q->E Mutation";
       // 
+      // cbAllowTerminalLoss
+      // 
+      this.cbAllowTerminalLoss.Checked = true;
+      this.cbAllowTerminalLoss.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.cbAllowTerminalLoss.Key = "AllowTerminalLoss";
+      this.cbAllowTerminalLoss.Location = new System.Drawing.Point(643, 32);
+      this.cbAllowTerminalLoss.Name = "cbAllowTerminalLoss";
+      this.cbAllowTerminalLoss.PreCondition = null;
+      this.cbAllowTerminalLoss.Size = new System.Drawing.Size(167, 21);
+      this.cbAllowTerminalLoss.TabIndex = 65;
+      this.cbAllowTerminalLoss.Text = "Allow Terminal Loss";
+      // 
       // ignoreMultipleNucleotideMutation
       // 
+      this.ignoreMultipleNucleotideMutation.Checked = true;
+      this.ignoreMultipleNucleotideMutation.CheckState = System.Windows.Forms.CheckState.Checked;
       this.ignoreMultipleNucleotideMutation.Key = "KeepSingleNucleotideMutationOnly";
       this.ignoreMultipleNucleotideMutation.Location = new System.Drawing.Point(888, 32);
       this.ignoreMultipleNucleotideMutation.Name = "ignoreMultipleNucleotideMutation";
@@ -285,16 +301,6 @@ namespace RCPA.Proteomics.Snp
       this.outputFile.TabIndex = 56;
       this.outputFile.WidthOpenButton = 250;
       // 
-      // cbAllowNterminalLoss
-      // 
-      this.cbAllowNterminalLoss.Key = "AllowNterminalLoss";
-      this.cbAllowNterminalLoss.Location = new System.Drawing.Point(643, 32);
-      this.cbAllowNterminalLoss.Name = "cbAllowNterminalLoss";
-      this.cbAllowNterminalLoss.PreCondition = null;
-      this.cbAllowNterminalLoss.Size = new System.Drawing.Size(167, 21);
-      this.cbAllowNterminalLoss.TabIndex = 65;
-      this.cbAllowNterminalLoss.Text = "Allow Nterminal Loss";
-      // 
       // MS3LibraryPredictorUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -335,6 +341,6 @@ namespace RCPA.Proteomics.Snp
     private Gui.RcpaCheckField ignoreMultipleNucleotideMutation;
     private Gui.FileField fastaFile;
     private Gui.FileField libraryFile;
-    private Gui.RcpaCheckField cbAllowNterminalLoss;
+    private Gui.RcpaCheckField cbAllowTerminalLoss;
   }
 }

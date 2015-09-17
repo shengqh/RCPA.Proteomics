@@ -25,6 +25,8 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     private RcpaCheckBox filterPrecursorByDynamicTolerance;
 
+    private RcpaCheckBox searchedByDifferentParameters;
+
     private RcpaComboBox<IScoreFunction> scoreFunctions;
 
     protected RcpaComponentList componentList { get; set; }
@@ -114,6 +116,9 @@ namespace RCPA.Proteomics.Summary.Uniform
 
       this.filterPrecursorByDynamicTolerance = new RcpaCheckBox(this.cbFilterByDynamicPrecursorTolerance, "FilterPrecursorByDynamicTolerance", true);
       AddComponent(this.filterPrecursorByDynamicTolerance);
+
+      this.searchedByDifferentParameters = new RcpaCheckBox(this.cbSearchedByDifferentParameters, "SearchedByDifferentParameters", false);
+      AddComponent(this.searchedByDifferentParameters);
     }
 
     public void AddNameChangedEvent(EventHandler nameChanged)
@@ -174,6 +179,8 @@ namespace RCPA.Proteomics.Summary.Uniform
         this.precursorPPMTolerance.Value = Options.PrecursorPPMTolerance;
       }
 
+      cbSearchedByDifferentParameters.Checked = Options.SearchedByDifferentParameters;
+
       bool bFound = false;
       for (int i = 0; i < scoreFunctions.Items.Length; i++)
       {
@@ -199,6 +206,7 @@ namespace RCPA.Proteomics.Summary.Uniform
       Options.FilterByPrecursorIsotopic = this.filterPrecursorIsotopic.Checked;
       Options.FilterByPrecursorDynamicTolerance = this.filterPrecursorByDynamicTolerance.Checked;
       Options.ScoreFunction = scoreFunctions.SelectedItem;
+      Options.SearchedByDifferentParameters = cbSearchedByDifferentParameters.Checked;
 
       if (Options.FilterByPrecursor)
       {

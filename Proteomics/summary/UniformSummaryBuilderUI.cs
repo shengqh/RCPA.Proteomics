@@ -69,6 +69,10 @@ namespace RCPA.Tools.Summary
 
     private readonly RcpaCheckBox filterSequenceLength;
     private readonly RcpaIntegerField minSequenceLength;
+
+    private readonly RcpaCheckBox filterMaxMissCleavage;
+    private readonly RcpaIntegerField maxMissCleagage;
+    
     private RcpaIntegerField minAgreeCount;
 
     private RcpaComboBox<IResolveSearchEngineConflictType> seConflictType;
@@ -164,8 +168,16 @@ namespace RCPA.Tools.Summary
       this.filterSequenceLength = new RcpaCheckBox(this.cbSequenceLength, "FilterSequenceLength", false);
       AddComponent(this.filterSequenceLength);
 
-      this.minSequenceLength = new RcpaIntegerField(this.txtMinSequenceLength, "MinSequenceLength", "Minmum Sequence Length", 6, false);
+      this.minSequenceLength = new RcpaIntegerField(this.txtMinSequenceLength, "MinSequenceLength", "Minmum Sequence Length", PeptideFilterOptions.DEFAULT_MinSequenceLength, false);
+      this.minSequenceLength.PreCondition = cbSequenceLength;
       AddComponent(this.minSequenceLength);
+
+      this.filterMaxMissCleavage = new RcpaCheckBox(this.cbMaxMissCleavage, "FilterMaxMisscleavage", false);
+      AddComponent(this.filterMaxMissCleavage);
+
+      this.maxMissCleagage = new RcpaIntegerField(this.txtMaxMissCleavage, "MaxMissCleavage", "Maximum Number of Internal Missed Cleavage", PeptideFilterOptions.DEFAULT_MaxMissCleavage, false);
+      this.maxMissCleagage.PreCondition = cbMaxMissCleavage;
+      AddComponent(this.maxMissCleagage);
 
       this.removeDecoyEntry = new RcpaCheckBox(this.cbRemoveDecoyEntry, "RemovePeptideFromDecoyDB", false);
       AddComponent(this.removeDecoyEntry);
@@ -433,6 +445,11 @@ namespace RCPA.Tools.Summary
       {
         this.minSequenceLength.Value = Option.PeptideFilter.MinSequenceLength;
       }
+      this.filterMaxMissCleavage.Checked = Option.PeptideFilter.FilterByMaxMissCleavage;
+      if (Option.PeptideFilter.FilterByMaxMissCleavage)
+      {
+        this.maxMissCleagage.Value = Option.PeptideFilter.MaxMissCleavage;
+      }
 
       //Dataset
       tcDatasetList.TabPages.Clear();
@@ -497,6 +514,12 @@ namespace RCPA.Tools.Summary
       if (Option.PeptideFilter.FilterBySequenceLength)
       {
         Option.PeptideFilter.MinSequenceLength = this.minSequenceLength.Value;
+      }
+
+      Option.PeptideFilter.FilterByMaxMissCleavage = this.filterMaxMissCleavage.Checked;
+      if (Option.PeptideFilter.FilterByMaxMissCleavage)
+      {
+        Option.PeptideFilter.MaxMissCleavage = this.maxMissCleagage.Value;
       }
 
       //Dataset

@@ -28,17 +28,21 @@ namespace RCPA.Proteomics.Summary.Uniform
       //从配置进行初始化
       BuildResult.InitFromOptions(Options.DatasetList, this.Progress);
 
+      Progress.SetMessage("Building spectrum bin ...");
       BuildResult.BuildSpectrumBin();
 
       //根据最大的fdr进行筛选。
+      Progress.SetMessage("Filtering spectra by fdr ...");
       var realFdr = BuildResult.FilterByFdr(Options.FalseDiscoveryRate.FdrValue);
 
-      BuildResult.KeepOptimalResultInSetOnly(new HashSet<IIdentifiedSpectrum>(realFdr.Spectra));
+      Progress.SetMessage("Keep spectra passed fdr filter ...");
+      BuildResult.KeepOptimalResultInSetOnly(realFdr.Spectra);
 
       string optimalFile = FileUtils.ChangeExtension(parameterFile, ".optimal");
 
       new OptimalFileTextWriter().WriteToFile(optimalFile, BuildResult);
 
+      Progress.SetMessage("Peptide fdr filter done ...");
       return realFdr.Spectra;
     }
 

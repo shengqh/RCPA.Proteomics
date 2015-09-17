@@ -10,7 +10,9 @@ namespace RCPA.Proteomics.Summary.Uniform
 {
   public abstract class AbstractDatasetBuilder<T> : ProgressClass, IDatasetBuilder where T : IDatasetOptions
   {
-    protected T options;
+    protected T options { get; private set; }
+
+    public IDatasetOptions Options { get { return options; } }
 
     public AbstractDatasetBuilder(T options)
     {
@@ -18,8 +20,6 @@ namespace RCPA.Proteomics.Summary.Uniform
     }
 
     #region IDatasetBuilder Members
-
-    public IDatasetOptions Options { get { return options; } }
 
     public virtual List<IIdentifiedSpectrum> ParseFromSearchResult()
     {
@@ -38,7 +38,7 @@ namespace RCPA.Proteomics.Summary.Uniform
       if (Options.FilterByPrecursor && Options.FilterByPrecursorDynamicTolerance)
       {
         Progress.SetMessage(MyConvert.Format("Filtering by precursor mass tolerance ...", result.Count));
-        List<IIdentifiedSpectrum> highconfidents = options.SearchEngine.GetFactory().GetHighConfidentPeptides(result);
+        List<IIdentifiedSpectrum> highconfidents = Options.SearchEngine.GetFactory().GetHighConfidentPeptides(result);
         DynamicPrecursorPPMFilter filter = new DynamicPrecursorPPMFilter(Options.PrecursorPPMTolerance, Options.FilterByPrecursorIsotopic);
         var sFilter = filter.GetFilter(highconfidents);
         result.RemoveAll(m => !sFilter.Accept(m));
@@ -55,15 +55,18 @@ namespace RCPA.Proteomics.Summary.Uniform
         }
       }
 
-      Progress.SetMessage(MyConvert.Format("Merging same spectrum from different search parameters ...", result.Count));
-      IdentifiedSpectrumUtils.KeepTopPeptideFromSameEngineDifferentParameters(result);
-      result.TrimExcess();
-      GC.Collect();
-      GC.WaitForPendingFinalizers();
-      Progress.SetMessage(MyConvert.Format("Total {0} peptides passed minimum tolerance criteria.", result.Count));
+      if (Options.SearchedByDifferentParameters)
+      {
+        Progress.SetMessage(MyConvert.Format("Merging same spectrum from different search parameters ...", result.Count));
+        IdentifiedSpectrumUtils.KeepTopPeptideFromSameEngineDifferentParameters(result, Options.ScoreFunction);
+        result.TrimExcess();
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        Progress.SetMessage(MyConvert.Format("Total {0} peptides passed minimum tolerance criteria.", result.Count));
+      }
 
       Progress.SetMessage("Parsing protein access number ...");
-      IdentifiedSpectrumUtils.ResetProteinByAccessNumberParser(result, options.Parent.Database.GetAccessNumberParser());
+      IdentifiedSpectrumUtils.ResetProteinByAccessNumberParser(result, Options.Parent.Database.GetAccessNumberParser());
       Progress.SetMessage("Parsing protein access number finished.");
 
       Progress.SetMessage("Sorting peptide sequence ...");

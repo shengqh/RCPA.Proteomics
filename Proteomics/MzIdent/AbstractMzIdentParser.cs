@@ -120,6 +120,8 @@ namespace RCPA.Proteomics.MzIdent
 
     #region IFileReader<List<IIdentifiedSpectrum>> Members
 
+    private static string[] extensions = new[] {".raw", ".mzml", ".mzxml",".mgf" };
+
     public List<IIdentifiedSpectrum> ReadFromFile(string fileName)
     {
       XElement root = XElement.Load(fileName);
@@ -127,6 +129,15 @@ namespace RCPA.Proteomics.MzIdent
         FindElement("AnalysisSoftware").
         FindElement("SoftwareName").
         FindElement("cvParam").Attribute("name").Value;
+
+      var defaultExp = Path.GetFileNameWithoutExtension(fileName);
+      foreach (var ext in extensions)
+      {
+        if (defaultExp.ToLower().EndsWith(ext))
+        {
+          defaultExp = defaultExp.Substring(0, defaultExp.Length - ext.Length);
+        }
+      }
 
       //parsing identification protocol first
       var protocols = root.FindElement("AnalysisProtocolCollection");
@@ -201,10 +212,10 @@ namespace RCPA.Proteomics.MzIdent
         }
         else
         {
-          if (spectrumId.StartsWith("index="))
+          if (spectrumId.StartsWith("index=") || spectrumId.StartsWith("scan="))
           {
-            spectrum.Query.FileScan.Experimental = Path.GetFileNameWithoutExtension(fileName);
-            spectrum.Query.FileScan.FirstScan = int.Parse(spectrumId.StringAfter("index="));
+            spectrum.Query.FileScan.Experimental = defaultExp;
+            spectrum.Query.FileScan.FirstScan = int.Parse(spectrumId.StringAfter("="));
             spectrum.Query.FileScan.LastScan = spectrum.Query.FileScan.FirstScan;
           }
           else
@@ -216,6 +227,11 @@ namespace RCPA.Proteomics.MzIdent
         if (sirCvParams.TryGetValue("MS:1001115", out value))
         {
           spectrum.Query.FileScan.FirstScan = int.Parse(value);
+        }
+
+        if (spectrum.Query.FileScan.FirstScan == 0)
+        {
+          throw new Exception(string.Format("Cannot find scan information in file {0}", fileName));
         }
 
         bool bFirst = true;

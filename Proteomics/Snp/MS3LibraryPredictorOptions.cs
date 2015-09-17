@@ -17,7 +17,7 @@ namespace RCPA.Proteomics.Snp
       MinimumMs3PrecursorMz = 200;
       MinimumMatchedMs3IonCount = 2;
       MinimumDeltaMass = 1.5;
-      AllowNTerminalLoss = false;
+      AllowTerminalLoss = false;
     }
 
     public double PrecursorPPMTolerance { get; set; }
@@ -44,7 +44,7 @@ namespace RCPA.Proteomics.Snp
 
     public bool IgnoreMultipleNucleotideMutation { get; set; }
 
-    public bool AllowNTerminalLoss { get; set; }
+    public bool AllowTerminalLoss { get; set; }
 
     public string OutputFile { get; set; }
 

@@ -13,6 +13,7 @@ namespace RCPA.Proteomics.Summary.Uniform
     {
       Name = string.Empty;
       Enabled = true;
+      SearchedByDifferentParameters = false;
     }
 
     #region IDataset Members
@@ -56,6 +57,8 @@ namespace RCPA.Proteomics.Summary.Uniform
       get { return _precursorPPMTolerance; }
       set { _precursorPPMTolerance = value; }
     }
+
+    public bool SearchedByDifferentParameters { get; set; }
 
     public virtual IFilter<IIdentifiedSpectrum> GetFilter()
     {
@@ -130,6 +133,7 @@ namespace RCPA.Proteomics.Summary.Uniform
         new XElement("Enabled",Enabled),
         new XElement("Name", Name),
         new XElement("ScoreName", ScoreFunction.ScoreName),
+        new XElement("SearchedByDifferentParameters", SearchedByDifferentParameters),
         new XElement("PeptideFilter",
           new XElement("FilterByPrecursor", 
             new XElement("Active",FilterByPrecursor),
@@ -160,6 +164,15 @@ namespace RCPA.Proteomics.Summary.Uniform
       {
         var scoreName = parentNode.FindElement("ScoreName").Value;
         ScoreFunction = SearchEngine.GetFactory().FindScoreFunction(scoreName);
+      }
+
+      if (parentNode.FindElement("SearchedByDifferentParameters") != null)
+      {
+        this.SearchedByDifferentParameters = bool.Parse(parentNode.FindElement("SearchedByDifferentParameters").Value);
+      }
+      else
+      {
+        this.SearchedByDifferentParameters = false;
       }
 
       var filterXml = parentNode.Element("PeptideFilter");

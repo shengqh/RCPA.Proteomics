@@ -305,6 +305,35 @@ namespace RCPA.Proteomics.Summary
     }
   }
 
+
+  public class IdentifiedSpectrumMaxMissCleavageFilter : IFilter<IIdentifiedSpectrum>
+  {
+    private int maxMissCleavage;
+    public IdentifiedSpectrumMaxMissCleavageFilter(int maxMissCleavage)
+    {
+      this.maxMissCleavage = maxMissCleavage;
+    }
+
+    #region IFilter<IIdentifiedSpectrum> Members
+
+    public bool Accept(IIdentifiedSpectrum t)
+    {
+      if (null == t.Peptide)
+      {
+        return false;
+      }
+
+      return t.NumMissedCleavages <= maxMissCleavage;
+    }
+
+    #endregion
+
+    public override string ToString()
+    {
+      return string.Format("Num Missed Cleavage <= " + maxMissCleavage.ToString());
+    }
+  }
+
   public interface ISpectrumFilter : IFilter<IIdentifiedSpectrum>
   {
     void SetCriteria(object value);
