@@ -32,6 +32,8 @@ namespace RCPA.Proteomics.Snp
       this.rawFiles = new RCPA.Gui.MultipleFileField();
       this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
       this.panel1 = new System.Windows.Forms.Panel();
+      this.txtMinIdentificationCount = new System.Windows.Forms.TextBox();
+      this.label3 = new System.Windows.Forms.Label();
       this.txtMaxFragmentPeakCount = new System.Windows.Forms.TextBox();
       this.label2 = new System.Windows.Forms.Label();
       this.txtFragmentPPM = new System.Windows.Forms.TextBox();
@@ -40,8 +42,9 @@ namespace RCPA.Proteomics.Snp
       this.label4 = new System.Windows.Forms.Label();
       this.peptideFile = new RCPA.Gui.FileField();
       this.outputFile = new RCPA.Gui.FileField();
-      this.label3 = new System.Windows.Forms.Label();
-      this.txtMinIdentificationCount = new System.Windows.Forms.TextBox();
+      this.txtModification = new RCPA.Gui.TextField();
+      this.maxTerminalLoss = new RCPA.Gui.IntegerField();
+      this.minSequenceLength = new RCPA.Gui.IntegerField();
       this.pnlButton.SuspendLayout();
       this.panel1.SuspendLayout();
       this.SuspendLayout();
@@ -85,7 +88,7 @@ namespace RCPA.Proteomics.Snp
       this.rawFiles.SelectedIndex = -1;
       this.rawFiles.SelectedItem = null;
       this.rawFiles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-      this.rawFiles.Size = new System.Drawing.Size(1215, 547);
+      this.rawFiles.Size = new System.Drawing.Size(1215, 471);
       this.rawFiles.TabIndex = 13;
       this.rawFiles.ValidateSelectedItemOnly = true;
       // 
@@ -95,6 +98,9 @@ namespace RCPA.Proteomics.Snp
       // 
       // panel1
       // 
+      this.panel1.Controls.Add(this.minSequenceLength);
+      this.panel1.Controls.Add(this.maxTerminalLoss);
+      this.panel1.Controls.Add(this.txtModification);
       this.panel1.Controls.Add(this.txtMinIdentificationCount);
       this.panel1.Controls.Add(this.label3);
       this.panel1.Controls.Add(this.txtMaxFragmentPeakCount);
@@ -106,14 +112,30 @@ namespace RCPA.Proteomics.Snp
       this.panel1.Controls.Add(this.peptideFile);
       this.panel1.Controls.Add(this.outputFile);
       this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.panel1.Location = new System.Drawing.Point(0, 547);
+      this.panel1.Location = new System.Drawing.Point(0, 471);
       this.panel1.Name = "panel1";
-      this.panel1.Size = new System.Drawing.Size(1215, 97);
+      this.panel1.Size = new System.Drawing.Size(1215, 173);
       this.panel1.TabIndex = 41;
+      // 
+      // txtMinIdentificationCount
+      // 
+      this.txtMinIdentificationCount.Location = new System.Drawing.Point(944, 8);
+      this.txtMinIdentificationCount.Name = "txtMinIdentificationCount";
+      this.txtMinIdentificationCount.Size = new System.Drawing.Size(75, 20);
+      this.txtMinIdentificationCount.TabIndex = 64;
+      // 
+      // label3
+      // 
+      this.label3.AutoSize = true;
+      this.label3.Location = new System.Drawing.Point(727, 11);
+      this.label3.Name = "label3";
+      this.label3.Size = new System.Drawing.Size(212, 13);
+      this.label3.TabIndex = 63;
+      this.label3.Text = "Minimum Identification Spectra Per Peptide:";
       // 
       // txtMaxFragmentPeakCount
       // 
-      this.txtMaxFragmentPeakCount.Location = new System.Drawing.Point(721, 8);
+      this.txtMaxFragmentPeakCount.Location = new System.Drawing.Point(630, 8);
       this.txtMaxFragmentPeakCount.Name = "txtMaxFragmentPeakCount";
       this.txtMaxFragmentPeakCount.Size = new System.Drawing.Size(75, 20);
       this.txtMaxFragmentPeakCount.TabIndex = 64;
@@ -121,7 +143,7 @@ namespace RCPA.Proteomics.Snp
       // label2
       // 
       this.label2.AutoSize = true;
-      this.label2.Location = new System.Drawing.Point(575, 11);
+      this.label2.Location = new System.Drawing.Point(484, 11);
       this.label2.Name = "label2";
       this.label2.Size = new System.Drawing.Size(139, 13);
       this.label2.TabIndex = 63;
@@ -129,7 +151,7 @@ namespace RCPA.Proteomics.Snp
       // 
       // txtFragmentPPM
       // 
-      this.txtFragmentPPM.Location = new System.Drawing.Point(485, 8);
+      this.txtFragmentPPM.Location = new System.Drawing.Point(394, 8);
       this.txtFragmentPPM.Name = "txtFragmentPPM";
       this.txtFragmentPPM.Size = new System.Drawing.Size(75, 20);
       this.txtFragmentPPM.TabIndex = 62;
@@ -137,7 +159,7 @@ namespace RCPA.Proteomics.Snp
       // label1
       // 
       this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(344, 11);
+      this.label1.Location = new System.Drawing.Point(253, 11);
       this.label1.Name = "label1";
       this.label1.Size = new System.Drawing.Size(134, 13);
       this.label1.TabIndex = 61;
@@ -145,15 +167,15 @@ namespace RCPA.Proteomics.Snp
       // 
       // txtPrecursorPPM
       // 
-      this.txtPrecursorPPM.Location = new System.Drawing.Point(254, 8);
+      this.txtPrecursorPPM.Location = new System.Drawing.Point(159, 8);
       this.txtPrecursorPPM.Name = "txtPrecursorPPM";
-      this.txtPrecursorPPM.Size = new System.Drawing.Size(75, 20);
+      this.txtPrecursorPPM.Size = new System.Drawing.Size(73, 20);
       this.txtPrecursorPPM.TabIndex = 59;
       // 
       // label4
       // 
       this.label4.AutoSize = true;
-      this.label4.Location = new System.Drawing.Point(113, 11);
+      this.label4.Location = new System.Drawing.Point(18, 11);
       this.label4.Name = "label4";
       this.label4.Size = new System.Drawing.Size(135, 13);
       this.label4.TabIndex = 58;
@@ -166,7 +188,7 @@ namespace RCPA.Proteomics.Snp
             | System.Windows.Forms.AnchorStyles.Right)));
       this.peptideFile.FullName = "";
       this.peptideFile.Key = "PeptideFile";
-      this.peptideFile.Location = new System.Drawing.Point(3, 34);
+      this.peptideFile.Location = new System.Drawing.Point(3, 109);
       this.peptideFile.Name = "peptideFile";
       this.peptideFile.OpenButtonText = "Browse Peptide File ...";
       this.peptideFile.PreCondition = null;
@@ -181,7 +203,7 @@ namespace RCPA.Proteomics.Snp
             | System.Windows.Forms.AnchorStyles.Right)));
       this.outputFile.FullName = "";
       this.outputFile.Key = "DatabaseFile";
-      this.outputFile.Location = new System.Drawing.Point(2, 63);
+      this.outputFile.Location = new System.Drawing.Point(2, 138);
       this.outputFile.Name = "outputFile";
       this.outputFile.OpenButtonText = "Browse Output File ...";
       this.outputFile.PreCondition = null;
@@ -189,21 +211,54 @@ namespace RCPA.Proteomics.Snp
       this.outputFile.TabIndex = 56;
       this.outputFile.WidthOpenButton = 250;
       // 
-      // label3
+      // txtModification
       // 
-      this.label3.AutoSize = true;
-      this.label3.Location = new System.Drawing.Point(818, 11);
-      this.label3.Name = "label3";
-      this.label3.Size = new System.Drawing.Size(212, 13);
-      this.label3.TabIndex = 63;
-      this.label3.Text = "Minimum Identification Spectra Per Peptide:";
+      this.txtModification.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.txtModification.Caption = "Input Modification : ";
+      this.txtModification.CaptionWidth = 100;
+      this.txtModification.DefaultValue = "";
+      this.txtModification.Description = ", for example: (* +79.96633) (# +15.99492) (@ -18.00000) C=160.16523";
+      this.txtModification.Key = "Modification";
+      this.txtModification.Location = new System.Drawing.Point(71, 66);
+      this.txtModification.Name = "txtModification";
+      this.txtModification.PreCondition = null;
+      this.txtModification.Required = false;
+      this.txtModification.Size = new System.Drawing.Size(1132, 23);
+      this.txtModification.TabIndex = 65;
+      this.txtModification.TextWidth = 600;
       // 
-      // txtMinIdentificationCount
+      // maxTerminalLoss
       // 
-      this.txtMinIdentificationCount.Location = new System.Drawing.Point(1035, 8);
-      this.txtMinIdentificationCount.Name = "txtMinIdentificationCount";
-      this.txtMinIdentificationCount.Size = new System.Drawing.Size(75, 20);
-      this.txtMinIdentificationCount.TabIndex = 64;
+      this.maxTerminalLoss.Caption = "Max Terminal Loss : ";
+      this.maxTerminalLoss.CaptionWidth = 110;
+      this.maxTerminalLoss.DefaultValue = "2";
+      this.maxTerminalLoss.Description = "";
+      this.maxTerminalLoss.Key = "MaxTerminalLoss";
+      this.maxTerminalLoss.Location = new System.Drawing.Point(12, 37);
+      this.maxTerminalLoss.Name = "maxTerminalLoss";
+      this.maxTerminalLoss.PreCondition = null;
+      this.maxTerminalLoss.Required = false;
+      this.maxTerminalLoss.Size = new System.Drawing.Size(179, 23);
+      this.maxTerminalLoss.TabIndex = 66;
+      this.maxTerminalLoss.TextWidth = 50;
+      this.maxTerminalLoss.Value = 2;
+      // 
+      // minSequenceLength
+      // 
+      this.minSequenceLength.Caption = "Min Terminal Lossed Sequence Length : ";
+      this.minSequenceLength.CaptionWidth = 220;
+      this.minSequenceLength.DefaultValue = "7";
+      this.minSequenceLength.Description = "";
+      this.minSequenceLength.Key = "MinSequenceLength";
+      this.minSequenceLength.Location = new System.Drawing.Point(186, 37);
+      this.minSequenceLength.Name = "minSequenceLength";
+      this.minSequenceLength.PreCondition = null;
+      this.minSequenceLength.Required = false;
+      this.minSequenceLength.Size = new System.Drawing.Size(283, 23);
+      this.minSequenceLength.TabIndex = 66;
+      this.minSequenceLength.TextWidth = 63;
+      this.minSequenceLength.Value = 7;
       // 
       // MS3LibraryBuilderUI
       // 
@@ -239,5 +294,8 @@ namespace RCPA.Proteomics.Snp
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.TextBox txtMinIdentificationCount;
     private System.Windows.Forms.Label label3;
+    private Gui.TextField txtModification;
+    private Gui.IntegerField minSequenceLength;
+    private Gui.IntegerField maxTerminalLoss;
   }
 }

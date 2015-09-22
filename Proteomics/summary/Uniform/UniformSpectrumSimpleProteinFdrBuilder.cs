@@ -94,7 +94,8 @@ namespace RCPA.Proteomics.Summary.Uniform
 
         Progress.SetMessage("Filtering PSMs by protein fdr {0}, using peptide fdr {1}...", Options.FalseDiscoveryRate.FdrValue, Options.FalseDiscoveryRate.MaxPeptideFdr);
 
-        var ret = proteinCalc.GetOptimalResultForGroupFilter(BuildResult, Options.FalseDiscoveryRate.MaxPeptideFdr, Options.FalseDiscoveryRate.FdrValue, null);
+        var groupFilter = Options.FalseDiscoveryRate.FilterOneHitWonder?new IdentifiedProteinGroupSingleWonderPeptideCountFilter(Options.FalseDiscoveryRate.MinOneHitWonderPeptideCount):null;
+        var ret = proteinCalc.GetOptimalResultForGroupFilter(BuildResult, Options.FalseDiscoveryRate.MaxPeptideFdr, Options.FalseDiscoveryRate.FdrValue, groupFilter);
 
         //只保留没有被通过筛选的蛋白质包含的PSMs。
         BuildResult.KeepOptimalResultInSetOnly(ret.AcceptedSpectra);

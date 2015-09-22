@@ -129,7 +129,25 @@ namespace RCPA.Proteomics.Summary
         }
       }
 
-      if (conf.SavePeptidesFile)
+      if (conf.FalseDiscoveryRate.FilterOneHitWonder && conf.FalseDiscoveryRate.MinOneHitWonderPeptideCount > 1)
+      {
+        Progress.SetMessage("Filtering single wonders ...");
+        var proteinFilter = new IdentifiedProteinSingleWonderPeptideCountFilter(conf.FalseDiscoveryRate.MinOneHitWonderPeptideCount);
+        List<IIdentifiedProtein> proteins = proteinBuilder.Build(finalPeptides);
+        int oldProteinCount = proteins.Count;
+        proteins.RemoveAll(l => !proteinFilter.Accept(l));
+        if (oldProteinCount != proteins.Count)
+        {
+          HashSet<IIdentifiedSpectrum> newspectra = new HashSet<IIdentifiedSpectrum>();
+          foreach (var protein in proteins)
+          {
+            newspectra.UnionWith(protein.GetSpectra());
+          }
+          finalPeptides = newspectra.ToList();
+        }
+      }
+
+      if (conf.SavePeptidesFile && !(conf.FalseDiscoveryRate.FilterOneHitWonder && conf.FalseDiscoveryRate.MinOneHitWonderPeptideCount > 1))
       {
         if (conf.Database.RemovePeptideFromDecoyDB)
         {

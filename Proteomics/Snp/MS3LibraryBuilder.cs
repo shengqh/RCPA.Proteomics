@@ -6,6 +6,7 @@ using System.IO;
 using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Raw;
 using RCPA.Proteomics.Spectrum;
+using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.Snp
 {
@@ -31,6 +32,7 @@ namespace RCPA.Proteomics.Snp
           throw new Exception(string.Format("Raw file of {0} is not assigned in RawFiles.", exp));
         }
       }
+
 
       var ms2list = new List<MS2Item>();
       foreach (var exp in expPeptidesMap.Keys)
@@ -125,6 +127,11 @@ namespace RCPA.Proteomics.Snp
 
       var builder = new BestSpectrumTopSharedPeaksBuilder(options.FragmentPPMTolerance, options.MaxFragmentPeakCount);
       ms2library.ForEach(m => m.CombineMS3Spectra(builder, options.PrecursorPPMTolerance));
+
+      Progress.SetMessage("Initialize terminal loss ...");
+      var aas = options.GetAminoacids();
+      ms2library.ForEach(l => l.InitTerminalLoss(aas, options.MaxTerminalLossLength, options.MinSequenceLength));
+
       new MS2ItemXmlFormat().WriteToFile(options.OutputFile, ms2library);
 
       Progress.End();

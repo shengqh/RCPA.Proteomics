@@ -19,7 +19,7 @@ namespace RCPA.Proteomics.Snp
   public partial class MS3LibraryBuilderUI : AbstractProcessorUI
   {
     private static readonly string title = "MS3 Library Builder";
-    private static readonly string version = "1.0.2";
+    private static readonly string version = "1.0.3";
 
     private RcpaDoubleField precursorPPM;
     private RcpaDoubleField fragmentPPM;
@@ -72,7 +72,10 @@ namespace RCPA.Proteomics.Snp
         PeptideFile = this.peptideFile.FullName,
         RawFiles = this.rawFiles.FileNames,
         OutputFile = this.outputFile.FullName,
-        MinIdentifiedSpectraPerPeptide = this.minSpectraPerPeptide.Value
+        MinIdentifiedSpectraPerPeptide = this.minSpectraPerPeptide.Value,
+        MaxTerminalLossLength = maxTerminalLoss.Value,
+        MinSequenceLength = minSequenceLength.Value,
+        Modification = txtModification.Text
       };
 
       return new MS3LibraryBuilder(options);

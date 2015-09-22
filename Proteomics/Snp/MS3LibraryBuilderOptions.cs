@@ -1,4 +1,5 @@
 ﻿using RCPA.Commandline;
+using RCPA.Proteomics.Modification;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +16,8 @@ namespace RCPA.Proteomics.Snp
       FragmentPPMTolerance = 50;
       MaxFragmentPeakCount = 10;
       MinIdentifiedSpectraPerPeptide = 1;
+      MaxTerminalLossLength = 2;
+      MinSequenceLength = 7;
     }
 
     public string PeptideFile { get; set; }
@@ -56,5 +59,20 @@ namespace RCPA.Proteomics.Snp
     }
 
     public int MinIdentifiedSpectraPerPeptide { get; set; }
+
+    public int MinSequenceLength { get; set; }
+
+    public int MaxTerminalLossLength { get; set; }
+
+    public string Modification { get; set; }
+
+    public Aminoacids GetAminoacids()
+    {
+      var mod = ModificationUtils.ParseFromOutFileLine(this.Modification);
+      var result = new Aminoacids();
+      mod.ForEach(m => result[m.Key].ResetMass(m.Value, m.Value));
+      return result;
+
+    }
   }
 }

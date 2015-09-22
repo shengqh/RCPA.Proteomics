@@ -45,40 +45,50 @@ namespace RCPA.Proteomics.Snp
     public List<PeakList<Peak>> MS3Spectra { get; private set; }
 
     public List<TerminalLossItem> TerminalLoss { get; private set; }
-    public void InitNterminalLoss(Aminoacids aa)
+    public void InitTerminalLoss(Aminoacids aa, int maxTerminalLossLength, int minSequenceLength)
     {
       this.TerminalLoss = new List<TerminalLossItem>();
 
       var seq = PeptideUtils.GetMatchedSequence(this.Peptide);
-      var pureseq = PeptideUtils.GetMatchedSequence(this.Peptide);
+      var pureseq = PeptideUtils.GetPureSequence(this.Peptide);
 
       var pos = 0;
-      if (!char.IsUpper(seq[pos])) // ignore the Nterminal modification
+      var index = 0;
+      var maxIndex = Math.Min(maxTerminalLossLength, pureseq.Length - minSequenceLength);
+      var deltaMass = 0.0;
+      while (index < maxIndex)
       {
+        deltaMass += aa[seq[pos]].MonoMass;
+        if (!char.IsUpper(seq[pos + 1]))
+        {
+          pos++;
+          continue;
+        }
+
+        index++;
         pos++;
+
+        var precursorLoss = this.Precursor - deltaMass / this.Charge;
+        this.TerminalLoss.Add(new TerminalLossItem(true, pureseq.Substring(index), precursorLoss));
       }
 
-      if (char.IsUpper(seq[pos + 1])) //if the first base is not modified
-      {
-        var precursorLoss1 = this.Precursor - aa[seq[pos]].MonoMass / this.Charge;
-        this.TerminalLoss.Add(new TerminalLossItem(true, pureseq.Substring(1), precursorLoss1));
-        if (char.IsUpper(seq[pos + 2])) //if the second base is not modified
-        {
-          var precursorLoss2 = precursorLoss1 - aa[seq[pos + 1]].MonoMass / this.Charge;
-          this.TerminalLoss.Add(new TerminalLossItem(true, pureseq.Substring(2), precursorLoss2));
-        }
-      }
-
+      index = 0;
       pos = seq.Length - 1;
-      if (char.IsUpper(seq[pos])) // if the last base is not modified
+      deltaMass = 0.0;
+      while (index < maxIndex)
       {
-        var precursorLoss1 = this.Precursor - aa[seq[pos]].MonoMass / this.Charge;
-        this.TerminalLoss.Add(new TerminalLossItem(false, pureseq.Substring(0, pureseq.Length - 1), precursorLoss1));
-        if (char.IsUpper(seq[pos - 1])) //if the second last base is not modified
+        deltaMass += aa[seq[pos]].MonoMass;
+        if (!char.IsUpper(seq[pos]))
         {
-          var precursorLoss2 = precursorLoss1 - aa[seq[pos - 1]].MonoMass / this.Charge;
-          this.TerminalLoss.Add(new TerminalLossItem(false, pureseq.Substring(0, pureseq.Length - 2), precursorLoss2));
+          pos--;
+          continue;
         }
+
+        index++;
+        pos--;
+
+        var precursorLoss = this.Precursor - deltaMass / this.Charge;
+        this.TerminalLoss.Add(new TerminalLossItem(false, pureseq.Substring(0, pureseq.Length - index), precursorLoss));
       }
     }
 

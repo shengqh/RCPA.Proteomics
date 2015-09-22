@@ -18,6 +18,7 @@ namespace RCPA.Proteomics.Snp
       MinimumMatchedMs3IonCount = 2;
       MinimumDeltaMass = 1.5;
       AllowTerminalLoss = false;
+      MatchMS3First = false;
     }
 
     public double PrecursorPPMTolerance { get; set; }
@@ -46,7 +47,21 @@ namespace RCPA.Proteomics.Snp
 
     public bool AllowTerminalLoss { get; set; }
 
+    public bool MatchMS3First { get; set; }
+
     public string OutputFile { get; set; }
+
+    public AbstractMS3LibraryPredictor GetPredictor()
+    {
+      if (MatchMS3First)
+      {
+        return new MS3LibraryMS3FirstPredictor(this);
+      }
+      else
+      {
+        return new MS3LibraryMS2FirstPredictor(this);
+      }
+    }
 
     private Dictionary<char, List<TargetSAP>> _allowedMassChangeMap = null;
 

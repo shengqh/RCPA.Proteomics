@@ -49,6 +49,7 @@ namespace RCPA.Proteomics.Snp
       this.label4 = new System.Windows.Forms.Label();
       this.peptideFile = new RCPA.Gui.FileField();
       this.outputFile = new RCPA.Gui.FileField();
+      this.cbMatchMS3First = new RCPA.Gui.RcpaCheckField();
       this.pnlButton.SuspendLayout();
       this.panel1.SuspendLayout();
       this.SuspendLayout();
@@ -106,6 +107,7 @@ namespace RCPA.Proteomics.Snp
       this.panel1.Controls.Add(this.fastaFile);
       this.panel1.Controls.Add(this.ignoreDeamidatedMutation);
       this.panel1.Controls.Add(this.cbAllowTerminalLoss);
+      this.panel1.Controls.Add(this.cbMatchMS3First);
       this.panel1.Controls.Add(this.ignoreMultipleNucleotideMutation);
       this.panel1.Controls.Add(this.txtMinimumMatchedMs3IonCount);
       this.panel1.Controls.Add(this.label5);
@@ -160,7 +162,7 @@ namespace RCPA.Proteomics.Snp
       this.ignoreDeamidatedMutation.Checked = true;
       this.ignoreDeamidatedMutation.CheckState = System.Windows.Forms.CheckState.Checked;
       this.ignoreDeamidatedMutation.Key = "IgnoreDeamidatedMutation";
-      this.ignoreDeamidatedMutation.Location = new System.Drawing.Point(888, 6);
+      this.ignoreDeamidatedMutation.Location = new System.Drawing.Point(807, 6);
       this.ignoreDeamidatedMutation.Name = "ignoreDeamidatedMutation";
       this.ignoreDeamidatedMutation.PreCondition = null;
       this.ignoreDeamidatedMutation.Size = new System.Drawing.Size(191, 23);
@@ -172,10 +174,10 @@ namespace RCPA.Proteomics.Snp
       this.cbAllowTerminalLoss.Checked = true;
       this.cbAllowTerminalLoss.CheckState = System.Windows.Forms.CheckState.Checked;
       this.cbAllowTerminalLoss.Key = "AllowTerminalLoss";
-      this.cbAllowTerminalLoss.Location = new System.Drawing.Point(643, 32);
+      this.cbAllowTerminalLoss.Location = new System.Drawing.Point(562, 32);
       this.cbAllowTerminalLoss.Name = "cbAllowTerminalLoss";
       this.cbAllowTerminalLoss.PreCondition = null;
-      this.cbAllowTerminalLoss.Size = new System.Drawing.Size(167, 21);
+      this.cbAllowTerminalLoss.Size = new System.Drawing.Size(136, 21);
       this.cbAllowTerminalLoss.TabIndex = 65;
       this.cbAllowTerminalLoss.Text = "Allow Terminal Loss";
       // 
@@ -184,16 +186,16 @@ namespace RCPA.Proteomics.Snp
       this.ignoreMultipleNucleotideMutation.Checked = true;
       this.ignoreMultipleNucleotideMutation.CheckState = System.Windows.Forms.CheckState.Checked;
       this.ignoreMultipleNucleotideMutation.Key = "KeepSingleNucleotideMutationOnly";
-      this.ignoreMultipleNucleotideMutation.Location = new System.Drawing.Point(888, 32);
+      this.ignoreMultipleNucleotideMutation.Location = new System.Drawing.Point(705, 31);
       this.ignoreMultipleNucleotideMutation.Name = "ignoreMultipleNucleotideMutation";
       this.ignoreMultipleNucleotideMutation.PreCondition = null;
-      this.ignoreMultipleNucleotideMutation.Size = new System.Drawing.Size(260, 21);
+      this.ignoreMultipleNucleotideMutation.Size = new System.Drawing.Size(222, 21);
       this.ignoreMultipleNucleotideMutation.TabIndex = 65;
       this.ignoreMultipleNucleotideMutation.Text = "Keep Single Nucleotide Mutation Only";
       // 
       // txtMinimumMatchedMs3IonCount
       // 
-      this.txtMinimumMatchedMs3IonCount.Location = new System.Drawing.Point(532, 32);
+      this.txtMinimumMatchedMs3IonCount.Location = new System.Drawing.Point(451, 32);
       this.txtMinimumMatchedMs3IonCount.Name = "txtMinimumMatchedMs3IonCount";
       this.txtMinimumMatchedMs3IonCount.Size = new System.Drawing.Size(75, 20);
       this.txtMinimumMatchedMs3IonCount.TabIndex = 64;
@@ -201,7 +203,7 @@ namespace RCPA.Proteomics.Snp
       // label5
       // 
       this.label5.AutoSize = true;
-      this.label5.Location = new System.Drawing.Point(353, 35);
+      this.label5.Location = new System.Drawing.Point(272, 35);
       this.label5.Name = "label5";
       this.label5.Size = new System.Drawing.Size(173, 13);
       this.label5.TabIndex = 63;
@@ -209,7 +211,7 @@ namespace RCPA.Proteomics.Snp
       // 
       // txtMinMs3PrecursorMz
       // 
-      this.txtMinMs3PrecursorMz.Location = new System.Drawing.Point(257, 32);
+      this.txtMinMs3PrecursorMz.Location = new System.Drawing.Point(176, 32);
       this.txtMinMs3PrecursorMz.Name = "txtMinMs3PrecursorMz";
       this.txtMinMs3PrecursorMz.Size = new System.Drawing.Size(75, 20);
       this.txtMinMs3PrecursorMz.TabIndex = 64;
@@ -217,7 +219,7 @@ namespace RCPA.Proteomics.Snp
       // label3
       // 
       this.label3.AutoSize = true;
-      this.label3.Location = new System.Drawing.Point(103, 35);
+      this.label3.Location = new System.Drawing.Point(22, 35);
       this.label3.Name = "label3";
       this.label3.Size = new System.Drawing.Size(148, 13);
       this.label3.TabIndex = 63;
@@ -225,7 +227,7 @@ namespace RCPA.Proteomics.Snp
       // 
       // txtMaxFragmentPeakCount
       // 
-      this.txtMaxFragmentPeakCount.Location = new System.Drawing.Point(786, 6);
+      this.txtMaxFragmentPeakCount.Location = new System.Drawing.Point(705, 6);
       this.txtMaxFragmentPeakCount.Name = "txtMaxFragmentPeakCount";
       this.txtMaxFragmentPeakCount.Size = new System.Drawing.Size(75, 20);
       this.txtMaxFragmentPeakCount.TabIndex = 64;
@@ -233,7 +235,7 @@ namespace RCPA.Proteomics.Snp
       // label2
       // 
       this.label2.AutoSize = true;
-      this.label2.Location = new System.Drawing.Point(640, 9);
+      this.label2.Location = new System.Drawing.Point(559, 9);
       this.label2.Name = "label2";
       this.label2.Size = new System.Drawing.Size(139, 13);
       this.label2.TabIndex = 63;
@@ -241,7 +243,7 @@ namespace RCPA.Proteomics.Snp
       // 
       // txtFragmentPPM
       // 
-      this.txtFragmentPPM.Location = new System.Drawing.Point(532, 6);
+      this.txtFragmentPPM.Location = new System.Drawing.Point(451, 6);
       this.txtFragmentPPM.Name = "txtFragmentPPM";
       this.txtFragmentPPM.Size = new System.Drawing.Size(75, 20);
       this.txtFragmentPPM.TabIndex = 62;
@@ -249,7 +251,7 @@ namespace RCPA.Proteomics.Snp
       // label1
       // 
       this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(391, 9);
+      this.label1.Location = new System.Drawing.Point(310, 9);
       this.label1.Name = "label1";
       this.label1.Size = new System.Drawing.Size(134, 13);
       this.label1.TabIndex = 61;
@@ -257,7 +259,7 @@ namespace RCPA.Proteomics.Snp
       // 
       // txtPrecursorPPM
       // 
-      this.txtPrecursorPPM.Location = new System.Drawing.Point(257, 6);
+      this.txtPrecursorPPM.Location = new System.Drawing.Point(176, 6);
       this.txtPrecursorPPM.Name = "txtPrecursorPPM";
       this.txtPrecursorPPM.Size = new System.Drawing.Size(75, 20);
       this.txtPrecursorPPM.TabIndex = 59;
@@ -265,7 +267,7 @@ namespace RCPA.Proteomics.Snp
       // label4
       // 
       this.label4.AutoSize = true;
-      this.label4.Location = new System.Drawing.Point(116, 9);
+      this.label4.Location = new System.Drawing.Point(35, 9);
       this.label4.Name = "label4";
       this.label4.Size = new System.Drawing.Size(135, 13);
       this.label4.TabIndex = 58;
@@ -300,6 +302,16 @@ namespace RCPA.Proteomics.Snp
       this.outputFile.Size = new System.Drawing.Size(1198, 23);
       this.outputFile.TabIndex = 56;
       this.outputFile.WidthOpenButton = 250;
+      // 
+      // cbMatchMS3First
+      // 
+      this.cbMatchMS3First.Key = "MatchMS3First";
+      this.cbMatchMS3First.Location = new System.Drawing.Point(933, 32);
+      this.cbMatchMS3First.Name = "cbMatchMS3First";
+      this.cbMatchMS3First.PreCondition = null;
+      this.cbMatchMS3First.Size = new System.Drawing.Size(117, 21);
+      this.cbMatchMS3First.TabIndex = 65;
+      this.cbMatchMS3First.Text = "Match MS3 First";
       // 
       // MS3LibraryPredictorUI
       // 
@@ -342,5 +354,6 @@ namespace RCPA.Proteomics.Snp
     private Gui.FileField fastaFile;
     private Gui.FileField libraryFile;
     private Gui.RcpaCheckField cbAllowTerminalLoss;
+    private Gui.RcpaCheckField cbMatchMS3First;
   }
 }

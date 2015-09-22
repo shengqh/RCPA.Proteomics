@@ -13,15 +13,14 @@ using System.Threading.Tasks;
 
 namespace RCPA.Proteomics.Snp
 {
-  public class MS3LibraryPredictor : AbstractThreadProcessor
+  public abstract class AbstractMS3LibraryPredictor : AbstractThreadProcessor
   {
-    private MS3LibraryPredictorOptions options;
+    protected MS3LibraryPredictorOptions options;
 
-    public MS3LibraryPredictor(MS3LibraryPredictorOptions options)
+    public AbstractMS3LibraryPredictor(MS3LibraryPredictorOptions options)
     {
       this.options = options;
     }
-
 
     public override IEnumerable<string> Process()
     {
@@ -57,157 +56,41 @@ namespace RCPA.Proteomics.Snp
 
       Progress.SetRange(0, result.Count);
       Progress.Begin();
-      using (var sw = new StreamWriter(Path.ChangeExtension(options.OutputFile, ".interval.tsv")))
+
+      FindCandidates(lib, result, predicted, minDeltaMass, maxDeltaMass);
+
+      var groups = predicted.ToGroupDictionary(m => m.Ms2.FileScan);
+      predicted.Clear();
+      foreach (var g in groups.Values)
       {
-        sw.WriteLine("FileScan\tPrecursor\tCharge\tLibPrecursor\tMatchedMs3Precursor\tMatchedMs3Ions\tLibFileScan\tLibSequence\tDeltaMass");
-
-        foreach (var ms2 in result)
+        var gg = g.ToGroupDictionary(m => m.LibMs2).Values.ToList();
+        gg.Sort((m1, m2) =>
         {
-          Progress.Increment(1);
+          return CompareSapPrecitedList(m1, m2);
+        });
 
-          if (lib.ContainsKey(ms2.Charge))
+        var expect = gg[0].FirstOrDefault(m => m.IsExpect);
+        if (expect != null)
+        {
+          predicted.Add(expect);
+        }
+        else
+        {
+          predicted.AddRange(gg[0]);
+          for (int i = 1; i < gg.Count; i++)
           {
-            var mzTolerance = PrecursorUtils.ppm2mz(ms2.Precursor, options.PrecursorPPMTolerance);
-            var minMz = ms2.Precursor - mzTolerance;
-            var maxMz = ms2.Precursor + mzTolerance;
-
-            var libms2s = lib[ms2.Charge];
-            foreach (var libms2 in libms2s)
+            if (CompareSapPrecitedList(gg[0], gg[i]) == 0)
             {
-              bool bFound = false;
-              var diff = (ms2.Precursor - libms2.Precursor) * ms2.Charge;
-              if (diff >= minDeltaMass && diff <= maxDeltaMass) //subsitution
-              {
-                var ms3match = GetMS3MatchedCount(libms2, ms2, options.MinimumMs3PrecursorMz);
-                if (ms3match.MS3Matched.Any(l => l > 1))
-                {
-                  bFound = true;
-                  sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}",
-                    ms2.FileScan,
-                    ms2.Precursor,
-                    ms2.Charge,
-                    libms2.Precursor,
-                    ms3match.PrecursorMatched.ConvertAll(m => m.ToString()).Merge(";"),
-                    ms3match.MS3Matched.ConvertAll(m => m.ToString()).Merge(";"),
-                    libms2.FileScan,
-                    libms2.Peptide,
-                    (ms2.Precursor - libms2.Precursor) * ms2.Charge);
-
-                  foreach (var aa in libms2.AminoacidCompsition)
-                  {
-                    var lst = options.AllowedMassChangeMap[aa];
-                    foreach (var ts in lst)
-                    {
-                      var targetMz = libms2.Precursor + ts.DeltaMass / libms2.Charge;
-                      if (targetMz < minMz)
-                      {
-                        continue;
-                      }
-
-                      if (targetMz >= maxMz)
-                      {
-                        break;
-                      }
-
-                      var curp = new SapPredicted()
-                      {
-                        Ms2 = ms2,
-                        LibMs2 = libms2,
-                        Matched = ms3match,
-                        Target = new TargetSAP()
-                        {
-                          IsNterminalLoss = false,
-                          Source = ts.Source,
-                          Target = ts.Target,
-                          DeltaMass = ts.DeltaMass
-                        }
-                      };
-
-                      predicted.Add(curp);
-                    }
-                  }
-                }
-              }
-
-              if (options.AllowTerminalLoss)
-              {
-                foreach (var nl in libms2.TerminalLoss)
-                {
-                  if (nl.Precursor >= minMz && nl.Precursor <= maxMz)
-                  {
-                    var ms3match = GetMS3MatchedCount(libms2, ms2, options.MinimumMs3PrecursorMz);
-                    if (ms3match.MS3Matched.Any(l => l > 1))
-                    {
-                      if (!bFound)
-                      {
-                        sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}",
-                          ms2.FileScan,
-                          ms2.Precursor,
-                          ms2.Charge,
-                          libms2.Precursor,
-                          ms3match.PrecursorMatched.ConvertAll(m => m.ToString()).Merge(";"),
-                          ms3match.MS3Matched.ConvertAll(m => m.ToString()).Merge(";"),
-                          libms2.FileScan,
-                          libms2.Peptide,
-                          (ms2.Precursor - libms2.Precursor) * ms2.Charge);
-                      }
-
-                      var curp = new SapPredicted()
-                      {
-                        Ms2 = ms2,
-                        LibMs2 = libms2,
-                        Matched = ms3match,
-                        Target = new TargetSAP()
-                        {
-                          IsNterminalLoss = nl.IsNterminal,
-                          Source = PeptideUtils.GetPureSequence(libms2.Peptide),
-                          Target = nl.Sequence,
-                          DeltaMass = (nl.Precursor - libms2.Precursor) * libms2.Charge
-                        }
-                      };
-
-                      predicted.Add(curp);
-                    }
-                  }
-                }
-              }
+              predicted.AddRange(gg[i]);
             }
-
-            var groups = predicted.GroupBy(m => m.Ms2.FileScan).ToList();
-            predicted.Clear();
-            foreach (var g in groups)
+            else
             {
-              var gg = g.GroupBy(m => m.LibMs2).ToList();
-              gg.Sort((m1, m2) =>
-              {
-                var p1 = m1.First();
-                var p2 = m2.First();
-                var res = p2.Matched.PrecursorMatched.Count.CompareTo(p1.Matched.PrecursorMatched.Count);
-                if (res == 0)
-                {
-                  res = p2.Matched.MS3Matched.Count(l => l > 0).CompareTo(p1.Matched.MS3Matched.Count(l => l > 0));
-                  if (res == 0)
-                  {
-                    res = p2.Matched.MS3Matched.Sum().CompareTo(p1.Matched.MS3Matched.Sum());
-                  }
-                }
-
-                return res;
-              });
-
-              var expect = gg[0].FirstOrDefault(m => m.IsExpect);
-              if (expect != null)
-              {
-                predicted.Add(expect);
-              }
-              else
-              {
-                predicted.AddRange(gg[0]);
-              }
+              break;
             }
           }
         }
       }
+
       if (File.Exists(options.MatchedFile))
       {
         new SapPredictedValidationWriter(options.MatchedFile).WriteToFile(options.OutputFile, predicted);
@@ -278,7 +161,77 @@ namespace RCPA.Proteomics.Snp
       return new string[] { options.OutputFile, options.OutputTableFile };
     }
 
-    private SapMatchedCount GetMS3MatchedCount(MS2Item libms2, MS2Item ms2, double minPrecursorMz)
+    protected abstract void FindCandidates(Dictionary<int, List<MS2Item>> lib, List<MS2Item> result, List<SapPredicted> predicted, double minDeltaMass, double maxDeltaMass);
+
+    protected void CheckSAP(List<SapPredicted> predicted, MS2Item ms2, double minMz, double maxMz, MS2Item libms2, SapMatchedCount ms3match)
+    {
+      foreach (var aa in libms2.AminoacidCompsition)
+      {
+        var lst = options.AllowedMassChangeMap[aa];
+        foreach (var ts in lst)
+        {
+          var targetMz = libms2.Precursor + ts.DeltaMass / libms2.Charge;
+          if (targetMz < minMz)
+          {
+            continue;
+          }
+
+          if (targetMz >= maxMz)
+          {
+            break;
+          }
+
+          var curp = new SapPredicted()
+          {
+            Ms2 = ms2,
+            LibMs2 = libms2,
+            Matched = ms3match,
+            Target = new TargetSAP()
+            {
+              IsNterminalLoss = false,
+              Source = ts.Source,
+              Target = ts.Target,
+              DeltaMass = ts.DeltaMass
+            }
+          };
+
+          predicted.Add(curp);
+        }
+      }
+    }
+
+    protected static void OutputIntervalResult(StreamWriter sw, MS2Item ms2, MS2Item libms2, SapMatchedCount ms3match)
+    {
+      sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}",
+        ms2.FileScan,
+        ms2.Precursor,
+        ms2.Charge,
+        libms2.Precursor,
+        ms3match.PrecursorMatched.ConvertAll(m => m.ToString()).Merge(";"),
+        ms3match.MS3Matched.ConvertAll(m => m.ToString()).Merge(";"),
+        libms2.FileScan,
+        libms2.Peptide,
+        (ms2.Precursor - libms2.Precursor) * ms2.Charge);
+    }
+
+    protected static int CompareSapPrecitedList(List<SapPredicted> m1, List<SapPredicted> m2)
+    {
+      var p1 = m1.First();
+      var p2 = m2.First();
+      var res = p2.Matched.PrecursorMatched.Count.CompareTo(p1.Matched.PrecursorMatched.Count);
+      if (res == 0)
+      {
+        res = p2.Matched.MS3Matched.Count(l => l > 0).CompareTo(p1.Matched.MS3Matched.Count(l => l > 0));
+        if (res == 0)
+        {
+          res = p2.Matched.MS3Matched.Sum().CompareTo(p1.Matched.MS3Matched.Sum());
+        }
+      }
+
+      return res;
+    }
+
+    protected SapMatchedCount GetMS3MatchedCount(MS2Item libms2, MS2Item ms2, double minPrecursorMz)
     {
       var precursorMatched = new List<double>();
       var ms3Matched = new List<int>();

@@ -79,12 +79,6 @@ namespace RCPA.Proteomics.Snp
         }
       }
 
-      if (result.All(l => l.TerminalLoss.Count == 0))
-      {
-        var aas = new Aminoacids();
-        result.ForEach(l => l.InitNterminalLoss(aas));
-      }
-
       return result;
     }
 

@@ -197,6 +197,8 @@
     <Compile Include="Proteomics\Mascot\MascotFilePanel.Designer.cs">
       <DependentUpon>MascotFilePanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Proteomics\Mascot\MascotGenericFormatShiftPrecursorProcessorOptions.cs" />
+    <Compile Include="Proteomics\Mascot\MascotGenericFormatShiftPrecursorProcessorCommand.cs" />
     <Compile Include="Proteomics\Mascot\TitleFormatCmpd.cs" />
     <Compile Include="Proteomics\Mascot\TitleFormatRawCmpd.cs" />
     <Compile Include="Proteomics\Mascot\TitleFormatProteomeDiscoverer.cs" />
@@ -207,6 +209,12 @@
     </Compile>
     <Compile Include="Proteomics\Mascot\MascotDatToPepXmlConverterUI.Designer.cs">
       <DependentUpon>MascotDatToPepXmlConverterUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\Mascot\MascotGenericFormatShiftPrecursorProcessorUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Mascot\MascotGenericFormatShiftPrecursorProcessorUI.Designer.cs">
+      <DependentUpon>MascotGenericFormatShiftPrecursorProcessorUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\MaxQuant\MaxQuant2MascotPeptideProcessorOption.cs" />
     <Compile Include="Proteomics\MaxQuant\MaxQuantEvidenceToPeptideProcessorOptions.cs" />
@@ -342,6 +350,8 @@
     <Compile Include="Proteomics\Snp\MS2Item.cs" />
     <Compile Include="Proteomics\Snp\MS2ItemXmlFormat.cs" />
     <Compile Include="Proteomics\Snp\MS3LibraryBuilder.cs" />
+    <Compile Include="Proteomics\Snp\AbstractMS3LibraryPredictor.cs" />
+    <Compile Include="Proteomics\Snp\MS3LibraryMS3FirstPredictor.cs" />
     <Compile Include="Proteomics\Snp\MS3LibraryPredictorUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -350,7 +360,7 @@
     </Compile>
     <Compile Include="Proteomics\Snp\MS3LibraryPredictorOptions.cs" />
     <Compile Include="Proteomics\Snp\MS3LibraryBuilderOptions.cs" />
-    <Compile Include="Proteomics\Snp\MS3LibraryPredictor.cs" />
+    <Compile Include="Proteomics\Snp\MS3LibraryMS2FirstPredictor.cs" />
     <Compile Include="Proteomics\Snp\MS3XcorrItem.cs" />
     <Compile Include="Proteomics\Snp\MS3MatchItem.cs" />
     <Compile Include="Proteomics\Snp\PNovoSAPValidatorOptions.cs" />
@@ -390,6 +400,7 @@
       <DependentUpon>PrecursorOffsetStatisticMainBuilderUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Statistic\RawIonStatisticMultipleFileBuilder.cs" />
+    <Compile Include="Proteomics\Summary\IdentifiedProteinGroupSingleWonderPeptideCountFilter.cs" />
     <Compile Include="Proteomics\Summary\ISpectrumParser.cs" />
     <Compile Include="Proteomics\MzIdent\MzIdentSlimProcessor.cs" />
     <Compile Include="Proteomics\MzIdent\MzIdentSlimProcessorOptions.cs" />
@@ -1033,7 +1044,6 @@
     <Compile Include="Proteomics\Fragmentation\IPeptideFragmentationBuilder.cs" />
     <Compile Include="Proteomics\Fragmentation\AbstractPeptideFragmentationBuilder.cs" />
     <Compile Include="Proteomics\IO\DtaFormat.cs" />
-    <Compile Include="Proteomics\Mascot\MascotGenericFormatShiftPrecursorMultipleFileProcessor.cs" />
     <Compile Include="Proteomics\Mascot\MascotGenericFormatShiftPrecursorProcessor.cs" />
     <Compile Include="Proteomics\Mascot\MascotPeptideTextFormat.cs" />
     <Compile Include="Proteomics\Mascot\MascotResult.cs" />
@@ -1252,6 +1262,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Mascot\MascotDatToPepXmlConverterUI.resx">
       <DependentUpon>MascotDatToPepXmlConverterUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Mascot\MascotGenericFormatShiftPrecursorProcessorUI.resx">
+      <DependentUpon>MascotGenericFormatShiftPrecursorProcessorUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\MSAmanda\MSAmandaDatasetPanel.resx">
@@ -1728,10 +1742,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\Mascot\MascotResultHtmlDownloaderUI.resx">
       <DependentUpon>MascotResultHtmlDownloaderUI.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Mascot\TurboMascotGenericFormatShift10ProcessorUI.resx">
-      <DependentUpon>TurboMascotGenericFormatShift10ProcessorUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\Misc\IdentifiedPeptideSubtractorUI.resx">
@@ -2574,12 +2584,6 @@
     </Compile>
     <Compile Include="Tools\Mascot\MascotResultHtmlDownloaderUI.Designer.cs">
       <DependentUpon>MascotResultHtmlDownloaderUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Proteomics\Mascot\TurboMascotGenericFormatShift10ProcessorUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Proteomics\Mascot\TurboMascotGenericFormatShift10ProcessorUI.Designer.cs">
-      <DependentUpon>TurboMascotGenericFormatShift10ProcessorUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Misc\IdentifiedPeptideSubtractor.cs" />
     <Compile Include="Tools\Misc\IdentifiedPeptideSubtractorUI.cs">
