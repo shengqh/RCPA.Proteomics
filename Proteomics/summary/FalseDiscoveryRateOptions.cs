@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using RCPA.Proteomics.Summary.Uniform;
+using RCPA.Proteomics.Mascot;
 
 namespace RCPA.Proteomics.Summary
 {
@@ -27,6 +28,12 @@ namespace RCPA.Proteomics.Summary
 
     public ITargetDecoyConflictType TargetDecoyConflictType { get; set; }
 
+    public bool ByDecoySpectra { get; set; }
+
+    public int MinDecoyScan { get; set; }
+
+    public double MinTargetDecoySpectraRatio { get; set; }
+
     public FalseDiscoveryRateOptions()
     {
       FilterByFdr = true;
@@ -46,6 +53,12 @@ namespace RCPA.Proteomics.Summary
       FilterOneHitWonder = true;
 
       MinOneHitWonderPeptideCount = 2;
+
+      ByDecoySpectra = false;
+
+      MinDecoyScan = MascotGenericFormatShiftPrecursorProcessorOptions.DEFAULT_ShiftScan;
+
+      MinTargetDecoySpectraRatio = 2.0;
     }
 
     public CalculateQValueFunc GetQValueFunction()
@@ -102,8 +115,10 @@ namespace RCPA.Proteomics.Summary
         new XElement("Value", MyConvert.Format(FdrValue)),
         new XElement("TargetDecoyConflictType", TargetDecoyConflictType.Name),
         new XElement("FilterOneHitWonder", FilterOneHitWonder.ToString()),
-        new XElement("MinOneHitWonderPeptideCount", MinOneHitWonderPeptideCount.ToString())
-        ));
+        new XElement("MinOneHitWonderPeptideCount", MinOneHitWonderPeptideCount.ToString()),
+        new XElement("ByDecoySpectra", ByDecoySpectra.ToString()),
+        new XElement("MinDecoyScan", MinDecoyScan.ToString()),
+        new XElement("MinTargetDecoySpectraRatio", MinTargetDecoySpectraRatio.ToString())));
     }
 
     public void Load(XElement parentNode)
@@ -136,6 +151,30 @@ namespace RCPA.Proteomics.Summary
       else
       {
         MinOneHitWonderPeptideCount = 2;
+      }
+      if (xml.Element("ByDecoySpectra") != null)
+      {
+        ByDecoySpectra = bool.Parse(xml.Element("ByDecoySpectra").Value);
+      }
+      else
+      {
+        ByDecoySpectra = false;
+      }
+      if (xml.Element("MinDecoyScan") != null)
+      {
+        MinDecoyScan = int.Parse(xml.Element("MinDecoyScan").Value);
+      }
+      else
+      {
+        MinDecoyScan = MascotGenericFormatShiftPrecursorProcessorOptions.DEFAULT_ShiftScan;
+      }
+      if (xml.Element("MinTargetDecoySpectraRatio") != null)
+      {
+        MinTargetDecoySpectraRatio = double.Parse(xml.Element("MinTargetDecoySpectraRatio").Value);
+      }
+      else
+      {
+        MinTargetDecoySpectraRatio = 2.0;
       }
     }
 

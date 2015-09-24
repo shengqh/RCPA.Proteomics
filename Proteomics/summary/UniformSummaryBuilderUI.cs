@@ -72,7 +72,7 @@ namespace RCPA.Tools.Summary
 
     private readonly RcpaCheckBox filterMaxMissCleavage;
     private readonly RcpaIntegerField maxMissCleagage;
-    
+
     private RcpaIntegerField minAgreeCount;
 
     private RcpaComboBox<IResolveSearchEngineConflictType> seConflictType;
@@ -98,6 +98,8 @@ namespace RCPA.Tools.Summary
       InsertButton(3, this.btnLoadParam);
 
       InsertButton(4, this.btnSaveParam);
+
+      this.minDecoyScan.DefaultValue = MascotGenericFormatShiftPrecursorProcessorOptions.DEFAULT_ShiftScan.ToString();
 
       this.decoyPattern = new RcpaTextField(this.txtDecoyPattern, "DecoyPattern", "Decoy Database Pattern", "^REVERSED_", false);
       AddComponent(this.decoyPattern);
@@ -431,6 +433,10 @@ namespace RCPA.Tools.Summary
       }
       this.FilterOneHitWonder.Checked = Option.FalseDiscoveryRate.FilterOneHitWonder;
       this.minOneHitWonderPeptideCount.Value = Option.FalseDiscoveryRate.MinOneHitWonderPeptideCount;
+      this.rbByDecoySpectra.Checked = Option.FalseDiscoveryRate.ByDecoySpectra;
+      this.rbByDecoyDatabase.Checked = !this.rbByDecoySpectra.Checked;
+      this.minDecoyScan.Value = Option.FalseDiscoveryRate.MinDecoyScan;
+      this.minTargetDecoyRatio.Value = Option.FalseDiscoveryRate.MinTargetDecoySpectraRatio;
 
       //Classification
       this.classifyByCharge.Checked = Option.Classification.ClassifyByCharge;
@@ -499,6 +505,9 @@ namespace RCPA.Tools.Summary
         Option.FalseDiscoveryRate.FdrPeptideCount = this.filterProteinByPeptideCount.Checked ? 10 : 0;
         Option.FalseDiscoveryRate.FilterOneHitWonder = this.FilterOneHitWonder.Checked;
         Option.FalseDiscoveryRate.MinOneHitWonderPeptideCount = this.minOneHitWonderPeptideCount.Value;
+        Option.FalseDiscoveryRate.ByDecoySpectra = this.rbByDecoySpectra.Checked;
+        Option.FalseDiscoveryRate.MinDecoyScan = this.minDecoyScan.Value;
+        Option.FalseDiscoveryRate.MinTargetDecoySpectraRatio = this.minTargetDecoyRatio.Value;
       }
 
       //Classification

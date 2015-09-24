@@ -21,7 +21,7 @@ namespace RCPA.Proteomics.Snp
     {
       using (var sw = new StreamWriter(Path.ChangeExtension(options.OutputFile, ".interval.tsv")))
       {
-        sw.WriteLine("FileScan\tPrecursor\tCharge\tLibPrecursor\tMatchedMs3Precursor\tMatchedMs3Ions\tLibFileScan\tLibSequence\tDeltaMass");
+        sw.WriteLine("FileScan\tPrecursor\tCharge\tLibPrecursor\tMatchedMs3Precursor\tMatchedMs3Ions\tDeltaMass\tLibFileScan\tLibSequence\tLibScore\tLibExpectValue\tLibProteins");
 
         foreach (var ms2 in result)
         {

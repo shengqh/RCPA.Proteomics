@@ -11,7 +11,7 @@ namespace RCPA.Proteomics.Mascot
   {
     private const double DEFAULT_ShiftMass = -10.0;
     
-    private const int DEFAULT_ShiftScan = 10000000;
+    public const int DEFAULT_ShiftScan = 10000000;
 
     private const string DEFAULT_TitleFormat = "DTA";
 

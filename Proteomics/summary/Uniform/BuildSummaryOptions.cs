@@ -152,12 +152,26 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     public IFilter<IIdentifiedSpectrum> GetDecoySpectrumFilter()
     {
-      return FalseDiscoveryRate.TargetDecoyConflictType.GetSpectrumFilter(this.Database.DecoyPattern);
+      if (FalseDiscoveryRate.ByDecoySpectra)
+      {
+        return new DecoySpectraFilter(FalseDiscoveryRate.MinDecoyScan);
+      }
+      else
+      {
+        return FalseDiscoveryRate.TargetDecoyConflictType.GetSpectrumFilter(this.Database.DecoyPattern);
+      }
     }
 
     public IIdentifiedProteinGroupFilter GetDecoyGroupFilter()
     {
-      return FalseDiscoveryRate.TargetDecoyConflictType.GetGroupFilter(this.Database.DecoyPattern);
+      if (FalseDiscoveryRate.ByDecoySpectra)
+      {
+        return new DecoyGroupFilter(FalseDiscoveryRate.MinTargetDecoySpectraRatio);
+      }
+      else
+      {
+        return FalseDiscoveryRate.TargetDecoyConflictType.GetGroupFilter(this.Database.DecoyPattern);
+      }
     }
 
     public IIdentifiedSpectrumBuilder GetSpectrumBuilder()

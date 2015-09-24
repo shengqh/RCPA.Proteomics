@@ -993,6 +993,8 @@
     <Compile Include="Proteomics\Summary\Uniform\BatchUniformIdentifiedResultBuilderUI.Designer.cs">
       <DependentUpon>BatchUniformIdentifiedResultBuilderUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Proteomics\Summary\Uniform\DecoyGroupFilter.cs" />
+    <Compile Include="Proteomics\Summary\Uniform\DecoySpectraFilter.cs" />
     <Compile Include="Proteomics\Summary\Uniform\UniformSpectrumProteinFdrBuilder.cs" />
     <Compile Include="Proteomics\Summary\Uniform\AbstractOneParserDatasetBuilder.cs" />
     <Compile Include="Proteomics\Omssa\OmssaDatasetBuilder.cs" />

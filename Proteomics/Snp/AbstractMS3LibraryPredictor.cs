@@ -202,16 +202,19 @@ namespace RCPA.Proteomics.Snp
 
     protected static void OutputIntervalResult(StreamWriter sw, MS2Item ms2, MS2Item libms2, SapMatchedCount ms3match)
     {
-      sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}",
+      sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}",
         ms2.FileScan,
         ms2.Precursor,
         ms2.Charge,
         libms2.Precursor,
         ms3match.PrecursorMatched.ConvertAll(m => m.ToString()).Merge(";"),
         ms3match.MS3Matched.ConvertAll(m => m.ToString()).Merge(";"),
+        (ms2.Precursor - libms2.Precursor) * ms2.Charge,
         libms2.FileScan,
         libms2.Peptide,
-        (ms2.Precursor - libms2.Precursor) * ms2.Charge);
+        libms2.Score,
+        libms2.ExpectValue,
+        libms2.Proteins);
     }
 
     protected static int CompareSapPrecitedList(List<SapPredicted> m1, List<SapPredicted> m2)

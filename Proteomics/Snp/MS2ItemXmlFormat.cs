@@ -29,6 +29,9 @@ namespace RCPA.Proteomics.Snp
         item.CombinedCount = int.Parse(ms2ele.Attribute("PKL").Value);
         item.Precursor = double.Parse(ms2ele.Attribute("MZ").Value);
         item.Charge = int.Parse(ms2ele.Attribute("Z").Value);
+        item.FileScan = ms2ele.Attribute("FileScan").Value;
+        item.Score = double.Parse(ms2ele.Attribute("Score").Value);
+        item.ExpectValue = double.Parse(ms2ele.Attribute("ExpectValue").Value);
         if (ms2ele.Attribute("Seq") != null)
         {
           item.Peptide = ms2ele.Attribute("Seq").Value;
@@ -37,9 +40,9 @@ namespace RCPA.Proteomics.Snp
         {
           item.Modification = ms2ele.Attribute("Mod").Value;
         }
-        if (ms2ele.Attribute("FileScan") != null)
+        if (ms2ele.Attribute("Proteins") != null)
         {
-          item.FileScan = ms2ele.Attribute("FileScan").Value;
+          item.Proteins = ms2ele.Attribute("Proteins").Value;
         }
         foreach (var ele in ms2ele.Elements("TerminalLoss"))
         {
@@ -91,9 +94,12 @@ namespace RCPA.Proteomics.Snp
           new XAttribute("PKL", ms2.CombinedCount),
           new XAttribute("MZ", string.Format("{0:0.#####}", ms2.Precursor)),
           new XAttribute("Z", ms2.Charge),
+          new XAttribute("Score", ms2.Score),
+          new XAttribute("ExpectValue", ms2.ExpectValue),
+          new XAttribute("FileScan", ms2.FileScan),
           string.IsNullOrEmpty(ms2.Peptide) ? null : new XAttribute("Seq", ms2.Peptide),
           string.IsNullOrEmpty(ms2.Modification) ? null : new XAttribute("Mod", ms2.Modification),
-          new XAttribute("FileScan", ms2.FileScan),
+          string.IsNullOrEmpty(ms2.Proteins) ? null : new XAttribute("Proteins", ms2.Proteins),
           from nl in ms2.TerminalLoss
           select new XElement("TerminalLoss", new XAttribute("IsNterminal", nl.IsNterminal), new XAttribute("Seq", nl.Sequence), new XAttribute("MZ", nl.Precursor)),
           from ms3 in ms2.MS3Spectra

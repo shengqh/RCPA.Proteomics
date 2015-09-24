@@ -32,19 +32,24 @@ namespace RCPA.Proteomics.Snp
       FileScan = string.Empty;
       MS3Spectra = new List<PeakList<Peak>>();
       TerminalLoss = new List<TerminalLossItem>();
+      Proteins = string.Empty;
     }
 
     public string Peptide { get; set; }
     public string Modification { get; set; }
     public double Precursor { get; set; }
+    public double Score { get; set; }
+    public double ExpectValue { get; set; }
     public int Charge { get; set; }
     public string ModifiedPeptide { get; set; }
     public Aminoacids Aminoacids { get; set; }
     public Dictionary<IonType, List<IonTypePeak>> Spectra { get; set; }
     public Dictionary<char, string> ModificationNameMap { get; set; }
-    public List<PeakList<Peak>> MS3Spectra { get; private set; }
 
+    public string Proteins { get; set; }
+    public List<PeakList<Peak>> MS3Spectra { get; private set; }
     public List<TerminalLossItem> TerminalLoss { get; private set; }
+
     public void InitTerminalLoss(Aminoacids aa, int maxTerminalLossLength, int minSequenceLength)
     {
       this.TerminalLoss = new List<TerminalLossItem>();
