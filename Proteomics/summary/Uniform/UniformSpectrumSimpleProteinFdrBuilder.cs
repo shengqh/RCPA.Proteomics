@@ -94,7 +94,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
         Progress.SetMessage("Filtering PSMs by protein fdr {0}, using peptide fdr {1}...", Options.FalseDiscoveryRate.FdrValue, Options.FalseDiscoveryRate.MaxPeptideFdr);
 
-        var groupFilter = Options.FalseDiscoveryRate.FilterOneHitWonder?new IdentifiedProteinGroupSingleWonderPeptideCountFilter(Options.FalseDiscoveryRate.MinOneHitWonderPeptideCount):null;
+        var groupFilter = Options.FalseDiscoveryRate.FilterOneHitWonder ? new IdentifiedProteinGroupSingleWonderPeptideCountFilter(Options.FalseDiscoveryRate.MinOneHitWonderPeptideCount) : null;
         var ret = proteinCalc.GetOptimalResultForGroupFilter(BuildResult, Options.FalseDiscoveryRate.MaxPeptideFdr, Options.FalseDiscoveryRate.FdrValue, groupFilter);
 
         //只保留没有被通过筛选的蛋白质包含的PSMs。
@@ -103,8 +103,15 @@ namespace RCPA.Proteomics.Summary.Uniform
         GC.Collect();
         GC.WaitForPendingFinalizers();
 
-        sw.WriteLine();
-        new OptimalFileTextWriter().WriteToStream(sw, BuildResult);
+        sw.WriteLine("After SimpleProteinFDR filter {0} with condition {1}, required peptide fdr = {2} ", ret.ProteinFdr, ret.ProteinCondition, ret.PeptideBeforeFdr);
+        BuildResult.ForEach(ds =>
+        {
+          sw.WriteLine("Dataset {0}", ds.Options.Name);
+          OptimalResultConditionUtils.WriteSpectrumBin(sw, ds, f1, f2);
+        });
+
+        //sw.WriteLine();
+        //new OptimalFileTextWriter().WriteToStream(sw, BuildResult);
 
         return ret.AcceptedSpectra.ToList();
       }

@@ -16,7 +16,7 @@ namespace RCPA.Proteomics.Mascot
   public partial class MascotGenericFormatShiftPrecursorProcessorUI : AbstractProcessorUI
   {
     public static string Title = "Mascot Generic Format File Precursor Shifting Processor";
-    public static string Version = "1.0.2";
+    public static string Version = "1.2.0";
 
     private RcpaComboBox<ITitleParser> titleParsers;
 

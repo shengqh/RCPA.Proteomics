@@ -51,22 +51,8 @@ namespace RCPA.Proteomics.Mascot
               Progress.SetPosition(sr.GetCharpos());
 
               var pkl = iter.Next();
-              if (pkl.PrecursorCharge == 0)
-              {
-                pkl.PrecursorCharge = 2;
-              }
 
-              pkl.PrecursorMZ = PrecursorUtils.MHToMz(options.ShiftMass, pkl.PrecursorCharge, true) + pkl.PrecursorMZ;
-              foreach (var scantime in pkl.ScanTimes)
-              {
-                scantime.Scan += options.ShiftScan;
-              }
-
-              var filescan = titleParser.GetValue(pkl.Annotations["TITLE"].ToString());
-              filescan.FirstScan += options.ShiftScan;
-              filescan.LastScan += options.ShiftScan;
-              filescan.Charge = pkl.PrecursorCharge;
-              pkl.Annotations["TITLE"] = filescan.LongFileName;
+              UpdatePrecursor(titleParser, pkl, options.ShiftMass, options.ShiftScan);
 
               writer.Write(sw, pkl);
             }
@@ -85,6 +71,27 @@ namespace RCPA.Proteomics.Mascot
       Progress.End();
 
       return result;
+    }
+
+    public static void UpdatePrecursor(Summary.ITitleParser titleParser, PeakList<Peak> pkl, double shiftMass, int shiftScan)
+    {
+
+      if (pkl.PrecursorCharge == 0)
+      {
+        pkl.PrecursorCharge = 2;
+      }
+
+      pkl.PrecursorMZ = shiftMass / pkl.PrecursorCharge + pkl.PrecursorMZ;
+      foreach (var scantime in pkl.ScanTimes)
+      {
+        scantime.Scan += shiftScan;
+      }
+
+      var filescan = titleParser.GetValue(pkl.Annotations["TITLE"].ToString());
+      filescan.FirstScan += shiftScan;
+      filescan.LastScan += shiftScan;
+      filescan.Charge = pkl.PrecursorCharge;
+      pkl.Annotations["TITLE"] = filescan.LongFileName;
     }
   }
 }
