@@ -4,13 +4,16 @@ using System.Linq;
 using System.Text;
 using RCPA.Utils;
 using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.Sequest;
+using System.IO;
+using System.Diagnostics;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
   public class DatasetList : List<Dataset>
   {
     private List<Dataset> NoOverlaps;
-    private List<List<Dataset>> OverlapBySearchEngine;
+    public List<List<Dataset>> OverlapBySearchEngine { get; private set; }
 
     private IConflictProcessor conflictFunc = null;
     private IFalseDiscoveryRateCalculator fdrCalc = null;
@@ -33,46 +36,84 @@ namespace RCPA.Proteomics.Summary.Uniform
       public List<IIdentifiedSpectrum> ConflictSpectra { get; set; }
     }
 
-    public void InitFromOptions(DatasetListOptions dsOptions, IProgressCallback progress)
+    public void InitFromOptions(DatasetListOptions dsOptions, IProgressCallback progress, string paramFile)
     {
       this.Clear();
 
       this.conflictFunc = dsOptions.Options.GetConflictFunc();
 
       this.fdrCalc = dsOptions.Options.FalseDiscoveryRate.GetFalseDiscoveryRateCalculator();
+      IFilter<IIdentifiedSpectrum> decoyFilter = null;
+      if (dsOptions.Options.FalseDiscoveryRate.FilterByFdr)
+      {
+        decoyFilter = dsOptions.Options.GetDecoySpectrumFilter();
+      }
 
       this.dsOptions = dsOptions;
 
-      dsOptions.ForEach(m =>
+      long afterFirstMemory = 0;
+      DateTime afterFirstTime = DateTime.Now;
+      var totalCount = dsOptions.Sum(l => l.PathNames.Count);
+      var usedCount = 0;
+
+      for (int i = 0; i < dsOptions.Count; i++)
       {
+        var m = dsOptions[i];
         var builder = m.GetBuilder();
 
         builder.Progress = progress;
 
         Dataset ds = new Dataset(m);
 
-        this.Add(ds);
-
         //首先，获取所有通过了固定筛选标准的谱图。
         ds.Spectra = builder.ParseFromSearchResult();
-      });
+        ds.PSMPassedFixedCriteriaCount = ds.Spectra.Count;
 
-      if (dsOptions.Options.FalseDiscoveryRate.FilterByFdr)
-      {
-        var filter = dsOptions.Options.GetDecoySpectrumFilter();
-        this.ForEach(m =>
+        if (dsOptions.Options.FalseDiscoveryRate.FilterByFdr)
         {
           //对每个谱图设置是否来自诱饵库
           progress.SetMessage("Assigning decoy information...");
-          DecoyPeptideBuilder.AssignDecoy(m.Spectra, filter);
-          var decoyCount = m.Spectra.Count(l => l.FromDecoy);
+          DecoyPeptideBuilder.AssignDecoy(ds.Spectra, decoyFilter);
+          var decoyCount = ds.Spectra.Count(l => l.FromDecoy);
           if (decoyCount == 0)
           {
-            throw new Exception(string.Format("No decoy protein found at dataset {0}, make sure the protein access number parser and the decoy pattern are correctly defined!", m.Options.Name));
+            throw new Exception(string.Format("No decoy protein found at dataset {0}, make sure the protein access number parser and the decoy pattern are correctly defined!", m.Name));
           }
 
-          progress.SetMessage("{0} decoys out of {1} hits found", decoyCount, m.Spectra.Count);
-        });
+          progress.SetMessage("{0} decoys out of {1} hits found", decoyCount, ds.Spectra.Count);
+
+          ds.BuildSpectrumBin();
+          ds.CalculateCurrentFdr();
+          ds.PushCurrentOptimalResults(string.Format("Before maximum peptide fdr {0}", dsOptions.Options.FalseDiscoveryRate.MaxPeptideFdr));
+
+          progress.SetMessage("Filtering by maximum peptide fdr {0} ...", dsOptions.Options.FalseDiscoveryRate.MaxPeptideFdr);
+          ds.FilterByFdr(dsOptions.Options.FalseDiscoveryRate.MaxPeptideFdr);
+          ds.Spectra = ds.GetUnconflictedOptimalSpectra();
+          ds.BuildSpectrumBin();
+          ds.CalculateCurrentFdr();
+          ds.PushCurrentOptimalResults(string.Format("After maximum peptide fdr {0}", dsOptions.Options.FalseDiscoveryRate.MaxPeptideFdr));
+        }
+
+        this.Add(ds);
+
+        if (i == 0)
+        {
+          afterFirstMemory = Process.GetCurrentProcess().WorkingSet64 / (1024 * 1024);
+          afterFirstTime = DateTime.Now;
+        }
+        else
+        {
+          usedCount += m.PathNames.Count;
+
+          long currMemory = Process.GetCurrentProcess().WorkingSet64 / (1024 * 1024);
+          double averageCost = (double)(currMemory - afterFirstMemory) / usedCount;
+          double estimatedCost = afterFirstMemory + averageCost * totalCount;
+
+          DateTime currTime = DateTime.Now;
+          var averageTime = currTime.Subtract(afterFirstTime).TotalMinutes / usedCount;
+          var finishTime = afterFirstTime.AddMinutes(averageTime * (totalCount - dsOptions[0].PathNames.Count));
+          progress.SetMessage("{0}/{1} datasets, cost {2}M, avg {3:0.0}M, need {4:0.0}M, will finish at {5:MM-dd HH:mm:ss}", (i + 1), dsOptions.Count, currMemory, averageCost, estimatedCost, finishTime);
+        }
       }
 
       //初始化实验列表
@@ -99,6 +140,23 @@ namespace RCPA.Proteomics.Summary.Uniform
                                             from s in m
                                             select s);
         this.NoOverlaps = this.Where(m => !overlaps.Contains(m)).ToList();
+
+        if (OverlapBySearchEngine.Count > 0 && dsOptions.Options.FalseDiscoveryRate.FilterByFdr)
+        {
+          //根据最大的fdr进行筛选。
+          progress.SetMessage("Filtering PSMs by maximum fdr {0}, considering multiple engine overlap...", dsOptions.Options.FalseDiscoveryRate.MaxPeptideFdr);
+          var realFdr = this.FilterByFdr(dsOptions.Options.FalseDiscoveryRate.MaxPeptideFdr);
+          if (realFdr.ConflictSpectra.Count > 0)
+          {
+            new MascotPeptideTextFormat(UniformHeader.PEPTIDE_HEADER).WriteToFile(Path.ChangeExtension(paramFile, ".conflicted.peps"), realFdr.ConflictSpectra);
+          }
+
+          //保留每个dataset的spectra为筛选后的结果，以用于后面的迭代。
+          this.ForEach(m =>
+          {
+            m.Spectra = m.GetUnconflictedOptimalSpectra();
+          });
+        }
       }
       else
       {
@@ -109,7 +167,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     public void BuildSpectrumBin()
     {
-      //把谱图分类，以便计算fdr。并把Spectra清空，以节约空间。
+      //把谱图分类，以便计算fdr。
       this.ForEach(m =>
       {
         m.OptimalResults = m.Options.Parent.Classification.BuildSpectrumBin(m.Spectra);

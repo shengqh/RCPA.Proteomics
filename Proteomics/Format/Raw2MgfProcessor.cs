@@ -33,7 +33,7 @@ namespace RCPA.Proteomics.Format
 
     private StreamWriter GetStreamWriter(IRawFile rawReader, string peakMode, int msLevel, string fileName)
     {
-      string mgfFile = GetPeakModeFileName(rawReader, peakMode, msLevel, fileName);
+      string mgfFile = GetPeakModeFileName(rawReader, peakMode, msLevel, fileName) + ".tmp";
 
       if (swMap.ContainsKey(mgfFile))
       {
@@ -94,7 +94,22 @@ namespace RCPA.Proteomics.Format
         }
         else
         {
-          result.AddRange(mgfFiles);
+          foreach (var mgf in mgfFiles)
+          {
+            if (mgf.EndsWith(".tmp"))
+            {
+              var res = FileUtils.ChangeExtension(mgf, "");
+              if(File.Exists(res)){
+                File.Delete(res);
+              }
+              File.Move(mgf, res);
+              result.Add(res);
+            }
+            else
+            {
+              result.Add(mgf);
+            }
+          }
         }
       }
       else

@@ -19,6 +19,11 @@ namespace RCPA.Proteomics.Raw
       return new string[] { ".raw", ".mzdata", ".mzdata.xml", ".mzxml" };
     }
 
+    public static IRawFile2 GetRawFileReaderWithoutOpen(string fileName, bool isParallelMS3 = false)
+    {
+      return DoGetRawFileReader(fileName, isParallelMS3);
+    }
+
     /// <summary>
     /// ParallelMS3: MS1->MS2->MS2->MS3->MS3->MS1->...
     /// Otherwise:   MS1->MS2->MS3->MS2->MS3->MS1->...

@@ -29,8 +29,9 @@ namespace RCPA.Proteomics.Statistic
         MinRelativeIntensity = minRelativeIntensity,
         ProductIonPPM = productIonPPM,
         TargetDirectory = targetDir,
-        MinFrequency = minFrequency
+        MinFrequency = minFrequency,
       };
+
       return new RawIonStatisticTaskBuilder(options);
     }
   }

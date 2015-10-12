@@ -10,7 +10,8 @@ namespace RCPA.Proteomics.Quantification.O18
 {
   public class O18QuantificationSummaryViewerOptions : AbstractO18QuantificationOptions, IQuantificationSummaryOption
   {
-    public double MinimumRSquare { get; set; }
+    public double MinimumPeptideRSquare { get; set; }
+    public double MinimumProteinRSquare { get; set; }
 
     private string _summaryFile;
     public override string SummaryFile
@@ -24,7 +25,8 @@ namespace RCPA.Proteomics.Quantification.O18
     public O18QuantificationSummaryViewerOptions(string summaryFile, double minimumRSquare = 0.9 )
     {
       this._summaryFile = summaryFile;
-      this.MinimumRSquare = minimumRSquare;
+      this.MinimumPeptideRSquare = minimumRSquare;
+      this.MinimumProteinRSquare = minimumRSquare;
     }
 
     public object ReadRatioFile(string file)
@@ -56,7 +58,7 @@ namespace RCPA.Proteomics.Quantification.O18
 
       LinearRegressionRatioResult lrrr = ann.Annotations[O18QuantificationConstants.O18_RATIO] as LinearRegressionRatioResult;
 
-      return lrrr.RSquare < this.MinimumRSquare;
+      return lrrr.RSquare < this.MinimumProteinRSquare;
     }
 
     public IQuantificationPeptideForm CreateForm()

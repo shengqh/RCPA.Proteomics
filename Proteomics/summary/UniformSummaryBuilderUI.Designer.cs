@@ -84,6 +84,10 @@
       this.btnNew = new System.Windows.Forms.Button();
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.tpGeneral = new System.Windows.Forms.TabPage();
+      this.minDecoyScan = new RCPA.Gui.IntegerField();
+      this.minTargetDecoyRatio = new RCPA.Gui.DoubleField();
+      this.rbByDecoyDatabase = new RCPA.Gui.RcpaRadioField();
+      this.rbByDecoySpectra = new RCPA.Gui.RcpaRadioField();
       this.txtMaxMissCleavage = new System.Windows.Forms.TextBox();
       this.cbMaxMissCleavage = new System.Windows.Forms.CheckBox();
       this.label10 = new System.Windows.Forms.Label();
@@ -93,10 +97,6 @@
       this.panel1 = new System.Windows.Forms.Panel();
       this.rbUseSelectedOnly = new RCPA.Gui.RcpaRadioField();
       this.rbUseAll = new RCPA.Gui.RcpaRadioField();
-      this.minDecoyScan = new RCPA.Gui.IntegerField();
-      this.rbByDecoySpectra = new RCPA.Gui.RcpaRadioField();
-      this.rbByDecoyDatabase = new RCPA.Gui.RcpaRadioField();
-      this.minTargetDecoyRatio = new RCPA.Gui.DoubleField();
       this.pnlButton.SuspendLayout();
       this.pnlAdd.SuspendLayout();
       this.tabControl1.SuspendLayout();
@@ -504,7 +504,7 @@
       this.tcDatasetList.Location = new System.Drawing.Point(142, 35);
       this.tcDatasetList.Name = "tcDatasetList";
       this.tcDatasetList.SelectedIndex = 0;
-      this.tcDatasetList.Size = new System.Drawing.Size(1036, 593);
+      this.tcDatasetList.Size = new System.Drawing.Size(1036, 683);
       this.tcDatasetList.TabIndex = 3;
       this.tcDatasetList.DoubleClick += new System.EventHandler(this.btnDelete_Click);
       // 
@@ -525,7 +525,7 @@
       this.pnlAdd.Dock = System.Windows.Forms.DockStyle.Left;
       this.pnlAdd.Location = new System.Drawing.Point(3, 35);
       this.pnlAdd.Name = "pnlAdd";
-      this.pnlAdd.Size = new System.Drawing.Size(139, 593);
+      this.pnlAdd.Size = new System.Drawing.Size(139, 683);
       this.pnlAdd.TabIndex = 2;
       // 
       // btnDelete
@@ -760,6 +760,64 @@
       this.tpGeneral.Text = "General";
       this.tpGeneral.UseVisualStyleBackColor = true;
       // 
+      // minDecoyScan
+      // 
+      this.minDecoyScan.Caption = "";
+      this.minDecoyScan.CaptionWidth = 0;
+      this.minDecoyScan.DefaultValue = "10000000";
+      this.minDecoyScan.Description = "";
+      this.minDecoyScan.Key = "IntegerField";
+      this.minDecoyScan.Location = new System.Drawing.Point(350, 247);
+      this.minDecoyScan.Name = "minDecoyScan";
+      this.minDecoyScan.PreCondition = null;
+      this.minDecoyScan.Required = false;
+      this.minDecoyScan.Size = new System.Drawing.Size(89, 23);
+      this.minDecoyScan.TabIndex = 151;
+      this.minDecoyScan.TextWidth = 89;
+      this.minDecoyScan.Value = 10000000;
+      // 
+      // minTargetDecoyRatio
+      // 
+      this.minTargetDecoyRatio.Caption = "minimum target/decoy ratio for target protein assignment:";
+      this.minTargetDecoyRatio.CaptionWidth = 300;
+      this.minTargetDecoyRatio.DefaultValue = "1";
+      this.minTargetDecoyRatio.Description = "";
+      this.minTargetDecoyRatio.Key = "MinTargetDecoyRatio";
+      this.minTargetDecoyRatio.Location = new System.Drawing.Point(421, 247);
+      this.minTargetDecoyRatio.Name = "minTargetDecoyRatio";
+      this.minTargetDecoyRatio.PreCondition = null;
+      this.minTargetDecoyRatio.Required = false;
+      this.minTargetDecoyRatio.Size = new System.Drawing.Size(371, 23);
+      this.minTargetDecoyRatio.TabIndex = 153;
+      this.minTargetDecoyRatio.TextWidth = 71;
+      this.minTargetDecoyRatio.Value = 1D;
+      // 
+      // rbByDecoyDatabase
+      // 
+      this.rbByDecoyDatabase.AutoSize = true;
+      this.rbByDecoyDatabase.Checked = true;
+      this.rbByDecoyDatabase.Key = "ByDecoyDatabase";
+      this.rbByDecoyDatabase.Location = new System.Drawing.Point(28, 270);
+      this.rbByDecoyDatabase.Name = "rbByDecoyDatabase";
+      this.rbByDecoyDatabase.PreCondition = null;
+      this.rbByDecoyDatabase.Size = new System.Drawing.Size(270, 17);
+      this.rbByDecoyDatabase.TabIndex = 152;
+      this.rbByDecoyDatabase.TabStop = true;
+      this.rbByDecoyDatabase.Text = "Calculate FDR by decoy database, decoy pattern = ";
+      this.rbByDecoyDatabase.UseVisualStyleBackColor = true;
+      // 
+      // rbByDecoySpectra
+      // 
+      this.rbByDecoySpectra.AutoSize = true;
+      this.rbByDecoySpectra.Key = "ByDecoySpectra";
+      this.rbByDecoySpectra.Location = new System.Drawing.Point(28, 247);
+      this.rbByDecoySpectra.Name = "rbByDecoySpectra";
+      this.rbByDecoySpectra.PreCondition = null;
+      this.rbByDecoySpectra.Size = new System.Drawing.Size(318, 17);
+      this.rbByDecoySpectra.TabIndex = 152;
+      this.rbByDecoySpectra.Text = "Calculate FDR by decoy spectra, the minimum scan number = ";
+      this.rbByDecoySpectra.UseVisualStyleBackColor = true;
+      // 
       // txtMaxMissCleavage
       // 
       this.txtMaxMissCleavage.Location = new System.Drawing.Point(620, 316);
@@ -812,7 +870,7 @@
       this.tpDatasets.Location = new System.Drawing.Point(4, 22);
       this.tpDatasets.Name = "tpDatasets";
       this.tpDatasets.Padding = new System.Windows.Forms.Padding(3);
-      this.tpDatasets.Size = new System.Drawing.Size(1181, 631);
+      this.tpDatasets.Size = new System.Drawing.Size(1181, 721);
       this.tpDatasets.TabIndex = 1;
       this.tpDatasets.Text = "Datasets";
       this.tpDatasets.UseVisualStyleBackColor = true;
@@ -852,64 +910,6 @@
       this.rbUseAll.TabStop = true;
       this.rbUseAll.Text = "Use all files";
       this.rbUseAll.UseVisualStyleBackColor = true;
-      // 
-      // minDecoyScan
-      // 
-      this.minDecoyScan.Caption = "";
-      this.minDecoyScan.CaptionWidth = 0;
-      this.minDecoyScan.DefaultValue = "10000000";
-      this.minDecoyScan.Description = "";
-      this.minDecoyScan.Key = "IntegerField";
-      this.minDecoyScan.Location = new System.Drawing.Point(350, 247);
-      this.minDecoyScan.Name = "minDecoyScan";
-      this.minDecoyScan.PreCondition = null;
-      this.minDecoyScan.Required = false;
-      this.minDecoyScan.Size = new System.Drawing.Size(89, 23);
-      this.minDecoyScan.TabIndex = 151;
-      this.minDecoyScan.TextWidth = 70;
-      this.minDecoyScan.Value = 10000000;
-      // 
-      // rbByDecoySpectra
-      // 
-      this.rbByDecoySpectra.AutoSize = true;
-      this.rbByDecoySpectra.Key = "ByDecoySpectra";
-      this.rbByDecoySpectra.Location = new System.Drawing.Point(28, 247);
-      this.rbByDecoySpectra.Name = "rbByDecoySpectra";
-      this.rbByDecoySpectra.PreCondition = null;
-      this.rbByDecoySpectra.Size = new System.Drawing.Size(318, 17);
-      this.rbByDecoySpectra.TabIndex = 152;
-      this.rbByDecoySpectra.Text = "Calculate FDR by decoy spectra, the minimum scan number = ";
-      this.rbByDecoySpectra.UseVisualStyleBackColor = true;
-      // 
-      // rbByDecoyDatabase
-      // 
-      this.rbByDecoyDatabase.AutoSize = true;
-      this.rbByDecoyDatabase.Checked = true;
-      this.rbByDecoyDatabase.Key = "ByDecoyDatabase";
-      this.rbByDecoyDatabase.Location = new System.Drawing.Point(28, 270);
-      this.rbByDecoyDatabase.Name = "rbByDecoyDatabase";
-      this.rbByDecoyDatabase.PreCondition = null;
-      this.rbByDecoyDatabase.Size = new System.Drawing.Size(270, 17);
-      this.rbByDecoyDatabase.TabIndex = 152;
-      this.rbByDecoyDatabase.TabStop = true;
-      this.rbByDecoyDatabase.Text = "Calculate FDR by decoy database, decoy pattern = ";
-      this.rbByDecoyDatabase.UseVisualStyleBackColor = true;
-      // 
-      // minTargetDecoyRatio
-      // 
-      this.minTargetDecoyRatio.Caption = "minimum target/decoy ratio for target protein assignment:";
-      this.minTargetDecoyRatio.CaptionWidth = 300;
-      this.minTargetDecoyRatio.DefaultValue = "2.0";
-      this.minTargetDecoyRatio.Description = "";
-      this.minTargetDecoyRatio.Key = "MinTargetDecoyRatio";
-      this.minTargetDecoyRatio.Location = new System.Drawing.Point(421, 247);
-      this.minTargetDecoyRatio.Name = "minTargetDecoyRatio";
-      this.minTargetDecoyRatio.PreCondition = null;
-      this.minTargetDecoyRatio.Required = false;
-      this.minTargetDecoyRatio.Size = new System.Drawing.Size(371, 23);
-      this.minTargetDecoyRatio.TabIndex = 153;
-      this.minTargetDecoyRatio.TextWidth = 52;
-      this.minTargetDecoyRatio.Value = 2D;
       // 
       // UniformSummaryBuilderUI
       // 

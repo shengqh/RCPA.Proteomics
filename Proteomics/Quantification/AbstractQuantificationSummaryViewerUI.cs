@@ -78,6 +78,21 @@ namespace RCPA.Proteomics.Quantification
     [RcpaOption("DiffDecimal", RcpaOptionType.Int32)]
     public int DiffDecimal { get; set; }
 
+    protected IIdentifiedProteinGroup CurrentGroup
+    {
+      get
+      {
+        if (lvProteins.SelectedItems.Count > 0)
+        {
+          return lvProteins.SelectedItems[0].Tag as IIdentifiedProteinGroup;
+        }
+        else
+        {
+          return null;
+        }
+      }
+    }
+
     public AbstractQuantificationSummaryViewerUI()
     {
       InitializeComponent();
@@ -138,7 +153,7 @@ namespace RCPA.Proteomics.Quantification
 
       ProcessIdentifiedResult(mr);
 
-      RefreshAll();
+      RecalculateProteinAndRefreshAll();
     }
 
     protected virtual void RefreshAll()
@@ -296,8 +311,7 @@ namespace RCPA.Proteomics.Quantification
           item.SubItems[i].Text = parts[proteinColumnIndecies[i]];
         }
       }
-      //item.Checked = option.IsProteinRatioValid(mpg[0]) && !option.IsProteinOutlier(mpg[0]);
-      item.Checked = option.IsProteinRatioValid(mpg[0]);
+      item.Checked = option.IsProteinRatioValid(mpg[0]) && !option.IsProteinOutlier(mpg[0]);
 
       item.Tag = mpg;
 
@@ -313,7 +327,6 @@ namespace RCPA.Proteomics.Quantification
       {
         item.SubItems.Add(parts[peptideColumnIndecies[i]]);
       }
-      //item.Checked = option.IsPeptideRatioValid(mph) && !option.IsPeptideOutlier(mph);
       item.Checked = option.IsPeptideRatioValid(mph);
       item.Tag = mph;
 
@@ -660,6 +673,19 @@ namespace RCPA.Proteomics.Quantification
       this.btnSave.Enabled = true;
     }
 
+    protected void RecalculateProteinAndRefreshAll()
+    {
+      foreach (var group in mr)
+      {
+        calc.Calculate(group, m => true);
+        foreach (var protein in group)
+        {
+          option.SetProteinRatioValid(protein, option.IsProteinRatioValid(protein));
+        }
+      }
+      RefreshAll();
+    }
+
     private void UpdateProteinContainsPeptide(IIdentifiedSpectrum mph)
     {
       List<IIdentifiedProteinGroup> groups = this.pepProMap[mph];
@@ -675,7 +701,7 @@ namespace RCPA.Proteomics.Quantification
       DoUpdateProtein();
     }
 
-    private void UpdateProteinEntries(IIdentifiedProteinGroup group)
+    protected void UpdateProteinEntries(IIdentifiedProteinGroup group)
     {
       try
       {

@@ -26,8 +26,8 @@ namespace RCPA.Proteomics.Summary.Uniform
 
       var spectrumFilter = options.GetFilter();
 
-      long afterFirstMemory = 0;
-      DateTime afterFirstTime = DateTime.Now;
+      //long afterFirstMemory = 0;
+      //DateTime afterFirstTime = DateTime.Now;
 
       int stepCount = 0;
       foreach (string dataFile in options.PathNames)
@@ -53,7 +53,7 @@ namespace RCPA.Proteomics.Summary.Uniform
         string peptideFilename = GetPeptideFile(dataFile);
         if (new FileInfo(peptideFilename).Exists)
         {
-          Progress.SetMessage(MyConvert.Format("{0}/{1} : Reading peptides file {2}", stepCount, options.PathNames.Count, peptideFilename));
+          Progress.SetMessage(MyConvert.Format("{0}/{1} : Reading peptides file {2}", stepCount, options.PathNames.Count, Path.GetFileName(peptideFilename)));
           curPeptides = peptideFormat.ReadFromFile(peptideFilename);
           if (curPeptides.All(m => m.Proteins.Count == 0))
           {
@@ -117,22 +117,22 @@ namespace RCPA.Proteomics.Summary.Uniform
         GC.Collect();
         GC.WaitForPendingFinalizers();
 
-        if (stepCount == 1)
-        {
-          afterFirstMemory = Process.GetCurrentProcess().WorkingSet64 / (1024 * 1024);
-          afterFirstTime = DateTime.Now;
-        }
-        else
-        {
-          long currMemory = Process.GetCurrentProcess().WorkingSet64 / (1024 * 1024);
-          double averageCost = (double)(currMemory - afterFirstMemory) / (stepCount - 1);
-          double estimatedCost = afterFirstMemory + averageCost * options.PathNames.Count;
+        //if (stepCount == 1)
+        //{
+        //  afterFirstMemory = Process.GetCurrentProcess().WorkingSet64 / (1024 * 1024);
+        //  afterFirstTime = DateTime.Now;
+        //}
+        //else
+        //{
+        //  long currMemory = Process.GetCurrentProcess().WorkingSet64 / (1024 * 1024);
+        //  double averageCost = (double)(currMemory - afterFirstMemory) / (stepCount - 1);
+        //  double estimatedCost = afterFirstMemory + averageCost * options.PathNames.Count;
 
-          DateTime currTime = DateTime.Now;
-          var averageTime = currTime.Subtract(afterFirstTime).TotalMinutes / (stepCount - 1);
-          var finishTime = afterFirstTime.AddMinutes(averageTime * (options.PathNames.Count - 1));
-          Console.WriteLine("{0}/{1}, cost {2}M, avg {3:0.0}M, need {4:0.0}M, will finish at {5:MM-dd HH:mm:ss}", stepCount, options.PathNames.Count, currMemory, averageCost, estimatedCost, finishTime.ToString());
-        }
+        //  DateTime currTime = DateTime.Now;
+        //  var averageTime = currTime.Subtract(afterFirstTime).TotalMinutes / (stepCount - 1);
+        //  var finishTime = afterFirstTime.AddMinutes(averageTime * (options.PathNames.Count - 1));
+        //  Console.WriteLine("{0}/{1}, cost {2}M, avg {3:0.0}M, need {4:0.0}M, will finish at {5:MM-dd HH:mm:ss}", stepCount, options.PathNames.Count, currMemory, averageCost, estimatedCost, finishTime.ToString());
+        //}
       }
       return result;
     }

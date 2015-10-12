@@ -38,57 +38,14 @@ namespace RCPA.Proteomics.Summary.Uniform
       BuildResult = new DatasetList();
 
       //从配置进行初始化
-      BuildResult.InitFromOptions(Options.DatasetList, this.Progress);
-
-      Progress.SetMessage("Classify PSMs ...");
-
-      //归类以便进行fdr计算。
-      BuildResult.BuildSpectrumBin();
+      BuildResult.InitFromOptions(Options.DatasetList, this.Progress, parameterFile);
 
       var totalCount = BuildResult.GetOptimalSpectrumCount();
 
       string optimalResultFile = FileUtils.ChangeExtension(parameterFile, ".optimal");
       using (var sw = new StreamWriter(optimalResultFile))
       {
-        string log = "Total spectrum = " + totalCount;
-        sw.WriteLine(log);
-
-        sw.WriteLine("Before maxpeptidefdr {0:0.0000} filtering...", Options.FalseDiscoveryRate.MaxPeptideFdr);
-        BuildResult.ForEach(ds =>
-        {
-          sw.WriteLine("Dataset {0}", ds.Options.Name);
-          OptimalResultConditionUtils.WriteSpectrumBin(sw, ds, f1, f2);
-        });
-
-        //根据最大的fdr进行筛选。
-        Progress.SetMessage("Filtering PSMs by max peptide fdr {0}", Options.FalseDiscoveryRate.MaxPeptideFdr);
-        var realFdr = BuildResult.FilterByFdr(Options.FalseDiscoveryRate.MaxPeptideFdr);
-        Progress.SetMessage("Filtering PSMs by max peptide fdr {0} finished, accepted {1} PSMs", Options.FalseDiscoveryRate.MaxPeptideFdr, realFdr.Spectra.Count);
-
-        if (realFdr.ConflictSpectra.Count > 0)
-        {
-          new MascotPeptideTextFormat(UniformHeader.PEPTIDE_HEADER).WriteToFile(parameterFile + ".conflicted.peps", realFdr.ConflictSpectra);
-        }
-
-        sw.WriteLine("After maxpeptidefdr {0:0.0000} filtering...", Options.FalseDiscoveryRate.MaxPeptideFdr);
-        BuildResult.ForEach(ds =>
-        {
-          sw.WriteLine("Dataset {0}", ds.Options.Name);
-          OptimalResultConditionUtils.WriteSpectrumBin(sw, ds, f1, f2);
-        });
-
-        var filteredCount = realFdr.Spectra.Count;
-        log = MyConvert.Format("Spectrum passed MaxPeptideFdr {0} = {1}", Options.FalseDiscoveryRate.MaxPeptideFdr, filteredCount);
-        sw.WriteLine(log);
-        sw.WriteLine();
-
-        //保留每个dataset的spectra为筛选后的结果，以用于后面的迭代。
-        BuildResult.ForEach(m =>
-        {
-          var spectra = new List<IIdentifiedSpectrum>();
-          m.OptimalResults.ForEach(n => spectra.AddRange(n.Spectra));
-          m.Spectra = spectra;
-        });
+        new OptimalFileTextWriter().WriteToStream(sw, BuildResult);
 
         UniformProteinFdrOptimalResultCalculator proteinCalc = new UniformProteinFdrOptimalResultCalculator(fdrCalc, Options.GetDecoyGroupFilter())
         {

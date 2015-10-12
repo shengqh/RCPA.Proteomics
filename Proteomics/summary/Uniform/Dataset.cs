@@ -72,9 +72,13 @@ namespace RCPA.Proteomics.Summary.Uniform
   {
     public double Fdr { get; set; }
 
+    public int PSMPassedFixedCriteriaCount { get; set; }
+
     public IDatasetOptions Options { get; set; }
 
     public List<IIdentifiedSpectrum> Spectra { get; set; }
+
+    public List<Tuple<string, List<OptimalItem>>> SavedOptimalResults { get; private set; }
 
     public List<OptimalItem> OptimalResults { get; set; }
 
@@ -87,14 +91,20 @@ namespace RCPA.Proteomics.Summary.Uniform
       this.Options = options;
       this.Experimentals = new HashSet<string>();
       this.HasDuplicatedSpectrum = false;
+      this.PSMPassedFixedCriteriaCount = 0;
+      this.SavedOptimalResults = new List<Tuple<string, List<OptimalItem>>>();
     }
 
     public void InitExperimentals()
     {
-      this.Experimentals = new HashSet<string>((from s in this.Spectra select s.Query.FileScan.Experimental).Distinct());
+      this.Experimentals = new HashSet<string>();
+      foreach (var spectrum in this.Spectra)
+      {
+        this.Experimentals.Add(spectrum.Query.FileScan.Experimental);
+      }
     }
 
-    public void InitOptimalResults()
+    public void BuildSpectrumBin()
     {
       this.OptimalResults = Options.Parent.Classification.BuildSpectrumBin(this.Spectra);
     }
@@ -102,8 +112,29 @@ namespace RCPA.Proteomics.Summary.Uniform
     public void FilterByFdr(double fdrValue)
     {
       var optimalCalc = Options.GetOptimalResultCalculator();
+      this.OptimalResults.ForEach(m => m.FilterByFdr(optimalCalc, fdrValue, HasDuplicatedSpectrum));
+    }
 
-      OptimalResults.ForEach(m => m.FilterByFdr(optimalCalc, fdrValue, HasDuplicatedSpectrum));
+    public void BuildSpectrumBinAndFilterByFdr(double fdrValue)
+    {
+      this.BuildSpectrumBin();
+      this.FilterByFdr(fdrValue);
+    }
+
+    public void PushCurrentOptimalResults(string title)
+    {
+      var or = new List<OptimalItem>();
+      foreach (var item in this.OptimalResults)
+      {
+        var newitem = new OptimalItem()
+        {
+          Condition = new OptimalResultCondition(item.Condition),
+          Result = new OptimalResult(item.Result),
+          Spectra = new List<IIdentifiedSpectrum>()
+        };
+        or.Add(newitem);
+      }
+      this.SavedOptimalResults.Add(new Tuple<string, List<OptimalItem>>(title, or));
     }
 
     /// <summary>

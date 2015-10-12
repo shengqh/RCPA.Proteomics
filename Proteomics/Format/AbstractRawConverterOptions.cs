@@ -11,6 +11,7 @@ namespace RCPA.Proteomics.Format
     public AbstractRawConverterOptions()
     {
       this.ExtractRawMS3 = false;
+      this.Overwrite = true;
     }
 
     public string TargetDirectory { get; set; }
@@ -20,6 +21,8 @@ namespace RCPA.Proteomics.Format
     public bool GroupByMode { get; set; }
 
     public bool GroupByMsLevel { get; set; }
+
+    public bool Overwrite { get; set; }
 
     public abstract string Extension { get; }
   }

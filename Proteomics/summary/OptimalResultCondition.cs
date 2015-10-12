@@ -23,6 +23,20 @@ namespace RCPA.Proteomics
       this.MergedConditions = new List<OptimalResultCondition>();
     }
 
+    public OptimalResultCondition(OptimalResultCondition source)
+    {
+      this._precursorCharge = source._precursorCharge;
+      this._missCleavageSiteCount = source._missCleavageSiteCount;
+      this._numProteaseTermini = source._numProteaseTermini;
+      this._modificationCount = source._modificationCount;
+      this.Classification = source.Classification;
+      this.MergedConditions = new List<OptimalResultCondition>();
+      foreach (var orc in source.MergedConditions)
+      {
+        this.MergedConditions.Add(new OptimalResultCondition(orc));
+      }
+    }
+
     private string classification;
 
     public string Classification
@@ -184,7 +198,7 @@ namespace RCPA.Proteomics
   {
     public static void WriteSpectrumBin<T>(StreamWriter sw, T source, Func<T, List<OptimalResultCondition>> condFunc, Func<T, OptimalResultCondition, OptimalItem> acceptCount)
     {
-      sw.WriteLine("Classification\tCharge\tNumMissCleavage\tModification\tNumProteaseTermini\tScore\tExpectValue\tTargetCount\tDecoyCount");
+      sw.WriteLine("Classification\tCharge\tNumMissCleavage\tNumProteaseTermini\tModification\tScore\tExpectValue\tTargetCount\tDecoyCount");
       var conds = condFunc(source);
       conds.Sort();
       foreach (OptimalResultCondition cond in conds)
@@ -206,8 +220,8 @@ namespace RCPA.Proteomics
           cond.Classification,
           cond.ChargeString,
           cond.NumMissCleavageString,
-          cond.ModificationCountString,
           cond.NumProteaseTermini,
+          cond.ModificationCountString,
           acceptedScore,
           acceptedEvalue,
           targetCount,

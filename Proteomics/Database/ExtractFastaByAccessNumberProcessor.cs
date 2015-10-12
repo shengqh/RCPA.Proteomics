@@ -53,7 +53,7 @@ namespace RCPA.Proteomics.Database
         Sequence seq;
         while ((seq = ff.ReadSequence(sr)) != null)
         {
-          Progress.SetPosition(StreamUtils.GetCharpos(sr));
+          Progress.SetPosition(sr.BaseStream.Position);
 
           string curAc;
           if (!parser.TryParse(seq.Name, out curAc))

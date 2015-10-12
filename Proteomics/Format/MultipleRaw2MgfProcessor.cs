@@ -30,6 +30,24 @@ namespace RCPA.Proteomics.Format
       {
         Directory.CreateDirectory(directory);
       }
+
+      if (!options.Overwrite && (options.OutputMzXmlFormat || (!options.GroupByMode && !options.GroupByMsLevel)))
+      {
+        AbstractRawConverter proc;
+        if (options.OutputMzXmlFormat)
+        {
+          proc = new Raw2MzXMLProcessor(options);
+        }
+        else
+        {
+          proc = new Raw2MgfProcessor(options);
+        }
+
+        sourceFiles = (from f in sourceFiles
+                       let ret = proc.GetResultFile(RawFileFactory.GetRawFileReaderWithoutOpen(f), f)
+                       where !File.Exists(ret)
+                       select f).ToList();
+      }
     }
 
     protected override IParallelTaskFileProcessor GetTaskProcessor(string targetDir, string fileName)

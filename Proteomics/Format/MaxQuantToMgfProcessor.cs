@@ -39,7 +39,7 @@ namespace RCPA.Proteomics.Format
             count++;
             if (count % 100 == 0)
             {
-              Progress.SetPosition(sr.GetCharpos());
+              Progress.SetPosition(sr.BaseStream.Position);
             }
 
             if (line.StartsWith("peaklist start"))

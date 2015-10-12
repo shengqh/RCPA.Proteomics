@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace RCPA.Proteomics.Summary
 {
@@ -143,7 +144,7 @@ namespace RCPA.Proteomics.Summary
           optimalResult.PeptideCountFromDecoyDB = decoyCount;
           optimalResult.PeptideCountFromTargetDB = targetCount;
 
-          Console.WriteLine("{0} ==> {1} / {2}", preFiltered.Count, decoyCount, targetCount);
+          Console.WriteLine("{0} / {1} ==> {2} / {3}", preFiltered.Count(m => m.FromDecoy), preFiltered.Count(m => !m.FromDecoy), decoyCount, targetCount);
 
           break;
         }

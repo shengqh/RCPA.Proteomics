@@ -24,7 +24,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
   {
     public static string title = "Silac Quantification Summary Viewer";
 
-    public static string version = "1.1.0";
+    public static string version = "1.2.0";
 
     private ZedGraphSilacProteinScan proteinScan;
 
@@ -47,12 +47,27 @@ namespace RCPA.Proteomics.Quantification.SILAC
       factory.InsertConverter(new IdentifiedSpectrumScoreConverter<IIdentifiedSpectrum>("{0:0}"));
 
       this.format.PeptideFormat = new LineFormat<IIdentifiedSpectrum>(factory, "");
+
+      this.proteinRSquare.Box.TextChanged += ProteinRSquareChanged;
+      this.peptideRSquare.Box.TextChanged += PeptideRSquareChanged;
+    }
+
+    private void ProteinRSquareChanged(object sender, EventArgs e)
+    {
+      this.option.MinimumProteinRSquare = proteinRSquare.Value;
+      RefreshAll();
+    }
+
+    private void PeptideRSquareChanged(object sender, EventArgs e)
+    {
+      this.option.MinimumPeptideRSquare = peptideRSquare.Value;
     }
 
     protected override void OnAfterLoadOption(EventArgs e)
     {
       base.OnAfterLoadOption(e);
-      this.option.MinimumRSquare = minRSquare.Value;
+      this.option.MinimumPeptideRSquare = peptideRSquare.Value;
+      this.option.MinimumProteinRSquare = proteinRSquare.Value;
     }
 
     private void SilacQuantificationSummaryViewerUI_Load(object sender, EventArgs e)
@@ -162,47 +177,49 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
     private void btnUpdate_Click(object sender, EventArgs e)
     {
-      this.option.MinimumRSquare = minRSquare.Value;
-
-      bool hasChanged = false;
-      foreach (var g in mr)
+      if (CurrentGroup == null)
       {
-        var spectra = g[0].GetSpectra();
-        bool bChanged = false;
-        foreach (var spec in spectra)
-        {
-          var item = spec.GetQuantificationItem();
-          if (item != null)
-          {
-            var enabled = item.Correlation >= this.option.MinimumRSquare;
-            if (item.Enabled != enabled)
-            {
-              item.Enabled = enabled;
-              bChanged = true;
-              hasChanged = true;
-            }
-          }
-        }
-        if (bChanged)
-        {
-          calc.Calculate(g, m => true);
-        }
+        return;
+      }
 
-        var gitem = g[0].GetQuantificationItem();
-        if (gitem != null)
+      this.option.MinimumPeptideRSquare = peptideRSquare.Value;
+      this.option.MinimumProteinRSquare = proteinRSquare.Value;
+      var spectra = CurrentGroup[0].GetSpectra();
+      bool hasPeptideChanged = false;
+      bool hasProteinChanged = false;
+      foreach (var spec in spectra)
+      {
+        var item = spec.GetQuantificationItem();
+        if (item != null)
         {
-          var genabled = gitem.Correlation >= this.option.MinimumRSquare;
-          if (gitem.Enabled != genabled)
+          var enabled = item.Correlation >= this.option.MinimumPeptideRSquare;
+          if (item.Enabled != enabled)
           {
-            gitem.Enabled = genabled;
-            hasChanged = true;
+            item.Enabled = enabled;
+            hasPeptideChanged = true;
           }
         }
       }
 
-      if (hasChanged)
+      if (hasPeptideChanged)
       {
-        RefreshAll();
+        calc.Calculate(CurrentGroup, m => true);
+      }
+
+      var gitem = CurrentGroup[0].GetQuantificationItem();
+      if (gitem != null)
+      {
+        var genabled = gitem.Correlation >= this.option.MinimumProteinRSquare;
+        if (gitem.Enabled != genabled)
+        {
+          gitem.Enabled = genabled;
+          hasProteinChanged = true;
+        }
+      }
+
+      if (hasProteinChanged)
+      {
+        UpdateProteinEntries(CurrentGroup);
       }
     }
   }

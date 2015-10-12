@@ -12,6 +12,7 @@ namespace RCPA.Proteomics.Summary
     {
       var result = new List<IIdentifiedProteinGroup>();
 
+      Progress.SetMessage("Initializing protein group/spectra map ...");
       var groupMap = new Dictionary<IIdentifiedProteinGroup, HashSet<IIdentifiedSpectrum>>();
       foreach (IIdentifiedProtein protein in proteins)
       {
@@ -24,6 +25,7 @@ namespace RCPA.Proteomics.Summary
         result.Add(group);
       }
 
+      Progress.SetMessage("Sorting protein groups ...");
       result.Sort((m1, m2) =>
       {
         int ret = -m1[0].PeptideCount.CompareTo(m2[0].PeptideCount);
@@ -69,11 +71,10 @@ namespace RCPA.Proteomics.Summary
         }
       }
 
-      Progress.SetMessage("Removing redundant protein groups ...");
-      Progress.SetRange(0, result.Count);
-
+      Progress.SetMessage("Initializing peptide group count ...");
       InitializePeptideGroupCount(result);
 
+      Progress.SetMessage("Extracting distinct protein groups ...");
       var temp = result;
       result = new List<IIdentifiedProteinGroup>();
       for (int i = temp.Count - 1; i > 0; i--)
@@ -84,12 +85,16 @@ namespace RCPA.Proteomics.Summary
           temp.RemoveAt(i);
         }
       }
+      Progress.SetMessage("There are {0} distinct and {1} undistinct protein groups. ", result.Count, temp.Count);
 
+      Progress.SetMessage("Removing redundant protein groups from undistinct protein groups...");
 
+      var oldcount = temp.Count;
+      Progress.SetRange(0, oldcount);
       //删除被包含的group
       for (int i = temp.Count - 1; i > 0; i--)
       {
-        Progress.SetPosition(temp.Count - i);
+        Progress.SetPosition(oldcount - i);
         HashSet<IIdentifiedSpectrum> iSpectra = groupMap[temp[i]];
         for (int j = i - 1; j >= 0; j--)
         {
@@ -108,51 +113,55 @@ namespace RCPA.Proteomics.Summary
         }
       }
 
-      //删除没有unique peptide的group
-      while (true)
-      {
-        InitializePeptideGroupCount(temp);
-        bool bFind = false;
-        for (int i = temp.Count - 1; i > 0; i--)
-        {
-          if (temp[i].GetPeptides().All(m => m.GroupCount > 1))
-          {
-            bFind = true;
-            temp.RemoveAt(i);
-            break;
-          }
-        }
-        if (!bFind)
-        {
-          break;
-        }
-      }
+      RemoveUndistinctProteinGroups(temp);
 
       result.AddRange(temp);
 
+      Progress.SetMessage("Sorting proteins in group ...");
       result.ForEach(m => m.SortByProteinName());
 
+      Progress.SetMessage("Building protein groups done.");
       return result;
     }
 
-    private static void InitializePeptideGroupCount(List<IIdentifiedProteinGroup> result)
+    protected virtual void RemoveUndistinctProteinGroups(List<IIdentifiedProteinGroup> temp)
     {
-      result.ForEach(m =>
+      Progress.SetMessage("Removing protein groups without any distinct peptide in {0} undistinct protein groups. ", temp.Count);
+      //删除没有unique peptide的group
+      InitializePeptideGroupCount(temp);
+      for (int i = temp.Count - 1; i > 0; i--)
       {
-        foreach (var pep in m.GetPeptides())
+        if (temp[i][0].Peptides.All(m => m.Spectrum.GroupCount > 1))
         {
-          pep.GroupCount = 0;
+          foreach (var pep in temp[i].GetPeptides())
+          {
+            pep.GroupCount--;
+          }
+          temp.RemoveAt(i);
         }
-      });
+      }
+    }
 
-      result.ForEach(m =>
+    protected void InitializePeptideGroupCount(List<IIdentifiedProteinGroup> result)
+    {
+      foreach (var pg in result)
       {
-        foreach (var pep in m.GetPeptides())
+        foreach (var p in pg)
+        {
+          foreach (var pep in p.Peptides)
+          {
+            pep.Spectrum.GroupCount = 0;
+          }
+        }
+      }
+
+      foreach (var m in result)
+      {
+        foreach (var pep in m[0].GetSpectra())
         {
           pep.GroupCount++;
         }
-      });
-
+      }
     }
 
     #endregion

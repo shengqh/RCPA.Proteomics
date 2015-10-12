@@ -369,6 +369,7 @@ namespace RCPA.Proteomics.Format
       result.RemoveIsobaricIonsInLowRange = cbRemoveIsobaricIonsInLowRange.Checked;
       result.RemoveIsobaricIonsInHighRange = cbRemoveIsobaricIonsInHighRange.Checked;
       result.RemoveIsobaricIonsReporters = rbRemoveReporters.Checked;
+      result.Overwrite = cbOverwrite.Checked;
       if (rbMassCalibrationNone.Checked || (!rbMassCalibration.Checked))
       {
         result.CalibrationType = MassCalibrationType.mctNone;

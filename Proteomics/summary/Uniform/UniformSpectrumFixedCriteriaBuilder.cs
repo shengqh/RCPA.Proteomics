@@ -6,23 +6,22 @@ using RCPA.Gui;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
-  public class UniformSpectrumFixedCriteriaBuilder : ProgressClass, IIdentifiedSpectrumBuilder
+  public class UniformSpectrumFixedCriteriaBuilder : AbstractIdentifiedSpectrumBuilder
   {
     #region IIdentifiedSpectrumBuilder Members
 
-    public List<IIdentifiedSpectrum> Build(string parameterFile)
+    protected override List<IIdentifiedSpectrum> DoBuild(string parameterFile)
     {
-      BuildSummaryOptions conf = new BuildSummaryOptions(parameterFile);
-      conf.DatasetList.RemoveDisabled();
-
       List<IIdentifiedSpectrum> result = new List<IIdentifiedSpectrum>();
-      conf.DatasetList.ForEach(m =>
+      Options.DatasetList.ForEach(m =>
       {
         var builder = m.GetBuilder();
 
         builder.Progress = this.Progress;
 
-        result.AddRange(builder.ParseFromSearchResult());
+        m.Spectra = builder.ParseFromSearchResult();
+
+        result.AddRange(m.Spectra);
       });
 
       return result;

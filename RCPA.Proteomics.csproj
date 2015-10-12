@@ -400,6 +400,7 @@
       <DependentUpon>PrecursorOffsetStatisticMainBuilderUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Statistic\RawIonStatisticMultipleFileBuilder.cs" />
+    <Compile Include="Proteomics\Summary\IdentifiedProteinGroupBuilder.cs" />
     <Compile Include="Proteomics\Summary\IdentifiedProteinGroupSingleWonderPeptideCountFilter.cs" />
     <Compile Include="Proteomics\Summary\ISpectrumParser.cs" />
     <Compile Include="Proteomics\MzIdent\MzIdentSlimProcessor.cs" />
@@ -995,6 +996,7 @@
     </Compile>
     <Compile Include="Proteomics\Summary\Uniform\DecoyGroupFilter.cs" />
     <Compile Include="Proteomics\Summary\Uniform\DecoySpectraFilter.cs" />
+    <Compile Include="Proteomics\Summary\Uniform\AbstractIdentifiedSpectrumBuilder.cs" />
     <Compile Include="Proteomics\Summary\Uniform\UniformSpectrumProteinFdrBuilder.cs" />
     <Compile Include="Proteomics\Summary\Uniform\AbstractOneParserDatasetBuilder.cs" />
     <Compile Include="Proteomics\Omssa\OmssaDatasetBuilder.cs" />
@@ -1089,7 +1091,6 @@
     <Compile Include="Proteomics\Mascot\MascotResultDtaselectFormat.cs" />
     <Compile Include="Proteomics\Mascot\MascotResultTextFormat.cs" />
     <Compile Include="Proteomics\Summary\FalseDiscoveryRateCalculator.cs" />
-    <Compile Include="Proteomics\Summary\IdentifiedProteinGroupBuilder.cs" />
     <Compile Include="Proteomics\Summary\IdentifiedResultBuilder.cs" />
     <Compile Include="Proteomics\Summary\IIdentifiedProteinBuilder.cs" />
     <Compile Include="Proteomics\Summary\IdentifiedProteinBuilder.cs" />

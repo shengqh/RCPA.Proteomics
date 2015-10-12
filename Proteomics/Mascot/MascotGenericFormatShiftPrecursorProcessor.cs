@@ -26,9 +26,10 @@ namespace RCPA.Proteomics.Mascot
       foreach (var file in options.InputFiles)
       {
         count++;
-        Progress.SetMessage("Processing {0}/{1} : {2} ...", count, options.InputFiles.Count, file);
 
         string resultFilename = options.GetOutputFile(file);
+        Progress.SetMessage("Processing {0}/{1} : {2} ...", count, options.InputFiles.Count, file);
+
         var tempFile = resultFilename + ".tmp";
         using (var sw = new StreamWriter(tempFile))
         {
@@ -38,8 +39,6 @@ namespace RCPA.Proteomics.Mascot
 
           using (var sr = new StreamReader(new FileStream(file, FileMode.Open)))
           {
-            Progress.SetRange(0, sr.BaseStream.Length);
-
             var iter = new MascotGenericFormatIterator<Peak>(sr);
             while (iter.HasNext())
             {
@@ -47,8 +46,6 @@ namespace RCPA.Proteomics.Mascot
               {
                 throw new UserTerminatedException();
               }
-
-              Progress.SetPosition(sr.GetCharpos());
 
               var pkl = iter.Next();
 

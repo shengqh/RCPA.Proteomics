@@ -9,14 +9,17 @@ namespace RCPA.Proteomics.Quantification
 {
   public abstract class AbstractQuantificationSummaryOption : IQuantificationSummaryOption
   {
-    public double MinimumRSquare { get; set; }
+    public double MinimumPeptideRSquare { get; set; }
+
+    public double MinimumProteinRSquare { get; set; }
 
     public AbstractQuantificationSummaryOption()
     {
-      MinimumRSquare = 0.9;
+      MinimumPeptideRSquare = 0.9;
+      MinimumProteinRSquare = 0.9;
     }
 
-    private bool IsOutlier(IAnnotation ann)
+    private bool IsOutlier(IAnnotation ann, double rsquare)
     {
       var item = ann.GetQuantificationItem();
 
@@ -25,7 +28,7 @@ namespace RCPA.Proteomics.Quantification
         return false;
       }
 
-      return item.Correlation < this.MinimumRSquare;
+      return item.Correlation < rsquare;
     }
 
     #region IQuantificationSummaryOption Members
@@ -46,12 +49,12 @@ namespace RCPA.Proteomics.Quantification
 
     public virtual bool IsPeptideOutlier(IIdentifiedSpectrum ann)
     {
-      return IsOutlier(ann);
+      return IsOutlier(ann, MinimumPeptideRSquare);
     }
 
     public virtual bool IsProteinOutlier(IIdentifiedProtein ann)
     {
-      return IsOutlier(ann);
+      return IsOutlier(ann, MinimumProteinRSquare);
     }
 
     public abstract IQuantificationPeptideForm CreateForm();
