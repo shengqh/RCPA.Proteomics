@@ -11,56 +11,62 @@ namespace RCPA.Proteomics.Snp
   {
     public MS3LibraryPredictorOptions()
     {
-      PrecursorPPMTolerance = 20;
-      FragmentPPMTolerance = 50;
-      MaxFragmentPeakCount = 10;
-      MinimumMs3PrecursorMz = 200;
-      MinimumMatchedMs3IonCount = 2;
-      MinimumDeltaMass = 1.5;
+      MinimumMS3PrecursorMz = 200;
+      MS2PrecursorPPMTolerance = 20;
+      MS3PrecursorPPMTolerance = 20;
+      MS3FragmentIonPPMTolerance = 50;
+      MaximumFragmentPeakCount = 10;
+      MinimumMatchedMS3SpectrumCount = 1;
+      MinimumMatchedMS3IonCount = 2;
+      MinimumAminoacidSubstitutionDeltaMass = 1.5;
       AllowTerminalLoss = false;
+      AllowTerminalExtension = false;
       MatchMS3First = false;
     }
 
-    public double PrecursorPPMTolerance { get; set; }
+    public double MinimumMS3PrecursorMz { get; set; }
 
-    public double FragmentPPMTolerance { get; set; }
+    public double MS2PrecursorPPMTolerance { get; set; }
 
-    public double MinimumDeltaMass { get; set; }
+    public double MS3PrecursorPPMTolerance { get; set; }
 
-    public int MaxFragmentPeakCount { get; set; }
+    public double MS3FragmentIonPPMTolerance { get; set; }
 
-    public string LibraryFile { get; set; }
+    public int MaximumFragmentPeakCount { get; set; }
 
-    public string LibraryPeptideFile { get; set; }
+    public int MinimumMatchedMS3SpectrumCount { get; set; }
 
-    public string MatchedFile { get; set; }
-
-    public IList<string> RawFiles { get; set; }
-
-    public string TargetFastaFile { get; set; }
-
-    public string DatabaseFastaFile { get; set; }
+    public int MinimumMatchedMS3IonCount { get; set; }
 
     public bool IgnoreDeamidatedMutation { get; set; }
 
-    public bool IgnoreMultipleNucleotideMutation { get; set; }
+    public bool IsSingleNucleotideMutationOnly { get; set; }
 
     public bool AllowTerminalLoss { get; set; }
 
+    public bool AllowTerminalExtension { get; set; }
+
     public bool MatchMS3First { get; set; }
+
+    public double MinimumAminoacidSubstitutionDeltaMass { get; set; }
+
+    public string LibraryFile { get; set; }
+
+    public IList<string> RawFiles { get; set; }
+
+    public string DatabaseFastaFile { get; set; }
 
     public string OutputFile { get; set; }
 
+    public string OutputTableFile { get { return this.OutputFile + ".tsv"; } }
+
+    public string MatchedFile { get; set; }
+
+    public string TargetFastaFile { get; set; }
+
     public AbstractMS3LibraryPredictor GetPredictor()
     {
-      if (MatchMS3First)
-      {
-        return new MS3LibraryMS3FirstPredictor(this);
-      }
-      else
-      {
-        return new MS3LibraryMS2FirstPredictor(this);
-      }
+      return new MS3LibraryMS3FirstPredictor(this);
     }
 
     private Dictionary<char, List<TargetSAP>> _allowedMassChangeMap = null;
@@ -103,13 +109,23 @@ namespace RCPA.Proteomics.Snp
             continue;
           }
 
+          if (this.IsSingleNucleotideMutationOnly && !MutationUtils.IsSingleNucleotideMutation(ai, aj))
+          {
+            continue;
+          }
+
+          if (this.IgnoreDeamidatedMutation && MutationUtils.IsDeamidatedMutation(ai, aj))
+          {
+            continue;
+          }
+
           if (!result.ContainsKey(ai))
           {
             result[ai] = new List<TargetSAP>();
           }
 
           var deltaMass = aa[aj].MonoMass - aa[ai].MonoMass;
-          if (Math.Abs(deltaMass) < MinimumDeltaMass)
+          if (Math.Abs(deltaMass) < MinimumAminoacidSubstitutionDeltaMass)
           {
             continue;
           }
@@ -132,12 +148,6 @@ namespace RCPA.Proteomics.Snp
         ParsingErrors.Add(string.Format("Library file not exists : {0}", LibraryFile));
       }
 
-      if (!string.IsNullOrEmpty(LibraryPeptideFile) && !File.Exists(LibraryPeptideFile))
-      {
-        ParsingErrors.Add(string.Format("Library peptide file not exists : {0}", LibraryPeptideFile));
-      }
-
-
       foreach (var rawFile in RawFiles)
       {
         if (!File.Exists(rawFile))
@@ -148,11 +158,5 @@ namespace RCPA.Proteomics.Snp
 
       return ParsingErrors.Count == 0;
     }
-
-    public double MinimumMs3PrecursorMz { get; set; }
-
-    public int MinimumMatchedMs3IonCount { get; set; }
-
-    public string OutputTableFile { get { return this.OutputFile + ".tsv"; } }
   }
 }

@@ -9,6 +9,6 @@ namespace RCPA.Proteomics.Snp
 {
   public interface IBestSpectrumBuilder
   {
-    PeakList<Peak> Build(List<PeakList<Peak>> pkls);
+    MS3Item Build(List<MS3Item> pkls);
   }
 }

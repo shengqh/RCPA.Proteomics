@@ -32,6 +32,9 @@ namespace RCPA.Proteomics.Snp
       this.rawFiles = new RCPA.Gui.MultipleFileField();
       this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
       this.panel1 = new System.Windows.Forms.Panel();
+      this.minSequenceLength = new RCPA.Gui.IntegerField();
+      this.maxTerminalLoss = new RCPA.Gui.IntegerField();
+      this.txtModification = new RCPA.Gui.TextField();
       this.txtMinIdentificationCount = new System.Windows.Forms.TextBox();
       this.label3 = new System.Windows.Forms.Label();
       this.txtMaxFragmentPeakCount = new System.Windows.Forms.TextBox();
@@ -42,9 +45,6 @@ namespace RCPA.Proteomics.Snp
       this.label4 = new System.Windows.Forms.Label();
       this.peptideFile = new RCPA.Gui.FileField();
       this.outputFile = new RCPA.Gui.FileField();
-      this.txtModification = new RCPA.Gui.TextField();
-      this.maxTerminalLoss = new RCPA.Gui.IntegerField();
-      this.minSequenceLength = new RCPA.Gui.IntegerField();
       this.pnlButton.SuspendLayout();
       this.panel1.SuspendLayout();
       this.SuspendLayout();
@@ -90,7 +90,6 @@ namespace RCPA.Proteomics.Snp
       this.rawFiles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
       this.rawFiles.Size = new System.Drawing.Size(1215, 471);
       this.rawFiles.TabIndex = 13;
-      this.rawFiles.ValidateSelectedItemOnly = true;
       // 
       // toolTip1
       // 
@@ -116,6 +115,55 @@ namespace RCPA.Proteomics.Snp
       this.panel1.Name = "panel1";
       this.panel1.Size = new System.Drawing.Size(1215, 173);
       this.panel1.TabIndex = 41;
+      // 
+      // minSequenceLength
+      // 
+      this.minSequenceLength.Caption = "Min Terminal Lossed Sequence Length : ";
+      this.minSequenceLength.CaptionWidth = 220;
+      this.minSequenceLength.DefaultValue = "7";
+      this.minSequenceLength.Description = "";
+      this.minSequenceLength.Key = "MinSequenceLength";
+      this.minSequenceLength.Location = new System.Drawing.Point(186, 37);
+      this.minSequenceLength.Name = "minSequenceLength";
+      this.minSequenceLength.PreCondition = null;
+      this.minSequenceLength.Required = false;
+      this.minSequenceLength.Size = new System.Drawing.Size(283, 23);
+      this.minSequenceLength.TabIndex = 66;
+      this.minSequenceLength.TextWidth = 63;
+      this.minSequenceLength.Value = 7;
+      // 
+      // maxTerminalLoss
+      // 
+      this.maxTerminalLoss.Caption = "Max Terminal Loss : ";
+      this.maxTerminalLoss.CaptionWidth = 110;
+      this.maxTerminalLoss.DefaultValue = "2";
+      this.maxTerminalLoss.Description = "";
+      this.maxTerminalLoss.Key = "MaxTerminalLoss";
+      this.maxTerminalLoss.Location = new System.Drawing.Point(12, 37);
+      this.maxTerminalLoss.Name = "maxTerminalLoss";
+      this.maxTerminalLoss.PreCondition = null;
+      this.maxTerminalLoss.Required = false;
+      this.maxTerminalLoss.Size = new System.Drawing.Size(179, 23);
+      this.maxTerminalLoss.TabIndex = 66;
+      this.maxTerminalLoss.TextWidth = 69;
+      this.maxTerminalLoss.Value = 2;
+      // 
+      // txtModification
+      // 
+      this.txtModification.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.txtModification.Caption = "Input Modification : ";
+      this.txtModification.CaptionWidth = 100;
+      this.txtModification.DefaultValue = "";
+      this.txtModification.Description = ", for example: (* +79.96633) (# +15.99492) (@ -18.00000) C=160.16523";
+      this.txtModification.Key = "Modification";
+      this.txtModification.Location = new System.Drawing.Point(71, 66);
+      this.txtModification.Name = "txtModification";
+      this.txtModification.PreCondition = null;
+      this.txtModification.Required = false;
+      this.txtModification.Size = new System.Drawing.Size(1132, 23);
+      this.txtModification.TabIndex = 65;
+      this.txtModification.TextWidth = 600;
       // 
       // txtMinIdentificationCount
       // 
@@ -210,55 +258,6 @@ namespace RCPA.Proteomics.Snp
       this.outputFile.Size = new System.Drawing.Size(1201, 23);
       this.outputFile.TabIndex = 56;
       this.outputFile.WidthOpenButton = 250;
-      // 
-      // txtModification
-      // 
-      this.txtModification.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.txtModification.Caption = "Input Modification : ";
-      this.txtModification.CaptionWidth = 100;
-      this.txtModification.DefaultValue = "";
-      this.txtModification.Description = ", for example: (* +79.96633) (# +15.99492) (@ -18.00000) C=160.16523";
-      this.txtModification.Key = "Modification";
-      this.txtModification.Location = new System.Drawing.Point(71, 66);
-      this.txtModification.Name = "txtModification";
-      this.txtModification.PreCondition = null;
-      this.txtModification.Required = false;
-      this.txtModification.Size = new System.Drawing.Size(1132, 23);
-      this.txtModification.TabIndex = 65;
-      this.txtModification.TextWidth = 600;
-      // 
-      // maxTerminalLoss
-      // 
-      this.maxTerminalLoss.Caption = "Max Terminal Loss : ";
-      this.maxTerminalLoss.CaptionWidth = 110;
-      this.maxTerminalLoss.DefaultValue = "2";
-      this.maxTerminalLoss.Description = "";
-      this.maxTerminalLoss.Key = "MaxTerminalLoss";
-      this.maxTerminalLoss.Location = new System.Drawing.Point(12, 37);
-      this.maxTerminalLoss.Name = "maxTerminalLoss";
-      this.maxTerminalLoss.PreCondition = null;
-      this.maxTerminalLoss.Required = false;
-      this.maxTerminalLoss.Size = new System.Drawing.Size(179, 23);
-      this.maxTerminalLoss.TabIndex = 66;
-      this.maxTerminalLoss.TextWidth = 50;
-      this.maxTerminalLoss.Value = 2;
-      // 
-      // minSequenceLength
-      // 
-      this.minSequenceLength.Caption = "Min Terminal Lossed Sequence Length : ";
-      this.minSequenceLength.CaptionWidth = 220;
-      this.minSequenceLength.DefaultValue = "7";
-      this.minSequenceLength.Description = "";
-      this.minSequenceLength.Key = "MinSequenceLength";
-      this.minSequenceLength.Location = new System.Drawing.Point(186, 37);
-      this.minSequenceLength.Name = "minSequenceLength";
-      this.minSequenceLength.PreCondition = null;
-      this.minSequenceLength.Required = false;
-      this.minSequenceLength.Size = new System.Drawing.Size(283, 23);
-      this.minSequenceLength.TabIndex = 66;
-      this.minSequenceLength.TextWidth = 63;
-      this.minSequenceLength.Value = 7;
       // 
       // MS3LibraryBuilderUI
       // 

@@ -29,7 +29,10 @@ namespace RCPA.Proteomics.Snp
         item.CombinedCount = int.Parse(ms2ele.Attribute("PKL").Value);
         item.Precursor = double.Parse(ms2ele.Attribute("MZ").Value);
         item.Charge = int.Parse(ms2ele.Attribute("Z").Value);
-        item.FileScan = ms2ele.Attribute("FileScan").Value;
+        item.FileScans = (from ele in ms2ele.Elements("FileScan")
+                          let exp = ele.Attribute("F").Value
+                          let firstscan = int.Parse(ele.Attribute("S").Value)
+                          select new SequestFilename(exp, firstscan, firstscan, item.Charge, string.Empty)).ToList();
         item.Score = double.Parse(ms2ele.Attribute("Score").Value);
         item.ExpectValue = double.Parse(ms2ele.Attribute("ExpectValue").Value);
         if (ms2ele.Attribute("Seq") != null)
@@ -51,7 +54,7 @@ namespace RCPA.Proteomics.Snp
 
         foreach (var ms3ele in ms2ele.Elements("MS3"))
         {
-          var ms3 = new PeakList<Peak>();
+          var ms3 = new MS3Item();
           item.MS3Spectra.Add(ms3);
 
           if (item.CombinedCount > 1)
@@ -65,7 +68,7 @@ namespace RCPA.Proteomics.Snp
           ms3.PrecursorMZ = double.Parse(ms3ele.Attribute("MZ").Value);
           foreach (var pEle in ms3ele.Elements("P"))
           {
-            var peak = new Peak();
+            var peak = new MS3Peak();
             ms3.Add(peak);
 
             peak.Mz = double.Parse(pEle.Attribute("MZ").Value);
@@ -96,7 +99,8 @@ namespace RCPA.Proteomics.Snp
           new XAttribute("Z", ms2.Charge),
           new XAttribute("Score", ms2.Score),
           new XAttribute("ExpectValue", ms2.ExpectValue),
-          new XAttribute("FileScan", ms2.FileScan),
+          from fs in ms2.FileScans
+          select new XElement("FileScan", new XAttribute("F", fs.Experimental), new XAttribute("S", fs.FirstScan)),
           string.IsNullOrEmpty(ms2.Peptide) ? null : new XAttribute("Seq", ms2.Peptide),
           string.IsNullOrEmpty(ms2.Modification) ? null : new XAttribute("Mod", ms2.Modification),
           string.IsNullOrEmpty(ms2.Proteins) ? null : new XAttribute("Proteins", ms2.Proteins),

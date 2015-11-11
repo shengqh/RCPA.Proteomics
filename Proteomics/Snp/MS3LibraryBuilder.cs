@@ -33,7 +33,6 @@ namespace RCPA.Proteomics.Snp
         }
       }
 
-
       var ms2list = new List<MS2Item>();
       foreach (var exp in expPeptidesMap.Keys)
       {
@@ -59,7 +58,7 @@ namespace RCPA.Proteomics.Snp
               Precursor = peptide.GetPrecursorMz(),
               Charge = peptide.Query.Charge,
               Modification = peptide.Modifications,
-              FileScan = peptide.Query.FileScan.LongFileName,
+              FileScans = new SequestFilename[] { peptide.Query.FileScan }.ToList(),
               Score = peptide.Score,
               ExpectValue = peptide.ExpectValue,
               Proteins = peptide.GetProteins("/")
@@ -79,7 +78,7 @@ namespace RCPA.Proteomics.Snp
               }
               var precursor = reader.GetPrecursorPeak(ms3scan);
               pkl.PrecursorMZ = precursor.Mz;
-              ms2.MS3Spectra.Add(pkl);
+              ms2.MS3Spectra.Add(new MS3Item(pkl));
             }
 
             if (ms2.MS3Spectra.Count > 0)
@@ -106,7 +105,7 @@ namespace RCPA.Proteomics.Snp
         gitem.Precursor = g.Average(m => m.Precursor);
         gitem.Score = g.Max(m => m.Score);
         gitem.ExpectValue = g.Min(m => m.ExpectValue);
-        gitem.FileScan = (from gg in g select gg.FileScan).Merge(";");
+        gitem.FileScans = (from gg in g from fs in gg.FileScans select fs).ToList();
         foreach (var ms2 in g.Skip(1))
         {
           gitem.MS3Spectra.AddRange(ms2.MS3Spectra);

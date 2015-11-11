@@ -21,23 +21,23 @@ namespace RCPA.Proteomics.Snp
       this.maxPeakCount = maxPeakCount;
     }
 
-    public PeakList<Peak> Build(List<PeakList<Peak>> g)
+    public MS3Item Build(List<MS3Item> g)
     {
-      var result = new PeakList<Peak>();
+      var result = new MS3Item();
 
       result.PrecursorMZ = g.Sum(m => m.PrecursorMZ * m.Sum(p => p.Intensity)) / g.Sum(m => m.Sum(p => p.Intensity));
 
-      List<Peak> peaks = new List<Peak>();
+      List<MS3Peak> peaks = new List<MS3Peak>();
       for (int i = 0; i < g.Count; i++)
       {
         peaks.AddRange(from peak in g[i]
-                       select new Peak() { Mz = peak.Mz, Intensity = peak.Intensity, Tag = i, CombinedCount = peak.CombinedCount });
+                       select new MS3Peak() { Mz = peak.Mz, Intensity = peak.Intensity, Tag = i, CombinedCount = peak.CombinedCount });
       }
       peaks.Sort((m1, m2) => m1.Mz.CompareTo(m2.Mz));
 
       //group peak by m/z
-      var pgroups = new List<List<Peak>>();
-      var currentPkl = new List<Peak>();
+      var pgroups = new List<List<MS3Peak>>();
+      var currentPkl = new List<MS3Peak>();
       currentPkl.Add(peaks.First());
       for (int i = 1; i < peaks.Count; i++)
       {
@@ -55,7 +55,7 @@ namespace RCPA.Proteomics.Snp
         if (peaks[i] != currentPkl.Last())
         {
           pgroups.Add(currentPkl);
-          currentPkl = new List<Peak>();
+          currentPkl = new List<MS3Peak>();
           currentPkl.Add(peaks[i]);
         }
       }
@@ -76,7 +76,7 @@ namespace RCPA.Proteomics.Snp
                                  orderby tt.Intensity descending
                                  select tt).First()).ToArray();
 
-          var combinedpeak = new Peak()
+          var combinedpeak = new MS3Peak()
           {
             Mz = waiting.Sum(m => m.Mz * m.Intensity) / waiting.Sum(m => m.Intensity),
             Intensity = waiting.Sum(m => m.Intensity),

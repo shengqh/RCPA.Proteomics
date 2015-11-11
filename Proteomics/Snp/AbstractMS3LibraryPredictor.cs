@@ -27,24 +27,23 @@ namespace RCPA.Proteomics.Snp
       var expRawfileMap = options.RawFiles.ToDictionary(m => Path.GetFileNameWithoutExtension(m));
 
       Progress.SetMessage("Reading library file ...");
-      var lib = new MS2ItemXmlFormat().ReadFromFile(options.LibraryFile).GroupBy(m => m.Charge).ToDictionary(m => m.Key, m => m.ToList());
+      var liblist = new MS2ItemXmlFormat().ReadFromFile(options.LibraryFile);
+      PreprocessingMS2ItemList(liblist, true);
+
+      var lib = liblist.GroupBy(m => m.Charge).ToDictionary(m => m.Key, m => m.ToList());
 
       Progress.SetMessage("Building library sequence amino acid composition ...");
       lib.ForEach(m => m.Value.ForEach(l => l.AminoacidCompsition = (from a in l.Peptide
                                                                      where options.AllowedMassChangeMap.ContainsKey(a)
                                                                      select a).Distinct().OrderBy(k => k).ToArray()));
 
-      List<IIdentifiedSpectrum> libPeptides = new List<IIdentifiedSpectrum>();
-      if (File.Exists(options.LibraryPeptideFile))
-      {
-        Progress.SetMessage("Reading peptides file used for excluding scan ...");
-        libPeptides = new MascotPeptideTextFormat().ReadFromFile(options.LibraryPeptideFile);
-      }
-
-      var expPeptidesMap = libPeptides.GroupBy(m => m.Query.FileScan.Experimental).ToDictionary(m => m.Key, m => m.ToDictionary(l => l.Query.FileScan.FirstScan));
+      var expScanMap = (from p in liblist
+                        from sq in p.FileScans
+                        select sq).ToList().GroupBy(m => m.Experimental).ToDictionary(m => m.Key, m => new HashSet<int>(from l in m select l.FirstScan));
 
       Progress.SetMessage("Reading MS2/MS3 data ...");
-      var result = GetCandidateMs2ItemList(expRawfileMap, expPeptidesMap);
+      var result = GetCandidateMs2ItemList(expRawfileMap, expScanMap);
+      PreprocessingMS2ItemList(result, true);
 
       //new MS2ItemXmlFormat().WriteToFile(options.OutputFile + ".xml", result);
 
@@ -59,7 +58,7 @@ namespace RCPA.Proteomics.Snp
 
       FindCandidates(lib, result, predicted, minDeltaMass, maxDeltaMass);
 
-      var groups = predicted.ToGroupDictionary(m => m.Ms2.FileScan);
+      var groups = predicted.ToGroupDictionary(m => m.Ms2.GetFileScans());
       predicted.Clear();
       foreach (var g in groups.Values)
       {
@@ -161,29 +160,73 @@ namespace RCPA.Proteomics.Snp
       return new string[] { options.OutputFile, options.OutputTableFile };
     }
 
+    private void PreprocessingMS2ItemList(List<MS2Item> items, bool calcMinMaxMz)
+    {
+      items.ForEach(m =>
+      {
+        m.MS3Spectra.RemoveAll(k => k.PrecursorMZ < options.MinimumMS3PrecursorMz);
+
+        foreach (var s in m.MS3Spectra)
+        {
+          if (s.Count > options.MaximumFragmentPeakCount)
+          {
+            s.SortByIntensity();
+            s.RemoveRange(options.MaximumFragmentPeakCount, s.Count - options.MaximumFragmentPeakCount);
+            s.SortByMz();
+          }
+        }
+      });
+
+      items.RemoveAll(m => m.MS3Spectra.Count == 0);
+
+      if (calcMinMaxMz)
+      {
+        items.ForEach(m =>
+        {
+          var d2mass = PrecursorUtils.ppm2mz(m.Precursor, options.MS2PrecursorPPMTolerance);
+          m.MinPrecursorMz = m.Precursor - d2mass;
+          m.MaxPrecursorMz = m.Precursor + d2mass;
+
+          m.MS3Spectra.ForEach(l =>
+          {
+            var d3mass = PrecursorUtils.ppm2mz(l.PrecursorMZ, options.MS3PrecursorPPMTolerance);
+            l.MinPrecursorMz = l.PrecursorMZ - d3mass;
+            l.MaxPrecursorMz = l.PrecursorMZ + d3mass;
+
+            l.ForEach(p =>
+            {
+              var dmass = PrecursorUtils.ppm2mz(p.Mz, options.MS3FragmentIonPPMTolerance);
+              p.MinMatchMz = p.Mz - dmass;
+              p.MaxMatchMz = p.Mz + dmass;
+            });
+          });
+        });
+      }
+    }
+
     protected abstract void FindCandidates(Dictionary<int, List<MS2Item>> lib, List<MS2Item> result, List<SapPredicted> predicted, double minDeltaMass, double maxDeltaMass);
 
-    protected void CheckSAP(List<SapPredicted> predicted, MS2Item ms2, double minMz, double maxMz, MS2Item libms2, SapMatchedCount ms3match)
+    protected void CheckSAP(List<SapPredicted> predicted, MS2Item query, MS2Item libms2, SapMatchedCount ms3match)
     {
       foreach (var aa in libms2.AminoacidCompsition)
       {
         var lst = options.AllowedMassChangeMap[aa];
         foreach (var ts in lst)
         {
-          var targetMz = libms2.Precursor + ts.DeltaMass / libms2.Charge;
-          if (targetMz < minMz)
+          var targetMz = query.Precursor - ts.DeltaMass / query.Charge;
+          if (targetMz < libms2.MinPrecursorMz)
           {
             continue;
           }
 
-          if (targetMz >= maxMz)
+          if (targetMz >= libms2.MaxPrecursorMz)
           {
             break;
           }
 
           var curp = new SapPredicted()
           {
-            Ms2 = ms2,
+            Ms2 = query,
             LibMs2 = libms2,
             Matched = ms3match,
             Target = new TargetSAP()
@@ -200,17 +243,43 @@ namespace RCPA.Proteomics.Snp
       }
     }
 
-    protected static void OutputIntervalResult(StreamWriter sw, MS2Item ms2, MS2Item libms2, SapMatchedCount ms3match)
+    protected void CheckTerminalLoss(List<SapPredicted> predicted, MS2Item query, MS2Item libms2, SapMatchedCount ms3match)
+    {
+      foreach (var nl in libms2.TerminalLoss)
+      {
+        if (nl.Precursor >= query.MinPrecursorMz && nl.Precursor <= query.MaxPrecursorMz)
+        {
+          var curp = new SapPredicted()
+          {
+            Ms2 = query,
+            LibMs2 = libms2,
+            Matched = ms3match,
+            Target = new TargetSAP()
+            {
+              IsNterminalLoss = nl.IsNterminal,
+              Source = PeptideUtils.GetPureSequence(libms2.Peptide),
+              Target = nl.Sequence,
+              DeltaMass = (nl.Precursor - libms2.Precursor) * libms2.Charge
+            }
+          };
+
+          predicted.Add(curp);
+        }
+      }
+    }
+
+
+    protected static void OutputIntervalResult(StreamWriter sw, MS2Item query, MS2Item libms2, SapMatchedCount ms3match)
     {
       sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}",
-        ms2.FileScan,
-        ms2.Precursor,
-        ms2.Charge,
+        query.GetFileScans(),
+        query.Precursor,
+        query.Charge,
         libms2.Precursor,
         ms3match.PrecursorMatched.ConvertAll(m => m.ToString()).Merge(";"),
         ms3match.MS3Matched.ConvertAll(m => m.ToString()).Merge(";"),
-        (ms2.Precursor - libms2.Precursor) * ms2.Charge,
-        libms2.FileScan,
+        (query.Precursor - libms2.Precursor) * query.Charge,
+        libms2.GetFileScans(),
         libms2.Peptide,
         libms2.Score,
         libms2.ExpectValue,
@@ -234,61 +303,54 @@ namespace RCPA.Proteomics.Snp
       return res;
     }
 
-    protected SapMatchedCount GetMS3MatchedCount(MS2Item libms2, MS2Item ms2, double minPrecursorMz)
+    protected bool IsValid(SapMatchedCount smc)
+    {
+      if (smc.MS3Matched.Count < options.MinimumMatchedMS3SpectrumCount)
+      {
+        return false;
+      }
+
+      if (smc.MS3Matched.All(l => l < options.MinimumMatchedMS3IonCount))
+      {
+        return false;
+      }
+
+      return true;
+    }
+
+    protected SapMatchedCount GetMS3MatchedCount(MS2Item libms2, MS2Item query)
     {
       var precursorMatched = new List<double>();
       var ms3Matched = new List<int>();
-      foreach (var p1 in libms2.MS3Spectra)
+      foreach (var pLib in libms2.MS3Spectra)
       {
-        if (p1.PrecursorMZ < minPrecursorMz)
+        foreach (var pQuery in query.MS3Spectra)
         {
-          continue;
-        }
-
-        int minCount = (int)Math.Round(p1.Count * 0.1);
-
-        foreach (var p2 in ms2.MS3Spectra)
-        {
-          if (p2.PrecursorMZ < minPrecursorMz)
+          if (pQuery.PrecursorMZ >= pLib.MinPrecursorMz && pQuery.PrecursorMZ <= pLib.MaxPrecursorMz)
           {
-            continue;
-          }
-
-          if (PrecursorUtils.mz2ppm(p1.PrecursorMZ, Math.Abs(p1.PrecursorMZ - p2.PrecursorMZ)) < options.PrecursorPPMTolerance)
-          {
-            precursorMatched.Add(p1.PrecursorMZ);
+            precursorMatched.Add(pLib.PrecursorMZ);
 
             int ionMatched = 0;
-            Peak[] pp2;
-            if (p2.Count <= options.MaxFragmentPeakCount)
-            {
-              pp2 = p2.ToArray();
-            }
-            else
-            {
-              pp2 = p2.OrderByDescending(m => m.Intensity).Take(options.MaxFragmentPeakCount).OrderBy(m => m.Mz).ToArray();
-            }
 
-            foreach (var ion1 in p1)
+            var iLib = 0;
+            var iQuery = 0;
+            while (iLib < pLib.Count && iQuery < pQuery.Count)
             {
-              var mzTol = PrecursorUtils.ppm2mz(ion1.Mz, options.FragmentPPMTolerance);
-              var maxMz = ion1.Mz + mzTol;
-              var minMz = ion1.Mz - mzTol;
-              foreach (var ion2 in pp2)
+              if (pQuery[iQuery].Mz < pLib[iLib].MinMatchMz)
               {
-                if (ion2.Mz < minMz)
-                {
-                  continue;
-                }
-
-                if (ion2.Mz > maxMz)
-                {
-                  break;
-                }
-
-                ionMatched++;
-                break;
+                iQuery++;
+                continue;
               }
+
+              if (pQuery[iQuery].Mz > pLib[iLib].MaxMatchMz)
+              {
+                iLib++;
+                continue;
+              }
+
+              ionMatched++;
+              iLib++;
+              iQuery++;
             }
 
             ms3Matched.Add(ionMatched);
@@ -300,19 +362,19 @@ namespace RCPA.Proteomics.Snp
       return new SapMatchedCount()
       {
         Item1 = libms2,
-        Item2 = ms2,
+        Item2 = query,
         PrecursorMatched = precursorMatched,
         MS3Matched = ms3Matched
       };
     }
 
-    private List<MS2Item> GetCandidateMs2ItemList(Dictionary<string, string> expRawfileMap, Dictionary<string, Dictionary<int, IIdentifiedSpectrum>> expPeptidesMap)
+    private List<MS2Item> GetCandidateMs2ItemList(Dictionary<string, string> expRawfileMap, Dictionary<string, HashSet<int>> expScanMap)
     {
       var result = new List<MS2Item>();
       foreach (var exp in expRawfileMap.Keys)
       {
         var rawfile = expRawfileMap[exp];
-        var peptides = expPeptidesMap[exp];
+        var scans = expScanMap[exp];
         var experimental = Path.GetFileNameWithoutExtension(rawfile);
 
         using (var reader = RawFileFactory.GetRawFileReader(rawfile, false))
@@ -328,7 +390,7 @@ namespace RCPA.Proteomics.Snp
               continue;
             }
 
-            if (peptides.ContainsKey(scan))
+            if (scans.Contains(scan))
             {
               continue;
             }
@@ -338,13 +400,7 @@ namespace RCPA.Proteomics.Snp
             {
               Precursor = ms2precursor.Mz,
               Charge = ms2precursor.Charge,
-              FileScan = new SequestFilename()
-              {
-                Experimental = experimental,
-                FirstScan = scan,
-                LastScan = scan,
-                Charge = ms2precursor.Charge
-              }.LongFileName
+              FileScans = new SequestFilename[] { new SequestFilename(experimental, scan, scan, ms2precursor.Charge, string.Empty) }.ToList()
             };
 
             for (int ms3scan = scan + 1; ms3scan < lastScan; ms3scan++)
@@ -363,7 +419,7 @@ namespace RCPA.Proteomics.Snp
 
               var ms3precursor = reader.GetPrecursorPeak(ms3scan);
               pkl.PrecursorMZ = ms3precursor.Mz;
-              ms2.MS3Spectra.Add(pkl);
+              ms2.MS3Spectra.Add(new MS3Item(pkl));
             }
 
             if (ms2.MS3Spectra.Count > 0)

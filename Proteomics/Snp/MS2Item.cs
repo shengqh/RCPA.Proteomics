@@ -29,8 +29,8 @@ namespace RCPA.Proteomics.Snp
       Modification = string.Empty;
       ModifiedPeptide = string.Empty;
       CombinedCount = 1;
-      FileScan = string.Empty;
-      MS3Spectra = new List<PeakList<Peak>>();
+      FileScans = new List<SequestFilename>();
+      MS3Spectra = new List<MS3Item>();
       TerminalLoss = new List<TerminalLossItem>();
       Proteins = string.Empty;
     }
@@ -47,8 +47,18 @@ namespace RCPA.Proteomics.Snp
     public Dictionary<char, string> ModificationNameMap { get; set; }
 
     public string Proteins { get; set; }
-    public List<PeakList<Peak>> MS3Spectra { get; private set; }
+    public List<MS3Item> MS3Spectra { get; private set; }
     public List<TerminalLossItem> TerminalLoss { get; private set; }
+
+    /// <summary>
+    /// Minimim matched precursor mz when ppm tolerance fixed
+    /// </summary>
+    public double MinPrecursorMz { get; set; }
+
+    /// <summary>
+    /// Maximim matched precursor mz when ppm tolerance fixed
+    /// </summary>
+    public double MaxPrecursorMz { get; set; }
 
     public void InitTerminalLoss(Aminoacids aa, int maxTerminalLossLength, int minSequenceLength)
     {
@@ -99,7 +109,7 @@ namespace RCPA.Proteomics.Snp
 
     public void CombineMS3Spectra(IBestSpectrumBuilder builder, double precursorPPMTolerance)
     {
-      List<List<PeakList<Peak>>> groups = GroupMS3SpectraByPrecursor(precursorPPMTolerance);
+      List<List<MS3Item>> groups = GroupMS3SpectraByPrecursor(precursorPPMTolerance);
 
       this.MS3Spectra.Clear();
 
@@ -110,9 +120,9 @@ namespace RCPA.Proteomics.Snp
       }
     }
 
-    public List<List<PeakList<Peak>>> GroupMS3SpectraByPrecursor(double precursorPPMTolerance)
+    public List<List<MS3Item>> GroupMS3SpectraByPrecursor(double precursorPPMTolerance)
     {
-      List<List<PeakList<Peak>>> result = new List<List<PeakList<Peak>>>();
+      List<List<MS3Item>> result = new List<List<MS3Item>>();
 
       this.MS3Spectra.ForEach(m =>
       {
@@ -123,7 +133,7 @@ namespace RCPA.Proteomics.Snp
       this.MS3Spectra.Sort((m1, m2) => m1.PrecursorMZ.CompareTo(m2.PrecursorMZ));
 
       //group ms3spectra by precursor m/z
-      List<PeakList<Peak>> current = new List<PeakList<Peak>>();
+      List<MS3Item> current = new List<MS3Item>();
       current.Add(this.MS3Spectra.Last());
       for (int i = this.MS3Spectra.Count - 2; i >= 0; i--)
       {
@@ -141,7 +151,7 @@ namespace RCPA.Proteomics.Snp
         if (this.MS3Spectra[i] != current.Last())
         {
           result.Add(current);
-          current = new List<PeakList<Peak>>();
+          current = new List<MS3Item>();
           current.Add(this.MS3Spectra[i]);
         }
       }
@@ -155,11 +165,12 @@ namespace RCPA.Proteomics.Snp
 
     public char[] AminoacidCompsition { get; set; }
 
-    public string FileScan { get; set; }
+    public List<SequestFilename> FileScans { get; set; }
 
-    public int GetFirstScan()
+    public string GetFileScans()
     {
-      return new SequestFilename(this.FileScan).FirstScan;
+      return (from fs in FileScans
+              select fs.ShortFileName).Merge(";");
     }
   }
 }

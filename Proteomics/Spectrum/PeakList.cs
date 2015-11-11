@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
@@ -45,7 +45,7 @@ namespace RCPA.Proteomics.Spectrum
     public PeakList(PeakList<T> source)
       : this()
     {
-      AssignInforamtion(source);
+      AssignInforamtion<T>(source);
       AddRange(source);
       foreach (String key in source.annotations.Keys)
       {
@@ -132,7 +132,7 @@ namespace RCPA.Proteomics.Spectrum
     }
 
     /// <summary>
-    /// Ä¸Àë×Ó¼°ÆäisotopicÕ¼isolation width·¶Î§ÄÚËùÓĞÀë×ÓµÄ·á¶È±È¡£
+    /// æ¯ç¦»å­åŠå…¶isotopicå isolation widthèŒƒå›´å†…æ‰€æœ‰ç¦»å­çš„ä¸°åº¦æ¯”ã€‚
     /// </summary>
     public double PrecursorPercentage { get; set; }
 
@@ -168,7 +168,7 @@ namespace RCPA.Proteomics.Spectrum
       this.annotations.Clear();
     }
 
-    public void AssignInforamtion(PeakList<T> source)
+    public void AssignInforamtion<V>(PeakList<V> source) where V : IPeak
     {
       this.MsLevel = source.MsLevel;
       this.Precursor = new PrecursorPeak(source.Precursor);

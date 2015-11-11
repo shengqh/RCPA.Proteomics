@@ -18,14 +18,17 @@ namespace RCPA.Proteomics.Snp
 {
   public partial class MS3LibraryPredictorUI : AbstractProcessorUI
   {
-    private static readonly string title = "MS3 SAP/Terminal Loss Predictor";
-    private static readonly string version = "1.0.4";
+    private static readonly string title = "MS3 Peptide Variants Interpreter";
+    private static readonly string version = "1.0.5";
 
-    private RcpaDoubleField precursorPPM;
-    private RcpaDoubleField fragmentPPM;
-    private RcpaIntegerField maxFragmentPeakCount;
-    private RcpaDoubleField minMs3PrecursorMz;
-    private RcpaIntegerField minMatchedMs3IonCount;
+    private RcpaDoubleField ppmMS2Precursor;
+    private RcpaDoubleField ppmMS3Precursor;
+    private RcpaDoubleField ppmMS3FragmentIon;
+    private RcpaIntegerField maxFragmentIonCount;
+    private RcpaDoubleField minMS3PrecursorMz;
+    private RcpaDoubleField minAminoacidSubstitutionDeltaMass;
+    private RcpaIntegerField minMatchedMS3SpectrumCount;
+    private RcpaIntegerField minMatchedMS3FragmentIonCount;
 
     public MS3LibraryPredictorUI()
     {
@@ -36,22 +39,36 @@ namespace RCPA.Proteomics.Snp
       rawFiles.FileArgument = new OpenFileArgument("Raw", "raw");
       AddComponent(this.rawFiles);
 
-      this.precursorPPM = new RcpaDoubleField(txtPrecursorPPM, "PrecursorPPM", "Precursor PPM", 20, true);
-      AddComponent(this.precursorPPM);
+      var dop = new MS3LibraryPredictorOptions();
 
-      this.fragmentPPM = new RcpaDoubleField(txtFragmentPPM, "FragmentPPM", "Fragment Ion PPM", 50, true);
-      AddComponent(this.fragmentPPM);
+      this.ppmMS2Precursor = new RcpaDoubleField(txtMS2PrecursorPPM, "MS2PrecursorPPM", "MS2 Precursor PPM", dop.MS2PrecursorPPMTolerance, true);
+      AddComponent(this.ppmMS2Precursor);
 
-      this.maxFragmentPeakCount = new RcpaIntegerField(txtMaxFragmentPeakCount, "MaxFragmentPeakCount", "Maximum Fragment Peak Count", 10, true);
-      AddComponent(this.maxFragmentPeakCount);
+      this.ppmMS3Precursor = new RcpaDoubleField(txtMS3PrecursorPPM, "MS3PrecursorPPM", "MS3 Precursor PPM", dop.MS3PrecursorPPMTolerance, true);
+      AddComponent(this.ppmMS3Precursor);
 
-      this.minMs3PrecursorMz = new RcpaDoubleField(txtMinMs3PrecursorMz, "MinMs3PrecursorMz", "Minimum MS3 Precursor m/z", 200, true);
-      AddComponent(this.minMs3PrecursorMz);
+      this.ppmMS3FragmentIon = new RcpaDoubleField(txtMS3FragmentPPM, "MS3FragmentIonPPM", "MS3 Fragment Ion PPM", dop.MS3FragmentIonPPMTolerance, true);
+      AddComponent(this.ppmMS3FragmentIon);
 
-      this.minMatchedMs3IonCount = new RcpaIntegerField(txtMinimumMatchedMs3IonCount, "MinimumMatchedMs3IonCount", "Minimum Matched MS3 Ion Count", 2, true);
-      AddComponent(this.minMatchedMs3IonCount);
+      this.maxFragmentIonCount = new RcpaIntegerField(txtMaximumMS3FragmentIonCount, "MaxFragmentIonCount", "Maximum Fragment Ion Count", dop.MaximumFragmentPeakCount, true);
+      AddComponent(this.maxFragmentIonCount);
 
-      peptideFile.FileArgument = new OpenFileArgument("Peptide", "peptides");
+      this.minMS3PrecursorMz = new RcpaDoubleField(txtMinimumMS3PrecursorMz, "MinMS3PrecursorMz", "Minimum MS3 Precursor m/z", dop.MinimumMS3PrecursorMz, true);
+      AddComponent(this.minMS3PrecursorMz);
+
+      this.minMatchedMS3SpectrumCount = new RcpaIntegerField(txtMinimumMatchedMS3SpectrumCount, "MinMatchedMS3SpectrumCount", "Minimum Matched MS3 Spectrum Count", dop.MinimumMatchedMS3SpectrumCount, true);
+      AddComponent(this.minMatchedMS3SpectrumCount);
+
+      this.minMatchedMS3FragmentIonCount = new RcpaIntegerField(txtMinimumMatchedMS3FragmentIonCount, "MinimumMatchedMS3FragmentIonCount", "Minimum Matched MS3 Fragment Ion Count", dop.MinimumMatchedMS3IonCount, true);
+      AddComponent(this.minMatchedMS3FragmentIonCount);
+
+      this.minAminoacidSubstitutionDeltaMass = new RcpaDoubleField(txtMinimumSubstitutionDeltaMass, "MinimumSubstitutionDeltaMass", "Minimum Aminoacid Substitution Delta Mass", dop.MinimumAminoacidSubstitutionDeltaMass, true);
+      AddComponent(this.minAminoacidSubstitutionDeltaMass);
+
+      this.allowTerminalLoss.Checked = dop.AllowTerminalLoss;
+      this.allowTerminalExtension.Checked = dop.AllowTerminalExtension;
+      this.ignoreDeamidatedMutation.Checked = dop.IgnoreDeamidatedMutation;
+      this.isSingleNucleotideMutationOnly.Checked = dop.IsSingleNucleotideMutationOnly;
 
       libraryFile.FileArgument = new OpenFileArgument("Library", "xml");
 
@@ -64,20 +81,22 @@ namespace RCPA.Proteomics.Snp
     {
       var options = new MS3LibraryPredictorOptions()
       {
-        PrecursorPPMTolerance = this.precursorPPM.Value,
-        FragmentPPMTolerance = this.fragmentPPM.Value,
-        MaxFragmentPeakCount = this.maxFragmentPeakCount.Value,
-        MinimumMs3PrecursorMz = this.minMs3PrecursorMz.Value,
-        MinimumMatchedMs3IonCount = this.minMatchedMs3IonCount.Value,
+        RawFiles = this.rawFiles.FileNames,
+        MinimumMS3PrecursorMz = this.minMS3PrecursorMz.Value,
+        MS2PrecursorPPMTolerance = this.ppmMS2Precursor.Value,
+        MS3PrecursorPPMTolerance = this.ppmMS3Precursor.Value,
+        MS3FragmentIonPPMTolerance = this.ppmMS3FragmentIon.Value,
+        MaximumFragmentPeakCount = this.maxFragmentIonCount.Value,
+        MinimumMatchedMS3SpectrumCount = this.minMatchedMS3SpectrumCount.Value,
+        MinimumMatchedMS3IonCount = this.minMatchedMS3FragmentIonCount.Value,
+        MinimumAminoacidSubstitutionDeltaMass = minAminoacidSubstitutionDeltaMass.Value,
         IgnoreDeamidatedMutation = ignoreDeamidatedMutation.Checked,
-        IgnoreMultipleNucleotideMutation = ignoreMultipleNucleotideMutation.Checked,
-        LibraryPeptideFile = this.peptideFile.FullName,
+        IsSingleNucleotideMutationOnly = isSingleNucleotideMutationOnly.Checked,
+        AllowTerminalLoss = allowTerminalLoss.Checked,
+        AllowTerminalExtension = allowTerminalExtension.Checked,
         LibraryFile = this.libraryFile.FullName,
         DatabaseFastaFile = this.fastaFile.FullName,
-        RawFiles = this.rawFiles.FileNames,
-        OutputFile = this.outputFile.FullName,
-        AllowTerminalLoss = cbAllowTerminalLoss.Checked,
-        MatchMS3First = cbMatchMS3First.Checked
+        OutputFile = this.outputFile.FullName
       };
 
       return options.GetPredictor();
