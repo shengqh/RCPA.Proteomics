@@ -179,6 +179,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Comet\CometXmlRank2Parser.cs" />
+    <Compile Include="Proteomics\Database\ReversedDatabaseIndexBuilder.cs" />
+    <Compile Include="Proteomics\Database\ReversedDatabaseBuilder.cs" />
+    <Compile Include="Proteomics\Database\ReversedDatabaseBuilderCommand.cs" />
+    <Compile Include="Proteomics\Database\ReversedDatabaseBuilderOptions.cs" />
     <Compile Include="Proteomics\DatasetOption.cs" />
     <Compile Include="Proteomics\Format\AbstractRawConverterOptions.cs" />
     <Compile Include="Proteomics\Format\Mgf2MzXmlProcessor.cs" />
@@ -294,6 +298,7 @@
     <Compile Include="Proteomics\PFind\PNovoPlusParser.cs" />
     <Compile Include="Proteomics\Processor\PeakListRemovePrecursorDaltonProcessor.cs" />
     <Compile Include="Proteomics\Processor\PeakListRemovePrecursorProcessorOptions.cs" />
+    <Compile Include="Proteomics\PropertyConverter\IdentifiedProteinDecoyConverter.cs" />
     <Compile Include="Proteomics\PropertyConverter\IdentifiedSpectrumRetentionTimeConverter.cs" />
     <Compile Include="Proteomics\PropertyConverter\IdentifiedSpectrumSiteProbabilityConverter.cs" />
     <Compile Include="Proteomics\ProteomeDiscoverer\MsfFastaDistillerUI.cs">
@@ -349,6 +354,7 @@
     <Compile Include="Proteomics\Snp\IBestSpectrumBuilder.cs" />
     <Compile Include="Proteomics\Snp\MS2Item.cs" />
     <Compile Include="Proteomics\Snp\MS2ItemXmlFormat.cs" />
+    <Compile Include="Proteomics\Snp\MS3Item.cs" />
     <Compile Include="Proteomics\Snp\MS3LibraryBuilder.cs" />
     <Compile Include="Proteomics\Snp\AbstractMS3LibraryPredictor.cs" />
     <Compile Include="Proteomics\Snp\MS3LibraryMS3FirstPredictor.cs" />
@@ -360,7 +366,6 @@
     </Compile>
     <Compile Include="Proteomics\Snp\MS3LibraryPredictorOptions.cs" />
     <Compile Include="Proteomics\Snp\MS3LibraryBuilderOptions.cs" />
-    <Compile Include="Proteomics\Snp\MS3LibraryMS2FirstPredictor.cs" />
     <Compile Include="Proteomics\Snp\MS3XcorrItem.cs" />
     <Compile Include="Proteomics\Snp\MS3MatchItem.cs" />
     <Compile Include="Proteomics\Snp\PNovoSAPValidatorOptions.cs" />
@@ -1659,7 +1664,7 @@
       <DependentUpon>FastaDatabaseDistillerUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\Database\ReversedDatabaseBuilderUI.resx">
+    <EmbeddedResource Include="Proteomics\Database\ReversedDatabaseBuilderUI.resx">
       <DependentUpon>ReversedDatabaseBuilderUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -2433,10 +2438,10 @@
     <Compile Include="Tools\Database\FastaDatabaseDistillerUI.Designer.cs">
       <DependentUpon>FastaDatabaseDistillerUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Database\ReversedDatabaseBuilderUI.cs">
+    <Compile Include="Proteomics\Database\ReversedDatabaseBuilderUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tools\Database\ReversedDatabaseBuilderUI.Designer.cs">
+    <Compile Include="Proteomics\Database\ReversedDatabaseBuilderUI.Designer.cs">
       <DependentUpon>ReversedDatabaseBuilderUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Database\FastaDatabaseDistiller.cs" />

@@ -1,4 +1,4 @@
-﻿namespace RCPA.Tools.Database
+﻿namespace RCPA.Proteomics.Database
 {
   partial class ReversedDatabaseBuilderUI
   {
@@ -37,60 +37,55 @@
       this.label1 = new System.Windows.Forms.Label();
       this.cbPrior = new System.Windows.Forms.ComboBox();
       this.label2 = new System.Windows.Forms.Label();
-      this.pnlFile.SuspendLayout();
+      this.sourceDatabase = new RCPA.Gui.FileField();
+      this.decoyKey = new RCPA.Gui.TextField();
+      this.label3 = new System.Windows.Forms.Label();
+      this.cbDecoyType = new System.Windows.Forms.ComboBox();
+      this.pnlButton.SuspendLayout();
       this.SuspendLayout();
-      // 
-      // pnlFile
-      // 
-      this.pnlFile.Location = new System.Drawing.Point(31, 12);
-      this.pnlFile.Size = new System.Drawing.Size(806, 22);
-      // 
-      // txtOriginalFile
-      // 
-      this.txtOriginalFile.Location = new System.Drawing.Point(235, 0);
-      this.txtOriginalFile.Size = new System.Drawing.Size(571, 21);
-      // 
-      // btnOriginalFile
-      // 
-      this.btnOriginalFile.Size = new System.Drawing.Size(235, 22);
       // 
       // lblProgress
       // 
-      this.lblProgress.Location = new System.Drawing.Point(0, 176);
-      this.lblProgress.Size = new System.Drawing.Size(872, 21);
+      this.lblProgress.Location = new System.Drawing.Point(0, 191);
+      this.lblProgress.Size = new System.Drawing.Size(1237, 23);
       // 
       // progressBar
       // 
-      this.progressBar.Location = new System.Drawing.Point(0, 197);
-      this.progressBar.Size = new System.Drawing.Size(872, 21);
+      this.progressBar.Location = new System.Drawing.Point(0, 214);
+      this.progressBar.Size = new System.Drawing.Size(1237, 23);
+      // 
+      // pnlButton
+      // 
+      this.pnlButton.Location = new System.Drawing.Point(0, 237);
+      this.pnlButton.Size = new System.Drawing.Size(1237, 39);
       // 
       // btnClose
       // 
-      this.btnClose.Location = new System.Drawing.Point(484, 7);
+      this.btnClose.Location = new System.Drawing.Point(666, 8);
       // 
       // btnCancel
       // 
-      this.btnCancel.Location = new System.Drawing.Point(399, 7);
+      this.btnCancel.Location = new System.Drawing.Point(581, 8);
       // 
       // btnGo
       // 
-      this.btnGo.Location = new System.Drawing.Point(314, 7);
+      this.btnGo.Location = new System.Drawing.Point(496, 8);
       // 
       // cbReversedDatabaseOnly
       // 
       this.cbReversedDatabaseOnly.AutoSize = true;
-      this.cbReversedDatabaseOnly.Location = new System.Drawing.Point(110, 109);
+      this.cbReversedDatabaseOnly.Location = new System.Drawing.Point(30, 123);
       this.cbReversedDatabaseOnly.Name = "cbReversedDatabaseOnly";
-      this.cbReversedDatabaseOnly.Size = new System.Drawing.Size(156, 16);
+      this.cbReversedDatabaseOnly.Size = new System.Drawing.Size(141, 17);
       this.cbReversedDatabaseOnly.TabIndex = 7;
       this.cbReversedDatabaseOnly.Text = "Reversed database only";
       this.cbReversedDatabaseOnly.UseVisualStyleBackColor = true;
       // 
       // btnContaminantFile
       // 
-      this.btnContaminantFile.Location = new System.Drawing.Point(229, 48);
+      this.btnContaminantFile.Location = new System.Drawing.Point(199, 55);
       this.btnContaminantFile.Name = "btnContaminantFile";
-      this.btnContaminantFile.Size = new System.Drawing.Size(37, 23);
+      this.btnContaminantFile.Size = new System.Drawing.Size(49, 25);
       this.btnContaminantFile.TabIndex = 8;
       this.btnContaminantFile.Text = "...";
       this.btnContaminantFile.UseVisualStyleBackColor = true;
@@ -99,17 +94,17 @@
       // 
       this.txtContaminantFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.txtContaminantFile.Location = new System.Drawing.Point(287, 50);
+      this.txtContaminantFile.Location = new System.Drawing.Point(259, 57);
       this.txtContaminantFile.Name = "txtContaminantFile";
-      this.txtContaminantFile.Size = new System.Drawing.Size(550, 21);
+      this.txtContaminantFile.Size = new System.Drawing.Size(942, 20);
       this.txtContaminantFile.TabIndex = 9;
       // 
       // cbContaminantFile
       // 
       this.cbContaminantFile.AutoSize = true;
-      this.cbContaminantFile.Location = new System.Drawing.Point(31, 52);
+      this.cbContaminantFile.Location = new System.Drawing.Point(30, 60);
       this.cbContaminantFile.Name = "cbContaminantFile";
-      this.cbContaminantFile.Size = new System.Drawing.Size(192, 16);
+      this.cbContaminantFile.Size = new System.Drawing.Size(163, 17);
       this.cbContaminantFile.TabIndex = 10;
       this.cbContaminantFile.Text = "Include contaminant Proteins";
       this.cbContaminantFile.UseVisualStyleBackColor = true;
@@ -117,29 +112,27 @@
       // cbSwitch
       // 
       this.cbSwitch.AutoSize = true;
-      this.cbSwitch.Location = new System.Drawing.Point(104, 79);
+      this.cbSwitch.Location = new System.Drawing.Point(30, 91);
       this.cbSwitch.Name = "cbSwitch";
-      this.cbSwitch.Size = new System.Drawing.Size(162, 16);
+      this.cbSwitch.Size = new System.Drawing.Size(135, 17);
       this.cbSwitch.TabIndex = 11;
       this.cbSwitch.Text = "Switch protease termini";
       this.cbSwitch.UseVisualStyleBackColor = true;
       // 
       // txtTermini
       // 
-      this.txtTermini.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.txtTermini.Location = new System.Drawing.Point(287, 77);
+      this.txtTermini.Location = new System.Drawing.Point(186, 89);
       this.txtTermini.Name = "txtTermini";
-      this.txtTermini.Size = new System.Drawing.Size(140, 21);
+      this.txtTermini.Size = new System.Drawing.Size(62, 20);
       this.txtTermini.TabIndex = 12;
       this.txtTermini.Text = "KR";
       // 
       // label1
       // 
       this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(433, 80);
+      this.label1.Location = new System.Drawing.Point(256, 92);
       this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(29, 12);
+      this.label1.Size = new System.Drawing.Size(26, 13);
       this.label1.TabIndex = 13;
       this.label1.Text = "with";
       // 
@@ -150,25 +143,80 @@
       this.cbPrior.Items.AddRange(new object[] {
             "previous",
             "next"});
-      this.cbPrior.Location = new System.Drawing.Point(468, 77);
+      this.cbPrior.Location = new System.Drawing.Point(288, 88);
       this.cbPrior.Name = "cbPrior";
-      this.cbPrior.Size = new System.Drawing.Size(121, 20);
+      this.cbPrior.Size = new System.Drawing.Size(121, 21);
       this.cbPrior.TabIndex = 14;
       // 
       // label2
       // 
       this.label2.AutoSize = true;
-      this.label2.Location = new System.Drawing.Point(595, 80);
+      this.label2.Location = new System.Drawing.Point(415, 92);
       this.label2.Name = "label2";
-      this.label2.Size = new System.Drawing.Size(65, 12);
+      this.label2.Size = new System.Drawing.Size(58, 13);
       this.label2.TabIndex = 15;
       this.label2.Text = "amino acid";
       // 
+      // sourceDatabase
+      // 
+      this.sourceDatabase.AfterBrowseFileEvent = null;
+      this.sourceDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.sourceDatabase.FullName = "";
+      this.sourceDatabase.Key = "SourceDatabase";
+      this.sourceDatabase.Location = new System.Drawing.Point(30, 26);
+      this.sourceDatabase.Name = "sourceDatabase";
+      this.sourceDatabase.OpenButtonText = "Browse All File ...";
+      this.sourceDatabase.PreCondition = null;
+      this.sourceDatabase.Size = new System.Drawing.Size(1171, 23);
+      this.sourceDatabase.TabIndex = 16;
+      this.sourceDatabase.WidthOpenButton = 226;
+      // 
+      // decoyKey
+      // 
+      this.decoyKey.Caption = "Add decoy key";
+      this.decoyKey.CaptionWidth = 90;
+      this.decoyKey.DefaultValue = "REVERSED";
+      this.decoyKey.Description = "";
+      this.decoyKey.Key = "TextField";
+      this.decoyKey.Location = new System.Drawing.Point(16, 148);
+      this.decoyKey.Name = "decoyKey";
+      this.decoyKey.PreCondition = null;
+      this.decoyKey.Required = false;
+      this.decoyKey.Size = new System.Drawing.Size(236, 23);
+      this.decoyKey.TabIndex = 17;
+      this.decoyKey.TextWidth = 127;
+      // 
+      // label3
+      // 
+      this.label3.AutoSize = true;
+      this.label3.Location = new System.Drawing.Point(247, 152);
+      this.label3.Name = "label3";
+      this.label3.Size = new System.Drawing.Size(16, 13);
+      this.label3.TabIndex = 18;
+      this.label3.Text = "to";
+      // 
+      // cbDecoyType
+      // 
+      this.cbDecoyType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.cbDecoyType.FormattingEnabled = true;
+      this.cbDecoyType.Items.AddRange(new object[] {
+            "previous",
+            "next"});
+      this.cbDecoyType.Location = new System.Drawing.Point(269, 148);
+      this.cbDecoyType.Name = "cbDecoyType";
+      this.cbDecoyType.Size = new System.Drawing.Size(445, 21);
+      this.cbDecoyType.TabIndex = 14;
+      // 
       // ReversedDatabaseBuilderUI
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-      this.ClientSize = new System.Drawing.Size(872, 254);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+      this.ClientSize = new System.Drawing.Size(1237, 276);
+      this.Controls.Add(this.label3);
+      this.Controls.Add(this.decoyKey);
+      this.Controls.Add(this.sourceDatabase);
       this.Controls.Add(this.label2);
+      this.Controls.Add(this.cbDecoyType);
       this.Controls.Add(this.cbPrior);
       this.Controls.Add(this.label1);
       this.Controls.Add(this.txtTermini);
@@ -178,7 +226,7 @@
       this.Controls.Add(this.btnContaminantFile);
       this.Controls.Add(this.cbReversedDatabaseOnly);
       this.Name = "ReversedDatabaseBuilderUI";
-      this.Controls.SetChildIndex(this.pnlFile, 0);
+      this.Controls.SetChildIndex(this.pnlButton, 0);
       this.Controls.SetChildIndex(this.cbReversedDatabaseOnly, 0);
       this.Controls.SetChildIndex(this.btnContaminantFile, 0);
       this.Controls.SetChildIndex(this.cbContaminantFile, 0);
@@ -189,9 +237,12 @@
       this.Controls.SetChildIndex(this.txtTermini, 0);
       this.Controls.SetChildIndex(this.label1, 0);
       this.Controls.SetChildIndex(this.cbPrior, 0);
+      this.Controls.SetChildIndex(this.cbDecoyType, 0);
       this.Controls.SetChildIndex(this.label2, 0);
-      this.pnlFile.ResumeLayout(false);
-      this.pnlFile.PerformLayout();
+      this.Controls.SetChildIndex(this.sourceDatabase, 0);
+      this.Controls.SetChildIndex(this.decoyKey, 0);
+      this.Controls.SetChildIndex(this.label3, 0);
+      this.pnlButton.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -208,5 +259,9 @@
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.ComboBox cbPrior;
     private System.Windows.Forms.Label label2;
+    private Gui.FileField sourceDatabase;
+    private Gui.TextField decoyKey;
+    private System.Windows.Forms.Label label3;
+    private System.Windows.Forms.ComboBox cbDecoyType;
   }
 }
