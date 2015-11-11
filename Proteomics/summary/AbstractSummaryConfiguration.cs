@@ -54,6 +54,8 @@ namespace RCPA.Proteomics.Summary
       this.ClassifyByNumProteaseTermini = true;
       this.ClassifyByModification = false;
       this.ModifiedAminoacids = "";
+      this.ClassifyByProteinTag = false;
+      this.ProteinTag = "";
 
       this.FilterByPrecursor = false;
       this.FilterByPrecursorSecondIsotopic = true;
@@ -100,6 +102,10 @@ namespace RCPA.Proteomics.Summary
     public bool ClassifyByModification { get; set; }
 
     public string ModifiedAminoacids { get; set; }
+
+    public bool ClassifyByProteinTag { get; set; }
+    
+    public string ProteinTag { get; set; }
 
     public ITargetDecoyConflictType TargetDecoyConflictType { get; set; }
 
@@ -188,6 +194,10 @@ namespace RCPA.Proteomics.Summary
         this.ClassifyByModification = bool.Parse(xmlHelper.GetChildValue(fdrXml, "ClassifyByModification"));
         this.ClassifyByNumProteaseTermini = bool.Parse(xmlHelper.GetChildValue(fdrXml, "ClassifyByNumProteaseTermini", true.ToString()));
         this.ModifiedAminoacids = xmlHelper.GetChildValue(fdrXml, "ModifiedAminoacid");
+
+        this.ClassifyByProteinTag = bool.Parse(xmlHelper.GetChildValue(fdrXml, "ClassifyByProteinTag", false.ToString()));
+        this.ProteinTag = xmlHelper.GetChildValue(fdrXml, "ProteinTag", string.Empty);
+        
         this.TargetDecoyConflictType = ResolveTargetDecoyConflictTypeFactory.Find(xmlHelper.GetChildValue(fdrXml, "TargetDecoyConflictType", ResolveTargetDecoyConflictTypeFactory.Decoy.Name));
       }
 
@@ -237,6 +247,8 @@ namespace RCPA.Proteomics.Summary
       result.Classification.ClassifyByModification = this.ClassifyByModification;
       result.Classification.ClassifyByNumProteaseTermini = this.ClassifyByNumProteaseTermini;
       result.Classification.ModifiedAminoacids = this.ModifiedAminoacids;
+      result.Classification.ClassifyByProteinTag = this.ClassifyByProteinTag;
+      result.Classification.ProteinTag = this.ProteinTag;
 
       result.FalseDiscoveryRate.FilterByFdr = this.FilterByFdr;
       result.FalseDiscoveryRate.FdrLevel = this.FdrLevel;
@@ -274,7 +286,7 @@ namespace RCPA.Proteomics.Summary
     public virtual void ConvertFrom(BuildSummaryOptions result)
     {
       this.ApplicationTitle = result.ApplicationTitle;
-      this.MergeResult= result.MergeResult;
+      this.MergeResult = result.MergeResult;
       this.MergeResultFromSameEngineButDifferentSearchParameters = result.KeepTopPeptideFromSameEngineButDifferentSearchParameters;
 
       this.ClassifyByCharge = result.Classification.ClassifyByCharge;
@@ -282,7 +294,8 @@ namespace RCPA.Proteomics.Summary
       this.ClassifyByModification = result.Classification.ClassifyByModification;
       this.ClassifyByNumProteaseTermini = result.Classification.ClassifyByNumProteaseTermini;
       this.ModifiedAminoacids = result.Classification.ModifiedAminoacids;
-      this.TargetDecoyConflictType = result.FalseDiscoveryRate.TargetDecoyConflictType;
+      this.ClassifyByProteinTag = result.Classification.ClassifyByProteinTag;
+      this.ProteinTag = result.Classification.ProteinTag;
 
       this.FilterByFdr = result.FalseDiscoveryRate.FilterByFdr;
       this.FdrLevel = result.FalseDiscoveryRate.FdrLevel;
@@ -290,6 +303,7 @@ namespace RCPA.Proteomics.Summary
       this.FdrValue = result.FalseDiscoveryRate.FdrValue;
       this.FdrPeptideCount = result.FalseDiscoveryRate.FdrPeptideCount;
       this.MaxPeptideFdr = result.FalseDiscoveryRate.MaxPeptideFdr;
+      this.TargetDecoyConflictType = result.FalseDiscoveryRate.TargetDecoyConflictType;
 
       this.Database = new DatabaseOptions(result.Database);
 

@@ -15,7 +15,7 @@ namespace RCPA.Proteomics.Summary
 
     #region IIdentifiedSpectrumBuilder Members
 
-    public abstract List<IIdentifiedSpectrum> Build(string parameterFile);
+    public abstract IdentifiedSpectrumBuilderResult Build(string parameterFile);
 
     #endregion
   }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using RCPA.Gui;
 using RCPA.Utils;
+using System;
 
 namespace RCPA.Proteomics.Summary
 {
@@ -17,7 +18,7 @@ namespace RCPA.Proteomics.Summary
 
     #region IIdentifiedSpectrumBuilder Members
 
-    public abstract List<IIdentifiedSpectrum> Build(string parameterFile);
+    public abstract IdentifiedSpectrumBuilderResult Build(string parameterFile);
 
     #endregion
   }

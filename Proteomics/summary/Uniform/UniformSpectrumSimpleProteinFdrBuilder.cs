@@ -22,7 +22,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     #region IIdentifiedSpectrumBuilder Members
 
-    public List<IIdentifiedSpectrum> Build(string parameterFile)
+    public IdentifiedSpectrumBuilderResult Build(string parameterFile)
     {
       Options = new BuildSummaryOptions(parameterFile);
       Options.DatasetList.RemoveDisabled();
@@ -54,7 +54,7 @@ namespace RCPA.Proteomics.Summary.Uniform
         var groupFilter = Options.FalseDiscoveryRate.FilterOneHitWonder ? new IdentifiedProteinGroupSingleWonderPeptideCountFilter(Options.FalseDiscoveryRate.MinOneHitWonderPeptideCount) : null;
         var ret = proteinCalc.GetOptimalResultForGroupFilter(BuildResult, Options.FalseDiscoveryRate.MaxPeptideFdr, Options.FalseDiscoveryRate.FdrValue, groupFilter);
 
-        //只保留没有被通过筛选的蛋白质包含的PSMs。
+        //只保留通过筛选的蛋白质包含的PSMs。
         BuildResult.KeepOptimalResultInSetOnly(ret.AcceptedSpectra);
 
         GC.Collect();
@@ -70,7 +70,12 @@ namespace RCPA.Proteomics.Summary.Uniform
         //sw.WriteLine();
         //new OptimalFileTextWriter().WriteToStream(sw, BuildResult);
 
-        return ret.AcceptedSpectra.ToList();
+        return new IdentifiedSpectrumBuilderResult()
+        {
+          Spectra = ret.AcceptedSpectra.ToList(),
+          PeptideFDR = ret.PeptideFdr,
+          ProteinFDR = ret.ProteinFdr
+        };
       }
     }
 

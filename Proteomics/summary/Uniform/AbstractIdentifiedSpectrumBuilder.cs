@@ -12,7 +12,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     public BuildSummaryOptions Options { get; private set; }
 
-    public List<IIdentifiedSpectrum> Build(string parameterFile)
+    public IdentifiedSpectrumBuilderResult Build(string parameterFile)
     {
       Options = new BuildSummaryOptions(parameterFile);
       Options.DatasetList.RemoveDisabled();
@@ -20,7 +20,7 @@ namespace RCPA.Proteomics.Summary.Uniform
       return DoBuild(parameterFile);
     }
 
-    protected abstract List<IIdentifiedSpectrum> DoBuild(string parameterFile);
+    protected abstract IdentifiedSpectrumBuilderResult DoBuild(string parameterFile);
 
     #endregion
   }

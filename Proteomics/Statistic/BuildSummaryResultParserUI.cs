@@ -13,8 +13,8 @@ namespace RCPA.Proteomics.Statistic
 {
   public partial class BuildSummaryResultParserUI : AbstractProcessorUI
   {
-    private static string title = "BuildSummary Result Parser";
-    private static string version = "1.0.2";
+    public static string Title { get { return "BuildSummary Result Parser"; } }
+    public static string Version { get { return "1.0.2"; } }
 
     private RcpaTextField decoyPattern;
 
@@ -40,7 +40,7 @@ namespace RCPA.Proteomics.Statistic
                                                                 }, 0);
       AddComponent(this.fdrType);
 
-      Text = Constants.GetSQHTitle(title, version);
+      Text = Constants.GetSQHTitle(Title, Version);
     }
 
     protected override IProcessor GetProcessor()
@@ -49,38 +49,10 @@ namespace RCPA.Proteomics.Statistic
       {
         InputDirectory = inputDirectory.FullName,
         DecoyPattern = decoyPattern.Text,
-        Calculator = fdrType.SelectedItem
+        TargetFDR = fdrType.SelectedIndex == 0
       };
 
       return new BuildSummaryResultParser(options);
     }
-
-    public class Command : IToolCommand
-    {
-      #region IToolCommand Members
-
-      public string GetClassification()
-      {
-        return MenuCommandType.Summary;
-      }
-
-      public string GetCaption()
-      {
-        return title;
-      }
-
-      public string GetVersion()
-      {
-        return version;
-      }
-
-      public void Run()
-      {
-        new BuildSummaryResultParserUI().MyShow();
-      }
-
-      #endregion
-    }
-
   }
 }

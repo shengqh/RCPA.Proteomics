@@ -178,7 +178,10 @@ namespace RCPA.Proteomics.Summary
 
           Progress.Increment(mpg[0].Peptides.Count);
         }
+      }
 
+      using (StreamWriter sw = new StreamWriter(fileName + ".summary"))
+      {
         WriteSummary(sw, identifiedResult);
       }
 

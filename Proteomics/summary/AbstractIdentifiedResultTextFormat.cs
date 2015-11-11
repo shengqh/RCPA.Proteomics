@@ -162,9 +162,6 @@ namespace RCPA.Proteomics.Summary
 
     public void WriteSummary(StreamWriter sw, IIdentifiedResult mr)
     {
-      sw.WriteLine();
-      sw.WriteLine("----- summary -----");
-
       var groups = GetValidGroups(mr);
 
       int totalProteinCount = (from g in groups
@@ -172,12 +169,21 @@ namespace RCPA.Proteomics.Summary
 
       int totalGroupCount = groups.Count();
 
-      sw.WriteLine("Total protein\t: " + totalProteinCount);
-
-      sw.WriteLine("Total protein group\t: " + totalGroupCount);
+      sw.WriteLine("Category\tValue");
+      sw.WriteLine("Total protein\t{0}", totalProteinCount);
+      sw.WriteLine("Total protein group\t{0}", totalGroupCount);
+      if (mr.PeptideFDR != -1)
+      {
+        sw.WriteLine("Peptide FDR\t{0}", mr.PeptideFDR);
+      }
+      if (mr.ProteinFDR != -1)
+      {
+        sw.WriteLine("Protein FDR\t{0}", mr.ProteinFDR);
+      }
 
       if (totalGroupCount > 0)
       {
+        sw.WriteLine();
         sw.WriteLine("UniPepCount\tProteinGroupCount\tPercent\tProteinCount\tPercent");
 
         var bin = new Dictionary<int, Pair<int, int>>();

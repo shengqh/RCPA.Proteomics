@@ -77,6 +77,8 @@ namespace RCPA.Proteomics.Summary
         Progress = this.Progress
       };
 
+      IdentifiedSpectrumBuilderResult isbr;
+
       List<IIdentifiedSpectrum> finalPeptides;
 
       if (string.IsNullOrEmpty(options.PeptideFile))
@@ -88,13 +90,15 @@ namespace RCPA.Proteomics.Summary
           (spectrumBuilder as IProgress).Progress = this.Progress;
         }
 
-        finalPeptides = spectrumBuilder.Build(parameterFile);
+        isbr = spectrumBuilder.Build(parameterFile);
+        finalPeptides = isbr.Spectra;
       }
       else
       {
         Progress.SetMessage("Reading peptides from {0} ...", options.PeptideFile);
         finalPeptides = new MascotPeptideTextFormat().ReadFromFile(options.PeptideFile);
         conf.SavePeptidesFile = false;
+        isbr = null;
       }
 
       CalculateIsoelectricPoint(finalPeptides);
@@ -147,7 +151,8 @@ namespace RCPA.Proteomics.Summary
         }
       }
 
-      if (conf.SavePeptidesFile && !(conf.FalseDiscoveryRate.FilterOneHitWonder && conf.FalseDiscoveryRate.MinOneHitWonderPeptideCount > 1))
+      //if (conf.SavePeptidesFile && !(conf.FalseDiscoveryRate.FilterOneHitWonder && conf.FalseDiscoveryRate.MinOneHitWonderPeptideCount > 1))
+      if (conf.SavePeptidesFile)
       {
         if (conf.Database.RemovePeptideFromDecoyDB)
         {
@@ -186,28 +191,45 @@ namespace RCPA.Proteomics.Summary
       Progress.SetMessage("Building protein group...");
       //构建蛋白质群列表
       List<IIdentifiedProteinGroup> finalGroups = groupBuilder.Build(finalProteins);
+      if (conf.Database.HasContaminationDescriptionFilter())
+      {
+        var notConGroupFilter = conf.Database.GetNotContaminationDescriptionFilter(Progress);
+
+        for (int i = finalGroups.Count - 1; i >= 0; i--)
+        {
+          if (!notConGroupFilter.Accept(finalGroups[i]))
+          {
+            finalGroups.RemoveAt(i);
+          }
+        }
+      }
 
       //构建最终鉴定结果
       var resultBuilder = conf.GetIdentifiedResultBuilder();
       resultBuilder.Progress = Progress;
       IIdentifiedResult finalResult = resultBuilder.Build(finalGroups);
+      finalResult.BuildGroupIndex();
 
-      if (conf.Database.HasContaminationDescriptionFilter())
+      if (conf.FalseDiscoveryRate.FilterByFdr)
       {
-        var notConGroupFilter = conf.Database.GetNotContaminationDescriptionFilter(Progress);
-
-        for (int i = finalResult.Count - 1; i >= 0; i--)
+        var decoyGroupFilter = conf.GetDecoyGroupFilter();
+        foreach (var group in finalResult)
         {
-          if (!notConGroupFilter.Accept(finalResult[i]))
+          group.FromDecoy = decoyGroupFilter.Accept(group);
+          foreach (var protein in group)
           {
-            finalResult.RemoveAt(i);
+            protein.FromDecoy = group.FromDecoy;
           }
         }
 
-        finalResult.BuildGroupIndex();
+        finalResult.ProteinFDR = conf.FalseDiscoveryRate.GetFalseDiscoveryRateCalculator().Calculate(finalResult.Count(l => l[0].FromDecoy), finalResult.Count(l => !l[0].FromDecoy));
       }
 
       CalculateIsoelectricPoint(finalResult.GetProteins());
+      if (isbr != null)
+      {
+        finalResult.PeptideFDR = isbr.PeptideFDR;
+      }
 
       //保存非冗余蛋白质列表文件
 

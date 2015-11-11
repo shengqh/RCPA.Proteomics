@@ -82,6 +82,10 @@ namespace RCPA.Proteomics.Sequest
         {
           sw.WriteLine(PeptideFormat.GetString(pep));
         }
+      }
+
+      using (var sw = new StreamWriter(filename + ".summary"))
+      {
         WriteSummary(sw, IdentifiedSpectrumUtils.GetSpectrumCount(spectra), IdentifiedSpectrumUtils.GetUniquePeptideCount(spectra));
       }
 
@@ -91,11 +95,9 @@ namespace RCPA.Proteomics.Sequest
 
     public void WriteSummary(StreamWriter sw, int spectrumCount, int uniquePeptideCount)
     {
-      sw.WriteLine();
-
-      sw.WriteLine("----- summary -----");
-      sw.WriteLine("Total peptides: {0}", spectrumCount);
-      sw.WriteLine("Unique peptides: {0}", uniquePeptideCount);
+      sw.WriteLine("Category\tValue");
+      sw.WriteLine("Total peptides\t{0}", spectrumCount);
+      sw.WriteLine("Unique peptides\t{0}", uniquePeptideCount);
     }
 
     #endregion

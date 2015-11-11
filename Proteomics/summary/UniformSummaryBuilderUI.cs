@@ -35,7 +35,7 @@ namespace RCPA.Tools.Summary
   public partial class UniformSummaryBuilderUI : AbstractProcessorUI
   {
     public static string title = "BuildSummary - A general framework for assembling protein identifications";
-    public static string version = "7.1.7";
+    public static string version = "7.1.8";
 
     private BuildSummaryOptions Option;
 
@@ -45,8 +45,11 @@ namespace RCPA.Tools.Summary
     private readonly RcpaCheckBox classifyByMissCleavage;
     private readonly RcpaCheckBox classifyByNumberOfProteaseTermini;
     private readonly RcpaCheckBox classifyByModification;
-    private RcpaIntegerField minimumSpectraPerGroup;
+    private readonly RcpaTextField modifiedAminoacids;
+    private readonly RcpaCheckBox classifyByProteinTag;
+    private readonly RcpaTextField proteinTag;
 
+    private RcpaIntegerField minimumSpectraPerGroup;
 
     private readonly RcpaFileField database;
     private readonly RcpaTextField decoyPattern;
@@ -62,8 +65,6 @@ namespace RCPA.Tools.Summary
     private readonly RcpaDoubleField maxFdr;
     private readonly RcpaDoubleField maxPeptideFdr;
     private readonly RcpaCheckBox filterProteinByPeptideCount;
-
-    private readonly RcpaTextField modifiedAminoacids;
 
     private readonly RcpaCheckBox removeDecoyEntry;
 
@@ -163,6 +164,13 @@ namespace RCPA.Tools.Summary
       this.modifiedAminoacids = new RcpaTextField(this.txtFdrModifiedAminoacids, "ModifiedAminoacids", "Modified Aminoacids", "STY", true);
       this.modifiedAminoacids.PreCondition = this.cbClassifyByModification;
       AddComponent(this.modifiedAminoacids);
+
+      this.classifyByProteinTag = new RcpaCheckBox(this.cbClassifyByProteinTag, "ClassifyByProteinTag", ClassificationOptions.DEFAULT_ClassifyByProteinTag);
+      AddComponent(this.classifyByProteinTag);
+
+      this.proteinTag = new RcpaTextField(this.txtProteinTag, "ProteinTag", "Protein Tag", "", false);
+      this.proteinTag.PreCondition = this.cbClassifyByProteinTag;
+      AddComponent(this.proteinTag);
 
       this.minimumSpectraPerGroup = new RcpaIntegerField(this.txtMinimumSpectraPerGroup, "MinimumSpectraPerGroup", "MinimumSpectraPerGroup", ClassificationOptions.DEFAULT_MinimumSpectraPerGroup, true);
       AddComponent(this.minimumSpectraPerGroup);
@@ -444,6 +452,8 @@ namespace RCPA.Tools.Summary
       this.classifyByNumberOfProteaseTermini.Checked = Option.Classification.ClassifyByNumProteaseTermini;
       this.classifyByModification.Checked = Option.Classification.ClassifyByModification;
       this.modifiedAminoacids.Text = Option.Classification.ModifiedAminoacids;
+      this.classifyByProteinTag.Checked = Option.Classification.ClassifyByProteinTag;
+      this.proteinTag.Text = Option.Classification.ProteinTag;
 
       //Peptide Filter
       this.filterSequenceLength.Checked = Option.PeptideFilter.FilterBySequenceLength;
@@ -517,6 +527,9 @@ namespace RCPA.Tools.Summary
 
       Option.Classification.ClassifyByModification = this.classifyByModification.Checked;
       Option.Classification.ModifiedAminoacids = this.modifiedAminoacids.Text;
+
+      Option.Classification.ClassifyByProteinTag = this.classifyByProteinTag.Checked;
+      Option.Classification.ProteinTag = this.proteinTag.Text;
 
       //Peptide Filter
       Option.PeptideFilter.FilterBySequenceLength = this.filterSequenceLength.Checked;

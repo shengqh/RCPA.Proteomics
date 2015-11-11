@@ -23,5 +23,9 @@ namespace RCPA.Proteomics.Summary
     HashSet<string> GetExperimentals();
 
     void Sort();
+
+    double ProteinFDR { get; set; }
+
+    double PeptideFDR { get; set; }
   }
 }

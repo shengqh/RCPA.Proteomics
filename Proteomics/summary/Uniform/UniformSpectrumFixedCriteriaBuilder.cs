@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RCPA.Gui;
+using System.IO;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
@@ -10,7 +11,7 @@ namespace RCPA.Proteomics.Summary.Uniform
   {
     #region IIdentifiedSpectrumBuilder Members
 
-    protected override List<IIdentifiedSpectrum> DoBuild(string parameterFile)
+    protected override IdentifiedSpectrumBuilderResult DoBuild(string parameterFile)
     {
       List<IIdentifiedSpectrum> result = new List<IIdentifiedSpectrum>();
       Options.DatasetList.ForEach(m =>
@@ -21,10 +22,19 @@ namespace RCPA.Proteomics.Summary.Uniform
 
         m.Spectra = builder.ParseFromSearchResult();
 
+        string optimalFile = FileUtils.ChangeExtension(parameterFile, ".optimal");
+        using (var sw = new StreamWriter(optimalFile))
+        {
+          sw.WriteLine("After fixed criteria, there are {0} PSMs passed the filter.", m.Spectra.Count);
+        }
+
         result.AddRange(m.Spectra);
       });
 
-      return result;
+      return new IdentifiedSpectrumBuilderResult()
+      {
+        Spectra = result
+      };
     }
 
     #endregion

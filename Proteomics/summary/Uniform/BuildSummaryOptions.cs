@@ -210,7 +210,8 @@ namespace RCPA.Proteomics.Summary.Uniform
     {
       //保存非冗余蛋白质列表文件
       var peptideHeader = GetPeptideHeader(finalResult);
-      return new MascotResultTextFormat(UniformHeader.PROTEIN_HEADER, peptideHeader)
+      var proteinHeader = this.FalseDiscoveryRate.FilterByFdr ? UniformHeader.PROTEIN_HEADER + "\tDecoy" : UniformHeader.PROTEIN_HEADER;
+      return new MascotResultTextFormat(proteinHeader, peptideHeader)
       {
         Progress = progress
       };

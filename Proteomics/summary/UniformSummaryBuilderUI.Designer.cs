@@ -93,6 +93,8 @@
       this.label10 = new System.Windows.Forms.Label();
       this.txtMinimumSpectraPerGroup = new System.Windows.Forms.TextBox();
       this.label7 = new System.Windows.Forms.Label();
+      this.txtProteinTag = new System.Windows.Forms.TextBox();
+      this.cbClassifyByProteinTag = new System.Windows.Forms.CheckBox();
       this.tpDatasets = new System.Windows.Forms.TabPage();
       this.panel1 = new System.Windows.Forms.Panel();
       this.rbUseSelectedOnly = new RCPA.Gui.RcpaRadioField();
@@ -166,7 +168,7 @@
       // cbMergeResultFromSameEngineButDifferentSearchParameters
       // 
       this.cbMergeResultFromSameEngineButDifferentSearchParameters.Key = "MergeResultFromSameEngineButDifferentSearchParameters";
-      this.cbMergeResultFromSameEngineButDifferentSearchParameters.Location = new System.Drawing.Point(25, 485);
+      this.cbMergeResultFromSameEngineButDifferentSearchParameters.Location = new System.Drawing.Point(25, 509);
       this.cbMergeResultFromSameEngineButDifferentSearchParameters.Name = "cbMergeResultFromSameEngineButDifferentSearchParameters";
       this.cbMergeResultFromSameEngineButDifferentSearchParameters.PreCondition = null;
       this.cbMergeResultFromSameEngineButDifferentSearchParameters.Size = new System.Drawing.Size(470, 21);
@@ -176,7 +178,7 @@
       // cbIndividual
       // 
       this.cbIndividual.Key = "RunIndividual";
-      this.cbIndividual.Location = new System.Drawing.Point(6, 591);
+      this.cbIndividual.Location = new System.Drawing.Point(6, 615);
       this.cbIndividual.Name = "cbIndividual";
       this.cbIndividual.PreCondition = null;
       this.cbIndividual.Size = new System.Drawing.Size(222, 21);
@@ -185,7 +187,7 @@
       // 
       // txtMinAgreeCount
       // 
-      this.txtMinAgreeCount.Location = new System.Drawing.Point(421, 506);
+      this.txtMinAgreeCount.Location = new System.Drawing.Point(421, 530);
       this.txtMinAgreeCount.Name = "txtMinAgreeCount";
       this.txtMinAgreeCount.Size = new System.Drawing.Size(93, 20);
       this.txtMinAgreeCount.TabIndex = 105;
@@ -194,7 +196,7 @@
       // label6
       // 
       this.label6.AutoSize = true;
-      this.label6.Location = new System.Drawing.Point(25, 509);
+      this.label6.Location = new System.Drawing.Point(25, 533);
       this.label6.Name = "label6";
       this.label6.Size = new System.Drawing.Size(397, 13);
       this.label6.TabIndex = 104;
@@ -203,7 +205,7 @@
       // 
       // txtContaminantDescriptionPattern
       // 
-      this.txtContaminantDescriptionPattern.Location = new System.Drawing.Point(481, 568);
+      this.txtContaminantDescriptionPattern.Location = new System.Drawing.Point(481, 592);
       this.txtContaminantDescriptionPattern.Name = "txtContaminantDescriptionPattern";
       this.txtContaminantDescriptionPattern.Size = new System.Drawing.Size(93, 20);
       this.txtContaminantDescriptionPattern.TabIndex = 103;
@@ -216,7 +218,7 @@
             "Protein",
             "Peptide",
             "Unique peptide"});
-      this.cbConflictAsDecoy.Location = new System.Drawing.Point(799, 270);
+      this.cbConflictAsDecoy.Location = new System.Drawing.Point(799, 294);
       this.cbConflictAsDecoy.Name = "cbConflictAsDecoy";
       this.cbConflictAsDecoy.Size = new System.Drawing.Size(178, 21);
       this.cbConflictAsDecoy.TabIndex = 101;
@@ -224,7 +226,7 @@
       // label9
       // 
       this.label9.AutoSize = true;
-      this.label9.Location = new System.Drawing.Point(419, 273);
+      this.label9.Location = new System.Drawing.Point(419, 297);
       this.label9.Name = "label9";
       this.label9.Size = new System.Drawing.Size(379, 13);
       this.label9.TabIndex = 100;
@@ -249,7 +251,7 @@
             "Protein",
             "Peptide",
             "Unique peptide"});
-      this.cbConflict.Location = new System.Drawing.Point(454, 458);
+      this.cbConflict.Location = new System.Drawing.Point(454, 482);
       this.cbConflict.Name = "cbConflict";
       this.cbConflict.Size = new System.Drawing.Size(178, 21);
       this.cbConflict.TabIndex = 97;
@@ -257,7 +259,7 @@
       // lblConflict
       // 
       this.lblConflict.AutoSize = true;
-      this.lblConflict.Location = new System.Drawing.Point(3, 461);
+      this.lblConflict.Location = new System.Drawing.Point(3, 485);
       this.lblConflict.Name = "lblConflict";
       this.lblConflict.Size = new System.Drawing.Size(436, 13);
       this.lblConflict.TabIndex = 96;
@@ -268,14 +270,14 @@
       // 
       this.txtDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.txtDatabase.Location = new System.Drawing.Point(224, 359);
+      this.txtDatabase.Location = new System.Drawing.Point(224, 383);
       this.txtDatabase.Name = "txtDatabase";
       this.txtDatabase.Size = new System.Drawing.Size(949, 20);
       this.txtDatabase.TabIndex = 95;
       // 
       // btnDatabase
       // 
-      this.btnDatabase.Location = new System.Drawing.Point(6, 356);
+      this.btnDatabase.Location = new System.Drawing.Point(6, 380);
       this.btnDatabase.Name = "btnDatabase";
       this.btnDatabase.Size = new System.Drawing.Size(212, 25);
       this.btnDatabase.TabIndex = 94;
@@ -292,7 +294,7 @@
             "(IPI\\d+)",
             "(gi:\\d+)",
             "(IPI\\d+|gi:\\d+)"});
-      this.cbAccessNumberPattern.Location = new System.Drawing.Point(158, 390);
+      this.cbAccessNumberPattern.Location = new System.Drawing.Point(158, 414);
       this.cbAccessNumberPattern.Name = "cbAccessNumberPattern";
       this.cbAccessNumberPattern.Size = new System.Drawing.Size(1015, 21);
       this.cbAccessNumberPattern.TabIndex = 93;
@@ -300,7 +302,7 @@
       // label8
       // 
       this.label8.AutoSize = true;
-      this.label8.Location = new System.Drawing.Point(22, 393);
+      this.label8.Location = new System.Drawing.Point(22, 417);
       this.label8.Name = "label8";
       this.label8.Size = new System.Drawing.Size(121, 13);
       this.label8.TabIndex = 92;
@@ -308,7 +310,7 @@
       // 
       // txtMinSequenceLength
       // 
-      this.txtMinSequenceLength.Location = new System.Drawing.Point(199, 316);
+      this.txtMinSequenceLength.Location = new System.Drawing.Point(199, 340);
       this.txtMinSequenceLength.Name = "txtMinSequenceLength";
       this.txtMinSequenceLength.Size = new System.Drawing.Size(94, 20);
       this.txtMinSequenceLength.TabIndex = 91;
@@ -316,7 +318,7 @@
       // cbSequenceLength
       // 
       this.cbSequenceLength.AutoSize = true;
-      this.cbSequenceLength.Location = new System.Drawing.Point(6, 318);
+      this.cbSequenceLength.Location = new System.Drawing.Point(6, 342);
       this.cbSequenceLength.Name = "cbSequenceLength";
       this.cbSequenceLength.Size = new System.Drawing.Size(194, 17);
       this.cbSequenceLength.TabIndex = 90;
@@ -325,7 +327,7 @@
       // 
       // txtContaminantString
       // 
-      this.txtContaminantString.Location = new System.Drawing.Point(247, 566);
+      this.txtContaminantString.Location = new System.Drawing.Point(247, 590);
       this.txtContaminantString.Name = "txtContaminantString";
       this.txtContaminantString.Size = new System.Drawing.Size(93, 20);
       this.txtContaminantString.TabIndex = 89;
@@ -380,7 +382,7 @@
       // cbRemoveDecoyEntry
       // 
       this.cbRemoveDecoyEntry.AutoSize = true;
-      this.cbRemoveDecoyEntry.Location = new System.Drawing.Point(6, 545);
+      this.cbRemoveDecoyEntry.Location = new System.Drawing.Point(6, 569);
       this.cbRemoveDecoyEntry.Name = "cbRemoveDecoyEntry";
       this.cbRemoveDecoyEntry.Size = new System.Drawing.Size(223, 17);
       this.cbRemoveDecoyEntry.TabIndex = 82;
@@ -389,7 +391,7 @@
       // 
       // txtDecoyPattern
       // 
-      this.txtDecoyPattern.Location = new System.Drawing.Point(304, 270);
+      this.txtDecoyPattern.Location = new System.Drawing.Point(304, 294);
       this.txtDecoyPattern.Name = "txtDecoyPattern";
       this.txtDecoyPattern.Size = new System.Drawing.Size(97, 20);
       this.txtDecoyPattern.TabIndex = 81;
@@ -490,7 +492,7 @@
       // cbRemoveContamination
       // 
       this.cbRemoveContamination.AutoSize = true;
-      this.cbRemoveContamination.Location = new System.Drawing.Point(6, 568);
+      this.cbRemoveContamination.Location = new System.Drawing.Point(6, 592);
       this.cbRemoveContamination.Name = "cbRemoveContamination";
       this.cbRemoveContamination.Size = new System.Drawing.Size(472, 17);
       this.cbRemoveContamination.TabIndex = 102;
@@ -742,7 +744,9 @@
       this.tpGeneral.Controls.Add(this.cbRemoveDecoyEntry);
       this.tpGeneral.Controls.Add(this.txtDecoyPattern);
       this.tpGeneral.Controls.Add(this.label5);
+      this.tpGeneral.Controls.Add(this.txtProteinTag);
       this.tpGeneral.Controls.Add(this.txtFdrModifiedAminoacids);
+      this.tpGeneral.Controls.Add(this.cbClassifyByProteinTag);
       this.tpGeneral.Controls.Add(this.cbClassifyByModification);
       this.tpGeneral.Controls.Add(this.cbFdrLevel);
       this.tpGeneral.Controls.Add(this.label4);
@@ -767,7 +771,7 @@
       this.minDecoyScan.DefaultValue = "10000000";
       this.minDecoyScan.Description = "";
       this.minDecoyScan.Key = "IntegerField";
-      this.minDecoyScan.Location = new System.Drawing.Point(350, 247);
+      this.minDecoyScan.Location = new System.Drawing.Point(350, 271);
       this.minDecoyScan.Name = "minDecoyScan";
       this.minDecoyScan.PreCondition = null;
       this.minDecoyScan.Required = false;
@@ -783,7 +787,7 @@
       this.minTargetDecoyRatio.DefaultValue = "1";
       this.minTargetDecoyRatio.Description = "";
       this.minTargetDecoyRatio.Key = "MinTargetDecoyRatio";
-      this.minTargetDecoyRatio.Location = new System.Drawing.Point(421, 247);
+      this.minTargetDecoyRatio.Location = new System.Drawing.Point(421, 271);
       this.minTargetDecoyRatio.Name = "minTargetDecoyRatio";
       this.minTargetDecoyRatio.PreCondition = null;
       this.minTargetDecoyRatio.Required = false;
@@ -797,7 +801,7 @@
       this.rbByDecoyDatabase.AutoSize = true;
       this.rbByDecoyDatabase.Checked = true;
       this.rbByDecoyDatabase.Key = "ByDecoyDatabase";
-      this.rbByDecoyDatabase.Location = new System.Drawing.Point(28, 270);
+      this.rbByDecoyDatabase.Location = new System.Drawing.Point(28, 294);
       this.rbByDecoyDatabase.Name = "rbByDecoyDatabase";
       this.rbByDecoyDatabase.PreCondition = null;
       this.rbByDecoyDatabase.Size = new System.Drawing.Size(270, 17);
@@ -810,7 +814,7 @@
       // 
       this.rbByDecoySpectra.AutoSize = true;
       this.rbByDecoySpectra.Key = "ByDecoySpectra";
-      this.rbByDecoySpectra.Location = new System.Drawing.Point(28, 247);
+      this.rbByDecoySpectra.Location = new System.Drawing.Point(28, 271);
       this.rbByDecoySpectra.Name = "rbByDecoySpectra";
       this.rbByDecoySpectra.PreCondition = null;
       this.rbByDecoySpectra.Size = new System.Drawing.Size(318, 17);
@@ -820,7 +824,7 @@
       // 
       // txtMaxMissCleavage
       // 
-      this.txtMaxMissCleavage.Location = new System.Drawing.Point(620, 316);
+      this.txtMaxMissCleavage.Location = new System.Drawing.Point(620, 340);
       this.txtMaxMissCleavage.Name = "txtMaxMissCleavage";
       this.txtMaxMissCleavage.Size = new System.Drawing.Size(94, 20);
       this.txtMaxMissCleavage.TabIndex = 149;
@@ -828,7 +832,7 @@
       // cbMaxMissCleavage
       // 
       this.cbMaxMissCleavage.AutoSize = true;
-      this.cbMaxMissCleavage.Location = new System.Drawing.Point(338, 318);
+      this.cbMaxMissCleavage.Location = new System.Drawing.Point(338, 342);
       this.cbMaxMissCleavage.Name = "cbMaxMissCleavage";
       this.cbMaxMissCleavage.Size = new System.Drawing.Size(289, 17);
       this.cbMaxMissCleavage.TabIndex = 148;
@@ -838,7 +842,7 @@
       // label10
       // 
       this.label10.AutoSize = true;
-      this.label10.Location = new System.Drawing.Point(190, 216);
+      this.label10.Location = new System.Drawing.Point(190, 240);
       this.label10.Name = "label10";
       this.label10.Size = new System.Drawing.Size(183, 13);
       this.label10.TabIndex = 147;
@@ -846,7 +850,7 @@
       // 
       // txtMinimumSpectraPerGroup
       // 
-      this.txtMinimumSpectraPerGroup.Location = new System.Drawing.Point(374, 214);
+      this.txtMinimumSpectraPerGroup.Location = new System.Drawing.Point(374, 238);
       this.txtMinimumSpectraPerGroup.Name = "txtMinimumSpectraPerGroup";
       this.txtMinimumSpectraPerGroup.Size = new System.Drawing.Size(47, 20);
       this.txtMinimumSpectraPerGroup.TabIndex = 146;
@@ -855,12 +859,31 @@
       // 
       this.label7.AutoSize = true;
       this.label7.ForeColor = System.Drawing.SystemColors.HotTrack;
-      this.label7.Location = new System.Drawing.Point(25, 423);
+      this.label7.Location = new System.Drawing.Point(25, 447);
       this.label7.Name = "label7";
       this.label7.Size = new System.Drawing.Size(704, 13);
       this.label7.TabIndex = 145;
       this.label7.Text = "if your data is MSF format with decoy searching, set \"REVERSED_\" as decoy databas" +
     "e pattern and select \"Whole Name\" as access number format";
+      // 
+      // txtProteinTag
+      // 
+      this.txtProteinTag.Location = new System.Drawing.Point(278, 211);
+      this.txtProteinTag.Name = "txtProteinTag";
+      this.txtProteinTag.Size = new System.Drawing.Size(134, 20);
+      this.txtProteinTag.TabIndex = 78;
+      // 
+      // cbClassifyByProteinTag
+      // 
+      this.cbClassifyByProteinTag.AutoSize = true;
+      this.cbClassifyByProteinTag.Location = new System.Drawing.Point(194, 213);
+      this.cbClassifyByProteinTag.Name = "cbClassifyByProteinTag";
+      this.cbClassifyByProteinTag.Size = new System.Drawing.Size(688, 17);
+      this.cbClassifyByProteinTag.TabIndex = 77;
+      this.cbClassifyByProteinTag.Text = "protein tag =                                                 , not regex pattern" +
+    ", the PSM whose proteins all contain this tag will be classified as 1, otherwise" +
+    " 0";
+      this.cbClassifyByProteinTag.UseVisualStyleBackColor = true;
       // 
       // tpDatasets
       // 
@@ -1007,5 +1030,7 @@
     private Gui.RcpaRadioField rbByDecoySpectra;
     private Gui.IntegerField minDecoyScan;
     private Gui.DoubleField minTargetDecoyRatio;
+    private System.Windows.Forms.TextBox txtProteinTag;
+    private System.Windows.Forms.CheckBox cbClassifyByProteinTag;
   }
 }

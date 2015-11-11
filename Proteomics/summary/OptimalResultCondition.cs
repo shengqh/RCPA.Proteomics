@@ -10,25 +10,25 @@ namespace RCPA.Proteomics
   public class OptimalResultCondition : IComparable<OptimalResultCondition>
   {
     private const string DEFAULT_CLASSIFICATION = "DEFAULT";
-    
+
     public List<OptimalResultCondition> MergedConditions { get; private set; }
 
     public OptimalResultCondition(int precursorCharge, int missCleavageSiteCount, int numberOfProteaseTerminal, int modificationCount, string classification = DEFAULT_CLASSIFICATION)
     {
-      this._precursorCharge = precursorCharge;
-      this._missCleavageSiteCount = missCleavageSiteCount;
-      this._numProteaseTermini = numberOfProteaseTerminal;
-      this._modificationCount = modificationCount;
+      this.PrecursorCharge = precursorCharge;
+      this.MissCleavageSiteCount = missCleavageSiteCount;
+      this.NumProteaseTermini = numberOfProteaseTerminal;
+      this.ModificationCount = modificationCount;
       this.Classification = classification;
       this.MergedConditions = new List<OptimalResultCondition>();
     }
 
     public OptimalResultCondition(OptimalResultCondition source)
     {
-      this._precursorCharge = source._precursorCharge;
-      this._missCleavageSiteCount = source._missCleavageSiteCount;
-      this._numProteaseTermini = source._numProteaseTermini;
-      this._modificationCount = source._modificationCount;
+      this.PrecursorCharge = source.PrecursorCharge;
+      this.MissCleavageSiteCount = source.MissCleavageSiteCount;
+      this.NumProteaseTermini = source.NumProteaseTermini;
+      this.ModificationCount = source.ModificationCount;
       this.Classification = source.Classification;
       this.MergedConditions = new List<OptimalResultCondition>();
       foreach (var orc in source.MergedConditions)
@@ -58,41 +58,24 @@ namespace RCPA.Proteomics
       }
     }
 
-    private int _precursorCharge;
+    public int PrecursorCharge { get; private set; }
 
-    public int PrecursorCharge
-    {
-      get { return _precursorCharge; }
-    }
+    public int MissCleavageSiteCount{get;private set;}
 
-    private int _missCleavageSiteCount;
+    public int NumProteaseTermini { get; private set; }
 
-    public int MissCleavageSiteCount
-    {
-      get { return _missCleavageSiteCount; }
-    }
+    public int ModificationCount { get; private set; }
 
-    private int _numProteaseTermini;
-
-    public int NumProteaseTermini
-    {
-      get { return _numProteaseTermini; }
-    }
-
-    private int _modificationCount;
-
-    public int ModificationCount
-    {
-      get { return _modificationCount; }
-    }
+    public int ProteinTag { get; private set; }
 
     public static bool operator ==(OptimalResultCondition left, OptimalResultCondition right)
     {
-      return left._precursorCharge == right._precursorCharge &&
-        left._missCleavageSiteCount == right._missCleavageSiteCount &&
-        left._numProteaseTermini == right._numProteaseTermini &&
-        left._modificationCount == right._modificationCount &&
-        left.Classification == right.Classification;
+      return left.PrecursorCharge == right.PrecursorCharge &&
+        left.MissCleavageSiteCount == right.MissCleavageSiteCount &&
+        left.NumProteaseTermini == right.NumProteaseTermini &&
+        left.ModificationCount == right.ModificationCount &&
+        left.Classification == right.Classification &&
+        left.ProteinTag == right.ProteinTag;
     }
 
     public static bool operator !=(OptimalResultCondition left, OptimalResultCondition right)
@@ -113,37 +96,39 @@ namespace RCPA.Proteomics
     public override int GetHashCode()
     {
       int result = 7;
-      result = 31 * result + _precursorCharge;
-      result = 31 * result + _missCleavageSiteCount;
-      result = 31 * result + _numProteaseTermini;
-      result = 31 * result + _modificationCount;
+      result = 31 * result + PrecursorCharge;
+      result = 31 * result + MissCleavageSiteCount;
+      result = 31 * result + NumProteaseTermini;
+      result = 31 * result + ModificationCount;
+      result = 31 * result + ProteinTag;
       result = 31 * result + classification.GetHashCode();
       return result;
     }
 
     public override string ToString()
     {
-      return MyConvert.Format("Classification={0}; Charge={1}; MissCleavage={2}; Modification={3}; NumProteaseTermini={4}",
+      return MyConvert.Format("Classification={0}; Charge={1}; MissCleavage={2}; Modification={3}; NumProteaseTermini={4}; ProteinTag={5}",
         Classification,
-              _precursorCharge,
-              _missCleavageSiteCount,
-              _modificationCount,
-              _numProteaseTermini);
+              PrecursorCharge,
+              MissCleavageSiteCount,
+              ModificationCount,
+              NumProteaseTermini,
+              ProteinTag);
     }
 
     public string ChargeString
     {
-      get { return MyConvert.Format("{0}{1}", this._precursorCharge, this._precursorCharge == 3 ? "+" : ""); }
+      get { return MyConvert.Format("{0}{1}", this.PrecursorCharge, this.PrecursorCharge == 3 ? "+" : ""); }
     }
 
     public string NumMissCleavageString
     {
-      get { return MyConvert.Format("{0}{1}", this._missCleavageSiteCount, this._missCleavageSiteCount == 3 ? "+" : ""); }
+      get { return MyConvert.Format("{0}{1}", this.MissCleavageSiteCount, this.MissCleavageSiteCount == 3 ? "+" : ""); }
     }
 
     public string ModificationCountString
     {
-      get { return MyConvert.Format("{0}{1}", this._modificationCount, this._modificationCount == 2 ? "+" : ""); }
+      get { return MyConvert.Format("{0}{1}", this.ModificationCount, this.ModificationCount == 2 ? "+" : ""); }
     }
 
     #region IComparable<OptimalResultCondition> Members
@@ -156,25 +141,25 @@ namespace RCPA.Proteomics
         return result;
       }
 
-      result = this._precursorCharge - other._precursorCharge;
+      result = this.PrecursorCharge - other.PrecursorCharge;
       if (result != 0)
       {
         return result;
       }
 
-      result = this._missCleavageSiteCount - other._missCleavageSiteCount;
+      result = this.MissCleavageSiteCount - other.MissCleavageSiteCount;
       if (result != 0)
       {
         return result;
       }
 
-      result = this._numProteaseTermini - other._numProteaseTermini;
+      result = this.NumProteaseTermini - other.NumProteaseTermini;
       if (result != 0)
       {
         return result;
       }
 
-      return this._modificationCount - other._modificationCount;
+      return this.ModificationCount - other.ModificationCount;
     }
 
     #endregion
@@ -198,7 +183,7 @@ namespace RCPA.Proteomics
   {
     public static void WriteSpectrumBin<T>(StreamWriter sw, T source, Func<T, List<OptimalResultCondition>> condFunc, Func<T, OptimalResultCondition, OptimalItem> acceptCount)
     {
-      sw.WriteLine("Classification\tCharge\tNumMissCleavage\tNumProteaseTermini\tModification\tScore\tExpectValue\tTargetCount\tDecoyCount");
+      sw.WriteLine("Classification\tCharge\tNumMissCleavage\tNumProteaseTermini\tModification\tProteinTag\tScore\tExpectValue\tTargetCount\tDecoyCount");
       var conds = condFunc(source);
       conds.Sort();
       foreach (OptimalResultCondition cond in conds)
@@ -216,12 +201,13 @@ namespace RCPA.Proteomics
           acceptedEvalue = item.Result.ExpectValue;
         }
 
-        sw.WriteLine(MyConvert.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5:E3}\t{6:E3}\t{7}\t{8}",
+        sw.WriteLine(MyConvert.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6:E3}\t{7:E3}\t{8}\t{9}",
           cond.Classification,
           cond.ChargeString,
           cond.NumMissCleavageString,
           cond.NumProteaseTermini,
           cond.ModificationCountString,
+          cond.ProteinTag,
           acceptedScore,
           acceptedEvalue,
           targetCount,

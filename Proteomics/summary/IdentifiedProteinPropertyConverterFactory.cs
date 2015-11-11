@@ -70,6 +70,8 @@ namespace RCPA.Proteomics.Summary
       result.RegisterConverter(new SilacProteinQuantificationResultConverter2<IIdentifiedProtein>());
       result.RegisterConverter(new ITraqQuantificationResultConverter<IIdentifiedProtein>());
 
+      result.RegisterConverter(new IdentifiedProteinDecoyConverter<IIdentifiedProtein>());
+
       return result;
     }
 

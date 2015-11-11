@@ -182,45 +182,6 @@ namespace RCPA.Proteomics.Summary
       WriteFastaFile(fastaFilename, t, (m => true));
     }
 
-    public static void WriteSummary(StreamWriter sw, IIdentifiedResult mr)
-    {
-      sw.WriteLine();
-      sw.WriteLine("----- summary -----");
-
-      int totalProteinCount = mr.GetProteins().Count;
-      int totalGroupCount = mr.Count;
-
-      sw.WriteLine("Total protein\t: " + totalProteinCount);
-      sw.WriteLine("Total protein group\t: " + totalGroupCount);
-
-      if (totalGroupCount > 0)
-      {
-        sw.WriteLine("UniPepCount\tProteinGroupCount\tPercent\tProteinCount\tPercent");
-
-        var bin = new Dictionary<int, Pair<int, int>>();
-        foreach (IIdentifiedProteinGroup group in mr)
-        {
-          int unique = group[0].UniquePeptideCount;
-          if (!bin.ContainsKey(unique))
-          {
-            bin[unique] = new Pair<int, int>(0, 0);
-          }
-          Pair<int, int> counts = bin[unique];
-          counts.First = counts.First + 1;
-          counts.Second = counts.Second + group.Count;
-        }
-
-        var uniques = new List<int>(bin.Keys);
-        uniques.Sort();
-        foreach (int unique in uniques)
-        {
-          Pair<int, int> counts = bin[unique];
-          sw.WriteLine("{0}\t{1}\t{2:0.00}%\t{3}\t{4:0.00}%", unique, counts.First, (counts.First * 100.0) / totalGroupCount,
-                       counts.Second, (counts.Second * 100.0) / totalProteinCount);
-        }
-      }
-    }
-
     public static void InitializeGroupCount(this IList<IIdentifiedProteinGroup> ir)
     {
       foreach (var group in ir)

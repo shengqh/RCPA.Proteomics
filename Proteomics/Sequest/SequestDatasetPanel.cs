@@ -85,7 +85,7 @@ namespace RCPA.Proteomics.Sequest
 
       dataDirs.Validator.ValidateFunc = (m =>
       {
-        if (m.ToLower().EndsWith(".zip") || m.ToLower().EndsWith(".xml") || m.ToLower().EndsWith(".msf"))
+        if (m.ToLower().EndsWith(".zip") || m.ToLower().EndsWith(".xml") || m.ToLower().EndsWith(".msf") || m.ToLower().EndsWith(".peptides"))
         {
           return File.Exists(m);
         }

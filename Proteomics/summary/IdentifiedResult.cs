@@ -10,7 +10,16 @@ namespace RCPA.Proteomics.Summary
 {
   public class IdentifiedResult : List<IIdentifiedProteinGroup>, IIdentifiedResult
   {
+    public IdentifiedResult()
+    {
+      this.ProteinFDR = -1;
+      this.PeptideFDR = -1;
+    }
+
     #region IIdentifiedResult Members
+
+    public double ProteinFDR { get; set; }
+    public double PeptideFDR { get; set; }
 
     public List<IIdentifiedProtein> GetProteins()
     {

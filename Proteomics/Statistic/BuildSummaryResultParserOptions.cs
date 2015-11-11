@@ -15,14 +15,35 @@ namespace RCPA.Proteomics.Statistic
     [Option('i', "inputDirectory", Required = true, MetaValue = "DIRECTORY", HelpText = "BuildSummary directory")]
     public string InputDirectory { get; set; }
 
-    public IFalseDiscoveryRateCalculator Calculator { get; set; }
+    [Option("byBuildSummaryOptions", Required = false, MetaValue = "BOOLEAN", HelpText = "Get decoy definition and FDR calculation from BuildSummary options")]
+    public bool ByBuildSummaryOptions { get; set; }
 
-    [Option('p', "decoyPattern", Required = true, MetaValue = "REGEX", HelpText = "decoy pattern")]
+    [Option('t', "targetFDR", MetaValue = "BOOLEAN", HelpText = "Calculate FDR by target formula (decoy / target), default is global formula (decoy * 2 / (target + decoy))")]
+    public bool TargetFDR { get; set; }
+
+    public BuildSummaryResultParserOptions() { }
+
+    public IFalseDiscoveryRateCalculator Calculator
+    {
+      get
+      {
+        if (TargetFDR)
+        {
+          return new TargetFalseDiscoveryRateCalculator();
+        }
+        else
+        {
+          return new TotalFalseDiscoveryRateCalculator();
+        }
+      }
+    }
+
+    [Option('p', "decoyPattern", Required = false, MetaValue = "REGEX", HelpText = "decoy pattern")]
     public string DecoyPattern { get; set; }
 
     private string _outputFile;
 
-    [Option('o', "outputFile", Required = false, MetaValue = "FILE", HelpText = "output file")]
+    [Option('o', "outputFile", Required = true, MetaValue = "FILE", HelpText = "output file")]
     public string OutputFile
     {
       get
@@ -42,16 +63,14 @@ namespace RCPA.Proteomics.Statistic
       }
     }
 
-    public BuildSummaryResultParserOptions()
-    {
-      Calculator = new TargetFalseDiscoveryRateCalculator();
-    }
-
     public override bool PrepareOptions()
     {
       CheckDirectory("Build Summary", InputDirectory);
 
-      CheckPattern("Decoy", DecoyPattern);
+      if (!ByBuildSummaryOptions)
+      {
+        CheckPattern("Decoy", DecoyPattern);
+      }
 
       return ParsingErrors.Count == 0;
     }

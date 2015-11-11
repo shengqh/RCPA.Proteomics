@@ -27,7 +27,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     private static void WriteHeader(StreamWriter sw)
     {
-      sw.WriteLine("Classification\tCharge\tNumMissCleavage\tNumProteaseTermini\tModification\tScore\tDeltaScore\tTargetCount\tDecoyCount\tFDR");
+      sw.WriteLine("Classification\tCharge\tNumMissCleavage\tNumProteaseTermini\tModification\tProteinTag\tScore\tDeltaScore\tTargetCount\tDecoyCount\tFDR");
     }
 
     private static void WriteOptimalItems(StreamWriter sw, List<OptimalItem> oil)
@@ -38,7 +38,7 @@ namespace RCPA.Proteomics.Summary.Uniform
       {
         var cond = n.Condition;
         var or = n.Result;
-        sw.WriteLine("{0}\t{1}{2}\t{3}{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}",
+        sw.WriteLine("{0}\t{1}{2}\t{3}{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}",
           cond.Classification,
           cond.PrecursorCharge,
           cond.PrecursorCharge == 3 ? "+" : "",
@@ -46,6 +46,7 @@ namespace RCPA.Proteomics.Summary.Uniform
           cond.MissCleavageSiteCount == 3 ? "+" : "",
           cond.NumProteaseTermini,
           cond.ModificationCount,
+          cond.ProteinTag,
           or.Score,
           or.DeltaScore,
           or.PeptideCountFromTargetDB,

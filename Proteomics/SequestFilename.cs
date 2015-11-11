@@ -140,6 +140,13 @@ namespace RCPA.Proteomics
       return result;
     }
 
+    public static SequestFilename ParseShortName(string filename)
+    {
+      var result = new SequestFilename();
+      result.ShortFileName = filename;
+      return result;
+    }
+
     private string GetFileScan()
     {
       var result = new StringBuilder();

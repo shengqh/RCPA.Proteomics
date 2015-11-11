@@ -13,6 +13,7 @@ namespace RCPA.Proteomics.Summary.Uniform
     public static bool DEFAULT_ClassifyByMissCleavage = true;
     public static bool DEFAULT_ClassifyByNumProteaseTermini = true;
     public static bool DEFAULT_ClassifyByModification = false;
+    public static bool DEFAULT_ClassifyByProteinTag = false;
     public static int DEFAULT_MinimumSpectraPerGroup = 1;
 
     public ClassificationOptions()
@@ -21,6 +22,7 @@ namespace RCPA.Proteomics.Summary.Uniform
       this.ClassifyByMissCleavage = DEFAULT_ClassifyByMissCleavage;
       this.ClassifyByNumProteaseTermini = DEFAULT_ClassifyByNumProteaseTermini;
       this.ClassifyByModification = DEFAULT_ClassifyByModification;
+      this.ClassifyByProteinTag = DEFAULT_ClassifyByProteinTag;
       this.MinimumSpectraPerGroup = DEFAULT_MinimumSpectraPerGroup;
 
       this.ModifiedAminoacids = string.Empty;
@@ -34,9 +36,13 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     public bool ClassifyByNumProteaseTermini { get; set; }
 
+    public bool ClassifyByProteinTag { get; set; }
+
     public int MinimumSpectraPerGroup { get; set; }
 
     public string ModifiedAminoacids { get; set; }
+
+    public string ProteinTag { get; set; }
 
     delegate int GetInteger(IIdentifiedSpectrum spectrum);
 
@@ -49,6 +55,24 @@ namespace RCPA.Proteomics.Summary.Uniform
       else
       {
         return new ModificationCountForwardCalculator(-1);
+      }
+    }
+
+    private GetInteger GetProteinTagCalculator()
+    {
+      if (ClassifyByProteinTag)
+      {
+        return delegate(IIdentifiedSpectrum spectrum)
+        {
+          return spectrum.Proteins.All(l => l.Contains(ProteinTag)) ? 1 : 0;
+        };
+      }
+      else
+      {
+        return delegate(IIdentifiedSpectrum spectrum)
+        {
+          return -1;
+        };
       }
     }
 
@@ -110,6 +134,8 @@ namespace RCPA.Proteomics.Summary.Uniform
 
       GetInteger nptCalc = GetNumProteaseTerminiCalculator();
 
+      GetInteger proteinTagCalc = GetProteinTagCalculator();
+
       Dictionary<OptimalResultCondition, OptimalItem> resultMap = new Dictionary<OptimalResultCondition, OptimalItem>();
 
       foreach (IIdentifiedSpectrum mph in peptides)
@@ -121,6 +147,8 @@ namespace RCPA.Proteomics.Summary.Uniform
         int modificationCount = modificationCalc.Calculate(mph.GetMatchSequence());
 
         int nptCount = nptCalc(mph);
+
+        int proteinTag = proteinTagCalc(mph);
 
         OptimalResultCondition cond = new OptimalResultCondition(charge, missCleavage, nptCount, modificationCount, mph.ClassificationTag);
         if (!resultMap.ContainsKey(cond))
@@ -166,7 +194,9 @@ namespace RCPA.Proteomics.Summary.Uniform
         new XElement("ClassifyByModification", ClassifyByModification.ToString()),
         new XElement("ClassifyByNumProteaseTermini", ClassifyByNumProteaseTermini.ToString()),
         new XElement("ModifiedAminoacid", ModifiedAminoacids),
-        new XElement("MinimumSpectraPerGroup", MinimumSpectraPerGroup)));
+        new XElement("MinimumSpectraPerGroup", MinimumSpectraPerGroup),
+        new XElement("ClassifyByProteinTag", ClassifyByProteinTag.ToString()),
+        new XElement("ProteinTag", ProteinTag)));
     }
 
     public void Load(XElement parentNode)
@@ -177,15 +207,9 @@ namespace RCPA.Proteomics.Summary.Uniform
       this.ClassifyByMissCleavage = xml.GetChildValue("ClassifyByMissCleavage", DEFAULT_ClassifyByMissCleavage);
       this.ClassifyByNumProteaseTermini = xml.GetChildValue("ClassifyByNumProteaseTermini", DEFAULT_ClassifyByNumProteaseTermini);
       this.ClassifyByModification = xml.GetChildValue("ClassifyByModification", DEFAULT_ClassifyByModification);
-      this.ModifiedAminoacids = xml.Element("ModifiedAminoacid").Value;
-      if (xml.FindElement("MinimumSpectraPerGroup") != null)
-      {
-        this.MinimumSpectraPerGroup = int.Parse(xml.FindElement("MinimumSpectraPerGroup").Value);
-      }
-      else
-      {
-        this.MinimumSpectraPerGroup = DEFAULT_MinimumSpectraPerGroup;
-      }
+      this.ModifiedAminoacids = xml.GetChildValue("ModifiedAminoacid", string.Empty);
+      this.ClassifyByProteinTag = xml.GetChildValue("ClassifyByProteinTag", DEFAULT_ClassifyByProteinTag);
+      this.ProteinTag = xml.GetChildValue("ProteinTag", string.Empty);
     }
 
     #endregion

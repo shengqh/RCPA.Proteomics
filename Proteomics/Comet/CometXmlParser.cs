@@ -9,7 +9,7 @@ using RCPA.Proteomics.PeptideProphet;
 
 namespace RCPA.Proteomics.Comet
 {
-  public class CometXmlParser : PeptideProphetXmlParser
+  public class CometXmlParser : PepXmlParser
   {
     public CometXmlParser() { }
 
@@ -22,8 +22,6 @@ namespace RCPA.Proteomics.Comet
 
     protected override void ParseScore(IIdentifiedSpectrum sph, XElement searchHit)
     {
-      base.ParseScore(sph, searchHit);
-
       var scores = searchHit.FindDescendants("search_score");
 
       foreach (var item in scores)
@@ -46,6 +44,8 @@ namespace RCPA.Proteomics.Comet
           sph.ExpectValue = MyConvert.ToDouble(item.Attribute("value").Value);
         }
       }
+
+      sph.Query.MatchCount = int.Parse(searchHit.Attribute("num_matched_peptides").Value);
     }
 
     #endregion

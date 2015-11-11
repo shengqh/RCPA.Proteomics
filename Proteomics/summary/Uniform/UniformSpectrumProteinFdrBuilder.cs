@@ -22,7 +22,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     #region IIdentifiedSpectrumBuilder Members
 
-    public List<IIdentifiedSpectrum> Build(string parameterFile)
+    public IdentifiedSpectrumBuilderResult Build(string parameterFile)
     {
       Options = new BuildSummaryOptions(parameterFile);
       Options.DatasetList.RemoveDisabled();
@@ -161,11 +161,19 @@ namespace RCPA.Proteomics.Summary.Uniform
           GC.Collect();
           GC.WaitForPendingFinalizers();
 
-          return finalItem.GetSpectra();
+          return new IdentifiedSpectrumBuilderResult()
+        {
+          Spectra = finalItem.GetSpectra(),
+          PeptideFDR = finalItem.Unique2Result.PeptideFdr,
+          ProteinFDR = Options.FalseDiscoveryRate.FdrValue
+        };
         }
         else
         {
-          return new List<IIdentifiedSpectrum>();
+          return new IdentifiedSpectrumBuilderResult()
+          {
+            Spectra = new List<IIdentifiedSpectrum>()
+          };
         }
       }
     }
@@ -189,7 +197,7 @@ namespace RCPA.Proteomics.Summary.Uniform
         }
 
         AndIdentifiedProteinGroupFilter groupFilter = new AndIdentifiedProteinGroupFilter(filters);
-        
+
         Progress.SetMessage("Filtering PSMs by protein fdr {0} using unique peptide fdr {0} ...", Options.FalseDiscoveryRate.FdrValue);
 
         Options.FalseDiscoveryRate.FdrLevel = FalseDiscoveryRateLevel.UniquePeptide;

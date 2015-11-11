@@ -21,7 +21,7 @@ namespace RCPA.Proteomics.Statistic
     {
       this.options = new BuildSummaryResultParserOptions()
       {
-        Calculator = calc,
+        TargetFDR = calc is TargetFalseDiscoveryRateCalculator,
         DecoyPattern = decoyPattern
       };
     }
@@ -36,6 +36,20 @@ namespace RCPA.Proteomics.Statistic
     {
       var noredundantFiles = Directory.GetFiles(options.InputDirectory, "*.noredundant").ToList();
       noredundantFiles.Sort();
+
+      if (options.ByBuildSummaryOptions)
+      {
+        var boptions = (from file in noredundantFiles
+                        let param = Path.ChangeExtension(file, ".param")
+                        select param).ToArray();
+        foreach (var boption in boptions)
+        {
+          if (!File.Exists(boption))
+          {
+            throw new Exception(string.Format("Cannot find option file {0}", boption));
+          }
+        }
+      }
 
       using (StreamWriter sw = new StreamWriter(options.OutputFile))
       {

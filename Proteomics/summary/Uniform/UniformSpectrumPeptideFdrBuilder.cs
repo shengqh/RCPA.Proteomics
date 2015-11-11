@@ -14,7 +14,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     #region IIdentifiedSpectrumBuilder Members
 
-    protected override List<IIdentifiedSpectrum> DoBuild(string parameterFile)
+    protected override IdentifiedSpectrumBuilderResult DoBuild(string parameterFile)
     {
       var fdrCalc = Options.FalseDiscoveryRate.GetFalseDiscoveryRateCalculator();
 
@@ -28,7 +28,11 @@ namespace RCPA.Proteomics.Summary.Uniform
       new OptimalFileTextWriter().WriteToFile(optimalFile, BuildResult);
 
       Progress.SetMessage("Peptide fdr filter done ...");
-      return BuildResult.GetSpectra();
+      return new IdentifiedSpectrumBuilderResult()
+      {
+        Spectra = BuildResult.GetSpectra(),
+        PeptideFDR = Options.FalseDiscoveryRate.MaxPeptideFdr
+      };
     }
 
     #endregion
