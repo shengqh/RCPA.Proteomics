@@ -28,7 +28,7 @@ namespace RCPA.Proteomics.Summary
 
       this.RegisterConverter(new IdentifiedSpectrumIsoelectricPointConverter<IIdentifiedSpectrum>());
 
-      this.RegisterConverter(new IdentifiedSpectrumMatchedTICConverter<IIdentifiedSpectrum>());
+      this.RegisterConverter(new IdentifiedSpectrumMatchedTICConverter<IIdentifiedSpectrum>(), "MSGF:MS2IonCurrent");
 
       this.RegisterConverter(new IdentifiedSpectrumObservedMHConverter<IIdentifiedSpectrum>(), "M+H+");
 
@@ -46,15 +46,15 @@ namespace RCPA.Proteomics.Summary
 
       this.RegisterConverter(new IdentifiedSpectrumScoreConverter<IIdentifiedSpectrum>(), "pMatch Score", "XCorr", "XC", "Amanda Score");
 
-      this.RegisterConverter(new IdentifiedSpectrumProbabilityConverter<IIdentifiedSpectrum>(), "PValue");
-
       this.RegisterConverter(new IdentifiedSpectrumDeltaScoreConverter<IIdentifiedSpectrum>(), "DeltCN", "DeltaCn");
 
-      this.RegisterConverter(new IdentifiedSpectrumSpScoreConverter<IIdentifiedSpectrum>(), "SvmScore");
-
-      this.RegisterConverter(new IdentifiedSpectrumExpectValueConverter<IIdentifiedSpectrum>(), "SpScore", "Sp");
+      this.RegisterConverter(new IdentifiedSpectrumSpScoreConverter<IIdentifiedSpectrum>(), "SpScore", "SvmScore", "MSGF:DeNovoScore");
 
       this.RegisterConverter(new IdentifiedSpectrumSpRankConverter<IIdentifiedSpectrum>(), "SpRank");
+
+      this.RegisterConverter(new IdentifiedSpectrumProbabilityConverter<IIdentifiedSpectrum>(), "PValue", "MSGF:DatabaseEValue");
+
+      this.RegisterConverter(new IdentifiedSpectrumExpectValueConverter<IIdentifiedSpectrum>());
 
       this.RegisterConverter(new IdentifiedSpectrumQueryConverter<IIdentifiedSpectrum>(), "QueryId");
 
@@ -81,6 +81,8 @@ namespace RCPA.Proteomics.Summary
       this.RegisterConverter(new IdentifiedSpectrumDecoyConverter<IIdentifiedSpectrum>(), "T/D Hit", "Target/Decoy");
 
       this.RegisterConverter(new IdentifiedSpectrumQValueConverter<IIdentifiedSpectrum>(), "FDR");
+
+      this.RegisterConverter(new IdentifiedSpectrumIsotopeErrorConverter<IIdentifiedSpectrum>());
 
       this.RegisterConverter(new IdentifiedSpectrumNumProteaseTerminiConverter<IIdentifiedSpectrum>());
 

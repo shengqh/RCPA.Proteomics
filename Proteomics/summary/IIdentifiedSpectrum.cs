@@ -16,6 +16,8 @@ namespace RCPA.Proteomics.Summary
 
     int Charge { get; set; }
 
+    int IsotopeError { get; set; }
+
     double ObservedMz { get; set; }
 
     string Tag { get; set; }

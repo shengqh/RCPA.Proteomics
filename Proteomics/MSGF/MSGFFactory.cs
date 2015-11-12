@@ -1,4 +1,5 @@
-﻿using RCPA.Proteomics.ProteomeDiscoverer;
+﻿using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.ProteomeDiscoverer;
 using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.Summary.Uniform;
 using System;
@@ -36,6 +37,14 @@ namespace RCPA.Proteomics.MSGF
     public override IDatasetOptions GetOptions()
     {
       return new MSGFDatasetOptions();
+    }
+
+    public virtual IIdentifiedPeptideTextFormat GetPeptideFormat(bool notExportSummary = false)
+    {
+      return new MascotPeptideTextFormat("\tFileScan\tSequence\tObs\tMH+\tDiff(MH+)\tDiffPPM\tCharge\tRank\tScore\tExpectValue\tQValue\tReference\tMissCleavage\tModification\tMatchCount\tNumProteaseTermini\tIsotopeError\tMSGF:DeNovoScore\tMSGF:DatabaseEValue\tMSGF:MS2IonCurrent")
+      {
+        NotExportSummary = notExportSummary
+      };
     }
   }
 }

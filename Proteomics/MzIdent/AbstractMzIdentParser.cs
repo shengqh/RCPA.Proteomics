@@ -120,7 +120,7 @@ namespace RCPA.Proteomics.MzIdent
 
     #region IFileReader<List<IIdentifiedSpectrum>> Members
 
-    private static string[] extensions = new[] {".raw", ".mzml", ".mzxml",".mgf" };
+    private static string[] extensions = new[] { ".raw", ".mzml", ".mzxml", ".mgf" };
 
     public List<IIdentifiedSpectrum> ReadFromFile(string fileName)
     {
@@ -257,6 +257,9 @@ namespace RCPA.Proteomics.MzIdent
 
             ParseScore(spectrum, cvParams);
 
+            var userParams = GetUserParams(sit);
+            ParseUserParams(spectrum, cvParams);
+
             bFirst = false;
           }
 
@@ -280,6 +283,16 @@ namespace RCPA.Proteomics.MzIdent
       }
 
       return result;
+    }
+
+    private Dictionary<string, string> GetUserParams(XElement sit)
+    {
+      return (from up in sit.FindElements("userParam")
+              select new
+              {
+                Name = up.Attribute("name").Value,
+                Value = up.Attribute("value").Value
+              }).ToDictionary(m => m.Name, m => m.Value);
     }
 
     private List<XElement> FilterItems(List<XElement> list, Dictionary<string, MzIdentPeptideItem> peptideMap, Dictionary<string, MzIdentPeptideEvidenceItem> peptideEvidenceMap)
@@ -371,6 +384,8 @@ namespace RCPA.Proteomics.MzIdent
     }
 
     protected abstract void ParseScore(IdentifiedSpectrum spectrum, Dictionary<string, string> cvParams);
+
+    protected virtual void ParseUserParams(IdentifiedSpectrum spectrum, Dictionary<string, string> userParams) { }
 
     #endregion
   }

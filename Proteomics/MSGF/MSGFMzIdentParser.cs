@@ -38,9 +38,38 @@ namespace RCPA.Proteomics.MSGF
         spectrum.Score = double.Parse(score);
       }
 
+      if (cvParams.TryGetValue("MS:1002050", out score))
+      {
+        spectrum.SpScore = double.Parse(score);
+      }
+
       if (cvParams.TryGetValue("MS:1002052", out score))
       {
         spectrum.ExpectValue = double.Parse(score);
+      }
+
+      if (cvParams.TryGetValue("MS:1002053", out score))
+      {
+        spectrum.Probability = double.Parse(score);
+      }
+
+      if (cvParams.TryGetValue("MS:1002054", out score))
+      {
+        spectrum.QValue = double.Parse(score);
+      }
+    }
+
+    protected override void ParseUserParams(IdentifiedSpectrum spectrum, Dictionary<string, string> userParams)
+    {
+      base.ParseUserParams(spectrum, userParams);
+      string value;
+      if (userParams.TryGetValue("IsotopeError", out value))
+      {
+        spectrum.IsotopeError = int.Parse(value);
+      }
+      if (userParams.TryGetValue("MS2IonCurrent", out value))
+      {
+        spectrum.MatchedTIC = int.Parse(value);
       }
     }
 

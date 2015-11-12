@@ -25,6 +25,7 @@ namespace RCPA.Proteomics.Summary
       Id = string.Empty;
       NumProteaseTermini = 2;
       Tag = string.Empty;
+      IsotopeError = 0;
     }
 
     public IdentifiedSpectrum(SequestFilename sf)
@@ -69,6 +70,8 @@ namespace RCPA.Proteomics.Summary
         ClassificationTag = value;
       }
     }
+
+    public int IsotopeError { get; set; }
 
     public string ClassificationTag { get; set; }
 
