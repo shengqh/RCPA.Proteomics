@@ -17,7 +17,7 @@ namespace RCPA.Proteomics.Summary
   {
     public static readonly string Title = "Peptide-Spectrum-Match Distiller";
 
-    public static readonly string Version = "1.0.0";
+    public static readonly string Version = "1.0.1";
 
     protected RcpaComboBox<ITitleParser> titleParsers;
     protected RcpaComboBox<string> engines;
@@ -26,7 +26,7 @@ namespace RCPA.Proteomics.Summary
     {
       InitializeComponent();
 
-      this.peptideFile.FileArgument = new OpenFileArgument("Search Result", "*");
+      this.searchResultFiles.FileArgument = new OpenFileArgument("Search Result", "*");
 
       var parsers = TitleParserUtils.GetTitleParsers().ToArray();
       this.titleParsers = new RcpaComboBox<ITitleParser>(this.cbTitleFormat, "TitleFormat", parsers, parsers.Length - 1, true);
@@ -43,12 +43,18 @@ namespace RCPA.Proteomics.Summary
     {
       var options = new PeptideSpectrumMatchDistillerOptions()
       {
+        InputFiles = searchResultFiles.FileNames,
         EngineType = engines.SelectedItem,
         TitleType = titleParsers.SelectedItem.FormatName,
-        InputFile = peptideFile.FullName
+        Rank2 = rbRank2.Enabled && rbRank2.Checked
       };
 
       return new PeptideSpectrumMatchDistiller(options);
+    }
+
+    private void cbEngines_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      rbRank2.Enabled = PeptideSpectrumMatchDistillerOptions.GetValidRank2Engines().Contains(cbEngines.SelectedItem);
     }
   }
 }

@@ -23,27 +23,31 @@ namespace RCPA.Proteomics.Summary
     public override IEnumerable<string> Process()
     {
       var searchEngine = EnumUtils.StringToEnum<SearchEngineType>(options.EngineType, SearchEngineType.Unknown);
+      var factory = searchEngine.GetFactory();
 
-      ISpectrumParser parser = searchEngine.GetFactory().GetParser(options.InputFile, options.Rank2);
       string suffix = options.Rank2 ? ".rank2" : string.Empty;
-
-      if (!string.IsNullOrEmpty(options.TitleType))
+      var result = new List<string>();
+      foreach (var inputfile in options.InputFiles)
       {
-        parser.TitleParser = TitleParserUtils.FindByName(options.TitleType);
+        ISpectrumParser parser = factory.GetParser(inputfile, options.Rank2);
+        if (!string.IsNullOrEmpty(options.TitleType))
+        {
+          parser.TitleParser = TitleParserUtils.FindByName(options.TitleType);
+        }
+        parser.Progress = this.Progress;
+
+        Progress.SetMessage("Parsing " + inputfile + "...");
+        var spectra = parser.ReadFromFile(inputfile);
+        var format = factory.GetPeptideFormat(true);
+
+        var outputFile = string.IsNullOrEmpty(options.OutputFile) ? inputfile + suffix + ".peptides" : options.OutputFile;
+        Progress.SetMessage("Writing {0} PSMs to {1}...", spectra.Count, outputFile);
+        format.WriteToFile(outputFile, spectra);
+
+        result.Add(outputFile);
       }
-      parser.Progress = this.Progress;
 
-      Progress.SetMessage("Parsing " + options.InputFile + "...");
-      var spectra = parser.ReadFromFile(options.InputFile);
-      var format = new MascotPeptideTextFormat()
-      {
-        NotExportSummary = true
-      };
-      var outputFile = string.IsNullOrEmpty(options.OutputFile) ? options.InputFile + suffix + ".peptides" : options.OutputFile;
-      Progress.SetMessage("Writing {0} PSMs to {1}...", spectra.Count, outputFile);
-      format.WriteToFile(outputFile, spectra);
-
-      return new[] { outputFile };
+      return result;
     }
   }
 }

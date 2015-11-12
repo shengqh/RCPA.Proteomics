@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using RCPA.Commandline;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -14,8 +15,8 @@ namespace RCPA.Proteomics.Summary
       this.Rank2 = false;
     }
 
-    [Option('i', "inputFile", Required = true, MetaValue = "FILE", HelpText = "Input search result file")]
-    public string InputFile { get; set; }
+    [OptionList('i', "inputFiles", Required = true, MetaValue = "FILE", HelpText = "Input search result files")]
+    public IList<string> InputFiles { get; set; }
 
     [Option('e', "engineType", Required = true, MetaValue = "STRING", HelpText = "Engine type: MASCOT, SEQUEST, Comet, XTandem, PFind, PeptidePhophet, MyriMatch, MSGF, OMSSA, MSAmanda, Percolator")]
     public string EngineType { get; set; }
@@ -36,9 +37,12 @@ namespace RCPA.Proteomics.Summary
 
     public override bool PrepareOptions()
     {
-      if (!File.Exists(this.InputFile))
+      foreach (var inputfile in this.InputFiles)
       {
-        ParsingErrors.Add(string.Format("Input file not exists {0}.", this.InputFile));
+        if (!File.Exists(inputfile))
+        {
+          ParsingErrors.Add(string.Format("Input file not exists {0}.", inputfile));
+        }
       }
 
       var engine = GetSearchEngineType();
@@ -62,19 +66,28 @@ namespace RCPA.Proteomics.Summary
          select t.FormatName).ToList().ForEach(m => ParsingErrors.Add("    " + m));
       }
 
-      if (Rank2 && engine != SearchEngineType.Unknown && File.Exists(this.InputFile))
+      if (Rank2 && engine != SearchEngineType.Unknown)
       {
-        try
+        foreach (var inputfile in InputFiles)
         {
-          var parser = engine.GetFactory().GetParser(this.InputFile, this.Rank2);
-        }
-        catch (Exception ex)
-        {
-          ParsingErrors.Add(ex.Message);
+          try
+          {
+            var parser = engine.GetFactory().GetParser(inputfile, this.Rank2);
+          }
+          catch (Exception ex)
+          {
+            ParsingErrors.Add(ex.Message);
+            break;
+          }
         }
       }
 
       return ParsingErrors.Count == 0;
+    }
+
+    public static string[] GetValidRank2Engines()
+    {
+      return new[] { "Comet", "MSAmanda", "MSGF", "MyriMatch" };
     }
 
     public static string[] GetValidEngines()
