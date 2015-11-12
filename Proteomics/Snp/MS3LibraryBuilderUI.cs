@@ -19,7 +19,7 @@ namespace RCPA.Proteomics.Snp
   public partial class MS3LibraryBuilderUI : AbstractProcessorUI
   {
     private static readonly string title = "MS3 Library Builder";
-    private static readonly string version = "1.0.4";
+    public static readonly string Version = "1.0.6";
 
     private RcpaDoubleField precursorPPM;
     private RcpaDoubleField fragmentPPM;
@@ -30,7 +30,7 @@ namespace RCPA.Proteomics.Snp
     {
       InitializeComponent();
 
-      this.Text = Constants.GetSQHTitle(title, version);
+      this.Text = Constants.GetSQHTitle(title, Version);
 
       rawFiles.FileArgument = new OpenFileArgument("Raw", "raw");
       AddComponent(this.rawFiles);
@@ -97,7 +97,7 @@ namespace RCPA.Proteomics.Snp
 
       public string GetVersion()
       {
-        return version;
+        return Version;
       }
 
       public void Run()

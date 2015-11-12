@@ -19,7 +19,6 @@ namespace RCPA.Proteomics.Snp
   public partial class MS3LibraryPredictorUI : AbstractProcessorUI
   {
     private static readonly string title = "MS3 Peptide Variants Interpreter";
-    private static readonly string version = "1.0.5";
 
     private RcpaDoubleField ppmMS2Precursor;
     private RcpaDoubleField ppmMS3Precursor;
@@ -34,7 +33,7 @@ namespace RCPA.Proteomics.Snp
     {
       InitializeComponent();
 
-      this.Text = Constants.GetSQHTitle(title, version);
+      this.Text = Constants.GetSQHTitle(title, MS3LibraryBuilderUI.Version);
 
       rawFiles.FileArgument = new OpenFileArgument("Raw", "raw");
       AddComponent(this.rawFiles);
@@ -118,7 +117,7 @@ namespace RCPA.Proteomics.Snp
 
       public string GetVersion()
       {
-        return version;
+        return MS3LibraryBuilderUI.Version;
       }
 
       public void Run()

@@ -47,10 +47,14 @@ namespace RCPA.Proteomics.Snp
       var fs = predict.Ms2.FileScans.FirstOrDefault(m => expectScans.ContainsKey(m.ShortFileName));
 
       var isExpect = fs != null;
-      var expect = isExpect ? new TargetSAP() { Source = expectScans[fs.ShortFileName].Source.ToString(), Target = expectScans[fs.ShortFileName].Target.ToString() } : null;
+      var expect = isExpect ? new TargetVariant()
+      {
+        Source = expectScans[fs.ShortFileName].Source.ToString(),
+        Target = new HashSet<string>(new[] { expectScans[fs.ShortFileName].Target.ToString() })
+      } : null;
 
       return base.GetValue(predict) + string.Format("\t{0}\t{1}",
-        predict.Expect == null ? string.Empty : string.Format("{0} => {1}", predict.Expect.Source, predict.Expect.Target),
+        predict.Expect == null ? string.Empty : string.Format("{0} => {1}", predict.Expect.Source, predict.Expect.Target.Merge(",")),
         predict.IsExpect);
     }
   }

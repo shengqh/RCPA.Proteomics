@@ -26,7 +26,7 @@ namespace RCPA.Proteomics.Snp
 
     protected virtual string GetValue(SapPredicted predict)
     {
-      return string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}\t{15}\t{16}\t{17}\t{18}",
+      return string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}\t{15}\t{16}\t{17}",
         predict.Ms2.GetFileScans(),
         predict.Ms2.Precursor,
         predict.Ms2.Charge,
@@ -38,19 +38,18 @@ namespace RCPA.Proteomics.Snp
         predict.LibMs2.Score,
         predict.LibMs2.ExpectValue,
         predict.LibMs2.Proteins,
-        predict.Target.IsTerminalLoss && predict.Target.IsNterminalLoss,
-        predict.Target.IsTerminalLoss && !predict.Target.IsNterminalLoss,
+        predict.Target.TargetType,
         predict.Target.Source,
-        predict.Target.Target,
+        predict.Target.Target.Merge(","),
         predict.Target.DeltaMass,
         (predict.Ms2.Precursor - predict.LibMs2.Precursor) * predict.Ms2.Charge,
-        predict.Target.IsTerminalLoss ? false : MutationUtils.IsDeamidatedMutation(predict.Target.Source[0], predict.Target.Target[0]),
-        predict.Target.IsTerminalLoss ? false : MutationUtils.IsSingleNucleotideMutation(predict.Target.Source[0], predict.Target.Target[0]));
+        predict.Target.IsDeamidatedMutation,
+        predict.Target.IsSingleNucleotideMutation);
     }
 
     protected virtual string GetHeader()
     {
-      return "FileScan\tPrecursor\tCharge\tLibPrecursor\tMatchedMs3Precursor\tMatchedMs3Ions\tLibFileScan\tLibSequence\tLibScore\tLibExpectValue\tLibProteins\tIsNterminalLoss\tIsCterminalLoss\tFrom\tTo\tExpectDeltaMass\tRealDeltaMass\tIsDeamidatedMutation\tIsSingleNucleotideMutation";
+      return "FileScan\tPrecursor\tCharge\tLibPrecursor\tMatchedMs3Precursor\tMatchedMs3Ions\tLibFileScan\tLibSequence\tLibScore\tLibExpectValue\tLibProteins\tVarientType\tFrom\tTo\tExpectDeltaMass\tRealDeltaMass\tIsDeamidatedMutation\tIsSingleNucleotideMutation";
     }
   }
 }

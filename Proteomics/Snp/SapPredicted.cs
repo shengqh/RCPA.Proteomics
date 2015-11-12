@@ -11,8 +11,8 @@ namespace RCPA.Proteomics.Snp
     public MS2Item Ms2 { get; set; }
     public MS2Item LibMs2 { get; set; }
     public SapMatchedCount Matched { get; set; }
-    public TargetSAP Target { get; set; }
-    public TargetSAP Expect { get; set; }
+    public TargetVariant Target { get; set; }
+    public TargetVariant Expect { get; set; }
     public bool IsExpect
     {
       get

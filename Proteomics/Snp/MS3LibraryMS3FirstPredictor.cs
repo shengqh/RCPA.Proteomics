@@ -54,6 +54,11 @@ namespace RCPA.Proteomics.Snp
             {
               CheckTerminalLoss(predicted, query, libms2, ms3match);
             }
+
+            if (options.AllowTerminalExtension)
+            {
+              CheckTerminalExtension(predicted, query, libms2, ms3match);
+            }
           }
         }
       }

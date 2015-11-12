@@ -34,7 +34,7 @@ namespace RCPA.Proteomics.Snp
 
       Progress.SetMessage("Building library sequence amino acid composition ...");
       lib.ForEach(m => m.Value.ForEach(l => l.AminoacidCompsition = (from a in l.Peptide
-                                                                     where options.AllowedMassChangeMap.ContainsKey(a)
+                                                                     where options.SubstitutionDeltaMassMap.ContainsKey(a)
                                                                      select a).Distinct().OrderBy(k => k).ToArray()));
 
       var expScanMap = (from p in liblist
@@ -50,8 +50,8 @@ namespace RCPA.Proteomics.Snp
       Progress.SetMessage("Finding SAP ...");
       List<SapPredicted> predicted = new List<SapPredicted>();
 
-      var minDeltaMass = options.AllowedMassChangeMap.Values.Min(l => l.Min(k => k.DeltaMass));
-      var maxDeltaMass = options.AllowedMassChangeMap.Values.Max(l => l.Max(k => k.DeltaMass));
+      var minDeltaMass = options.SubstitutionDeltaMassMap.Values.Min(l => l.Min(k => k.DeltaMass));
+      var maxDeltaMass = options.SubstitutionDeltaMassMap.Values.Max(l => l.Max(k => k.DeltaMass));
 
       Progress.SetRange(0, result.Count);
       Progress.Begin();
@@ -103,7 +103,7 @@ namespace RCPA.Proteomics.Snp
         foreach (var predict in predicted)
         {
           var seq = PeptideUtils.GetPureSequence(predict.LibMs2.Peptide);
-          if (!predict.Target.IsTerminalLoss)
+          if (predict.Target.TargetType == VariantType.SingleAminoacidPolymorphism)
           {
             for (int i = 0; i < seq.Length; i++)
             {
@@ -119,24 +119,49 @@ namespace RCPA.Proteomics.Snp
                   targetSeq = seq.Substring(0, i) + predict.Target.Target + seq.Substring(i + 1);
                 }
 
-                var reference = string.Format("sp|SAP_{0}|{1}_{2}_{3}_{4}", targetSeq, seq, predict.Target.Source, i + 1, predict.Target.Target);
+                var reference = string.Format("sp|SAP_{0}_{1}|{2}_{3}_{4}_{5}", targetSeq, predict.Target.TargetType, seq, predict.Target.Source, i + 1, predict.Target.Target);
                 predictedSeq.Add(new Sequence(reference, targetSeq));
               }
             }
           }
           else
           {
-            string targetSeq = predict.Target.Target;
+            foreach (var tseq in predict.Target.Target)
+            {
+              string reference;
+              if (predict.Target.TargetType == VariantType.NTerminalLoss)
+              {
+                reference = string.Format("sp|SAP_{0}_{1}|{2}_loss_{3}", tseq, predict.Target.TargetType, seq, seq.Substring(0, seq.Length - tseq.Length));
+              }
+              else if (predict.Target.TargetType == VariantType.CTerminalLoss)
+              {
+                reference = string.Format("sp|SAP_{0}_{1}|{2}_loss_{3}", tseq, predict.Target.TargetType, seq, seq.Substring(tseq.Length));
+              }
+              else if (predict.Target.TargetType == VariantType.NTerminalExtension)
+              {
+                reference = string.Format("sp|SAP_{0}_{1}|{2}_ext_{3}", tseq, predict.Target.TargetType, seq, tseq.Substring(0, tseq.Length - seq.Length));
+              }
+              else if (predict.Target.TargetType == VariantType.CTerminalExtension)
+              {
+                reference = string.Format("sp|SAP_{0}_{1}|{2}_ext_{3}", tseq, predict.Target.TargetType, seq, tseq.Substring(seq.Length));
+              }
+              else
+              {
+                throw new Exception("I don't know how to deal with " + predict.Target.TargetType.ToString());
+              }
 
-            var reference = string.Format("sp|SAP_{0}|{1}_loss_{2}term_{3}", targetSeq, seq, predict.Target.IsNterminalLoss ? "n" : "c", seq.Substring(0, seq.Length - targetSeq.Length));
-            predictedSeq.Add(new Sequence(reference, targetSeq));
+              predictedSeq.Add(new Sequence(reference, tseq));
+            }
           }
         }
 
         predictedSeq = (from g in predictedSeq.GroupBy(m => m.SeqString)
                         select g.First()).ToList();
 
+        Progress.SetMessage("Reading database {0} ...", options.DatabaseFastaFile);
         var databases = SequenceUtils.Read(options.DatabaseFastaFile);
+
+        Progress.SetMessage("Removing variant sequences which are already existed in database ...");
         for (int i = predictedSeq.Count - 1; i >= 0; i--)
         {
           foreach (var db in databases)
@@ -210,7 +235,7 @@ namespace RCPA.Proteomics.Snp
     {
       foreach (var aa in libms2.AminoacidCompsition)
       {
-        var lst = options.AllowedMassChangeMap[aa];
+        var lst = options.SubstitutionDeltaMassMap[aa];
         foreach (var ts in lst)
         {
           var targetMz = query.Precursor - ts.DeltaMass / query.Charge;
@@ -229,12 +254,12 @@ namespace RCPA.Proteomics.Snp
             Ms2 = query,
             LibMs2 = libms2,
             Matched = ms3match,
-            Target = new TargetSAP()
+            Target = new TargetVariant()
             {
-              IsNterminalLoss = false,
               Source = ts.Source,
               Target = ts.Target,
-              DeltaMass = ts.DeltaMass
+              DeltaMass = ts.DeltaMass,
+              TargetType = ts.TargetType
             }
           };
 
@@ -254,12 +279,12 @@ namespace RCPA.Proteomics.Snp
             Ms2 = query,
             LibMs2 = libms2,
             Matched = ms3match,
-            Target = new TargetSAP()
+            Target = new TargetVariant()
             {
-              IsNterminalLoss = nl.IsNterminal,
               Source = PeptideUtils.GetPureSequence(libms2.Peptide),
-              Target = nl.Sequence,
-              DeltaMass = (nl.Precursor - libms2.Precursor) * libms2.Charge
+              Target = new HashSet<string>(new[] { nl.Sequence }),
+              DeltaMass = (nl.Precursor - libms2.Precursor) * libms2.Charge,
+              TargetType = nl.IsNterminal ? VariantType.NTerminalLoss : VariantType.CTerminalLoss
             }
           };
 
@@ -268,6 +293,45 @@ namespace RCPA.Proteomics.Snp
       }
     }
 
+    protected void CheckTerminalExtension(List<SapPredicted> predicted, MS2Item query, MS2Item libms2, SapMatchedCount ms3match)
+    {
+      foreach (var ne in options.ExtensionDeltaMassList)
+      {
+        var neMz = libms2.Precursor + ne.DeltaMass / libms2.Charge;
+        if (neMz >= query.MinPrecursorMz && neMz <= query.MaxPrecursorMz)
+        {
+          var seq = PeptideUtils.GetPureSequence(libms2.Peptide);
+
+          predicted.Add(new SapPredicted()
+          {
+            Ms2 = query,
+            LibMs2 = libms2,
+            Matched = ms3match,
+            Target = new TargetVariant()
+            {
+              Source = PeptideUtils.GetPureSequence(libms2.Peptide),
+              Target = new HashSet<string>(from t in ne.Target select t + seq),
+              DeltaMass = ne.DeltaMass,
+              TargetType = VariantType.NTerminalExtension
+            }
+          });
+
+          predicted.Add(new SapPredicted()
+          {
+            Ms2 = query,
+            LibMs2 = libms2,
+            Matched = ms3match,
+            Target = new TargetVariant()
+            {
+              Source = PeptideUtils.GetPureSequence(libms2.Peptide),
+              Target = new HashSet<string>(from t in ne.Target select seq + t),
+              DeltaMass = ne.DeltaMass,
+              TargetType = VariantType.CTerminalExtension
+            }
+          });
+        }
+      }
+    }
 
     protected static void OutputIntervalResult(StreamWriter sw, MS2Item query, MS2Item libms2, SapMatchedCount ms3match)
     {

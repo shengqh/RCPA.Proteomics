@@ -69,34 +69,111 @@ namespace RCPA.Proteomics.Snp
       return new MS3LibraryMS3FirstPredictor(this);
     }
 
-    private Dictionary<char, List<TargetSAP>> _allowedMassChangeMap = null;
+    private List<TargetVariant> _extensionDeltaMassList = null;
 
-    public Dictionary<char, List<TargetSAP>> AllowedMassChangeMap
+    public List<TargetVariant> ExtensionDeltaMassList
     {
       get
       {
-        if (_allowedMassChangeMap == null)
+        if (_extensionDeltaMassList == null)
         {
-          _allowedMassChangeMap = GetAllowedMassChange();
+          _extensionDeltaMassList = GetExtensionDeltaMass();
         }
-        return _allowedMassChangeMap;
+        return _extensionDeltaMassList;
       }
       set
       {
         if (value == null)
         {
-          _allowedMassChangeMap = GetAllowedMassChange();
+          _extensionDeltaMassList = GetExtensionDeltaMass();
         }
         else
         {
-          _allowedMassChangeMap = value;
+          _extensionDeltaMassList = value;
         }
       }
     }
 
-    private Dictionary<char, List<TargetSAP>> GetAllowedMassChange()
+    private List<TargetVariant> GetExtensionDeltaMass()
     {
-      var result = new Dictionary<char, List<TargetSAP>>();
+      var result = new List<TargetVariant>();
+
+      var aa = new Aminoacids();
+      var validAA = (from a in aa.GetVisibleAminoacids() where a != 'I' select a).ToArray();
+      foreach (var ai in validAA)
+      {
+        result.Add(new TargetVariant()
+        {
+          Source = string.Empty,
+          Target = new HashSet<string>(new[] { ai.ToString() }),
+          DeltaMass = aa[ai].MonoMass
+        });
+
+        foreach (var aj in validAA)
+        {
+          result.Add(new TargetVariant()
+          {
+            Source = string.Empty,
+            Target = new HashSet<string>(new[] { ai.ToString() + aj.ToString() }),
+            DeltaMass = aa[ai].MonoMass + aa[aj].MonoMass
+          });
+
+          foreach (var ak in validAA)
+          {
+            result.Add(new TargetVariant()
+            {
+              Source = string.Empty,
+              Target = new HashSet<string>(new[] { ai.ToString() + aj.ToString() + ak.ToString() }),
+              DeltaMass = aa[ai].MonoMass + aa[aj].MonoMass + aa[ak].MonoMass
+            });
+          }
+        }
+      }
+
+      var grp = result.GroupBy(m => m.DeltaMass).ToList().ConvertAll(l => l.ToList());
+      result.Clear();
+
+      foreach (var g in grp)
+      {
+        var tv = g.First();
+        for (int i = 1; i < g.Count; i++)
+        {
+          tv.Target.UnionWith(g[i].Target);
+        }
+        result.Add(tv);
+      }
+
+      return result;
+    }
+
+    private Dictionary<char, List<TargetVariant>> _substitutionDeltaMassMap = null;
+
+    public Dictionary<char, List<TargetVariant>> SubstitutionDeltaMassMap
+    {
+      get
+      {
+        if (_substitutionDeltaMassMap == null)
+        {
+          _substitutionDeltaMassMap = GetSubstitutionDeltaMass();
+        }
+        return _substitutionDeltaMassMap;
+      }
+      set
+      {
+        if (value == null)
+        {
+          _substitutionDeltaMassMap = GetSubstitutionDeltaMass();
+        }
+        else
+        {
+          _substitutionDeltaMassMap = value;
+        }
+      }
+    }
+
+    private Dictionary<char, List<TargetVariant>> GetSubstitutionDeltaMass()
+    {
+      var result = new Dictionary<char, List<TargetVariant>>();
 
       var aa = new Aminoacids();
       var validAA = aa.GetVisibleAminoacids();
@@ -121,7 +198,7 @@ namespace RCPA.Proteomics.Snp
 
           if (!result.ContainsKey(ai))
           {
-            result[ai] = new List<TargetSAP>();
+            result[ai] = new List<TargetVariant>();
           }
 
           var deltaMass = aa[aj].MonoMass - aa[ai].MonoMass;
@@ -130,7 +207,13 @@ namespace RCPA.Proteomics.Snp
             continue;
           }
 
-          result[ai].Add(new TargetSAP() { Source = ai.ToString(), Target = aj.ToString(), DeltaMass = deltaMass });
+          result[ai].Add(new TargetVariant()
+          {
+            Source = ai.ToString(),
+            Target = new HashSet<string>(new[] { aj.ToString() }),
+            DeltaMass = deltaMass,
+            TargetType = VariantType.SingleAminoacidPolymorphism
+          });
         }
       }
 
