@@ -1,4 +1,5 @@
-﻿using RCPA.Proteomics.Summary;
+﻿using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.Summary.Uniform;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,12 @@ namespace RCPA.Proteomics
     IDatasetOptions GetOptions();
 
     IScoreFunction FindScoreFunction(string scoreName);
+
+    /// <summary>
+    /// Get peptide format to save the parsing result
+    /// </summary>
+    /// <returns>Format reader/writer</returns>
+    IIdentifiedPeptideTextFormat GetPeptideFormat(bool notExportSummary = false);
   }
 
   public abstract class AbstractSearchEngineFactory : ISearchEngineFactory
@@ -80,5 +87,13 @@ namespace RCPA.Proteomics
     public abstract IDatasetOptions GetOptions();
 
     public abstract IScoreFunction[] GetScoreFunctions();
+
+    public virtual IIdentifiedPeptideTextFormat GetPeptideFormat(bool notExportSummary = false)
+    {
+      return new MascotPeptideTextFormat()
+      {
+        NotExportSummary = notExportSummary
+      };
+    }
   }
 }

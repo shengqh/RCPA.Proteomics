@@ -1,4 +1,5 @@
 ﻿using RCPA.Proteomics.Comet;
+using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.ProteomeDiscoverer;
 using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.Summary.Uniform;
@@ -11,44 +12,18 @@ using System.Text;
 
 namespace RCPA.Proteomics.Sequest
 {
-  public class SequestFactory : AbstractSearchEngineFactory
+  public class SequestFactory : AbstractSequestFactory
   {
     public SequestFactory() : base(SearchEngineType.SEQUEST) { }
 
     public override IScoreFunction[] GetScoreFunctions()
     {
-      return new IScoreFunction[] { new ScoreFunction("Xcorr"), new ExpectValueFunction("Comet:ExpectValue") };
-    }
-
-    public override List<IIdentifiedSpectrum> GetHighConfidentPeptides(List<IIdentifiedSpectrum> source)
-    {
-      IdentifiedSpectrumChargeScoreFilter filter = new IdentifiedSpectrumChargeScoreFilter(new double[] { 3, 3.5, 4 });
-      return (from pep in source
-              where filter.Accept(pep)
-              select pep).ToList();
+      return new IScoreFunction[] { new ScoreFunction("XCorr") };
     }
 
     private static readonly double _modificationDeltaScore = 0.08;
     public override ISpectrumParser GetParser(string name, bool extractRank2)
     {
-      if (name.ToLower().EndsWith(".xml"))
-      {
-        if (extractRank2)
-        {
-          return new CometXmlRank2Parser()
-          {
-            TitleParser = new DefaultTitleParser(TitleParserUtils.GetTitleParsers())
-          };
-        }
-        else
-        {
-          return new CometXmlParser()
-          {
-            TitleParser = new DefaultTitleParser(TitleParserUtils.GetTitleParsers())
-          };
-        }
-      }
-
       if (extractRank2)
       {
         throw new Exception("Extract rank2 PSM is not supported for Sequest");
@@ -67,7 +42,6 @@ namespace RCPA.Proteomics.Sequest
           return new SequestOutDirectoryParser(true, _modificationDeltaScore);
         }
       }
-
 
       if (name.ToLower().EndsWith(".msf"))
       {
@@ -93,6 +67,14 @@ namespace RCPA.Proteomics.Sequest
     public override IDatasetOptions GetOptions()
     {
       return new SequestDatasetOptions();
+    }
+
+    public override IIdentifiedPeptideTextFormat GetPeptideFormat(bool notExportSummary = false)
+    {
+      return new MascotPeptideTextFormat("\tFileScan\tSequence\tObs\tMH+\tDiff(MH+)\tDiffPPM\tCharge\tRank\tXCorr\tDeltaCn\tSpScore\tSpRank\tIons\tReference\tMissCleavage\tModification\tMatchCount\tNumProteaseTermini")
+      {
+        NotExportSummary = notExportSummary
+      };
     }
   }
 }

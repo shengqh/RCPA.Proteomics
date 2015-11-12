@@ -14,8 +14,8 @@ using RCPA.Proteomics.Summary.Uniform;
 
 namespace RCPA.Proteomics.Sequest
 {
-  public class SequestDatasetBuilder2 : AbstractOneParserDatasetBuilder<SequestDatasetOptions>
+  public class SequestDatasetBuilder : AbstractOneParserDatasetBuilder<SequestDatasetOptions>
   {
-    public SequestDatasetBuilder2(SequestDatasetOptions options) : base(options) { }
+    public SequestDatasetBuilder(SequestDatasetOptions options) : base(options) { }
   }
 }
