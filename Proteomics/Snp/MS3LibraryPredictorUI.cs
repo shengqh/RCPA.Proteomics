@@ -71,6 +71,8 @@ namespace RCPA.Proteomics.Snp
 
       libraryFile.FileArgument = new OpenFileArgument("Library", "xml");
 
+      peptidesFile.FileArgument = new OpenFileArgument("Excluding Peptides", "peptides");
+
       fastaFile.FileArgument = new OpenFileArgument("Database", "fasta");
 
       outputFile.FileArgument = new SaveFileArgument("Output Database", "fasta");
@@ -94,6 +96,7 @@ namespace RCPA.Proteomics.Snp
         AllowTerminalLoss = allowTerminalLoss.Checked,
         AllowTerminalExtension = allowTerminalExtension.Checked,
         LibraryFile = this.libraryFile.FullName,
+        PeptidesFile = this.peptidesFile.FullName,
         DatabaseFastaFile = this.fastaFile.FullName,
         OutputFile = this.outputFile.FullName
       };

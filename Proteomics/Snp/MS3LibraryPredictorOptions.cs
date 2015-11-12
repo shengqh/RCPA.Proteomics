@@ -50,9 +50,11 @@ namespace RCPA.Proteomics.Snp
 
     public double MinimumAminoacidSubstitutionDeltaMass { get; set; }
 
+    public IList<string> RawFiles { get; set; }
+
     public string LibraryFile { get; set; }
 
-    public IList<string> RawFiles { get; set; }
+    public string PeptidesFile { get; set; }
 
     public string DatabaseFastaFile { get; set; }
 
@@ -237,6 +239,11 @@ namespace RCPA.Proteomics.Snp
         {
           ParsingErrors.Add(string.Format("File not exists : {0}", rawFile));
         }
+      }
+
+      if (!string.IsNullOrWhiteSpace(PeptidesFile) && !File.Exists(PeptidesFile))
+      {
+        ParsingErrors.Add(string.Format("Excluding peptides file not exists : {0}", PeptidesFile));
       }
 
       return ParsingErrors.Count == 0;

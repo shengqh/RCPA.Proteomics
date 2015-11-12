@@ -55,6 +55,7 @@ namespace RCPA.Proteomics.Snp
       this.txtMS2PrecursorPPM = new System.Windows.Forms.TextBox();
       this.label4 = new System.Windows.Forms.Label();
       this.outputFile = new RCPA.Gui.FileField();
+      this.peptidesFile = new RCPA.Gui.FileField();
       this.pnlButton.SuspendLayout();
       this.panel1.SuspendLayout();
       this.SuspendLayout();
@@ -98,9 +99,8 @@ namespace RCPA.Proteomics.Snp
       this.rawFiles.SelectedIndex = -1;
       this.rawFiles.SelectedItem = null;
       this.rawFiles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-      this.rawFiles.Size = new System.Drawing.Size(1215, 427);
+      this.rawFiles.Size = new System.Drawing.Size(1215, 414);
       this.rawFiles.TabIndex = 13;
-      this.rawFiles.ValidateSelectedItemOnly = true;
       // 
       // toolTip1
       // 
@@ -110,6 +110,7 @@ namespace RCPA.Proteomics.Snp
       // 
       this.panel1.Controls.Add(this.txtMinimumMatchedMS3SpectrumCount);
       this.panel1.Controls.Add(this.label6);
+      this.panel1.Controls.Add(this.peptidesFile);
       this.panel1.Controls.Add(this.libraryFile);
       this.panel1.Controls.Add(this.fastaFile);
       this.panel1.Controls.Add(this.ignoreDeamidatedMutation);
@@ -132,9 +133,9 @@ namespace RCPA.Proteomics.Snp
       this.panel1.Controls.Add(this.label4);
       this.panel1.Controls.Add(this.outputFile);
       this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.panel1.Location = new System.Drawing.Point(0, 427);
+      this.panel1.Location = new System.Drawing.Point(0, 414);
       this.panel1.Name = "panel1";
-      this.panel1.Size = new System.Drawing.Size(1215, 217);
+      this.panel1.Size = new System.Drawing.Size(1215, 230);
       this.panel1.TabIndex = 41;
       // 
       // txtMinimumMatchedMS3SpectrumCount
@@ -175,7 +176,7 @@ namespace RCPA.Proteomics.Snp
             | System.Windows.Forms.AnchorStyles.Right)));
       this.fastaFile.FullName = "";
       this.fastaFile.Key = "DatabaseFile";
-      this.fastaFile.Location = new System.Drawing.Point(3, 143);
+      this.fastaFile.Location = new System.Drawing.Point(3, 172);
       this.fastaFile.Name = "fastaFile";
       this.fastaFile.OpenButtonText = "Browse Database File ...";
       this.fastaFile.PreCondition = null;
@@ -195,33 +196,33 @@ namespace RCPA.Proteomics.Snp
       this.ignoreDeamidatedMutation.TabIndex = 66;
       this.ignoreDeamidatedMutation.Text = "Ignore N->D, Q->E Mutation";
       // 
-      // cbAllowTerminalGain
+      // allowTerminalExtension
       // 
       this.allowTerminalExtension.Key = "AllowTerminalLoss";
       this.allowTerminalExtension.Location = new System.Drawing.Point(756, 32);
-      this.allowTerminalExtension.Name = "cbAllowTerminalGain";
+      this.allowTerminalExtension.Name = "allowTerminalExtension";
       this.allowTerminalExtension.PreCondition = null;
       this.allowTerminalExtension.Size = new System.Drawing.Size(185, 21);
       this.allowTerminalExtension.TabIndex = 65;
       this.allowTerminalExtension.Text = "Allow Terminal Extension";
       // 
-      // cbAllowTerminalLoss
+      // allowTerminalLoss
       // 
       this.allowTerminalLoss.Key = "AllowTerminalLoss";
       this.allowTerminalLoss.Location = new System.Drawing.Point(756, 8);
-      this.allowTerminalLoss.Name = "cbAllowTerminalLoss";
+      this.allowTerminalLoss.Name = "allowTerminalLoss";
       this.allowTerminalLoss.PreCondition = null;
       this.allowTerminalLoss.Size = new System.Drawing.Size(136, 21);
       this.allowTerminalLoss.TabIndex = 65;
       this.allowTerminalLoss.Text = "Allow Terminal Loss";
       // 
-      // ignoreMultipleNucleotideMutation
+      // isSingleNucleotideMutationOnly
       // 
       this.isSingleNucleotideMutationOnly.Checked = true;
       this.isSingleNucleotideMutationOnly.CheckState = System.Windows.Forms.CheckState.Checked;
       this.isSingleNucleotideMutationOnly.Key = "KeepSingleNucleotideMutationOnly";
       this.isSingleNucleotideMutationOnly.Location = new System.Drawing.Point(756, 82);
-      this.isSingleNucleotideMutationOnly.Name = "ignoreMultipleNucleotideMutation";
+      this.isSingleNucleotideMutationOnly.Name = "isSingleNucleotideMutationOnly";
       this.isSingleNucleotideMutationOnly.PreCondition = null;
       this.isSingleNucleotideMutationOnly.Size = new System.Drawing.Size(222, 23);
       this.isSingleNucleotideMutationOnly.TabIndex = 65;
@@ -346,13 +347,29 @@ namespace RCPA.Proteomics.Snp
             | System.Windows.Forms.AnchorStyles.Right)));
       this.outputFile.FullName = "";
       this.outputFile.Key = "OutputFile";
-      this.outputFile.Location = new System.Drawing.Point(4, 172);
+      this.outputFile.Location = new System.Drawing.Point(4, 201);
       this.outputFile.Name = "outputFile";
       this.outputFile.OpenButtonText = "Save Output File ...";
       this.outputFile.PreCondition = null;
       this.outputFile.Size = new System.Drawing.Size(1197, 23);
       this.outputFile.TabIndex = 56;
       this.outputFile.WidthOpenButton = 250;
+      // 
+      // peptidesFile
+      // 
+      this.peptidesFile.AfterBrowseFileEvent = null;
+      this.peptidesFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.peptidesFile.FullName = "";
+      this.peptidesFile.Key = "ExcludePeptidesFile";
+      this.peptidesFile.Location = new System.Drawing.Point(3, 143);
+      this.peptidesFile.Name = "peptidesFile";
+      this.peptidesFile.OpenButtonText = "Browse Excluding Peptides File ...";
+      this.peptidesFile.PreCondition = null;
+      this.peptidesFile.Required = false;
+      this.peptidesFile.Size = new System.Drawing.Size(1198, 23);
+      this.peptidesFile.TabIndex = 68;
+      this.peptidesFile.WidthOpenButton = 250;
       // 
       // MS3LibraryPredictorUI
       // 
@@ -401,5 +418,6 @@ namespace RCPA.Proteomics.Snp
     private Gui.RcpaCheckField allowTerminalExtension;
     private System.Windows.Forms.TextBox txtMinimumSubstitutionDeltaMass;
     private System.Windows.Forms.Label label8;
+    private Gui.FileField peptidesFile;
   }
 }

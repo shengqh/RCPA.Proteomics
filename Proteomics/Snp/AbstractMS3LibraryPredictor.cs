@@ -41,6 +41,22 @@ namespace RCPA.Proteomics.Snp
                         from sq in p.FileScans
                         select sq).ToList().GroupBy(m => m.Experimental).ToDictionary(m => m.Key, m => new HashSet<int>(from l in m select l.FirstScan));
 
+      if (File.Exists(options.PeptidesFile))
+      {
+        Progress.SetMessage("Reading peptides file used for excluding scan ...");
+        var peptides = new MascotPeptideTextFormat().ReadFromFile(options.PeptidesFile);
+        foreach (var pep in peptides)
+        {
+          HashSet<int> scans;
+          if (!expScanMap.TryGetValue(pep.Query.FileScan.Experimental, out scans))
+          {
+            scans = new HashSet<int>();
+            expScanMap[pep.Query.FileScan.Experimental] = scans;
+          }
+          scans.Add(pep.Query.FileScan.FirstScan);
+        }
+      }
+
       Progress.SetMessage("Reading MS2/MS3 data ...");
       var result = GetCandidateMs2ItemList(expRawfileMap, expScanMap);
       PreprocessingMS2ItemList(result, true);
@@ -438,14 +454,15 @@ namespace RCPA.Proteomics.Snp
       foreach (var exp in expRawfileMap.Keys)
       {
         var rawfile = expRawfileMap[exp];
-        var scans = expScanMap[exp];
-        var experimental = Path.GetFileNameWithoutExtension(rawfile);
+        var scans = expScanMap.ContainsKey(exp) ? expScanMap[exp] : new HashSet<int>();
 
+        Progress.SetMessage("Reading MS2/MS3 from {0} ...", rawfile);
         using (var reader = RawFileFactory.GetRawFileReader(rawfile, false))
         {
           var firstScan = reader.GetFirstSpectrumNumber();
           var lastScan = reader.GetLastSpectrumNumber();
 
+          Progress.SetRange(firstScan, lastScan);
           for (int scan = firstScan; scan < lastScan; scan++)
           {
             var msLevel = reader.GetMsLevel(scan);
@@ -459,12 +476,19 @@ namespace RCPA.Proteomics.Snp
               continue;
             }
 
+            if (Progress.IsCancellationPending())
+            {
+              throw new UserTerminatedException();
+            }
+
+            Progress.SetPosition(scan);
+
             var ms2precursor = reader.GetPrecursorPeak(scan);
             var ms2 = new MS2Item()
             {
               Precursor = ms2precursor.Mz,
               Charge = ms2precursor.Charge,
-              FileScans = new SequestFilename[] { new SequestFilename(experimental, scan, scan, ms2precursor.Charge, string.Empty) }.ToList()
+              FileScans = new SequestFilename[] { new SequestFilename(exp, scan, scan, ms2precursor.Charge, string.Empty) }.ToList()
             };
 
             for (int ms3scan = scan + 1; ms3scan < lastScan; ms3scan++)
