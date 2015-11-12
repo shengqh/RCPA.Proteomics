@@ -308,6 +308,7 @@
     <Compile Include="Proteomics\Processor\PeakListRemovePrecursorDaltonProcessor.cs" />
     <Compile Include="Proteomics\Processor\PeakListRemovePrecursorProcessorOptions.cs" />
     <Compile Include="Proteomics\PropertyConverter\IdentifiedProteinDecoyConverter.cs" />
+    <Compile Include="Proteomics\PropertyConverter\IdentifiedSpectrumIsotopeErrorConverter.cs" />
     <Compile Include="Proteomics\PropertyConverter\IdentifiedSpectrumRetentionTimeConverter.cs" />
     <Compile Include="Proteomics\PropertyConverter\IdentifiedSpectrumSiteProbabilityConverter.cs" />
     <Compile Include="Proteomics\ProteomeDiscoverer\MsfFastaDistillerUI.cs">

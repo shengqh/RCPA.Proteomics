@@ -258,7 +258,7 @@ namespace RCPA.Proteomics.MzIdent
             ParseScore(spectrum, cvParams);
 
             var userParams = GetUserParams(sit);
-            ParseUserParams(spectrum, cvParams);
+            ParseUserParams(spectrum, userParams);
 
             bFirst = false;
           }

@@ -69,7 +69,7 @@ namespace RCPA.Proteomics.MSGF
       }
       if (userParams.TryGetValue("MS2IonCurrent", out value))
       {
-        spectrum.MatchedTIC = int.Parse(value);
+        spectrum.MatchedTIC = double.Parse(value);
       }
     }
 

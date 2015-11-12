@@ -39,7 +39,7 @@ namespace RCPA.Proteomics.MSGF
       return new MSGFDatasetOptions();
     }
 
-    public virtual IIdentifiedPeptideTextFormat GetPeptideFormat(bool notExportSummary = false)
+    public override IIdentifiedPeptideTextFormat GetPeptideFormat(bool notExportSummary = false)
     {
       return new MascotPeptideTextFormat("\tFileScan\tSequence\tObs\tMH+\tDiff(MH+)\tDiffPPM\tCharge\tRank\tScore\tExpectValue\tQValue\tReference\tMissCleavage\tModification\tMatchCount\tNumProteaseTermini\tIsotopeError\tMSGF:DeNovoScore\tMSGF:DatabaseEValue\tMSGF:MS2IonCurrent")
       {
