@@ -11,17 +11,23 @@ namespace RCPA.Proteomics.Spectrum
   {
     private const double binWidth = 1.007276;
 
-    private static bool IsValidIndex(int index,int length){
+    private static bool IsValidIndex(int index, int length)
+    {
       return index >= 0 && index < length;
     }
 
-    public static PeakList<Peak> NormalizePeakIntensities(PeakList<Peak> pkl, double maxPeakMass)
+    public static PeakList<T> NormalizePeakIntensities<T>(PeakList<T> pkl, double maxPeakMass) where T : IPeak, new()
     {
-      PeakList<Peak> result = new PeakList<Peak>();
+      PeakList<T> result = new PeakList<T>();
       result.AssignInforamtion(pkl);
       foreach (var p in pkl)
       {
-        result.Add(new Peak(p.Mz, p.Intensity, p.Charge));
+        result.Add(new T()
+        {
+          Mz = p.Mz,
+          Intensity = p.Intensity,
+          Charge = p.Charge
+        });
       }
 
       result.RemoveAll(m => m.Mz > maxPeakMass);
@@ -41,7 +47,8 @@ namespace RCPA.Proteomics.Spectrum
       const int numberOfRegions = 10;
 
       double[] basePeakIntensityByRegion = new double[numberOfRegions];
-      for(int i= 0;i < basePeakIntensityByRegion.Length;i++){
+      for (int i = 0; i < basePeakIntensityByRegion.Length; i++)
+      {
         basePeakIntensityByRegion[i] = 1;
       }
 
@@ -80,7 +87,7 @@ namespace RCPA.Proteomics.Spectrum
     /// <param name="pkl1">Normalized peak list 1</param>
     /// <param name="pkl2">Normalized peak list 2</param>
     /// <returns></returns>
-    public static double CalculateUnnormalized(PeakList<Peak> pkl1, PeakList<Peak> pkl2)
+    public static double CalculateUnnormalized<T>(PeakList<T> pkl1, PeakList<T> pkl2) where T : IPeak, new()
     {
       var maxPeakMass = Math.Max(pkl1.Last().Mz, pkl2.Last().Mz);
       var n1 = NormalizePeakIntensities(pkl1, maxPeakMass);
@@ -94,7 +101,7 @@ namespace RCPA.Proteomics.Spectrum
     /// <param name="pkl1">Normalized peak list 1</param>
     /// <param name="pkl2">Normalized peak list 2</param>
     /// <returns></returns>
-    public static double Calculate(PeakList<Peak> pkl1, PeakList<Peak> pkl2)
+    public static double Calculate<T>(PeakList<T> pkl1, PeakList<T> pkl2) where T : IPeak, new()
     {
       double massCutOff = Math.Max(pkl1.Last().Mz, pkl2.Last().Mz) + 50;
 
@@ -127,7 +134,7 @@ namespace RCPA.Proteomics.Spectrum
       return result;
     }
 
-    private static double[] GetIntensityArray(PeakList<Peak> pkl1, int maxBins)
+    private static double[] GetIntensityArray<T>(PeakList<T> pkl1, int maxBins) where T : IPeak, new()
     {
       double[] data1 = new double[maxBins];
       foreach (var peak in pkl1)
