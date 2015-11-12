@@ -99,6 +99,7 @@
       this.panel1 = new System.Windows.Forms.Panel();
       this.rbUseSelectedOnly = new RCPA.Gui.RcpaRadioField();
       this.rbUseAll = new RCPA.Gui.RcpaRadioField();
+      this.btnComet = new System.Windows.Forms.Button();
       this.pnlButton.SuspendLayout();
       this.pnlAdd.SuspendLayout();
       this.tabControl1.SuspendLayout();
@@ -513,17 +514,18 @@
       // pnlAdd
       // 
       this.pnlAdd.Controls.Add(this.btnDelete);
-      this.pnlAdd.Controls.Add(this.btnMSAmanda);
-      this.pnlAdd.Controls.Add(this.btnAddPercolator);
-      this.pnlAdd.Controls.Add(this.btnAddOmssa);
-      this.pnlAdd.Controls.Add(this.btnAddMSGF);
-      this.pnlAdd.Controls.Add(this.btnAddMyriMatch);
-      this.pnlAdd.Controls.Add(this.btnIprophet);
-      this.pnlAdd.Controls.Add(this.btnAddPeptideProphet);
-      this.pnlAdd.Controls.Add(this.btnAddPFind);
       this.pnlAdd.Controls.Add(this.btnAddXtandem);
-      this.pnlAdd.Controls.Add(this.btnAddMascot);
       this.pnlAdd.Controls.Add(this.btnAddSequest);
+      this.pnlAdd.Controls.Add(this.btnAddPercolator);
+      this.pnlAdd.Controls.Add(this.btnAddPFind);
+      this.pnlAdd.Controls.Add(this.btnAddPeptideProphet);
+      this.pnlAdd.Controls.Add(this.btnAddOmssa);
+      this.pnlAdd.Controls.Add(this.btnAddMyriMatch);
+      this.pnlAdd.Controls.Add(this.btnAddMSGF);
+      this.pnlAdd.Controls.Add(this.btnMSAmanda);
+      this.pnlAdd.Controls.Add(this.btnAddMascot);
+      this.pnlAdd.Controls.Add(this.btnIprophet);
+      this.pnlAdd.Controls.Add(this.btnComet);
       this.pnlAdd.Dock = System.Windows.Forms.DockStyle.Left;
       this.pnlAdd.Location = new System.Drawing.Point(3, 35);
       this.pnlAdd.Name = "pnlAdd";
@@ -533,7 +535,7 @@
       // btnDelete
       // 
       this.btnDelete.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnDelete.Location = new System.Drawing.Point(0, 275);
+      this.btnDelete.Location = new System.Drawing.Point(0, 300);
       this.btnDelete.Name = "btnDelete";
       this.btnDelete.Size = new System.Drawing.Size(139, 25);
       this.btnDelete.TabIndex = 13;
@@ -544,7 +546,7 @@
       // btnMSAmanda
       // 
       this.btnMSAmanda.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnMSAmanda.Location = new System.Drawing.Point(0, 250);
+      this.btnMSAmanda.Location = new System.Drawing.Point(0, 75);
       this.btnMSAmanda.Name = "btnMSAmanda";
       this.btnMSAmanda.Size = new System.Drawing.Size(139, 25);
       this.btnMSAmanda.TabIndex = 22;
@@ -566,7 +568,7 @@
       // btnAddOmssa
       // 
       this.btnAddOmssa.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddOmssa.Location = new System.Drawing.Point(0, 200);
+      this.btnAddOmssa.Location = new System.Drawing.Point(0, 150);
       this.btnAddOmssa.Name = "btnAddOmssa";
       this.btnAddOmssa.Size = new System.Drawing.Size(139, 25);
       this.btnAddOmssa.TabIndex = 19;
@@ -577,7 +579,7 @@
       // btnAddMSGF
       // 
       this.btnAddMSGF.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddMSGF.Location = new System.Drawing.Point(0, 175);
+      this.btnAddMSGF.Location = new System.Drawing.Point(0, 100);
       this.btnAddMSGF.Name = "btnAddMSGF";
       this.btnAddMSGF.Size = new System.Drawing.Size(139, 25);
       this.btnAddMSGF.TabIndex = 20;
@@ -588,7 +590,7 @@
       // btnAddMyriMatch
       // 
       this.btnAddMyriMatch.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddMyriMatch.Location = new System.Drawing.Point(0, 150);
+      this.btnAddMyriMatch.Location = new System.Drawing.Point(0, 125);
       this.btnAddMyriMatch.Name = "btnAddMyriMatch";
       this.btnAddMyriMatch.Size = new System.Drawing.Size(139, 25);
       this.btnAddMyriMatch.TabIndex = 18;
@@ -599,7 +601,7 @@
       // btnIprophet
       // 
       this.btnIprophet.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnIprophet.Location = new System.Drawing.Point(0, 125);
+      this.btnIprophet.Location = new System.Drawing.Point(0, 25);
       this.btnIprophet.Name = "btnIprophet";
       this.btnIprophet.Size = new System.Drawing.Size(139, 25);
       this.btnIprophet.TabIndex = 23;
@@ -610,7 +612,7 @@
       // btnAddPeptideProphet
       // 
       this.btnAddPeptideProphet.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddPeptideProphet.Location = new System.Drawing.Point(0, 100);
+      this.btnAddPeptideProphet.Location = new System.Drawing.Point(0, 175);
       this.btnAddPeptideProphet.Name = "btnAddPeptideProphet";
       this.btnAddPeptideProphet.Size = new System.Drawing.Size(139, 25);
       this.btnAddPeptideProphet.TabIndex = 17;
@@ -621,7 +623,7 @@
       // btnAddPFind
       // 
       this.btnAddPFind.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddPFind.Location = new System.Drawing.Point(0, 75);
+      this.btnAddPFind.Location = new System.Drawing.Point(0, 200);
       this.btnAddPFind.Name = "btnAddPFind";
       this.btnAddPFind.Size = new System.Drawing.Size(139, 25);
       this.btnAddPFind.TabIndex = 16;
@@ -632,7 +634,7 @@
       // btnAddXtandem
       // 
       this.btnAddXtandem.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddXtandem.Location = new System.Drawing.Point(0, 50);
+      this.btnAddXtandem.Location = new System.Drawing.Point(0, 275);
       this.btnAddXtandem.Name = "btnAddXtandem";
       this.btnAddXtandem.Size = new System.Drawing.Size(139, 25);
       this.btnAddXtandem.TabIndex = 15;
@@ -643,7 +645,7 @@
       // btnAddMascot
       // 
       this.btnAddMascot.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddMascot.Location = new System.Drawing.Point(0, 25);
+      this.btnAddMascot.Location = new System.Drawing.Point(0, 50);
       this.btnAddMascot.Name = "btnAddMascot";
       this.btnAddMascot.Size = new System.Drawing.Size(139, 25);
       this.btnAddMascot.TabIndex = 14;
@@ -654,7 +656,7 @@
       // btnAddSequest
       // 
       this.btnAddSequest.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddSequest.Location = new System.Drawing.Point(0, 0);
+      this.btnAddSequest.Location = new System.Drawing.Point(0, 250);
       this.btnAddSequest.Name = "btnAddSequest";
       this.btnAddSequest.Size = new System.Drawing.Size(139, 25);
       this.btnAddSequest.TabIndex = 12;
@@ -934,6 +936,17 @@
       this.rbUseAll.Text = "Use all files";
       this.rbUseAll.UseVisualStyleBackColor = true;
       // 
+      // btnComet
+      // 
+      this.btnComet.Dock = System.Windows.Forms.DockStyle.Top;
+      this.btnComet.Location = new System.Drawing.Point(0, 0);
+      this.btnComet.Name = "btnComet";
+      this.btnComet.Size = new System.Drawing.Size(139, 25);
+      this.btnComet.TabIndex = 24;
+      this.btnComet.Text = "Add Comet";
+      this.btnComet.UseVisualStyleBackColor = true;
+      this.btnComet.Click += new System.EventHandler(this.btnComet_Click);
+      // 
       // UniformSummaryBuilderUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1032,5 +1045,6 @@
     private Gui.DoubleField minTargetDecoyRatio;
     private System.Windows.Forms.TextBox txtProteinTag;
     private System.Windows.Forms.CheckBox cbClassifyByProteinTag;
+    protected System.Windows.Forms.Button btnComet;
   }
 }

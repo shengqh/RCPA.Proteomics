@@ -8,8 +8,6 @@ namespace RCPA.Proteomics.Mascot
 {
   public class MascotPeptideTextFormat : AbstractPeptideTextFormat
   {
-    public bool NotExportSummary { get; set; }
-
     public bool IgnoreComments { get; set; }
 
     public MascotPeptideTextFormat()

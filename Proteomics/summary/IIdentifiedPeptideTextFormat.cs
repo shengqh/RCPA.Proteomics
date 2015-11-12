@@ -11,6 +11,8 @@ namespace RCPA.Proteomics.Summary
   public interface IIdentifiedPeptideTextFormat : IFileFormat<List<IIdentifiedSpectrum>>
   {
     void Initialize(List<IIdentifiedSpectrum> spectra);
+
+    bool NotExportSummary { get; set; }
   }
 
   public abstract class AbstractPeptideTextFormat : IIdentifiedPeptideTextFormat
@@ -20,6 +22,8 @@ namespace RCPA.Proteomics.Summary
     public Func<IIdentifiedSpectrum, bool> ValidSpectrum { get; set; }
 
     public AllocateSpectrum Allocate { get; set; }
+
+    public bool NotExportSummary { get; set; }
 
     public AbstractPeptideTextFormat()
     {

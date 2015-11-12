@@ -24,6 +24,7 @@ using RCPA.Proteomics.Sequest;
 using RCPA.Proteomics.Percolator;
 using RCPA.Proteomics.MSAmanda;
 using RCPA.Commandline;
+using RCPA.Proteomics.Comet;
 
 namespace RCPA.Tools.Summary
 {
@@ -659,6 +660,11 @@ namespace RCPA.Tools.Summary
     private void btnIprophet_Click(object sender, EventArgs e)
     {
       DoAddDatasetOption(new InterProphetDatasetOptions());
+    }
+
+    private void btnComet_Click(object sender, EventArgs e)
+    {
+      DoAddDatasetOption(new CometDatasetOptions());
     }
   }
 }

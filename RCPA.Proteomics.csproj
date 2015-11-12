@@ -179,6 +179,15 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Comet\CometXmlRank2Parser.cs" />
+    <Compile Include="Proteomics\Comet\CometFactory.cs" />
+    <Compile Include="Proteomics\Comet\CometDatasetBuilder.cs" />
+    <Compile Include="Proteomics\Comet\CometDatasetOptions.cs" />
+    <Compile Include="Proteomics\Comet\CometDatasetPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Comet\CometDatasetPanel.Designer.cs">
+      <DependentUpon>CometDatasetPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Proteomics\Database\ReversedDatabaseIndexBuilder.cs" />
     <Compile Include="Proteomics\Database\ReversedDatabaseBuilder.cs" />
     <Compile Include="Proteomics\Database\ReversedDatabaseBuilderCommand.cs" />
@@ -340,7 +349,14 @@
     <Compile Include="Proteomics\Raw\ScanLevelFormat.cs" />
     <Compile Include="Proteomics\SearchResultToPeptideBuilder.cs" />
     <Compile Include="Proteomics\Sequest\AbstractSequestSpectrumParser.cs" />
-    <Compile Include="Proteomics\Sequest\SequestDatasetBuilder2.cs" />
+    <Compile Include="Proteomics\Sequest\SequestDatasetBuilder.cs" />
+    <Compile Include="Proteomics\Sequest\AbstractSequestDatasetPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Sequest\AbstractSequestDatasetPanel.Designer.cs">
+      <DependentUpon>AbstractSequestDatasetPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\Sequest\AbstractSequestFactory.cs" />
     <Compile Include="Proteomics\Sequest\SequestFactory.cs" />
     <Compile Include="Proteomics\Sequest\ProLuCIDSqtParser.cs" />
     <Compile Include="Proteomics\Snp\AminoacidInsertionBuilder.cs" />
@@ -1265,6 +1281,10 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Comet\CometDatasetPanel.resx">
+      <DependentUpon>CometDatasetPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Mascot\MascotFilePanel.resx">
       <DependentUpon>MascotFilePanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -1306,6 +1326,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Quantification\IsobaricLabelling\IsobaricLabelingExperimentalDesignBuilderUI.resx">
       <DependentUpon>IsobaricLabelingExperimentalDesignBuilderUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Sequest\AbstractSequestDatasetPanel.resx">
+      <DependentUpon>AbstractSequestDatasetPanel.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Snp\AminoacidInsertionBuilderUI.resx">

@@ -149,7 +149,7 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     protected virtual IIdentifiedPeptideTextFormat GetPeptideFormat()
     {
-      return new MascotPeptideTextFormat();
+      return Options.SearchEngine.GetFactory().GetPeptideFormat();
     }
 
     protected virtual ISpectrumParser GetParser(string dataFile)
