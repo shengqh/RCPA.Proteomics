@@ -57,8 +57,8 @@ namespace RCPA.Proteomics.Database
     public ReversedDatabaseBuilderOptions()
     {
       ReversedOnly = false;
-      IsPseudoAminoacid = false;
-      PseudoAminoacids = string.Empty;
+      IsPseudoAminoacid = true;
+      PseudoAminoacids = "KR";
       IsPseudoForward = false;
       ContaminantFile = string.Empty;
       PseudoAminoacidBuilder = null;
