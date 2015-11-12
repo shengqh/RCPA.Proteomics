@@ -6,7 +6,7 @@ using RCPA.Gui.Command;
 
 namespace RCPA.Tools
 {
-  public class HelpCommand:IToolCommand
+  public class AboutCommand:IToolCommand
   {
     #region IToolCommand Members
 
@@ -17,7 +17,7 @@ namespace RCPA.Tools
 
     public string GetCaption()
     {
-      return "Homepage";
+      return "About ProteomicsTools";
     }
 
     public string GetVersion()
@@ -27,8 +27,7 @@ namespace RCPA.Tools
 
     public void Run()
     {
-      System.Diagnostics.ProcessStartInfo Info = new System.Diagnostics.ProcessStartInfo("https://github.com/shengqh/RCPA.Tools");
-      System.Diagnostics.Process Pro = System.Diagnostics.Process.Start(Info);
+      new AboutForm().Show();
     }
 
     #endregion

@@ -1656,6 +1656,9 @@
       <DependentUpon>ShuffleDatabaseBuilderUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Tools\AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Tools\Annotation\SequestSpectrumImageBuilderUI.resx">
       <DependentUpon>SequestSpectrumImageBuilderUI.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -2426,6 +2429,12 @@
       <DependentUpon>ShuffleDatabaseBuilderUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Thirdpart\UShuffle.cs" />
+    <Compile Include="Tools\AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\Annotation\SequestSpectrumImageBuilderUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2566,7 +2575,7 @@
     <Compile Include="Tools\Glycan\NGlycanPeptideMassCalculatorUI.Designer.cs">
       <DependentUpon>NGlycanPeptideMassCalculatorUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\HelpCommand.cs" />
+    <Compile Include="Tools\AboutCommand.cs" />
     <Compile Include="Tools\Isotopic\AtomCompositionIsotopicProfileBuilder.cs" />
     <Compile Include="Tools\Isotopic\AtomCompositionIsotopicProfileBuilderUI.cs">
       <SubType>Form</SubType>
