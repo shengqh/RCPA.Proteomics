@@ -9,9 +9,9 @@ using RCPA.Proteomics.PeptideProphet;
 
 namespace RCPA.Proteomics.MyriMatch
 {
-  public class MyriMatchPepXmlParser : AbstractPepXmlParser
+  public class MyriMatchXmlParser : AbstractPepXmlParser
   {
-    public MyriMatchPepXmlParser() { }
+    public MyriMatchXmlParser() { }
 
     public override SearchEngineType Engine
     {
