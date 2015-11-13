@@ -9,7 +9,7 @@ using RCPA.Proteomics.PeptideProphet;
 
 namespace RCPA.Proteomics.MyriMatch
 {
-  public class MyriMatchPepXmlParser : PeptideProphetXmlParser
+  public class MyriMatchPepXmlParser : AbstractPepXmlParser
   {
     public MyriMatchPepXmlParser() { }
 
@@ -20,10 +20,8 @@ namespace RCPA.Proteomics.MyriMatch
 
     #region IFileReader<List<IIdentifiedSpectrum>> Members
 
-    protected override void ParseScore(IIdentifiedSpectrum sph, XElement searchHit)
+    public override void ParseScoreAndOtherInformation(IIdentifiedSpectrum sph, XElement searchHit)
     {
-      base.ParseScore(sph, searchHit);
-
       var scores = searchHit.FindDescendants("search_score");
 
       foreach (var item in scores)

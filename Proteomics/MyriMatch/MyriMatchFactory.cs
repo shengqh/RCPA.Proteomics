@@ -29,7 +29,7 @@ namespace RCPA.Proteomics.MyriMatch
           throw new Exception("Extract rank2 PSM is not supported for MyriMatch pepXML format");
         }
 
-        return new MyriMatchPepXmlParser();
+        return new MyriMatchPepxmlParser();
       }
     }
 
