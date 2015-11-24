@@ -216,7 +216,28 @@ namespace RCPA.Tools.Summary
 
       Text = Constants.GetSQHTitle(title, version);
 
-      //DatasetFactory.GetInstance();
+      var engines = EnumUtils.EnumToArray<SearchEngineType>().OrderByDescending(m => m.ToString()).ToArray();
+      foreach (var engine in engines)
+      {
+        if (engine.HasFactory())
+        {
+          var button = new Button();
+          pnlAdd.Controls.Add(button);
+          button.Dock = System.Windows.Forms.DockStyle.Top;
+          button.UseVisualStyleBackColor = true;
+          button.Text = "Add " + engine.ToString();
+          button.Name = "btnAdd" + engine.ToString();
+          button.Tag = engine;
+          button.Click += button_Click;
+        }
+      }
+      pnlAdd.Update();
+    }
+
+    void button_Click(object sender, EventArgs e)
+    {
+      var engine = (SearchEngineType)((sender as Button).Tag);
+      DoAddDatasetOption(engine.GetFactory().GetOptions());
     }
 
     protected override void ValidateComponents()
@@ -605,66 +626,6 @@ namespace RCPA.Tools.Summary
       this.Option = new BuildSummaryOptions();
 
       AssignValueFromOption();
-    }
-
-    private void btnAddXtandem_Click(object sender, EventArgs e)
-    {
-      DoAddDatasetOption(new XTandemDatasetOptions());
-    }
-
-    private void btnAddPFind_Click(object sender, EventArgs e)
-    {
-      DoAddDatasetOption(new PFindDatasetOptions());
-    }
-
-    private void btnAddPeptideProphet_Click(object sender, EventArgs e)
-    {
-      DoAddDatasetOption(new PeptideProphetDatasetOptions());
-    }
-
-    private void btnAddSequest_Click(object sender, EventArgs e)
-    {
-      DoAddDatasetOption(new SequestDatasetOptions());
-    }
-
-    private void btnAddMascot_Click(object sender, EventArgs e)
-    {
-      DoAddDatasetOption(new MascotDatasetOptions());
-    }
-
-    private void btnAddOmssa_Click(object sender, EventArgs e)
-    {
-      DoAddDatasetOption(new OmssaDatasetOptions());
-    }
-
-    private void btnAddMyriMatch_Click(object sender, EventArgs e)
-    {
-      DoAddDatasetOption(new MyriMatchDatasetOptions());
-    }
-
-    private void btnAddMSGF_Click(object sender, EventArgs e)
-    {
-      DoAddDatasetOption(new MSGFDatasetOptions());
-    }
-
-    private void btnAddPercolator_Click(object sender, EventArgs e)
-    {
-      DoAddDatasetOption(new PercolatorDatasetOptions());
-    }
-
-    private void btnMSAmanda_Click(object sender, EventArgs e)
-    {
-      DoAddDatasetOption(new MSAmandaDatasetOptions());
-    }
-
-    private void btnIprophet_Click(object sender, EventArgs e)
-    {
-      DoAddDatasetOption(new InterProphetDatasetOptions());
-    }
-
-    private void btnComet_Click(object sender, EventArgs e)
-    {
-      DoAddDatasetOption(new CometDatasetOptions());
     }
   }
 }

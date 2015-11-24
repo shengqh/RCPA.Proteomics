@@ -34,6 +34,7 @@ namespace RCPA.Proteomics.Snp
       this.panel1 = new System.Windows.Forms.Panel();
       this.txtMinimumMatchedMS3SpectrumCount = new System.Windows.Forms.TextBox();
       this.label6 = new System.Windows.Forms.Label();
+      this.peptidesFile = new RCPA.Gui.FileField();
       this.libraryFile = new RCPA.Gui.FileField();
       this.fastaFile = new RCPA.Gui.FileField();
       this.ignoreDeamidatedMutation = new RCPA.Gui.RcpaCheckField();
@@ -55,7 +56,6 @@ namespace RCPA.Proteomics.Snp
       this.txtMS2PrecursorPPM = new System.Windows.Forms.TextBox();
       this.label4 = new System.Windows.Forms.Label();
       this.outputFile = new RCPA.Gui.FileField();
-      this.peptidesFile = new RCPA.Gui.FileField();
       this.pnlButton.SuspendLayout();
       this.panel1.SuspendLayout();
       this.SuspendLayout();
@@ -154,6 +154,22 @@ namespace RCPA.Proteomics.Snp
       this.label6.TabIndex = 69;
       this.label6.Text = "Minimum Matched MS3 Precursor Count :";
       // 
+      // peptidesFile
+      // 
+      this.peptidesFile.AfterBrowseFileEvent = null;
+      this.peptidesFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.peptidesFile.FullName = "";
+      this.peptidesFile.Key = "ExcludePeptidesFile";
+      this.peptidesFile.Location = new System.Drawing.Point(3, 143);
+      this.peptidesFile.Name = "peptidesFile";
+      this.peptidesFile.OpenButtonText = "Browse Excluding Peptides File ...";
+      this.peptidesFile.PreCondition = null;
+      this.peptidesFile.Required = false;
+      this.peptidesFile.Size = new System.Drawing.Size(1198, 23);
+      this.peptidesFile.TabIndex = 68;
+      this.peptidesFile.WidthOpenButton = 250;
+      // 
       // libraryFile
       // 
       this.libraryFile.AfterBrowseFileEvent = null;
@@ -192,7 +208,7 @@ namespace RCPA.Proteomics.Snp
       this.ignoreDeamidatedMutation.Location = new System.Drawing.Point(756, 58);
       this.ignoreDeamidatedMutation.Name = "ignoreDeamidatedMutation";
       this.ignoreDeamidatedMutation.PreCondition = null;
-      this.ignoreDeamidatedMutation.Size = new System.Drawing.Size(164, 23);
+      this.ignoreDeamidatedMutation.Size = new System.Drawing.Size(283, 23);
       this.ignoreDeamidatedMutation.TabIndex = 66;
       this.ignoreDeamidatedMutation.Text = "Ignore N->D, Q->E Mutation";
       // 
@@ -202,9 +218,9 @@ namespace RCPA.Proteomics.Snp
       this.allowTerminalExtension.Location = new System.Drawing.Point(756, 32);
       this.allowTerminalExtension.Name = "allowTerminalExtension";
       this.allowTerminalExtension.PreCondition = null;
-      this.allowTerminalExtension.Size = new System.Drawing.Size(185, 21);
+      this.allowTerminalExtension.Size = new System.Drawing.Size(283, 21);
       this.allowTerminalExtension.TabIndex = 65;
-      this.allowTerminalExtension.Text = "Allow Terminal Extension";
+      this.allowTerminalExtension.Text = "Allow Protein Terminal Extension (\'-\' indicates terminal)";
       // 
       // allowTerminalLoss
       // 
@@ -212,9 +228,9 @@ namespace RCPA.Proteomics.Snp
       this.allowTerminalLoss.Location = new System.Drawing.Point(756, 8);
       this.allowTerminalLoss.Name = "allowTerminalLoss";
       this.allowTerminalLoss.PreCondition = null;
-      this.allowTerminalLoss.Size = new System.Drawing.Size(136, 21);
+      this.allowTerminalLoss.Size = new System.Drawing.Size(283, 21);
       this.allowTerminalLoss.TabIndex = 65;
-      this.allowTerminalLoss.Text = "Allow Terminal Loss";
+      this.allowTerminalLoss.Text = "Allow Peptide Terminal Loss";
       // 
       // isSingleNucleotideMutationOnly
       // 
@@ -224,9 +240,9 @@ namespace RCPA.Proteomics.Snp
       this.isSingleNucleotideMutationOnly.Location = new System.Drawing.Point(756, 82);
       this.isSingleNucleotideMutationOnly.Name = "isSingleNucleotideMutationOnly";
       this.isSingleNucleotideMutationOnly.PreCondition = null;
-      this.isSingleNucleotideMutationOnly.Size = new System.Drawing.Size(222, 23);
+      this.isSingleNucleotideMutationOnly.Size = new System.Drawing.Size(283, 23);
       this.isSingleNucleotideMutationOnly.TabIndex = 65;
-      this.isSingleNucleotideMutationOnly.Text = "Keep Single Nucleotide Mutation Only";
+      this.isSingleNucleotideMutationOnly.Text = "For Mutation, Keep Single Nucleotide Mutation Only";
       // 
       // txtMinimumMatchedMS3FragmentIonCount
       // 
@@ -354,22 +370,6 @@ namespace RCPA.Proteomics.Snp
       this.outputFile.Size = new System.Drawing.Size(1197, 23);
       this.outputFile.TabIndex = 56;
       this.outputFile.WidthOpenButton = 250;
-      // 
-      // peptidesFile
-      // 
-      this.peptidesFile.AfterBrowseFileEvent = null;
-      this.peptidesFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.peptidesFile.FullName = "";
-      this.peptidesFile.Key = "ExcludePeptidesFile";
-      this.peptidesFile.Location = new System.Drawing.Point(3, 143);
-      this.peptidesFile.Name = "peptidesFile";
-      this.peptidesFile.OpenButtonText = "Browse Excluding Peptides File ...";
-      this.peptidesFile.PreCondition = null;
-      this.peptidesFile.Required = false;
-      this.peptidesFile.Size = new System.Drawing.Size(1198, 23);
-      this.peptidesFile.TabIndex = 68;
-      this.peptidesFile.WidthOpenButton = 250;
       // 
       // MS3LibraryPredictorUI
       // 

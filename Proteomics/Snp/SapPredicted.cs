@@ -21,7 +21,21 @@ namespace RCPA.Proteomics.Snp
         {
           return false;
         }
-        return Expect.Source.Equals(Target.Source) && Expect.Target.Equals(Target.Target);
+        
+        if (!this.Expect.Source.Equals(Target.Source))
+        {
+          return false;
+        }
+
+        foreach (var expect in Expect.Target)
+        {
+          if (!Target.Target.Contains(expect))
+          {
+            return false;
+          }
+        }
+
+        return true;
       }
     }
   }

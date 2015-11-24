@@ -15,7 +15,7 @@ namespace RCPA.Proteomics.PeptideProphet
   {
     public InterProphetDatasetOptions()
     {
-      this.SearchEngine = SearchEngineType.iPhophet;
+      this.SearchEngine = SearchEngineType.InterProphet;
     }
 
     public override IDatasetBuilder GetBuilder()

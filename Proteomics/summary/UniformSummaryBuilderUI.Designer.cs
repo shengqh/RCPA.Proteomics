@@ -68,17 +68,6 @@
       this.tcDatasetList = new System.Windows.Forms.TabControl();
       this.pnlAdd = new System.Windows.Forms.Panel();
       this.btnDelete = new System.Windows.Forms.Button();
-      this.btnMSAmanda = new System.Windows.Forms.Button();
-      this.btnAddPercolator = new System.Windows.Forms.Button();
-      this.btnAddOmssa = new System.Windows.Forms.Button();
-      this.btnAddMSGF = new System.Windows.Forms.Button();
-      this.btnAddMyriMatch = new System.Windows.Forms.Button();
-      this.btnIprophet = new System.Windows.Forms.Button();
-      this.btnAddPeptideProphet = new System.Windows.Forms.Button();
-      this.btnAddPFind = new System.Windows.Forms.Button();
-      this.btnAddXtandem = new System.Windows.Forms.Button();
-      this.btnAddMascot = new System.Windows.Forms.Button();
-      this.btnAddSequest = new System.Windows.Forms.Button();
       this.btnSaveParam = new System.Windows.Forms.Button();
       this.btnLoadParam = new System.Windows.Forms.Button();
       this.btnNew = new System.Windows.Forms.Button();
@@ -99,7 +88,6 @@
       this.panel1 = new System.Windows.Forms.Panel();
       this.rbUseSelectedOnly = new RCPA.Gui.RcpaRadioField();
       this.rbUseAll = new RCPA.Gui.RcpaRadioField();
-      this.btnComet = new System.Windows.Forms.Button();
       this.pnlButton.SuspendLayout();
       this.pnlAdd.SuspendLayout();
       this.tabControl1.SuspendLayout();
@@ -514,18 +502,6 @@
       // pnlAdd
       // 
       this.pnlAdd.Controls.Add(this.btnDelete);
-      this.pnlAdd.Controls.Add(this.btnAddXtandem);
-      this.pnlAdd.Controls.Add(this.btnAddSequest);
-      this.pnlAdd.Controls.Add(this.btnAddPercolator);
-      this.pnlAdd.Controls.Add(this.btnAddPFind);
-      this.pnlAdd.Controls.Add(this.btnAddPeptideProphet);
-      this.pnlAdd.Controls.Add(this.btnAddOmssa);
-      this.pnlAdd.Controls.Add(this.btnAddMyriMatch);
-      this.pnlAdd.Controls.Add(this.btnAddMSGF);
-      this.pnlAdd.Controls.Add(this.btnMSAmanda);
-      this.pnlAdd.Controls.Add(this.btnAddMascot);
-      this.pnlAdd.Controls.Add(this.btnIprophet);
-      this.pnlAdd.Controls.Add(this.btnComet);
       this.pnlAdd.Dock = System.Windows.Forms.DockStyle.Left;
       this.pnlAdd.Location = new System.Drawing.Point(3, 35);
       this.pnlAdd.Name = "pnlAdd";
@@ -535,134 +511,13 @@
       // btnDelete
       // 
       this.btnDelete.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnDelete.Location = new System.Drawing.Point(0, 300);
+      this.btnDelete.Location = new System.Drawing.Point(0, 0);
       this.btnDelete.Name = "btnDelete";
       this.btnDelete.Size = new System.Drawing.Size(139, 25);
       this.btnDelete.TabIndex = 13;
       this.btnDelete.Text = "Delete";
       this.btnDelete.UseVisualStyleBackColor = true;
       this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-      // 
-      // btnMSAmanda
-      // 
-      this.btnMSAmanda.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnMSAmanda.Location = new System.Drawing.Point(0, 75);
-      this.btnMSAmanda.Name = "btnMSAmanda";
-      this.btnMSAmanda.Size = new System.Drawing.Size(139, 25);
-      this.btnMSAmanda.TabIndex = 22;
-      this.btnMSAmanda.Text = "Add MSAmanda";
-      this.btnMSAmanda.UseVisualStyleBackColor = true;
-      this.btnMSAmanda.Click += new System.EventHandler(this.btnMSAmanda_Click);
-      // 
-      // btnAddPercolator
-      // 
-      this.btnAddPercolator.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddPercolator.Location = new System.Drawing.Point(0, 225);
-      this.btnAddPercolator.Name = "btnAddPercolator";
-      this.btnAddPercolator.Size = new System.Drawing.Size(139, 25);
-      this.btnAddPercolator.TabIndex = 21;
-      this.btnAddPercolator.Text = "Add Percolator";
-      this.btnAddPercolator.UseVisualStyleBackColor = true;
-      this.btnAddPercolator.Click += new System.EventHandler(this.btnAddPercolator_Click);
-      // 
-      // btnAddOmssa
-      // 
-      this.btnAddOmssa.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddOmssa.Location = new System.Drawing.Point(0, 150);
-      this.btnAddOmssa.Name = "btnAddOmssa";
-      this.btnAddOmssa.Size = new System.Drawing.Size(139, 25);
-      this.btnAddOmssa.TabIndex = 19;
-      this.btnAddOmssa.Text = "Add OMSSA";
-      this.btnAddOmssa.UseVisualStyleBackColor = true;
-      this.btnAddOmssa.Click += new System.EventHandler(this.btnAddOmssa_Click);
-      // 
-      // btnAddMSGF
-      // 
-      this.btnAddMSGF.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddMSGF.Location = new System.Drawing.Point(0, 100);
-      this.btnAddMSGF.Name = "btnAddMSGF";
-      this.btnAddMSGF.Size = new System.Drawing.Size(139, 25);
-      this.btnAddMSGF.TabIndex = 20;
-      this.btnAddMSGF.Text = "Add MSGF+";
-      this.btnAddMSGF.UseVisualStyleBackColor = true;
-      this.btnAddMSGF.Click += new System.EventHandler(this.btnAddMSGF_Click);
-      // 
-      // btnAddMyriMatch
-      // 
-      this.btnAddMyriMatch.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddMyriMatch.Location = new System.Drawing.Point(0, 125);
-      this.btnAddMyriMatch.Name = "btnAddMyriMatch";
-      this.btnAddMyriMatch.Size = new System.Drawing.Size(139, 25);
-      this.btnAddMyriMatch.TabIndex = 18;
-      this.btnAddMyriMatch.Text = "Add MyriMatch";
-      this.btnAddMyriMatch.UseVisualStyleBackColor = true;
-      this.btnAddMyriMatch.Click += new System.EventHandler(this.btnAddMyriMatch_Click);
-      // 
-      // btnIprophet
-      // 
-      this.btnIprophet.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnIprophet.Location = new System.Drawing.Point(0, 25);
-      this.btnIprophet.Name = "btnIprophet";
-      this.btnIprophet.Size = new System.Drawing.Size(139, 25);
-      this.btnIprophet.TabIndex = 23;
-      this.btnIprophet.Text = "Add iProphet";
-      this.btnIprophet.UseVisualStyleBackColor = true;
-      this.btnIprophet.Click += new System.EventHandler(this.btnIprophet_Click);
-      // 
-      // btnAddPeptideProphet
-      // 
-      this.btnAddPeptideProphet.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddPeptideProphet.Location = new System.Drawing.Point(0, 175);
-      this.btnAddPeptideProphet.Name = "btnAddPeptideProphet";
-      this.btnAddPeptideProphet.Size = new System.Drawing.Size(139, 25);
-      this.btnAddPeptideProphet.TabIndex = 17;
-      this.btnAddPeptideProphet.Text = "Add PeptideProphet";
-      this.btnAddPeptideProphet.UseVisualStyleBackColor = true;
-      this.btnAddPeptideProphet.Click += new System.EventHandler(this.btnAddPeptideProphet_Click);
-      // 
-      // btnAddPFind
-      // 
-      this.btnAddPFind.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddPFind.Location = new System.Drawing.Point(0, 200);
-      this.btnAddPFind.Name = "btnAddPFind";
-      this.btnAddPFind.Size = new System.Drawing.Size(139, 25);
-      this.btnAddPFind.TabIndex = 16;
-      this.btnAddPFind.Text = "Add pFind";
-      this.btnAddPFind.UseVisualStyleBackColor = true;
-      this.btnAddPFind.Click += new System.EventHandler(this.btnAddPFind_Click);
-      // 
-      // btnAddXtandem
-      // 
-      this.btnAddXtandem.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddXtandem.Location = new System.Drawing.Point(0, 275);
-      this.btnAddXtandem.Name = "btnAddXtandem";
-      this.btnAddXtandem.Size = new System.Drawing.Size(139, 25);
-      this.btnAddXtandem.TabIndex = 15;
-      this.btnAddXtandem.Text = "Add XTandem";
-      this.btnAddXtandem.UseVisualStyleBackColor = true;
-      this.btnAddXtandem.Click += new System.EventHandler(this.btnAddXtandem_Click);
-      // 
-      // btnAddMascot
-      // 
-      this.btnAddMascot.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddMascot.Location = new System.Drawing.Point(0, 50);
-      this.btnAddMascot.Name = "btnAddMascot";
-      this.btnAddMascot.Size = new System.Drawing.Size(139, 25);
-      this.btnAddMascot.TabIndex = 14;
-      this.btnAddMascot.Text = "Add MASCOT";
-      this.btnAddMascot.UseVisualStyleBackColor = true;
-      this.btnAddMascot.Click += new System.EventHandler(this.btnAddMascot_Click);
-      // 
-      // btnAddSequest
-      // 
-      this.btnAddSequest.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnAddSequest.Location = new System.Drawing.Point(0, 250);
-      this.btnAddSequest.Name = "btnAddSequest";
-      this.btnAddSequest.Size = new System.Drawing.Size(139, 25);
-      this.btnAddSequest.TabIndex = 12;
-      this.btnAddSequest.Text = "Add SEQUEST";
-      this.btnAddSequest.UseVisualStyleBackColor = true;
-      this.btnAddSequest.Click += new System.EventHandler(this.btnAddSequest_Click);
       // 
       // btnSaveParam
       // 
@@ -936,17 +791,6 @@
       this.rbUseAll.Text = "Use all files";
       this.rbUseAll.UseVisualStyleBackColor = true;
       // 
-      // btnComet
-      // 
-      this.btnComet.Dock = System.Windows.Forms.DockStyle.Top;
-      this.btnComet.Location = new System.Drawing.Point(0, 0);
-      this.btnComet.Name = "btnComet";
-      this.btnComet.Size = new System.Drawing.Size(139, 25);
-      this.btnComet.TabIndex = 24;
-      this.btnComet.Text = "Add Comet";
-      this.btnComet.UseVisualStyleBackColor = true;
-      this.btnComet.Click += new System.EventHandler(this.btnComet_Click);
-      // 
       // UniformSummaryBuilderUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1017,14 +861,6 @@
     private System.Windows.Forms.TabControl tcDatasetList;
     protected System.Windows.Forms.Panel pnlAdd;
     private System.Windows.Forms.Button btnDelete;
-    protected System.Windows.Forms.Button btnAddPeptideProphet;
-    protected System.Windows.Forms.Button btnAddPFind;
-    protected System.Windows.Forms.Button btnAddXtandem;
-    protected System.Windows.Forms.Button btnAddMascot;
-    protected System.Windows.Forms.Button btnAddSequest;
-    protected System.Windows.Forms.Button btnAddOmssa;
-    protected System.Windows.Forms.Button btnAddMyriMatch;
-    protected System.Windows.Forms.Button btnAddMSGF;
     private System.Windows.Forms.TabControl tabControl1;
     private System.Windows.Forms.TabPage tpGeneral;
     private System.Windows.Forms.TabPage tpDatasets;
@@ -1032,11 +868,8 @@
     private Gui.RcpaRadioField rbUseSelectedOnly;
     private Gui.RcpaRadioField rbUseAll;
     private System.Windows.Forms.Label label7;
-    protected System.Windows.Forms.Button btnAddPercolator;
-    protected System.Windows.Forms.Button btnMSAmanda;
     private System.Windows.Forms.Label label10;
     private System.Windows.Forms.TextBox txtMinimumSpectraPerGroup;
-    protected System.Windows.Forms.Button btnIprophet;
     private System.Windows.Forms.TextBox txtMaxMissCleavage;
     private System.Windows.Forms.CheckBox cbMaxMissCleavage;
     private Gui.RcpaRadioField rbByDecoyDatabase;
@@ -1045,6 +878,5 @@
     private Gui.DoubleField minTargetDecoyRatio;
     private System.Windows.Forms.TextBox txtProteinTag;
     private System.Windows.Forms.CheckBox cbClassifyByProteinTag;
-    protected System.Windows.Forms.Button btnComet;
   }
 }

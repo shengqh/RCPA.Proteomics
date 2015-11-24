@@ -249,8 +249,10 @@
     <Compile Include="Proteomics\MSGF\MSGFFactory.cs" />
     <Compile Include="Proteomics\MSGF\MSGFSearchParameters.cs" />
     <Compile Include="Proteomics\MyriMatch\MyriMatchDatasetOptions.cs" />
-    <Compile Include="Proteomics\MyriMatch\MyriMatchPepXmlParser.cs" />
     <Compile Include="Proteomics\MyriMatch\MyriMatchFactory.cs" />
+    <Compile Include="Proteomics\MyriMatch\MyriMatchXmlParser.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Proteomics\MyriMatch\MyriMatchSearchParameters.cs" />
     <Compile Include="Proteomics\MzIdent\MzIdentPeptideEvidenceItem.cs" />
     <Compile Include="Proteomics\MzIdent\MzIdentPeptideItem.cs" />
@@ -258,7 +260,9 @@
     <Compile Include="Proteomics\Omssa\OmssaOmxParser.cs" />
     <Compile Include="Proteomics\Omssa\OmssaConsts.cs" />
     <Compile Include="Proteomics\Omssa\OmssaFactory.cs" />
-    <Compile Include="Proteomics\PeptideProphet\MascotPepXmlReader.cs" />
+    <Compile Include="Proteomics\PeptideProphet\Backup\MascotPepXmlReader.cs" />
+    <Compile Include="Proteomics\PeptideProphet\AbstractPostSearchPepXmlParser.cs" />
+    <Compile Include="Proteomics\PeptideProphet\IPepXmlParser.cs" />
     <Compile Include="Proteomics\PeptideProphet\ModificationAminoacidMass.cs" />
     <Compile Include="Proteomics\PeptideProphet\InterProphetFactory.cs" />
     <Compile Include="Proteomics\PeptideProphet\InterProphetDatasetOptions.cs" />
@@ -268,8 +272,8 @@
     <Compile Include="Proteomics\PeptideProphet\PeptideProphetFactory.cs" />
     <Compile Include="Proteomics\PeptideProphet\AbstractPepXmlWriter.cs" />
     <Compile Include="Proteomics\PeptideProphet\InterProphetXmlParser.cs" />
-    <Compile Include="Proteomics\PeptideProphet\MascotPepXmlParser.cs" />
-    <Compile Include="Proteomics\PeptideProphet\PepXmlParser.cs" />
+    <Compile Include="Proteomics\PeptideProphet\Backup\MascotPepXmlParser.cs" />
+    <Compile Include="Proteomics\PeptideProphet\AbstractPepXmlParser.cs" />
     <Compile Include="Proteomics\PeptideProphet\PepXmlWriterParameters.cs" />
     <Compile Include="Proteomics\PeptideProphet\UpdatePepXmlModificationProcessor.cs" />
     <Compile Include="Proteomics\PeptideProphet\UpdatePepXmlModificationUI.cs">
@@ -1157,7 +1161,7 @@
     <Compile Include="Proteomics\Isotopic\MolecularWeightCalculatorIsotopicProfileBuilder.cs" />
     <Compile Include="Proteomics\MassCalculator.cs" />
     <Compile Include="Proteomics\Modification\ModificationCountCalculator.cs" />
-    <Compile Include="Proteomics\PeptideProphet\MascotPepXmlWriter.cs" />
+    <Compile Include="Proteomics\PeptideProphet\Backup\MascotPepXmlWriter.cs" />
     <Compile Include="Proteomics\Quantification\Census\CensusChroReader.cs" />
     <Compile Include="Proteomics\Quantification\Census\CensusPeptideItem.cs" />
     <Compile Include="Proteomics\Quantification\Census\CensusProteinItem.cs" />
@@ -1176,7 +1180,7 @@
     <Compile Include="Proteomics\Summary\DtaselectResultReader.cs" />
     <Compile Include="Proteomics\Summary\IOptimalResultCalculator.cs" />
     <Compile Include="Proteomics\Summary\OptimalResultCondition.cs" />
-    <Compile Include="Proteomics\PeptideProphet\MascotPeptideProphetItem.cs" />
+    <Compile Include="Proteomics\PeptideProphet\Backup\MascotPeptideProphetItem.cs" />
     <Compile Include="Proteomics\Processor\Outs2PepXmlDirectoryProcessor.cs" />
     <Compile Include="Proteomics\Processor\Outs2PepXmlProcessor.cs" />
     <Compile Include="Proteomics\Processor\PeakListDeisotopicProcessor.cs" />
@@ -1211,7 +1215,7 @@
     <Compile Include="Proteomics\Sequest\SequestParamFile.cs" />
     <Compile Include="Proteomics\PeptideProphet\AbstractPeptideProphetItem.cs" />
     <Compile Include="Proteomics\PeptideProphet\IPeptideProphetItem.cs" />
-    <Compile Include="Proteomics\PeptideProphet\PeptideProphetProteinItem.cs" />
+    <Compile Include="Proteomics\PeptideProphet\Backup\PeptideProphetProteinItem.cs" />
     <Compile Include="Proteomics\PeptideProphet\PeptideProphetUtils.cs" />
     <Compile Include="Proteomics\PeptideProphet\PepXmlWriter.cs" />
     <Compile Include="Proteomics\Summary\DecoyPeptideMapBuilder.cs" />
@@ -1258,9 +1262,9 @@
     <Compile Include="Proteomics\ProteaseFile.cs" />
     <Compile Include="Proteomics\Summary\FollowCandidate.cs" />
     <Compile Include="Proteomics\Summary\IIdentifiedPeptide.cs" />
-    <Compile Include="Proteomics\PeptideProphet\SequestPeptideProphetItem.cs" />
+    <Compile Include="Proteomics\PeptideProphet\Backup\SequestPeptideProphetItem.cs" />
     <Compile Include="Proteomics\PeptideProphet\PepXmlInfo.cs" />
-    <Compile Include="Proteomics\PeptideProphet\SequestPepXmlReader.cs" />
+    <Compile Include="Proteomics\PeptideProphet\Backup\SequestPepXmlReader.cs" />
     <Compile Include="Proteomics\Sequest\SequestPeptideHit.cs" />
     <Compile Include="Proteomics\Isotopic\SilacIsotopeFile.cs" />
     <Compile Include="Proteomics\Summary\SrfXmlReader.cs" />
@@ -2081,8 +2085,8 @@
     <Compile Include="Proteomics\MaxQuant\MaxQuantTagMatchRole.cs" />
     <Compile Include="Proteomics\Modification\SameModificationPeptides.cs" />
     <Compile Include="Proteomics\Modification\SequenceModificationSitePair.cs" />
-    <Compile Include="Proteomics\PeptideProphet\ProteinProphetXmlReader.cs" />
-    <Compile Include="Proteomics\PeptideProphet\ProteinSummaryDataFilterItem.cs" />
+    <Compile Include="Proteomics\PeptideProphet\Backup\ProteinProphetXmlReader.cs" />
+    <Compile Include="Proteomics\PeptideProphet\Backup\ProteinSummaryDataFilterItem.cs" />
     <Compile Include="Proteomics\PFind\PFindModification.cs" />
     <Compile Include="Proteomics\PFind\PFindSpectrumParser.cs" />
     <Compile Include="Proteomics\PFind\PFindExpectValueFunctions.cs" />

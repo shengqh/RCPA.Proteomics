@@ -19,7 +19,7 @@ namespace RCPA.Proteomics.Snp
   public partial class MS3LibraryBuilderUI : AbstractProcessorUI
   {
     private static readonly string title = "MS3 Library Builder";
-    public static readonly string Version = "1.0.7";
+    public static readonly string Version = "1.0.8";
 
     private RcpaDoubleField precursorPPM;
     private RcpaDoubleField fragmentPPM;

@@ -9,9 +9,9 @@ using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.PeptideProphet
 {
-  public abstract class PepXmlParser : ProgressClass, ISpectrumParser
+  public abstract class AbstractPepXmlParser : ProgressClass, IPepXmlParser
   {
-    public PepXmlParser()
+    public AbstractPepXmlParser()
     { }
 
     public Protease ParseProtease(XElement enzyme)
@@ -203,26 +203,10 @@ namespace RCPA.Proteomics.PeptideProphet
         }
       }
 
-      var analysis_results = searchHit.FindDescendants("analysis_result");
-
-      var ppresult = analysis_results.Find(m => m.Attribute("analysis").Value.Equals("peptideprophet"));
-
-      if (null != ppresult)
-      {
-        sph.Probability = MyConvert.ToDouble(ppresult.FindFirstDescendant("peptideprophet_result").Attribute("probability").Value);
-      }
-
-      var ipresult = analysis_results.Find(m => m.Attribute("analysis").Value.Equals("interprophet"));
-
-      if (null != ipresult)
-      {
-        sph.Probability = MyConvert.ToDouble(ipresult.FindFirstDescendant("interprophet_result").Attribute("probability").Value);
-      }
-
-      ParseScore(sph, searchHit);
+      ParseScoreAndOtherInformation(sph, searchHit);
     }
 
-    protected abstract void ParseScore(IIdentifiedSpectrum sph, XElement searchHit);
+    public abstract void ParseScoreAndOtherInformation(IIdentifiedSpectrum sph, XElement searchHit);
 
     #endregion
 

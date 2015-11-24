@@ -44,13 +44,12 @@ namespace RCPA.Proteomics.Snp
 
     protected override string GetValue(SapPredicted predict)
     {
-      var fs = predict.Ms2.FileScans.FirstOrDefault(m => expectScans.ContainsKey(m.ShortFileName));
+      var fs = predict.Ms2.FileScans.FirstOrDefault(m => expectScans.ContainsKey(m.LongFileName));
 
-      var isExpect = fs != null;
-      var expect = isExpect ? new TargetVariant()
+      predict.Expect = fs != null ? new TargetVariant()
       {
-        Source = expectScans[fs.ShortFileName].Source.ToString(),
-        Target = new HashSet<string>(new[] { expectScans[fs.ShortFileName].Target.ToString() })
+        Source = expectScans[fs.LongFileName].Source.ToString(),
+        Target = new HashSet<string>(new[] { expectScans[fs.LongFileName].Target.ToString() })
       } : null;
 
       return base.GetValue(predict) + string.Format("\t{0}\t{1}",

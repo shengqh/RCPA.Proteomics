@@ -28,7 +28,7 @@ namespace RCPA.Proteomics.Snp
 
       Progress.SetMessage("Reading library file ...");
       var liblist = new MS2ItemXmlFormat().ReadFromFile(options.LibraryFile);
-      PreprocessingMS2ItemList(liblist, true);
+      PreprocessingMS2ItemList(liblist);
 
       var lib = liblist.GroupBy(m => m.Charge).ToDictionary(m => m.Key, m => m.ToList());
 
@@ -59,7 +59,7 @@ namespace RCPA.Proteomics.Snp
 
       Progress.SetMessage("Reading MS2/MS3 data ...");
       var result = GetCandidateMs2ItemList(expRawfileMap, expScanMap);
-      PreprocessingMS2ItemList(result, true);
+      PreprocessingMS2ItemList(result);
 
       //new MS2ItemXmlFormat().WriteToFile(options.OutputFile + ".xml", result);
 
@@ -125,18 +125,21 @@ namespace RCPA.Proteomics.Snp
             {
               if (seq[i] == predict.Target.Source[0])
               {
-                string targetSeq;
-                if (i == 0)
+                foreach (var t in predict.Target.Target)
                 {
-                  targetSeq = predict.Target.Target + seq.Substring(1);
-                }
-                else
-                {
-                  targetSeq = seq.Substring(0, i) + predict.Target.Target + seq.Substring(i + 1);
-                }
+                  string targetSeq;
+                  if (i == 0)
+                  {
+                    targetSeq = t + seq.Substring(1);
+                  }
+                  else
+                  {
+                    targetSeq = seq.Substring(0, i) + t + seq.Substring(i + 1);
+                  }
 
-                var reference = string.Format("sp|SAP_{0}_{1}|{2}_{3}_{4}_{5}", targetSeq, predict.Target.TargetType, seq, predict.Target.Source, i + 1, predict.Target.Target);
-                predictedSeq.Add(new Sequence(reference, targetSeq));
+                  var reference = string.Format("sp|SAP_{0}_{1}|{2}_{3}_{4}_{5}", targetSeq, predict.Target.TargetType, seq, predict.Target.Source, i + 1, t);
+                  predictedSeq.Add(new Sequence(reference, targetSeq));
+                }
               }
             }
           }
@@ -201,7 +204,7 @@ namespace RCPA.Proteomics.Snp
       return new string[] { options.OutputFile, options.OutputTableFile };
     }
 
-    private void PreprocessingMS2ItemList(List<MS2Item> items, bool calcMinMaxMz)
+    private void PreprocessingMS2ItemList(List<MS2Item> items)
     {
       items.ForEach(m =>
       {
@@ -220,29 +223,26 @@ namespace RCPA.Proteomics.Snp
 
       items.RemoveAll(m => m.MS3Spectra.Count == 0);
 
-      if (calcMinMaxMz)
+      items.ForEach(m =>
       {
-        items.ForEach(m =>
+        var d2mass = PrecursorUtils.ppm2mz(m.Precursor, options.MS2PrecursorPPMTolerance);
+        m.MinPrecursorMz = m.Precursor - d2mass;
+        m.MaxPrecursorMz = m.Precursor + d2mass;
+
+        m.MS3Spectra.ForEach(l =>
         {
-          var d2mass = PrecursorUtils.ppm2mz(m.Precursor, options.MS2PrecursorPPMTolerance);
-          m.MinPrecursorMz = m.Precursor - d2mass;
-          m.MaxPrecursorMz = m.Precursor + d2mass;
+          var d3mass = PrecursorUtils.ppm2mz(l.PrecursorMZ, options.MS3PrecursorPPMTolerance);
+          l.MinPrecursorMz = l.PrecursorMZ - d3mass;
+          l.MaxPrecursorMz = l.PrecursorMZ + d3mass;
 
-          m.MS3Spectra.ForEach(l =>
+          l.ForEach(p =>
           {
-            var d3mass = PrecursorUtils.ppm2mz(l.PrecursorMZ, options.MS3PrecursorPPMTolerance);
-            l.MinPrecursorMz = l.PrecursorMZ - d3mass;
-            l.MaxPrecursorMz = l.PrecursorMZ + d3mass;
-
-            l.ForEach(p =>
-            {
-              var dmass = PrecursorUtils.ppm2mz(p.Mz, options.MS3FragmentIonPPMTolerance);
-              p.MinMatchMz = p.Mz - dmass;
-              p.MaxMatchMz = p.Mz + dmass;
-            });
+            var dmass = PrecursorUtils.ppm2mz(p.Mz, options.MS3FragmentIonPPMTolerance);
+            p.MinMatchMz = p.Mz - dmass;
+            p.MaxMatchMz = p.Mz + dmass;
           });
         });
-      }
+      });
     }
 
     protected abstract void FindCandidates(Dictionary<int, List<MS2Item>> lib, List<MS2Item> result, List<SapPredicted> predicted, double minDeltaMass, double maxDeltaMass);
@@ -252,15 +252,16 @@ namespace RCPA.Proteomics.Snp
       foreach (var aa in libms2.AminoacidCompsition)
       {
         var lst = options.SubstitutionDeltaMassMap[aa];
+        //the list has been ordered by deltamass
         foreach (var ts in lst)
         {
-          var targetMz = query.Precursor - ts.DeltaMass / query.Charge;
-          if (targetMz < libms2.MinPrecursorMz)
+          var targetMz = libms2.Precursor + ts.DeltaMass / query.Charge;
+          if (targetMz < query.MinPrecursorMz)
           {
             continue;
           }
 
-          if (targetMz >= libms2.MaxPrecursorMz)
+          if (targetMz > query.MaxPrecursorMz)
           {
             break;
           }
@@ -311,40 +312,52 @@ namespace RCPA.Proteomics.Snp
 
     protected void CheckTerminalExtension(List<SapPredicted> predicted, MS2Item query, MS2Item libms2, SapMatchedCount ms3match)
     {
-      foreach (var ne in options.ExtensionDeltaMassList)
+      var bNterminalValid = libms2.Peptide.StartsWith("-");
+      var bCterminalValid = libms2.Peptide.EndsWith("-");
+
+      if (bNterminalValid || bCterminalValid)
       {
-        var neMz = libms2.Precursor + ne.DeltaMass / libms2.Charge;
-        if (neMz >= query.MinPrecursorMz && neMz <= query.MaxPrecursorMz)
+        foreach (var ne in options.ExtensionDeltaMassList)
         {
-          var seq = PeptideUtils.GetPureSequence(libms2.Peptide);
-
-          predicted.Add(new SapPredicted()
+          var neMz = libms2.Precursor + ne.DeltaMass / libms2.Charge;
+          if (neMz >= query.MinPrecursorMz && neMz <= query.MaxPrecursorMz)
           {
-            Ms2 = query,
-            LibMs2 = libms2,
-            Matched = ms3match,
-            Target = new TargetVariant()
-            {
-              Source = PeptideUtils.GetPureSequence(libms2.Peptide),
-              Target = new HashSet<string>(from t in ne.Target select t + seq),
-              DeltaMass = ne.DeltaMass,
-              TargetType = VariantType.NTerminalExtension
-            }
-          });
+            var seq = PeptideUtils.GetPureSequence(libms2.Peptide);
 
-          predicted.Add(new SapPredicted()
-          {
-            Ms2 = query,
-            LibMs2 = libms2,
-            Matched = ms3match,
-            Target = new TargetVariant()
+            if (bNterminalValid)
             {
-              Source = PeptideUtils.GetPureSequence(libms2.Peptide),
-              Target = new HashSet<string>(from t in ne.Target select seq + t),
-              DeltaMass = ne.DeltaMass,
-              TargetType = VariantType.CTerminalExtension
+              predicted.Add(new SapPredicted()
+              {
+                Ms2 = query,
+                LibMs2 = libms2,
+                Matched = ms3match,
+                Target = new TargetVariant()
+                {
+                  Source = PeptideUtils.GetPureSequence(libms2.Peptide),
+                  Target = new HashSet<string>(from t in ne.Target select t + seq),
+                  DeltaMass = ne.DeltaMass,
+                  TargetType = VariantType.NTerminalExtension
+                }
+              });
             }
-          });
+
+            if (bCterminalValid)
+            {
+              predicted.Add(new SapPredicted()
+              {
+                Ms2 = query,
+                LibMs2 = libms2,
+                Matched = ms3match,
+                Target = new TargetVariant()
+                {
+                  Source = PeptideUtils.GetPureSequence(libms2.Peptide),
+                  Target = new HashSet<string>(from t in ne.Target select seq + t),
+                  DeltaMass = ne.DeltaMass,
+                  TargetType = VariantType.CTerminalExtension
+                }
+              });
+            }
+          }
         }
       }
     }

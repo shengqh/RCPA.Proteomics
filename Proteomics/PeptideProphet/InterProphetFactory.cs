@@ -11,7 +11,7 @@ namespace RCPA.Proteomics.PeptideProphet
 {
   public class InterProphetFactory : AbstractSearchEngineFactory
   {
-    public InterProphetFactory() : base(SearchEngineType.iPhophet) { }
+    public InterProphetFactory() : base(SearchEngineType.InterProphet) { }
 
     public override ISpectrumParser GetParser(string name, bool extractRank2)
     {

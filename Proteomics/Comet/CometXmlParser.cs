@@ -9,7 +9,7 @@ using RCPA.Proteomics.PeptideProphet;
 
 namespace RCPA.Proteomics.Comet
 {
-  public class CometXmlParser : PepXmlParser
+  public class CometXmlParser : AbstractPepXmlParser
   {
     public CometXmlParser() { }
 
@@ -20,29 +20,39 @@ namespace RCPA.Proteomics.Comet
 
     #region IFileReader<List<IIdentifiedSpectrum>> Members
 
-    protected override void ParseScore(IIdentifiedSpectrum sph, XElement searchHit)
+    public override void ParseScoreAndOtherInformation(IIdentifiedSpectrum sph, XElement searchHit)
     {
-      var scores = searchHit.FindDescendants("search_score");
+      var map = searchHit.ToDictionary("search_score", "name", "value");
+      string value;
 
-      foreach (var item in scores)
+      if (map.TryGetValue("xcorr", out value))
       {
-        var name = item.Attribute("name").Value;
-        if (name.Equals("xcorr"))
-        {
-          sph.Score = MyConvert.ToDouble(item.Attribute("value").Value);
-        }
-        else if (name.Equals("deltacn"))
-        {
-          sph.DeltaScore = MyConvert.ToDouble(item.Attribute("value").Value);
-        }
-        else if (name.Equals("sprank"))
-        {
-          sph.SpRank = int.Parse(item.Attribute("value").Value);
-        }
-        else if (name.Equals("expect"))
-        {
-          sph.ExpectValue = MyConvert.ToDouble(item.Attribute("value").Value);
-        }
+        sph.Score = MyConvert.ToDouble(value);
+      }
+
+      if (map.TryGetValue("deltacn", out value))
+      {
+        sph.DeltaScore = MyConvert.ToDouble(value);
+      }
+
+      if (map.TryGetValue("spscore", out value))
+      {
+        sph.SpScore = MyConvert.ToDouble(value);
+      }
+
+      if (map.TryGetValue("spscore", out value))
+      {
+        sph.SpScore = MyConvert.ToDouble(value);
+      }
+
+      if (map.TryGetValue("sprank", out value))
+      {
+        sph.SpRank = int.Parse(value);
+      }
+
+      if (map.TryGetValue("expect", out value))
+      {
+        sph.ExpectValue = MyConvert.ToDouble(value);
       }
 
       sph.Query.MatchCount = int.Parse(searchHit.Attribute("num_matched_peptides").Value);

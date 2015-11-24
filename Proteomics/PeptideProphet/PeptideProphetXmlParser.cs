@@ -9,13 +9,16 @@ using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.PeptideProphet
 {
-  public class PeptideProphetXmlParser : PepXmlParser
+  public class PeptideProphetXmlParser : AbstractPostSearchPepXmlParser
   {
-    public PeptideProphetXmlParser()
-    { }
+    public PeptideProphetXmlParser() { }
 
-    protected override void ParseScore(IIdentifiedSpectrum sph, XElement searchHit)
+    public PeptideProphetXmlParser(IPepXmlParser baseParser) : base(baseParser) { }
+
+    public override void ParseScoreAndOtherInformation(IIdentifiedSpectrum sph, XElement searchHit)
     {
+      base.ParseScoreAndOtherInformation(sph, searchHit);
+
       var ip = searchHit.FindFirstDescendant("analysis_result", "analysis", "peptideprophet");
       if (ip == null)
       {

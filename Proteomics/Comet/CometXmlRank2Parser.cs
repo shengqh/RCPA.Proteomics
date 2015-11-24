@@ -10,7 +10,7 @@ using RCPA.Proteomics.PeptideProphet;
 
 namespace RCPA.Proteomics.Comet
 {
-  public class CometXmlRank2Parser : PeptideProphetXmlParser
+  public class CometXmlRank2Parser : CometXmlParser
   {
     public CometXmlRank2Parser()
     { }
