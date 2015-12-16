@@ -80,6 +80,12 @@ namespace RCPA.Proteomics.Summary
       factory = new AnnotationPropertyConverterFactory();
     }
 
+    public AnnotationTextFormat(string writingHeaders)
+    {
+      this.factory = new AnnotationPropertyConverterFactory();
+      this.Format = new LineFormat<IAnnotation>(factory, writingHeaders);
+    }
+
     #region IFileReader<List<IAnnotation>> Members
 
     public List<IAnnotation> ReadFromFile(string fileName)
