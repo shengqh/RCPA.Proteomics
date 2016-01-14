@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Gui.FileArgument;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
-using RCPA.Seq;
-using RCPA.Gui;
+using RCPA.Gui.FileArgument;
+using System;
 
 namespace RCPA.Proteomics.Database
 {
   public partial class ReversedDatabaseBuilderUI : AbstractProcessorUI
   {
     public static string title = "Reversed Database Builder";
-    public static string version = "1.1.0";
+    public static string version = "1.1.1";
 
     private RcpaCheckBox reversedOnly;
 

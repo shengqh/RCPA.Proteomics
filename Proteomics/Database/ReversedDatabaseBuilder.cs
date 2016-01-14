@@ -22,7 +22,7 @@ namespace RCPA.Proteomics.Database
       {
         int index = 0;
 
-        if (options.ContaminantFile != null)
+        if (File.Exists(options.ContaminantFile))
         {
           Progress.SetMessage("Processing contaminant proteins : " + options.ContaminantFile + " ...");
           ProcessFile(ref index, sw, options.ContaminantFile, true);
