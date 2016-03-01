@@ -52,4 +52,24 @@ namespace RCPA.Proteomics.Raw
 
     double GetIsolationMass(int scan);
   }
+
+  public static class IRawFileExtension
+  {
+    public static List<PeakList<Peak>> GetMS1List(this IRawFile reader)
+    {
+      var result = new List<PeakList<Peak>>();
+      var first = reader.GetFirstSpectrumNumber();
+      var last = reader.GetLastSpectrumNumber();
+      for (int i = first; i <= last; i++)
+      {
+        var mslevel = reader.GetMsLevel(i);
+        if (mslevel == 1)
+        {
+          var pkl = reader.GetPeakList(i);
+          result.Add(pkl);
+        }
+      }
+      return result;
+    }
+  }
 }

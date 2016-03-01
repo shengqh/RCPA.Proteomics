@@ -8,6 +8,7 @@ using System.Xml.Linq;
 using RCPA.Proteomics.Spectrum;
 using System.Xml;
 using RCPA.Format;
+using RCPA.Utils;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
@@ -91,7 +92,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
     public override void WriteToFile(string fileName, IsobaricResult t)
     {
-      using (XmlTextWriter w = new XmlTextWriter(fileName, Encoding.ASCII))
+      using (XmlTextWriter w = XmlUtils.CreateWriter(fileName, Encoding.ASCII))
       {
         StartWriteDocument(w, t);
 

@@ -29,7 +29,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
       this.ppmTolerance = ppmTolerance;
       this.force = force;
       this.spectra = targetPeaks.GroupBy(m => m.Query.FileScan.Experimental.ToLower()).ToList();
-      this.rawFiles = RawFileFactory.GetExperimentalMap(rawFiles);
+      this.rawFiles = RawFileFactory.GetExperimentalMap(rawFiles).ToDictionary(m => m.Key.ToLower(), m => m.Value);
     }
 
     private bool AddPeaks(IRawFile rawReader, int scan, SimplePeakChro chro, bool bIdentified)

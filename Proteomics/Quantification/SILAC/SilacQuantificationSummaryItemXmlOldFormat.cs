@@ -86,11 +86,8 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
     public void WriteToFile(string filename, SilacQuantificationSummaryItem t)
     {
-      using (var writer = new XmlTextWriter(filename, Encoding.ASCII))
+      using (var writer = XmlUtils.CreateWriter(filename, Encoding.ASCII))
       {
-        writer.Formatting = Formatting.Indented;
-        writer.Indentation = 2;
-
         writer.WriteStartDocument();
         writer.WriteStartElement("SilacQuantificationInformation");
 

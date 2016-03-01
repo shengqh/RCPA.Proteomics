@@ -104,7 +104,7 @@ namespace RCPA.Proteomics.Summary
             continue;
           }
 
-          if (jSpectra.IsSupersetOf(iSpectra))
+          if (iSpectra.All(l => jSpectra.Contains(l)))
           {
             //删除group i
             temp.RemoveAt(i);

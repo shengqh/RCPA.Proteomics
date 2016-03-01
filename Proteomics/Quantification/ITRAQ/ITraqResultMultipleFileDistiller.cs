@@ -7,6 +7,7 @@ using System.IO;
 using RCPA.Proteomics.Quantification;
 using RCPA.Proteomics.Quantification.ITraq;
 using System.Xml;
+using RCPA.Utils;
 
 namespace RCPA.Proteomics.Quantification.ITraq
 {
@@ -52,7 +53,7 @@ namespace RCPA.Proteomics.Quantification.ITraq
       XmlTextWriter sw = null;
       if (!individual)
       {
-        sw = new XmlTextWriter(targetFileName, Encoding.ASCII);
+        sw = XmlUtils.CreateWriter(targetFileName, Encoding.ASCII);
         ITraqResultXmlFormatFast.StartWriteDocument(sw, reader.ToString());
       }
 

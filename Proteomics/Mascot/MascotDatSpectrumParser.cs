@@ -406,7 +406,7 @@ namespace RCPA.Proteomics.Mascot
 
         CurrentParameters = ParseSection(sr, "parameters");
 
-        var hasDecoy = CurrentParameters["DECOY"].Equals("1");
+        var hasDecoy = CurrentParameters.ContainsKey("DECOY") && CurrentParameters["DECOY"].Equals("1");
 
         if (!hasDecoy && isDecoy)
         {

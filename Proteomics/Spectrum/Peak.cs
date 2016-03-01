@@ -38,11 +38,25 @@ namespace RCPA.Proteomics.Spectrum
 
     public double Intensity { get; set; }
 
+    public double Noise { get; set; }
+
     public int Charge { get; set; }
 
     public int Tag { get; set; }
 
     public int CombinedCount { get; set; }
+
+    public double GetSignalToNose()
+    {
+      if (Noise == 0.0)
+      {
+        return 1000;
+      }
+      else
+      {
+        return Intensity / Noise;
+      }
+    }
 
     public Dictionary<string, object> Annotations
     {

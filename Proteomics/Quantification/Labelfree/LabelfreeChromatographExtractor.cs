@@ -9,7 +9,7 @@ using RCPA.Utils;
 
 namespace RCPA.Proteomics.Quantification.Labelfree
 {
-  public class LabelfreeChromotographExtractor : AbstractThreadFileProcessor
+  public class LabelfreeChromatographExtractor : AbstractThreadFileProcessor
   {
     private List<RetentionTimePeak> targetPeaks;
     private List<string> rawFiles;
@@ -17,7 +17,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
     private double ppmTolerance;
     private bool force;
 
-    public LabelfreeChromotographExtractor(IEnumerable<RetentionTimePeak> targetPeaks, List<string> rawFiles, IRawFile rawReader, double ppmTolerance, bool force)
+    public LabelfreeChromatographExtractor(IEnumerable<RetentionTimePeak> targetPeaks, List<string> rawFiles, IRawFile rawReader, double ppmTolerance, bool force)
     {
       this.targetPeaks = new List<RetentionTimePeak>(targetPeaks);
       this.rawFiles = rawFiles;

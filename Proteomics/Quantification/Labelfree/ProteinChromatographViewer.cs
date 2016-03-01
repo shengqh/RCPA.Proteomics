@@ -20,7 +20,7 @@ using RCPA.Proteomics.Mascot;
 
 namespace RCPA.Proteomics.Quantification.Labelfree
 {
-  public partial class ProteinChromotographViewer : AbstractFileProcessorUI
+  public partial class ProteinChromatographViewer : AbstractFileProcessorUI
   {
     private static string title = "Protein Chromatograph Extractor & Viewer";
 
@@ -40,7 +40,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
 
     private RcpaCheckBox rebuildAll;
 
-    public ProteinChromotographViewer()
+    public ProteinChromatographViewer()
     {
       InitializeComponent();
 
@@ -134,7 +134,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
         peptides.RemoveAll(m => !m.Annotations.ContainsKey(CHRO_KEY));
       }
 
-      return new ProteinChromotographProcessor(totalPeaks, new string[] { rawFile.FullName }.ToList(), new RawFileImpl(), ppmTolerance.Value, 2.0, rebuildAll.Checked);
+      return new ProteinChromatographProcessor(totalPeaks, new string[] { rawFile.FullName }.ToList(), new RawFileImpl(), ppmTolerance.Value, 2.0, rebuildAll.Checked);
     }
 
     private void UpdateProteins()
@@ -338,7 +338,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
 
       public void Run()
       {
-        new ProteinChromotographViewer().MyShow();
+        new ProteinChromatographViewer().MyShow();
       }
 
       #endregion

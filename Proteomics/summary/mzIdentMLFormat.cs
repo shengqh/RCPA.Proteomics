@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using RCPA.Gui;
 using System.Xml;
+using RCPA.Utils;
 
 namespace RCPA.Proteomics.Summary
 {
@@ -33,10 +34,8 @@ namespace RCPA.Proteomics.Summary
     {
       Dictionary<string, string> engineMap = new Dictionary<string, string>();
 
-      using (var w = new XmlTextWriter(fileName, Encoding.UTF8))
+      using (var w = XmlUtils.CreateWriter(fileName))
       {
-        w.Formatting = Formatting.Indented;
-
         StartDocument(w);
 
         WriteCvList(w);

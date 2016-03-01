@@ -20,7 +20,7 @@ using RCPA.Proteomics.Mascot;
 
 namespace RCPA.Proteomics.Quantification.Labelfree
 {
-  public partial class ProteinChromotographProcessorUI : AbstractFileProcessorUI
+  public partial class ProteinChromatographProcessorUI : AbstractFileProcessorUI
   {
     private static string title = "Identified Peptide Chromatograph Extractor & Viewer";
 
@@ -48,7 +48,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
 
     private MascotPeptideTextFormat format;
 
-    public ProteinChromotographProcessorUI()
+    public ProteinChromatographProcessorUI()
     {
       InitializeComponent();
 
@@ -130,7 +130,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
 
       lvPeptides.SelectedIndexChanged -= lvPeptides_SelectedIndexChanged;
 
-      return new ProteinChromotographProcessor(chros, new string[] { rawFile.FullName }.ToList(), new RawFileImpl(), ppmTolerance.Value, window.Value, false);
+      return new ProteinChromatographProcessor(chros, new string[] { rawFile.FullName }.ToList(), new RawFileImpl(), ppmTolerance.Value, window.Value, false);
     }
 
     private void UpdatePeptides()
@@ -236,7 +236,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
 
       public void Run()
       {
-        new ProteinChromotographProcessorUI().MyShow();
+        new ProteinChromatographProcessorUI().MyShow();
       }
 
       #endregion
@@ -247,7 +247,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
       if (lvPeptides.SelectedItems.Count > 0)
       {
         var spectrum = lvPeptides.SelectedItems[0].Tag as IIdentifiedSpectrum;
-        var file = ProteinChromotographProcessor.GetTargetFile(GetOriginFile(), rawFile.FullName, SpectrumToChro(spectrum));
+        var file = ProteinChromatographProcessor.GetTargetFile(GetOriginFile(), rawFile.FullName, SpectrumToChro(spectrum));
         var chro = new SimplePeakChroXmlFormat().ReadFromFile(file);
 
         try

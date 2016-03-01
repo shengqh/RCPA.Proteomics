@@ -36,75 +36,67 @@ namespace RCPA.emass
       return em.Count > 0;
     }
 
-    public static bool InitializeData(string filename)
+    public static void InitializeData(string filename)
     {
       if (!File.Exists(filename))
       {
         throw new FileNotFoundException(filename);
       }
 
-      try
+      using (StreamReader f = new StreamReader(filename))
       {
-        using (StreamReader f = new StreamReader(filename))
-        {
-          sad.Clear();
-          em.Clear();
+        sad.Clear();
+        em.Clear();
 
-          string line;
-          int elemindex = 0;
-          int state = 0;
-          while ((line = f.ReadLine()) != null)
+        string line;
+        int elemindex = 0;
+        int state = 0;
+        while ((line = f.ReadLine()) != null)
+        {
+          string element;
+          switch (state)
           {
-            string element;
-            switch (state)
-            {
-              case 0: // new element
-                var m0 = eleReg.Match(line);
-                element = m0.Groups[1].Value;
-                em[element] = elemindex;
-                var pkl = new Pattern();
-                var sal = new SuperAtomList();
-                sal.Add(pkl);
-                sad.Add(sal);
-                elemindex++;
-                state = 1;
-                break;
-              case 1: // isotope
-                var m1 = eleReg.Match(line);
-                if (m1.Success)
+            case 0: // new element
+              var m0 = eleReg.Match(line);
+              element = m0.Groups[1].Value;
+              em[element] = elemindex;
+              var pkl = new Pattern();
+              var sal = new SuperAtomList();
+              sal.Add(pkl);
+              sad.Add(sal);
+              elemindex++;
+              state = 1;
+              break;
+            case 1: // isotope
+              var m1 = eleReg.Match(line);
+              if (m1.Success)
+              {
+                Peak p = new Peak();
+                p.Mz = MyConvert.ToDouble(m1.Groups[1].Value);
+                p.Intensity = MyConvert.ToDouble(m1.Groups[2].Value);
+                Pattern idist = sad.Last().First();
+                // fill the gaps in the patterns with zero abundancy peaks
+                if (idist.Count > 0)
                 {
-                  Peak p = new Peak();
-                  p.Mz = MyConvert.ToDouble(m1.Groups[1].Value);
-                  p.Intensity = MyConvert.ToDouble(m1.Groups[2].Value);
-                  Pattern idist = sad.Last().First();
-                  // fill the gaps in the patterns with zero abundancy peaks
-                  if (idist.Count > 0)
+                  double prevmass = idist.Last().Mz;
+                  for (int i = 0; i < (int)(p.Mz - prevmass - 0.5); i++)
                   {
-                    double prevmass = idist.Last().Mz;
-                    for (int i = 0; i < (int)(p.Mz - prevmass - 0.5); i++)
-                    {
-                      Peak filler = new Peak();
-                      filler.Mz = DUMMY_MASS;
-                      filler.Intensity = 0;
-                      idist.Add(filler);
-                    }
+                    Peak filler = new Peak();
+                    filler.Mz = DUMMY_MASS;
+                    filler.Intensity = 0;
+                    idist.Add(filler);
                   }
-                  // insert the peak
-                  idist.Add(p);
                 }
-                else
-                {
-                  state = 0;
-                }
-                break;
-            }
+                // insert the peak
+                idist.Add(p);
+              }
+              else
+              {
+                state = 0;
+              }
+              break;
           }
         }
-        return true;
-      }
-      catch (Exception)
-      {
-        return false;
       }
     }
 

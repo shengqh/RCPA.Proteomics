@@ -111,10 +111,11 @@ namespace RCPA.Proteomics.Raw
       int dim = labels.GetLength(1);
       for (int inx = 0; inx < dim; inx++)
       {
-        var charge = (int)labels[5, inx];
         double mz = labels[0, inx];
         double intensity = labels[1, inx];
-        result.Add(new Peak(mz, intensity, charge));
+        double noise = labels[4, inx];
+        var charge = (int)labels[5, inx];
+        result.Add(new Peak(mz, intensity, charge) { Noise = noise } );
       }
 
       return result;

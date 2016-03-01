@@ -43,6 +43,14 @@ namespace RCPA.Proteomics.Quantification.Labelfree
       this.Peaks = new List<ScanPeak>();
     }
 
+    public void InitalizePPMTolerance()
+    {
+      foreach (var peak in Peaks)
+      {
+        peak.PPMDistance = PrecursorUtils.mz2ppm(peak.Mz, peak.Mz - this.Mz);
+      }
+    }
+
     private void SetMinContinuesPeaks(int minCount)
     {
       int count = 0;

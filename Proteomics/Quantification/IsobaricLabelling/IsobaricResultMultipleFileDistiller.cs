@@ -6,6 +6,7 @@ using RCPA.Proteomics.Raw;
 using System.IO;
 using RCPA.Proteomics.Quantification;
 using System.Xml;
+using RCPA.Utils;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
@@ -70,7 +71,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
             {
               if (sw == null)
               {
-                sw = new XmlTextWriter(targetFileName, Encoding.ASCII);
+                sw = XmlUtils.CreateWriter(targetFileName, Encoding.ASCII);
                 format.StartWriteDocument(sw, curResult);
               }
             }

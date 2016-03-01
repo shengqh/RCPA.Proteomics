@@ -193,6 +193,14 @@
     <Compile Include="Proteomics\Database\ReversedDatabaseBuilderCommand.cs" />
     <Compile Include="Proteomics\Database\ReversedDatabaseBuilderOptions.cs" />
     <Compile Include="Proteomics\DatasetOption.cs" />
+    <Compile Include="Proteomics\Deuterium\DeuteriumCalculator.cs" />
+    <Compile Include="Proteomics\Deuterium\DeuteriumCalculatorOptions.cs" />
+    <Compile Include="Proteomics\Deuterium\DeuteriumCalculatorUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Deuterium\DeuteriumCalculatorUI.Designer.cs">
+      <DependentUpon>DeuteriumCalculatorUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Proteomics\Format\AbstractRawConverterOptions.cs" />
     <Compile Include="Proteomics\Format\Mgf2MzXmlProcessor.cs" />
     <Compile Include="Proteomics\Format\MultipleRaw2MgfOptions.cs" />
@@ -349,6 +357,13 @@
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\IsobaricPeptideStatisticBuilderOptions.cs" />
     <Compile Include="Proteomics\Quantification\IsobaricLabelling\UsedChannel.cs" />
     <Compile Include="Proteomics\Quantification\AbstractQuantificationSummaryOption.cs" />
+    <Compile Include="Proteomics\Quantification\Labelfree\ChromatographProfileScan.cs" />
+    <Compile Include="Proteomics\Quantification\Labelfree\ChromatographProfileScanPeak.cs" />
+    <Compile Include="Proteomics\Quantification\Labelfree\ChromatographProfileBuilder.cs" />
+    <Compile Include="Proteomics\Quantification\Labelfree\ChromatographProfileBuilderOptions.cs" />
+    <Compile Include="Proteomics\Quantification\Labelfree\ChromatographProfile.cs" />
+    <Compile Include="Proteomics\Quantification\Labelfree\ChromatographProfileTextWriter.cs" />
+    <Compile Include="Proteomics\Quantification\Labelfree\ChromatographProfileXmlFormat.cs" />
     <Compile Include="Proteomics\Quantification\QuantifyMode.cs" />
     <Compile Include="Proteomics\Raw\Ms2Format.cs" />
     <Compile Include="Proteomics\Raw\ScanLevelFormat.cs" />
@@ -612,11 +627,11 @@
     <Compile Include="Proteomics\Quantification\ITraq\ITraqRawHCDParallelMS3Reader.cs" />
     <Compile Include="Proteomics\Quantification\ITraq\IIsobaricLabellingProtease.cs" />
     <Compile Include="Proteomics\Quantification\ITraq\ITraqRawHCDMS3Reader.cs" />
-    <Compile Include="Proteomics\Quantification\Labelfree\ProteinChromotographProcessorUI.cs">
+    <Compile Include="Proteomics\Quantification\Labelfree\ProteinChromatographProcessorUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Proteomics\Quantification\Labelfree\ProteinChromotographProcessorUI.Designer.cs">
-      <DependentUpon>ProteinChromotographProcessorUI.cs</DependentUpon>
+    <Compile Include="Proteomics\Quantification\Labelfree\ProteinChromatographProcessorUI.Designer.cs">
+      <DependentUpon>ProteinChromatographProcessorUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Quantification\MaxQuant\IntensityEntry.cs" />
     <Compile Include="Proteomics\Quantification\MaxQuant\PeptideReader.cs" />
@@ -728,7 +743,7 @@
     <Compile Include="Proteomics\Quantification\ITraq\ITraqProteinRatioItem.cs" />
     <Compile Include="Proteomics\Quantification\ITraq\ZedGraphITraqSpectrum.cs" />
     <Compile Include="Proteomics\Quantification\Labelfree\ChromotographBuilder.cs" />
-    <Compile Include="Proteomics\Quantification\Labelfree\PararrelLabelfreeChromotographExtractor.cs" />
+    <Compile Include="Proteomics\Quantification\Labelfree\PararrelLabelfreeChromatographExtractor.cs" />
     <Compile Include="Proteomics\Quantification\Labelfree\SimplePeakChroPngWriter.cs" />
     <Compile Include="Proteomics\Quantification\QuantificationItemBase.cs" />
     <Compile Include="Proteomics\Quantification\ITraq\ITraqQuantificationResultConverter.cs" />
@@ -1290,6 +1305,10 @@
       <DependentUpon>CometDatasetPanel.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Deuterium\DeuteriumCalculatorUI.resx">
+      <DependentUpon>DeuteriumCalculatorUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Mascot\MascotFilePanel.resx">
       <DependentUpon>MascotFilePanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -1452,8 +1471,8 @@
       <DependentUpon>IsobaricResultMultipleFileDistillerUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Quantification\Labelfree\ProteinChromotographProcessorUI.resx">
-      <DependentUpon>ProteinChromotographProcessorUI.cs</DependentUpon>
+    <EmbeddedResource Include="Proteomics\Quantification\Labelfree\ProteinChromatographProcessorUI.resx">
+      <DependentUpon>ProteinChromatographProcessorUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Raw\RawScanParentChildDistillerUI.resx">
@@ -1511,8 +1530,8 @@
     <EmbeddedResource Include="Proteomics\Quantification\ITraq\ITraqQuantificationSummaryViewerUI.resx">
       <DependentUpon>ITraqQuantificationSummaryViewerUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Proteomics\Quantification\Labelfree\ProteinChromotographViewer.resx">
-      <DependentUpon>ProteinChromotographViewer.cs</DependentUpon>
+    <EmbeddedResource Include="Proteomics\Quantification\Labelfree\ProteinChromatographViewer.resx">
+      <DependentUpon>ProteinChromatographViewer.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Quantification\Labelfree\ProteinLabelFreeQuantificationBuilderUI.resx">
@@ -2145,12 +2164,12 @@
     <Compile Include="Proteomics\Quantification\SILAC\ZedGraphSilacProteinScan.cs" />
     <Compile Include="Proteomics\Quantification\ZedGraphExtendProtein.cs" />
     <Compile Include="Proteomics\Quantification\Labelfree\SimplePeakChroXmlFormat.cs" />
-    <Compile Include="Proteomics\Quantification\Labelfree\ProteinChromotographProcessor.cs" />
-    <Compile Include="Proteomics\Quantification\Labelfree\ProteinChromotographViewer.cs">
+    <Compile Include="Proteomics\Quantification\Labelfree\ProteinChromatographProcessor.cs" />
+    <Compile Include="Proteomics\Quantification\Labelfree\ProteinChromatographViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Proteomics\Quantification\Labelfree\ProteinChromotographViewer.Designer.cs">
-      <DependentUpon>ProteinChromotographViewer.cs</DependentUpon>
+    <Compile Include="Proteomics\Quantification\Labelfree\ProteinChromatographViewer.Designer.cs">
+      <DependentUpon>ProteinChromatographViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Proteomics\Quantification\Labelfree\SimplePeakChro.cs" />
     <Compile Include="Proteomics\Quantification\O18\O18QuantificationResultMultipleFileFormat.cs" />
@@ -2179,7 +2198,7 @@
     <Compile Include="Proteomics\Quantification\O18\O18QuanEnvelope.cs" />
     <Compile Include="Proteomics\Quantification\ZedGraphPeptidesLSPAD2.cs" />
     <Compile Include="Proteomics\Quantification\IQuantificationItemUpdate.cs" />
-    <Compile Include="Proteomics\Quantification\Labelfree\LabelfreeChromotographExtractor.cs" />
+    <Compile Include="Proteomics\Quantification\Labelfree\LabelfreeChromatographExtractor.cs" />
     <Compile Include="Proteomics\Quantification\Labelfree\RetentionTimePeak.cs" />
     <Compile Include="Proteomics\Quantification\Labelfree\RetentionTimePeakXmlFormat.cs" />
     <Compile Include="Proteomics\Quantification\LSPADItem.cs" />
@@ -2900,6 +2919,7 @@
       <DependentUpon>RcpaGrouperUI.cs</DependentUpon>
     </Compile>
     <Content Include="extends\PeptideDetectabilityPredictor.exe" />
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\ProteomicsLib.Format.FileDefinitionItem.datasource" />
     <None Include="Properties\DataSources\ProteomicsLib.Proteomics.SiliconePolymer.datasource" />
@@ -2924,6 +2944,8 @@
     <None Include="template\PeptideQuantification.r">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="template\ProfileChroBoundary.r" />
+    <None Include="template\ProfileChroDeuterium.r" />
     <None Include="template\ProteinQuantification.r">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

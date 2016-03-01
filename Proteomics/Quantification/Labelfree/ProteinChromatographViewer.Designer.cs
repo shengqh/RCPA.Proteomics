@@ -1,6 +1,6 @@
 ﻿namespace RCPA.Proteomics.Quantification.Labelfree
 {
-  partial class ProteinChromotographViewer
+  partial class ProteinChromatographViewer
   {
     /// <summary>
     /// Required designer variable.
