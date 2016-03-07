@@ -230,9 +230,10 @@ namespace RCPA.Proteomics.Quantification.Labelfree
         InputFile = targetDir,
         OutputFile = options.OutputFile,
         RTemplate = BoundaryR,
-        RExecute = SystemUtils.GetRExecuteLocation()
+        RExecute = SystemUtils.GetRExecuteLocation(),
+        CreateNoWindow = true
       };
-      new RTemplateProcessor(boundaryOptions).Process();
+      new RTemplateProcessor(boundaryOptions) { Progress = this.Progress }.Process();
 
       return new string[] { options.OutputFile };
     }

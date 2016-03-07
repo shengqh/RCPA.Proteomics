@@ -32,22 +32,24 @@ namespace RCPA.Proteomics.Deuterium
       this.txtPeptideFile = new System.Windows.Forms.TextBox();
       this.txtRawDirectory = new System.Windows.Forms.TextBox();
       this.btnRawDirectory = new System.Windows.Forms.Button();
+      this.txtLog = new System.Windows.Forms.RichTextBox();
+      this.label1 = new System.Windows.Forms.Label();
       this.pnlButton.SuspendLayout();
       this.SuspendLayout();
       // 
       // lblProgress
       // 
-      this.lblProgress.Location = new System.Drawing.Point(0, 101);
+      this.lblProgress.Location = new System.Drawing.Point(0, 382);
       this.lblProgress.Size = new System.Drawing.Size(931, 23);
       // 
       // progressBar
       // 
-      this.progressBar.Location = new System.Drawing.Point(0, 124);
+      this.progressBar.Location = new System.Drawing.Point(0, 405);
       this.progressBar.Size = new System.Drawing.Size(931, 23);
       // 
       // pnlButton
       // 
-      this.pnlButton.Location = new System.Drawing.Point(0, 147);
+      this.pnlButton.Location = new System.Drawing.Point(0, 428);
       this.pnlButton.Size = new System.Drawing.Size(931, 39);
       // 
       // btnClose
@@ -98,15 +100,39 @@ namespace RCPA.Proteomics.Deuterium
       this.btnRawDirectory.Text = "button1";
       this.btnRawDirectory.UseVisualStyleBackColor = true;
       // 
-      // DeuteriumBuilderUI
+      // txtLog
+      // 
+      this.txtLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.txtLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.txtLog.Location = new System.Drawing.Point(15, 110);
+      this.txtLog.Name = "txtLog";
+      this.txtLog.ReadOnly = true;
+      this.txtLog.Size = new System.Drawing.Size(904, 269);
+      this.txtLog.TabIndex = 13;
+      this.txtLog.Text = "";
+      // 
+      // label1
+      // 
+      this.label1.AutoSize = true;
+      this.label1.Location = new System.Drawing.Point(12, 94);
+      this.label1.Name = "label1";
+      this.label1.Size = new System.Drawing.Size(104, 13);
+      this.label1.TabIndex = 14;
+      this.label1.Text = "Running information:";
+      // 
+      // DeuteriumCalculatorUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-      this.ClientSize = new System.Drawing.Size(931, 186);
+      this.ClientSize = new System.Drawing.Size(931, 467);
+      this.Controls.Add(this.label1);
+      this.Controls.Add(this.txtLog);
       this.Controls.Add(this.txtRawDirectory);
       this.Controls.Add(this.btnRawDirectory);
       this.Controls.Add(this.txtPeptideFile);
       this.Controls.Add(this.btnPeptideFile);
-      this.Name = "DeuteriumBuilderUI";
+      this.Name = "DeuteriumCalculatorUI";
       this.Controls.SetChildIndex(this.pnlButton, 0);
       this.Controls.SetChildIndex(this.btnPeptideFile, 0);
       this.Controls.SetChildIndex(this.txtPeptideFile, 0);
@@ -114,6 +140,8 @@ namespace RCPA.Proteomics.Deuterium
       this.Controls.SetChildIndex(this.lblProgress, 0);
       this.Controls.SetChildIndex(this.btnRawDirectory, 0);
       this.Controls.SetChildIndex(this.txtRawDirectory, 0);
+      this.Controls.SetChildIndex(this.txtLog, 0);
+      this.Controls.SetChildIndex(this.label1, 0);
       this.pnlButton.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
@@ -126,5 +154,7 @@ namespace RCPA.Proteomics.Deuterium
     private System.Windows.Forms.TextBox txtPeptideFile;
     private System.Windows.Forms.TextBox txtRawDirectory;
     private System.Windows.Forms.Button btnRawDirectory;
+    private System.Windows.Forms.RichTextBox txtLog;
+    private System.Windows.Forms.Label label1;
   }
 }

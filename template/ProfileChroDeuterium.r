@@ -10,6 +10,7 @@ loadOrInstallPackage <- function(x)
 {
   if (!require(x,character.only = TRUE))
   {
+    options("repos"="http://cran.us.r-project.org")
     install.packages(x,dep=TRUE)
     if(!require(x,character.only = TRUE)) {
       stop(paste0("Package ", x, " not found"))
@@ -17,8 +18,8 @@ loadOrInstallPackage <- function(x)
   }
 }
 
+library("grid")
 loadOrInstallPackage("ggplot2")
-loadOrInstallPackage("grid")
 loadOrInstallPackage("reshape2")
 loadOrInstallPackage("XML")
 loadOrInstallPackage("scales")

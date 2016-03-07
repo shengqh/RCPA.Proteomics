@@ -2,6 +2,7 @@ using RCPA.Commandline;
 using RCPA.Gui;
 using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
+using System.ComponentModel;
 using System.IO;
 
 namespace RCPA.Proteomics.Deuterium
@@ -10,7 +11,7 @@ namespace RCPA.Proteomics.Deuterium
   {
     public static readonly string title = "Deuterium Calculator";
 
-    public static readonly string version = "1.0.0";
+    public static readonly string version = "1.0.1";
 
     private RcpaFileField peptideFile;
     private RcpaDirectoryField rawDirectory;
@@ -26,6 +27,11 @@ namespace RCPA.Proteomics.Deuterium
       this.AddComponent(this.rawDirectory);
 
       this.Text = Constants.GetSQHTitle(title, version);
+    }
+
+    protected override ProgressChangedEventHandler GetProgressChanged()
+    {
+      return new WorkerProgressChangedTextBoxProxy(txtLog, new[] { progressBar }).ProgressChanged;
     }
 
     protected override IProcessor GetProcessor()

@@ -44,9 +44,10 @@ namespace RCPA.Proteomics.Deuterium
         InputFile = boundaryFile,
         OutputFile = deuteriumFile,
         RTemplate = DeuteriumR,
-        RExecute = SystemUtils.GetRExecuteLocation()
+        RExecute = SystemUtils.GetRExecuteLocation(),
+        CreateNoWindow = true
       };
-      new RTemplateProcessor(deuteriumOptions).Process();
+      new RTemplateProcessor(deuteriumOptions) { Progress = this.Progress }.Process();
 
       var deuteriumMap = new MapReader("File", "Deuterium").ReadFromFile(deuteriumFile).ToDictionary(m => Path.GetFileNameWithoutExtension(m.Key), m => m.Value);
 

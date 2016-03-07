@@ -10,6 +10,7 @@ loadOrInstallPackage <- function(x)
 {
   if (!require(x,character.only = TRUE, quietly = TRUE))
   {
+    options("repos"="http://cran.us.r-project.org")
     install.packages(x,dep=TRUE)
     if(!require(x,character.only = TRUE, quietly = TRUE)) {
       stop(paste0("Package ", x, " not found"))
