@@ -21,22 +21,17 @@ namespace RCPA.emass
 
   public class EmassCalculator
   {
-    private static SuperAtomData sad = new SuperAtomData();
+    private SuperAtomData sad = new SuperAtomData();
 
-    private static ElemMap em = new ElemMap();
+    private ElemMap em = new ElemMap();
 
     const double ELECTRON_MASS = 0.00054858;
 
     const double DUMMY_MASS = -10000000;
 
-    private static Regex eleReg = new Regex(@"(\S+)\s+(\S+)");
+    private Regex eleReg = new Regex(@"(\S+)\s+(\S+)");
 
-    public static bool HasInitialized()
-    {
-      return em.Count > 0;
-    }
-
-    public static void InitializeData(string filename)
+    public EmassCalculator(string filename)
     {
       if (!File.Exists(filename))
       {
@@ -101,7 +96,7 @@ namespace RCPA.emass
     }
 
     // Merge two patterns to one.
-    private static void convolute_basic(Pattern target, Pattern source1, Pattern source2)
+    private void convolute_basic(Pattern target, Pattern source1, Pattern source2)
     {
       target.Clear();
       int g_n = source1.Count;
@@ -132,7 +127,7 @@ namespace RCPA.emass
 
     // Prune the small peaks from both sides but
     // leave them within the pattern.
-    private static void Prune(Pattern f, double limit)
+    private void Prune(Pattern f, double limit)
     {
       while (f.Count > 0 && f.First().Intensity <= limit)
       {
@@ -145,14 +140,14 @@ namespace RCPA.emass
       }
     }
 
-    public static Pattern Calculate(string formula, double limit, long charge)
+    public Pattern Calculate(string formula, double limit, long charge)
     {
       AtomComposition ac = new AtomComposition(formula);
 
       return Calculate(ac, limit, charge);
     }
 
-    public static Pattern Calculate(AtomComposition ac, double limit, long charge)
+    public Pattern Calculate(AtomComposition ac, double limit, long charge)
     {
       FormMap fm = new FormMap();
       foreach (var key in ac.Keys)
@@ -170,7 +165,7 @@ namespace RCPA.emass
       return Calculate(fm, limit, charge);
     }
 
-    public static Pattern Calculate(FormMap fm, double limit, long charge)
+    public Pattern Calculate(FormMap fm, double limit, long charge)
     {
       Pattern tmp = new Pattern();
       Pattern result = new Pattern();
@@ -213,6 +208,10 @@ namespace RCPA.emass
           p.Mz = p.Mz / Math.Abs(charge) + ELECTRON_MASS;
       }
 
+      if(result.Count == 0)
+      {
+        throw new Exception("Calculate profile failed");
+      }
       return result;
     }
   }

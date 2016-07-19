@@ -20,7 +20,7 @@ namespace RCPA.Proteomics.Summary
 
     private String lastLine;
 
-    public IdentifiedProteinGroupEnumerator(string filename)
+    public IdentifiedProteinGroupEnumerator(string filename, bool ignoreFasta = false)
     {
       if (!File.Exists(filename))
       {
@@ -28,7 +28,7 @@ namespace RCPA.Proteomics.Summary
       }
 
       string fastaFile = filename + ".fasta";
-      if (!File.Exists(fastaFile))
+      if (!File.Exists(fastaFile) && !ignoreFasta)
       {
         throw new FileNotFoundException("File not exist : " + fastaFile);
       }

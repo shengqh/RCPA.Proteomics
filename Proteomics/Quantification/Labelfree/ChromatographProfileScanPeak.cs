@@ -6,6 +6,8 @@ namespace RCPA.Proteomics.Quantification.Labelfree
   {
     public ChromatographProfileScanPeak() { }
 
+    public int Isotopic { get; set; }
+
     public double PPMDistance { get; set; }
   }
 }

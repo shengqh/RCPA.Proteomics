@@ -28,28 +28,42 @@ namespace RCPA.Proteomics.Deuterium
 
     public override IEnumerable<string> Process()
     {
-      var outputFile = options.OutputFile;
-      var boundaryFile = Path.ChangeExtension(options.OutputFile, ".boundary.csv");
-      var deuteriumFile = Path.ChangeExtension(options.OutputFile, ".calc.tsv");
-
-      options.OutputFile = boundaryFile;
       var builder = new ChromatographProfileBuilder(options);
-      builder.Progress = this.Progress;
-      builder.Process();
 
-      Progress.SetMessage("Calculating deuterium ...");
-
-      var deuteriumOptions = new RTemplateProcessorOptions()
+      if (!File.Exists(options.BoundaryOutputFile) || options.Overwrite)
       {
-        InputFile = boundaryFile,
-        OutputFile = deuteriumFile,
-        RTemplate = DeuteriumR,
-        RExecute = SystemUtils.GetRExecuteLocation(),
-        CreateNoWindow = true
-      };
-      new RTemplateProcessor(deuteriumOptions) { Progress = this.Progress }.Process();
+        Progress.SetMessage("Finding envelope ...");
 
-      var deuteriumMap = new MapReader("File", "Deuterium").ReadFromFile(deuteriumFile).ToDictionary(m => Path.GetFileNameWithoutExtension(m.Key), m => m.Value);
+        var outputFile = options.OutputFile;
+        var drawImage = options.DrawImage;
+
+        options.OutputFile = options.BoundaryOutputFile;
+        options.DrawImage = false;
+
+        builder.Progress = this.Progress;
+        builder.Process();
+
+        options.OutputFile = outputFile;
+        options.DrawImage = drawImage;
+      }
+
+      if (!File.Exists(options.DeuteriumOutputFile) || options.Overwrite)
+      {
+        Progress.SetMessage("Calculating deuterium ...");
+        var deuteriumOptions = new RTemplateProcessorOptions()
+        {
+          InputFile = options.BoundaryOutputFile,
+          OutputFile = options.DeuteriumOutputFile,
+          RTemplate = DeuteriumR,
+          RExecute = SystemUtils.GetRExecuteLocation(),
+          CreateNoWindow = true
+        };
+
+        deuteriumOptions.Parameters.Add("outputImage<-" + (options.DrawImage ? "1" : "0"));
+        new RTemplateProcessor(deuteriumOptions) { Progress = this.Progress }.Process();
+      }
+
+      var deuteriumMap = new MapReader("ChroFile", "Deuterium").ReadFromFile(options.DeuteriumOutputFile);
 
       var calcSpectra = new List<IIdentifiedSpectrum>();
 
@@ -65,11 +79,11 @@ namespace RCPA.Proteomics.Deuterium
         }
       }
       format.PeptideFormat.Headers = format.PeptideFormat.Headers + "\tDeuterium";
-      format.WriteToFile(outputFile, calcSpectra);
+      format.WriteToFile(options.OutputFile, calcSpectra);
 
       Progress.SetMessage("Finished ...");
 
-      return new string[] { outputFile };
+      return new string[] { options.OutputFile };
     }
   }
 }

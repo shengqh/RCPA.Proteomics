@@ -376,7 +376,7 @@ namespace RCPA.Proteomics.Summary
     /// <param name="spectra"></param>
     public static void SortByScore<T>(List<T> spectra) where T : IIdentifiedSpectrum
     {
-      spectra.Sort(delegate(T s1, T s2)
+      spectra.Sort(delegate (T s1, T s2)
       {
         return s2.Score.CompareTo(s1.Score);
       });
@@ -384,7 +384,7 @@ namespace RCPA.Proteomics.Summary
 
     public static void SortBySpScore<T>(List<T> spectra) where T : IIdentifiedSpectrum
     {
-      spectra.Sort(delegate(T s1, T s2)
+      spectra.Sort(delegate (T s1, T s2)
       {
         return -s1.SpScore.CompareTo(s2.SpScore);
       });
@@ -397,7 +397,7 @@ namespace RCPA.Proteomics.Summary
     /// <param name="spectra"></param>
     public static void SortByQValue<T>(List<T> spectra) where T : IIdentifiedSpectrum
     {
-      spectra.Sort(delegate(T s1, T s2)
+      spectra.Sort(delegate (T s1, T s2)
       {
         return s1.QValue.CompareTo(s2.QValue);
       });
@@ -410,7 +410,7 @@ namespace RCPA.Proteomics.Summary
     /// <param name="spectra"></param>
     public static void SortByExpectValue<T>(List<T> spectra) where T : IIdentifiedSpectrum
     {
-      spectra.Sort(delegate(T s1, T s2)
+      spectra.Sort(delegate (T s1, T s2)
       {
         return s1.ExpectValue.CompareTo(s2.ExpectValue);
       });
@@ -423,7 +423,7 @@ namespace RCPA.Proteomics.Summary
     /// <param name="spectra"></param>
     public static void SortByProbability<T>(List<T> spectra) where T : IIdentifiedSpectrum
     {
-      spectra.Sort(delegate(T s1, T s2)
+      spectra.Sort(delegate (T s1, T s2)
       {
         return s2.Probability.CompareTo(s1.Probability);
       });
@@ -431,7 +431,7 @@ namespace RCPA.Proteomics.Summary
 
     public static void SortByScanScore<T>(List<T> spectra) where T : IIdentifiedSpectrum
     {
-      spectra.Sort(delegate(T s1, T s2)
+      spectra.Sort(delegate (T s1, T s2)
       {
         int result = s1.Query.FileScan.Experimental.CompareTo(s2.Query.FileScan.Experimental);
         if (0 != result)
@@ -457,7 +457,7 @@ namespace RCPA.Proteomics.Summary
 
     public static void SortByScanChargeScore<T>(List<T> spectra) where T : IIdentifiedSpectrum
     {
-      spectra.Sort(delegate(T s1, T s2)
+      spectra.Sort(delegate (T s1, T s2)
       {
         int result = s1.Query.FileScan.Experimental.CompareTo(s2.Query.FileScan.Experimental);
         if (0 != result)
@@ -698,12 +698,29 @@ namespace RCPA.Proteomics.Summary
 
     /// <summary>
     /// 将来自同一个谱图，假设为相同电荷，根据不同搜索条件（例如根据SILAC的重标和轻标）得到的多个鉴定结果合并。
-    /// 只保留Score最高的那个，其他的全部抛弃。
+    /// 只保留Score最高的一个，其他的全部抛弃。
     /// 该函数用于进行肽段筛选之前去冗余。
     /// </summary>
     /// <param name="peptides">鉴定谱图列表</param>
     /// <param name="score">Score function for sorting the spectra</param>
     public static void KeepTopPeptideFromSameEngineDifferentParameters(List<IIdentifiedSpectrum> peptides, IScoreFunction score)
+    {
+      DoFilterPeptideFromSameEngineDifferentParameters(peptides, score, KepTopOne);
+    }
+
+    /// <summary>
+    /// 将来自同一个谱图，假设为相同电荷，根据不同搜索条件（例如根据SILAC的重标和轻标）得到的多个鉴定结果比较。
+    /// 保留所有Score最高的结果（可有多个）。
+    /// 该函数用于进行肽段筛选之前去冗余。
+    /// </summary>
+    /// <param name="peptides">鉴定谱图列表</param>
+    /// <returns></returns>
+    public static void KeepUnconflictPeptidesFromSameEngineDifferentParameters(List<IIdentifiedSpectrum> peptides, IScoreFunction score)
+    {
+      DoFilterPeptideFromSameEngineDifferentParameters(peptides, score, KepTopScore);
+    }
+
+    public static void DoFilterPeptideFromSameEngineDifferentParameters(List<IIdentifiedSpectrum> peptides, IScoreFunction score, Action<List<IIdentifiedSpectrum>> filter)
     {
       var dic = peptides.ToGroupDictionary(m => m.Query.FileScan.Experimental);
       bool changed = false;
@@ -716,7 +733,7 @@ namespace RCPA.Proteomics.Summary
           if (peps.Count > 1)
           {
             score.SortSpectrum(peps);
-            peps.RemoveRange(1, peps.Count - 1);
+            filter(peps);
             currentChanged = true;
           }
         }
@@ -727,7 +744,7 @@ namespace RCPA.Proteomics.Summary
           v.Clear();
           foreach (var peps in vdic.Values)
           {
-            v.Add(peps[0]);
+            v.AddRange(peps);
           }
         }
       }
@@ -742,82 +759,15 @@ namespace RCPA.Proteomics.Summary
       }
     }
 
-    /// <summary>
-    /// 将来自同一个谱图，假设为相同电荷，根据不同搜索条件（例如根据SILAC的重标和轻标）得到的多个鉴定结果比较。
-    /// 以Score最高的那个为准，如果其他的跟他一致，则保留，否则抛弃。
-    /// 该函数用于进行肽段筛选之前去冗余。
-    /// </summary>
-    /// <param name="peptides">鉴定谱图列表</param>
-    /// <returns></returns>
-    public static void KeepUnconflictPeptidesFromSameEngineDifferentParameters(List<IIdentifiedSpectrum> peptides, IScoreFunction score)
+    private static void KepTopScore(List<IIdentifiedSpectrum> peps)
     {
-      var dic = peptides.ToGroupDictionary(m => m.Query.FileScan.Experimental);
-      bool changed = false;
-      foreach (var v in dic.Values)
-      {
-        var vdic = v.ToGroupDictionary(m => m.Query.FileScan.FirstScan);
-        bool currentChanged = false;
-        foreach (var peps in vdic.Values)
-        {
-          if (peps.Count > 1)
-          {
-            score.SortSpectrum(peps);
-            peps.RemoveRange(1, peps.Count - 1);
-            currentChanged = true;
-          }
-        }
+      var topScore = peps.First().Score;
+      peps.RemoveAll(l => l.Score < topScore);
+    }
 
-        if (currentChanged)
-        {
-          changed = true;
-          v.Clear();
-          foreach (var peps in vdic.Values)
-          {
-            v.Add(peps[0]);
-          }
-        }
-      }
-
-      if (changed)
-      {
-        peptides.Clear();
-        foreach (var v in dic.Values)
-        {
-          peptides.AddRange(v);
-        }
-      }
-
-
-
-      SortByScanChargeScore(peptides);
-      int index = 0;
-      while (index < peptides.Count)
-      {
-        var topSeqs = peptides[index].GetSequencesSet();
-        int j = index + 1;
-        while (j < peptides.Count)
-        {
-          if (!peptides[j].Query.FileScan.EqualScanCharge(peptides[index].Query.FileScan))
-          {
-            index = j;
-            break;
-          }
-
-          if (peptides[j].Peptides.Any(m => topSeqs.Contains(m.Sequence)))
-          {
-            j++;
-          }
-          else
-          {
-            peptides.RemoveAt(j);
-          }
-        }
-
-        if (j == peptides.Count)
-        {
-          break;
-        }
-      }
+    private static void KepTopOne(List<IIdentifiedSpectrum> peps)
+    {
+      peps.RemoveRange(1, peps.Count - 1);
     }
   }
 }

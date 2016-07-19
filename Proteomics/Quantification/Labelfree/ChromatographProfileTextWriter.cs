@@ -11,7 +11,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
         sw.WriteLine("Scan\tRetentionTime\tIsotopic\tMz\tIntensity\tPPMTolerance\tSignalToNoise\tProfileCorrelation\tIdentified");
         foreach (var profile in chro.Profiles)
         {
-          var corr = profile.CalculateProfileCorrelation(chro.IsotopicIons);
+          var corr = profile.CalculateProfileCorrelation(chro.IsotopicIntensities);
           for (int i = 0; i < profile.Count; i++)
           {
             sw.WriteLine("{0}\t{1:0.###}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}",

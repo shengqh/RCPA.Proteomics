@@ -40,7 +40,8 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <NuGetPackageImportStamp>d0a60224</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -118,8 +119,8 @@
     <Reference Include="MassSpecDataReader">
       <HintPath>..\SQH.Lib\Agilent\MassSpecDataReader.dll</HintPath>
     </Reference>
-    <Reference Include="MathNet.Numerics, Version=3.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MathNet.Numerics.3.7.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics, Version=3.11.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.3.11.1\lib\net40\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Meta.Numerics, Version=3.0.0.0, Culture=neutral, PublicKeyToken=67d25c65a6631347, processorArchitecture=MSIL">
@@ -137,16 +138,16 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite, Version=1.0.97.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.Core.1.0.97.0\lib\net45\System.Data.SQLite.dll</HintPath>
+    <Reference Include="System.Data.SQLite, Version=1.0.101.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.101.0\lib\net45\System.Data.SQLite.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Data.SQLite.EF6, Version=1.0.97.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.97.0\lib\net45\System.Data.SQLite.EF6.dll</HintPath>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.101.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.101.0\lib\net45\System.Data.SQLite.EF6.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Data.SQLite.Linq, Version=1.0.97.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.97.0\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.101.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.101.0\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Drawing" />
@@ -165,8 +166,9 @@
     <Reference Include="Winista.HtmlParser">
       <HintPath>..\SQH.Lib\Winista.HtmlParser.dll</HintPath>
     </Reference>
-    <Reference Include="ZedGraph">
-      <HintPath>..\packages\ZedGraph.5.1.6\lib\net35-Client\ZedGraph.dll</HintPath>
+    <Reference Include="ZedGraph, Version=5.1.7.430, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZedGraph.5.1.7\lib\net35-Client\ZedGraph.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +211,7 @@
     <Compile Include="Proteomics\Format\Mgf2Ms2ConverterOptions.cs" />
     <Compile Include="Proteomics\Format\Raw2MzXMLProcessor.cs" />
     <Compile Include="Proteomics\ISearchEngineFactory.cs" />
+    <Compile Include="Proteomics\Isotopic\InterfernceOptimization.cs" />
     <Compile Include="Proteomics\Mascot\ITitleFormat.cs" />
     <Compile Include="Proteomics\Mascot\MascotDatToPepXmlConverterOptions.cs" />
     <Compile Include="Proteomics\Mascot\MascotFactory.cs" />
@@ -364,6 +367,17 @@
     <Compile Include="Proteomics\Quantification\Labelfree\ChromatographProfile.cs" />
     <Compile Include="Proteomics\Quantification\Labelfree\ChromatographProfileTextWriter.cs" />
     <Compile Include="Proteomics\Quantification\Labelfree\ChromatographProfileXmlFormat.cs" />
+    <Compile Include="Proteomics\Quantification\Labelfree\ChromatographProfileBuilderUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Quantification\Labelfree\ChromatographProfileBuilderUI.Designer.cs">
+      <DependentUpon>ChromatographProfileBuilderUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\Quantification\Labelfree\IObservedProfileFinder.cs" />
+    <Compile Include="Proteomics\Quantification\Labelfree\ObservedProfileHighAbundanceFinder.cs" />
+    <Compile Include="Proteomics\Quantification\Labelfree\AbstractObservedProfileOptimizationFinder.cs" />
+    <Compile Include="Proteomics\Quantification\Labelfree\ObservedProfileOptimizationFinder.cs" />
+    <Compile Include="Proteomics\Quantification\Labelfree\RetentionTimePredictionFormat.cs" />
     <Compile Include="Proteomics\Quantification\QuantifyMode.cs" />
     <Compile Include="Proteomics\Raw\Ms2Format.cs" />
     <Compile Include="Proteomics\Raw\ScanLevelFormat.cs" />
@@ -1350,6 +1364,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Quantification\IsobaricLabelling\IsobaricLabelingExperimentalDesignBuilderUI.resx">
       <DependentUpon>IsobaricLabelingExperimentalDesignBuilderUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Quantification\Labelfree\ChromatographProfileBuilderUI.resx">
+      <DependentUpon>ChromatographProfileBuilderUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Sequest\AbstractSequestDatasetPanel.resx">
@@ -2945,6 +2963,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="template\ProfileChroBoundary.r" />
+    <None Include="template\ProfileChroLabelfree.r">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="template\ProfileChroDeuterium.r" />
     <None Include="template\ProteinQuantification.r">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -3044,11 +3065,11 @@
     </PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <Import Project="..\packages\System.Data.SQLite.Core.1.0.97.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.97.0\build\net45\System.Data.SQLite.Core.targets')" />
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.101.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.101.0\build\net45\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.97.0\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.97.0\build\net45\System.Data.SQLite.Core.targets'))" />
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.101.0\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.101.0\build\net45\System.Data.SQLite.Core.targets'))" />
   </Target>
 </Project>

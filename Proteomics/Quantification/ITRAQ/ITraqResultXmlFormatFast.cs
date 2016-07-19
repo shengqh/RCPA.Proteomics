@@ -64,7 +64,10 @@ namespace RCPA.Proteomics.Quantification.ITraq
 
     public override IsobaricResult ReadFromFile(string fileName)
     {
-      IsobaricResult result = new IsobaricResult();
+      IsobaricResult result = new IsobaricResult()
+      {
+        Mode = ITraqResultXmlFormatReader.GetMode(fileName)
+      };
 
       var reader = new ITraqResultXmlFormatReader()
       {

@@ -1,10 +1,12 @@
 #predefine_start
 
-outputdir<-"H:/shengquanhu/projects/Masaru/20160210_deuterium/chros"
-inputfile<-"H:/shengquanhu/projects/Masaru/20160210_deuterium/chros"
-outputfile<-"H:/shengquanhu/projects/Masaru/20160210_deuterium/chros/boundary.csv"
+outputdir<-"H:/shengquanhu/projects/20160714_de_calculator"
+inputfile<-"H:/shengquanhu/projects/20160714_de_calculator/NASH6B-0h.deuterium.boundary.chros.tsv"
+outputfile<-"H:/shengquanhu/projects/20160714_de_calculator/NASH6B-0h.deuterium.boundary.tsv"
 
 #predefine_end
+
+#ptm <- proc.time()
 
 loadOrInstallPackage <- function(x)
 {
@@ -24,8 +26,9 @@ MAX_ISOTOPIC<-3
 MINIMUM_MEAN_PPM_DIFF<-2
 MINIMUM_VARIANCE_PPM_DIFF<-2
 MINIMUM_SCAN_EACH_SIDE<-5
+MINIMUM_APEX_PERCENTAGE<-0.1
 
-files<-list.files(path = inputfile, pattern = "*.chro.tsv$", all.files = TRUE, full.names = TRUE)
+files<-read.delim(inputfile, stringsAsFactors = F, header=T)
 
 findBoundary<-function(isodata, maxIdentifiedIndex, cpt, minDiff, minScan){
   leftBoundary<-1
@@ -62,16 +65,31 @@ findBoundary<-function(isodata, maxIdentifiedIndex, cpt, minDiff, minScan){
   return (boundaries)
 }
 
-df <- data.frame(File=character(), 
-                 LeftBoundary=numeric(), 
-                 RightBoundary=numeric(),
+df <- data.frame(ChroLeft=numeric(), 
+                 ChroRight=numeric(),
+                 InitBoundaryLeft=numeric(), 
+                 InitBoundaryRight=numeric(),
+                 ApexWindowLeft=numeric(),
+                 ApexWindowRight=numeric(),
+                 RetentionTime=numeric(),
+                 MaxIntensity=numeric(),
+                 MaxIdentifiedRetentionTime=numeric(),
+                 PeakArea=numeric(),
                  stringsAsFactors = FALSE)
-for(inputFile in files){
-  cat(inputFile, "\n")
-  out<-read.table(inputFile, header=T)
+
+lastPercentage = 0
+for(index in c(1:nrow(files))){
+  curPercentage = round(index * 100.0 / nrow(files))
+  if(curPercentage != lastPercentage){
+    lastPercentage = curPercentage;
+    cat(curPercentage, "%\n")
+  }
+  
+  chroFile=paste0(files$ChroDirectory[index], "/", files$ChroFile[index], ".tsv")
+  out<-read.table(chroFile, header=T)
   out$Isotopic = factor(out$Isotopic)
   
-  iso0data<-out[out$Isotopic == "0",]
+  iso0data<-out[out$Isotopic == "1",]
   identified<-iso0data[iso0data$Identified == "True",]
   if(nrow(identified) == 0){
     maxIdentifiedIndex=round(nrow(iso0data) / 2)
@@ -93,10 +111,33 @@ for(inputFile in files){
     isoBoundary[2] = min(isoBoundary[2], curBoundary[2])
   }
   
-  newdata<-data.frame(File=inputFile, 
-                      LeftBoundary=isoBoundary[1], 
-                      RightBoundary=isoBoundary[2])
+  iso0win<-iso0data[iso0data$RetentionTime >= isoBoundary[1] & iso0data$RetentionTime <= isoBoundary[2],]
+  maxIndex<-which.max(iso0win$Intensity)
+  maxRetention=iso0win$RetentionTime[maxIndex]
+  minIntensity<-iso0win$Intensity[maxIndex] * MINIMUM_APEX_PERCENTAGE
+  removeLeft<-iso0win[iso0win$Intensity < minIntensity & iso0win$RetentionTime < maxRetention,]
+  removeRight<-iso0win[iso0win$Intensity < minIntensity & iso0win$RetentionTime > maxRetention,]
+  newwinLeft<-ifelse(nrow(removeLeft) == 0, iso0win$RetentionTime[1], max(removeLeft$RetentionTime))
+  newwinRight<-ifelse(nrow(removeRight) == 0, iso0win$RetentionTime[nrow(iso0win)], min(removeRight$RetentionTime))
+  
+  apexwin<-iso0data[iso0data$RetentionTime >= isoBoundary[1] & iso0data$RetentionTime <= isoBoundary[2],]
+  apexwin<-out[out$RetentionTime >= newwinLeft & out$RetentionTime <= newwinRight & (out$Isotopic == "1" | out$Isotopic == "2" | out$Isotopic == "3"),]
+  
+  newdata<-data.frame(ChroLeft=min(iso0data$RetentionTime),
+                      ChroRight=max(iso0data$RetentionTime),
+                      InitBoundaryLeft=isoBoundary[1], 
+                      InitBoundaryRight=isoBoundary[2],
+                      ApexWindowLeft=newwinLeft,
+                      ApexWindowRight=newwinRight,
+                      RetentionTime=maxRetention,
+                      MaxIntensity=iso0win$Intensity[maxIndex],
+                      MaxIdentifiedRetentionTime=maxIdentifiedRetentionTime,
+                      PeakArea=sum(apexwin$Intensity))
   df<-rbind(df, newdata)
 }
 
-write.csv(df, file=outputfile, row.names=FALSE)
+res<-cbind(files, df)
+
+write.table(res, file=outputfile, row.names=FALSE, sep="\t")
+
+#cat("Cost time ", proc.time() - ptm)

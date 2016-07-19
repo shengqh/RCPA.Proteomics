@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RCPA.Proteomics.Spectrum;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -39,10 +40,22 @@ namespace RCPA.Proteomics.Quantification.Labelfree
         {
           var peak = new ChromatographProfileScanPeak();
           pscan.Add(peak);
+          peak.Isotopic = scanEle.GetAttributeValue("Isotopic", 0);
           peak.Mz = scanEle.GetAttributeValue("Mz", 0.0);
           peak.Intensity = scanEle.GetAttributeValue("Intensity", 0.0);
-          peak.Charge = scanEle.GetAttributeValue("Charge", 0);
           peak.Noise = scanEle.GetAttributeValue("Noise", 0.0);
+          peak.PPMDistance = scanEle.GetAttributeValue("PPMDistance", 0.0);
+        }
+
+        pscan.RawPeaks = new List<Peak>();
+        var rawPeaksELe = proEle.Element("RawPeaks");
+        foreach (var rawPeakEle in rawPeaksELe.Elements("RawPeak"))
+        {
+          var peak = new Peak();
+          pscan.RawPeaks.Add(peak);
+          peak.Mz = rawPeakEle.GetAttributeValue("Mz", 0.0);
+          peak.Intensity = rawPeakEle.GetAttributeValue("Intensity", 0.0);
+          peak.Noise = rawPeakEle.GetAttributeValue("Noise", 0.0);
         }
       }
 
@@ -74,8 +87,14 @@ namespace RCPA.Proteomics.Quantification.Labelfree
               new XAttribute("Isotopic", pro.IndexOf(peak) + 1),
               new XAttribute("Mz", peak.Mz),
               new XAttribute("Intensity", peak.Intensity),
-              new XAttribute("Charge", peak.Charge),
-              new XAttribute("Noise", peak.Noise)))))));
+              new XAttribute("Noise", peak.Noise),
+              new XAttribute("PPMDistance", peak.PPMDistance))),
+            new XElement("RawPeaks",
+            (from peak in pro.RawPeaks
+             select new XElement("RawPeak",
+              new XAttribute("Mz", peak.Mz),
+              new XAttribute("Intensity", peak.Intensity),
+              new XAttribute("Noise", peak.Noise))))))));
       root.Save(fileName);
     }
   }

@@ -12,7 +12,7 @@ namespace RCPA.Tools.Distiller
     public override IEnumerable<string> Process(string filename)
     {
       string resultFile = FileUtils.ChangeExtension(filename, "peptides");
-      using (IdentifiedProteinGroupEnumerator iter = new IdentifiedProteinGroupEnumerator(filename))
+      using (IdentifiedProteinGroupEnumerator iter = new IdentifiedProteinGroupEnumerator(filename, true))
       {
         using (StreamWriter sw = new StreamWriter(resultFile))
         {

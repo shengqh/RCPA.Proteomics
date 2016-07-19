@@ -2,21 +2,22 @@ using RCPA.Commandline;
 using RCPA.Gui;
 using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
+using RCPA.Utils;
 using System.ComponentModel;
 using System.IO;
 
-namespace RCPA.Proteomics.Deuterium
+namespace RCPA.Proteomics.Quantification.Labelfree
 {
-  public partial class DeuteriumCalculatorUI : AbstractProcessorUI
+  public partial class ChromatographProfileBuilderUI : AbstractProcessorUI
   {
-    public static readonly string title = "Deuterium Calculator";
+    public static readonly string title = "Chromatograph Profile Builder";
 
-    public static readonly string version = "1.0.2";
+    public static readonly string version = "1.0.1";
 
     private RcpaFileField peptideFile;
     private RcpaDirectoryField rawDirectory;
 
-    public DeuteriumCalculatorUI()
+    public ChromatographProfileBuilderUI()
     {
       InitializeComponent();
 
@@ -34,26 +35,32 @@ namespace RCPA.Proteomics.Deuterium
       return new WorkerProgressChangedTextBoxProxy(txtLog, new[] { progressBar }).ProgressChanged;
     }
 
-    protected override IProcessor GetProcessor()
+    protected override void ValidateComponents()
     {
-      var options = new DeuteriumCalculatorOptions()
-      {
-        InputFile = peptideFile.FullName,
-        OutputFile = Path.ChangeExtension(peptideFile.FullName, ".deuterium.tsv"),
-        Overwrite = cbOverwrite.Checked,
-        DrawImage = cbDrawImage.Checked,
-        RawDirectory = rawDirectory.FullName,
-      };
-      return new DeuteriumCalculator(options);
+      base.ValidateComponents();
+      ExternalProgramConfig.GetExternalProgram("R");
     }
 
-    public class Command : AbstractCommandLineCommand<DeuteriumCalculatorOptions>, IToolCommand
+    protected override IProcessor GetProcessor()
+    {
+      var options = new ChromatographProfileBuilderOptions()
+      {
+        InputFile = peptideFile.FullName,
+        OutputFile = Path.ChangeExtension(peptideFile.FullName, ".labelfree.tsv"),
+        RawDirectory = rawDirectory.FullName,
+        DrawImage = rbDrawImage.Checked,
+        Overwrite = rbOverwrite.Checked
+      };
+      return new ChromatographProfileBuilder(options);
+    }
+
+    public class Command : AbstractCommandLineCommand<ChromatographProfileBuilderOptions>, IToolCommand
     {
       public override string Name
       {
         get
         {
-          return "deuterium_calc";
+          return "label_free";
         }
       }
 
@@ -61,13 +68,13 @@ namespace RCPA.Proteomics.Deuterium
       {
         get
         {
-          return "Deuterium calculator";
+          return "Label free quantificaion";
         }
       }
 
-      public override IProcessor GetProcessor(DeuteriumCalculatorOptions options)
+      public override IProcessor GetProcessor(ChromatographProfileBuilderOptions options)
       {
-        return new DeuteriumCalculator(options);
+        return new ChromatographProfileBuilder(options);
       }
 
       #region IToolCommand Members
@@ -89,7 +96,7 @@ namespace RCPA.Proteomics.Deuterium
 
       public void Run()
       {
-        new DeuteriumCalculatorUI().MyShow();
+        new ChromatographProfileBuilderUI().MyShow();
       }
 
       #endregion

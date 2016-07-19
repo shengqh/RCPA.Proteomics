@@ -17,13 +17,13 @@ namespace RCPA.Proteomics.Isotopic
 
   public class EmassProfileBuilder : IIsotopicProfileBuilder2
   {
-    public EmassProfileBuilder()
+    private EmassCalculator calculator;
+
+    public EmassProfileBuilder() : this(FileUtils.AppPath() + "\\ISOTOPE.DAT") { }
+
+    public EmassProfileBuilder(string isotopeDat)
     {
-      if (!EmassCalculator.HasInitialized())
-      {
-        var datfile = FileUtils.AppPath() + "\\ISOTOPE.DAT";
-        EmassCalculator.InitializeData(datfile);
-      }
+      this.calculator = new EmassCalculator(isotopeDat);
     }
 
     #region IIsotopicProfileBuilder2 Members
@@ -52,7 +52,7 @@ namespace RCPA.Proteomics.Isotopic
       return result;
     }
 
-    private static Pattern DoGetProfile(AtomComposition ac, int charge)
+    private Pattern DoGetProfile(AtomComposition ac, int charge)
     {
       AtomComposition ac2;
       if (charge == 0)
@@ -65,7 +65,7 @@ namespace RCPA.Proteomics.Isotopic
         ac2[Atom.H] = ac2[Atom.H] + charge;
       }
 
-      var result = EmassCalculator.Calculate(ac2, 0, charge);
+      var result = calculator.Calculate(ac2, 0, charge);
       return result;
     }
 

@@ -1,10 +1,7 @@
-﻿using System;
+﻿using RCPA.Proteomics.Isotopic;
+using RCPA.Proteomics.Spectrum;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Isotopic;
-using RCPA.Utils;
 
 namespace RCPA.Proteomics.Quantification.Labelfree
 {
@@ -25,6 +22,8 @@ namespace RCPA.Proteomics.Quantification.Labelfree
 
     public int IdentifiedScan { get; set; }
 
+    public double IdentifiedRetentionTime { get; set; }
+
     public string Sequence { get; set; }
 
     public double ObservedMz { get; set; }
@@ -35,7 +34,11 @@ namespace RCPA.Proteomics.Quantification.Labelfree
 
     public string FileName { get; set; }
 
+    public string SubFileName { get; set; }
+
     public IsotopicIon[] IsotopicIons { get; set; }
+
+    public double[] IsotopicIntensities { get; private set; }
 
     public List<ChromatographProfileScan> Profiles { get; private set; }
 
@@ -44,10 +47,10 @@ namespace RCPA.Proteomics.Quantification.Labelfree
       this.Profiles = new List<ChromatographProfileScan>();
     }
 
-    public void InitializeIsotopicIons(double ppmTolerance)
+    public void InitializeIsotopicIons(double ppmTolerance, double minimumPercentage = 0.05)
     {
       var atomComposition = aas.GetPeptideAtomComposition(this.Sequence);
-      var profiles = profileBuilder.GetProfile(atomComposition, this.Charge, 0.01);
+      var profiles = profileBuilder.GetProfile(atomComposition, this.Charge, minimumPercentage);
       this.IsotopicIons = (from peak in profiles
                            select new IsotopicIon()
                            {
@@ -63,6 +66,9 @@ namespace RCPA.Proteomics.Quantification.Labelfree
         ion.MinimumMzWithinTolerance = ion.Mz - mzdiff;
         ion.MaximumMzWithinTolerance = ion.Mz + mzdiff;
       }
+
+      this.IsotopicIntensities = (from ion in this.IsotopicIons
+                             select ion.Intensity).ToArray();
     }
 
     public void InitalizePPMTolerance()
@@ -80,5 +86,16 @@ namespace RCPA.Proteomics.Quantification.Labelfree
     {
       return MyConvert.Format("[{0}-{1} : {2:0.0000}, {3}]", this.Experimental, this.Sequence, this.TheoreticalMz, this.Charge);
     }
+
+    public string GetSourceFileScan()
+    {
+      return new SequestFilename(this.Experimental, this.IdentifiedScan, this.IdentifiedScan, this.Charge, "").ShortFileName;
+    }
+
+    public string GetPeptideId()
+    {
+      return string.Format("{0}_{1:0.0000}", this.Sequence, this.TheoreticalMz);
+    }
+
   }
 }
