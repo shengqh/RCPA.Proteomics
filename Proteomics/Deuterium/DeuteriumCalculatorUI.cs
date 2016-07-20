@@ -11,7 +11,7 @@ namespace RCPA.Proteomics.Deuterium
   {
     public static readonly string title = "Deuterium Calculator";
 
-    public static readonly string version = "1.0.2";
+    public static readonly string version = "1.0.3";
 
     private RcpaFileField peptideFile;
     private RcpaDirectoryField rawDirectory;
@@ -42,6 +42,7 @@ namespace RCPA.Proteomics.Deuterium
         OutputFile = Path.ChangeExtension(peptideFile.FullName, ".deuterium.tsv"),
         Overwrite = cbOverwrite.Checked,
         DrawImage = cbDrawImage.Checked,
+        ExcludeIsotopic0 = cbExcludeIsotopic0InFormula.Checked,
         RawDirectory = rawDirectory.FullName,
       };
       return new DeuteriumCalculator(options);

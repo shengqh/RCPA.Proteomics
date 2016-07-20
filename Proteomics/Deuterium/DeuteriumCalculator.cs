@@ -60,6 +60,8 @@ namespace RCPA.Proteomics.Deuterium
         };
 
         deuteriumOptions.Parameters.Add("outputImage<-" + (options.DrawImage ? "1" : "0"));
+        deuteriumOptions.Parameters.Add("excludeIsotopic0<-" + (options.ExcludeIsotopic0 ? "1" : "0"));
+
         new RTemplateProcessor(deuteriumOptions) { Progress = this.Progress }.Process();
       }
 

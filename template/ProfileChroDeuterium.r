@@ -4,6 +4,7 @@ outputdir<-"H:/shengquanhu/projects/20160714_de_calculator"
 inputfile<-"H:/shengquanhu/projects/20160714_de_calculator/NASH6B-0h.deuterium.boundary.tsv"
 outputfile<-"H:/shengquanhu/projects/20160714_de_calculator/NASH6B-0h.deuterium.calc.tsv"
 outputImage<-1
+excludeIsotopic0<-0
 #predefine_end
 
 loadOrInstallPackage <- function(x)
@@ -40,6 +41,10 @@ for (index in c(1:nrow(filelist))){
   
   cat(inputFile, "\n")
   out<-read.table(inputFile, header=T)
+
+  if(excludeIsotopic0){
+    out$Isotopic = out$Isotopic - 1
+  }
   
   filtered<-out[out$RetentionTime >= left & out$RetentionTime <= right,]
   profile<-aggregate(filtered$Intensity, by=list(Isotopic=filtered$Isotopic), FUN=sum)

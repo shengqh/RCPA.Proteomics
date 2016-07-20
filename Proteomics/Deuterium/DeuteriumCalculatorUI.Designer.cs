@@ -36,6 +36,7 @@ namespace RCPA.Proteomics.Deuterium
       this.label1 = new System.Windows.Forms.Label();
       this.cbOverwrite = new RCPA.Gui.RcpaCheckField();
       this.cbDrawImage = new RCPA.Gui.RcpaCheckField();
+      this.cbExcludeIsotopic0InFormula = new RCPA.Gui.RcpaCheckField();
       this.pnlButton.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -150,10 +151,23 @@ namespace RCPA.Proteomics.Deuterium
       this.cbDrawImage.Text = "Draw image";
       this.cbDrawImage.UseVisualStyleBackColor = true;
       // 
+      // cbExcludeIsotopic0InFormula
+      // 
+      this.cbExcludeIsotopic0InFormula.AutoSize = true;
+      this.cbExcludeIsotopic0InFormula.Key = "ExcludeIsotopic0InFormula";
+      this.cbExcludeIsotopic0InFormula.Location = new System.Drawing.Point(488, 87);
+      this.cbExcludeIsotopic0InFormula.Name = "cbExcludeIsotopic0InFormula";
+      this.cbExcludeIsotopic0InFormula.PreCondition = null;
+      this.cbExcludeIsotopic0InFormula.Size = new System.Drawing.Size(160, 17);
+      this.cbExcludeIsotopic0InFormula.TabIndex = 15;
+      this.cbExcludeIsotopic0InFormula.Text = "Exclude isotopic 0 in formula";
+      this.cbExcludeIsotopic0InFormula.UseVisualStyleBackColor = true;
+      // 
       // DeuteriumCalculatorUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.ClientSize = new System.Drawing.Size(1200, 559);
+      this.Controls.Add(this.cbExcludeIsotopic0InFormula);
       this.Controls.Add(this.cbDrawImage);
       this.Controls.Add(this.cbOverwrite);
       this.Controls.Add(this.label1);
@@ -174,6 +188,7 @@ namespace RCPA.Proteomics.Deuterium
       this.Controls.SetChildIndex(this.label1, 0);
       this.Controls.SetChildIndex(this.cbOverwrite, 0);
       this.Controls.SetChildIndex(this.cbDrawImage, 0);
+      this.Controls.SetChildIndex(this.cbExcludeIsotopic0InFormula, 0);
       this.pnlButton.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
@@ -190,5 +205,6 @@ namespace RCPA.Proteomics.Deuterium
     private System.Windows.Forms.Label label1;
     private Gui.RcpaCheckField cbOverwrite;
     private Gui.RcpaCheckField cbDrawImage;
+    private Gui.RcpaCheckField cbExcludeIsotopic0InFormula;
   }
 }
