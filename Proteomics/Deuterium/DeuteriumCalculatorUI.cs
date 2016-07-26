@@ -11,7 +11,7 @@ namespace RCPA.Proteomics.Deuterium
   {
     public static readonly string title = "Deuterium Calculator";
 
-    public static readonly string version = "1.0.3";
+    public static readonly string version = "1.0.4";
 
     private RcpaFileField peptideFile;
     private RcpaDirectoryField rawDirectory;

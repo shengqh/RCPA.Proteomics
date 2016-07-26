@@ -3,7 +3,7 @@
 outputdir<-"H:/shengquanhu/projects/20160714_de_calculator"
 inputfile<-"H:/shengquanhu/projects/20160714_de_calculator/NASH6B-0h.deuterium.boundary.tsv"
 outputfile<-"H:/shengquanhu/projects/20160714_de_calculator/NASH6B-0h.deuterium.calc.tsv"
-outputImage<-1
+outputImage<-0
 excludeIsotopic0<-0
 #predefine_end
 
@@ -32,7 +32,9 @@ attrFun <- function(x){
 
 filelist<-read.delim(inputfile, stringsAsFactors = FALSE, header=T)
 index<-1
-filelist$Deuterium<-0
+filelist$TheoreticalDeuterium<-0
+filelist$ObservedDeuterium<-0
+filelist$NumDeuteriumIncorporated<-0
 
 for (index in c(1:nrow(filelist))){
   inputFile=paste0(filelist$ChroDirectory[index], "/", filelist$ChroFile[index], ".tsv")
@@ -49,11 +51,9 @@ for (index in c(1:nrow(filelist))){
   filtered<-out[out$RetentionTime >= left & out$RetentionTime <= right,]
   profile<-aggregate(filtered$Intensity, by=list(Isotopic=filtered$Isotopic), FUN=sum)
   colnames(profile)<-c("Isotopic", "Abundance")
-  profile$Percentage<-profile$Abundance / sum(profile$Abundance)
-  profile$Deuterium<-profile$Isotopic * profile$Percentage
-  
-  deuterium<-sum(profile$Deuterium)
-  filelist[index, "Deuterium"]<-deuterium
+
+  observedSum<-sum(profile$Abundance)
+  profile$Percentage<-profile$Abundance / observedSum
   
   xmlfile<-paste0(inputFile, ".xml")
   xdata<- xmlParse(xmlfile)
@@ -61,20 +61,36 @@ for (index in c(1:nrow(filelist))){
   isotopics<-isotopics[c(1:nrow(profile)),]
   isotopics$Mz<-as.numeric(isotopics$Mz)
   isotopics$Intensity<-as.numeric(isotopics$Intensity)
+  theoreticalSum<-sum(isotopics$Intensity)
+  isotopics$TheoreticalPercentage<-isotopics$Intensity / theoreticalSum
   
   profiledata<-cbind(isotopics, profile)
-  colnames(profiledata)<-c("MZ", "Theoretical", "Isotopic", "Intensity", "Observed", "CalculatedDeuterium")
-  profiledata<-profiledata[,c(3,1,2,5,4,6)]
+
+  colnames(profiledata)<-c("MZ", "TheoreticalAbundance", "TheoreticalPercentage", "Isotopic", "ObservedAbundance", "ObservedPercentage")
+  profiledata$TheoreticalDeuterium<-profiledata$Isotopic * profiledata$TheoreticalPercentage
+  profiledata$ObservedDeuterium<-profiledata$Isotopic * profiledata$ObservedPercentage
+
+  obvDeuterium<-sum(profiledata$ObservedDeuterium)  
+	theDeuterium<-sum(profiledata$TheoreticalDeuterium)
+  numDeuterium<-obvDeuterium-theDeuterium
+  filelist[index, "TheoreticalDeuterium"]<-theDeuterium
+  filelist[index, "ObservedDeuterium"]<-obvDeuterium
+  filelist[index, "NumDeuteriumIncorporated"]<-numDeuterium
+
+  profiledata<-profiledata[,c(4,1,2,3,7,5,6,8)]
   write.csv(profiledata, file=paste0(inputFile, ".csv"), row.names=F)
   
   if(outputImage){
     imgFile<-paste0(inputFile, ".png")
     
-    meltprofile<-melt(profiledata, id.vars = c("MZ", "Isotopic", "Intensity", "CalculatedDeuterium"))
-    colnames(meltprofile)<-c("MZ", "Isotopic", "Intensity", "CalculatedDeuterium", "Profile", "Percentage")
+    slimprofile<-profiledata[,c(2, 4, 7)]
+    colnames(slimprofile)<-c("MZ", "Theoretical", "Observed")
+    meltprofile<-melt(slimprofile, id.vars = c("MZ"))
+    colnames(meltprofile)<-c("MZ", "Profile", "Percentage")
+    
     p1<-ggplot(meltprofile, aes(x=MZ, y=Percentage, fill=Profile, color=Profile)) + 
       geom_bar(stat = "identity", position=position_dodge()) + 
-      ggtitle(paste0("Deuterium = ", sprintf("%.4f", deuterium))) + 
+      ggtitle(paste0("Num of Deuterium Incoporated = ", sprintf("%.4f", numDeuterium))) + 
       scale_y_continuous(labels=percent) +
       theme_bw() +
       theme(plot.background = element_blank())
@@ -135,4 +151,4 @@ for (index in c(1:nrow(filelist))){
   }
 }
 
-write.table(filelist, file=outputfile, row.names=F, sep="\t")
+write.table(filelist, file=outputfile, row.names=F, sep="\t", quote=F)

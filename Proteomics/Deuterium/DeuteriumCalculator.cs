@@ -28,23 +28,20 @@ namespace RCPA.Proteomics.Deuterium
 
     public override IEnumerable<string> Process()
     {
-      var builder = new ChromatographProfileBuilder(options);
+      var chroOptions = new ChromatographProfileBuilderOptions();
+      options.CopyProperties(chroOptions);
+
+      chroOptions.OutputFile = options.BoundaryOutputFile;
+      chroOptions.DrawImage = false;
+
+      var builder = new ChromatographProfileBuilder(chroOptions);
 
       if (!File.Exists(options.BoundaryOutputFile) || options.Overwrite)
       {
         Progress.SetMessage("Finding envelope ...");
 
-        var outputFile = options.OutputFile;
-        var drawImage = options.DrawImage;
-
-        options.OutputFile = options.BoundaryOutputFile;
-        options.DrawImage = false;
-
         builder.Progress = this.Progress;
         builder.Process();
-
-        options.OutputFile = outputFile;
-        options.DrawImage = drawImage;
       }
 
       if (!File.Exists(options.DeuteriumOutputFile) || options.Overwrite)
@@ -65,7 +62,7 @@ namespace RCPA.Proteomics.Deuterium
         new RTemplateProcessor(deuteriumOptions) { Progress = this.Progress }.Process();
       }
 
-      var deuteriumMap = new MapReader("ChroFile", "Deuterium").ReadFromFile(options.DeuteriumOutputFile);
+      var deuteriumMap = new AnnotationFormat().ReadFromFile(options.DeuteriumOutputFile).ToDictionary(m => m.Annotations["ChroFile"].ToString());
 
       var calcSpectra = new List<IIdentifiedSpectrum>();
 
@@ -76,11 +73,13 @@ namespace RCPA.Proteomics.Deuterium
         var filename = Path.GetFileNameWithoutExtension(builder.GetTargetFile(pep));
         if (deuteriumMap.ContainsKey(filename))
         {
-          pep.Annotations["Deuterium"] = deuteriumMap[filename];
+          pep.Annotations["TheoreticalDeuterium"] = deuteriumMap[filename].Annotations["TheoreticalDeuterium"];
+          pep.Annotations["ObservedDeuterium"] = deuteriumMap[filename].Annotations["ObservedDeuterium"];
+          pep.Annotations["NumDeuteriumIncorporated"] = deuteriumMap[filename].Annotations["NumDeuteriumIncorporated"];
           calcSpectra.Add(pep);
         }
       }
-      format.PeptideFormat.Headers = format.PeptideFormat.Headers + "\tDeuterium";
+      format.PeptideFormat.Headers = format.PeptideFormat.Headers + "\tTheoreticalDeuterium\tObservedDeuterium\tNumDeuteriumIncorporated";
       format.WriteToFile(options.OutputFile, calcSpectra);
 
       Progress.SetMessage("Finished ...");

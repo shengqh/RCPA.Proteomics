@@ -10,7 +10,7 @@ namespace RCPA.Proteomics.Deuterium
     {
       get
       {
-        return Path.ChangeExtension(this.OutputFile, ".boundary.tsv");
+        return Path.Combine(GetDetailDirectory(), Path.ChangeExtension(Path.GetFileName(this.OutputFile), ".boundary.tsv"));
       }
     }
 
@@ -18,10 +18,9 @@ namespace RCPA.Proteomics.Deuterium
     {
       get
       {
-        return Path.ChangeExtension(base.OutputFile, ".calc.tsv");
+        return Path.Combine(GetDetailDirectory(), Path.ChangeExtension(Path.GetFileName(this.OutputFile), ".calc.tsv"));
       }
     }
-
 
     [Option("excludeIsotopic0", MetaValue = "BOOLEAN", HelpText = "Exclude isotopic 0 in formula")]
     public bool ExcludeIsotopic0 { get; set; }
@@ -29,6 +28,16 @@ namespace RCPA.Proteomics.Deuterium
     public DeuteriumCalculatorOptions()
     {
       this.MinimumIsotopicPercentage = 0.01;
+    }
+
+    private string GetDetailDirectory()
+    {
+      var result = Path.GetFullPath(Path.ChangeExtension(this.OutputFile, ".details"));
+      if (!Directory.Exists(result))
+      {
+        Directory.CreateDirectory(result);
+      }
+      return result;
     }
   }
 }

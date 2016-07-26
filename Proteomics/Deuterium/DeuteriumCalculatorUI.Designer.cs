@@ -160,7 +160,7 @@ namespace RCPA.Proteomics.Deuterium
       this.cbExcludeIsotopic0InFormula.PreCondition = null;
       this.cbExcludeIsotopic0InFormula.Size = new System.Drawing.Size(160, 17);
       this.cbExcludeIsotopic0InFormula.TabIndex = 15;
-      this.cbExcludeIsotopic0InFormula.Text = "Exclude isotopic 0 in formula";
+      this.cbExcludeIsotopic0InFormula.Text = "Exclude isotopic 0 in calculation";
       this.cbExcludeIsotopic0InFormula.UseVisualStyleBackColor = true;
       // 
       // DeuteriumCalculatorUI
