@@ -80,6 +80,7 @@ namespace RCPA.Proteomics.Deuterium
         }
       }
       format.PeptideFormat.Headers = format.PeptideFormat.Headers + "\tTheoreticalDeuterium\tObservedDeuterium\tNumDeuteriumIncorporated";
+      format.NotExportSummary = true;
       format.WriteToFile(options.OutputFile, calcSpectra);
 
       Progress.SetMessage("Finished ...");
