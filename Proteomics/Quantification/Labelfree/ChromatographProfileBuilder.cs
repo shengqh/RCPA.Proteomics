@@ -45,7 +45,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
         var spectra = format.ReadFromFile(options.InputFile);
         var peptideMap = spectra.ToGroupDictionary(m => m.Query.FileScan.Experimental.ToLower());
         var rawfiles = Directory.GetFiles(options.RawDirectory, "*.raw", SearchOption.AllDirectories).ToDictionary(m => Path.GetFileNameWithoutExtension(m).ToLower());
-        var rententionWindow = options.RetentionTimeWindow;
+        var rententionWindow = options.MaximumRetentionTimeWindow;
 
         var missed = peptideMap.Keys.Except(rawfiles.Keys).ToArray();
         if (missed.Length > 0)
@@ -358,7 +358,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
 
       ChromatographProfileScan envelope = null;
 
-      if (!profileFinder.Find(ms1, chro, options.MzTolerancePPM, options.ProfileLength, ref envelope))
+      if (!profileFinder.Find(ms1, chro, options.MzTolerancePPM, options.MinimumProfileLength, ref envelope))
       {
         return false;
       }

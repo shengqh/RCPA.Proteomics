@@ -356,7 +356,7 @@ namespace RCPA.Proteomics
     {
       if (tvClassifications.Nodes.Count == 0)
       {
-        throw new Exception("No data");
+        throw new Exception("Load data to classification panel first!");
       }
     }
 

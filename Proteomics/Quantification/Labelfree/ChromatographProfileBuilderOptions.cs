@@ -9,8 +9,8 @@ namespace RCPA.Proteomics.Quantification.Labelfree
   public class ChromatographProfileBuilderOptions : AbstractOptions
   {
     private const double DEFALUT_MzTolerancePPM = 20;
-    private const int DEFAULT_ProfileLength = 3;
-    private const double DEFAULT_RetentionTimeWindow = 5;
+    private const int DEFAULT_MinimumProfileLength = 3;
+    private const double DEFAULT_MaximumRetentionTimeWindow = 5;
     private const double DEFAULT_MinimumCorrelation = 0.9;
     private const int DEFAULT_MinimumScanCount = 5;
     private const int DEFAULT_ThreadCount = 0;
@@ -19,8 +19,8 @@ namespace RCPA.Proteomics.Quantification.Labelfree
     public ChromatographProfileBuilderOptions()
     {
       this.MzTolerancePPM = DEFALUT_MzTolerancePPM;
-      this.ProfileLength = DEFAULT_ProfileLength;
-      this.RetentionTimeWindow = DEFAULT_RetentionTimeWindow;
+      this.MinimumProfileLength = DEFAULT_MinimumProfileLength;
+      this.MaximumRetentionTimeWindow = DEFAULT_MaximumRetentionTimeWindow;
       this.MinimumIsotopicPercentage = DEFAULT_MinimumIsotopicPercentage;
       this.MinimumCorrelation = DEFAULT_MinimumCorrelation;
       this.MinimumScanCount = DEFAULT_MinimumScanCount;
@@ -39,11 +39,11 @@ namespace RCPA.Proteomics.Quantification.Labelfree
     [Option('t', "mzTolerancePPM", Required = false, DefaultValue = DEFALUT_MzTolerancePPM, MetaValue = "DOUBLE", HelpText = "Precursor m/z tolerance in PPM")]
     public double MzTolerancePPM { get; set; }
 
-    [Option('l', "profileLength", Required = false, DefaultValue = DEFAULT_ProfileLength, MetaValue = "INT", HelpText = "Profile length")]
-    public int ProfileLength { get; set; }
+    [Option('l', "profileLength", Required = false, DefaultValue = DEFAULT_MinimumProfileLength, MetaValue = "INT", HelpText = "Minimum profile length")]
+    public int MinimumProfileLength { get; set; }
 
-    [Option('t', "retentionTimeWindow", Required = false, DefaultValue = DEFAULT_RetentionTimeWindow, MetaValue = "DOUBLE", HelpText = "Maximum retention time window (minute)")]
-    public double RetentionTimeWindow { get; set; }
+    [Option('t', "maximumRetentionTimeWindow", Required = false, DefaultValue = DEFAULT_MaximumRetentionTimeWindow, MetaValue = "DOUBLE", HelpText = "Maximum retention time window (minute)")]
+    public double MaximumRetentionTimeWindow { get; set; }
 
     [Option('c', "minimumCorrelation", Required = false, DefaultValue = DEFAULT_MinimumCorrelation, MetaValue = "DOUBLE", HelpText = "Minimum correlation between real profile and theoritical profile")]
     public double MinimumCorrelation { get; set; }

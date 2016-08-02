@@ -35,50 +35,56 @@
       this.cbAccessNumberParser = new System.Windows.Forms.ComboBox();
       this.label1 = new System.Windows.Forms.Label();
       this.pnlFile.SuspendLayout();
+      this.pnlButton.SuspendLayout();
       this.SuspendLayout();
       // 
       // pnlFile
       // 
-      this.pnlFile.Location = new System.Drawing.Point(45, 32);
-      this.pnlFile.Size = new System.Drawing.Size(877, 22);
+      this.pnlFile.Location = new System.Drawing.Point(45, 35);
+      this.pnlFile.Size = new System.Drawing.Size(877, 24);
       // 
       // txtOriginalFile
       // 
       this.txtOriginalFile.Location = new System.Drawing.Point(192, 0);
-      this.txtOriginalFile.Size = new System.Drawing.Size(685, 21);
+      this.txtOriginalFile.Size = new System.Drawing.Size(685, 20);
       // 
       // btnOriginalFile
       // 
-      this.btnOriginalFile.Size = new System.Drawing.Size(192, 22);
+      this.btnOriginalFile.Size = new System.Drawing.Size(192, 24);
       // 
       // lblProgress
       // 
-      this.lblProgress.Location = new System.Drawing.Point(0, 487);
-      this.lblProgress.Size = new System.Drawing.Size(1040, 21);
+      this.lblProgress.Location = new System.Drawing.Point(0, 527);
+      this.lblProgress.Size = new System.Drawing.Size(1040, 23);
       // 
       // progressBar
       // 
-      this.progressBar.Location = new System.Drawing.Point(0, 508);
-      this.progressBar.Size = new System.Drawing.Size(1040, 21);
+      this.progressBar.Location = new System.Drawing.Point(0, 550);
+      this.progressBar.Size = new System.Drawing.Size(1040, 23);
+      // 
+      // pnlButton
+      // 
+      this.pnlButton.Location = new System.Drawing.Point(0, 573);
+      this.pnlButton.Size = new System.Drawing.Size(1040, 39);
       // 
       // btnClose
       // 
-      this.btnClose.Location = new System.Drawing.Point(568, 7);
+      this.btnClose.Location = new System.Drawing.Point(568, 8);
       // 
       // btnCancel
       // 
-      this.btnCancel.Location = new System.Drawing.Point(483, 7);
+      this.btnCancel.Location = new System.Drawing.Point(483, 8);
       // 
       // btnGo
       // 
-      this.btnGo.Location = new System.Drawing.Point(398, 7);
+      this.btnGo.Location = new System.Drawing.Point(398, 8);
       // 
       // btnLoad
       // 
       this.btnLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnLoad.Location = new System.Drawing.Point(928, 31);
+      this.btnLoad.Location = new System.Drawing.Point(928, 34);
       this.btnLoad.Name = "btnLoad";
-      this.btnLoad.Size = new System.Drawing.Size(75, 23);
+      this.btnLoad.Size = new System.Drawing.Size(75, 25);
       this.btnLoad.TabIndex = 9;
       this.btnLoad.Text = "&Load";
       this.btnLoad.UseVisualStyleBackColor = true;
@@ -90,17 +96,17 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.cbFilterType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.cbFilterType.FormattingEnabled = true;
-      this.cbFilterType.Location = new System.Drawing.Point(243, 60);
+      this.cbFilterType.Location = new System.Drawing.Point(243, 65);
       this.cbFilterType.Name = "cbFilterType";
-      this.cbFilterType.Size = new System.Drawing.Size(679, 20);
+      this.cbFilterType.Size = new System.Drawing.Size(679, 21);
       this.cbFilterType.TabIndex = 16;
       // 
       // label3
       // 
       this.label3.AutoSize = true;
-      this.label3.Location = new System.Drawing.Point(106, 63);
+      this.label3.Location = new System.Drawing.Point(106, 68);
       this.label3.Name = "label3";
-      this.label3.Size = new System.Drawing.Size(131, 12);
+      this.label3.Size = new System.Drawing.Size(110, 13);
       this.label3.TabIndex = 15;
       this.label3.Text = "Quantification method";
       // 
@@ -111,10 +117,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.pnlClassification.Description = "Description";
       this.pnlClassification.GetName = null;
-      this.pnlClassification.Location = new System.Drawing.Point(45, 127);
+      this.pnlClassification.Location = new System.Drawing.Point(45, 138);
       this.pnlClassification.Name = "pnlClassification";
       this.pnlClassification.Pattern = "(.+)_(\\d){1,2}";
-      this.pnlClassification.Size = new System.Drawing.Size(958, 320);
+      this.pnlClassification.Size = new System.Drawing.Size(958, 347);
       this.pnlClassification.TabIndex = 21;
       // 
       // cbAccessNumberParser
@@ -123,24 +129,24 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.cbAccessNumberParser.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.cbAccessNumberParser.FormattingEnabled = true;
-      this.cbAccessNumberParser.Location = new System.Drawing.Point(243, 86);
+      this.cbAccessNumberParser.Location = new System.Drawing.Point(243, 93);
       this.cbAccessNumberParser.Name = "cbAccessNumberParser";
-      this.cbAccessNumberParser.Size = new System.Drawing.Size(679, 20);
+      this.cbAccessNumberParser.Size = new System.Drawing.Size(679, 21);
       this.cbAccessNumberParser.TabIndex = 23;
       // 
       // label1
       // 
       this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(58, 89);
+      this.label1.Location = new System.Drawing.Point(58, 96);
       this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(179, 12);
+      this.label1.Size = new System.Drawing.Size(151, 13);
       this.label1.TabIndex = 22;
       this.label1.Text = "Protein access number pattern";
       // 
       // ProteinLabelFreeQuantificationBuilderUI
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-      this.ClientSize = new System.Drawing.Size(1040, 565);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+      this.ClientSize = new System.Drawing.Size(1040, 612);
       this.Controls.Add(this.cbAccessNumberParser);
       this.Controls.Add(this.label1);
       this.Controls.Add(this.pnlClassification);
@@ -148,6 +154,7 @@
       this.Controls.Add(this.label3);
       this.Controls.Add(this.btnLoad);
       this.Name = "ProteinLabelFreeQuantificationBuilderUI";
+      this.Controls.SetChildIndex(this.pnlButton, 0);
       this.Controls.SetChildIndex(this.pnlFile, 0);
       this.Controls.SetChildIndex(this.progressBar, 0);
       this.Controls.SetChildIndex(this.lblProgress, 0);
@@ -159,6 +166,7 @@
       this.Controls.SetChildIndex(this.cbAccessNumberParser, 0);
       this.pnlFile.ResumeLayout(false);
       this.pnlFile.PerformLayout();
+      this.pnlButton.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 

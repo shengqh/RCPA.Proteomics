@@ -27,5 +27,7 @@ namespace RCPA.Proteomics.Summary
     double ProteinFDR { get; set; }
 
     double PeptideFDR { get; set; }
+
+    void RemoveAmbiguousSpectra();
   }
 }

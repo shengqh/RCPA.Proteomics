@@ -57,26 +57,34 @@ namespace RCPA.Proteomics
       }
 
       //http://www.matrixscience.com/help/aa_help.html
-      this.mAminoacids['G'].Initialize('G', "Gly", 57.021464, 57.0513, "Glycine", "C2H3NO", true, "GGU, GGC, GGA, GGG");
-      this.mAminoacids['A'].Initialize('A', "Ala", 71.037114, 71.0779, "Alanine", "C3H5NO", true, "GCU, GCC, GCA, GCG");
-      this.mAminoacids['S'].Initialize('S', "Ser", 87.032028, 87.0773, "Serine", "C3H5NO2", true, "UCU, UCC, UCA, UCG, AGU, AGC");
-      this.mAminoacids['P'].Initialize('P', "Pro", 97.052764, 97.1152, "Proline", "C5H7NO", true, "CCU, CCC, CCA, CCG");
-      this.mAminoacids['V'].Initialize('V', "Val", 99.068414, 99.1311, "Valine", "C5H9NO", true, "GUU, GUC, GUA, GUG");
-      this.mAminoacids['T'].Initialize('T', "Thr", 101.047679, 101.1039, "Threonine", "C4H7NO2", true, "ACU, ACC, ACA, ACG");
-      this.mAminoacids['C'].Initialize('C', "Cys", 103.009185, 103.1429, "Cysteine", "C3H5NOS", true, "UGU, UGC");
-      this.mAminoacids['I'].Initialize('I', "Ile", 113.084064, 113.1576, "Isoleucine", "C6H11NO", true, "AUU, AUC, AUA");
-      this.mAminoacids['L'].Initialize('L', "Leu", 113.084064, 113.1576, "Leucine", "C6H11NO", true, "UUA, UUG, CUU, CUC, CUA, CUG");
-      this.mAminoacids['N'].Initialize('N', "Asn", 114.042927, 114.1026, "Asparagine", "C4H6N2O2", true, "AAU, AAC");
-      this.mAminoacids['D'].Initialize('D', "Asp", 115.026943, 115.0874, "Aspartic acid", "C4H5NO3", true, "GAU, GAC");
-      this.mAminoacids['Q'].Initialize('Q', "Gln", 128.058578, 128.1292, "Glutamine", "C5H8N2O2", true, "CAA, CAG");
-      this.mAminoacids['K'].Initialize('K', "Lys", 128.094963, 128.1723, "Lysine", "C6H12N2O", true, "AAA, AAG");
-      this.mAminoacids['E'].Initialize('E', "Glu", 129.042593, 129.114, "Glutamic acid", "C5H7NO3", true, "GAA, GAG");
-      this.mAminoacids['M'].Initialize('M', "Met", 131.040485, 131.1961, "Methionine", "C5H9NOS", true, "AUG");
-      this.mAminoacids['H'].Initialize('H', "His", 137.058912, 137.1393, "Histidine", "C6H7N3O", true, "CAU, CAC");
-      this.mAminoacids['F'].Initialize('F', "Phe", 147.068414, 147.1739, "Phenylalanine", "C9H9NO", true, "UUU, UUC");
-      this.mAminoacids['R'].Initialize('R', "Arg", 156.101111, 156.1857, "Arginine", "C6H12N4O", true, "CGU, CGC, CGA, CGG, AGA, AGG");
-      this.mAminoacids['Y'].Initialize('Y', "Tyr", 163.06332, 163.1733, "Tyrosine", "C9H9NO2", true, "UAU, UAC");
-      this.mAminoacids['W'].Initialize('W', "Trp", 186.079313, 186.2099, "Tryptophan", "C11H10N2O", true, "UGG");
+      this.mAminoacids['G'].Initialize('G', "Gly", 57.021464, 57.0513, "Glycine", "C2H3NO", true, "GGU, GGC, GGA, GGG", 2.1);
+      this.mAminoacids['A'].Initialize('A', "Ala", 71.037114, 71.0779, "Alanine", "C3H5NO", true, "GCU, GCC, GCA, GCG", 4.0);
+      this.mAminoacids['S'].Initialize('S', "Ser", 87.032028, 87.0773, "Serine", "C3H5NO2", true, "UCU, UCC, UCA, UCG, AGU, AGC", 2.6);
+      this.mAminoacids['P'].Initialize('P', "Pro", 97.052764, 97.1152, "Proline", "C5H7NO", true, "CCU, CCC, CCA, CCG", 2.6);
+      this.mAminoacids['V'].Initialize('V', "Val", 99.068414, 99.1311, "Valine", "C5H9NO", true, "GUU, GUC, GUA, GUG", 0.5);
+      this.mAminoacids['T'].Initialize('T', "Thr", 101.047679, 101.1039, "Threonine", "C4H7NO2", true, "ACU, ACC, ACA, ACG", 0.2);
+      this.mAminoacids['C'].Initialize('C', "Cys", 103.009185, 103.1429, "Cysteine", "C3H5NOS", true, "UGU, UGC", 1.6);
+      this.mAminoacids['I'].Initialize('I', "Ile", 113.084064, 113.1576, "Isoleucine", "C6H11NO", true, "AUU, AUC, AUA", 1.0);
+      this.mAminoacids['L'].Initialize('L', "Leu", 113.084064, 113.1576, "Leucine", "C6H11NO", true, "UUA, UUG, CUU, CUC, CUA, CUG", 0.6);
+      this.mAminoacids['N'].Initialize('N', "Asn", 114.042927, 114.1026, "Asparagine", "C4H6N2O2", true, "AAU, AAC", 1.9);
+      this.mAminoacids['D'].Initialize('D', "Asp", 115.026943, 115.0874, "Aspartic acid", "C4H5NO3", true, "GAU, GAC", 1.9);
+      this.mAminoacids['Q'].Initialize('Q', "Gln", 128.058578, 128.1292, "Glutamine", "C5H8N2O2", true, "CAA, CAG", 4);
+      this.mAminoacids['K'].Initialize('K', "Lys", 128.094963, 128.1723, "Lysine", "C6H12N2O", true, "AAA, AAG", 0.5);
+      this.mAminoacids['E'].Initialize('E', "Glu", 129.042593, 129.114, "Glutamic acid", "C5H7NO3", true, "GAA, GAG", 4);
+      this.mAminoacids['M'].Initialize('M', "Met", 131.040485, 131.1961, "Methionine", "C5H9NOS", true, "AUG", 1.1);
+      this.mAminoacids['H'].Initialize('H', "His", 137.058912, 137.1393, "Histidine", "C6H7N3O", true, "CAU, CAC", 2.9);
+      this.mAminoacids['F'].Initialize('F', "Phe", 147.068414, 147.1739, "Phenylalanine", "C9H9NO", true, "UUU, UUC", 0.3);
+      this.mAminoacids['R'].Initialize('R', "Arg", 156.101111, 156.1857, "Arginine", "C6H12N4O", true, "CGU, CGC, CGA, CGG, AGA, AGG", 3.4);
+      this.mAminoacids['Y'].Initialize('Y', "Tyr", 163.06332, 163.1733, "Tyrosine", "C9H9NO2", true, "UAU, UAC", 0.4);
+      this.mAminoacids['W'].Initialize('W', "Trp", 186.079313, 186.2099, "Tryptophan", "C11H10N2O", true, "UGG", 0.1);
+    }
+
+    public double ExchangableHAtom(string sequence)
+    {
+      double result = 0.0;
+      for (int i = 0; i < sequence.Length; i++)
+        result += this.mAminoacids[sequence[i]].ExcahangableHAtom;
+      return result;
     }
 
     public double AverageResiduesMass(string sequence)

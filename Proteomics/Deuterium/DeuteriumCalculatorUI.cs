@@ -2,8 +2,12 @@ using RCPA.Commandline;
 using RCPA.Gui;
 using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
+using RCPA.Proteomics.Summary;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Windows.Forms;
 
 namespace RCPA.Proteomics.Deuterium
 {
@@ -11,17 +15,17 @@ namespace RCPA.Proteomics.Deuterium
   {
     public static readonly string title = "Deuterium Calculator";
 
-    public static readonly string version = "1.0.4";
+    public static readonly string version = "1.0.6";
 
-    private RcpaFileField peptideFile;
+    private RcpaFileField noredundantFile;
     private RcpaDirectoryField rawDirectory;
 
     public DeuteriumCalculatorUI()
     {
       InitializeComponent();
 
-      this.peptideFile = new RcpaFileField(btnPeptideFile, txtPeptideFile, "PeptideFile", new OpenFileArgument("peptides", "peptides"), true);
-      this.AddComponent(this.peptideFile);
+      this.noredundantFile = new RcpaFileField(btnNoredundantFile, txtNoredundantFile, "NoredundantFile", new OpenFileArgument("Noredundant/Peptide", new string[] { "noredundant", "peptides" }), true);
+      this.AddComponent(this.noredundantFile);
 
       this.rawDirectory = new RcpaDirectoryField(btnRawDirectory, txtRawDirectory, "RawDirectory", "Raw", true);
       this.AddComponent(this.rawDirectory);
@@ -34,18 +38,68 @@ namespace RCPA.Proteomics.Deuterium
       return new WorkerProgressChangedTextBoxProxy(txtLog, new[] { progressBar }).ProgressChanged;
     }
 
+    protected override void ValidateComponents()
+    {
+      base.ValidateComponents();
+
+      var cm = pnlClassification.GetClassificationMap();
+
+      foreach (var key in cm.Keys)
+      {
+        double time;
+        if (!double.TryParse(key, out time))
+        {
+          throw new Exception(string.Format("Time \"{0}\" is not numeric!", key));
+        }
+      }
+    }
+
     protected override IProcessor GetProcessor()
     {
+      var cm = pnlClassification.GetClassificationMap();
+      var expTimeMap = new Dictionary<string, double>();
+      foreach (var key in cm.Keys)
+      {
+        var keytime = double.Parse(key);
+        foreach (var v in cm[key])
+        {
+          expTimeMap[v] = keytime;
+        }
+      }
+
       var options = new DeuteriumCalculatorOptions()
       {
-        InputFile = peptideFile.FullName,
-        OutputFile = Path.ChangeExtension(peptideFile.FullName, ".deuterium.tsv"),
+        InputFile = noredundantFile.FullName,
+        OutputFile = noredundantFile.FullName + ".deuterium.tsv",
+        MinimumProfileLength = minimumProfileLength.Value,
+        MinimumIsotopicPercentage = minimumIsotopicPercentage.Value,
+        MzTolerancePPM = precursorPPMTolerance.Value,
         Overwrite = cbOverwrite.Checked,
         DrawImage = cbDrawImage.Checked,
         ExcludeIsotopic0 = cbExcludeIsotopic0InFormula.Checked,
         RawDirectory = rawDirectory.FullName,
+        ThreadCount = threadCount.Value,
+        ExperimentalTimeMap = expTimeMap,
+        PeptideInAllTimePointOnly = rbPeptideInAllTimePointOnly.Checked
       };
-      return new DeuteriumCalculator(options);
+
+      if (isPeptideFile(noredundantFile.FullName))
+      {
+        return new PeptideDeuteriumCalculator(options);
+      }
+      else
+      {
+        return new ProteinDeuteriumCalculator(options);
+      }
+    }
+
+    private bool isPeptideFile(string fullName)
+    {
+      using(var sr = new StreamReader(fullName))
+      {
+        var line = sr.ReadLine();
+        return line.Contains("FileScan");
+      }
     }
 
     public class Command : AbstractCommandLineCommand<DeuteriumCalculatorOptions>, IToolCommand
@@ -68,7 +122,7 @@ namespace RCPA.Proteomics.Deuterium
 
       public override IProcessor GetProcessor(DeuteriumCalculatorOptions options)
       {
-        return new DeuteriumCalculator(options);
+        return new ProteinDeuteriumCalculator(options);
       }
 
       #region IToolCommand Members
@@ -94,6 +148,29 @@ namespace RCPA.Proteomics.Deuterium
       }
 
       #endregion
+    }
+
+    private void btnLoad_Click(object sender, System.EventArgs e)
+    {
+      try
+      {
+        this.noredundantFile.ValidateComponent();
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(this, ex.Message, "Error");
+        return;
+      }
+
+      HashSet<string> experimentals = new IdentifiedResultExperimentalReader().ReadFromFile(this.noredundantFile.FullName);
+
+      List<string> sortedExperimentals = new List<string>(experimentals);
+      sortedExperimentals.Sort();
+
+      if (sortedExperimentals.Count > 0)
+      {
+        pnlClassification.InitializeClassificationSet(sortedExperimentals);
+      }
     }
   }
 }

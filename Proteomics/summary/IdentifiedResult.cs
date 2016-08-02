@@ -144,6 +144,45 @@ namespace RCPA.Proteomics.Summary
       return result;
     }
 
+    /// <summary>
+    /// Remove peptide-spectrum-match which belongs to multiple protein groups
+    /// </summary>
+    public void RemoveAmbiguousSpectra()
+    {
+      //remove empty group
+      this.RemoveAll(l => l.Count == 0 || l[0].Peptides.Count == 0);
+
+      //assign all PSM with group count = 0
+      foreach (var group in this)
+      {
+        foreach (var spec in group[0].Peptides)
+        {
+          spec.Spectrum.GroupCount = 0;
+        }
+      }
+
+      //sum up the group count for each PSM
+      foreach (var group in this)
+      {
+        foreach (var spec in group[0].Peptides)
+        {
+          spec.Spectrum.GroupCount += 1;
+        }
+      }
+
+      //remove the PSM mapped to multiple protein group
+      foreach (var group in this)
+      {
+        foreach (var protein in group)
+        {
+          protein.Peptides.RemoveAll(l => l.Spectrum.GroupCount > 1);
+        }
+      }
+
+      //remove the empty group
+      this.RemoveAll(l => l[0].Peptides.Count == 0);
+    }
+
     #endregion
 
     #region IAnnotation Members

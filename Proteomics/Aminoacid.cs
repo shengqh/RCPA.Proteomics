@@ -29,10 +29,11 @@ namespace RCPA.Proteomics
       this.composition = new AtomComposition("");
       this.visible = false;
       this.codes = new string[]{};
+      this.ExcahangableHAtom = 0.0;
     }
 
     public Aminoacid(char aOneName, string aThreeName, double aMonoMass,
-                     double aAverageMass, string aDescription, string compositionString, string[] codes)
+                     double aAverageMass, string aDescription, string compositionString, string[] codes, double exchangableHAtom)
     {
       this.oneName = aOneName;
       this.averageMass = aAverageMass;
@@ -42,6 +43,7 @@ namespace RCPA.Proteomics
       SetMonoMass(aMonoMass);
       this.composition = new AtomComposition(compositionString);
       this.codes = codes;
+      this.ExcahangableHAtom = exchangableHAtom;
     }
 
     public Aminoacid(Aminoacid source)
@@ -55,6 +57,7 @@ namespace RCPA.Proteomics
       this.composition = new AtomComposition(source.ToString());
       this.visible = source.visible;
       this.codes = (string[])source.codes.Clone();
+      this.ExcahangableHAtom = source.ExcahangableHAtom;
     }
 
     public string ThreeName
@@ -116,6 +119,8 @@ namespace RCPA.Proteomics
       set { this.composition = new AtomComposition(value); }
     }
 
+    public double ExcahangableHAtom { get; private set; }
+
     public void ResetMass(double aMonoMass,
                           double aAverageMass)
     {
@@ -124,7 +129,7 @@ namespace RCPA.Proteomics
     }
 
     public void Initialize(char aOneName, string aThreeName, double aMonoMass,
-                           double aAverageMass, string aDescription, string compositionString, bool aVisible, string codes)
+                           double aAverageMass, string aDescription, string compositionString, bool aVisible, string codes, double exchangableHAtom)
     {
       this.oneName = aOneName;
       this.averageMass = aAverageMass;
@@ -133,8 +138,8 @@ namespace RCPA.Proteomics
       this.description = aDescription;
       this.composition = new AtomComposition(compositionString);
       this.visible = aVisible;
-      this.codes = (from c in codes.Split(',')
-                    select c.Trim()).ToArray();
+      this.codes = (from c in codes.Split(',')                    select c.Trim()).ToArray();
+      this.ExcahangableHAtom = exchangableHAtom;
     }
 
     //  void print(ostream& stream) const;
