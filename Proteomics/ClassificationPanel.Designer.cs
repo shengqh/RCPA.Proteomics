@@ -35,7 +35,6 @@
       this.txtPattern = new System.Windows.Forms.TextBox();
       this.lblDescription = new System.Windows.Forms.Label();
       this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-      this.tvClassifications = new TreeViewMS.TreeViewMS();
       this.btnSave = new System.Windows.Forms.Button();
       this.btnLoad = new System.Windows.Forms.Button();
       this.btnDown = new System.Windows.Forms.Button();
@@ -44,6 +43,7 @@
       this.btnReset = new System.Windows.Forms.Button();
       this.btnRename = new System.Windows.Forms.Button();
       this.btnMerge = new System.Windows.Forms.Button();
+      this.tvClassifications = new TreeViewMS.TreeViewMS();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
       this.splitContainer2.Panel1.SuspendLayout();
       this.splitContainer2.Panel2.SuspendLayout();
@@ -72,7 +72,7 @@
       // splitContainer2.Panel2
       // 
       this.splitContainer2.Panel2.Controls.Add(this.splitContainer1);
-      this.splitContainer2.Size = new System.Drawing.Size(983, 438);
+      this.splitContainer2.Size = new System.Drawing.Size(850, 438);
       this.splitContainer2.SplitterDistance = 30;
       this.splitContainer2.TabIndex = 28;
       // 
@@ -80,18 +80,18 @@
       // 
       this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(495, 9);
+      this.label1.Location = new System.Drawing.Point(580, 9);
       this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(47, 12);
+      this.label1.Size = new System.Drawing.Size(41, 13);
       this.label1.TabIndex = 30;
       this.label1.Text = "Pattern";
       // 
       // btnClassify
       // 
       this.btnClassify.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnClassify.Location = new System.Drawing.Point(905, 4);
+      this.btnClassify.Location = new System.Drawing.Point(770, 4);
       this.btnClassify.Name = "btnClassify";
-      this.btnClassify.Size = new System.Drawing.Size(75, 23);
+      this.btnClassify.Size = new System.Drawing.Size(80, 23);
       this.btnClassify.TabIndex = 29;
       this.btnClassify.Text = "Classify";
       this.btnClassify.UseVisualStyleBackColor = true;
@@ -100,9 +100,9 @@
       // txtPattern
       // 
       this.txtPattern.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.txtPattern.Location = new System.Drawing.Point(548, 6);
+      this.txtPattern.Location = new System.Drawing.Point(627, 6);
       this.txtPattern.Name = "txtPattern";
-      this.txtPattern.Size = new System.Drawing.Size(351, 21);
+      this.txtPattern.Size = new System.Drawing.Size(139, 20);
       this.txtPattern.TabIndex = 28;
       // 
       // lblDescription
@@ -110,7 +110,7 @@
       this.lblDescription.AutoSize = true;
       this.lblDescription.Location = new System.Drawing.Point(3, 9);
       this.lblDescription.Name = "lblDescription";
-      this.lblDescription.Size = new System.Drawing.Size(71, 12);
+      this.lblDescription.Size = new System.Drawing.Size(60, 13);
       this.lblDescription.TabIndex = 27;
       this.lblDescription.Text = "Description";
       // 
@@ -137,20 +137,9 @@
       this.splitContainer1.Panel2.Controls.Add(this.btnRename);
       this.splitContainer1.Panel2.Controls.Add(this.btnMerge);
       this.splitContainer1.Panel2MinSize = 80;
-      this.splitContainer1.Size = new System.Drawing.Size(983, 404);
-      this.splitContainer1.SplitterDistance = 899;
+      this.splitContainer1.Size = new System.Drawing.Size(850, 404);
+      this.splitContainer1.SplitterDistance = 766;
       this.splitContainer1.TabIndex = 28;
-      // 
-      // tvClassifications
-      // 
-      this.tvClassifications.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.tvClassifications.HideSelection = false;
-      this.tvClassifications.Location = new System.Drawing.Point(0, 0);
-      this.tvClassifications.Name = "tvClassifications";
-      this.tvClassifications.SelectedNodes = ((System.Collections.ArrayList)(resources.GetObject("tvClassifications.SelectedNodes")));
-      this.tvClassifications.Size = new System.Drawing.Size(899, 404);
-      this.tvClassifications.TabIndex = 0;
-      this.tvClassifications.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvClassifications_BeforeSelect);
       // 
       // btnSave
       // 
@@ -240,11 +229,22 @@
       this.btnMerge.UseVisualStyleBackColor = true;
       this.btnMerge.Click += new System.EventHandler(this.btnMerge_Click);
       // 
+      // tvClassifications
+      // 
+      this.tvClassifications.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.tvClassifications.HideSelection = false;
+      this.tvClassifications.Location = new System.Drawing.Point(0, 0);
+      this.tvClassifications.Name = "tvClassifications";
+      this.tvClassifications.SelectedNodes = ((System.Collections.ArrayList)(resources.GetObject("tvClassifications.SelectedNodes")));
+      this.tvClassifications.Size = new System.Drawing.Size(766, 404);
+      this.tvClassifications.TabIndex = 0;
+      this.tvClassifications.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvClassifications_BeforeSelect);
+      // 
       // ClassificationPanel
       // 
       this.Controls.Add(this.splitContainer2);
       this.Name = "ClassificationPanel";
-      this.Size = new System.Drawing.Size(983, 438);
+      this.Size = new System.Drawing.Size(850, 438);
       this.splitContainer2.Panel1.ResumeLayout(false);
       this.splitContainer2.Panel1.PerformLayout();
       this.splitContainer2.Panel2.ResumeLayout(false);

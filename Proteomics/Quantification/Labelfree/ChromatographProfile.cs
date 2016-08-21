@@ -47,10 +47,10 @@ namespace RCPA.Proteomics.Quantification.Labelfree
       this.Profiles = new List<ChromatographProfileScan>();
     }
 
-    public void InitializeIsotopicIons(double ppmTolerance, double minimumPercentage = 0.05)
+    public void InitializeIsotopicIons(double ppmTolerance, double minimumPercentage = 0.05, int maxProfileLength = int.MaxValue)
     {
       var atomComposition = aas.GetPeptideAtomComposition(this.Sequence);
-      var profiles = profileBuilder.GetProfile(atomComposition, this.Charge, minimumPercentage);
+      var profiles = profileBuilder.GetProfile(atomComposition, this.Charge, minimumPercentage).Take(maxProfileLength);
       this.IsotopicIons = (from peak in profiles
                            select new IsotopicIon()
                            {

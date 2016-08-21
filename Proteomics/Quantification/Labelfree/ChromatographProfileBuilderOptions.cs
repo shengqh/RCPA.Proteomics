@@ -2,6 +2,7 @@
 using RCPA.Commandline;
 using RCPA.Utils;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace RCPA.Proteomics.Quantification.Labelfree
@@ -11,7 +12,8 @@ namespace RCPA.Proteomics.Quantification.Labelfree
     private const double DEFALUT_MzTolerancePPM = 20;
     private const int DEFAULT_MinimumProfileLength = 3;
     private const double DEFAULT_MaximumRetentionTimeWindow = 5;
-    private const double DEFAULT_MinimumCorrelation = 0.9;
+    private const double DEFAULT_MaximumProfileDistance = 0.1;
+    private const double DEFAULT_MinimumProfileCorrelation = 0.9;
     private const int DEFAULT_MinimumScanCount = 5;
     private const int DEFAULT_ThreadCount = 0;
     private const double DEFAULT_MinimumIsotopicPercentage = 0.05;
@@ -22,7 +24,8 @@ namespace RCPA.Proteomics.Quantification.Labelfree
       this.MinimumProfileLength = DEFAULT_MinimumProfileLength;
       this.MaximumRetentionTimeWindow = DEFAULT_MaximumRetentionTimeWindow;
       this.MinimumIsotopicPercentage = DEFAULT_MinimumIsotopicPercentage;
-      this.MinimumCorrelation = DEFAULT_MinimumCorrelation;
+      this.MaximumProfileDistance = DEFAULT_MaximumProfileDistance;
+      this.MinimumProfileCorrelation = DEFAULT_MinimumProfileCorrelation;
       this.MinimumScanCount = DEFAULT_MinimumScanCount;
       this.ThreadCount = DEFAULT_ThreadCount;
     }
@@ -30,8 +33,8 @@ namespace RCPA.Proteomics.Quantification.Labelfree
     [Option('i', "inputFile", Required = true, MetaValue = "FILE", HelpText = "BuildSummary peptide file")]
     public string InputFile { get; set; }
 
-    [Option('d', "rawDirectory", Required = true, MetaValue = "DIRECTORY", HelpText = "The root directory contains raw files")]
-    public string RawDirectory { get; set; }
+    [OptionList("rawFiles", MetaValue = "FILELIST", HelpText = "Raw file list")]
+    public IList<string> RawFiles { get; set; }
 
     [Option('o', "outputFile", Required = true, MetaValue = "FILE", HelpText = "Output file")]
     public string OutputFile { get; set; }
@@ -45,8 +48,11 @@ namespace RCPA.Proteomics.Quantification.Labelfree
     [Option('t', "maximumRetentionTimeWindow", Required = false, DefaultValue = DEFAULT_MaximumRetentionTimeWindow, MetaValue = "DOUBLE", HelpText = "Maximum retention time window (minute)")]
     public double MaximumRetentionTimeWindow { get; set; }
 
-    [Option('c', "minimumCorrelation", Required = false, DefaultValue = DEFAULT_MinimumCorrelation, MetaValue = "DOUBLE", HelpText = "Minimum correlation between real profile and theoritical profile")]
-    public double MinimumCorrelation { get; set; }
+    [Option('c', "maximumProfileDistance", Required = false, DefaultValue = DEFAULT_MaximumProfileDistance, MetaValue = "DOUBLE", HelpText = "Maximum kullback leibler distance between real profile and theoritical profile")]
+    public double MaximumProfileDistance { get; set; }
+
+    [Option("minimumProfileCorrelation", Required = false, DefaultValue = DEFAULT_MinimumProfileCorrelation, MetaValue = "DOUBLE", HelpText = "Minumum pearson correlation between real profile and theoritical profile")]
+    public double MinimumProfileCorrelation { get; set; }
 
     [Option('s', "minimumScanCount", Required = false, DefaultValue = DEFAULT_MinimumScanCount, MetaValue = "INT", HelpText = "Minimum scan count")]
     public int MinimumScanCount { get; set; }
@@ -66,7 +72,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
     public override bool PrepareOptions()
     {
       CheckProperty("InputFile");
-      CheckProperty("RawDirectory");
+      CheckProperty("RawFiles");
       try
       {
         SystemUtils.GetRExecuteLocation();

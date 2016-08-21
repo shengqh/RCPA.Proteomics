@@ -71,27 +71,54 @@ namespace RCPA.Proteomics.Isotopic
       return result;
     }
 
-    public static List<Peak> Resolve(double[] profile, List<List<Peak>> observed)
+    public static List<Peak> ResolveByPearsonCorrelation(double[] profile, List<List<Peak>> observed)
     {
       if (observed.Any(l => l.Count > 1))
       {
         var maxLength = Math.Min(profile.Length, observed.Count);
         var candidates = GenerateCandidates(observed);
-        var corr = (from obs in candidates
-                    let real = obs.ConvertAll(l => l.Intensity).ToArray()
-                    select StatisticsUtils.PearsonCorrelation(real, profile, maxLength)).ToArray();
+        var correlations = (from obs in candidates
+                            let real = obs.ConvertAll(l => l.Intensity).ToArray()
+                            select StatisticsUtils.PearsonCorrelation(real, profile, maxLength)).ToArray();
         int maxIndex = 0;
         double maxCorr = 0;
-        for (int i = 0; i < corr.Length; i++)
+        for (int i = 0; i < correlations.Length; i++)
         {
-          if (corr[i] > maxCorr)
+          if (correlations[i] > maxCorr)
           {
-            maxCorr = corr[i];
+            maxCorr = correlations[i];
             maxIndex = i;
           }
         }
 
         return candidates[maxIndex];
+      }
+      else
+      {
+        return (from obs in observed select obs.First()).ToList();
+      }
+    }
+    public static List<Peak> ResolveByKullbackLeiblerDistance(double[] profile, List<List<Peak>> observed)
+    {
+      if (observed.Any(l => l.Count > 1))
+      {
+        var maxLength = Math.Min(profile.Length, observed.Count);
+        var candidates = GenerateCandidates(observed);
+        var distances = (from obs in candidates
+                         let real = obs.ConvertAll(l => l.Intensity).ToArray()
+                         select StatisticsUtils.KullbackLeiblerDistance(real, profile, maxLength)).ToArray();
+        int minIndex = 0;
+        double minDistance = double.MaxValue;
+        for (int i = 0; i < distances.Length; i++)
+        {
+          if (distances[i] < minDistance)
+          {
+            minDistance = distances[i];
+            minIndex = i;
+          }
+        }
+
+        return candidates[minIndex];
       }
       else
       {

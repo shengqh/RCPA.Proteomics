@@ -37,6 +37,8 @@ namespace RCPA.Proteomics.Deuterium
         builder.Process();
       }
 
+
+
       //Calculate deuterium enrichment for peptide
       if (!File.Exists(options.DeuteriumOutputFile) || options.Overwrite)
       {
@@ -64,6 +66,7 @@ namespace RCPA.Proteomics.Deuterium
 
       foreach (var spec in spectra)
       {
+        spec.Annotations.Remove("RetentionTime");
         spec.Annotations.Remove("TheoreticalDeuterium");
         spec.Annotations.Remove("ObservedDeuterium");
         spec.Annotations.Remove("NumDeuteriumIncorporated");
@@ -81,6 +84,7 @@ namespace RCPA.Proteomics.Deuterium
           var numExchangeableHydrogens = aas.ExchangableHAtom(pep.Peptide.PureSequence);
           var numDeuteriumIncorporated = double.Parse(deuteriumMap[filename].Annotations["NumDeuteriumIncorporated"] as string);
 
+          pep.Annotations["PeakRetentionTime"] = deuteriumMap[filename].Annotations["RetentionTime"];
           pep.Annotations["TheoreticalDeuterium"] = deuteriumMap[filename].Annotations["TheoreticalDeuterium"];
           pep.Annotations["ObservedDeuterium"] = deuteriumMap[filename].Annotations["ObservedDeuterium"];
           pep.Annotations["NumDeuteriumIncorporated"] = deuteriumMap[filename].Annotations["NumDeuteriumIncorporated"];
@@ -90,7 +94,7 @@ namespace RCPA.Proteomics.Deuterium
           calcSpectra.Add(pep);
         }
       }
-      format.PeptideFormat.Headers = format.PeptideFormat.Headers + "\tTheoreticalDeuterium\tObservedDeuterium\tNumDeuteriumIncorporated\tNumExchangableHydrogen\tDeuteriumEnrichmentPercent";
+      format.PeptideFormat.Headers = format.PeptideFormat.Headers + "\tPeakRetentionTime\tTheoreticalDeuterium\tObservedDeuterium\tNumDeuteriumIncorporated\tNumExchangableHydrogen\tDeuteriumEnrichmentPercent";
       format.NotExportSummary = true;
       format.WriteToFile(GetPeptideDeteriumFile(), calcSpectra);
 

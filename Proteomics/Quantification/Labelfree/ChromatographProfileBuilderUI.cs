@@ -2,6 +2,7 @@ using RCPA.Commandline;
 using RCPA.Gui;
 using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
+using RCPA.Proteomics.Raw;
 using RCPA.Utils;
 using System.ComponentModel;
 using System.IO;
@@ -47,7 +48,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
       {
         InputFile = peptideFile.FullName,
         OutputFile = Path.ChangeExtension(peptideFile.FullName, ".labelfree.tsv"),
-        RawDirectory = rawDirectory.FullName,
+        RawFiles = Directory.GetFiles(rawDirectory.FullName, "*.raw", SearchOption.AllDirectories),
         DrawImage = rbDrawImage.Checked,
         Overwrite = rbOverwrite.Checked
       };

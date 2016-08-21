@@ -23,7 +23,7 @@ namespace RCPA.emass
   {
     private SuperAtomData sad = new SuperAtomData();
 
-    private ElemMap em = new ElemMap();
+    public ElemMap IsotopicMap { get; private set; }
 
     const double ELECTRON_MASS = 0.00054858;
 
@@ -38,10 +38,12 @@ namespace RCPA.emass
         throw new FileNotFoundException(filename);
       }
 
+      IsotopicMap = new ElemMap();
+
       using (StreamReader f = new StreamReader(filename))
       {
         sad.Clear();
-        em.Clear();
+        IsotopicMap.Clear();
 
         string line;
         int elemindex = 0;
@@ -54,7 +56,7 @@ namespace RCPA.emass
             case 0: // new element
               var m0 = eleReg.Match(line);
               element = m0.Groups[1].Value;
-              em[element] = elemindex;
+              IsotopicMap[element] = elemindex;
               var pkl = new Pattern();
               var sal = new SuperAtomList();
               sal.Add(pkl);
@@ -152,9 +154,9 @@ namespace RCPA.emass
       FormMap fm = new FormMap();
       foreach (var key in ac.Keys)
       {
-        if (em.ContainsKey(key.Symbol))
+        if (IsotopicMap.ContainsKey(key.Symbol))
         {
-          fm[em[key.Symbol]] = ac[key];
+          fm[IsotopicMap[key.Symbol]] = ac[key];
         }
         else
         {
@@ -208,7 +210,7 @@ namespace RCPA.emass
           p.Mz = p.Mz / Math.Abs(charge) + ELECTRON_MASS;
       }
 
-      if(result.Count == 0)
+      if (result.Count == 0)
       {
         throw new Exception("Calculate profile failed");
       }

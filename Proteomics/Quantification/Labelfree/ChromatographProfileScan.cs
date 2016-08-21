@@ -23,5 +23,11 @@ namespace RCPA.Proteomics.Quantification.Labelfree
       var real = (from peak in this select peak.Intensity).ToArray();
       return StatisticsUtils.PearsonCorrelation(real, theo, Math.Min(real.Length, theo.Length));
     }
+
+    public double CalculateProfileDistance(double[] theo)
+    {
+      var real = (from peak in this select peak.Intensity).ToArray();
+      return StatisticsUtils.KullbackLeiblerDistance(real, theo, Math.Min(real.Length, theo.Length));
+    }
   }
 }

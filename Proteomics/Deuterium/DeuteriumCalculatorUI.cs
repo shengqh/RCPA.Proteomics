@@ -2,6 +2,7 @@ using RCPA.Commandline;
 using RCPA.Gui;
 using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
+using RCPA.Proteomics.Raw;
 using RCPA.Proteomics.Summary;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,6 @@ namespace RCPA.Proteomics.Deuterium
     public static readonly string version = "1.0.6";
 
     private RcpaFileField noredundantFile;
-    private RcpaDirectoryField rawDirectory;
 
     public DeuteriumCalculatorUI()
     {
@@ -27,8 +27,8 @@ namespace RCPA.Proteomics.Deuterium
       this.noredundantFile = new RcpaFileField(btnNoredundantFile, txtNoredundantFile, "NoredundantFile", new OpenFileArgument("Noredundant/Peptide", new string[] { "noredundant", "peptides" }), true);
       this.AddComponent(this.noredundantFile);
 
-      this.rawDirectory = new RcpaDirectoryField(btnRawDirectory, txtRawDirectory, "RawDirectory", "Raw", true);
-      this.AddComponent(this.rawDirectory);
+      this.rawFiles.FileArgument = new OpenFileArgument("Raw", RawFileFactory.GetSupportedRawFormats(), true);
+      this.rawFiles.FileDescription = "Input raw files (" + RawFileFactory.SupportedRawFormatString + ")";
 
       this.Text = Constants.GetSQHTitle(title, version);
     }
@@ -73,11 +73,13 @@ namespace RCPA.Proteomics.Deuterium
         OutputFile = noredundantFile.FullName + ".deuterium.tsv",
         MinimumProfileLength = minimumProfileLength.Value,
         MinimumIsotopicPercentage = minimumIsotopicPercentage.Value,
+        MinimumProfileCorrelation = minimumProfileCorrelation.Value,
+        MaximumProfileDistance = maximumProfileDistance.Value,
         MzTolerancePPM = precursorPPMTolerance.Value,
         Overwrite = cbOverwrite.Checked,
         DrawImage = cbDrawImage.Checked,
         ExcludeIsotopic0 = cbExcludeIsotopic0InFormula.Checked,
-        RawDirectory = rawDirectory.FullName,
+        RawFiles = rawFiles.FileNames,
         ThreadCount = threadCount.Value,
         ExperimentalTimeMap = expTimeMap,
         PeptideInAllTimePointOnly = rbPeptideInAllTimePointOnly.Checked

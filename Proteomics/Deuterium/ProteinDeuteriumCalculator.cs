@@ -1,5 +1,7 @@
 ﻿using MathNet.Numerics.Statistics;
 using RCPA.Proteomics.Mascot;
+using RCPA.R;
+using RCPA.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,6 +16,8 @@ namespace RCPA.Proteomics.Deuterium
     {
       this.options = options;
     }
+
+    private static string RatioR = Path.Combine(FileUtils.GetTemplateDir().FullName, "DeuteriumKinetic.r");
 
     public override IEnumerable<string> Process()
     {
@@ -79,7 +83,8 @@ namespace RCPA.Proteomics.Deuterium
       format.WriteToFile(noredundantFile, proteins);
 
       var times = options.ExperimentalTimeMap.Values.Distinct().OrderBy(m => m).ToArray();
-      using (var sw = new StreamWriter(options.OutputFile))
+      var timeFile = Path.ChangeExtension(options.OutputFile, ".times.tsv");
+      using (var sw = new StreamWriter(timeFile))
       {
         sw.WriteLine("Protein\t{0}", (from t in times select t.ToString()).Merge("\t"));
 
@@ -124,6 +129,18 @@ namespace RCPA.Proteomics.Deuterium
           sw.WriteLine();
         }
       }
+
+      Progress.SetMessage("Calculating ratio consistant ...");
+      var deuteriumOptions = new RTemplateProcessorOptions()
+      {
+        InputFile = timeFile,
+        OutputFile = options.OutputFile,
+        RTemplate = RatioR,
+        RExecute = SystemUtils.GetRExecuteLocation(),
+        CreateNoWindow = true
+      };
+
+      new RTemplateProcessor(deuteriumOptions) { Progress = this.Progress }.Process();
 
       Progress.SetMessage("Finished ...");
 

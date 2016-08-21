@@ -11,7 +11,8 @@ namespace RCPA.Proteomics.Quantification.Labelfree
   {
     protected override List<Peak> Resolve(ChromatographProfile chro, List<List<Peak>> envelope)
     {
-      return Isotopic.InterfernceOptimization.Resolve(chro.IsotopicIntensities, envelope);
+      //return Isotopic.InterfernceOptimization.ResolveByPearsonCorrelation(chro.IsotopicIntensities, envelope);
+      return Isotopic.InterfernceOptimization.ResolveByKullbackLeiblerDistance(chro.IsotopicIntensities, envelope);
     }
   }
 }

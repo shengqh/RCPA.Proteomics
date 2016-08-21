@@ -39,18 +39,20 @@ namespace RCPA.Proteomics.Quantification.Labelfree
 
     public override IEnumerable<string> Process()
     {
-      if (!File.Exists(options.OutputFile) || options.Overwrite)
+      var boundaryInput = Path.ChangeExtension(options.OutputFile, ".chros.tsv");
+
+      if (!File.Exists(boundaryInput) || options.Overwrite)
       {
         var format = GetPeptideReader();
         var spectra = format.ReadFromFile(options.InputFile);
         var peptideMap = spectra.ToGroupDictionary(m => m.Query.FileScan.Experimental.ToLower());
-        var rawfiles = Directory.GetFiles(options.RawDirectory, "*.raw", SearchOption.AllDirectories).ToDictionary(m => Path.GetFileNameWithoutExtension(m).ToLower());
+        var rawfiles = options.RawFiles.ToDictionary(m => RawFileFactory.GetExperimental(m).ToLower());
         var rententionWindow = options.MaximumRetentionTimeWindow;
 
         var missed = peptideMap.Keys.Except(rawfiles.Keys).ToArray();
         if (missed.Length > 0)
         {
-          throw new Exception(string.Format("Cannot find raw file of {0} in directory {1}", missed.Merge("/"), options.RawDirectory));
+          throw new Exception(string.Format("Cannot find raw file of {0} in file list", missed.Merge("/")));
         }
 
         var optionThreadCount = options.ThreadCount == 0 ? Environment.ProcessorCount : options.ThreadCount;
@@ -174,6 +176,8 @@ namespace RCPA.Proteomics.Quantification.Labelfree
 
                 //Progress.SetMessage("Processing {0} : {1:0.#####} : {2} : {3}", chro.Sequence, chro.ObservedMz, chro.IdentifiedScan, Path.GetFileName(chro.FileName));
 
+                //allow one missed scan
+                int naCount = 2;
                 for (int scanIndex = masterScanIndex; scanIndex >= 0; scanIndex--)
                 {
                   if (Progress.IsCancellationPending())
@@ -189,7 +193,15 @@ namespace RCPA.Proteomics.Quantification.Labelfree
 
                   if (!AddEnvelope(chro, rawReader, fullMSList, scanIndex))
                   {
-                    break;
+                    naCount--;
+                    if(naCount == 0)
+                    {
+                      break;
+                    }
+                    else
+                    {
+                      continue;
+                    }
                   }
 
                   if (scanIndex == masterScanIndex)
@@ -199,6 +211,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
                 }
                 chro.Profiles.Reverse();
 
+                naCount = 2;
                 for (int scanIndex = masterScanIndex + 1; scanIndex < fullMSList.Count; scanIndex++)
                 {
                   if (Progress.IsCancellationPending())
@@ -214,7 +227,15 @@ namespace RCPA.Proteomics.Quantification.Labelfree
 
                   if (!AddEnvelope(chro, rawReader, fullMSList, scanIndex))
                   {
-                    break;
+                    naCount--;
+                    if (naCount == 0)
+                    {
+                      break;
+                    }
+                    else
+                    {
+                      continue;
+                    }
                   }
                 }
 
@@ -251,7 +272,6 @@ namespace RCPA.Proteomics.Quantification.Labelfree
           throw new Exception("Cannot find chromotograph!");
         }
 
-        var boundaryInput = Path.ChangeExtension(options.OutputFile, ".chros.tsv");
         using (var sw = new StreamWriter(boundaryInput))
         {
           sw.WriteLine("ChroDirectory\tChroFile\tSample\tPeptideId\tTheoreticalMz\tCharge\tIdentifiedScan");
@@ -267,22 +287,10 @@ namespace RCPA.Proteomics.Quantification.Labelfree
               chro.IdentifiedScan);
           }
         }
+      }
 
-        //var boundaryDataInput = boundaryInput + ".data";
-        //using (var sw = new StreamWriter(boundaryDataInput))
-        //{
-        //  var header = File.ReadAllLines(chroList[0].FileName).First();
-        //  sw.WriteLine("ChroFile\t{0}", header);
-
-        //  foreach (var chroFile in chroList)
-        //  {
-        //    foreach (var line in File.ReadAllLines(chroFile.FileName).Skip(1))
-        //    {
-        //      sw.WriteLine("{0}\t{1}", Path.GetFileNameWithoutExtension(chroFile.FileName), line);
-        //    }
-        //  }
-        //}
-
+      if (!File.Exists(options.OutputFile) || options.Overwrite)
+      {
         Progress.SetMessage("Finding boundaries ...");
         var boundaryOptions = new RTemplateProcessorOptions()
         {
@@ -292,24 +300,26 @@ namespace RCPA.Proteomics.Quantification.Labelfree
           RExecute = ExternalProgramConfig.GetExternalProgram("R"),
           CreateNoWindow = true
         };
+        boundaryOptions.Parameters.Add("outputImage<-" + (options.DrawImage ? "1" : "0"));
+        boundaryOptions.Parameters.Add("maximumProfileDistance<-" + options.MaximumProfileDistance.ToString());
         new RTemplateProcessor(boundaryOptions) { Progress = this.Progress }.Process();
       }
 
-      if (options.DrawImage)
-      {
-        Progress.SetMessage("Drawing images ...");
+      //if (options.DrawImage)
+      //{
+      //  Progress.SetMessage("Drawing images ...");
 
-        var imageOptions = new RTemplateProcessorOptions()
-        {
-          InputFile = options.OutputFile,
-          OutputFile = Path.ChangeExtension(options.OutputFile, ".image"),
-          RTemplate = ImageR,
-          RExecute = SystemUtils.GetRExecuteLocation(),
-          CreateNoWindow = true,
-          NoResultFile = true
-        };
-        new RTemplateProcessor(imageOptions) { Progress = this.Progress }.Process();
-      }
+      //  var imageOptions = new RTemplateProcessorOptions()
+      //  {
+      //    InputFile = options.OutputFile,
+      //    OutputFile = Path.ChangeExtension(options.OutputFile, ".image"),
+      //    RTemplate = ImageR,
+      //    RExecute = SystemUtils.GetRExecuteLocation(),
+      //    CreateNoWindow = true,
+      //    NoResultFile = true
+      //  };
+      //  new RTemplateProcessor(imageOptions) { Progress = this.Progress }.Process();
+      //}
 
       return new string[] { options.OutputFile };
     }
@@ -363,7 +373,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
         return false;
       }
 
-      if (envelope.CalculateProfileCorrelation(chro.IsotopicIntensities) < options.MinimumCorrelation)
+      if(options.MinimumProfileCorrelation > 0 && envelope.CalculateProfileCorrelation(chro.IsotopicIntensities) < options.MinimumProfileCorrelation)
       {
         return false;
       }
