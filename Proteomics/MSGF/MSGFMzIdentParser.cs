@@ -33,21 +33,25 @@ namespace RCPA.Proteomics.MSGF
     protected override void ParseScore(Summary.IdentifiedSpectrum spectrum, Dictionary<string, string> cvParams)
     {
       string score;
+      //MS-GF:RawScore
       if (cvParams.TryGetValue("MS:1002049", out score))
       {
         spectrum.Score = double.Parse(score);
       }
 
+      //MS-GF:DeNovoScore
       if (cvParams.TryGetValue("MS:1002050", out score))
       {
         spectrum.SpScore = double.Parse(score);
       }
 
+      //MS-GF:SpecEValue
       if (cvParams.TryGetValue("MS:1002052", out score))
       {
         spectrum.ExpectValue = double.Parse(score);
       }
 
+      //MS-GF:EValue
       if (cvParams.TryGetValue("MS:1002053", out score))
       {
         spectrum.Probability = double.Parse(score);

@@ -12,7 +12,7 @@ namespace RCPA.Proteomics.Summary
     {
       _ignoreKey.Add(QuantificationConsts.DUPLICATED_SPECTRA_KEY);
 
-      this.RegisterConverter(new IdentifiedSpectrumIdConverter<IIdentifiedSpectrum>(), "SpectrumId");
+      this.RegisterConverter(new IdentifiedSpectrumIdConverter<IIdentifiedSpectrum>(), "SpectrumId", "MSGF:Id");
 
       this.RegisterConverter(new IdentifiedSpectrumEngineConverter<IIdentifiedSpectrum>());
 

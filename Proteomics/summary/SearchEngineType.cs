@@ -1,4 +1,5 @@
-﻿using RCPA.Proteomics.Mascot;
+﻿using RCPA.Proteomics.Comet;
+using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.MSAmanda;
 using RCPA.Proteomics.MSGF;
 using RCPA.Proteomics.MyriMatch;
@@ -25,7 +26,7 @@ namespace RCPA.Proteomics.Summary
       _map = new Dictionary<SearchEngineType, ISearchEngineFactory>();
       _map[SearchEngineType.MASCOT] = new MascotFactory();
       _map[SearchEngineType.SEQUEST] = new SequestFactory();
-      _map[SearchEngineType.Comet] = new SequestFactory();
+      _map[SearchEngineType.Comet] = new CometFactory();
       _map[SearchEngineType.ProLuCID] = new SequestFactory();
       _map[SearchEngineType.XTandem] = new XTandemFactory();
       _map[SearchEngineType.PFind] = new PFindFactory();

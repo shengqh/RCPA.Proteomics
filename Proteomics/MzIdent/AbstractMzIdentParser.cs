@@ -240,6 +240,7 @@ namespace RCPA.Proteomics.MzIdent
         {
           if (bFirst) //only parse score once
           {
+            spectrum.Id = sit.Attribute("id").Value;
             spectrum.Charge = int.Parse(sit.Attribute("chargeState").Value);
             spectrum.TheoreticalMH = PrecursorUtils.MzToMH(double.Parse(sit.Attribute("calculatedMassToCharge").Value), spectrum.Charge, true);
             spectrum.ExperimentalMH = PrecursorUtils.MzToMH(double.Parse(sit.Attribute("experimentalMassToCharge").Value), spectrum.Charge, true);
