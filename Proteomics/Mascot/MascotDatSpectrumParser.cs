@@ -1,14 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using RCPA.Gui;
+using RCPA.Proteomics.Modification;
+using RCPA.Proteomics.Summary;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
-using RCPA.Gui;
-using RCPA.Proteomics.Summary;
-using RCPA.Utils;
-using RCPA.Proteomics.Spectrum;
-using System.Globalization;
-using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.Mascot
 {
@@ -45,12 +42,12 @@ namespace RCPA.Proteomics.Mascot
 
     public MascotDatSpectrumParser() : this(new DefaultTitleParser()) { }
 
-    protected Dictionary<string, string> ParseSection(StreamReader sr, string sectionName)
+    protected Dictionary<string, string> ParseSection(StreamReader sr, string sectionName, bool required = true)
     {
-      return ParseSection(sr, sectionName, null);
+      return ParseSection(sr, sectionName, null, required);
     }
 
-    protected Dictionary<string, string> ParseSection(StreamReader sr, string sectionName, string lineRegexStr)
+    protected Dictionary<string, string> ParseSection(StreamReader sr, string sectionName, string lineRegexStr, bool required = true)
     {
       string line;
 
@@ -66,7 +63,14 @@ namespace RCPA.Proteomics.Mascot
 
       if (line == null)
       {
-        throw new Exception("Cannot find " + sectionName + " information when parsing dat file.");
+        if (required)
+        {
+          throw new Exception("Cannot find " + sectionName + " information when parsing dat file.");
+        }
+        else
+        {
+          return new Dictionary<string, string>();
+        }
       }
 
       Regex lineRegex = null;
@@ -370,7 +374,7 @@ namespace RCPA.Proteomics.Mascot
           List<IIdentifiedSpectrum> target;
           if (result.TryGetValue(d.Key, out target))
           {
-            if(target.Count == 0 || target.First().Score < d.Value.First().Score)
+            if (target.Count == 0 || target.First().Score < d.Value.First().Score)
             {
               result[d.Key] = d.Value;
             }
@@ -427,7 +431,7 @@ namespace RCPA.Proteomics.Mascot
         queryCount = int.Parse(headers["queries"]);
 
         queryItems = ParseQueryItems(sr, queryCount, prefix);
-        peptideSection = ParseSection(sr, prefix + "peptides");
+        peptideSection = ParseSection(sr, prefix + "peptides", !isDecoy);
       }
 
       string file = CurrentParameters["FILE"];
