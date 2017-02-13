@@ -37,8 +37,6 @@ namespace RCPA.Proteomics.Deuterium
         builder.Process();
       }
 
-
-
       //Calculate deuterium enrichment for peptide
       if (!File.Exists(options.DeuteriumOutputFile) || options.Overwrite)
       {

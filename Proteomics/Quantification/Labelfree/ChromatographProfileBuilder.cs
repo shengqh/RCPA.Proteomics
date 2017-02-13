@@ -391,9 +391,8 @@ namespace RCPA.Proteomics.Quantification.Labelfree
         Directory.CreateDirectory(targetdir);
       }
 
-      var result = String.Format(@"{0}\{1}_{2}_{3}_{4}.chro.tsv",
+      var result = String.Format(@"{0}\{1}_{2}_{3}.chro.tsv",
         targetdir,
-        exp,
         peptide.Peptide.PureSequence,
         Math.Round(peptide.GetTheoreticalMz()),
         peptide.Query.FileScan.FirstScan);

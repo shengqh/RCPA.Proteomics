@@ -11,7 +11,7 @@ namespace RCPA.Proteomics.Deuterium
     {
       get
       {
-        return Path.Combine(GetDetailDirectory(), Path.ChangeExtension(Path.GetFileName(this.OutputFile), ".boundary.tsv"));
+        return Path.Combine(GetDetailDirectory(), "boundary.tsv");
       }
     }
 
@@ -19,7 +19,7 @@ namespace RCPA.Proteomics.Deuterium
     {
       get
       {
-        return Path.Combine(GetDetailDirectory(), Path.ChangeExtension(Path.GetFileName(this.OutputFile), ".calc.tsv"));
+        return Path.Combine(GetDetailDirectory(), "calc.tsv");
       }
     }
 
