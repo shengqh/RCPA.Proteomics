@@ -310,8 +310,8 @@ for(index in indecies){
       distanceBoundary[2] = max(isoBoundaryData$RetentionTime[isoBoundaryData$RetentionTime < min(rightUnvalid)])
     }
   
-    chroLeft=max(chroLeft, distanceBoundary[1])
-    chroRight=min(chroRight, distanceBoundary[2])
+    chroLeft=max(chroLeft, distanceBoundary[1], na.rm=TRUE)
+    chroRight=min(chroRight, distanceBoundary[2], na.rm=TRUE)
   }
   
   iso0win<-iso0data[iso0data$RetentionTime >= chroLeft & iso0data$RetentionTime <= chroRight,]
