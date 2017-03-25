@@ -19,7 +19,15 @@ namespace RCPA.Proteomics.XTandem
       {
         throw new Exception("Extract rank2 PSM is not supported for XTandem");
       }
-      return new XTandemSpectrumXmlParser();
+
+      if (name.ToLower().EndsWith(".pepxml"))
+      {
+        return new XTandemPepXmlParser();
+      }
+      else
+      {
+        return new XTandemSpectrumXmlParser();
+      }
     }
 
     public override IScoreFunction[] GetScoreFunctions()
