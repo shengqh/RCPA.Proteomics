@@ -32,7 +32,7 @@ namespace RCPA.Proteomics.XTandem
         this.btnSave,
         this.lvDatFiles,
         "XmlFiles",
-        new OpenFileArgument("XTandem Xml", "xml"),
+        new OpenFileArgument("XTandem Xml/PepXml", new string[] { "xml", "pepXML" }),
         true,
         false);
       AddComponent(this.datFiles);
