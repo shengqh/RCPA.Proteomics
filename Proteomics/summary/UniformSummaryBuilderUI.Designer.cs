@@ -98,12 +98,12 @@
       // 
       // lblProgress
       // 
-      this.lblProgress.Location = new System.Drawing.Point(0, 770);
+      this.lblProgress.Location = new System.Drawing.Point(0, 679);
       this.lblProgress.Size = new System.Drawing.Size(1189, 23);
       // 
       // progressBar
       // 
-      this.progressBar.Location = new System.Drawing.Point(0, 747);
+      this.progressBar.Location = new System.Drawing.Point(0, 656);
       this.progressBar.Size = new System.Drawing.Size(1189, 23);
       // 
       // pnlButton
@@ -111,7 +111,7 @@
       this.pnlButton.Controls.Add(this.btnLoadParam);
       this.pnlButton.Controls.Add(this.btnNew);
       this.pnlButton.Controls.Add(this.btnSaveParam);
-      this.pnlButton.Location = new System.Drawing.Point(0, 793);
+      this.pnlButton.Location = new System.Drawing.Point(0, 702);
       this.pnlButton.Size = new System.Drawing.Size(1189, 39);
       this.pnlButton.Controls.SetChildIndex(this.btnGo, 0);
       this.pnlButton.Controls.SetChildIndex(this.btnCancel, 0);
@@ -495,7 +495,7 @@
       this.tcDatasetList.Location = new System.Drawing.Point(142, 35);
       this.tcDatasetList.Name = "tcDatasetList";
       this.tcDatasetList.SelectedIndex = 0;
-      this.tcDatasetList.Size = new System.Drawing.Size(1036, 683);
+      this.tcDatasetList.Size = new System.Drawing.Size(1036, 592);
       this.tcDatasetList.TabIndex = 3;
       this.tcDatasetList.DoubleClick += new System.EventHandler(this.btnDelete_Click);
       // 
@@ -505,7 +505,7 @@
       this.pnlAdd.Dock = System.Windows.Forms.DockStyle.Left;
       this.pnlAdd.Location = new System.Drawing.Point(3, 35);
       this.pnlAdd.Name = "pnlAdd";
-      this.pnlAdd.Size = new System.Drawing.Size(139, 683);
+      this.pnlAdd.Size = new System.Drawing.Size(139, 592);
       this.pnlAdd.TabIndex = 2;
       // 
       // btnDelete
@@ -560,7 +560,7 @@
       this.tabControl1.Location = new System.Drawing.Point(0, 0);
       this.tabControl1.Name = "tabControl1";
       this.tabControl1.SelectedIndex = 0;
-      this.tabControl1.Size = new System.Drawing.Size(1189, 747);
+      this.tabControl1.Size = new System.Drawing.Size(1189, 656);
       this.tabControl1.TabIndex = 31;
       // 
       // tpGeneral
@@ -616,7 +616,7 @@
       this.tpGeneral.Location = new System.Drawing.Point(4, 22);
       this.tpGeneral.Name = "tpGeneral";
       this.tpGeneral.Padding = new System.Windows.Forms.Padding(3);
-      this.tpGeneral.Size = new System.Drawing.Size(1181, 721);
+      this.tpGeneral.Size = new System.Drawing.Size(1181, 630);
       this.tpGeneral.TabIndex = 0;
       this.tpGeneral.Text = "General";
       this.tpGeneral.UseVisualStyleBackColor = true;
@@ -750,7 +750,7 @@
       this.tpDatasets.Location = new System.Drawing.Point(4, 22);
       this.tpDatasets.Name = "tpDatasets";
       this.tpDatasets.Padding = new System.Windows.Forms.Padding(3);
-      this.tpDatasets.Size = new System.Drawing.Size(1181, 721);
+      this.tpDatasets.Size = new System.Drawing.Size(1181, 630);
       this.tpDatasets.TabIndex = 1;
       this.tpDatasets.Text = "Datasets";
       this.tpDatasets.UseVisualStyleBackColor = true;
@@ -795,7 +795,7 @@
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1189, 832);
+      this.ClientSize = new System.Drawing.Size(1189, 741);
       this.Controls.Add(this.tabControl1);
       this.Name = "UniformSummaryBuilderUI";
       this.TabText = "UniformBuildSummaryUI";

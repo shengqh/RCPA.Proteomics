@@ -171,7 +171,7 @@ namespace RCPA.Proteomics.PeptideProphet
             modaas.Reverse();
             foreach (var modaa in modaas)
             {
-              string modchar = FindModificationChar(ppmods, modaa);
+              string modchar = FindModificationChar(ppmods, modaa, pureSeq);
               seq = seq.Insert(modaa.Position, modchar);
             }
           }
@@ -207,7 +207,7 @@ namespace RCPA.Proteomics.PeptideProphet
       ParseScoreAndOtherInformation(sph, searchHit);
     }
 
-    protected virtual string FindModificationChar(PepXmlModifications ppmods, ModificationAminoacidMass modaa)
+    protected virtual string FindModificationChar(PepXmlModifications ppmods, ModificationAminoacidMass modaa, string pureSeq)
     {
       return ppmods.FindModificationChar(modaa.Mass);
     }

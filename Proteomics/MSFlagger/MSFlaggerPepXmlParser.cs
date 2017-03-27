@@ -3,11 +3,11 @@ using RCPA.Proteomics.Summary;
 using System;
 using System.Xml.Linq;
 
-namespace RCPA.Proteomics.XTandem
+namespace RCPA.Proteomics.MSFlagger
 {
-  public class XTandemPepXmlParser : AbstractPepXmlParser
+  public class MSFlaggerPepXmlParser : AbstractPepXmlParser
   {
-    public XTandemPepXmlParser()
+    public MSFlaggerPepXmlParser()
     { }
 
     protected override string FindModificationChar(PepXmlModifications ppmods, ModificationAminoacidMass modaa, string pureSeq)
@@ -59,7 +59,7 @@ namespace RCPA.Proteomics.XTandem
 
     public override SearchEngineType Engine
     {
-      get { return SearchEngineType.XTandem; }
+      get { return SearchEngineType.MSFlagger; }
     }
   }
 }

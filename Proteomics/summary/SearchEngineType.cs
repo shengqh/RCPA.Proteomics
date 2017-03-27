@@ -1,6 +1,7 @@
 ﻿using RCPA.Proteomics.Comet;
 using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.MSAmanda;
+using RCPA.Proteomics.MSFlagger;
 using RCPA.Proteomics.MSGF;
 using RCPA.Proteomics.MyriMatch;
 using RCPA.Proteomics.Omssa;
@@ -15,7 +16,7 @@ using System.Text;
 
 namespace RCPA.Proteomics.Summary
 {
-  public enum SearchEngineType { Unknown, MASCOT, SEQUEST, Comet, XTandem, PFind, PeptidePhophet, InterProphet, MyriMatch, MSGF, OMSSA, MSAmanda, Percolator, ProLuCID }
+  public enum SearchEngineType { Unknown, MASCOT, SEQUEST, Comet, XTandem, PFind, PeptidePhophet, InterProphet, MyriMatch, MSGF, OMSSA, MSAmanda, Percolator, ProLuCID, MSFlagger }
 
   public static class SearchEngineTypeExtension
   {
@@ -37,6 +38,7 @@ namespace RCPA.Proteomics.Summary
       _map[SearchEngineType.OMSSA] = new OmssaFactory();
       _map[SearchEngineType.Percolator] = new PercolatorFactory();
       _map[SearchEngineType.MSAmanda] = new MSAmandaFactory();
+      _map[SearchEngineType.MSFlagger] = new MSFlaggerFactory();
     }
 
     public static bool HasFactory(this SearchEngineType seType)

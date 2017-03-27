@@ -195,6 +195,16 @@
     <Compile Include="Proteomics\Database\ReversedDatabaseBuilderCommand.cs" />
     <Compile Include="Proteomics\Database\ReversedDatabaseBuilderOptions.cs" />
     <Compile Include="Proteomics\DatasetOption.cs" />
+    <Compile Include="Proteomics\MSFlagger\MSFlaggerDatasetBuilder.cs" />
+    <Compile Include="Proteomics\MSFlagger\MSFlaggerDatasetOptions.cs" />
+    <Compile Include="Proteomics\MSFlagger\MSFlaggerDatasetPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Proteomics\MSFlagger\MSFlaggerDatasetPanel.Designer.cs">
+      <DependentUpon>MSFlaggerDatasetPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\MSFlagger\MSFlaggerFactory.cs" />
+    <Compile Include="Proteomics\MSFlagger\MSFlaggerPepXmlParser.cs" />
     <Compile Include="Proteomics\XTandem\XTandemPepXmlParser.cs" />
     <Compile Include="Proteomics\Quantification\Labelfree\IsotopimerAbundancePredictor.cs" />
     <Compile Include="Proteomics\Deuterium\PeptideDeuteriumCalculator.cs" />
@@ -1339,6 +1349,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\MSAmanda\MSAmandaDatasetPanel.resx">
       <DependentUpon>MSAmandaDatasetPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\MSFlagger\MSFlaggerDatasetPanel.resx">
+      <DependentUpon>MSFlaggerDatasetPanel.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\PeptideProphet\UpdatePepXmlModificationUI.resx">
