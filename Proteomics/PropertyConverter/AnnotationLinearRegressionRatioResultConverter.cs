@@ -1,3 +1,4 @@
+using System;
 using RCPA.Proteomics.Quantification;
 
 namespace RCPA.Proteomics.PropertyConverter
@@ -5,16 +6,25 @@ namespace RCPA.Proteomics.PropertyConverter
   public class AnnotationLinearRegressionRatioResult_RatioConverter
     <T> : AbstractPropertyConverter<T> where T : IAnnotation
   {
+    private string _name;
     public override string Name
     {
-      get { return "LR_Ratio"; }
+      get
+      {
+        return _name;
+      }
+    }
+
+    public AnnotationLinearRegressionRatioResult_RatioConverter(string name)
+    {
+      _name = Name;
     }
 
     public override string GetProperty(T t)
     {
-      if (t.Annotations.ContainsKey(LinearRegressionRatioResult.Header))
+      if (t.Annotations.ContainsKey(_name))
       {
-        var lrrr = t.Annotations[LinearRegressionRatioResult.Header] as LinearRegressionRatioResult;
+        var lrrr = t.Annotations[_name] as LinearRegressionRatioResult;
         return MyConvert.Format("{0:0.0000}", lrrr.Ratio);
       }
 
@@ -25,148 +35,129 @@ namespace RCPA.Proteomics.PropertyConverter
     {
       if (value.Length == 0)
       {
-        t.Annotations.Remove(LinearRegressionRatioResult.Header);
+        t.Annotations.Remove(_name);
         return;
       }
 
       LinearRegressionRatioResult lrrr;
-      if (!t.Annotations.ContainsKey(LinearRegressionRatioResult.Header))
+      if (!t.Annotations.ContainsKey(_name))
       {
         lrrr = new LinearRegressionRatioResult();
-        t.Annotations[LinearRegressionRatioResult.Header] = lrrr;
+        t.Annotations[_name] = lrrr;
       }
       else
       {
-        lrrr = t.Annotations[LinearRegressionRatioResult.Header] as LinearRegressionRatioResult;
+        lrrr = t.Annotations[_name] as LinearRegressionRatioResult;
       }
 
       lrrr.Ratio = MyConvert.ToDouble(value);
     }
   }
 
-  public class AnnotationLinearRegressionRatioResult_RSquareConverter<T> : AbstractPropertyConverter<T>
+  public abstract class AbstractAnnotationLinearRegressionRatioResult_Converter<T> : AbstractPropertyConverter<T>
     where T : IAnnotation
   {
+    private string _ratioName;
+    private string _name;
+
+    public AbstractAnnotationLinearRegressionRatioResult_Converter(string ratioName, string name)
+    {
+      _ratioName = ratioName;
+      _name = name;
+    }
+
     public override string Name
     {
-      get { return "LR_RSquare"; }
+      get { return _name; }
     }
+
+    protected abstract string GetValue(LinearRegressionRatioResult lrrr);
 
     public override string GetProperty(T t)
     {
-      if (t.Annotations.ContainsKey(LinearRegressionRatioResult.Header))
+      if (t.Annotations.ContainsKey(_ratioName))
       {
-        var lrrr = t.Annotations[LinearRegressionRatioResult.Header] as LinearRegressionRatioResult;
-        return MyConvert.Format("{0:0.0000}", lrrr.RSquare);
+        var lrrr = t.Annotations[_ratioName] as LinearRegressionRatioResult;
+        return GetValue(lrrr);
       }
 
       return "";
     }
 
+    protected abstract void SetValue(LinearRegressionRatioResult lrrr, double v);
+
     public override void SetProperty(T t, string value)
     {
       if (value.Length == 0)
       {
-        t.Annotations.Remove(LinearRegressionRatioResult.Header);
+        t.Annotations.Remove(_ratioName);
         return;
       }
 
       LinearRegressionRatioResult lrrr;
-      if (!t.Annotations.ContainsKey(LinearRegressionRatioResult.Header))
+      if (!t.Annotations.ContainsKey(_ratioName))
       {
         lrrr = new LinearRegressionRatioResult();
-        t.Annotations[LinearRegressionRatioResult.Header] = lrrr;
+        t.Annotations[_ratioName] = lrrr;
       }
       else
       {
-        lrrr = t.Annotations[LinearRegressionRatioResult.Header] as LinearRegressionRatioResult;
+        lrrr = t.Annotations[_ratioName] as LinearRegressionRatioResult;
       }
 
-      lrrr.RSquare = MyConvert.ToDouble(value);
+      SetValue(lrrr, MyConvert.ToDouble(value));
+    }
+
+  }
+
+  public class AnnotationLinearRegressionRatioResult_RSquareConverter<T> : AbstractAnnotationLinearRegressionRatioResult_Converter<T>
+    where T : IAnnotation
+  {
+    public AnnotationLinearRegressionRatioResult_RSquareConverter(string ratioName, string name) : base(ratioName, name)
+    { }
+
+    protected override string GetValue(LinearRegressionRatioResult lrrr)
+    {
+      return MyConvert.Format("{0:0.0000}", lrrr.RSquare);
+    }
+
+    protected override void SetValue(LinearRegressionRatioResult lrrr, double v)
+    {
+      lrrr.RSquare = v;
     }
   }
 
-  public class AnnotationLinearRegressionRatioResult_FCalcConverter<T> : AbstractPropertyConverter<T>
+  public class AnnotationLinearRegressionRatioResult_FCalcConverter<T> : AbstractAnnotationLinearRegressionRatioResult_Converter<T>
     where T : IAnnotation
   {
-    public override string Name
+    public AnnotationLinearRegressionRatioResult_FCalcConverter(string ratioName, string name) : base(ratioName, name)
+    { }
+
+    protected override string GetValue(LinearRegressionRatioResult lrrr)
     {
-      get { return "LR_FCalc"; }
+      return MyConvert.Format("{0:0.0000}", lrrr.TValue);
     }
 
-    public override string GetProperty(T t)
+    protected override void SetValue(LinearRegressionRatioResult lrrr, double v)
     {
-      if (t.Annotations.ContainsKey(LinearRegressionRatioResult.Header))
-      {
-        var lrrr = t.Annotations[LinearRegressionRatioResult.Header] as LinearRegressionRatioResult;
-        return MyConvert.Format("{0:0.0000}", lrrr.TValue);
-      }
-
-      return "";
-    }
-
-    public override void SetProperty(T t, string value)
-    {
-      if (value.Length == 0)
-      {
-        t.Annotations.Remove(LinearRegressionRatioResult.Header);
-        return;
-      }
-
-      LinearRegressionRatioResult lrrr;
-      if (!t.Annotations.ContainsKey(LinearRegressionRatioResult.Header))
-      {
-        lrrr = new LinearRegressionRatioResult();
-        t.Annotations[LinearRegressionRatioResult.Header] = lrrr;
-      }
-      else
-      {
-        lrrr = t.Annotations[LinearRegressionRatioResult.Header] as LinearRegressionRatioResult;
-      }
-
-      lrrr.TValue = MyConvert.ToDouble(value);
+      lrrr.TValue = v;
     }
   }
 
-  public class AnnotationLinearRegressionRatioResult_FProbabilityConverter<T> : AbstractPropertyConverter<T>
+  public class AnnotationLinearRegressionRatioResult_FProbabilityConverter<T> : AbstractAnnotationLinearRegressionRatioResult_Converter<T>
     where T : IAnnotation
   {
-    public override string Name
+    public AnnotationLinearRegressionRatioResult_FProbabilityConverter(string ratioName, string name) : base(ratioName, name)
+    { }
+
+    protected override string GetValue(LinearRegressionRatioResult lrrr)
     {
-      get { return "LR_FProbability"; }
+      return MyConvert.Format("{0:0.0000}", lrrr.PValue);
     }
 
-    public override string GetProperty(T t)
+    protected override void SetValue(LinearRegressionRatioResult lrrr, double v)
     {
-      if (t.Annotations.ContainsKey(LinearRegressionRatioResult.Header))
-      {
-        var lrrr = t.Annotations[LinearRegressionRatioResult.Header] as LinearRegressionRatioResult;
-        return MyConvert.Format("{0:0.0000}", lrrr.PValue);
-      }
-
-      return "";
-    }
-
-    public override void SetProperty(T t, string value)
-    {
-      if (value.Length == 0)
-      {
-        t.Annotations.Remove(LinearRegressionRatioResult.Header);
-        return;
-      }
-
-      LinearRegressionRatioResult lrrr;
-      if (!t.Annotations.ContainsKey(LinearRegressionRatioResult.Header))
-      {
-        lrrr = new LinearRegressionRatioResult();
-        t.Annotations[LinearRegressionRatioResult.Header] = lrrr;
-      }
-      else
-      {
-        lrrr = t.Annotations[LinearRegressionRatioResult.Header] as LinearRegressionRatioResult;
-      }
-
-      lrrr.PValue = MyConvert.ToDouble(value);
+      lrrr.PValue = v;
     }
   }
 }

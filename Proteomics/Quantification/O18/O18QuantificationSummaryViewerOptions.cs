@@ -83,6 +83,8 @@ namespace RCPA.Proteomics.Quantification.O18
 
     public string GetProteinRatioDescription(IIdentifiedProtein ann)
     {
+      var ratio = func.GetRatio(ann);
+      
       LinearRegressionRatioResult lrrr = ann.Annotations[O18QuantificationConstants.O18_RATIO] as LinearRegressionRatioResult;
       return MyConvert.Format("Ratio={0:0.00}; StdErr={1:0.0000}; pValue={2:0.##E-000}", lrrr.Ratio, lrrr.RSquare, lrrr.PValue);
     }

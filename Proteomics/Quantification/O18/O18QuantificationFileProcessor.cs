@@ -343,6 +343,7 @@ namespace RCPA.Proteomics.Quantification.O18
       string resultFile = FileUtils.ChangeExtension(optionFile, ".O18summary");
 
       format.InitializeByResult(mr);
+      format.ProteinFormat = format.ProteinFormat.GetLineFormat(O18QuantificationConstants.O18_EXPORT_PROTEIN_HEADER);
 
       format.WriteToFile(resultFile, mr);
 

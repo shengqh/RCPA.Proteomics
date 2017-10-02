@@ -215,10 +215,10 @@ namespace RCPA.Proteomics.Quantification
       result.ReferenceIntensity = double.Parse(parts[startIndex]);
       result.SampleIntensity = double.Parse(parts[startIndex + 1]);
       result.Ratio = double.Parse(parts[startIndex + 2]);
-      result.Stdev = double.Parse(parts[startIndex + 3]);
+      result.Stdev = parts[startIndex + 3].Equals("NA") ? 0 : double.Parse(parts[startIndex + 3]);
       //lrrr.RSquare = double.Parse(parts[2]);
-      result.TValue = ParseDouble(parts[startIndex + 4], 0);
-      result.PValue = ParseDouble(parts[startIndex + 5], 0);
+      result.TValue = parts[startIndex + 4].Equals("NA") ? 0 : ParseDouble(parts[startIndex + 4], 0);
+      result.PValue = parts[startIndex + 5].Equals("NA") ? 1 : ParseDouble(parts[startIndex + 5], 0);
       result.PointCount = int.Parse(parts[startIndex + 6]);
       if (result.ReferenceIntensity > result.SampleIntensity)
       {
@@ -228,7 +228,7 @@ namespace RCPA.Proteomics.Quantification
       {
         result.ReferenceIntensity = result.SampleIntensity / result.Ratio;
       }
-      
+
       return result;
     }
 
@@ -265,24 +265,26 @@ namespace RCPA.Proteomics.Quantification
 
     public bool HasProteinRatio(IIdentifiedProtein protein)
     {
-      if (!protein.Annotations.ContainsKey(this.intensityFunc.RatioKey))
-      {
-        return false;
-      }
+      return intensityFunc.HasRatio(protein);
+      //if (!protein.Annotations.ContainsKey(this.intensityFunc.RatioKey))
+      //{
+      //  return false;
+      //}
 
-      return protein.Annotations[this.intensityFunc.RatioKey] is LinearRegressionRatioResult;
+      //return protein.Annotations[this.intensityFunc.RatioKey] is LinearRegressionRatioResult;
     }
 
     public double GetProteinRatio(IIdentifiedProtein protein)
     {
-      if (HasProteinRatio(protein))
-      {
-        return (protein.Annotations[this.intensityFunc.RatioKey] as LinearRegressionRatioResult).Ratio;
-      }
-      else
-      {
-        return double.NaN;
-      }
+      return intensityFunc.GetRatio(protein);
+      //if (HasProteinRatio(protein))
+      //{
+      //  return (protein.Annotations[this.intensityFunc.RatioKey] as LinearRegressionRatioResult).Ratio;
+      //}
+      //else
+      //{
+      //  return double.NaN;
+      //}
     }
 
     public string SummaryFileDirectory { get; set; }

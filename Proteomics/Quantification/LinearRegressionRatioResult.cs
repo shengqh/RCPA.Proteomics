@@ -74,5 +74,22 @@ namespace RCPA.Proteomics.Quantification
       return MyConvert.Format("{0:0.0000}", this.Ratio);
     }
 
+    public void CopyFrom(LinearRegressionRatioResult source)
+    {
+      if(source == null)
+      {
+        return;
+      }
+
+      this.Ratio = source.Ratio;
+      this.RSquare = source.RSquare;
+      this.PointCount = source.PointCount;
+      this.TValue = source.TValue;
+      this.PValue = source.PValue;
+      this.Distance = source.Distance;
+      this.ReferenceIntensity = source.ReferenceIntensity;
+      this.SampleIntensity = source.SampleIntensity;
+    }
+
   }
 }

@@ -46,10 +46,10 @@ namespace RCPA.Proteomics.Summary
       result.RegisterConverter(spectrumConverter);
       result.RegisterConverter(new PropertyAliasConverter<IIdentifiedProtein>(spectrumConverter, "Spectrum Count"));
 
-      result.RegisterConverter(new AnnotationLinearRegressionRatioResult_RatioConverter<IIdentifiedProtein>());
-      result.RegisterConverter(new AnnotationLinearRegressionRatioResult_RSquareConverter<IIdentifiedProtein>());
-      result.RegisterConverter(new AnnotationLinearRegressionRatioResult_FCalcConverter<IIdentifiedProtein>());
-      result.RegisterConverter(new AnnotationLinearRegressionRatioResult_FProbabilityConverter<IIdentifiedProtein>());
+      result.RegisterConverter(new AnnotationLinearRegressionRatioResult_RatioConverter<IIdentifiedProtein>("LR_Ratio"));
+      result.RegisterConverter(new AnnotationLinearRegressionRatioResult_RSquareConverter<IIdentifiedProtein>("LR_Ratio", "LR_RSquare"));
+      result.RegisterConverter(new AnnotationLinearRegressionRatioResult_FCalcConverter<IIdentifiedProtein>("LR_Ratio", "LR_FCalc"));
+      result.RegisterConverter(new AnnotationLinearRegressionRatioResult_FProbabilityConverter<IIdentifiedProtein>("LR_Ratio", "LR_FProb"));
 
       IPropertyConverter<IIdentifiedProtein> coverageConverter = new IdentifiedProteinCoverageConverter<IIdentifiedProtein>();
       result.RegisterConverter(coverageConverter);

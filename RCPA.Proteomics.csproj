@@ -205,6 +205,7 @@
     </Compile>
     <Compile Include="Proteomics\MSFlagger\MSFlaggerFactory.cs" />
     <Compile Include="Proteomics\MSFlagger\MSFlaggerPepXmlParser.cs" />
+    <Compile Include="Proteomics\Quantification\O18\O18GetRatioIntensityProtein.cs" />
     <Compile Include="Proteomics\XTandem\XTandemPepXmlParser.cs" />
     <Compile Include="Proteomics\Quantification\Labelfree\IsotopimerAbundancePredictor.cs" />
     <Compile Include="Proteomics\Deuterium\PeptideDeuteriumCalculator.cs" />

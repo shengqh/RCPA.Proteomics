@@ -153,7 +153,9 @@ namespace RCPA.Proteomics.Quantification
 
       ProcessIdentifiedResult(mr);
 
-      RecalculateProteinAndRefreshAll();
+      RefreshAll();
+
+      //RecalculateProteinAndRefreshAll();
     }
 
     protected virtual void RefreshAll()

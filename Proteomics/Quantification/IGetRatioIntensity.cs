@@ -58,7 +58,8 @@ namespace RCPA.Proteomics.Quantification
       {
         if (ann.Annotations[this.RatioKey] is LinearRegressionRatioResult)
         {
-          lrrr.Ratio = (ann.Annotations[this.RatioKey] as LinearRegressionRatioResult).Ratio;
+          var oldLrrr = ann.Annotations[this.RatioKey] as LinearRegressionRatioResult;
+          lrrr.CopyFrom(oldLrrr);
         }
         else
         {
