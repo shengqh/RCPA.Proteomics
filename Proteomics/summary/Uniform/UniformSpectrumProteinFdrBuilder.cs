@@ -27,10 +27,6 @@ namespace RCPA.Proteomics.Summary.Uniform
       Options = new BuildSummaryOptions(parameterFile);
       Options.DatasetList.RemoveDisabled();
 
-      IIdentifiedProteinBuilder proteinBuilder = new IdentifiedProteinBuilder();
-
-      IIdentifiedProteinGroupBuilder groupBuilder = new IdentifiedProteinGroupBuilder();
-
       IIdentifiedProteinGroupFilter conFilter = Options.Database.GetNotContaminationDescriptionFilter(this.Progress);
 
       var fdrCalc = Options.FalseDiscoveryRate.GetFalseDiscoveryRateCalculator();
@@ -57,6 +53,8 @@ namespace RCPA.Proteomics.Summary.Uniform
         var uniqueFilter = new IdentifiedProteinGroupUniquePeptideCountFilter(2);
 
         OptimalFilteredItem finalItem = null;
+
+        List<IIdentifiedSpectrum> allSpectrum = Options.PeptideRetrieval ? BuildResult.GetSpectra() : null;
 
         int fdrPeptideCount = Options.FalseDiscoveryRate.FdrPeptideCount > 2 ? Options.FalseDiscoveryRate.FdrPeptideCount : 2;
         double firstStepFdr = Options.FalseDiscoveryRate.MaxPeptideFdr;
@@ -157,13 +155,64 @@ namespace RCPA.Proteomics.Summary.Uniform
           WriteScoreMap(sw, BuildResult, finalItem.Unique2Result);
           WriteScoreMap(sw, BuildResult, finalItem.Unique1Result);
 
+          var finalSpectra = finalItem.GetSpectra();
+          if (Options.PeptideRetrieval)
+          {
+            Progress.SetMessage("Retrivaling peptides passed maximum peptide FDR for proteins passed protein FDR...");
+            var proteinBuilder = new IdentifiedProteinBuilder();
+            var groupBuilder = new IdentifiedProteinGroupBuilder();
+            List<IIdentifiedProtein> proteins = proteinBuilder.Build(finalSpectra);
+            List<IIdentifiedProteinGroup> groups = groupBuilder.Build(proteins);
+
+            var proteinMap = new Dictionary<string, IIdentifiedProteinGroup>();
+            foreach(var g in groups)
+            {
+              foreach(var p in g)
+              {
+                proteinMap[p.Name] = g;
+              }
+            }
+
+            var savedSpectra = new HashSet<IIdentifiedSpectrum>(finalItem.GetSpectra());
+            foreach (var spectrum in allSpectrum)
+            {
+              if (savedSpectra.Contains(spectrum))
+              {
+                continue;
+              }
+
+              var pgs = new HashSet<IIdentifiedProteinGroup>();
+              foreach(var protein in spectrum.Proteins)
+              {
+                IIdentifiedProteinGroup pg;
+                if(proteinMap.TryGetValue(protein, out pg))
+                {
+                  pgs.Add(pg);
+                }
+              }
+
+              //if the spectrum doesn't map to protein passed FDR filter, ignore
+              //if the spectrum maps to multiple groups, ignore
+              if(pgs.Count == 0 || pgs.Count > 1)
+              {
+                continue;
+              }
+
+              //The spectrum should map to all proteins in the group
+              if(pgs.First().All(l => spectrum.Proteins.Contains(l.Name)))
+              {
+                finalSpectra.Add(spectrum);
+              }
+            }
+          }
+
           BuildResult.ClearSpectra();
           GC.Collect();
           GC.WaitForPendingFinalizers();
 
           return new IdentifiedSpectrumBuilderResult()
         {
-          Spectra = finalItem.GetSpectra(),
+          Spectra = finalSpectra,
           PeptideFDR = finalItem.Unique2Result.PeptideFdr,
           ProteinFDR = Options.FalseDiscoveryRate.FdrValue
         };

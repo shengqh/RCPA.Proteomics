@@ -58,6 +58,7 @@ namespace RCPA.Tools.Summary
     private readonly RcpaComboBox<FalseDiscoveryRateType> fdrType;
     private readonly RcpaCheckBox filterByFdr;
     private RcpaComboBox<ITargetDecoyConflictType> conflictAsDecoy;
+    private readonly RcpaCheckBox peptideRetrieval;
 
     private RcpaCheckBox removeContamination;
     private RcpaTextField contaminationNamePattern;
@@ -136,6 +137,9 @@ namespace RCPA.Tools.Summary
                                                                     FalseDiscoveryRateLevel.UniquePeptide
                                                                   }, 1);
       AddComponent(this.fdrLevel);
+
+      this.peptideRetrieval = new RcpaCheckBox(this.cbPeptideRetrieval, "PeptideRetrieval", true);
+      AddComponent(this.peptideRetrieval);
 
       this.fdrType = new RcpaComboBox<FalseDiscoveryRateType>(this.cbFdrType, "FdrType",
                                                               new[]
@@ -453,6 +457,7 @@ namespace RCPA.Tools.Summary
       //False Discovery Rate
       this.filterByFdr.Checked = Option.FalseDiscoveryRate.FilterByFdr;
       this.conflictAsDecoy.SelectedItem = Option.FalseDiscoveryRate.TargetDecoyConflictType;
+      this.peptideRetrieval.Checked = Option.PeptideRetrieval;
       if (Option.FalseDiscoveryRate.FilterByFdr)
       {
         this.maxFdr.Value = Option.FalseDiscoveryRate.FdrValue;
@@ -528,6 +533,8 @@ namespace RCPA.Tools.Summary
       //False Discovery Rate
       Option.FalseDiscoveryRate.FilterByFdr = this.filterByFdr.Checked;
       Option.FalseDiscoveryRate.TargetDecoyConflictType = this.conflictAsDecoy.SelectedItem;
+      Option.PeptideRetrieval = this.peptideRetrieval.Checked;
+
       if (Option.FalseDiscoveryRate.FilterByFdr)
       {
         Option.FalseDiscoveryRate.FdrValue = this.maxFdr.Value;
@@ -626,6 +633,11 @@ namespace RCPA.Tools.Summary
       this.Option = new BuildSummaryOptions();
 
       AssignValueFromOption();
+    }
+
+    private void cbFdrLevel_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      cbPeptideRetrieval.Visible = cbFdrLevel.Text.Equals("Protein");
     }
   }
 }

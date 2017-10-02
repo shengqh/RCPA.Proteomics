@@ -88,6 +88,7 @@
       this.panel1 = new System.Windows.Forms.Panel();
       this.rbUseSelectedOnly = new RCPA.Gui.RcpaRadioField();
       this.rbUseAll = new RCPA.Gui.RcpaRadioField();
+      this.cbPeptideRetrieval = new System.Windows.Forms.CheckBox();
       this.pnlButton.SuspendLayout();
       this.pnlAdd.SuspendLayout();
       this.tabControl1.SuspendLayout();
@@ -424,6 +425,7 @@
       this.cbFdrLevel.Name = "cbFdrLevel";
       this.cbFdrLevel.Size = new System.Drawing.Size(178, 21);
       this.cbFdrLevel.TabIndex = 76;
+      this.cbFdrLevel.SelectedIndexChanged += new System.EventHandler(this.cbFdrLevel_SelectedIndexChanged);
       // 
       // label4
       // 
@@ -565,6 +567,7 @@
       // 
       // tpGeneral
       // 
+      this.tpGeneral.Controls.Add(this.cbPeptideRetrieval);
       this.tpGeneral.Controls.Add(this.minDecoyScan);
       this.tpGeneral.Controls.Add(this.minTargetDecoyRatio);
       this.tpGeneral.Controls.Add(this.rbByDecoyDatabase);
@@ -791,6 +794,16 @@
       this.rbUseAll.Text = "Use all files";
       this.rbUseAll.UseVisualStyleBackColor = true;
       // 
+      // cbPeptideRetrieval
+      // 
+      this.cbPeptideRetrieval.AutoSize = true;
+      this.cbPeptideRetrieval.Location = new System.Drawing.Point(542, 47);
+      this.cbPeptideRetrieval.Name = "cbPeptideRetrieval";
+      this.cbPeptideRetrieval.Size = new System.Drawing.Size(218, 17);
+      this.cbPeptideRetrieval.TabIndex = 154;
+      this.cbPeptideRetrieval.Text = "Retrieval peptide for protein passed FDR";
+      this.cbPeptideRetrieval.UseVisualStyleBackColor = true;
+      // 
       // UniformSummaryBuilderUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -878,5 +891,6 @@
     private Gui.DoubleField minTargetDecoyRatio;
     private System.Windows.Forms.TextBox txtProteinTag;
     private System.Windows.Forms.CheckBox cbClassifyByProteinTag;
+    private System.Windows.Forms.CheckBox cbPeptideRetrieval;
   }
 }

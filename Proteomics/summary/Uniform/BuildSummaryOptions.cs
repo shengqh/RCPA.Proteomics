@@ -1,18 +1,12 @@
-﻿using System;
+﻿using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.Sequest;
+using RCPA.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Linq;
-using System.Xml;
-using System.Xml.Linq;
-using RCPA.Proteomics.Modification;
-using RCPA.Seq;
-using RCPA.Utils;
-using RCPA.Proteomics.Database;
-using RCPA.Proteomics.Sequest;
-using RCPA.Proteomics.Mascot;
-using RCPA.Gui;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
@@ -31,6 +25,7 @@ namespace RCPA.Proteomics.Summary.Uniform
       DatasetList = new DatasetListOptions();
       ConflictType = ResolveSearchEngineConflictTypeFactory.QValue;
       MinimumEngineAgreeCount = 1;
+      PeptideRetrieval = false;
     }
 
     public BuildSummaryOptions(string fileName)
@@ -66,6 +61,8 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     public IResolveSearchEngineConflictType ConflictType { get; set; }
 
+    public bool PeptideRetrieval { get; set; }
+
     public void LoadFromFile(string fileName)
     {
       if (!File.Exists(fileName))
@@ -89,6 +86,11 @@ namespace RCPA.Proteomics.Summary.Uniform
       if (docRoot.Element("MergeResultFromSameEngineButDifferentSearchParameters") != null)
       {
         KeepTopPeptideFromSameEngineButDifferentSearchParameters = bool.Parse(docRoot.Element("MergeResultFromSameEngineButDifferentSearchParameters").Value);
+      }
+
+      if (docRoot.Element("PeptideRetrieval") != null)
+      {
+        PeptideRetrieval = bool.Parse(docRoot.Element("PeptideRetrieval").Value);
       }
 
       Database.Load(docRoot);
@@ -129,8 +131,8 @@ namespace RCPA.Proteomics.Summary.Uniform
         new XElement("MergeResult", MergeResult),
         new XElement("ConflictType", ConflictType),
         new XElement("MinimumEngineAgreeCount", MinimumEngineAgreeCount),
-        new XElement("MergeResultFromSameEngineButDifferentSearchParameters", KeepTopPeptideFromSameEngineButDifferentSearchParameters)
-        );
+        new XElement("MergeResultFromSameEngineButDifferentSearchParameters", KeepTopPeptideFromSameEngineButDifferentSearchParameters),
+        new XElement("PeptideRetrieval", PeptideRetrieval));
 
       Database.Save(docRoot);
 
