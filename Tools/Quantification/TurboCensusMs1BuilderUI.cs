@@ -8,7 +8,7 @@ namespace RCPA.Proteomics.Quantification
   {
     private static readonly string title = "Turbo Raw To MS1 Builder";
 
-    private static readonly string version = "1.0.1";
+    private static readonly string version = "1.0.2";
 
     private readonly RcpaDirectoryField targetDir;
 

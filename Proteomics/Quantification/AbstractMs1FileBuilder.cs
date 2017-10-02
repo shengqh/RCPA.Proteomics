@@ -88,7 +88,7 @@ namespace RCPA.Proteomics.Quantification
                 swIndex.Write("{0}\t{1}\n", scan, sw.BaseStream.Position);
 
                 sw.Write("S\t{0}\t{0}\n", scan);
-                sw.Write("I\tRetTime\t{0:0.00}\n", rawFile.ScanToRetentionTime(scan));
+                sw.Write("I\tRetTime\t{0:0.####}\n", rawFile.ScanToRetentionTime(scan));
 
                 PeakList<Peak> pkl = rawFile.GetPeakList(scan);
                 foreach (Peak p in pkl)
