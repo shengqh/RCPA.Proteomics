@@ -33,11 +33,11 @@ namespace RCPA.Proteomics
     {
       if (scanTimes.Count == 1)
       {
-        return MyConvert.Format("{0:0.0}", scanTimes[0].RetentionTime * 60);
+        return MyConvert.Format("{0:0.####}", scanTimes[0].RetentionTime * 60);
       }
       else if (scanTimes.Count > 1)
       {
-        return MyConvert.Format("{0:0.0}-{1:0.0}", scanTimes[0].RetentionTime * 60, scanTimes[scanTimes.Count - 1].RetentionTime * 60);
+        return MyConvert.Format("{0:0.####}-{1:0.####}", scanTimes[0].RetentionTime * 60, scanTimes[scanTimes.Count - 1].RetentionTime * 60);
       }
       else
       {

@@ -27,9 +27,12 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
     public double MinPeptideRegressionCorrelation { get; set; }
 
-    public SilacQuantificationProteinFileProcessor(IRawFormat rawFormat, string rawDir, string silacParamFile, double ppmTolerance, string ignoreModifications, int profileLength)
+    private SilacQuantificationOption option;
+
+    public SilacQuantificationProteinFileProcessor(SilacQuantificationOption option)
     {
-      this.builder = new SilacQuantificationMultipleFileBuilder(rawFormat, rawDir, silacParamFile, ppmTolerance, ignoreModifications, profileLength, null);
+      this.option = option;
+      this.builder = new SilacQuantificationMultipleFileBuilder(option, null);
       this.resultFormat = new MascotResultTextFormat();
       this.MinPeptideRegressionCorrelation = 0.5;
     }
@@ -54,16 +57,46 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
       builder.Quantify(spectra, detailDir.FullName);
 
-      SilacQuantificationSummaryOption option = new SilacQuantificationSummaryOption() { MinimumPeptideRSquare = this.MinPeptideRegressionCorrelation };
+      SilacQuantificationSummaryOption summaryOption = new SilacQuantificationSummaryOption() { MinimumPeptideRSquare = this.MinPeptideRegressionCorrelation };
 
       spectra.ForEach(m =>
       {
-        option.SetPeptideRatioValid(m, option.HasPeptideRatio(m) && !option.IsPeptideOutlier(m));
+        summaryOption.SetPeptideRatioValid(m, summaryOption.HasPeptideRatio(m) && !summaryOption.IsPeptideOutlier(m));
       });
 
       foreach (IIdentifiedProteinGroup mpg in sr)
       {
         calc.Calculate(mpg, m => true);
+      }
+
+      if (option.KeepPeptideWithMostScan)
+      {
+        foreach (var pgroup in sr)
+        {
+          var gspec = pgroup.GetPeptides().GroupBy(l => l.Query.FileScan.Experimental + "_" + l.Sequence + "_" + l.Query.Charge).ToList();
+          HashSet<IIdentifiedSpectrum> kept = new HashSet<IIdentifiedSpectrum>();
+          foreach (var spec in gspec)
+          {
+            if (spec.Count() == 1)
+            {
+              kept.Add(spec.First());
+            }
+            else
+            {
+              var maxScan = spec.Max(l => (l.Annotations["S_RATIO"] as QuantificationItem).ScanCount);
+              var maxSpecs = spec.Where(l => (l.Annotations["S_RATIO"] as QuantificationItem).ScanCount == maxScan).ToList();
+              foreach (var maxSpec in maxSpecs)
+              {
+                kept.Add(maxSpec);
+              }
+            }
+          }
+
+          foreach (var p in pgroup)
+          {
+            p.Peptides.RemoveAll(l => !kept.Contains(l.Spectrum));
+          }
+        }
       }
 
       resultFormat.InitializeByResult(sr);

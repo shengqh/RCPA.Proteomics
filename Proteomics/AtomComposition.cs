@@ -9,6 +9,10 @@ namespace RCPA.Proteomics
   {
     private static readonly Regex reg = new Regex(@"([A-Z][a-z]{0,1}|\([A-Z][a-z]{0,1}\d*\))(\d*)");
 
+    /// <summary>
+    /// C5 H10 S or (C13)2 (O18)1 or Cx2 Ox4 N
+    /// </summary>
+    /// <param name="composition"></param>
     public AtomComposition(string composition)
     {
       MatchCollection mc = reg.Matches(composition);

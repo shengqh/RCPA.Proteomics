@@ -195,6 +195,12 @@
     <Compile Include="Proteomics\Database\ReversedDatabaseBuilderCommand.cs" />
     <Compile Include="Proteomics\Database\ReversedDatabaseBuilderOptions.cs" />
     <Compile Include="Proteomics\DatasetOption.cs" />
+    <Compile Include="Proteomics\Format\MultipleRaw2MgfCommand.cs" />
+    <Compile Include="Proteomics\Format\MultipleRaw2MgfCommandOptions.cs" />
+    <Compile Include="Proteomics\MaxQuant\MaxQuantSiteProteinK8R10Builder.cs" />
+    <Compile Include="Proteomics\MaxQuant\MaxQuantModification.cs" />
+    <Compile Include="Proteomics\MaxQuant\AbstractMaxQuantSiteProteinBuilder.cs" />
+    <Compile Include="Proteomics\MaxQuant\MaxQuantSiteProteinBuilderOption.cs" />
     <Compile Include="Proteomics\MSFlagger\MSFlaggerDatasetBuilder.cs" />
     <Compile Include="Proteomics\MSFlagger\MSFlaggerDatasetOptions.cs" />
     <Compile Include="Proteomics\MSFlagger\MSFlaggerDatasetPanel.cs">
@@ -206,6 +212,7 @@
     <Compile Include="Proteomics\MSFlagger\MSFlaggerFactory.cs" />
     <Compile Include="Proteomics\MSFlagger\MSFlaggerPepXmlParser.cs" />
     <Compile Include="Proteomics\Quantification\O18\O18GetRatioIntensityProtein.cs" />
+    <Compile Include="Proteomics\Quantification\SILAC\SilacQuantificationOption.cs" />
     <Compile Include="Proteomics\XTandem\XTandemPepXmlParser.cs" />
     <Compile Include="Proteomics\Quantification\Labelfree\IsotopimerAbundancePredictor.cs" />
     <Compile Include="Proteomics\Deuterium\PeptideDeuteriumCalculator.cs" />
@@ -2846,7 +2853,6 @@
     </Compile>
     <Compile Include="Proteomics\Quantification\SILAC\SilacQuantificationFileBuilder.cs" />
     <Compile Include="Proteomics\Quantification\SILAC\SilacQuantificationMultipleFileBuilder.cs" />
-    <Compile Include="Proteomics\Quantification\SILAC\SilacQuantificationPeptideFileProcessor.cs" />
     <Compile Include="Proteomics\Quantification\SILAC\SilacQuantificationProteinFileProcessor.cs" />
     <Compile Include="Proteomics\Quantification\SILAC\SilacQuantificationProteinFileProcessorUI.cs">
       <SubType>Form</SubType>

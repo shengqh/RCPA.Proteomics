@@ -24,17 +24,9 @@ namespace RCPA.Proteomics.Quantification.SILAC
   /// </summary>
   public class SilacQuantificationFileBuilder : ProgressClass
   {
-    private int _profileLength;
-
     private static readonly double MAX_DELTA_MZ = 0.1;
 
     private SilacCompoundInfoBuilder _sciBuilder;
-
-    private string _silacParamFile;
-
-    private double _ppmTolerance;
-
-    private string _ignoreModifications;
 
     private IRawFile _rawReader;
 
@@ -42,14 +34,12 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
     public string SoftwareVersion { get; set; }
 
-    public SilacQuantificationFileBuilder(IRawFile2 rawFile, string silacParamFile, double ppmTolerance, string ignoreModifications, int profileLength)
+    private SilacQuantificationOption option;
+    public SilacQuantificationFileBuilder(SilacQuantificationOption option)
     {
-      this._rawReader = new CacheRawFile(rawFile);
-      this._sciBuilder = new SilacCompoundInfoBuilder(silacParamFile, true);
-      this._silacParamFile = silacParamFile;
-      this._ppmTolerance = ppmTolerance;
-      this._ignoreModifications = ignoreModifications;
-      this._profileLength = profileLength;
+      this.option = option;
+      this._rawReader = new CacheRawFile(option.RawFormat.GetRawFile());
+      this._sciBuilder = new SilacCompoundInfoBuilder(option.SilacParamFile, true);
     }
 
     public void Quantify(string rawFileName, List<IIdentifiedSpectrum> spectra, string detailDir)
@@ -143,9 +133,9 @@ namespace RCPA.Proteomics.Quantification.SILAC
           }
 
           //从原始文件中找出该spectrum的定量信息
-          int maxIndex = Math.Min(_profileLength - 1, pkls.LightProfile.FindMaxIndex());
+          int maxIndex = Math.Min(option.ProfileLength - 1, pkls.LightProfile.FindMaxIndex());
 
-          double mzTolerance = PrecursorUtils.ppm2mz(sci.Light.Mz, _ppmTolerance);
+          double mzTolerance = PrecursorUtils.ppm2mz(sci.Light.Mz, option.PPMTolerance);
 
           //如果FullScan没有相应的离子，忽略。（鉴定错误或者扩展定量时候，会出现找不到pair的现象）
           SilacPeakListPair splp = GetLightHeavyPeakList(_rawReader, sci, maxIndex, mzTolerance, identifiedFullScan);
@@ -225,7 +215,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
           List<IIdentifiedSpectrum> mps = envelopeSpectrumGroup[envelopes];
 
-          double mzTolerance = PrecursorUtils.ppm2mz(mps[0].Query.ObservedMz, _ppmTolerance);
+          double mzTolerance = PrecursorUtils.ppm2mz(mps[0].Query.ObservedMz, option.PPMTolerance);
 
           string scanStr = GetScanRange(envelopes);
 
@@ -284,7 +274,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
     private double GetPrecursorPPM(List<IIdentifiedSpectrum> spectra)
     {
-      double precursorPPM = _ppmTolerance;
+      double precursorPPM = option.PPMTolerance;
       if (spectra.Count >= 5)
       {
         var systemError = IdentifiedSpectrumUtils.GetDeltaPrecursorPPMAccumulator(spectra);
@@ -352,7 +342,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
         {
           if (!_sciBuilder.IsModificationDefined(c))
           {
-            throw new ArgumentException(MyConvert.Format("Modification {0} was not defined in SILAC configuration file : {1}.", c, _silacParamFile));
+            throw new ArgumentException(MyConvert.Format("Modification {0} was not defined in SILAC configuration file : {1}.", c, option.SilacParamFile));
           }
         }
       }
@@ -362,9 +352,9 @@ namespace RCPA.Proteomics.Quantification.SILAC
     {
       string result = spectrum.GetMatchSequence();
 
-      if (_ignoreModifications != null && _ignoreModifications.Length > 0)
+      if (option.IgnoreModifications != null && option.IgnoreModifications.Length > 0)
       {
-        foreach (var c in _ignoreModifications)
+        foreach (var c in option.IgnoreModifications)
         {
           result = result.Replace(c.ToString(), "");
         }
@@ -399,14 +389,14 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
       var scantime = new ScanTime(scan, rawFile.ScanToRetentionTime(scan));
 
-      PeakList<Peak> light = pkl.FindEnvelopeDirectly(sci.Light.Profile, _profileLength, mzTolerance, () => new Peak());
+      PeakList<Peak> light = pkl.FindEnvelopeDirectly(sci.Light.Profile, option.ProfileLength, mzTolerance, () => new Peak());
 
       if (!CheckPeakListCharge(light, maxIndex, sci.Light.Charge))
       {
         return null;
       }
 
-      PeakList<Peak> heavy = pkl.FindEnvelopeDirectly(sci.Heavy.Profile, _profileLength, mzTolerance, () => new Peak());
+      PeakList<Peak> heavy = pkl.FindEnvelopeDirectly(sci.Heavy.Profile, option.ProfileLength, mzTolerance, () => new Peak());
 
       //如果电荷不对，则认为该scan无效。
       if (!CheckPeakListCharge(heavy, maxIndex, sci.Heavy.Charge))

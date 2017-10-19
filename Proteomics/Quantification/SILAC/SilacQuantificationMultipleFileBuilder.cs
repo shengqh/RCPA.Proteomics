@@ -1,51 +1,25 @@
+using RCPA.Gui;
+using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.Summary;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Linq;
-using RCPA;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Raw;
-using RCPA.Proteomics.Quantification;
-using RCPA.Proteomics;
-using RCPA.Utils;
-using RCPA.Proteomics.Utils;
-using RCPA.Proteomics.Sequest;
-using RCPA.Proteomics.Isotopic;
-using MathNet.Numerics.Statistics;
-using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Gui;
 
 namespace RCPA.Proteomics.Quantification.SILAC
 {
   public class SilacQuantificationMultipleFileBuilder : ProgressClass
   {
-    private IRawFormat rawFormat;
-
-    private string _rawDir;
-
-    private double _ppmTolerance;
-
-    private string _silacParamFile;
-
-    private string _ignoreModifications;
-
-    private int _profileLength;
+    private SilacQuantificationOption option;
 
     public string SoftwareVersion { get; set; }
 
-    private Dictionary<string, List<string>> _rawpairs;
+    private Dictionary<string, List<string>> rawpairs;
 
-    public SilacQuantificationMultipleFileBuilder(IRawFormat rawFormat, string rawDir, string silacParamFile, double ppmTolerance, string ignoreModifications, int profileLength, Dictionary<string, List<string>> rawpairs)
+    public SilacQuantificationMultipleFileBuilder(SilacQuantificationOption option, Dictionary<string, List<string>> rawpairs)
     {
-      this.rawFormat = rawFormat;
-      this._rawDir = rawDir;
-      this._silacParamFile = silacParamFile;
-      this._ppmTolerance = ppmTolerance;
-      this._ignoreModifications = ignoreModifications;
-      this._profileLength = profileLength;
-      this._rawpairs = rawpairs;
+      this.option = option;
+      this.rawpairs = rawpairs;
     }
 
     public void Quantify(List<IIdentifiedSpectrum> spectra, string detailDir)
@@ -59,13 +33,12 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
       DoQuantify(detailDir, spectra);
 
-      if (_rawpairs != null)
+      if (rawpairs != null)
       {
         var querys = DuplicateSpectrum(spectra, detailDir);
 
         DoQuantify(detailDir, querys);
 
-        //删除那些扩展定量但是没有结果的spectrum。
         spectra.ForEach(n => n.GetDuplicatedSpectra().RemoveAll(m => !m.HasRatio()));
       }
     }
@@ -84,11 +57,11 @@ namespace RCPA.Proteomics.Quantification.SILAC
           throw new UserTerminatedException();
         }
 
-        string rawFilename = rawFormat.GetRawFile(_rawDir, experimental);
+        string rawFilename = option.RawFormat.GetRawFile(option.RawDir, experimental);
 
         Progress.SetMessage(MyConvert.Format("{0}/{1} : Processing {2} ...", fileCount, filePepMap.Keys.Count, rawFilename));
 
-        SilacQuantificationFileBuilder builder = new SilacQuantificationFileBuilder(rawFormat.GetRawFile(), _silacParamFile, _ppmTolerance, _ignoreModifications, _profileLength);
+        SilacQuantificationFileBuilder builder = new SilacQuantificationFileBuilder(option);
         builder.Progress = this.Progress;
         builder.SoftwareVersion = this.SoftwareVersion;
 
@@ -104,7 +77,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
       List<IIdentifiedSpectrum> result = new List<IIdentifiedSpectrum>();
 
       Dictionary<string, List<string>> rawmap = new Dictionary<string, List<string>>();
-      foreach (var raws in _rawpairs.Values)
+      foreach (var raws in rawpairs.Values)
       {
         foreach (var raw in raws)
         {

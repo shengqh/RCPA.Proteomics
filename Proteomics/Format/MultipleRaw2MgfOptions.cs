@@ -11,6 +11,7 @@ using RCPA.Proteomics.Format.Offset;
 using RCPA.Proteomics.Statistic;
 using RCPA.Proteomics.Raw;
 using RCPA.Utils;
+using System.Xml.Linq;
 
 namespace RCPA.Proteomics.Format
 {
@@ -29,10 +30,12 @@ namespace RCPA.Proteomics.Format
     public double To { get; set; }
   }
 
-  public class MultipleRaw2MgfOptions : AbstractRawConverterOptions
+  public class MultipleRaw2MgfOptions : AbstractRawConverterOptions, IXml
   {
     public MultipleRaw2MgfOptions()
     {
+      this.TargetDirectory = string.Empty;
+
       this.ConverterName = MultipleRaw2MgfProcessorUI.Title;
       this.ConverterVersion = MultipleRaw2MgfProcessorUI.Version;
 
@@ -40,23 +43,26 @@ namespace RCPA.Proteomics.Format
       this.PrecursorMassRange = new MassRange(400, 5000);
       this.MinimumIonIntensity = 1;
       this.MinimumIonCount = 15;
-      this.MinimumTotalIonCount = 100;
+      this.MinimumTotalIonIntensity = 100;
       this.DefaultCharges = new RCPA.Proteomics.ChargeClass(new[] { 2, 3 });
+
+      this.IsobaricType = IsobaricTypeFactory.IsobaricTypes.First();
+      this.ProteaseName = "Trypsin";
 
       //CID
       this.ProductIonPPM = 20;
       this.ChargeDeconvolution = false;
       this.Deisotopic = false;
 
-      this.TopX = 0;
+      this.KeepTopX = true;
+      this.TopX = 8;
 
-      this.RemoveMassRange = false;
-      this.CalibratePrecursor = false;
-      this.CalibrateProductIon = false;
+      this.RemoveIons = false;
+      this.RemoveIonWindow = 0.1;
+      this.SpecialIons = "113.5-117.5";
 
-      this.Shift10Dalton = false;
-
-      this.MzXmlNestedScan = false;
+      this.PrecursorOptions = new PeakListRemovePrecursorProcessorOptions();
+      this.RawFiles = new string[] { };
     }
 
     public MascotGenericFormatWriter<Peak> GetMGFWriter()
@@ -68,6 +74,7 @@ namespace RCPA.Proteomics.Format
 
       result.Comments.Clear();
       result.Comments.Add("Converter=" + ConverterName);
+      result.Comments.Add("ConverterVersion=" + ConverterVersion);
       result.Comments.Add("DefaultCharges=" + DefaultCharges.ToString());
       result.Comments.Add("ProductIonPPM=" + ProductIonPPM.ToString());
 
@@ -75,8 +82,6 @@ namespace RCPA.Proteomics.Format
 
       return result;
     }
-
-    public bool Shift10Dalton { get; set; }
 
     public string ConverterName { get; set; }
 
@@ -92,17 +97,11 @@ namespace RCPA.Proteomics.Format
 
     public int MinimumIonCount { get; set; }
 
-    public double MinimumTotalIonCount { get; set; }
+    public double MinimumTotalIonIntensity { get; set; }
 
     public ChargeClass DefaultCharges { get; set; }
 
-    public bool KeepTopX
-    {
-      get
-      {
-        return TopX > 0;
-      }
-    }
+    public bool KeepTopX { get; set; }
 
     public int TopX { get; set; }
 
@@ -112,7 +111,11 @@ namespace RCPA.Proteomics.Format
 
     public bool ChargeDeconvolution { get; set; }
 
-    public bool RemoveMassRange { get; set; }
+    public bool OutputMzXmlFormat { get; set; }
+
+    public bool MzXmlNestedScan { get; set; }
+
+    public bool RemoveIons { get; set; }
 
     public double RemoveIonWindow { get; set; }
 
@@ -132,57 +135,9 @@ namespace RCPA.Proteomics.Format
 
     public bool RemoveIsobaricIonsInHighRange { get; set; }
 
-    public MassCalibrationType CalibrationType { get; set; }
+    public bool ParallelMode { get; set; }
 
-    public bool CalibratePrecursor { get; set; }
-
-    public bool CalibrateProductIon { get; set; }
-
-    public double ShiftPrecursorPPM { get; set; }
-
-    public double ShiftProductIonPPM { get; set; }
-
-    public bool OutputMzXmlFormat { get; set; }
-
-    /// <summary>
-    /// Will the tandem scan be included in its parent scan?
-    /// </summary>
-    public bool MzXmlNestedScan { get; set; }
-
-    private string _offsetFile;
-
-    private Dictionary<string, PrecursorOffsetEntry> _expOffsets = null;
-    public string OffsetFile
-    {
-      get
-      {
-        return _offsetFile;
-      }
-      set
-      {
-        if (_offsetFile != value)
-        {
-          _offsetFile = value;
-        }
-
-        if (File.Exists(_offsetFile))
-        {
-          _expOffsets = PrecursorOffsetEntry.ReadFromFile(_offsetFile).ToDictionary(m => m.Experimental);
-        }
-      }
-    }
-
-    public double[] SilicoPolymers { get; set; }
-
-    public double MaxShiftPPM { get; set; }
-
-    public double RetentionTimeWindow { get; set; }
-
-    public bool RemovePrecursorAndNeutralLoss { get; set; }
-
-    public string NeutralLossAtomComposition { get; set; }
-
-    public bool RemoveIonsLargerThanPrecursor { get; set; }
+    public PeakListRemovePrecursorProcessorOptions PrecursorOptions { get; set; }
 
     public CompositeProcessor<PeakList<Peak>> GetProcessor(string fileName, IProgressCallback callBack)
     {
@@ -193,9 +148,7 @@ namespace RCPA.Proteomics.Format
         AddGeneralProcessor(result);
       }
 
-      AddCalibrationProcessor(result, fileName, callBack);
-
-      if (RemoveMassRange)
+      if (RemoveIons)
       {
         if (RemoveIsobaricIons)
         {
@@ -217,7 +170,7 @@ namespace RCPA.Proteomics.Format
         result.Add(new PeakListDeisotopicByChargeProcessor<Peak>(ProductIonPPM));
       }
 
-      if (PrecursorOptions != null)
+      if (PrecursorOptions.RemovePrecursor)
       {
         result.Add(new PeakListRemovePrecursorProcessor<Peak>(this.PrecursorOptions));
       }
@@ -234,11 +187,6 @@ namespace RCPA.Proteomics.Format
       if (KeepTopX)
       {
         result.Add(new PeakListTopXProcessor<Peak>(TopX));
-      }
-
-      if (Shift10Dalton)
-      {
-        result.Add(new PeakListPrecursorShiftDaltonProcessor<Peak>(10.0));
       }
 
       return result;
@@ -265,36 +213,7 @@ namespace RCPA.Proteomics.Format
 
       result.Add(new PeakListMinIonCountProcessor<Peak>(MinimumIonCount));
 
-      result.Add(new PeakListMinTotalIonIntensityProcessor<Peak>(MinimumTotalIonCount));
-    }
-
-    private void AddCalibrationProcessor(CompositeProcessor<PeakList<Peak>> result, string fileName, IProgressCallback callBack)
-    {
-      if (CalibrationType == MassCalibrationType.mctFixed)
-      {
-        result.Add(new PeakListShiftProcessor<Peak>(new FixedOffset(CalibratePrecursor ? ShiftPrecursorPPM : 0.0, CalibrateProductIon ? ShiftProductIonPPM : 0.0)));
-        return;
-      }
-
-      if (CalibrationType == MassCalibrationType.mctOffsetFile)
-      {
-        var exp = RawFileFactory.GetExperimental(fileName);
-        if (_expOffsets.ContainsKey(exp))
-        {
-          var offset = _expOffsets[exp];
-          result.Add(new PeakListShiftProcessor<Peak>(new FixedOffset(CalibratePrecursor ? offset.Median : 0.0, CalibrateProductIon ? offset.Median : 0.0)));
-        }
-        else
-        {
-          return;
-        }
-      }
-
-      if (CalibrationType == MassCalibrationType.mctAuto)
-      {
-        result.Add(new PeakListShiftProcessor<Peak>(new AutoOffset(this.SilicoPolymers, this.MaxShiftPPM, this.RetentionTimeWindow, callBack, fileName, this.CalibratePrecursor, this.CalibrateProductIon)));
-        return;
-      }
+      result.Add(new PeakListMinTotalIonIntensityProcessor<Peak>(MinimumTotalIonIntensity));
     }
 
     private List<MassRange> ParseRemoveMassRange()
@@ -352,7 +271,103 @@ namespace RCPA.Proteomics.Format
       return result;
     }
 
-    public PeakListRemovePrecursorProcessorOptions PrecursorOptions { get; set; }
+    public void Save(XElement parentNode)
+    {
+      parentNode.Add(
+        new XElement("TargetDirectory", TargetDirectory),
+        new XElement("RawFiles", from rf in RawFiles
+                                 select new XElement("File", rf)),
+        new XElement("MascotTitleName", MascotTitleName),
+        new XElement("PrecursorMassRange", new XAttribute("From", PrecursorMassRange.From), new XAttribute("To", PrecursorMassRange.To)),
+        new XElement("MinimumIonIntensity", MinimumIonIntensity),
+        new XElement("MinimumIonCount", MinimumIonCount),
+        new XElement("MinimumTotalIonIntensity", MinimumTotalIonIntensity),
+        new XElement("DefaultCharges", from charge in DefaultCharges.DefaultCharges
+                                       select new XElement("Charge", charge)),
+
+        new XElement("ProductIonPPM", ProductIonPPM),
+        new XElement("Deisotopic", Deisotopic),
+        new XElement("ChargeDeconvolution", ChargeDeconvolution),
+
+        new XElement("KeepTopX", KeepTopX),
+        new XElement("TopX", TopX),
+        new XElement("GroupByMode", GroupByMode),
+        new XElement("GroupByMsLevel", GroupByMsLevel),
+        new XElement("ParallelMode", ParallelMode),
+        new XElement("ExtractRawMS3", ExtractRawMS3),
+        new XElement("Overwrite", Overwrite),
+        new XElement("OutputMzXmlFormat", OutputMzXmlFormat),
+        new XElement("MzXmlNestedScan", MzXmlNestedScan),
+
+        new XElement("RemoveIons", RemoveIons),
+        new XElement("RemoveIonWindow", RemoveIonWindow),
+        new XElement("RemoveSpecialIons", RemoveSpecialIons),
+        new XElement("SpecialIons", SpecialIons),
+        new XElement("RemoveIsobaricIons", RemoveIsobaricIons),
+        new XElement("IsobaricType", IsobaricType.Name),
+        new XElement("ProteaseName", ProteaseName),
+        new XElement("RemoveIsobaricIonsReporters", RemoveIsobaricIonsReporters),
+        new XElement("RemoveIsobaricIonsInLowRange", RemoveIsobaricIonsInLowRange),
+        new XElement("RemoveIsobaricIonsInHighRange", RemoveIsobaricIonsInHighRange),
+
+        new XElement("Precursor",
+          new XElement("RemovePrecursor", PrecursorOptions.RemovePrecursor),
+          new XElement("PPMTolerance", PrecursorOptions.PPMTolerance),
+          new XElement("RemoveNeutralLoss", PrecursorOptions.RemoveNeutralLoss),
+          new XElement("NeutralLoss", PrecursorOptions.NeutralLoss),
+          new XElement("RemoveIsotopicIons", PrecursorOptions.RemoveIsotopicIons),
+          new XElement("RemoveChargeMinus1Precursor", PrecursorOptions.RemoveChargeMinus1Precursor),
+          new XElement("RemoveIonsLargerThanPrecursor", PrecursorOptions.RemoveIonLargerThanPrecursor)));
+    }
+
+    public void Load(XElement parentNode)
+    {
+      TargetDirectory = parentNode.Element("TargetDirectory").Value;
+      RawFiles = (from file in parentNode.Element("RawFiles").Elements("File")
+                  select file.Value).ToArray();
+      MascotTitleName = parentNode.Element("MascotTitleName").Value;
+      PrecursorMassRange = new MassRange(double.Parse(parentNode.Element("PrecursorMassRange").Attribute("From").Value), double.Parse(parentNode.Element("PrecursorMassRange").Attribute("To").Value));
+      MinimumIonIntensity = double.Parse(parentNode.Element("MinimumIonIntensity").Value);
+      MinimumIonCount = int.Parse(parentNode.Element("MinimumIonCount").Value);
+      MinimumTotalIonIntensity = int.Parse(parentNode.Element("MinimumTotalIonIntensity").Value);
+      DefaultCharges = new ChargeClass((from charge in parentNode.Element("DefaultCharges").Elements("Charge")
+                                        select int.Parse(charge.Value)).ToArray());
+
+      ProductIonPPM = double.Parse(parentNode.Element("ProductIonPPM").Value);
+      Deisotopic = bool.Parse(parentNode.Element("Deisotopic").Value);
+      ChargeDeconvolution = bool.Parse(parentNode.Element("ChargeDeconvolution").Value);
+
+      KeepTopX = bool.Parse(parentNode.Element("KeepTopX").Value);
+      TopX = int.Parse(parentNode.Element("TopX").Value);
+      GroupByMode = bool.Parse(parentNode.Element("GroupByMode").Value);
+      GroupByMsLevel = bool.Parse(parentNode.Element("GroupByMsLevel").Value);
+      ParallelMode = bool.Parse(parentNode.Element("ParallelMode").Value);
+      ExtractRawMS3 = bool.Parse(parentNode.Element("ExtractRawMS3").Value);
+      Overwrite = bool.Parse(parentNode.Element("Overwrite").Value);
+      OutputMzXmlFormat = bool.Parse(parentNode.Element("OutputMzXmlFormat").Value);
+      MzXmlNestedScan = bool.Parse(parentNode.Element("MzXmlNestedScan").Value);
+
+      RemoveIons = bool.Parse(parentNode.Element("RemoveIons").Value);
+      RemoveIonWindow = double.Parse(parentNode.Element("RemoveIonWindow").Value);
+      RemoveSpecialIons = bool.Parse(parentNode.Element("RemoveSpecialIons").Value);
+      SpecialIons = parentNode.Element("SpecialIons").Value;
+      RemoveIsobaricIons = bool.Parse(parentNode.Element("RemoveIsobaricIons").Value);
+      IsobaricType = IsobaricTypeFactory.Find(parentNode.Element("IsobaricType").Value);
+      ProteaseName = parentNode.Element("ProteaseName").Value;
+      RemoveIsobaricIonsReporters = bool.Parse(parentNode.Element("RemoveIsobaricIonsReporters").Value);
+      RemoveIsobaricIonsInLowRange = bool.Parse(parentNode.Element("RemoveIsobaricIonsInLowRange").Value);
+      RemoveIsobaricIonsInHighRange = bool.Parse(parentNode.Element("RemoveIsobaricIonsInHighRange").Value);
+
+      var precursorNode = parentNode.Element("Precursor");
+      PrecursorOptions = new PeakListRemovePrecursorProcessorOptions();
+      PrecursorOptions.RemovePrecursor = bool.Parse(precursorNode.Element("RemovePrecursor").Value);
+      PrecursorOptions.PPMTolerance = double.Parse(precursorNode.Element("PPMTolerance").Value);
+      PrecursorOptions.RemoveNeutralLoss = bool.Parse(precursorNode.Element("RemoveNeutralLoss").Value);
+      PrecursorOptions.NeutralLoss = precursorNode.Element("NeutralLoss").Value;
+      PrecursorOptions.RemoveChargeMinus1Precursor = bool.Parse(precursorNode.Element("RemoveChargeMinus1Precursor").Value);
+      PrecursorOptions.RemoveIsotopicIons = bool.Parse(precursorNode.Element("RemoveIsotopicIons").Value);
+      PrecursorOptions.RemoveIonLargerThanPrecursor = bool.Parse(precursorNode.Element("RemoveIonsLargerThanPrecursor").Value);
+    }
 
     public override string Extension
     {

@@ -1,23 +1,14 @@
+using RCPA.Gui;
+using RCPA.Gui.Command;
+using RCPA.Gui.FileArgument;
+using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.Processor;
+using RCPA.Proteomics.Quantification.IsobaricLabelling;
+using RCPA.Proteomics.Raw;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Linq;
 using System.Windows.Forms;
-using RCPA.Gui;
-using RCPA.Gui.FileArgument;
-using RCPA.Proteomics.Processor;
-using RCPA;
-using System.IO;
-using RCPA.Proteomics.IO;
-using RCPA.Proteomics;
-using RCPA.Gui.Command;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Raw;
-using RCPA.Proteomics.Quantification.IsobaricLabelling;
 
 namespace RCPA.Proteomics.Format
 {
@@ -33,8 +24,6 @@ namespace RCPA.Proteomics.Format
     private RcpaDoubleField minIonIntensity;
     private RcpaIntegerField minIonCount;
     private RcpaDoubleField minTotalIonIntensity;
-    private RcpaDoubleField precursorShift;
-    private RcpaDoubleField productIonShift;
     private RcpaIntegerField topX;
     private RcpaDoubleField productIonPPM;
     private RcpaTextField neutralLoss;
@@ -43,14 +32,14 @@ namespace RCPA.Proteomics.Format
 
     private RcpaDoubleField precursorPPM;
 
-    private RcpaDoubleField maxShiftPPM;
     private RcpaDoubleField retentionTimeWindow;
 
     private RcpaComboBox<ChargeClass> defaultCharge;
     private RcpaComboBox<IsobaricType> isobaricTypes;
     private RcpaComboBox<IIsobaricLabellingProtease> proteases;
 
-    private RcpaFileField txtOffsetFile;
+    private readonly OpenFileArgument openParamFile = new OpenFileArgument("Parameter File", "param");
+    private readonly SaveFileArgument saveParamFile = new SaveFileArgument("Parameter File", "param");
 
     public MultipleRaw2MgfProcessorUI()
     {
@@ -60,45 +49,42 @@ namespace RCPA.Proteomics.Format
 
       this.SetDirectoryArgument("TargetDir", "Target MGF");
 
+      var options = new MultipleRaw2MgfOptions();
+
       this.titleFormat = new RcpaComboBox<ITitleFormat>(cbTitleFormat, "TitleFormat", MascotTitleFactory.Titles, 0);
-      this.minMassRange = new RcpaDoubleField(txtMWRangeFrom, "MWRangeFrom", "Min Mass", 400, true);
-      this.maxMassRange = new RcpaDoubleField(txtMWRangeTo, "MWRangeTo", "Max Mass", 5000, true);
-      this.minIonIntensity = new RcpaDoubleField(txtMinIonIntensity, "MinIonIntensity", "Min Ion Intensity", 1.0, true);
-      this.minIonCount = new RcpaIntegerField(txtMinIonCount, "MinIonCount", "Min Ion Count", 15, true);
-      this.minTotalIonIntensity = new RcpaDoubleField(txtMinIonIntensityThreshold, "MinTotalIonIntensity", "Min Total Ion Intensity", 100.0, true);
+      this.minMassRange = new RcpaDoubleField(txtMWRangeFrom, "MWRangeFrom", "Min Mass", options.PrecursorMassRange.From, true);
+      this.maxMassRange = new RcpaDoubleField(txtMWRangeTo, "MWRangeTo", "Max Mass", options.PrecursorMassRange.To, true);
+      this.minIonIntensity = new RcpaDoubleField(txtMinIonIntensity, "MinIonIntensity", "Min Ion Intensity", options.MinimumIonIntensity, true);
+      this.minIonCount = new RcpaIntegerField(txtMinIonCount, "MinIonCount", "Min Ion Count", options.MinimumIonCount, true);
+      this.minTotalIonIntensity = new RcpaDoubleField(txtMinIonIntensityThreshold, "MinTotalIonIntensity", "Min Total Ion Intensity", options.MinimumTotalIonIntensity, true);
 
       this.defaultCharge = new RcpaComboBox<ChargeClass>(cbDefaultCharge, "DefaultCharge",
-        new ChargeClass[] { 
+        new ChargeClass[] {
           new ChargeClass(new int[]{}),
           new ChargeClass(new int[]{2,3})},
           1);
 
       this.rawFiles.FileArgument = new OpenFileArgument("Raw", RawFileFactory.GetSupportedRawFormats());
 
-      neutralLoss = new RcpaTextField(txtNeutralLossComposition, "NeutralLoss", "Neutral loss atom composition", "NH3,H2O,", false);
-      neutralLoss.PreCondition = cbRemovePrecursor;
-      AddComponent(neutralLoss);
+      //high resolution MS/MS
+      productIonPPM = new RcpaDoubleField(txtDeisotopic, "DeisotopicPPM", "Deisotopic Product Ion Tolerance (ppm)", options.ProductIonPPM, false);
+      AddComponent(productIonPPM);
+      cbDeisotopic.Checked = options.Deisotopic;
+      cbDeconvolution.Checked = options.ChargeDeconvolution;
 
-      precursorShift = new RcpaDoubleField(txtPredursorShift, "PrecursorShiftValue", "Precursor Shift (ppm)", 0, false);
-      AddComponent(precursorShift);
-
-      productIonShift = new RcpaDoubleField(txtPreductIonShift, "ProductIonShiftValue", "Product Ion Shift (ppm)", 0, false);
-      AddComponent(productIonShift);
-
-      topX = new RcpaIntegerField(txtTopX, "TopX", "Top X Peaks in 100 dalton window", 8, false);
+      cbKeepTopX.Checked = options.KeepTopX;
+      topX = new RcpaIntegerField(txtTopX, "TopX", "Top X Peaks in 100 dalton window", options.TopX, false);
       topX.PreCondition = cbKeepTopX;
       AddComponent(topX);
 
-      removeIonWindow = new RcpaDoubleField(txtRemoveIonWindow, "removeMassWindow", "Remove Mass Window", 0.1, false);
-      removeIonWindow.PreCondition = cbRemoveMassRange;
+      cbGroupByMode.Checked = options.GroupByMode;
+      cbGroupByMsLevel.Checked = options.GroupByMsLevel;
+      cbParallelMode.Checked = options.ParallelMode;
+
+      removeIonWindow = new RcpaDoubleField(txtRemoveMassWindow, "removeMassWindow", "Remove Mass Window", options.RemoveIonWindow, false);
+      removeIonWindow.PreCondition = cbRemoveIons;
       AddComponent(removeIonWindow);
 
-      productIonPPM = new RcpaDoubleField(txtDeisotopic, "DeisotopicPPM", "Deisotopic Product Ion Tolerance (ppm)", 20, false);
-      AddComponent(productIonPPM);
-
-      specialIons = new RcpaTextField(txtSpecialIons, "RemoveIonMzRange", "Remove special mz range, for example, 113.5-117.5,145.5.0-155.5 for iTRAQ plex 4", "113.5-117.5", false);
-      specialIons.PreCondition = cbRemoveSpecialIons;
-      AddComponent(specialIons);
 
       isobaricTypes = new RcpaComboBox<IsobaricType>(cbxIsobaricTypes, "IsobaricType", IsobaricTypeFactory.IsobaricTypes, 0);
       isobaricTypes.PreCondition = cbRemoveIsobaricIons;
@@ -116,42 +102,42 @@ namespace RCPA.Proteomics.Format
       this.AddComponent(minTotalIonIntensity);
       this.AddComponent(defaultCharge);
 
-      cbRemoveSpecialIons.PreCondition = cbRemoveMassRange;
-      cbRemoveIsobaricIons.PreCondition = cbRemoveMassRange;
-      cbRemovePrecursorLargeIons.PreCondition = cbRemoveMassRange;
-      cbRemovePrecursor.PreCondition = cbRemoveMassRange;
+      cbRemoveSpecialIons.PreCondition = cbRemoveIons;
+      specialIons = new RcpaTextField(txtSpecialIons, "RemoveIonMzRange", "Remove special mz range, for example, 113.5-117.5,145.5.0-155.5 for iTRAQ plex 4", options.SpecialIons, false);
+      specialIons.PreCondition = cbRemoveSpecialIons;
+      AddComponent(specialIons);
 
-      txtOffsetFile = new RcpaFileField(btnShiftFile, txtShiftFile, "OffsetFile", new OpenFileArgument("Precursor Offset", "offset"), false);
-      AddComponent(txtOffsetFile);
+      cbRemoveIsobaricIons.PreCondition = cbRemoveIons;
 
       cbRemoveIsobaricIonsInLowRange.PreCondition = cbRemoveIsobaricIons;
       cbRemoveIsobaricIonsInHighRange.PreCondition = cbRemoveIsobaricIons;
 
-      maxShiftPPM = new RcpaDoubleField(txtMaxShiftPPM, "MaxShiftPPM", "Maximum offset in ppm", 30, false);
-      AddComponent(maxShiftPPM);
-
       retentionTimeWindow = new RcpaDoubleField(txtRetentionTimeWindow, "RetentionTimeWindow", "Retention time window for smoothing offset", 0.5, false);
       AddComponent(retentionTimeWindow);
+
+      cbRemovePrecursorLargeIons.PreCondition = cbRemovePrecursor;
 
       precursorPPM = new RcpaDoubleField(txtPrecursorPPM, "PrecursorPPM", "Precursor PPM", 50, false);
       precursorPPM.PreCondition = cbRemovePrecursor;
       AddComponent(precursorPPM);
+
+      neutralLoss = new RcpaTextField(txtNeutralLoss, "NeutralLoss", "Neutral loss atom composition", "NH3,H2O,", false);
+      neutralLoss.PreCondition = cbRemovePrecursor;
+      AddComponent(neutralLoss);
+
+      InsertButton(0, btnSave);
+      InsertButton(0, btnLoad);
     }
 
     protected override void DoBeforeValidate()
     {
-      txtOffsetFile.Required = rbMassCalibration.Checked && rbMassCalibrationByFile.Checked;
-
       if (cbRemovePrecursor.Checked)
       {
         var options = GetPrecursorOptions();
 
         try
         {
-          if (options != null)
-          {
-            options.ParseOffsets();
-          }
+          options.ParseOffsets();
         }
         catch (Exception)
         {
@@ -173,45 +159,31 @@ namespace RCPA.Proteomics.Format
       {
         ParseRemoveMassRange();
       }
-
-      if (rbMassCalibration.Checked)
-      {
-        if (MessageBox.Show(this, "Are you sure you want to do the mass calibration?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.No)
-        {
-          throw new Exception(string.Empty);
-        }
-      }
     }
 
     private PeakListRemovePrecursorProcessorOptions GetPrecursorOptions()
     {
-      if (cbRemovePrecursor.Checked || cbRemovePrecursorLargeIons.Checked)
-      {
-        var options = new PeakListRemovePrecursorProcessorOptions()
-        {
-          NeutralLoss = txtNeutralLossComposition.Text,
-          RemoveChargeMinus1Precursor = cbRemovePrecursorMinus1ChargeIon.Checked,
-          RemoveIonLargerThanPrecursor = cbRemovePrecursorLargeIons.Checked,
-          RemoveIsotopicIons = cbRemovePrecursorIsotopicIons.Checked,
-        };
+      var options = new PeakListRemovePrecursorProcessorOptions();
+      options.RemovePrecursor = cbRemovePrecursor.Checked;
 
-        if (cbRemovePrecursor.Checked)
-        {
-          try
-          {
-            options.PPMTolerance = double.Parse(txtPrecursorPPM.Text);
-          }
-          catch (Exception)
-          {
-            throw new Exception("Input precursor PPM first!");
-          }
-        }
-        return options;
-      }
-      else
+      if (options.RemovePrecursor)
       {
-        return null;
+        options.NeutralLoss = txtNeutralLoss.Text;
+        options.RemoveChargeMinus1Precursor = cbRemovePrecursorMinus1ChargeIon.Checked;
+        options.RemoveIonLargerThanPrecursor = cbRemovePrecursorLargeIons.Checked;
+        options.RemoveIsotopicIons = cbRemovePrecursorIsotopicIons.Checked;
+
+        try
+        {
+          options.PPMTolerance = double.Parse(txtPrecursorPPM.Text);
+        }
+        catch (Exception)
+        {
+          throw new Exception("Input precursor PPM first!");
+        }
       }
+
+      return options;
     }
 
     private List<Pair<double, double>> ParseRemoveMassRange()
@@ -272,27 +244,8 @@ namespace RCPA.Proteomics.Format
     private List<string> parameters = new List<string>();
     protected override IFileProcessor GetFileProcessor()
     {
-      var option = GetConvertOption();
-
-      return new MultipleRaw2MgfProcessor(option)
-      {
-        ParallelMode = cbParallel.EnabledAndChecked
-      };
-    }
-
-    private MascotGenericFormatWriter<Peak> GetMascotGenericFormatWriter()
-    {
-      MascotGenericFormatWriter<Peak> writer = new MascotGenericFormatWriter<Peak>()
-      {
-        TitleFormat = titleFormat.SelectedItem
-      };
-
-      writer.Comments.Clear();
-      writer.Comments.AddRange(parameters);
-
-      writer.DefaultCharges = defaultCharge.SelectedItem.DefaultCharges;
-
-      return writer;
+      var options = FormToOptions();
+      return new MultipleRaw2MgfProcessor(options);
     }
 
     public class Command : IToolCommand
@@ -328,7 +281,7 @@ namespace RCPA.Proteomics.Format
       {
         try
         {
-          txtIsobaricIons.Text = GetConvertOption().GetIsobaricProcessor().ToString().Replace('\n', ';');
+          txtIsobaricIons.Text = FormToOptions().GetIsobaricProcessor().ToString().Replace('\n', ';');
         }
         catch (Exception)
         {
@@ -336,30 +289,36 @@ namespace RCPA.Proteomics.Format
       }
     }
 
-    private MultipleRaw2MgfOptions GetConvertOption()
+    private MultipleRaw2MgfOptions FormToOptions()
     {
       var result = new MultipleRaw2MgfOptions();
 
-      result.PrecursorOptions = GetPrecursorOptions();
-
       result.ConverterName = Title;
       result.ConverterVersion = Version;
-      result.MascotTitleName = titleFormat.SelectedItem.FormatName;
-      result.RawFiles = rawFiles.FileNames;
+
       result.TargetDirectory = GetOriginFile();
-      result.GroupByMode = cbByMode.Checked;
-      result.GroupByMsLevel = cbByMsLevel.Checked;
-      result.ExtractRawMS3 = cbExtractRawMS3.Checked;
+      result.RawFiles = rawFiles.FileNames;
+      result.MascotTitleName = titleFormat.SelectedItem.FormatName;
       result.PrecursorMassRange = new MassRange(minMassRange.Value, maxMassRange.Value);
       result.MinimumIonIntensity = minIonIntensity.Value;
       result.MinimumIonCount = minIonCount.Value;
-      result.MinimumTotalIonCount = minTotalIonIntensity.Value;
+      result.MinimumTotalIonIntensity = minTotalIonIntensity.Value;
       result.DefaultCharges = defaultCharge.SelectedItem;
-      result.TopX = cbKeepTopX.Checked ? topX.Value : 0;
+
       result.ProductIonPPM = productIonPPM.Value;
       result.Deisotopic = cbDeisotopic.Checked;
       result.ChargeDeconvolution = cbDeconvolution.Checked;
-      result.RemoveMassRange = cbRemoveMassRange.Checked;
+
+      result.KeepTopX = cbKeepTopX.Checked;
+      result.TopX = topX.Value;
+      result.GroupByMode = cbGroupByMode.Checked;
+      result.GroupByMsLevel = cbGroupByMsLevel.Checked;
+      result.ParallelMode = cbParallelMode.Checked;
+      result.ExtractRawMS3 = cbExtractRawMS3.Checked;
+      result.Overwrite = cbOverwrite.Checked;
+      result.OutputMzXmlFormat = cbOutputMzXmlFormat.Checked;
+
+      result.RemoveIons = cbRemoveIons.Checked;
       result.RemoveIonWindow = removeIonWindow.Value;
       result.RemoveSpecialIons = cbRemoveSpecialIons.Checked;
       result.SpecialIons = txtSpecialIons.Text;
@@ -369,43 +328,55 @@ namespace RCPA.Proteomics.Format
       result.RemoveIsobaricIonsInLowRange = cbRemoveIsobaricIonsInLowRange.Checked;
       result.RemoveIsobaricIonsInHighRange = cbRemoveIsobaricIonsInHighRange.Checked;
       result.RemoveIsobaricIonsReporters = rbRemoveReporters.Checked;
-      result.Overwrite = cbOverwrite.Checked;
-      if (rbMassCalibrationNone.Checked || (!rbMassCalibration.Checked))
-      {
-        result.CalibrationType = MassCalibrationType.mctNone;
-      }
-      else
-      {
-        result.CalibratePrecursor = cbCalibratePrecursor.Checked;
-        result.CalibrateProductIon = cbCalibrateProductIon.Checked;
-        if (rbMassCalibrationByFixed.Checked)
-        {
-          result.CalibrationType = MassCalibrationType.mctFixed;
-          result.ShiftPrecursorPPM = precursorShift.Value;
-          result.ShiftProductIonPPM = productIonShift.Value;
-        }
-        else if (rbMassCalibrationByFile.Checked)
-        {
-          result.CalibrationType = MassCalibrationType.mctOffsetFile;
-          result.OffsetFile = txtOffsetFile.FullName;
-        }
-        else
-        {
-          result.CalibrationType = MassCalibrationType.mctAuto;
-          result.SilicoPolymers = siliconePolymers.GetSelectedPloymers().ToArray();
-          result.MaxShiftPPM = maxShiftPPM.Value;
-          result.RetentionTimeWindow = retentionTimeWindow.Value;
-        }
-      }
 
-      result.RemovePrecursorAndNeutralLoss = cbRemovePrecursor.Checked;
-      if (result.RemovePrecursorAndNeutralLoss)
-      {
-        result.NeutralLossAtomComposition = txtNeutralLossComposition.Text;
-      }
+      result.PrecursorOptions = GetPrecursorOptions();
 
-      result.OutputMzXmlFormat = rbMzXml.Checked;
       return result;
+    }
+
+    private void OptionsToForm(MultipleRaw2MgfOptions options)
+    {
+      originalFile.FullName = options.TargetDirectory;
+      rawFiles.FileNames = options.RawFiles;
+      titleFormat.SelectedItem = titleFormat.Items.Where(l => l.FormatName.Equals(options.MascotTitleName)).First();
+      minMassRange.Value = options.PrecursorMassRange.From;
+      maxMassRange.Value = options.PrecursorMassRange.To;
+      minIonIntensity.Value = options.MinimumIonIntensity;
+      minIonCount.Value = options.MinimumIonCount;
+      minTotalIonIntensity.Value = options.MinimumTotalIonIntensity;
+      defaultCharge.SelectedItem = defaultCharge.Items.Where(l => l.ToString().Equals(options.DefaultCharges.ToString())).First();
+
+      productIonPPM.Value = options.ProductIonPPM;
+      cbDeisotopic.Checked = options.Deisotopic;
+      cbDeconvolution.Checked = options.ChargeDeconvolution;
+
+      cbKeepTopX.Checked = options.KeepTopX;
+      topX.Value = options.TopX;
+      cbGroupByMode.Checked = options.GroupByMode;
+      cbGroupByMsLevel.Checked = options.GroupByMsLevel;
+      cbParallelMode.Checked = options.ParallelMode;
+      cbExtractRawMS3.Checked = options.ExtractRawMS3;
+      cbOverwrite.Checked = options.Overwrite;
+      cbOutputMzXmlFormat.Checked = options.OutputMzXmlFormat;
+
+      cbRemoveIons.Checked = options.RemoveIons;
+      removeIonWindow.Value = options.RemoveIonWindow;
+      cbRemoveSpecialIons.Checked = options.RemoveSpecialIons;
+      txtSpecialIons.Text = options.SpecialIons;
+      cbRemoveIsobaricIons.Checked = options.RemoveIsobaricIons;
+      isobaricTypes.SelectedItem = options.IsobaricType;
+      proteases.SelectedItem = proteases.Items.Where(l => l.ToString().Equals(options.ProteaseName)).First();
+      rbRemoveReporters.Checked = options.RemoveIsobaricIonsReporters;
+      cbRemoveIsobaricIonsInLowRange.Checked = options.RemoveIsobaricIonsInLowRange;
+      cbRemoveIsobaricIonsInHighRange.Checked = options.RemoveIsobaricIonsInHighRange;
+
+      cbRemovePrecursor.Checked = options.PrecursorOptions.RemovePrecursor;
+      txtPrecursorPPM.Text = options.PrecursorOptions.PPMTolerance.ToString();
+      cbRemoveNeutralLoss.Checked = options.PrecursorOptions.RemoveNeutralLoss;
+      txtNeutralLoss.Text = options.PrecursorOptions.NeutralLoss;
+      cbRemovePrecursorIsotopicIons.Checked = options.PrecursorOptions.RemoveIsotopicIons;
+      cbRemovePrecursorMinus1ChargeIon.Checked = options.PrecursorOptions.RemoveChargeMinus1Precursor;
+      cbRemovePrecursorLargeIons.Checked = options.PrecursorOptions.RemoveIonLargerThanPrecursor;
     }
 
     private void CheckMzXmlEnabled(Control control)
@@ -414,7 +385,7 @@ namespace RCPA.Proteomics.Format
       {
         if ("1".Equals(ctl.Tag))
         {
-          ctl.Enabled = !rbMzXml.Checked;
+          ctl.Enabled = !cbOutputMzXmlFormat.Checked;
         }
         CheckMzXmlEnabled(ctl);
       }
@@ -423,6 +394,44 @@ namespace RCPA.Proteomics.Format
     private void rbMzXml_CheckedChanged(object sender, EventArgs e)
     {
       CheckMzXmlEnabled(this);
+    }
+
+    private void btnLoad_Click(object sender, EventArgs e)
+    {
+      var dlg = this.openParamFile.GetFileDialog();
+      if (dlg.ShowDialog() == DialogResult.OK)
+      {
+        var options = new MultipleRaw2MgfOptions();
+        try
+        {
+          options.LoadFromFile(dlg.FileName);
+          OptionsToForm(options);
+        }
+        catch (Exception ex)
+        {
+          MessageBox.Show(this, "Failed to load parameters from " + dlg.FileName + "\nError:" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+      }
+    }
+
+    private void btnSave_Click(object sender, EventArgs e)
+    {
+      try
+      {
+        ValidateComponents();
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(this, "Validation failed : " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        return;
+      }
+
+      var dlg = saveParamFile.GetFileDialog();
+      if (dlg.ShowDialog() == DialogResult.OK)
+      {
+        var options = FormToOptions();
+        options.SaveToFile(dlg.FileName);
+      }
     }
   }
 }

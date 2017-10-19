@@ -1,20 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using RCPA;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Raw;
-using RCPA.Proteomics.Quantification;
-using RCPA.Proteomics;
-using RCPA.Utils;
-using RCPA.Proteomics.Utils;
-using System.IO;
-using RCPA.Proteomics.Sequest;
-using RCPA.Proteomics.Isotopic;
-using MathNet.Numerics.Statistics;
 using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.Spectrum;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Quantification.SILAC
 {
@@ -28,10 +15,13 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
     private Dictionary<string, List<string>> datasets;
 
-    public ExtendSilacQuantificationProteinFileProcessor(IRawFormat rawFormat, string rawDir, string silacParamFile, double ppmTolerance, IIdentifiedResultTextFormat resultFormat, string ignoreModifications, int profileLength, Dictionary<string, List<string>> datasets, Dictionary<string, List<string>> rawpairs)
+    private SilacQuantificationOption option;
+
+    public ExtendSilacQuantificationProteinFileProcessor(SilacQuantificationOption option, IIdentifiedResultTextFormat resultFormat, Dictionary<string, List<string>> datasets, Dictionary<string, List<string>> rawpairs)
     {
-      this.builder = new SilacQuantificationMultipleFileBuilder(rawFormat, rawDir, silacParamFile, ppmTolerance, ignoreModifications, profileLength, rawpairs);
+      this.option = option;
       this.resultFormat = resultFormat;
+      this.builder = new SilacQuantificationMultipleFileBuilder(option, rawpairs);
       this.datasets = datasets;
     }
 

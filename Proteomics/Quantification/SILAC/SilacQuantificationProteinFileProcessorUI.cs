@@ -58,7 +58,8 @@ namespace RCPA.Proteomics.Quantification.SILAC
     protected override void OnAfterLoadOption(EventArgs e)
     {
       base.OnAfterLoadOption(e);
-      if (this.silacFile.FullName == "") {
+      if (this.silacFile.FullName == "")
+      {
         this.silacFile.FullName = new FileInfo(FileUtils.AppPath() + "\\Forward_Lys_isotope.ini").FullName;
       }
     }
@@ -76,7 +77,17 @@ namespace RCPA.Proteomics.Quantification.SILAC
         rawDirectory = rawDir.FullName;
       }
 
-      return new SilacQuantificationProteinFileProcessor(rawFormats.SelectedItem, rawDirectory, silacFile.FullName, ppmTolerance, ignoreModifications.Text, _profileLength.Value)
+      return new SilacQuantificationProteinFileProcessor(
+        new SilacQuantificationOption()
+        {
+          RawFormat = rawFormats.SelectedItem,
+          RawDir = rawDirectory,
+          SilacParamFile = silacFile.FullName,
+          PPMTolerance = ppmTolerance,
+          IgnoreModifications = ignoreModifications.Text,
+          ProfileLength = _profileLength.Value,
+          KeepPeptideWithMostScan = rbKeepPeptideWithMostScan.Checked
+        })
       {
         MinPeptideRegressionCorrelation = minCorrelation.Value
       };

@@ -11,20 +11,20 @@ namespace RCPA.Proteomics.PropertyConverter
     {
       get
       {
-        return _name;
+        return this._name;
       }
     }
 
     public AnnotationLinearRegressionRatioResult_RatioConverter(string name)
     {
-      _name = Name;
+      this._name = name;
     }
 
     public override string GetProperty(T t)
     {
-      if (t.Annotations.ContainsKey(_name))
+      if (t.Annotations.ContainsKey(this._name))
       {
-        var lrrr = t.Annotations[_name] as LinearRegressionRatioResult;
+        var lrrr = t.Annotations[this._name] as LinearRegressionRatioResult;
         return MyConvert.Format("{0:0.0000}", lrrr.Ratio);
       }
 
@@ -35,19 +35,19 @@ namespace RCPA.Proteomics.PropertyConverter
     {
       if (value.Length == 0)
       {
-        t.Annotations.Remove(_name);
+        t.Annotations.Remove(this._name);
         return;
       }
 
       LinearRegressionRatioResult lrrr;
-      if (!t.Annotations.ContainsKey(_name))
+      if (!t.Annotations.ContainsKey(this._name))
       {
         lrrr = new LinearRegressionRatioResult();
-        t.Annotations[_name] = lrrr;
+        t.Annotations[this._name] = lrrr;
       }
       else
       {
-        lrrr = t.Annotations[_name] as LinearRegressionRatioResult;
+        lrrr = t.Annotations[this._name] as LinearRegressionRatioResult;
       }
 
       lrrr.Ratio = MyConvert.ToDouble(value);

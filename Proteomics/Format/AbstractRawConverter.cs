@@ -119,7 +119,6 @@ namespace RCPA.Proteomics.Format
 
             pkl.MsLevel = msLevel;
             pkl.Experimental = experimental;
-            pkl.ScanTimes.Add(new ScanTime(scan, rawReader.ScanToRetentionTime(scan)));
 
             pkl.ScanMode = rawReader.GetScanMode(scan);
 

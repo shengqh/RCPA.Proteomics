@@ -1,22 +1,15 @@
+using RCPA.Gui;
+using RCPA.Gui.Command;
+using RCPA.Gui.FileArgument;
+using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.Raw;
+using RCPA.Proteomics.Sequest;
+using RCPA.Proteomics.Summary;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using RCPA.Gui;
-using RCPA;
-using RCPA.Gui.FileArgument;
-using RCPA.Gui.Command;
-using System.IO;
-using RCPA.Proteomics.Quantification;
-using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Sequest;
-using RCPA.Proteomics.Raw;
-using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.Quantification.SILAC
 {
@@ -92,7 +85,18 @@ namespace RCPA.Proteomics.Quantification.SILAC
           throw new Exception(MyConvert.Format("Unsupported search engine {0}, contact with author.", searchEngine.SelectedItem));
       }
 
-      return new ExtendSilacQuantificationProteinFileProcessor(rawFormats.SelectedItem, rawDirectory, silacFile.FullName, ppmTolerance, fileFormat, ignoreModifications.Text, _profileLength.Value,datasetClassification.GetClassificationSet(), rawPairClassification.GetClassificationSet())
+      return new ExtendSilacQuantificationProteinFileProcessor(
+        new SilacQuantificationOption()
+        {
+          RawFormat = rawFormats.SelectedItem,
+          RawDir = rawDirectory,
+          SilacParamFile = silacFile.FullName,
+          PPMTolerance = ppmTolerance,
+          IgnoreModifications = ignoreModifications.Text,
+          ProfileLength = _profileLength.Value
+        },
+        fileFormat,
+        datasetClassification.GetClassificationSet(), rawPairClassification.GetClassificationSet())
       {
         MinPeptideRegressionCorrelation = minCorrelation.Value
       };

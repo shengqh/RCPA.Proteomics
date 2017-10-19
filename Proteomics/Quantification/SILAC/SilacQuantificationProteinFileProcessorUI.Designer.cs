@@ -42,12 +42,14 @@ namespace RCPA.Proteomics.Quantification.SILAC
       this.label5 = new System.Windows.Forms.Label();
       this.txtProfileLength = new System.Windows.Forms.TextBox();
       this.label6 = new System.Windows.Forms.Label();
+      this.rbKeepPeptideWithMostScan = new RCPA.Gui.RcpaCheckField();
       this.pnlFile.SuspendLayout();
+      this.pnlButton.SuspendLayout();
       this.SuspendLayout();
       // 
       // pnlFile
       // 
-      this.pnlFile.Location = new System.Drawing.Point(34, 27);
+      this.pnlFile.Location = new System.Drawing.Point(34, 28);
       this.pnlFile.Size = new System.Drawing.Size(943, 24);
       // 
       // txtOriginalFile
@@ -61,13 +63,18 @@ namespace RCPA.Proteomics.Quantification.SILAC
       // 
       // lblProgress
       // 
-      this.lblProgress.Location = new System.Drawing.Point(0, 279);
+      this.lblProgress.Location = new System.Drawing.Point(0, 302);
       this.lblProgress.Size = new System.Drawing.Size(1012, 23);
       // 
       // progressBar
       // 
-      this.progressBar.Location = new System.Drawing.Point(0, 302);
+      this.progressBar.Location = new System.Drawing.Point(0, 325);
       this.progressBar.Size = new System.Drawing.Size(1012, 23);
+      // 
+      // pnlButton
+      // 
+      this.pnlButton.Location = new System.Drawing.Point(0, 348);
+      this.pnlButton.Size = new System.Drawing.Size(1012, 39);
       // 
       // btnClose
       // 
@@ -210,10 +217,25 @@ namespace RCPA.Proteomics.Quantification.SILAC
       this.label6.TabIndex = 21;
       this.label6.Text = "Profile length";
       // 
+      // rbKeepPeptideWithMostScan
+      // 
+      this.rbKeepPeptideWithMostScan.AutoSize = true;
+      this.rbKeepPeptideWithMostScan.Checked = true;
+      this.rbKeepPeptideWithMostScan.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.rbKeepPeptideWithMostScan.Key = "KeepPeptideWithMostScan";
+      this.rbKeepPeptideWithMostScan.Location = new System.Drawing.Point(336, 264);
+      this.rbKeepPeptideWithMostScan.Name = "rbKeepPeptideWithMostScan";
+      this.rbKeepPeptideWithMostScan.PreCondition = null;
+      this.rbKeepPeptideWithMostScan.Size = new System.Drawing.Size(162, 17);
+      this.rbKeepPeptideWithMostScan.TabIndex = 23;
+      this.rbKeepPeptideWithMostScan.Text = "Keep peptide with most scan";
+      this.rbKeepPeptideWithMostScan.UseVisualStyleBackColor = true;
+      // 
       // SilacQuantificationProteinFileProcessorUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-      this.ClientSize = new System.Drawing.Size(1012, 364);
+      this.ClientSize = new System.Drawing.Size(1012, 387);
+      this.Controls.Add(this.rbKeepPeptideWithMostScan);
       this.Controls.Add(this.txtProfileLength);
       this.Controls.Add(this.label6);
       this.Controls.Add(this.txtMinPepRegCorrelation);
@@ -229,6 +251,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
       this.Controls.Add(this.txtRawDirectory);
       this.Controls.Add(this.txtSilacFile);
       this.Name = "SilacQuantificationProteinFileProcessorUI";
+      this.Controls.SetChildIndex(this.pnlButton, 0);
       this.Controls.SetChildIndex(this.pnlFile, 0);
       this.Controls.SetChildIndex(this.txtSilacFile, 0);
       this.Controls.SetChildIndex(this.txtRawDirectory, 0);
@@ -246,8 +269,10 @@ namespace RCPA.Proteomics.Quantification.SILAC
       this.Controls.SetChildIndex(this.txtMinPepRegCorrelation, 0);
       this.Controls.SetChildIndex(this.label6, 0);
       this.Controls.SetChildIndex(this.txtProfileLength, 0);
+      this.Controls.SetChildIndex(this.rbKeepPeptideWithMostScan, 0);
       this.pnlFile.ResumeLayout(false);
       this.pnlFile.PerformLayout();
+      this.pnlButton.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -269,5 +294,6 @@ namespace RCPA.Proteomics.Quantification.SILAC
     private System.Windows.Forms.Label label5;
     private System.Windows.Forms.TextBox txtProfileLength;
     private System.Windows.Forms.Label label6;
+    private Gui.RcpaCheckField rbKeepPeptideWithMostScan;
   }
 }

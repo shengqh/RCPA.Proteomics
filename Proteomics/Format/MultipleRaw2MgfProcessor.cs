@@ -22,6 +22,7 @@ namespace RCPA.Proteomics.Format
       : base(options.RawFiles)
     {
       this.options = options;
+      this.ParallelMode = options.ParallelMode;
     }
 
     protected override void PrepareBeforeProcessing(string directory)
