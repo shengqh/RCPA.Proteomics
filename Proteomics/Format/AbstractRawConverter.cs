@@ -1,11 +1,11 @@
-﻿using System;
+﻿using RCPA.Proteomics.Raw;
+using RCPA.Proteomics.Spectrum;
+using RCPA.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Raw;
-using RCPA.Utils;
-using RCPA.Proteomics.Mascot;
+using System.Runtime.ExceptionServices;
 
 namespace RCPA.Proteomics.Format
 {
@@ -27,10 +27,10 @@ namespace RCPA.Proteomics.Format
 
     public string GetResultFile(IRawFile rawReader, string rawFileName)
     {
-      return new FileInfo(options.TargetDirectory + "\\" + rawReader.GetFileNameWithoutExtension(rawFileName) + "." + options.Extension).FullName;
+      return new FileInfo(options.TargetDirectory + "/" + rawReader.GetFileNameWithoutExtension(rawFileName) + "." + options.Extension).FullName;
     }
 
-    protected string GetPeakModeFileName(IRawFile rawReader, string peakMode, int msLevel, string fileName)
+    protected virtual string GetPeakModeFileName(IRawFile rawReader, string peakMode, int msLevel, string fileName)
     {
       var resultFile = GetResultFile(rawReader, fileName);
 
@@ -52,7 +52,8 @@ namespace RCPA.Proteomics.Format
       return result;
     }
 
-    protected virtual IEnumerable<string> DoProcess(string fileName, List<int> ignoreScans)
+    [HandleProcessCorruptedStateExceptions]
+    protected virtual IEnumerable<string> DoProcess(string fileName, List<int> ignoreScans, int lastScan, bool bContinue)
     {
       var result = new List<string>();
 
@@ -62,7 +63,10 @@ namespace RCPA.Proteomics.Format
       {
         try
         {
-          DoInitialize(rawReader, fileName);
+          if (!bContinue)
+          {
+            DoInitialize(rawReader, fileName);
+          }
 
           string experimental = rawReader.GetFileNameWithoutExtension(fileName);
 
@@ -70,12 +74,15 @@ namespace RCPA.Proteomics.Format
 
           int firstSpectrumNumber = rawReader.GetFirstSpectrumNumber();
           int lastSpectrumNumber = rawReader.GetLastSpectrumNumber();
-//          int lastSpectrumNumber = 5000;
+          //int firstSpectrumNumber = 79800;
 
           SetRange(firstSpectrumNumber, lastSpectrumNumber);
 
-          for (int scan = firstSpectrumNumber; scan <= lastSpectrumNumber; scan++)
+          lastScan = Math.Max(lastScan, firstSpectrumNumber);
+          for (int scan = lastScan; scan <= lastSpectrumNumber; scan++)
           {
+            lastScan = scan;
+
             if (Progress.IsCancellationPending())
             {
               throw new UserTerminatedException();
@@ -105,11 +112,27 @@ namespace RCPA.Proteomics.Format
             PeakList<Peak> pkl;
             try
             {
+              PrecursorPeak precursor = null;
+              if (msLevel > 1)
+              {
+                precursor = new PrecursorPeak(rawReader.GetPrecursorPeak(scan));
+              }
+
               pkl = rawReader.GetPeakList(scan);
+              pkl.MsLevel = msLevel;
+              pkl.Experimental = experimental;
+              pkl.ScanMode = rawReader.GetScanMode(scan);
+              pkl.Precursor = precursor;
+
+              if (msLevel > 1 && precursor.Charge == 0)
+              {
+                precursor.Charge = PrecursorUtils.GuessPrecursorCharge(pkl, pkl.PrecursorMZ);
+              }
             }
-            catch (RawReadException ex)
+            catch
             {
-              ignoreScans.Add(ex.Scan);
+              Console.WriteLine("Scan {0} ignored.", scan);
+              ignoreScans.Add(scan);
               File.WriteAllLines(GetIgnoreScanFile(fileName), (from i in ignoreScans
                                                                let s = i.ToString()
                                                                select s).ToArray());
@@ -117,22 +140,10 @@ namespace RCPA.Proteomics.Format
               break;
             }
 
-            pkl.MsLevel = msLevel;
-            pkl.Experimental = experimental;
-
-            pkl.ScanMode = rawReader.GetScanMode(scan);
-
             PeakList<Peak> pklProcessed;
             if (msLevel > 1)
             {
-              pkl.Precursor = new PrecursorPeak(rawReader.GetPrecursorPeak(scan));
-
-              if (pkl.PrecursorCharge == 0)
-              {
-                pkl.PrecursorCharge = PrecursorUtils.GuessPrecursorCharge(pkl, pkl.PrecursorMZ);
-              }
-
-              if (options.ExtractRawMS3 && pkl.MsLevel == 3)
+              if (null == this.PeakListProcessor || (options.ExtractRawMS3 && pkl.MsLevel >= 3))
               {
                 pklProcessed = pkl;
               }
@@ -154,13 +165,16 @@ namespace RCPA.Proteomics.Format
         }
         finally
         {
-          DoFinalize(bReadAgain, rawReader, fileName, result);
+          if (!bReadAgain)
+          {
+            DoFinalize(bReadAgain, rawReader, fileName, result);
+          }
         }
       }
 
       if (bReadAgain)
       {
-        return DoProcess(fileName, ignoreScans);
+        return DoProcess(fileName, ignoreScans, lastScan, true);
       }
       else
       {
@@ -179,17 +193,15 @@ namespace RCPA.Proteomics.Format
     public override IEnumerable<string> Process(string fileName)
     {
       var ignoreFile = GetIgnoreScanFile(fileName);
+
+      List<int> ignoreScans = new List<int>();
       if (File.Exists(ignoreFile))
       {
-        var ignoreScans = (from s in File.ReadAllLines(ignoreFile)
-                           let scan = Convert.ToInt32(s)
-                           select scan).ToList();
-        return DoProcess(fileName, ignoreScans);
+        ignoreScans = (from s in File.ReadAllLines(ignoreFile)
+                       let scan = Convert.ToInt32(s)
+                       select scan).ToList();
       }
-      else
-      {
-        return DoProcess(fileName, new List<int>());
-      }
+      return DoProcess(fileName, ignoreScans, 0, false);
     }
   }
 }

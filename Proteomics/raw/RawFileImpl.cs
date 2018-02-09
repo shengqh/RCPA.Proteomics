@@ -1,11 +1,10 @@
+using MSFileReaderLib;
+using RCPA.Proteomics.Spectrum;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Collections.ObjectModel;
-using RCPA.Proteomics.Spectrum;
 using System.Text.RegularExpressions;
-using MSFileReaderLib;
 
 namespace RCPA.Proteomics.Raw
 {
@@ -33,7 +32,7 @@ namespace RCPA.Proteomics.Raw
     {
       get
       {
-        return FileName + ".baddatascan";
+        return FileName + ".ignorescan";
       }
     }
 
@@ -115,7 +114,7 @@ namespace RCPA.Proteomics.Raw
         double intensity = labels[1, inx];
         double noise = labels[4, inx];
         var charge = (int)labels[5, inx];
-        result.Add(new Peak(mz, intensity, charge) { Noise = noise } );
+        result.Add(new Peak(mz, intensity, charge) { Noise = noise });
       }
 
       return result;
@@ -413,12 +412,13 @@ namespace RCPA.Proteomics.Raw
       Peak result = new Peak();
 
       result.Mz = GetPrecursorMzFromTrailerExtraValue(scan);
-      result.Charge = GetPrecursorChargeFromTrailerExtraValue(scan);
-
       if (0.0 == result.Mz)
       {
         result.Mz = GetIsolationMass(scan);
       }
+
+      result.Charge = GetPrecursorChargeFromTrailerExtraValue(scan);
+
 
       return result;
     }
@@ -508,9 +508,9 @@ namespace RCPA.Proteomics.Raw
         try
         {
           this.badDataScans = new HashSet<int>(from line in File.ReadAllLines(BadDataScanFile)
-                                              where line.Trim() != ""
-                                              let scan = int.Parse(line.Trim())
-                                              select scan);
+                                               where line.Trim() != ""
+                                               let scan = int.Parse(line.Trim())
+                                               select scan);
         }
         catch
         {

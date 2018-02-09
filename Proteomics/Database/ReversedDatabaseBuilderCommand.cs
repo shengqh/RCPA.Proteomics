@@ -1,4 +1,5 @@
-﻿using RCPA.Gui.Command;
+﻿using RCPA.Commandline;
+using RCPA.Gui.Command;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,32 @@ using System.Threading.Tasks;
 
 namespace RCPA.Proteomics.Database
 {
-  public class ReversedDatabaseBuilderCommand : IToolCommand
+  public class ReversedDatabaseBuilderCommand : AbstractCommandLineCommand<ReversedDatabaseBuilderOptions>, IToolCommand
   {
+    #region AbstractCommandLineCommand
+    public override string Name
+    {
+      get
+      {
+        return "decoy_database";
+      }
+    }
+
+    public override string Description
+    {
+      get
+      {
+        return "Build Target-Decoy Database";
+      }
+    }
+
+    public override IProcessor GetProcessor(ReversedDatabaseBuilderOptions options)
+    {
+      return new ReversedDatabaseBuilder(options);
+    }
+
+    #endregion
+
     #region IToolCommand Members
 
     public string GetClassification()

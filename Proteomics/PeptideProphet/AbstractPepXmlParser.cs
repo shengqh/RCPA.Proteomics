@@ -99,7 +99,15 @@ namespace RCPA.Proteomics.PeptideProphet
 
           sph.IsPrecursorMonoisotopic = ismono;
 
-          var sf = TitleParser.GetValue(sp.Attribute("spectrum").Value);
+          SequestFilename sf;
+          if (sp.Attribute("spectrumNativeID") != null)
+          {
+            sf = TitleParser.GetValue(sp.Attribute("spectrumNativeID").Value);
+          }
+          else
+          {
+            sf = TitleParser.GetValue(sp.Attribute("spectrum").Value);
+          }
           sph.Query.FileScan.LongFileName = sf.LongFileName;
 
           sph.ExperimentalMass = MyConvert.ToDouble(sp.Attribute("precursor_neutral_mass").Value);

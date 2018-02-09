@@ -195,6 +195,15 @@
     <Compile Include="Proteomics\Database\ReversedDatabaseBuilderCommand.cs" />
     <Compile Include="Proteomics\Database\ReversedDatabaseBuilderOptions.cs" />
     <Compile Include="Proteomics\DatasetOption.cs" />
+    <Compile Include="Proteomics\Format\MultipleRaw2MSnProcessorUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proteomics\Format\MultipleRaw2MSnProcessorUI.Designer.cs">
+      <DependentUpon>MultipleRaw2MSnProcessorUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Proteomics\Format\MultipleRaw2MSnProcessorOptions.cs" />
+    <Compile Include="Proteomics\Format\MultipleRaw2MSnProcessor.cs" />
+    <Compile Include="Proteomics\Format\Raw2MSnProcessor.cs" />
     <Compile Include="Proteomics\Format\MultipleRaw2MgfCommand.cs" />
     <Compile Include="Proteomics\Format\MultipleRaw2MgfCommandOptions.cs" />
     <Compile Include="Proteomics\MaxQuant\MaxQuantSiteProteinK8R10Builder.cs" />
@@ -1342,6 +1351,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Deuterium\DeuteriumCalculatorUI.resx">
       <DependentUpon>DeuteriumCalculatorUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Proteomics\Format\MultipleRaw2MSnProcessorUI.resx">
+      <DependentUpon>MultipleRaw2MSnProcessorUI.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Proteomics\Mascot\MascotFilePanel.resx">

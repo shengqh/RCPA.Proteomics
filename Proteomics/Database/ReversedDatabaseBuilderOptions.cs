@@ -1,4 +1,5 @@
-﻿using RCPA.Commandline;
+﻿using CommandLine;
+using RCPA.Commandline;
 using RCPA.Seq;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,7 @@ namespace RCPA.Proteomics.Database
 
   public class ReversedDatabaseBuilderOptions : AbstractOptions
   {
+    [Option('r', "reversedOnly", Required = true, MetaValue = "BOOL", HelpText = "Output reversed only")]
     public bool ReversedOnly { get; set; }
 
     public bool IsPseudoAminoacid { get; set; }
@@ -44,8 +46,10 @@ namespace RCPA.Proteomics.Database
 
     public string ContaminantFile { get; set; }
 
+    [Option('i', "inputFile", Required = true, MetaValue = "FILE", HelpText = "Input fasta file")]
     public string InputFile { get; set; }
 
+    [Option('o', "outputFile", Required = true, MetaValue = "FILE", HelpText = "Output fasta file")]
     public string OutputFile { get; set; }
 
     public string DecoyKey { get; set; }

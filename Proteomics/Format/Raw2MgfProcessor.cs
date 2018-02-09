@@ -21,14 +21,14 @@ namespace RCPA.Proteomics.Format
 
     private Dictionary<string, StreamWriter> swMap;
 
-    private List<string> mgfFiles;
+    private List<string> outputFiles;
 
     public Raw2MgfProcessor(MultipleRaw2MgfOptions options):base(options)
     {
       this.options = options;
       this.Writer = options.GetMGFWriter();
       this.swMap = new Dictionary<string, StreamWriter>();
-      this.mgfFiles = new List<string>();
+      this.outputFiles = new List<string>();
     }
 
     private StreamWriter GetStreamWriter(IRawFile rawReader, string peakMode, int msLevel, string fileName)
@@ -40,7 +40,7 @@ namespace RCPA.Proteomics.Format
         return swMap[mgfFile];
       }
 
-      mgfFiles.Add(mgfFile);
+      outputFiles.Add(mgfFile);
 
       var result = new StreamWriter(mgfFile);
       swMap[mgfFile] = result;
@@ -60,6 +60,8 @@ namespace RCPA.Proteomics.Format
 
     protected override void DoInitialize(IRawFile2 rawReader, string rawFileName)
     {
+      this.swMap = new Dictionary<string, StreamWriter>();
+      this.outputFiles = new List<string>();
     }
 
     protected override void DoWritePeakList(IRawFile rawReader, PeakList<Peak> pkl, string rawFileName, List<string> result)
@@ -78,23 +80,23 @@ namespace RCPA.Proteomics.Format
 
       if (!Progress.IsCancellationPending() && !IsLoopStopped && !bReadAgain)
       {
-        if (mgfFiles.Count == 1 && (options.GroupByMode || options.GroupByMsLevel))
+        if (outputFiles.Count == 1 && (options.GroupByMode || options.GroupByMsLevel))
         {
           var resultFile = GetResultFile(rawReader, rawFileName);
-          if (!resultFile.Equals(mgfFiles[0]))
+          if (!resultFile.Equals(outputFiles[0]))
           {
             if (File.Exists(resultFile))
             {
               File.Delete(resultFile);
             }
 
-            File.Move(mgfFiles[0], resultFile);
+            File.Move(outputFiles[0], resultFile);
           }
           result.Add(resultFile);
         }
         else
         {
-          foreach (var mgf in mgfFiles)
+          foreach (var mgf in outputFiles)
           {
             if (mgf.EndsWith(".tmp"))
             {
@@ -114,7 +116,7 @@ namespace RCPA.Proteomics.Format
       }
       else
       {
-        foreach (var m in mgfFiles)
+        foreach (var m in outputFiles)
         {
           try
           {

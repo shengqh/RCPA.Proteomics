@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RCPA.Proteomics.Summary;
 using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Summary;
 using System.Xml.Linq;
-using RCPA.Gui;
-using System.Text.RegularExpressions;
-using RCPA.Proteomics.PeptideProphet;
 
 namespace RCPA.Proteomics.Comet
 {

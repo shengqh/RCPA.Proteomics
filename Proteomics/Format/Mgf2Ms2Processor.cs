@@ -89,7 +89,6 @@ namespace RCPA.Proteomics.Format
             {
               sw.WriteLine("{0:0.#####}\t{1:0.#}", peak.Mz, peak.Intensity);
             }
-            sw.WriteLine();
           }
 
           Progress.SetMessage("Converting " + mgfFilename + " finished.");

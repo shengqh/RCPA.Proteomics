@@ -1,13 +1,10 @@
+using RCPA.Proteomics.Raw;
+using RCPA.Proteomics.Spectrum;
+using RCPA.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Raw;
-using RCPA.Utils;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Statistic;
-using RCPA.Proteomics.Processor;
 
 namespace RCPA.Proteomics.Format
 {
@@ -149,7 +146,7 @@ namespace RCPA.Proteomics.Format
       sw.WriteLine("  </dataProcessing>");
     }
 
-    protected override IEnumerable<string> DoProcess(string fileName, List<int> ignoreScans)
+    protected override IEnumerable<string> DoProcess(string fileName, List<int> ignoreScans, int lastScan, bool bContinue)
     {
       var result = new List<string>();
 
@@ -198,7 +195,7 @@ namespace RCPA.Proteomics.Format
 
       if (bReadAgain)
       {
-        return DoProcess(fileName, ignoreScans);
+        return DoProcess(fileName, ignoreScans, 0, false);
       }
       else
       {
