@@ -20,16 +20,13 @@ namespace RCPA.Proteomics.MaxQuant
 
     private int bestLocalizationRawFileIndex;
     private int bestLocalizationScanNumberIndex;
-    private int sequenceIndex;
+    private int sequenceWindowIndex;
+    private int modificationWindowIndex;
     private int chargeIndex;
-    //private int mzIndex;
-    //private int mzDiffPPMIndex;
     private int localizationProbIndex;
     private int scoreDiffIndex;
     private int pepIndex;
-    //private int ptmScoreIndex;
-    private int mascotScoreIndex;
-    //private int proteinsIndex;
+    private int scoreIndex;
 
     private Regex modReg = new Regex(@"(\(.+?\))");
     private Dictionary<string, string> modCharMap = new Dictionary<string, string>();
@@ -69,18 +66,15 @@ namespace RCPA.Proteomics.MaxQuant
         String line = br.ReadLine();
         string[] parts = line.Split(splits);
 
-        bestLocalizationRawFileIndex = FindIndex(parts, "Best Localization Raw File");
-        bestLocalizationScanNumberIndex = FindIndex(parts, "Best Localization Scan Number");
-        sequenceIndex = FindIndex(parts, "Modified Sequence");
-        //mzIndex = Array.IndexOf(parts, "m/z");
-        //mzDiffPPMIndex = Array.IndexOf(parts, "Mass Error [ppm]");
+        bestLocalizationRawFileIndex = FindIndex(parts, "Best localization raw file");
+        bestLocalizationScanNumberIndex = FindIndex(parts, "Best localization scan number");
+        sequenceWindowIndex = FindIndex(parts, "Sequence window");
+        modificationWindowIndex = FindIndex(parts, "Modification window");
         chargeIndex = FindIndex(parts, "Charge");
-        localizationProbIndex = FindIndex(parts, "Localization Prob");
-        scoreDiffIndex = FindIndex(parts, "Score Diff");
-        //ptmScoreIndex = Array.IndexOf(parts, "PTM Score");
-        mascotScoreIndex = FindIndex(parts, "Mascot Score");
+        localizationProbIndex = FindIndex(parts, "Localization prob");
+        scoreDiffIndex = FindIndex(parts, "Score diff");
+        scoreIndex = FindIndex(parts, "Score");
         pepIndex = FindIndex(parts, "PEP");
-        //proteinsIndex = Array.IndexOf(parts, "Proteins");
         while ((line = br.ReadLine()) != null)
         {
           if (0 == line.Trim().Length)
@@ -106,14 +100,15 @@ namespace RCPA.Proteomics.MaxQuant
       result.Query.FileScan.FirstScan = int.Parse(parts[bestLocalizationScanNumberIndex]);
       result.Query.FileScan.LastScan = result.Query.FileScan.FirstScan;
       result.Query.FileScan.Charge = int.Parse(parts[chargeIndex]);
-      result.Score = MyConvert.ToDouble(parts[mascotScoreIndex]);
+      result.Score = MyConvert.ToDouble(parts[scoreIndex]);
       result.DeltaScore = MyConvert.ToDouble(parts[scoreDiffIndex]);
       result.ExpectValue = MyConvert.ToDouble(parts[pepIndex]);
       result.Probability = MyConvert.ToDouble(parts[localizationProbIndex]);
 
-      string seq = parts[sequenceIndex];
+      string seq = parts[sequenceWindowIndex];
+      string modifications = parts[modificationWindowIndex];
 
-      seq = ReplaceModificationStringToChar(seq);
+      seq = GetModifiedSequence(seq, modifications);
       seq = seq.Replace("_", "");
 
       Match m = modReg.Match(seq);
@@ -145,6 +140,23 @@ namespace RCPA.Proteomics.MaxQuant
       result.Modifications = sb.ToString();
 
       return result;
+    }
+
+    public static string GetModifiedSequence(string seq, string modifications)
+    {
+      seq = seq.StringBefore(";");
+      var mods = modifications.Split(';');
+      StringBuilder result = new StringBuilder();
+      for(int i = 0;i < seq.Length; i++)
+      {
+        result.Append(seq[i]);
+        if(mods[i] != "X")
+        {
+          var newmod = mods[i].StringBefore("(").Trim();
+          result.Append("(" + newmod + ")");
+        }
+      }
+      return result.ToString();
     }
 
     private string ReplaceModificationStringToChar(string seq)
