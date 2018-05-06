@@ -32,6 +32,11 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
     private IIsotopicProfileBuilder2 profileBuilder = new EmassProfileBuilder();
 
+    /// <summary>
+    /// At least MinScanNumber scans will be extract near the scan identified, even all zero intensity.
+    /// </summary>
+    public int MinScanNumber { get; set; }
+
     public string SoftwareVersion { get; set; }
 
     private SilacQuantificationOption option;
@@ -153,14 +158,15 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
           //向前查找定量信息
           int fullScan = identifiedFullScan;
+          int scanNumber = 0;
           while ((fullScan = _rawReader.FindPreviousFullScan(fullScan - 1, firstScanNumber)) != -1)
           {
             if (_rawReader.IsBadDataScan(fullScan))
             {
               continue;
             }
-
-            var item = GetLightHeavyPeakList(_rawReader, sci, maxIndex, mzTolerance, fullScan);
+            scanNumber++;
+            var item = GetLightHeavyPeakList(_rawReader, sci, maxIndex, mzTolerance, fullScan, scanNumber <= MinScanNumber);
             if (null == item)
             {
               break;
@@ -172,14 +178,15 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
           //向后查找定量信息
           fullScan = identifiedFullScan;
+          scanNumber = 0;
           while ((fullScan = _rawReader.FindNextFullScan(fullScan + 1, lastScanNumber)) != -1)
           {
             if (_rawReader.IsBadDataScan(fullScan))
             {
               continue;
             }
-
-            var item = GetLightHeavyPeakList(_rawReader, sci, maxIndex, mzTolerance, fullScan);
+            scanNumber++;
+            var item = GetLightHeavyPeakList(_rawReader, sci, maxIndex, mzTolerance, fullScan, scanNumber <= MinScanNumber);
             if (null == item)
             {
               break;
@@ -379,7 +386,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
       return scanStr;
     }
 
-    private SilacPeakListPair GetLightHeavyPeakList(IRawFile rawFile, SilacCompoundInfo sci, int maxIndex, double mzTolerance, int scan)
+    private SilacPeakListPair GetLightHeavyPeakList(IRawFile rawFile, SilacCompoundInfo sci, int maxIndex, double mzTolerance, int scan, bool force=false)
     {
       PeakList<Peak> pkl = rawFile.GetPeakList(scan);
       if (pkl.Count == 0)
@@ -391,7 +398,8 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
       PeakList<Peak> light = pkl.FindEnvelopeDirectly(sci.Light.Profile, option.ProfileLength, mzTolerance, () => new Peak());
 
-      if (!CheckPeakListCharge(light, maxIndex, sci.Light.Charge))
+      //如果电荷不对，则认为该scan无效。
+      if (!CheckPeakListCharge(light, maxIndex, sci.Light.Charge) && !force)
       {
         return null;
       }
@@ -399,13 +407,13 @@ namespace RCPA.Proteomics.Quantification.SILAC
       PeakList<Peak> heavy = pkl.FindEnvelopeDirectly(sci.Heavy.Profile, option.ProfileLength, mzTolerance, () => new Peak());
 
       //如果电荷不对，则认为该scan无效。
-      if (!CheckPeakListCharge(heavy, maxIndex, sci.Heavy.Charge))
+      if (!CheckPeakListCharge(heavy, maxIndex, sci.Heavy.Charge) && !force)
       {
         return null;
       }
 
       //如果轻或者重的总强度为0，则认为该scan无效。
-      if (0 == light.Sum(m => m.Intensity) || 0 == heavy.Sum(m => m.Intensity))
+      if ((0 == light.Sum(m => m.Intensity) || 0 == heavy.Sum(m => m.Intensity)) && !force)
       {
         return null;
       }
