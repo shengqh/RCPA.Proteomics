@@ -70,8 +70,8 @@ namespace RCPA.Proteomics.Quantification
       this.pnlButton.Controls.Add(this.btnView);
       this.pnlButton.Controls.Add(this.btnExport);
       this.pnlButton.Controls.Add(this.btnSave);
-      this.pnlButton.Location = new System.Drawing.Point(0, 770);
-      this.pnlButton.Size = new System.Drawing.Size(1446, 39);
+      this.pnlButton.Location = new System.Drawing.Point(0, 702);
+      this.pnlButton.Size = new System.Drawing.Size(1362, 39);
       this.pnlButton.Controls.SetChildIndex(this.btnSave, 0);
       this.pnlButton.Controls.SetChildIndex(this.btnGo, 0);
       this.pnlButton.Controls.SetChildIndex(this.btnExport, 0);
@@ -82,20 +82,20 @@ namespace RCPA.Proteomics.Quantification
       // btnClose
       // 
       this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnClose.Location = new System.Drawing.Point(1324, 7);
+      this.btnClose.Location = new System.Drawing.Point(729, 7);
       this.btnClose.Size = new System.Drawing.Size(75, 25);
       // 
       // btnCancel
       // 
       this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnCancel.Location = new System.Drawing.Point(1239, 7);
+      this.btnCancel.Location = new System.Drawing.Point(644, 7);
       this.btnCancel.Size = new System.Drawing.Size(75, 25);
       this.btnCancel.Visible = false;
       // 
       // btnGo
       // 
       this.btnGo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.btnGo.Location = new System.Drawing.Point(1154, 7);
+      this.btnGo.Location = new System.Drawing.Point(559, 7);
       this.btnGo.Size = new System.Drawing.Size(75, 25);
       this.btnGo.Text = "&Load";
       // 
@@ -134,8 +134,8 @@ namespace RCPA.Proteomics.Quantification
       // clientContainer.Panel2
       // 
       this.clientContainer.Panel2.Controls.Add(this.tabControl1);
-      this.clientContainer.Size = new System.Drawing.Size(1446, 745);
-      this.clientContainer.SplitterDistance = 1076;
+      this.clientContainer.Size = new System.Drawing.Size(1362, 677);
+      this.clientContainer.SplitterDistance = 1013;
       this.clientContainer.TabIndex = 23;
       // 
       // splitContainer6
@@ -152,8 +152,8 @@ namespace RCPA.Proteomics.Quantification
       // splitContainer6.Panel2
       // 
       this.splitContainer6.Panel2.Controls.Add(this.lvPeptides);
-      this.splitContainer6.Size = new System.Drawing.Size(1076, 745);
-      this.splitContainer6.SplitterDistance = 347;
+      this.splitContainer6.Size = new System.Drawing.Size(1013, 677);
+      this.splitContainer6.SplitterDistance = 315;
       this.splitContainer6.TabIndex = 0;
       // 
       // lvProteins
@@ -167,7 +167,7 @@ namespace RCPA.Proteomics.Quantification
       this.lvProteins.Location = new System.Drawing.Point(0, 0);
       this.lvProteins.Name = "lvProteins";
       this.lvProteins.ShowItemToolTips = true;
-      this.lvProteins.Size = new System.Drawing.Size(1076, 347);
+      this.lvProteins.Size = new System.Drawing.Size(1013, 315);
       this.lvProteins.TabIndex = 22;
       this.lvProteins.UseCompatibleStateImageBehavior = false;
       this.lvProteins.View = System.Windows.Forms.View.Details;
@@ -187,7 +187,7 @@ namespace RCPA.Proteomics.Quantification
       this.lvPeptides.MultiSelect = false;
       this.lvPeptides.Name = "lvPeptides";
       this.lvPeptides.ShowItemToolTips = true;
-      this.lvPeptides.Size = new System.Drawing.Size(1076, 394);
+      this.lvPeptides.Size = new System.Drawing.Size(1013, 358);
       this.lvPeptides.TabIndex = 23;
       this.lvPeptides.UseCompatibleStateImageBehavior = false;
       this.lvPeptides.View = System.Windows.Forms.View.Details;
@@ -207,7 +207,7 @@ namespace RCPA.Proteomics.Quantification
       this.tabControl1.Location = new System.Drawing.Point(0, 0);
       this.tabControl1.Name = "tabControl1";
       this.tabControl1.SelectedIndex = 0;
-      this.tabControl1.Size = new System.Drawing.Size(366, 745);
+      this.tabControl1.Size = new System.Drawing.Size(345, 677);
       this.tabControl1.TabIndex = 1;
       this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
       // 
@@ -217,7 +217,7 @@ namespace RCPA.Proteomics.Quantification
       this.tabProteins.Location = new System.Drawing.Point(4, 22);
       this.tabProteins.Name = "tabProteins";
       this.tabProteins.Padding = new System.Windows.Forms.Padding(3);
-      this.tabProteins.Size = new System.Drawing.Size(358, 719);
+      this.tabProteins.Size = new System.Drawing.Size(337, 651);
       this.tabProteins.TabIndex = 0;
       this.tabProteins.Text = "Proteins";
       this.tabProteins.UseVisualStyleBackColor = true;
@@ -235,8 +235,9 @@ namespace RCPA.Proteomics.Quantification
       this.zgcProteins.ScrollMinX = 0D;
       this.zgcProteins.ScrollMinY = 0D;
       this.zgcProteins.ScrollMinY2 = 0D;
-      this.zgcProteins.Size = new System.Drawing.Size(352, 713);
+      this.zgcProteins.Size = new System.Drawing.Size(331, 645);
       this.zgcProteins.TabIndex = 4;
+      this.zgcProteins.UseExtendedPrintDialog = true;
       this.zgcProteins.MouseClick += new System.Windows.Forms.MouseEventHandler(this.zgcProteins_MouseClick);
       // 
       // tabPeptides
@@ -264,6 +265,7 @@ namespace RCPA.Proteomics.Quantification
       this.zgcPeptides.ScrollMinY2 = 0D;
       this.zgcPeptides.Size = new System.Drawing.Size(352, 713);
       this.zgcPeptides.TabIndex = 18;
+      this.zgcPeptides.UseExtendedPrintDialog = true;
       this.zgcPeptides.MouseClick += new System.Windows.Forms.MouseEventHandler(this.zgcPeptides_MouseClick);
       this.zgcPeptides.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.zgcPeptides_MouseDoubleClick);
       // 
@@ -292,6 +294,7 @@ namespace RCPA.Proteomics.Quantification
       this.zgcProtein.ScrollMinY2 = 0D;
       this.zgcProtein.Size = new System.Drawing.Size(352, 713);
       this.zgcProtein.TabIndex = 4;
+      this.zgcProtein.UseExtendedPrintDialog = true;
       this.zgcProtein.MouseClick += new System.Windows.Forms.MouseEventHandler(this.zgcProtein_MouseClick);
       this.zgcProtein.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.zgcProtein_MouseDoubleClick);
       // 
@@ -320,6 +323,7 @@ namespace RCPA.Proteomics.Quantification
       this.zgcExperimentalScans.ScrollMinY2 = 0D;
       this.zgcExperimentalScans.Size = new System.Drawing.Size(352, 713);
       this.zgcExperimentalScans.TabIndex = 17;
+      this.zgcExperimentalScans.UseExtendedPrintDialog = true;
       // 
       // btnView
       // 
@@ -340,7 +344,7 @@ namespace RCPA.Proteomics.Quantification
       this.filePanel.Dock = System.Windows.Forms.DockStyle.Top;
       this.filePanel.Location = new System.Drawing.Point(0, 0);
       this.filePanel.Name = "filePanel";
-      this.filePanel.Size = new System.Drawing.Size(1446, 25);
+      this.filePanel.Size = new System.Drawing.Size(1362, 25);
       this.filePanel.TabIndex = 24;
       // 
       // txtSummaryFile
@@ -348,7 +352,7 @@ namespace RCPA.Proteomics.Quantification
       this.txtSummaryFile.Dock = System.Windows.Forms.DockStyle.Fill;
       this.txtSummaryFile.Location = new System.Drawing.Point(308, 0);
       this.txtSummaryFile.Name = "txtSummaryFile";
-      this.txtSummaryFile.Size = new System.Drawing.Size(1138, 20);
+      this.txtSummaryFile.Size = new System.Drawing.Size(1054, 20);
       this.txtSummaryFile.TabIndex = 10;
       // 
       // btnSummaryFile
@@ -364,7 +368,7 @@ namespace RCPA.Proteomics.Quantification
       // AbstractQuantificationSummaryViewerUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-      this.ClientSize = new System.Drawing.Size(1446, 809);
+      this.ClientSize = new System.Drawing.Size(1362, 741);
       this.Controls.Add(this.clientContainer);
       this.Controls.Add(this.filePanel);
       this.Name = "AbstractQuantificationSummaryViewerUI";

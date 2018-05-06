@@ -206,6 +206,8 @@
     <Compile Include="Proteomics\Format\Raw2MSnProcessor.cs" />
     <Compile Include="Proteomics\Format\MultipleRaw2MgfCommand.cs" />
     <Compile Include="Proteomics\Format\MultipleRaw2MgfCommandOptions.cs" />
+    <Compile Include="Proteomics\Mascot\MascotDatToMzIdentConverter.cs" />
+    <Compile Include="Proteomics\Mascot\MascotDatToMzIdentConverterOptions.cs" />
     <Compile Include="Proteomics\MaxQuant\MaxQuantSiteProteinK8R10Builder.cs" />
     <Compile Include="Proteomics\MaxQuant\MaxQuantModification.cs" />
     <Compile Include="Proteomics\MaxQuant\AbstractMaxQuantSiteProteinBuilder.cs" />
@@ -222,6 +224,7 @@
     <Compile Include="Proteomics\MSFlagger\MSFlaggerPepXmlParser.cs" />
     <Compile Include="Proteomics\Quantification\O18\O18GetRatioIntensityProtein.cs" />
     <Compile Include="Proteomics\Quantification\SILAC\SilacQuantificationOption.cs" />
+    <Compile Include="Proteomics\Quantification\SILAC\SilacQuantificationPeptideFileProcessor.cs" />
     <Compile Include="Proteomics\XTandem\XTandemPepXmlParser.cs" />
     <Compile Include="Proteomics\Quantification\Labelfree\IsotopimerAbundancePredictor.cs" />
     <Compile Include="Proteomics\Deuterium\PeptideDeuteriumCalculator.cs" />
