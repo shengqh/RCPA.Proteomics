@@ -45,9 +45,8 @@ namespace RCPA.Proteomics.MaxQuant
         using (var sr = new StreamReader(options.MSMSFile))
         {
           var headers = sr.ReadLine().Split('\t');
-          var silacIndex = Array.IndexOf(headers, "SILAC State");
-          var rawIndex = Array.IndexOf(headers, "Raw File");
-          var scanIndex = Array.IndexOf(headers, "Scan Number");
+          var rawIndex = Array.IndexOf(headers, "Raw file");
+          var scanIndex = Array.IndexOf(headers, "Scan number");
           string line;
           while ((line = sr.ReadLine()) != null)
           {
@@ -57,11 +56,6 @@ namespace RCPA.Proteomics.MaxQuant
             }
 
             var parts = line.Split('\t');
-            if (parts[silacIndex].Equals("Light"))
-            {
-              continue;
-            }
-
             var raw = parts[rawIndex];
             var scan = int.Parse(parts[scanIndex]);
             var sf = new SequestFilename(raw, scan, scan, 0, "");
