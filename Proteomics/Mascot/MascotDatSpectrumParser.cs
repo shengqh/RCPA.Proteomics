@@ -311,6 +311,15 @@ namespace RCPA.Proteomics.Mascot
       return string.Empty;
     }
 
+    public Dictionary<string, string> ParseSection(string fileName, string sectionName, bool required = true)
+    {
+      using (StreamReader sr = new StreamReader(fileName))
+      {
+        return ParseSection(sr, sectionName, null, true);
+      }
+    }
+
+
     /// <summary>
     /// 
     /// Get top one peptide list from mascot dat file
