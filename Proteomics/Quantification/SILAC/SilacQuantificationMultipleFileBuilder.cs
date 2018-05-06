@@ -16,10 +16,16 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
     private Dictionary<string, List<string>> rawpairs;
 
+    /// <summary>
+    /// At least MinScanNumber scans will be extract near the scan identified, even all zero intensity.
+    /// </summary>
+    public int MinScanNumber { get; set; }
+
     public SilacQuantificationMultipleFileBuilder(SilacQuantificationOption option, Dictionary<string, List<string>> rawpairs)
     {
       this.option = option;
       this.rawpairs = rawpairs;
+      this.MinScanNumber = 3;
     }
 
     public void Quantify(List<IIdentifiedSpectrum> spectra, string detailDir)
@@ -64,6 +70,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
         SilacQuantificationFileBuilder builder = new SilacQuantificationFileBuilder(option);
         builder.Progress = this.Progress;
         builder.SoftwareVersion = this.SoftwareVersion;
+        builder.MinScanNumber = this.MinScanNumber;
 
         List<IIdentifiedSpectrum> peps = filePepMap[experimental];
         peps.Sort((m1, m2) => m1.IsExtendedIdentification().CompareTo(m2.IsExtendedIdentification()));
