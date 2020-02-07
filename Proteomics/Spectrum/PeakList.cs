@@ -334,9 +334,15 @@ namespace RCPA.Proteomics.Spectrum
 
     public T FindMaxIntensityPeak()
     {
-      return (from p in this
-              orderby p.Intensity descending
-              select p).FirstOrDefault();
+      T result = this.First();
+      foreach (var p in this)
+      {
+        if (p.Intensity > result.Intensity)
+        {
+          result = p;
+        }
+      }
+      return result;
     }
 
     public void FilterByMinCharge(int minCharge)
@@ -825,7 +831,7 @@ namespace RCPA.Proteomics.Spectrum
     {
       Sort((m1, m2) => m1.Mz.CompareTo(m2.Mz));
 
-      for (int start = 0; start < Count - 1; )
+      for (int start = 0; start < Count - 1;)
       {
         double mzTolerance = 2 * PrecursorUtils.ppm2mz(this[start].Mz, ppmTolerance);
 

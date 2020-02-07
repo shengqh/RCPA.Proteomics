@@ -237,7 +237,6 @@ namespace RCPA.Proteomics.Quantification
       this.zgcProteins.ScrollMinY2 = 0D;
       this.zgcProteins.Size = new System.Drawing.Size(331, 645);
       this.zgcProteins.TabIndex = 4;
-      this.zgcProteins.UseExtendedPrintDialog = true;
       this.zgcProteins.MouseClick += new System.Windows.Forms.MouseEventHandler(this.zgcProteins_MouseClick);
       // 
       // tabPeptides
@@ -265,7 +264,6 @@ namespace RCPA.Proteomics.Quantification
       this.zgcPeptides.ScrollMinY2 = 0D;
       this.zgcPeptides.Size = new System.Drawing.Size(352, 713);
       this.zgcPeptides.TabIndex = 18;
-      this.zgcPeptides.UseExtendedPrintDialog = true;
       this.zgcPeptides.MouseClick += new System.Windows.Forms.MouseEventHandler(this.zgcPeptides_MouseClick);
       this.zgcPeptides.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.zgcPeptides_MouseDoubleClick);
       // 
@@ -294,7 +292,6 @@ namespace RCPA.Proteomics.Quantification
       this.zgcProtein.ScrollMinY2 = 0D;
       this.zgcProtein.Size = new System.Drawing.Size(352, 713);
       this.zgcProtein.TabIndex = 4;
-      this.zgcProtein.UseExtendedPrintDialog = true;
       this.zgcProtein.MouseClick += new System.Windows.Forms.MouseEventHandler(this.zgcProtein_MouseClick);
       this.zgcProtein.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.zgcProtein_MouseDoubleClick);
       // 
@@ -323,7 +320,6 @@ namespace RCPA.Proteomics.Quantification
       this.zgcExperimentalScans.ScrollMinY2 = 0D;
       this.zgcExperimentalScans.Size = new System.Drawing.Size(352, 713);
       this.zgcExperimentalScans.TabIndex = 17;
-      this.zgcExperimentalScans.UseExtendedPrintDialog = true;
       // 
       // btnView
       // 

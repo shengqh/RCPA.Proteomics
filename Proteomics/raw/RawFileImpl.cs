@@ -18,7 +18,7 @@ namespace RCPA.Proteomics.Raw
 
   public class RawFileImpl : AbstractRawFile
   {
-    private readonly IXRawfile3 rawFile;
+    private readonly IXRawfile5 rawFile;
 
     private bool valid;
 
@@ -40,7 +40,7 @@ namespace RCPA.Proteomics.Raw
     {
       try
       {
-        this.rawFile = new MSFileReader_XRawfile() as IXRawfile3;
+        this.rawFile = new MSFileReader_XRawfile() as IXRawfile5;
       }
       catch (Exception)
       {
@@ -54,7 +54,7 @@ namespace RCPA.Proteomics.Raw
     {
       try
       {
-        this.rawFile = new MSFileReader_XRawfile() as IXRawfile3;
+        this.rawFile = new MSFileReader_XRawfile() as IXRawfile5;
       }
       catch (Exception)
       {
