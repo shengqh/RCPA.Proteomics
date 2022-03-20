@@ -83,7 +83,7 @@ namespace RCPA.Proteomics.Quantification.Census
         return null;
       }
 
-      string[] parts = line.Split(new[] {'\t'});
+      string[] parts = line.Split(new[] { '\t' });
       if (parts.Length < 13)
       {
         return null;

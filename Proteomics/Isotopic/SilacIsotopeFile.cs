@@ -141,7 +141,7 @@ namespace RCPA.Proteomics.Isotopic
       result.ReferenceAtomMap = referenceMap;
 
       //如果是修饰，那么要求sample和reference定义一样的atom composition
-      if (!Char.IsLetter(result.ItemName[0])) 
+      if (!Char.IsLetter(result.ItemName[0]))
       {
         if (result.SampleAtomMap.Values.Sum() != result.ReferenceAtomMap.Values.Sum())
         {

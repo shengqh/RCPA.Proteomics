@@ -1,9 +1,9 @@
-using System.Collections.Generic;
-using System.Xml;
-using System.Linq;
-using RCPA.Utils;
 using RCPA.Proteomics.Summary.Uniform;
+using RCPA.Utils;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml;
 
 namespace RCPA.Proteomics.Summary
 {
@@ -91,7 +91,7 @@ namespace RCPA.Proteomics.Summary
           continue;
         }
 
-        throw new Exception(MyConvert.Format("The data set {0} [{1}] is not {2} data set.", ds.Name,ds.SearchEngine.ToString(), this.SearchEngine));
+        throw new Exception(MyConvert.Format("The data set {0} [{1}] is not {2} data set.", ds.Name, ds.SearchEngine.ToString(), this.SearchEngine));
       }
 
       AbstractExpectValueDatasetOptions ds2 = dsList[0] as AbstractExpectValueDatasetOptions;

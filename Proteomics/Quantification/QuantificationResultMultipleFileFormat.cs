@@ -1,9 +1,6 @@
-﻿using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Summary;
-using RCPA.Utils;
-using RCPA.Proteomics.Mascot;
+using System.IO;
 
 namespace RCPA.Proteomics.Quantification
 {

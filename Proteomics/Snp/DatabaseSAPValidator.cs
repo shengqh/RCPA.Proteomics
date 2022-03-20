@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using RCPA.Proteomics.Mascot;
 using RCPA.Seq;
-using RCPA.Proteomics.Mascot;
+using System.Collections.Generic;
 using System.IO;
 
 namespace RCPA.Proteomics.Snp

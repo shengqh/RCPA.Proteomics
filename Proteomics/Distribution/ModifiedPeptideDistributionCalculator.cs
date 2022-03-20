@@ -1,8 +1,5 @@
-﻿using System;
+﻿using RCPA.Proteomics.Summary;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Summary;
 using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.Distribution

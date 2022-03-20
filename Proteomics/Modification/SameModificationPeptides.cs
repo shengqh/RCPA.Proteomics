@@ -53,7 +53,7 @@
 //          break;
 //        }
 //      }
-			
+
 //      if(!bFound){
 //        for (int k = 0; k < phit.getFollowCandidates().size(); k++) {
 //          String seq =PeptideUtils.getPurePeptideSequence(phit.getFollowCandidates().get(k).getSequence());
@@ -66,7 +66,7 @@
 //          }
 //        }
 //      }
-			
+
 //      if(!bFound){
 //        throw new IllegalArgumentException("Cannot find sequence "
 //            + pureSequence + " in peptide "

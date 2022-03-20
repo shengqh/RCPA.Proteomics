@@ -1,8 +1,5 @@
-﻿using System;
+﻿using RCPA.Format;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Format;
 using System.IO;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling

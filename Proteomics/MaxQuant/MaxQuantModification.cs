@@ -44,7 +44,7 @@ namespace RCPA.Proteomics.MaxQuant
       }
     }
 
-    private void WriteAtom(StreamWriter sw, IList<Atom> atoms, string atomName, bool outputZero=true)
+    private void WriteAtom(StreamWriter sw, IList<Atom> atoms, string atomName, bool outputZero = true)
     {
       foreach (var atom in atoms)
       {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using RCPA.Proteomics.Raw;
-using RCPA.Utils;
-using RCPA.Proteomics.Spectrum;
+﻿using RCPA.Proteomics.Raw;
 
 namespace RCPA.Proteomics.Quantification
 {

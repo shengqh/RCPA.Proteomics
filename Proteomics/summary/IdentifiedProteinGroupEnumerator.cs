@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
-using RCPA.Proteomics.Summary;
 using System.Text.RegularExpressions;
-using RCPA.Seq;
 
 namespace RCPA.Proteomics.Summary
 {

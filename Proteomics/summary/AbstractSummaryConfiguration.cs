@@ -1,14 +1,10 @@
+using RCPA.Proteomics.Summary.Uniform;
+using RCPA.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using System.Xml;
 using System.Linq;
-using RCPA.Proteomics.Modification;
-using RCPA.Seq;
-using RCPA.Utils;
-using RCPA.Proteomics.Database;
-using RCPA.Proteomics.Summary.Uniform;
+using System.Xml;
 
 namespace RCPA.Proteomics.Summary
 {
@@ -104,7 +100,7 @@ namespace RCPA.Proteomics.Summary
     public string ModifiedAminoacids { get; set; }
 
     public bool ClassifyByProteinTag { get; set; }
-    
+
     public string ProteinTag { get; set; }
 
     public ITargetDecoyConflictType TargetDecoyConflictType { get; set; }
@@ -197,7 +193,7 @@ namespace RCPA.Proteomics.Summary
 
         this.ClassifyByProteinTag = bool.Parse(xmlHelper.GetChildValue(fdrXml, "ClassifyByProteinTag", false.ToString()));
         this.ProteinTag = xmlHelper.GetChildValue(fdrXml, "ProteinTag", string.Empty);
-        
+
         this.TargetDecoyConflictType = ResolveTargetDecoyConflictTypeFactory.Find(xmlHelper.GetChildValue(fdrXml, "TargetDecoyConflictType", ResolveTargetDecoyConflictTypeFactory.Decoy.Name));
       }
 

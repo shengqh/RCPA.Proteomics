@@ -1,7 +1,7 @@
-using System.Linq;
 using RCPA.Proteomics.Quantification.SILAC;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RCPA.Proteomics.Quantification
 {

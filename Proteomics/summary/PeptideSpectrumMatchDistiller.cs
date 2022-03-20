@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using RCPA.Utils;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Comet;
-using RCPA.Proteomics.MSAmanda;
-using RCPA.Proteomics.MSGF;
-using RCPA.Proteomics.MyriMatch;
+﻿using System.Collections.Generic;
 
 namespace RCPA.Proteomics.Summary
 {

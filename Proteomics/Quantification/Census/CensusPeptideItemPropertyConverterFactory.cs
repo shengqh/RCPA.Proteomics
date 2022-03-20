@@ -1,4 +1,3 @@
-using RCPA.Proteomics.PropertyConverter;
 using RCPA.Converter;
 namespace RCPA.Proteomics.Quantification.Census
 {

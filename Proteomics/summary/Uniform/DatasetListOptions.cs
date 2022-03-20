@@ -1,16 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Sequest;
-using RCPA.Proteomics.XTandem;
-using RCPA.Proteomics.PFind;
-using RCPA.Proteomics.PeptideProphet;
-using RCPA.Proteomics.MyriMatch;
-using RCPA.Proteomics.MSGF;
-using RCPA.Proteomics.Omssa;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {

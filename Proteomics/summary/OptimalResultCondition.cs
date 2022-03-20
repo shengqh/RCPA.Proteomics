@@ -1,9 +1,8 @@
+using RCPA.Proteomics.Summary.Uniform;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Linq;
-using RCPA.Proteomics.Summary.Uniform;
 
 namespace RCPA.Proteomics
 {
@@ -60,7 +59,7 @@ namespace RCPA.Proteomics
 
     public int PrecursorCharge { get; private set; }
 
-    public int MissCleavageSiteCount{get;private set;}
+    public int MissCleavageSiteCount { get; private set; }
 
     public int NumProteaseTermini { get; private set; }
 

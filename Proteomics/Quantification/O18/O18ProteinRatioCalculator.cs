@@ -1,8 +1,8 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using RCPA.Proteomics.Summary;
 using RCPA.Utils;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RCPA.Proteomics.Quantification.O18
 {
@@ -149,8 +149,8 @@ namespace RCPA.Proteomics.Quantification.O18
       }
     }
 
-    public string DetailDirectory{get;set;}
+    public string DetailDirectory { get; set; }
 
-    public string SummaryFileDirectory{get;set;}
+    public string SummaryFileDirectory { get; set; }
   }
 }

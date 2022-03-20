@@ -1,10 +1,8 @@
-﻿using System;
+﻿using RCPA.Proteomics.Mascot;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.MaxQuant;
 using System.IO;
-using RCPA.Proteomics.Mascot;
+using System.Linq;
 
 namespace RCPA.Proteomics.Format
 {

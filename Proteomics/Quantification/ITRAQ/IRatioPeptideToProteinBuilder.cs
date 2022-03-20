@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace RCPA.Proteomics.Quantification.ITraq
 {
@@ -9,6 +6,6 @@ namespace RCPA.Proteomics.Quantification.ITraq
   {
     string Name { get; }
 
-    ITraqProteinRatioItem Calculate(IEnumerable<ITraqPeptideRatioItem> items); 
+    ITraqProteinRatioItem Calculate(IEnumerable<ITraqPeptideRatioItem> items);
   }
 }

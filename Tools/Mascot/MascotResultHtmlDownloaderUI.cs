@@ -1,17 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using RCPA.Gui;
-using Batte.CodeProject.Download;
-using System.Threading;
-using RCPA;
-using RCPA.Gui.FileArgument;
 using RCPA.Gui.Command;
+using RCPA.Gui.FileArgument;
 using RCPA.Utils;
+using System;
 
 namespace RCPA.Tools.Mascot
 {

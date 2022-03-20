@@ -1,13 +1,11 @@
-﻿using System;
+﻿using RCPA.Gui;
+using RCPA.Proteomics.Modification;
+using RCPA.Proteomics.Summary;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using RCPA.Proteomics.Summary;
-using RCPA.Gui;
-using System.Text.RegularExpressions;
-using RCPA.Proteomics.Mascot;
 using System.Text;
-using RCPA.Proteomics.Modification;
+using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.MaxQuant
 {
@@ -147,10 +145,10 @@ namespace RCPA.Proteomics.MaxQuant
       seq = seq.StringBefore(";");
       var mods = modifications.Split(';');
       StringBuilder result = new StringBuilder();
-      for(int i = 0;i < seq.Length; i++)
+      for (int i = 0; i < seq.Length; i++)
       {
         result.Append(seq[i]);
-        if(mods[i] != "X")
+        if (mods[i] != "X")
         {
           var newmod = mods[i].StringBefore("(").Trim();
           result.Append("(" + newmod + ")");

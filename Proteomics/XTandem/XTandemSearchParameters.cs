@@ -1,10 +1,5 @@
-﻿using RCPA.Proteomics.MSGF;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace RCPA.Proteomics.XTandem
 {

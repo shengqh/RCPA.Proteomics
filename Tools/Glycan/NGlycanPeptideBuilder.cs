@@ -1,8 +1,8 @@
+using RCPA.Proteomics;
+using RCPA.Seq;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using RCPA.Proteomics;
-using RCPA.Seq;
 
 namespace RCPA.Tools.Glycan
 {

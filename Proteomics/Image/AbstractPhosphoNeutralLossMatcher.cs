@@ -1,8 +1,6 @@
-﻿using System;
+﻿using RCPA.Proteomics.Utils;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Utils;
 
 namespace RCPA.Proteomics.Image
 {

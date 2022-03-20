@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml.Linq;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
@@ -130,13 +128,13 @@ namespace RCPA.Proteomics.Summary.Uniform
     {
       parentNode.Add(
         new XElement("SearchEngine", SearchEngine),
-        new XElement("Enabled",Enabled),
+        new XElement("Enabled", Enabled),
         new XElement("Name", Name),
         new XElement("ScoreName", ScoreFunction.ScoreName),
         new XElement("SearchedByDifferentParameters", SearchedByDifferentParameters),
         new XElement("PeptideFilter",
-          new XElement("FilterByPrecursor", 
-            new XElement("Active",FilterByPrecursor),
+          new XElement("FilterByPrecursor",
+            new XElement("Active", FilterByPrecursor),
             new XElement("FilterByPrecursorIsotopic", FilterByPrecursorIsotopic),
             new XElement("FilterByDynamicPrecursorTolerance", FilterByPrecursorDynamicTolerance),
             new XElement("PrecursorPPMTolerance", PrecursorPPMTolerance)),

@@ -39,7 +39,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
     public void SetScanIdentified(int scan, bool isExtendedIdentification)
     {
       var pair = FindScan(scan);
-      
+
       if (null != pair)
       {
         pair.IsIdentified = true;

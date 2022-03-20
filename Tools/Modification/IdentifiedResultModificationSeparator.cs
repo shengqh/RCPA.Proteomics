@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using RCPA.Proteomics.Modification;
 using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.Modification;
-using RCPA.Utils;
-using System.IO;
-using RCPA.Seq;
 using RCPA.Tools.Summary;
+using System.Collections.Generic;
 
 namespace RCPA.Tools.Modification
 {

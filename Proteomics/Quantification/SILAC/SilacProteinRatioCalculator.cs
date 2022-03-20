@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using RCPA.Proteomics.Summary;
+﻿using RCPA.Proteomics.Summary;
 using RCPA.Utils;
-using System.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RCPA.Proteomics.Quantification.SILAC
 {
@@ -94,7 +94,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
       }
     }
 
-    public string DetailDirectory{get;set;}
+    public string DetailDirectory { get; set; }
 
 
     public string SummaryFileDirectory

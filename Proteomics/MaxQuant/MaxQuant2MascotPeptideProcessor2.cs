@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.MaxQuant;
-using System.IO;
-using RCPA.Seq;
+﻿using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Modification;
+using RCPA.Proteomics.Summary;
+using RCPA.Seq;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace RCPA.Proteomics.MaxQuant
 {

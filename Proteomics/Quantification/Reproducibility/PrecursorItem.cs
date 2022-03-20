@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RCPA.Proteomics.Quantification.Reproducibility
 {
-  public class PrecursorItem:IComparable<PrecursorItem>
+  public class PrecursorItem : IComparable<PrecursorItem>
   {
     public double Mz { get; set; }
     public double Abundance { get; set; }

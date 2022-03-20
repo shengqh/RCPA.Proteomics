@@ -18,7 +18,7 @@ namespace RCPA.Proteomics.PropertyConverter
 
       if (t.TheoreticalIonCount != 0)
       {
-        return MyConvert.Format("{0:0.00}", t.MatchedIonCount*100.0/t.TheoreticalIonCount);
+        return MyConvert.Format("{0:0.00}", t.MatchedIonCount * 100.0 / t.TheoreticalIonCount);
       }
 
       return "0.0";

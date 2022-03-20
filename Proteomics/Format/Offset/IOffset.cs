@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Gui;
+﻿using RCPA.Gui;
 
 namespace RCPA.Proteomics.Format.Offset
 {

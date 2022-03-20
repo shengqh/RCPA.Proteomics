@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.Mascot;
+using System.Collections.Generic;
 
 namespace RCPA.Tools.Distiller
 {
@@ -37,7 +35,7 @@ namespace RCPA.Tools.Distiller
       string resultFileName = fileName + ".distinct";
       format.WriteToFile(resultFileName, ir);
 
-      return new [] { resultFileName };
+      return new[] { resultFileName };
     }
   }
 }

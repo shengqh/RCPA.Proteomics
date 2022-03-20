@@ -1,14 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Proteomics.Mascot;
+using RCPA.Gui;
 using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
-using RCPA.Gui;
 
 namespace RCPA.Proteomics.MaxQuant
 {
@@ -59,7 +51,7 @@ namespace RCPA.Proteomics.MaxQuant
         SILACAminoacids = silacAminoacids.Text,
         MSMSFile = msmsFile.FullName
       };
-     
+
       return new MaxQuant2MascotPeptideProcessor2(option);
     }
 

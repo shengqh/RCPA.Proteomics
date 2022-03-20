@@ -115,7 +115,7 @@ namespace RCPA.Proteomics
         return false;
       }
 
-      var rl = (RangeLocation) obj;
+      var rl = (RangeLocation)obj;
       return this.max == rl.max && this.min == rl.min;
     }
 
@@ -141,7 +141,7 @@ namespace RCPA.Proteomics
       {
         double from = MyConvert.ToDouble(m.Groups[1].Value);
         double to = MyConvert.ToDouble(m.Groups[2].Value);
-        return new RangeLocation((int) from, (int) to);
+        return new RangeLocation((int)from, (int)to);
       }
       catch (Exception)
       {

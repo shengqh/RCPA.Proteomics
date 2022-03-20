@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using RCPA.Gui;
 using RCPA.Proteomics.Summary;
-using System.Xml.Linq;
-using RCPA.Gui;
+using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace RCPA.Proteomics.PeptideProphet
 {

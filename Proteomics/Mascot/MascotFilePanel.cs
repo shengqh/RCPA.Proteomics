@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Gui;
+﻿using RCPA.Gui;
 using RCPA.Gui.FileArgument;
 using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.Summary.Uniform;
+using System;
 
 namespace RCPA.Proteomics.Mascot
 {

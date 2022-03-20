@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using RCPA.Proteomics;
 using RCPA.Proteomics.IO;
 using RCPA.Proteomics.Processor;
 using RCPA.Proteomics.Spectrum;
 using System.IO;
-using RCPA.Proteomics;
 
 namespace RCPA.Tools.Format
 {

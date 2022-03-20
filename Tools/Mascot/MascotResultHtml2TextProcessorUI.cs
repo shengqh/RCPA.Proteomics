@@ -1,14 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Proteomics.Mascot;
+using RCPA.Gui;
 using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
-using RCPA.Gui;
+using RCPA.Proteomics.Mascot;
 
 namespace RCPA.Tools.Mascot
 {
@@ -21,7 +14,7 @@ namespace RCPA.Tools.Mascot
     {
       InitializeComponent();
 
-      base.SetFileArgument("HtmlFile",new OpenFileArgument ("MascotResult (Peptide Format) Html", new string[]{"htm","html"}));
+      base.SetFileArgument("HtmlFile", new OpenFileArgument("MascotResult (Peptide Format) Html", new string[] { "htm", "html" }));
 
       this.Text = Constants.GetSQHTitle(title, version);
     }

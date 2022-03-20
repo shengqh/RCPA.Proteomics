@@ -1,15 +1,8 @@
-﻿using System;
+﻿using RCPA.Proteomics.Summary;
+using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using RCPA.Gui.Image;
-using RCPA.Proteomics.Summary;
-using RCPA.Utils;
 using ZedGraph;
-using System.Diagnostics;
-using MathNet.Numerics.Distributions;
-using MathNet.Numerics.Statistics;
 
 namespace RCPA.Proteomics.Quantification
 {

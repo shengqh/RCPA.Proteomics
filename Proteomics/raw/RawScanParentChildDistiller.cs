@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace RCPA.Proteomics.Raw
@@ -59,7 +57,7 @@ namespace RCPA.Proteomics.Raw
       var ms2count = levels.Count(m => m.Level == 2);
       var ms3count = levels.Count(m => m.Level == 3);
       var one_ms2_multiple_ms3 = ms3count > ms2count;
-      
+
       var level3Count = -1;
       ScanLevel last = null;
       foreach (var level in levels)

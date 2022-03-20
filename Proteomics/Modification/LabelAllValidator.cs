@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RCPA.Proteomics.Modification
+﻿namespace RCPA.Proteomics.Modification
 {
   /// <summary>
   /// 要求指定氨基酸全部被修饰或者全部没有被修饰

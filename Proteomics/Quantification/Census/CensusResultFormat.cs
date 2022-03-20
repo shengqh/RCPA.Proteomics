@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using RCPA.Utils;
-using System.Text.RegularExpressions;
-using RCPA.Proteomics.PropertyConverter;
-using RCPA.Converter;
+﻿using RCPA.Converter;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.Quantification.Census
 {

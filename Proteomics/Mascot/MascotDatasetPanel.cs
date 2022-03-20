@@ -22,7 +22,7 @@ namespace RCPA.Proteomics.Mascot
         this.btnSave,
         this.lvDatFiles,
         "DatFiles",
-        new OpenFileArgument("Mascot DAT/MSF", new []{"msf", "dat"}),
+        new OpenFileArgument("Mascot DAT/MSF", new[] { "msf", "dat" }),
         true,
         false);
       AddComponent(this.datFiles);

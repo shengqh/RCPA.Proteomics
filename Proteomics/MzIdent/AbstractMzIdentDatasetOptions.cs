@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using RCPA.Proteomics.Summary;
-using System.Windows.Forms;
-using RCPA.Proteomics.PFind;
-using RCPA.Proteomics.MzIdent;
+﻿using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.Summary.Uniform;
+using System.Windows.Forms;
 
 namespace RCPA.Proteomics.MzIdent
 {

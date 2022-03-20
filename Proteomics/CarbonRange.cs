@@ -35,9 +35,9 @@ namespace RCPA.Proteomics
     public CarbonRange GetCarbonRange(double precursorMass)
     {
       var minCarbon =
-        (int) (precursorMass/this.minCarbonPercentAminoacid.MonoMass*this.minCarbonPercentAminoacid.Composition[Atom.C]);
+        (int)(precursorMass / this.minCarbonPercentAminoacid.MonoMass * this.minCarbonPercentAminoacid.Composition[Atom.C]);
       var maxCarbon =
-        (int) (precursorMass/this.maxCarbonPercentAminoacid.MonoMass*this.maxCarbonPercentAminoacid.Composition[Atom.C]);
+        (int)(precursorMass / this.maxCarbonPercentAminoacid.MonoMass * this.maxCarbonPercentAminoacid.Composition[Atom.C]);
       return new CarbonRange(minCarbon, maxCarbon);
     }
 

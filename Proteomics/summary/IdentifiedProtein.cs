@@ -1,10 +1,8 @@
-﻿using System;
+﻿using RCPA.Proteomics.Sequest;
+using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
-using RCPA.Proteomics.Sequest;
 
 namespace RCPA.Proteomics.Summary
 {
@@ -282,7 +280,7 @@ namespace RCPA.Proteomics.Summary
       HashSet<string> seqs = new HashSet<string>();
       foreach (IIdentifiedPeptide pep in this.peptides)
       {
-        seqs.Add(pep.PureSequence.ToUpper().Replace("I","L"));
+        seqs.Add(pep.PureSequence.ToUpper().Replace("I", "L"));
       }
 
       var seq = Sequence.Replace("I", "L");

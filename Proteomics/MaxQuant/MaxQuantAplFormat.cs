@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using RCPA.Gui;
 using RCPA.Proteomics.Spectrum;
-using System.IO;
 using RCPA.Proteomics.Summary;
-using RCPA.Gui;
-using RCPA.Utils;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace RCPA.Proteomics.MaxQuant
 {

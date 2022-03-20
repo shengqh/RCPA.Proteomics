@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ZedGraph;
-using RCPA.Gui.Image;
 using System.Drawing;
-using RCPA.Proteomics.Quantification.SILAC;
+using System.Linq;
+using ZedGraph;
 
 namespace RCPA.Proteomics.Quantification.Srm
 {
@@ -59,7 +56,7 @@ namespace RCPA.Proteomics.Quantification.Srm
           var lastEnabled = ints.FindLast(m => m.Enabled);
           var close = lastEnabled == null ? (low + high) / 2 : lastEnabled.RetentionTime;
 
-          median.Add((open + close ) /2);
+          median.Add((open + close) / 2);
 
           splRange.Add(new PointPair(index, low, high));
           splEnabled.Add(new PointPair(index, open, close));
@@ -69,7 +66,7 @@ namespace RCPA.Proteomics.Quantification.Srm
         myMaster.XAxis.Scale.TextLabels = filenames.ToArray();
 
         var item = myMaster.AddJapaneseCandleStick("", splAll);
-        item.Stick.RisingFill = new Fill (Color.Red);
+        item.Stick.RisingFill = new Fill(Color.Red);
         item.Stick.FallingFill = new Fill(Color.Blue);
 
         zgcGraph.AxisChange();

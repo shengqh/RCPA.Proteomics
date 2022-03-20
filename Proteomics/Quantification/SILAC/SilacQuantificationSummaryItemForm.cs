@@ -1,13 +1,9 @@
+using RCPA.Gui.Command;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using RCPA.Gui.Image;
-using RCPA.Proteomics.Raw;
 using ZedGraph;
-using RCPA.Proteomics.Spectrum;
-using System.Collections.Generic;
-using RCPA.Gui.Command;
 
 namespace RCPA.Proteomics.Quantification.SILAC
 {

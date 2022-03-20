@@ -1,14 +1,10 @@
+using RCPA.Gui.Command;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using RCPA.Proteomics.Raw;
 using ZedGraph;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Tools.Quantification;
-using RCPA.Tools.Quantification.O18;
-using RCPA.Gui.Command;
 
 namespace RCPA.Proteomics.Quantification.O18
 {
@@ -264,11 +260,11 @@ namespace RCPA.Proteomics.Quantification.O18
 
     private void ShowRatio()
     {
-      string[] labels = {"Before Purity Correction", "After Purity Correction"};
+      string[] labels = { "Before Purity Correction", "After Purity Correction" };
 
-      var pplO16 = new[] {this.summary.SpeciesAbundance.O16, this.summary.SampleAbundance.O16};
-      var pplO181 = new[] {this.summary.SpeciesAbundance.O181, 0};
-      var pplO182 = new[] {this.summary.SpeciesAbundance.O182, this.summary.SampleAbundance.O18};
+      var pplO16 = new[] { this.summary.SpeciesAbundance.O16, this.summary.SampleAbundance.O16 };
+      var pplO181 = new[] { this.summary.SpeciesAbundance.O181, 0 };
+      var pplO182 = new[] { this.summary.SpeciesAbundance.O182, this.summary.SampleAbundance.O18 };
 
       ClearData(this.zgcRatio, false);
 

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RCPA.Proteomics.Quantification;
 using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Quantification;
 using ZedGraph;
-using RCPA.Gui.Image;
 
 namespace RCPA
 {

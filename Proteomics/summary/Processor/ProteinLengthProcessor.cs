@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using RCPA.Proteomics.Summary;
 
 namespace RCPA.Proteomics.Summary.Processor
 {
@@ -60,7 +57,8 @@ namespace RCPA.Proteomics.Summary.Processor
           continue;
         }
 
-        if(null == protein.Sequence){
+        if (null == protein.Sequence)
+        {
           continue;
         }
 

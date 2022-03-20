@@ -1,17 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using RCPA.Proteomics.Raw;
 using RCPA.Proteomics.Spectrum;
 using RCPA.Utils;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace RCPA.Proteomics.IO
 {
   public class Raw2MzXmlProcessor : AbstractThreadFileProcessor
   {
-    private const char lf = (char) 0xA;
+    private const char lf = (char)0xA;
     private const int precision = 32;
-    private const int sigBytes = precision/8;
+    private const int sigBytes = precision / 8;
     public static string version = "1.0.0";
     private readonly Dictionary<string, string> dataProcessingOperations;
     private readonly string dataProcessingSoftware;
@@ -187,8 +187,8 @@ namespace RCPA.Proteomics.IO
 
       int firstScan = this.rawFile.GetFirstSpectrumNumber();
       int lastScan = this.rawFile.GetLastSpectrumNumber();
-      double startTime = this.rawFile.ScanToRetentionTime(firstScan)*60;
-      double endTime = this.rawFile.ScanToRetentionTime(lastScan)*60;
+      double startTime = this.rawFile.ScanToRetentionTime(firstScan) * 60;
+      double endTime = this.rawFile.ScanToRetentionTime(lastScan) * 60;
 
       /* 
          begin msRun 
@@ -311,7 +311,7 @@ namespace RCPA.Proteomics.IO
                              pkl.Count,
                              rcf.Polarity,
                              rcf.ScanType,
-                             retentionTime*60));
+                             retentionTime * 60));
       if (rcf.MsLevel > 1)
       {
         sw.Write("        collisionEnergy=\"{0:0}\"" + lf, rcf.CollisionEnergy);

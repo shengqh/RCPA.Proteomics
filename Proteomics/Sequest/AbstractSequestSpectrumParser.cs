@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using RCPA.Gui;
+﻿using RCPA.Gui;
 using RCPA.Proteomics.Summary;
+using System.Collections.Generic;
 
 namespace RCPA.Proteomics.Sequest
 {

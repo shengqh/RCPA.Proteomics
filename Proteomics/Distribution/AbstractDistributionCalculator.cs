@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using RCPA.Proteomics.Classification;
 using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.Classification;
 using RCPA.Utils;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Distribution
 {

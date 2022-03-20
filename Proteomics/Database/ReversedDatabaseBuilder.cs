@@ -1,9 +1,7 @@
-﻿using System;
+﻿using RCPA.Seq;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using RCPA.Utils;
 using System.IO;
-using RCPA.Seq;
 
 namespace RCPA.Proteomics.Database
 {

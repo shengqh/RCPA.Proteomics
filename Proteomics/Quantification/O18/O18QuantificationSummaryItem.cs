@@ -1,9 +1,9 @@
-﻿using System;
+﻿using RCPA.Proteomics.Spectrum;
+using RCPA.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using RCPA.Utils;
-using RCPA.Proteomics.Spectrum;
 
 namespace RCPA.Proteomics.Quantification.O18
 {

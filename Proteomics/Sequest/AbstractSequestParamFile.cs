@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.Sequest
@@ -91,7 +90,7 @@ namespace RCPA.Proteomics.Sequest
       result.Partial_sequence = parameters["partial_sequence"].First;
       result.Sequence_header_filter = parameters["sequence_header_filter"].First;
 
-      foreach (string ssm in Enum.GetNames(typeof (SequestStaticModification)))
+      foreach (string ssm in Enum.GetNames(typeof(SequestStaticModification)))
       {
         if (parameters.ContainsKey(ssm))
         {
@@ -103,7 +102,7 @@ namespace RCPA.Proteomics.Sequest
     private static Dictionary<string, Pair<string, string>> InitParameters(List<string> contents)
     {
       var parameters = new Dictionary<string, Pair<string, string>>();
-      var separators = new[] {'=', ';'};
+      var separators = new[] { '=', ';' };
       foreach (String line in contents)
       {
         if (line.Trim().Equals("[SEQUEST_ENZYME_INFO]"))

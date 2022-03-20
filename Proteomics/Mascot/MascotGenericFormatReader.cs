@@ -1,11 +1,10 @@
+using RCPA.Gui;
+using RCPA.Proteomics.IO;
+using RCPA.Proteomics.Spectrum;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using RCPA.Proteomics.IO;
-using RCPA.Utils;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Gui;
 
 namespace RCPA.Proteomics.Mascot
 {
@@ -314,7 +313,7 @@ namespace RCPA.Proteomics.Mascot
     }
   }
 
-  public class MascotGenericFormatReader<T> : ProgressClass, IPeakListReader<T> where T:IPeak, new()
+  public class MascotGenericFormatReader<T> : ProgressClass, IPeakListReader<T> where T : IPeak, new()
   {
     #region IPeakListReader<T> Members
 

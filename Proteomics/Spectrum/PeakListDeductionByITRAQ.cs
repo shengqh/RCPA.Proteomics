@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RCPA.Proteomics.Spectrum
 {
-  public class PeakListDeductionByITRAQ:IPeakListDeduction
+  public class PeakListDeductionByITRAQ : IPeakListDeduction
   {
     #region IPeakListDeduction Members
 

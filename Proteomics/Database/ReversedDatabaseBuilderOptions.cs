@@ -1,12 +1,7 @@
 ﻿using CommandLine;
 using RCPA.Commandline;
 using RCPA.Seq;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RCPA.Proteomics.Database
 {

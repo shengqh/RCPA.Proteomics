@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Gui;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
 
@@ -21,7 +13,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
     public IsobaricLabelingEfficiencyCalculatorUI()
     {
       InitializeComponent();
-      
+
       base.SetFileArgument("PeptidesFile", new OpenFileArgument("Peptides", "peptides"));
 
       this.Text = Constants.GetSQHTitle(title, version);

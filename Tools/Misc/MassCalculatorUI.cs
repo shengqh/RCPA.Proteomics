@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using RCPA.Gui;
-using RCPA.Proteomics;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
-using RCPA.Seq;
+using RCPA.Proteomics;
 using RCPA.Proteomics.Utils;
 
 namespace RCPA.Tools.Misc
@@ -141,9 +137,9 @@ namespace RCPA.Tools.Misc
       this.Controls.SetChildIndex(this.txtModification, 0);
       this.Controls.SetChildIndex(this.txtSequence, 0);
       this.Controls.SetChildIndex(this.label1, 0);
-      
-      
-      
+
+
+
       this.ResumeLayout(false);
       this.PerformLayout();
 

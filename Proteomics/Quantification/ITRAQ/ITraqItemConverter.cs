@@ -1,10 +1,6 @@
-using RCPA.Proteomics.Summary;
 using System;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using RCPA.Proteomics.PropertyConverter;
-using RCPA.Converter;
+using System.Linq;
 
 namespace RCPA.Proteomics.Quantification.ITraq
 {

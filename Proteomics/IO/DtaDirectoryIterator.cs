@@ -1,12 +1,12 @@
+using RCPA.Proteomics.Spectrum;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using RCPA.Proteomics.Spectrum;
 
 namespace RCPA.Proteomics.IO
 {
-  public class DtaDirectoryIterator<T> : AbstractPeakListIterator<T> where T:IPeak, new()
+  public class DtaDirectoryIterator<T> : AbstractPeakListIterator<T> where T : IPeak, new()
   {
     private static Regex peakPattern = new Regex(@"([0-9.]+)\s+([0-9.]+)");
     private static Regex precursorPattern = new Regex(@"([0-9.]+)\s+(\d+)");

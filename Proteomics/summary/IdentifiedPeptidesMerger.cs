@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using RCPA.Proteomics.Sequest;
 using RCPA.Proteomics.Summary;
+using System.Collections.Generic;
 using System.IO;
-using RCPA.Proteomics.Sequest;
-using RCPA.Proteomics;
 
 namespace RCPA.Tools.Summary
 {
@@ -24,7 +21,7 @@ namespace RCPA.Tools.Summary
     {
       using (StreamWriter sw = new StreamWriter(targetFilename))
       {
-        HashSet<string> unique = new HashSet<string> ();
+        HashSet<string> unique = new HashSet<string>();
         int totalSpectrumCount = 0;
 
         Progress.SetRange(1, sourceFiles.Length);
@@ -33,13 +30,14 @@ namespace RCPA.Tools.Summary
         foreach (string sourceFile in sourceFiles)
         {
           Progress.SetMessage("Processing " + sourceFile + " ...");
-          
+
           var spectra = format.ReadFromFile(sourceFile);
 
           totalSpectrumCount += spectra.Count;
           unique.UnionWith(IdentifiedSpectrumUtils.GetUniquePeptide(spectra));
-          
-          if(count == 0){
+
+          if (count == 0)
+          {
             pepFormat = format.PeptideFormat;
             sw.WriteLine(pepFormat.GetHeader());
           }

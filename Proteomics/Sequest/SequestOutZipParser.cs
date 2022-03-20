@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using RCPA.Gui;
+﻿using ICSharpCode.SharpZipLib.Zip;
 using RCPA.Proteomics.Summary;
-using ICSharpCode.SharpZipLib.Zip;
-using System.IO;
 using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace RCPA.Proteomics.Sequest
 {

@@ -106,7 +106,7 @@ namespace RCPA.Proteomics.Summary
     /// 根据func对肽段进行筛选，然后初始化筛选后的序列唯一肽段个数
     /// </summary>
     /// <param name="func"></param>
-    void InitUniquePeptideCount(Func<IIdentifiedPeptide,bool> func);
+    void InitUniquePeptideCount(Func<IIdentifiedPeptide, bool> func);
 
     /// <summary>
     /// 计算覆盖率

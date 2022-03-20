@@ -1,6 +1,5 @@
-using RCPA.Proteomics.PropertyConverter;
-using System;
 using RCPA.Converter;
+using System;
 namespace RCPA.Proteomics.Quantification.Census
 {
   public sealed class CensusProteinItemPropertyConverterFactory : PropertyConverterFactory<CensusProteinItem>

@@ -20,7 +20,7 @@ namespace RCPA.Proteomics.Isotopic
     public List<double> GetProfile(AtomComposition ac)
     {
       List<double> result;
-      for (int iLength = 10;; iLength *= 2)
+      for (int iLength = 10; ; iLength *= 2)
       {
         result = GetProfile(ac, iLength);
         if (result[result.Count - 1] < result[result.Count - 2]

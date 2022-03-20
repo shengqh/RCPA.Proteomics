@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
-using RCPA.Gui.Image;
+﻿using RCPA.Gui.Image;
 using RCPA.Proteomics.Spectrum;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Drawing2D;
-using RCPA.Utils;
+using System.Linq;
 
 namespace RCPA.Proteomics.Image
 {
@@ -54,7 +52,7 @@ namespace RCPA.Proteomics.Image
         {
           Color color = IonColorMap[peak.PeakType];
           brush = new SolidBrush(color);
-          pen = new Pen (brush);
+          pen = new Pen(brush);
         }
         else
         {
@@ -66,7 +64,7 @@ namespace RCPA.Proteomics.Image
 
         int y = rt.GetTransformY(peak.Intensity);
 
-        g2.DrawLine(pen , new Point(x, spectrumRec.Bottom), new Point(x, y));
+        g2.DrawLine(pen, new Point(x, spectrumRec.Bottom), new Point(x, y));
 
         if (peak.Matched)
         {
@@ -218,7 +216,7 @@ namespace RCPA.Proteomics.Image
           continue;
         }
 
-        int textLength = 10 + (int) GetStringWidth(g2, bigFont, peak.Information);
+        int textLength = 10 + (int)GetStringWidth(g2, bigFont, peak.Information);
         int totalLength = rt.GetTransformY(peak.Intensity) - textLength;
 
         if (totalLength < top)

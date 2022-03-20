@@ -1,24 +1,15 @@
-﻿using System;
+﻿using RCPA.Gui;
+using RCPA.Gui.Command;
+using RCPA.Gui.FileArgument;
+using RCPA.Proteomics.Quantification;
+using RCPA.Proteomics.Quantification.Lipid;
+using RCPA.Utils;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using RCPA.Gui;
-using RCPA.Gui.FileArgument;
-using RCPA.Proteomics.Quantification.Lipid;
-using RCPA.Gui.Command;
-using RCPA.Proteomics.Raw;
-using RCPA.Gui.Image;
 using ZedGraph;
-using System.IO;
-using RCPA.Utils;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics;
-using RCPA.Proteomics.Quantification;
-using System.Drawing.Drawing2D;
 
 namespace RCPA.Tools.Quantification.Lipid
 {
@@ -503,7 +494,7 @@ namespace RCPA.Tools.Quantification.Lipid
     {
       if (saveFileDialog1.ShowDialog() == DialogResult.OK)
       {
-        List<PrecursorArea> enabled = new List<PrecursorArea> ();
+        List<PrecursorArea> enabled = new List<PrecursorArea>();
         foreach (ListViewItem item in lvPrecursor.Items)
         {
           if (item.Checked)

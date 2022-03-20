@@ -1,11 +1,10 @@
-﻿using System.Text.RegularExpressions;
-using System.Xml;
-using System;
-using System.Linq;
+﻿using RCPA.Proteomics.Spectrum;
 using RCPA.Utils;
-using RCPA.Proteomics.Spectrum;
-using System.Xml.Linq;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace RCPA.Proteomics.Raw
 {

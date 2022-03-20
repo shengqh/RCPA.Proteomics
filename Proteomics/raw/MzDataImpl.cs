@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
+﻿using RCPA.Proteomics.Spectrum;
 using RCPA.Utils;
+using System;
 using System.IO;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using RCPA.Proteomics.Spectrum;
+using System.Xml;
 
 namespace RCPA.Proteomics.Raw
 {

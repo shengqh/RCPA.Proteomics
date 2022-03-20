@@ -1,11 +1,9 @@
-﻿using System;
+﻿using RCPA.Proteomics.Summary;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ZedGraph;
-using RCPA.Gui.Image;
 using System.Drawing;
-using RCPA.Proteomics.Summary;
+using System.Linq;
+using ZedGraph;
 
 namespace RCPA.Proteomics.Quantification.ITraq
 {

@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
-using RCPA.Utils;
 using MathNet.Numerics;
 using RCPA.Proteomics.Spectrum;
+using RCPA.Utils;
+using System;
+using System.Collections.Generic;
 
 namespace RCPA.Proteomics.Isotopic
 {

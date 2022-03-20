@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using RCPA.Proteomics.PeptideProphet;
 using RCPA.Proteomics.Summary;
 using System.Xml.Linq;
-using RCPA.Gui;
-using RCPA.Proteomics.PeptideProphet;
 
 namespace RCPA.Proteomics.MyriMatch
 {

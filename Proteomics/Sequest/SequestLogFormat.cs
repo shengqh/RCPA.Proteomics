@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace RCPA.Proteomics.Sequest
@@ -12,11 +10,11 @@ namespace RCPA.Proteomics.Sequest
 
     public Dictionary<string, int> ReadFromFile(string fileName)
     {
-      Dictionary<string, int> result = new Dictionary<string,int> ();
+      Dictionary<string, int> result = new Dictionary<string, int>();
       using (StreamReader sr = new StreamReader(fileName))
       {
         string line;
-        char[] splitChars = new char[]{'\t'};
+        char[] splitChars = new char[] { '\t' };
         while ((line = sr.ReadLine()) != null)
         {
           if (line.Trim().Length == 0)

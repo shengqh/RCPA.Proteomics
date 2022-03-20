@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using RCPA.Gui;
-using RCPA.Proteomics;
 using RCPA.Gui.Command;
+using RCPA.Proteomics;
+using System.Text;
 
 namespace RCPA.Tools.Glycan
 {

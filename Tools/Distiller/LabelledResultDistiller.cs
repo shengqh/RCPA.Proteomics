@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using RCPA;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Summary;
-using RCPA.Seq;
-using RCPA.Proteomics.Utils;
+﻿using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Modification;
-using System.IO;
+using RCPA.Proteomics.Summary;
+using RCPA.Proteomics.Utils;
+using System.Collections.Generic;
 
 namespace RCPA.Tools.Distiller
 {

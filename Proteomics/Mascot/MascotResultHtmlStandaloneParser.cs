@@ -1,8 +1,8 @@
+using RCPA.Proteomics.Summary;
+using RCPA.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using RCPA.Proteomics.Summary;
-using RCPA.Utils;
 
 namespace RCPA.Proteomics.Mascot
 {

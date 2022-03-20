@@ -1,19 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using RCPA.Gui;
-using RCPA.Gui.FileArgument;
-using RCPA.Proteomics.Processor;
-using RCPA;
-using System.IO;
-using RCPA.Proteomics.IO;
-using RCPA.Proteomics;
 using RCPA.Gui.Command;
-using RCPA.Proteomics.Summary;
+using RCPA.Gui.FileArgument;
 
 namespace RCPA.Proteomics.ProteomeDiscoverer
 {
@@ -26,7 +13,7 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
     {
       InitializeComponent();
 
-      base.SetFileArgument("MSFDatabase", new OpenFileArgument("MSF Database", "msf" ));
+      base.SetFileArgument("MSFDatabase", new OpenFileArgument("MSF Database", "msf"));
 
       this.Text = Constants.GetSQHTitle(title, version);
     }

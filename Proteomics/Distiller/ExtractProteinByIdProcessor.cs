@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using RCPA.Proteomics.Mascot;
+﻿using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Summary;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Distiller
 {
@@ -36,9 +34,9 @@ namespace RCPA.Proteomics.Distiller
     {
       var entries = File.ReadAllLines(fileName);
       var acNumbers = (from e in entries
-                        let l = e.Trim()
-                        where l.Length > 0
-                        select l).ToList();
+                       let l = e.Trim()
+                       where l.Length > 0
+                       select l).ToList();
 
       MascotResultTextFormat format = new MascotResultTextFormat();
       format.Progress = this.Progress;

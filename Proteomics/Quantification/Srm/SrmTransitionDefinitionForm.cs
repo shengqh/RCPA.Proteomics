@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Format;
-using System.IO;
+﻿using RCPA.Format;
 using RCPA.Gui.Command;
 using RCPA.Utils;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace RCPA.Proteomics.Quantification.Srm
 {

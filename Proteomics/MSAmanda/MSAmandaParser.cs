@@ -1,13 +1,11 @@
 ﻿using RCPA.Gui;
 using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.MzIdent;
 using RCPA.Proteomics.PeptideProphet;
 using RCPA.Proteomics.Summary;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.MSAmanda

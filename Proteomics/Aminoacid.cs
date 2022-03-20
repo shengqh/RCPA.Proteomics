@@ -1,6 +1,5 @@
-using System;
-using System.Text;
 using System.Linq;
+using System.Text;
 
 namespace RCPA.Proteomics
 {
@@ -28,7 +27,7 @@ namespace RCPA.Proteomics
       this.description = "";
       this.composition = new AtomComposition("");
       this.visible = false;
-      this.codes = new string[]{};
+      this.codes = new string[] { };
       this.ExcahangableHAtom = 0.0;
     }
 
@@ -138,7 +137,7 @@ namespace RCPA.Proteomics
       this.description = aDescription;
       this.composition = new AtomComposition(compositionString);
       this.visible = aVisible;
-      this.codes = (from c in codes.Split(',')                    select c.Trim()).ToArray();
+      this.codes = (from c in codes.Split(',') select c.Trim()).ToArray();
       this.ExcahangableHAtom = exchangableHAtom;
     }
 
@@ -147,7 +146,7 @@ namespace RCPA.Proteomics
     private void SetMonoMass(double aMonoMass)
     {
       this.monoMass = aMonoMass;
-      this.nominalMass = (int) (aMonoMass + 0.5);
+      this.nominalMass = (int)(aMonoMass + 0.5);
     }
 
     private void SetThreeName(string aThreeName)
@@ -157,8 +156,8 @@ namespace RCPA.Proteomics
 
     public double GetAtomMassPercent(Atom atom)
     {
-      double atomMass = this.composition[atom]*atom.MonoMass;
-      return atomMass/this.monoMass;
+      double atomMass = this.composition[atom] * atom.MonoMass;
+      return atomMass / this.monoMass;
     }
 
     public override string ToString()
@@ -181,5 +180,5 @@ namespace RCPA.Proteomics
     {
       return aa.AverageMass;
     }
-  } ;
+  };
 }

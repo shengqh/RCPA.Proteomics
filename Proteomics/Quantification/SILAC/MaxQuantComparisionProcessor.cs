@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Summary;
-using System.Text.RegularExpressions;
-using System.IO;
-using RCPA.Proteomics.Utils;
+﻿using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.MaxQuant;
+using RCPA.Proteomics.Summary;
+using RCPA.Proteomics.Utils;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.Quantification.SILAC
 {
-  public class MaxQuantComparisionProcessor:AbstractThreadFileProcessor
+  public class MaxQuantComparisionProcessor : AbstractThreadFileProcessor
   {
     string silacFile = @"X:\nzb\pCDIT\For_Mascot\sqh\all5.noredundant.phosphopair.SILACsummary";
 
@@ -22,10 +21,10 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
       var silac = new MascotResultTextFormat().ReadFromFile(silacFile);
       var silacPeps = silac.GetSpectra();
-      silacPeps.RemoveAll(m => m.GetQuantificationItem() == null ||!m.GetQuantificationItem().HasRatio );
+      silacPeps.RemoveAll(m => m.GetQuantificationItem() == null || !m.GetQuantificationItem().HasRatio);
 
       Regex reg = new Regex(@"Cx_(.+)");
-      var silacMap = silacPeps.ToGroupDictionary(m => m.Peptide.PureSequence + GetModificationCount(m.Peptide, "STY") );
+      var silacMap = silacPeps.ToGroupDictionary(m => m.Peptide.PureSequence + GetModificationCount(m.Peptide, "STY"));
 
       int found = 0;
       int missed = 0;
@@ -74,7 +73,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
               else
               {
                 var spectra = findPepMap[mqi.Name];
-                spectra.Sort((m1,m2) => m2.GetQuantificationItem().Correlation.CompareTo(m1.GetQuantificationItem().Correlation));
+                spectra.Sort((m1, m2) => m2.GetQuantificationItem().Correlation.CompareTo(m1.GetQuantificationItem().Correlation));
                 sw.Write("\t{0:0.00}", -Math.Log(spectra[0].GetQuantificationItem().Ratio));
               }
             }
@@ -89,7 +88,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
       }
 
       Console.WriteLine("Found = {0}; Missed = {1}", found, missed);
-//      Regex reg =new Regex(@"Cx_(.+)");
+      //      Regex reg =new Regex(@"Cx_(.+)");
 
       return new string[] { };
     }

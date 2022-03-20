@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RCPA.Proteomics.Spectrum;
+using System;
 using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Spectrum;
 
 namespace RCPA.Proteomics.Raw
 {
@@ -51,7 +49,8 @@ namespace RCPA.Proteomics.Raw
       PeakList<Peak> result = new PeakList<Peak>();
 
       var precursor = RawReader.GetPrecursorPeakWithMasterScan(scan);
-      if(precursor.MasterScan == 0){
+      if (precursor.MasterScan == 0)
+      {
         return result;
       }
 
@@ -101,7 +100,7 @@ namespace RCPA.Proteomics.Raw
 
         var maxIntensity = pPeak.Max(m => m.Intensity);
         pPeak.Find(m => m.Intensity == maxIntensity).Tag = 1;
-        return maxIntensity  / totalIntensity;
+        return maxIntensity / totalIntensity;
       }
       else
       {

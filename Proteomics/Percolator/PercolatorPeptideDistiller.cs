@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Summary;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RCPA.Proteomics.Percolator
 {

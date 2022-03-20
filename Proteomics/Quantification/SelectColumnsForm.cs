@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace RCPA.Proteomics.Quantification
@@ -26,7 +21,7 @@ namespace RCPA.Proteomics.Quantification
       cbPeptides.Initialize(allItems, checkedItems, oldItems);
     }
 
-    public List<Tuple<string,bool>> GetProteinColumns()
+    public List<Tuple<string, bool>> GetProteinColumns()
     {
       return cbProteins.GetItems();
     }

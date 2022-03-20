@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RCPA.Proteomics.Quantification.ITraq
+﻿namespace RCPA.Proteomics.Quantification.ITraq
 {
   public interface IITraqRatioCalculator
   {

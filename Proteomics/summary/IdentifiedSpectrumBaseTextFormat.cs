@@ -1,10 +1,10 @@
-﻿using System;
+﻿using RCPA.Gui;
+using RCPA.Proteomics.PropertyConverter;
+using RCPA.Proteomics.Summary;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using RCPA.Proteomics.Summary;
-using RCPA.Gui;
-using RCPA.Proteomics.PropertyConverter;
 
 namespace RCPA.Proteomics.Sequest
 {
@@ -28,7 +28,7 @@ namespace RCPA.Proteomics.Sequest
 
       Progress.SetRange(0, fileSize);
 
-      char[] cs = new char[]{'\t'};
+      char[] cs = new char[] { '\t' };
       using (var br = new StreamReader(filename))
       {
         String line = br.ReadLine();

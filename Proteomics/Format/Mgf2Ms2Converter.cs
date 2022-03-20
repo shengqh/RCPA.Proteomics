@@ -1,10 +1,6 @@
-﻿using System;
+﻿using RCPA.Proteomics.Summary;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using RCPA.Utils;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Summary;
 
 namespace RCPA.Proteomics.Format
 {

@@ -1,10 +1,9 @@
-﻿using System;
+﻿using RCPA.Gui;
+using RCPA.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using RCPA.Gui;
 using System.Xml;
-using RCPA.Utils;
 
 namespace RCPA.Proteomics.Summary
 {

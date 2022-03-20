@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace RCPA.Proteomics.Summary
@@ -17,7 +15,7 @@ namespace RCPA.Proteomics.Summary
 
       long fileSize = new FileInfo(fileName).Length;
 
-      char[] splitChar = {'\t'};
+      char[] splitChar = { '\t' };
 
       using (var br = new StreamReader(fileName))
       {

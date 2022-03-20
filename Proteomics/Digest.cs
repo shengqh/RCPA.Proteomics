@@ -1,6 +1,6 @@
+using RCPA.Seq;
 using System;
 using System.Collections.Generic;
-using RCPA.Seq;
 
 /*
  *                    BioJava development code

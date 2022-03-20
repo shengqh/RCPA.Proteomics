@@ -1,6 +1,3 @@
-using System;
-using RCPA.Proteomics.Summary;
-
 namespace RCPA.Proteomics.Quantification.SILAC
 {
   public class SilacGetRatioIntensity : AbstractGetRatioIntensity

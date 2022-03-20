@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using RCPA.Proteomics.Summary;
-using RCPA.Utils;
-using RCPA.Gui;
-using RCPA.Proteomics.Mascot;
-using System.Diagnostics;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {

@@ -1,12 +1,8 @@
 ﻿using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.ProteomeDiscoverer;
 using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.Summary.Uniform;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace RCPA.Proteomics.MSGF
 {
@@ -17,9 +13,9 @@ namespace RCPA.Proteomics.MSGF
     public override ISpectrumParser GetParser(string name, bool extractRank2)
     {
       return new MSGFMzIdentParser()
-        {
-          ExtractRank2 = extractRank2
-        };
+      {
+        ExtractRank2 = extractRank2
+      };
     }
 
     public override IScoreFunction[] GetScoreFunctions()

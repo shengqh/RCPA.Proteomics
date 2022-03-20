@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using RCPA;
 using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Raw;
-using RCPA.Proteomics;
-using RCPA.Utils;
-using RCPA.Proteomics.Utils;
-using System.IO;
-using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.Spectrum;
+using RCPA.Proteomics.Summary;
+using RCPA.Proteomics.Utils;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace RCPA.Proteomics.Quantification.O18
 {
@@ -232,7 +227,7 @@ namespace RCPA.Proteomics.Quantification.O18
               }
             }
 
-            if (envelopes.Count == 0) 
+            if (envelopes.Count == 0)
             {
               continue;
             }
@@ -282,12 +277,12 @@ namespace RCPA.Proteomics.Quantification.O18
               List<IIdentifiedSpectrum> mps = pklMpMap[envelopes];
               double mzTolerance = PrecursorUtils.ppm2mz(mps[0].Query.ObservedMz, options.PPMTolerance);
 
-              O18QuantificationPeptideProcessor processor = new O18QuantificationPeptideProcessor(fileFormat, 
-                options.IsPostDigestionLabelling, 
-                rawFilename, 
-                PeptideUtils.GetPureSequence(mps[0].Sequence), 
-                options.PurityOfO18Water, 
-                envelopes, mzTolerance, 
+              O18QuantificationPeptideProcessor processor = new O18QuantificationPeptideProcessor(fileFormat,
+                options.IsPostDigestionLabelling,
+                rawFilename,
+                PeptideUtils.GetPureSequence(mps[0].Sequence),
+                options.PurityOfO18Water,
+                envelopes, mzTolerance,
                 "",
                 options.GetScanPercentageStart() / 100,
                 options.GetScanPercentageEnd() / 100);

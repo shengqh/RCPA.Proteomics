@@ -55,7 +55,7 @@ namespace RCPA.Proteomics.PeptideProphet
       CurrentOptions.FilterByMinProbability = this.filterByMinPvalue.Checked;
       if (CurrentOptions.FilterByMinProbability)
       {
-        CurrentOptions.MinPValue = this.minPvalue.Value;     
+        CurrentOptions.MinPValue = this.minPvalue.Value;
       }
 
       if (selectedOnly)

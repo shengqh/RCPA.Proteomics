@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Gui.FileArgument;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
-using RCPA.Seq;
-using RCPA.Gui;
+using RCPA.Gui.FileArgument;
 
 namespace RCPA.Tools.Database
 {

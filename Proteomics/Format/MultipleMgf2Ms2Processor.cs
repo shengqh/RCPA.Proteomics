@@ -1,12 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
-using RCPA.Proteomics.Mascot;
-using RCPA.Utils;
-using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.IO;
 
 namespace RCPA.Proteomics.Format
 {

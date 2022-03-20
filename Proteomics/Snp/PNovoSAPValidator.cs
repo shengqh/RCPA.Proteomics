@@ -1,14 +1,13 @@
-﻿using System;
+﻿using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.PFind;
+using RCPA.Proteomics.Summary;
+using RCPA.Seq;
+using RCPA.Utils;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.PFind;
-using RCPA.Seq;
-using System.Text.RegularExpressions;
-using System.IO;
-using RCPA.Utils;
-using RCPA.Proteomics.Mascot;
 using System.Threading;
 
 namespace RCPA.Proteomics.Snp
@@ -162,7 +161,7 @@ namespace RCPA.Proteomics.Snp
       }
 
 
-      var pNovoStat = Path.Combine(options.TargetDirectory , "pNovo.SAP.stat");
+      var pNovoStat = Path.Combine(options.TargetDirectory, "pNovo.SAP.stat");
       using (StreamWriter sw = new StreamWriter(pNovoStat))
       {
         sw.WriteLine("Total Spectrum Count\t" + totalSpectrumCount.ToString());

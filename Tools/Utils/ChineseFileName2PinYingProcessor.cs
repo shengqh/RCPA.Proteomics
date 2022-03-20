@@ -1,13 +1,11 @@
+using RCPA.Utils;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
-using RCPA.Utils;
-using RCPA;
 
 namespace RCPA.Tools.Utils
 {
-  public class ChineseFileName2PinYingProcessor:IFileProcessor
+  public class ChineseFileName2PinYingProcessor : IFileProcessor
   {
     public static string version = "1.0.0";
 
@@ -18,7 +16,7 @@ namespace RCPA.Tools.Utils
       FileInfo[] files = new DirectoryInfo(mp3dir).GetFiles("*.mp3");
       foreach (FileInfo fi in files)
       {
-        string oldFilename = fi.Name.Replace("£¨", "(").Replace("£©", ")").Replace("£¬","").Replace(" ", "");
+        string oldFilename = fi.Name.Replace("£¨", "(").Replace("£©", ")").Replace("£¬", "").Replace(" ", "");
         string newFilename = Chinese.GetSpells(oldFilename);
 
         if (!fi.Name.Equals(newFilename))

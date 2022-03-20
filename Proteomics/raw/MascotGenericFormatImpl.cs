@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using RCPA.Proteomics.Mascot;
-using System.Text.RegularExpressions;
-using RCPA.Utils;
-using RCPA.Proteomics.Summary;
+﻿using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Spectrum;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.Raw
 {

@@ -1,11 +1,11 @@
+using RCPA.Proteomics.Summary;
+using RCPA.Proteomics.Summary.Uniform;
+using RCPA.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
-using RCPA.Proteomics.Summary;
-using RCPA.Utils;
-using RCPA.Proteomics.Summary.Uniform;
-using System;
 
 namespace RCPA.Proteomics.Sequest
 {

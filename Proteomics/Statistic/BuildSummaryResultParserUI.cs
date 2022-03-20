@@ -1,13 +1,6 @@
-using System;
-using System.IO;
-using System.Windows.Forms;
 using RCPA.Gui;
 using RCPA.Gui.Command;
-using RCPA.Gui.FileArgument;
-using RCPA.Proteomics.Sequest;
 using RCPA.Proteomics.Summary;
-using RCPA.Seq;
-using RCPA.Proteomics.Summary.Uniform;
 
 namespace RCPA.Proteomics.Statistic
 {

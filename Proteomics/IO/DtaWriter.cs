@@ -1,7 +1,7 @@
+using RCPA.Proteomics.Spectrum;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using RCPA.Proteomics.Spectrum;
 
 namespace RCPA.Proteomics.IO
 {
@@ -35,11 +35,11 @@ namespace RCPA.Proteomics.IO
         int[] charges = null;
         if (0 == oldcharge)
         {
-          charges = new[] {2, 3};
+          charges = new[] { 2, 3 };
         }
         else
         {
-          charges = new[] {pkl.PrecursorCharge};
+          charges = new[] { pkl.PrecursorCharge };
         }
 
         foreach (int charge in charges)

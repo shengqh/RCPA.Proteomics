@@ -1,10 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using RCPA.Proteomics.Isotopic;
-using RCPA.Proteomics.Summary;
-using System.IO;
-using RCPA.Seq;
 
 namespace RCPA.Proteomics.Summary
 {

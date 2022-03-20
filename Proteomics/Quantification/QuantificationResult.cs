@@ -46,7 +46,7 @@ namespace RCPA.Proteomics.Quantification
         }
         else
         {
-          return Intensities[0]/Intensities[1];
+          return Intensities[0] / Intensities[1];
         }
       }
       else if (Intensities.Count == 3)
@@ -58,7 +58,7 @@ namespace RCPA.Proteomics.Quantification
         }
         else
         {
-          return Intensities[0]/O18;
+          return Intensities[0] / O18;
         }
       }
       else

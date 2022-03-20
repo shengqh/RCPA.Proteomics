@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Spectrum;
+﻿using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Raw;
-using System.IO;
-using RCPA.Utils;
+using RCPA.Proteomics.Spectrum;
 using RCPA.Proteomics.Summary;
-using System.Threading.Tasks;
-using System.Threading;
-using RCPA.Proteomics.Mascot;
-using System.Xml.Linq;
 using RCPA.R;
+using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace RCPA.Proteomics.Quantification.Labelfree
 {
@@ -194,7 +191,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
                   if (!AddEnvelope(chro, rawReader, fullMSList, scanIndex))
                   {
                     naCount--;
-                    if(naCount == 0)
+                    if (naCount == 0)
                     {
                       break;
                     }
@@ -373,7 +370,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
         return false;
       }
 
-      if(options.MinimumProfileCorrelation > 0 && envelope.CalculateProfileCorrelation(chro.IsotopicIntensities) < options.MinimumProfileCorrelation)
+      if (options.MinimumProfileCorrelation > 0 && envelope.CalculateProfileCorrelation(chro.IsotopicIntensities) < options.MinimumProfileCorrelation)
       {
         return false;
       }

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using RCPA.Proteomics.Summary;
+using RCPA.Proteomics.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.Utils;
 
 namespace RCPA.Proteomics.Modification
 {
@@ -646,7 +646,8 @@ namespace RCPA.Proteomics.Modification
       if (result == 0)
       {
         result = this.modifiedCount.CompareTo(other.modifiedCount);
-      } return result;
+      }
+      return result;
     }
 
     public override int GetHashCode()

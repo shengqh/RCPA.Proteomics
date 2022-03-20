@@ -1,14 +1,12 @@
-﻿using System.Drawing;
-using System.IO;
-using System.Linq;
-using RCPA.Gui;
+﻿using RCPA.Gui;
 using RCPA.Gui.FileArgument;
-using RCPA.Gui.Image;
-using RCPA.Proteomics;
 using RCPA.Proteomics.Image;
 using RCPA.Proteomics.IO;
-using ZedGraph;
 using RCPA.Proteomics.Spectrum;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using ZedGraph;
 
 namespace RCPA.Tools.Annotation
 {
@@ -28,13 +26,17 @@ namespace RCPA.Tools.Annotation
       PeakList<MatchedPeak> pkl = GetAnnotatedPeakList();
 
       var points = new PointPairList();
-      pkl.ForEach(p => {
-        if(p.PeakType == IonType.UNKNOWN){
+      pkl.ForEach(p =>
+      {
+        if (p.PeakType == IonType.UNKNOWN)
+        {
           points.Add(new PointPair(p.Mz, p.Intensity));
         }
-        else{
+        else
+        {
           points.Add(new PointPair(p.Mz, p.Intensity, p.PeakType.ToString()));
-        }});
+        }
+      });
 
       zgcPeaks.InitGraph(new FileInfo(dtaFile.FullName).Name, "MZ", "Intensity", false, 1.0);
       zgcPeaks.AddIndividualLine("", points, Color.Black, true);

@@ -1,19 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using RCPA.Gui;
-using RCPA.Gui.FileArgument;
-using RCPA.Proteomics.Processor;
-using RCPA;
-using System.IO;
-using RCPA.Proteomics.IO;
-using RCPA.Proteomics;
 using RCPA.Gui.Command;
-using RCPA.Proteomics.Summary;
+using RCPA.Gui.FileArgument;
 
 namespace RCPA.Proteomics.ProteomeDiscoverer
 {
@@ -28,7 +15,7 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
     {
       InitializeComponent();
 
-      base.SetFileArgument("MSFExcel", new OpenFileArgument("MSF Text/Excel/Msf", new string[] { "txt", "xls","msf" }));
+      base.SetFileArgument("MSFExcel", new OpenFileArgument("MSF Text/Excel/Msf", new string[] { "txt", "xls", "msf" }));
 
       excelFormat = new RcpaCheckBox(cbExcelFormat, "ExcelFormat", false);
       AddComponent(excelFormat);
@@ -39,7 +26,7 @@ namespace RCPA.Proteomics.ProteomeDiscoverer
     protected override IFileProcessor GetFileProcessor()
     {
       var file = GetOriginFile();
-      
+
       if (file.ToUpper().EndsWith("MSF"))
       {
         return new MsfDatabaseToNoredundantProcessor();

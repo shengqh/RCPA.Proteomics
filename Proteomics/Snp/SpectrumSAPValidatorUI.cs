@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Gui;
+﻿using RCPA.Gui;
+using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
 using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Summary;
-using System.IO;
 using RCPA.Utils;
-using RCPA.Gui.Command;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace RCPA.Proteomics.Snp
 {
@@ -226,7 +223,7 @@ namespace RCPA.Proteomics.Snp
 
       if (File.Exists(mutationFilename))
       {
-        txtMutationFilename.Text =Path.GetFileName( mutationFilename);
+        txtMutationFilename.Text = Path.GetFileName(mutationFilename);
         pbMutation.Load(mutationFilename);
       }
       else
@@ -296,7 +293,7 @@ namespace RCPA.Proteomics.Snp
       }
     }
 
-    private static Regex indexReg = new Regex (@"(\d+)");
+    private static Regex indexReg = new Regex(@"(\d+)");
     private static int GetIndex(IIdentifiedSpectrum spectrum)
     {
       var index = spectrum.Annotations["Index"].ToString();

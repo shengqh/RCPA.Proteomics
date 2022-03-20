@@ -1,13 +1,9 @@
-﻿using System;
+﻿using RCPA.Proteomics.Summary;
+using RCPA.Proteomics.Summary.Uniform;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using RCPA.Proteomics.Summary;
 using System.Windows.Forms;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.PeptideProphet;
-using RCPA.Proteomics.Summary.Uniform;
+using System.Xml.Linq;
 
 namespace RCPA.Proteomics.PeptideProphet
 {

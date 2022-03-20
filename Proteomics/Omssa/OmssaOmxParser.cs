@@ -1,13 +1,10 @@
-﻿using System;
+﻿using RCPA.Gui;
+using RCPA.Proteomics.Modification;
+using RCPA.Proteomics.Summary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Summary;
 using System.Xml.Linq;
-using RCPA.Gui;
-using RCPA.Proteomics.PeptideProphet;
-using System.Text.RegularExpressions;
-using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.Omssa
 {

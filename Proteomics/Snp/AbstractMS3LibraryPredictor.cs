@@ -1,15 +1,11 @@
 ﻿using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Raw;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.Utils;
 using RCPA.Seq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RCPA.Proteomics.Snp
 {

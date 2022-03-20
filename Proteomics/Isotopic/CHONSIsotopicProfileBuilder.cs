@@ -1,6 +1,6 @@
+using RCPA.Utils;
 using System;
 using System.Collections.Generic;
-using RCPA.Utils;
 
 namespace RCPA.Proteomics.Isotopic
 {
@@ -19,11 +19,11 @@ namespace RCPA.Proteomics.Isotopic
     public const double N15 = 0.003663;
     public const double O16 = 0.997628;
     public const double O18 = 0.002;
-    public const double RATIO_C = C13/C12;
-    public const double RATIO_H = H2/H;
-    public const double RATIO_N = N15/N14;
-    public const double RATIO_O = O18/O16;
-    public const double RATIO_S = S34/S32;
+    public const double RATIO_C = C13 / C12;
+    public const double RATIO_H = H2 / H;
+    public const double RATIO_N = N15 / N14;
+    public const double RATIO_O = O18 / O16;
+    public const double RATIO_S = S34 / S32;
     public const double S32 = 0.95018;
     public const double S34 = 0.04215;
 
@@ -36,9 +36,9 @@ namespace RCPA.Proteomics.Isotopic
       int countS = ac.GetAtomCount(Atom.S);
       int maxC13 = Math.Min(profileLength, countC);
       int maxH2 = Math.Min(profileLength, countH);
-      int maxO18 = Math.Min(profileLength/2, countO);
+      int maxO18 = Math.Min(profileLength / 2, countO);
       int maxN15 = Math.Min(profileLength, countN);
-      int maxS34 = Math.Min(profileLength/2, countS);
+      int maxS34 = Math.Min(profileLength / 2, countS);
 
       var profile = new double[profileLength];
       for (int countC13 = 0; countC13 <= maxC13; countC13++)
@@ -63,7 +63,7 @@ namespace RCPA.Proteomics.Isotopic
             double combN = StatisticsUtils.GetCombinationProbability(countN15, countN, N15, N14);
             for (int countO18 = 0; countO18 <= maxO18; countO18++)
             {
-              int poLength = pnLength + countO18*2;
+              int poLength = pnLength + countO18 * 2;
               if (poLength >= profileLength)
               {
                 break;
@@ -72,13 +72,13 @@ namespace RCPA.Proteomics.Isotopic
 
               for (int countS34 = 0; countS34 <= maxS34; countS34++)
               {
-                int psLength = poLength + countS34*2;
+                int psLength = poLength + countS34 * 2;
                 if (psLength >= profileLength)
                 {
                   break;
                 }
                 double combS = StatisticsUtils.GetCombinationProbability(countS34, countS, S34, S32);
-                double totalProbability = combC*combH*combN*combO*combS;
+                double totalProbability = combC * combH * combN * combO * combS;
                 profile[psLength] += totalProbability;
               }
             }

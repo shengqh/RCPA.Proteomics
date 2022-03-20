@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Summary;
-using System.IO;
-
-namespace RCPA.Proteomics.Quantification.SILAC
+﻿namespace RCPA.Proteomics.Quantification.SILAC
 {
   public class SilacQuantificationSummaryOption : AbstractQuantificationSummaryOption
   {

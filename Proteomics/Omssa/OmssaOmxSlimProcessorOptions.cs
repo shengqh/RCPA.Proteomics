@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace RCPA.Proteomics.Omssa
+﻿namespace RCPA.Proteomics.Omssa
 {
   public class OmssaOmxSlimProcessorOptions
   {

@@ -1,8 +1,7 @@
-using RCPA.Proteomics.Summary;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
 
 namespace RCPA.Proteomics.MaxQuant
 {
@@ -26,7 +25,7 @@ namespace RCPA.Proteomics.MaxQuant
     private string dsName;
 
     private Func<MaxQuantItem, string> GetValue;
-    
+
     private Action<MaxQuantItem, string> SetValue;
 
     public MaxQuantItemListConverter(string name, string dsName, Func<MaxQuantItem, string> getValue, Action<MaxQuantItem, string> setValue)

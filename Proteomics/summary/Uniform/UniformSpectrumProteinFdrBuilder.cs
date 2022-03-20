@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Gui;
+﻿using RCPA.Gui;
 using RCPA.Utils;
+using System;
+using System.Collections.Generic;
 using System.IO;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Sequest;
+using System.Linq;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
@@ -165,9 +162,9 @@ namespace RCPA.Proteomics.Summary.Uniform
             List<IIdentifiedProteinGroup> groups = groupBuilder.Build(proteins);
 
             var proteinMap = new Dictionary<string, IIdentifiedProteinGroup>();
-            foreach(var g in groups)
+            foreach (var g in groups)
             {
-              foreach(var p in g)
+              foreach (var p in g)
               {
                 proteinMap[p.Name] = g;
               }
@@ -182,10 +179,10 @@ namespace RCPA.Proteomics.Summary.Uniform
               }
 
               var pgs = new HashSet<IIdentifiedProteinGroup>();
-              foreach(var protein in spectrum.Proteins)
+              foreach (var protein in spectrum.Proteins)
               {
                 IIdentifiedProteinGroup pg;
-                if(proteinMap.TryGetValue(protein, out pg))
+                if (proteinMap.TryGetValue(protein, out pg))
                 {
                   pgs.Add(pg);
                 }
@@ -193,13 +190,13 @@ namespace RCPA.Proteomics.Summary.Uniform
 
               //if the spectrum doesn't map to protein passed FDR filter, ignore
               //if the spectrum maps to multiple groups, ignore
-              if(pgs.Count == 0 || pgs.Count > 1)
+              if (pgs.Count == 0 || pgs.Count > 1)
               {
                 continue;
               }
 
               //The spectrum should map to all proteins in the group
-              if(pgs.First().All(l => spectrum.Proteins.Contains(l.Name)))
+              if (pgs.First().All(l => spectrum.Proteins.Contains(l.Name)))
               {
                 finalSpectra.Add(spectrum);
               }
@@ -211,11 +208,11 @@ namespace RCPA.Proteomics.Summary.Uniform
           GC.WaitForPendingFinalizers();
 
           return new IdentifiedSpectrumBuilderResult()
-        {
-          Spectra = finalSpectra,
-          PeptideFDR = finalItem.Unique2Result.PeptideFdr,
-          ProteinFDR = Options.FalseDiscoveryRate.FdrValue
-        };
+          {
+            Spectra = finalSpectra,
+            PeptideFDR = finalItem.Unique2Result.PeptideFdr,
+            ProteinFDR = Options.FalseDiscoveryRate.FdrValue
+          };
         }
         else
         {

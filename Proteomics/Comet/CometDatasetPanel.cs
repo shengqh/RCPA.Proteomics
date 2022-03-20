@@ -1,11 +1,7 @@
 ﻿using RCPA.Gui;
 using RCPA.Gui.FileArgument;
 using RCPA.Proteomics.Sequest;
-using RCPA.Proteomics.Summary.Uniform;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Windows.Forms;
 
 namespace RCPA.Proteomics.Comet
 {
@@ -36,7 +32,7 @@ namespace RCPA.Proteomics.Comet
         this.btnSave,
         this.lvDirectories,
         "Files",
-        new OpenFileArgument("Comet Xml", new []{"xml", "peptides"}, true),
+        new OpenFileArgument("Comet Xml", new[] { "xml", "peptides" }, true),
         true,
         false);
 
@@ -56,7 +52,7 @@ namespace RCPA.Proteomics.Comet
 
       this.filterByEvalue.Checked = this.CometOption.FilterByEvalue;
       this.maxEvalue.Value = this.CometOption.MaxEvalue;
-      
+
       this.dataFiles.ClearItems();
       this.dataFiles.AddItems(this.CometOption.PathNames.ToArray());
     }

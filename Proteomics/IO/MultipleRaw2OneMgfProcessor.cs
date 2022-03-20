@@ -1,9 +1,8 @@
-using System;
+using RCPA.Proteomics.Raw;
+using RCPA.Proteomics.Spectrum;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Raw;
 
 namespace RCPA.Proteomics.IO
 {
@@ -13,7 +12,7 @@ namespace RCPA.Proteomics.IO
 
     protected FileInfo saveToMergedFile;
 
-    public MultipleRaw2OneMgfProcessor(IRawFile2 rawFile,IPeakListWriter<Peak> writer, double retentionTimeTolerance,
+    public MultipleRaw2OneMgfProcessor(IRawFile2 rawFile, IPeakListWriter<Peak> writer, double retentionTimeTolerance,
                                        double ppmPrecursorTolerance, double ppmPeakTolerance,
                                        IProcessor<PeakList<Peak>> pklProcessor, FileInfo saveToMergedFile)
       : base(rawFile, writer, retentionTimeTolerance, ppmPrecursorTolerance, ppmPeakTolerance, pklProcessor)
@@ -46,7 +45,7 @@ namespace RCPA.Proteomics.IO
       {
         sw.Close();
       }
-      return new string[]{ this.saveToMergedFile.FullName}.ToList();
+      return new string[] { this.saveToMergedFile.FullName }.ToList();
     }
   }
 }

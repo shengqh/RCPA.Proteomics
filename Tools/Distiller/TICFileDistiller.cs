@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA;
+﻿using RCPA;
 using RCPA.Proteomics.Raw;
-using System.IO;
 using RCPA.Proteomics.Spectrum;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace TICDistiller
 {

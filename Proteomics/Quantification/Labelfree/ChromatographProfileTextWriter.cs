@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 
 namespace RCPA.Proteomics.Quantification.Labelfree
@@ -12,12 +11,12 @@ namespace RCPA.Proteomics.Quantification.Labelfree
       using (var sr = new StreamReader(fileName))
       {
         var line = sr.ReadLine();
-        while((line = sr.ReadLine()) != null)
+        while ((line = sr.ReadLine()) != null)
         {
           var parts = line.Split('\t');
           var scan = int.Parse(parts[0]);
           ChromatographProfileScan profilescan;
-          if(result.Profiles.Count > 0 && result.Profiles.Last().Scan == scan)
+          if (result.Profiles.Count > 0 && result.Profiles.Last().Scan == scan)
           {
             profilescan = result.Profiles.Last();
           }

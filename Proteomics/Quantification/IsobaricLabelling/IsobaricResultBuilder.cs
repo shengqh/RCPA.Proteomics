@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MathNet.Numerics.Statistics;
-using RCPA.Proteomics.Spectrum;
-using MathNet.Numerics.Distributions;
+﻿using System.Collections.Generic;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {

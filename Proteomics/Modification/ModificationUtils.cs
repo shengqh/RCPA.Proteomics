@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.Modification
 {
@@ -115,7 +115,7 @@ namespace RCPA.Proteomics.Modification
     /// <returns></returns>
     public static List<ModificationSiteProbability> ParseProbability(string siteProbability)
     {
-      var  result = new List<ModificationSiteProbability>();
+      var result = new List<ModificationSiteProbability>();
 
       foreach (var s in siteProbability.Split(';'))
       {

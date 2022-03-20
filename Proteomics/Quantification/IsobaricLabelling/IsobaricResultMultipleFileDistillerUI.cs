@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RCPA.Gui;
+using RCPA.Gui.Command;
+using RCPA.Gui.FileArgument;
+using System;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Linq;
 using System.Windows.Forms;
-using RCPA.Gui;
-using RCPA.Gui.FileArgument;
-using RCPA.Gui.Command;
-using System.IO;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {

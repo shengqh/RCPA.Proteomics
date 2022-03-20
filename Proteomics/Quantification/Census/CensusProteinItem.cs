@@ -1,9 +1,8 @@
-﻿using System;
+﻿using MathNet.Numerics.Distributions;
+using RCPA.Proteomics.Utils;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using MathNet.Numerics.Statistics;
-using RCPA.Proteomics.Utils;
-using MathNet.Numerics.Distributions;
 
 namespace RCPA.Proteomics.Quantification.Census
 {
@@ -68,7 +67,7 @@ namespace RCPA.Proteomics.Quantification.Census
         return;
       }
 
-      this.peptides.Sort(delegate(CensusPeptideItem a, CensusPeptideItem b)
+      this.peptides.Sort(delegate (CensusPeptideItem a, CensusPeptideItem b)
                            {
                              int result = a.Sequence.CompareTo(b.Sequence);
                              if (result != 0)

@@ -1,13 +1,13 @@
+using RCPA.Proteomics.Spectrum;
+using RCPA.Utils;
 using System.Collections.Generic;
 using System.IO;
-using RCPA.Utils;
-using RCPA.Proteomics.Spectrum;
 
 namespace RCPA.Proteomics.IO
 {
   public class DtaIO
   {
-    public static PeakList<T> ReadFromDta<T>(string dtaFilename) where T:IPeak, new()
+    public static PeakList<T> ReadFromDta<T>(string dtaFilename) where T : IPeak, new()
     {
       return new DtaFormat<T>().ReadFromFile(dtaFilename);
     }
@@ -32,7 +32,7 @@ namespace RCPA.Proteomics.IO
       while (ddi.HasNext())
       {
         progress.Increment(1);
-      
+
         if (progress.IsCancellationPending())
         {
           throw new UserTerminatedException();

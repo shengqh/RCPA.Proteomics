@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using RCPA.Proteomics.Spectrum;
+using System.Collections.Generic;
 
 namespace RCPA.Proteomics
 {
@@ -139,7 +139,7 @@ namespace RCPA.Proteomics
 
     private static void SortEnvelopesByCountChargeMz<T>(List<PeakList<T>> envelopes) where T : IPeak
     {
-      envelopes.Sort(delegate(PeakList<T> p1, PeakList<T> p2)
+      envelopes.Sort(delegate (PeakList<T> p1, PeakList<T> p2)
                        {
                          int result = -p1.Count.CompareTo(p2.Count);
                          if (0 == result && 0 != p1.Count)

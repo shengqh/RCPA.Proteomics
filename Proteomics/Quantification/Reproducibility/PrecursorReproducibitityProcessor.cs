@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MathNet.Numerics.Statistics;
+﻿using MathNet.Numerics.Distributions;
 using RCPA.Utils;
+using System;
+using System.Collections.Generic;
 using System.IO;
-using MathNet.Numerics.Distributions;
+using System.Linq;
 
 namespace RCPA.Proteomics.Quantification.Reproducibility
 {
@@ -123,7 +121,7 @@ namespace RCPA.Proteomics.Quantification.Reproducibility
 
             rts.ForEach(m => m.Used = true);
 
-            sw.WriteLine("{0} vs {1}\tmatched {2}",fileI,fileJ,rts.Count);
+            sw.WriteLine("{0} vs {1}\tmatched {2}", fileI, fileJ, rts.Count);
 
             var acc = new MeanStandardDeviation(rts.ConvertAll(m => m.RetentionTimeDiff).ToArray());
             sw.WriteLine("RETENTION TIME : Mean = {0:0.0000}, SD = {1:0.0000}", acc.Mean, acc.StdDev);
@@ -156,7 +154,7 @@ namespace RCPA.Proteomics.Quantification.Reproducibility
     private static void WriteOnlyItem(StreamWriter sw, PrecursorItemList itemI, string title)
     {
       sw.WriteLine();
-      sw.WriteLine("{0}\t{1}",title,itemI.Count );
+      sw.WriteLine("{0}\t{1}", title, itemI.Count);
       var iOnly = (from item in itemI where !item.Matched select item).ToList();
       sw.WriteLine("MZ\tRT\tABUNDANCE");
       iOnly.ForEach(m => sw.WriteLine("{0:0.0000}\t{1:0.0000}\t{2:0.0000}",

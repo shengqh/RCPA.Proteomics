@@ -1,12 +1,7 @@
-﻿using System;
+﻿using RCPA.Proteomics.Raw;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Raw;
-using MathNet.Numerics.Statistics;
 using System.IO;
-using MathNet.Numerics.LinearAlgebra.Double;
-using RCPA.Proteomics.Spectrum;
+using System.Linq;
 
 namespace RCPA.Proteomics.Statistic
 {
@@ -14,7 +9,7 @@ namespace RCPA.Proteomics.Statistic
   {
     public static Dictionary<string, int> ReadFromFile(string fileName)
     {
-      var result =new Dictionary<string, int>();
+      var result = new Dictionary<string, int>();
       var lines = File.ReadAllLines(fileName).Skip(1);
       foreach (var line in lines)
       {

@@ -1,8 +1,4 @@
-﻿using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
-using RCPA.Proteomics.Summary;
-using RCPA.Utils;
+﻿using RCPA.Proteomics.Summary;
 
 namespace RCPA.Proteomics.Quantification.O18
 {

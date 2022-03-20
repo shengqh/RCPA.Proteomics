@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using RCPA.Proteomics;
+using RCPA.Proteomics.Quantification;
 using RCPA.Proteomics.Quantification.Lipid;
 using RCPA.Proteomics.Raw;
-using System.IO;
 using RCPA.Utils;
-using RCPA.Proteomics;
-using RCPA.Proteomics.Quantification;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 
 namespace RCPA.Tools.Quantification.Lipid
 {
@@ -119,7 +118,9 @@ namespace RCPA.Tools.Quantification.Lipid
             if (File.Exists(targetFile))
             {
               item = itemFormat.ReadFromFile(targetFile);
-            }else{
+            }
+            else
+            {
               var ions = queryFunc.QueryChromotograph(precursorMzs[i].PrecursorMz, precursorPPM);
 
               int continueCount = 0;

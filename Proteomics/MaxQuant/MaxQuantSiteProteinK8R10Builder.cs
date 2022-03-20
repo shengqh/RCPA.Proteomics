@@ -1,13 +1,4 @@
-﻿using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Modification;
-using RCPA.Proteomics.Summary;
-using RCPA.Seq;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-
-namespace RCPA.Proteomics.MaxQuant
+﻿namespace RCPA.Proteomics.MaxQuant
 {
   public class MaxQuantSiteProteinK8R10Builder : AbstractMaxQuantSiteProteinBuilder
   {

@@ -55,7 +55,7 @@ namespace RCPA.Proteomics.Quantification.O18
         //Consider that O16 cannot be labelled to O18 in second step to decrease the complexibility
         //I(O18_1)/I(O18_2) = ((1-p)k + (1-k)p) /pk
         //k = 1 / (2 + O181/O182 - 1/p)
-        k = 1/(2 + o18_1/o18_2 - 1/purityOfO18Water);
+        k = 1 / (2 + o18_1 / o18_2 - 1 / purityOfO18Water);
 
         Console.Out.WriteLine("k=" + k);
 
@@ -67,12 +67,12 @@ namespace RCPA.Proteomics.Quantification.O18
       //then, calculate the intensity from O18 labelled sample, assume as y
       //I(O18_1) + I(O18_2) = (1-k)py + (1-p)ky + pky
       //y = (I(O18_1) + I(O18_2)) / ((1-k)p + (1-p)k + pk)
-      double y = (o18_1 + o18_2)/((1 - k)*purityOfO18Water + (1 - purityOfO18Water)*k + purityOfO18Water*k);
+      double y = (o18_1 + o18_2) / ((1 - k) * purityOfO18Water + (1 - purityOfO18Water) * k + purityOfO18Water * k);
 
       //finally, calculate the intensity from O16 labelled sample, assume as x
       //I(O16) = x + (1-k)(1-purity) * y
       //x = I(O16) - (1-k)(1-purity) * y
-      double x = o16 - (1 - k)*(1 - purityOfO18Water)*y;
+      double x = o16 - (1 - k) * (1 - purityOfO18Water) * y;
 
       if (x < 0) // it cannot be fixed, just use simple formula
       {

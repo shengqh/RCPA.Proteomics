@@ -1,11 +1,7 @@
-﻿using System;
+﻿using RCPA.Proteomics.PeptideProphet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Summary;
-using System.IO;
-using System.Text.RegularExpressions;
-using RCPA.Proteomics.PeptideProphet;
 
 namespace RCPA.Proteomics.Mascot
 {

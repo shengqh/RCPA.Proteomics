@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Mascot;
-using RCPA.Utils;
-using System.IO;
+﻿using RCPA.Proteomics.Mascot;
 using RCPA.Seq;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Quantification.Labelfree
 {
@@ -105,7 +102,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
         foreach (var group in countPassed)
         {
           var protein = group[0];
-          sw.Write(protein.Name + "\t" + protein.Description.Replace('\'', ' ').Replace('\t',' '));
+          sw.Write(protein.Name + "\t" + protein.Description.Replace('\'', ' ').Replace('\t', ' '));
           var lr = protein.GetLabelfreeResult();
           foreach (var dsKey in expsMap.Keys)
           {

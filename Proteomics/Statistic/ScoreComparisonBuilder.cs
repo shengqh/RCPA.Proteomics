@@ -1,9 +1,7 @@
-﻿using System;
+﻿using RCPA.Proteomics.Mascot;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Mascot;
 using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Statistic
 {

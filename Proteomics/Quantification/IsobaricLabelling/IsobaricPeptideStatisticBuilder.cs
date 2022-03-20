@@ -1,19 +1,13 @@
-﻿using System;
+﻿using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.Modification;
+using RCPA.Proteomics.Summary;
+using RCPA.R;
+using RCPA.Utils;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using RCPA.Proteomics.Quantification;
-using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.Sequest;
-using MathNet.Numerics.Statistics;
-using System.IO;
-using RCPA.Utils;
-using RCPA.Proteomics.Utils;
-using RCPA.Proteomics.Mascot;
-using MathNet.Numerics.Distributions;
-using RCPA.Numerics;
-using RCPA.R;
-using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {

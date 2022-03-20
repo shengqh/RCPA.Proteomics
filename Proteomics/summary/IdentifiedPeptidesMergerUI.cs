@@ -1,14 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Windows.Forms;
 using RCPA.Gui;
 using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Summary;
-using RCPA.Seq;
-using RCPA.Proteomics.Sequest;
+using System.Windows.Forms;
 
 namespace RCPA.Tools.Summary
 {
@@ -25,7 +18,7 @@ namespace RCPA.Tools.Summary
       InitializeComponent();
 
       this.peptideFiles.FileArgument = new OpenFileArgument("Identified Peptide", "peptides");
-      AddComponent(new RcpaMultipleFileComponent(this.peptideFiles.GetItemInfos(),"PeptideFiles","Peptide Files", false, true));
+      AddComponent(new RcpaMultipleFileComponent(this.peptideFiles.GetItemInfos(), "PeptideFiles", "Peptide Files", false, true));
 
       this.targetFile = new RcpaFileField(btnOriginalFile, txtOriginalFile, "TargetFile", new SaveFileArgument("Target Peptides", "peptides"), false);
 

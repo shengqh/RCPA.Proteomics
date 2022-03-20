@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RCPA.Proteomics.Format
+﻿namespace RCPA.Proteomics.Format
 {
   public abstract class AbstractRawConverterOptions
   {

@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Gui;
-using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.Mascot;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
+using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.Utils;
-using RCPA.Gui.Image;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Threading;
+using System.Windows.Forms;
 
 namespace RCPA.Proteomics.Quantification.ITraq
 {
@@ -111,7 +105,7 @@ namespace RCPA.Proteomics.Quantification.ITraq
         Progress.SetMessage("Reading itraqs from " + itrapFile + " ...");
         ITraqItemUtils.LoadITraq(spectra, itrapFile, true, Progress);
 
-        for(int i = proteins.Count-1;i >= 0;i--)
+        for (int i = proteins.Count - 1; i >= 0; i--)
         {
           var group = proteins[i];
           group[0].Peptides.RemoveAll(m => m.Spectrum.FindIsobaricItem() == null);

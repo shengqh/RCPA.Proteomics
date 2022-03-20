@@ -1,6 +1,6 @@
+using RCPA.Proteomics.Spectrum;
 using System.IO;
 using System.Text.RegularExpressions;
-using RCPA.Proteomics.Spectrum;
 
 namespace RCPA.Proteomics.IO
 {

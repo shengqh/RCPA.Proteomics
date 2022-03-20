@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using RCPA.Proteomics.Quantification;
-using System.IO;
-using RCPA.Utils;
-using RCPA.Proteomics.Raw;
-using System.Text.RegularExpressions;
+﻿using RCPA.Proteomics.Raw;
 using RCPA.Proteomics.Sequest;
 using RCPA.Proteomics.Summary;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace RCPA.Tools.Raw
 {

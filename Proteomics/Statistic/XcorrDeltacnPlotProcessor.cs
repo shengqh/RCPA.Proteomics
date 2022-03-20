@@ -1,9 +1,9 @@
+using RCPA.Proteomics.Sequest;
+using RCPA.Proteomics.Summary;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
-using RCPA.Proteomics.Sequest;
-using RCPA.Proteomics.Summary;
 
 namespace RCPA.Proteomics.Analysis
 {
@@ -89,7 +89,7 @@ namespace RCPA.Proteomics.Analysis
         g.DrawString("Score", font, new SolidBrush(Color.Black), GetX(maxScore, maxScore) - 20,
                      GetY(maxDeltaScore, 0) + 10);
         g.DrawString("DeltaScore", font, new SolidBrush(Color.Black), GetX(maxScore, 0) - 20,
-                     GetY(maxDeltaScore, maxDeltaScore) - (int) fontHeight - 5);
+                     GetY(maxDeltaScore, maxDeltaScore) - (int)fontHeight - 5);
 
         DrawXScale(maxScore, maxDeltaScore, g, font);
         DrawYScale(maxScore, maxDeltaScore, g, font);
@@ -104,7 +104,7 @@ namespace RCPA.Proteomics.Analysis
           }
 
           int x = GetX(maxScore, sph.Score);
-          var y = (int) (this.height - sph.DeltaScore/maxDeltaScore*this.height - this.top);
+          var y = (int)(this.height - sph.DeltaScore / maxDeltaScore * this.height - this.top);
           g.FillEllipse(new SolidBrush(color), new Rectangle(x - 1, y - 1, 3, 3));
           //Console.WriteLine(MyConvert.Format("{0:0.0000}\t{1:0.0000}\t{2}\t{3}\t{4}\t{5}",
           //  sph.Score,
@@ -149,14 +149,14 @@ namespace RCPA.Proteomics.Analysis
         int y = GetY(maxDeltaScore, DeltaScore);
         g.DrawLine(new Pen(Color.Black), leftX, y, leftX - 3, y);
         g.DrawString(MyConvert.Format("{0:0.0}", DeltaScore), font, new SolidBrush(Color.Black), leftX - 20,
-                     y - (int) (fontHeight/2));
+                     y - (int)(fontHeight / 2));
       }
     }
 
     private void DrawColorTitle(double maxScore, double maxDeltaScore, Graphics g, Font font, HashSet<Color> colors)
     {
-      int leftX = this.left + (this.width - 2*this.left)*4/5;
-      int topY = this.top + (this.height - 2*this.top)*4/5;
+      int leftX = this.left + (this.width - 2 * this.left) * 4 / 5;
+      int topY = this.top + (this.height - 2 * this.top) * 4 / 5;
       double fontHeight = font.GetHeight(g);
 
       int count = 0;
@@ -164,8 +164,8 @@ namespace RCPA.Proteomics.Analysis
       {
         if (colors.Contains(pcf.PlotColor))
         {
-          int nextY = topY + (int) (count*fontHeight*2);
-          g.FillRectangle(new SolidBrush(pcf.PlotColor), leftX, nextY, 15, (int) (fontHeight));
+          int nextY = topY + (int)(count * fontHeight * 2);
+          g.FillRectangle(new SolidBrush(pcf.PlotColor), leftX, nextY, 15, (int)(fontHeight));
           g.DrawString(pcf.Title, font, new SolidBrush(Color.Black), leftX + 20, nextY);
           count++;
         }
@@ -174,12 +174,12 @@ namespace RCPA.Proteomics.Analysis
 
     private int GetX(double maxScore, double Score)
     {
-      return (int) (this.left + Score/maxScore*(this.width - 2*this.left));
+      return (int)(this.left + Score / maxScore * (this.width - 2 * this.left));
     }
 
     private int GetY(double maxDeltaScore, double DeltaScore)
     {
-      return (int) (this.height - this.top - DeltaScore/maxDeltaScore*(this.height - 2*this.top));
+      return (int)(this.height - this.top - DeltaScore / maxDeltaScore * (this.height - 2 * this.top));
     }
 
     private Color GetColor(IIdentifiedSpectrum sph)

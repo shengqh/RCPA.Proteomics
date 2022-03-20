@@ -1,10 +1,8 @@
+using RCPA.Proteomics.Modification;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-using RCPA.Proteomics.Summary;
 using System.Collections.ObjectModel;
-using RCPA.Proteomics.Modification;
+using System.Text;
 
 namespace RCPA.Proteomics.Summary
 {

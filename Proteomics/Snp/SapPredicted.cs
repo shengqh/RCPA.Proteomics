@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RCPA.Proteomics.Snp
+﻿namespace RCPA.Proteomics.Snp
 {
   public class SapPredicted
   {
@@ -21,7 +15,7 @@ namespace RCPA.Proteomics.Snp
         {
           return false;
         }
-        
+
         if (!this.Expect.Source.Equals(Target.Source))
         {
           return false;

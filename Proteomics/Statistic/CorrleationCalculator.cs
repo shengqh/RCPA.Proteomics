@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MathNet.Numerics.Statistics;
 using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.Utils;
-using MathNet.Numerics.Statistics;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Statistic
 {

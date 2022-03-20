@@ -1,17 +1,13 @@
-﻿using System;
+﻿using RCPA.Gui;
+using RCPA.Proteomics.Modification;
+using RCPA.Proteomics.Summary;
+using RCPA.Utils;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
-using RCPA.Gui;
-using RCPA.Proteomics.Summary;
-using RCPA.Seq;
-using RCPA.Utils;
-using System.IO;
-using System.Xml.Linq;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.XTandem
 {

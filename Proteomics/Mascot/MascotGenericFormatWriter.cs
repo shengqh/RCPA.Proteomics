@@ -1,10 +1,8 @@
-﻿using System;
+﻿using RCPA.Proteomics.IO;
+using RCPA.Proteomics.Spectrum;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Linq;
-using RCPA.Proteomics.IO;
-using RCPA.Proteomics.Spectrum;
 
 namespace RCPA.Proteomics.Mascot
 {

@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using System.Linq;
-using RCPA.Utils;
+﻿using RCPA.Proteomics.Isotopic;
 using RCPA.Proteomics.Spectrum;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
-using RCPA.emass;
-using RCPA.Proteomics.Isotopic;
 
 namespace RCPA.Proteomics.Quantification.SILAC
 {
@@ -79,9 +75,9 @@ namespace RCPA.Proteomics.Quantification.SILAC
 
         double minPercentage = 0.0001;
 
-        AtomComposition acSample = new AtomComposition (result.SampleAtomComposition);
+        AtomComposition acSample = new AtomComposition(result.SampleAtomComposition);
         result.SampleProfile = builder.GetProfile(acSample, result.Charge, minPercentage);
-        
+
         AtomComposition acRef = new AtomComposition(result.ReferenceAtomComposition);
         result.ReferenceProfile = builder.GetProfile(acRef, result.Charge, minPercentage);
       }

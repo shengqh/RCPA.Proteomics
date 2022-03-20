@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Gui.FileArgument;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
-using RCPA.Gui;
+using RCPA.Gui.FileArgument;
 
 namespace RCPA.Seq
 {
@@ -38,7 +31,7 @@ namespace RCPA.Seq
       includeContaminantProteins = new RcpaCheckBox(cbContaminantFile, "IncludeContaminantFile", false);
       AddComponent(includeContaminantProteins);
 
-      klet = new RcpaIntegerField (txtKlet,"Klet","Klet",1,true);
+      klet = new RcpaIntegerField(txtKlet, "Klet", "Klet", 1, true);
       AddComponent(klet);
 
       repeat = new RcpaIntegerField(txtRepeat, "Repeat", "Repeat", 1, true);

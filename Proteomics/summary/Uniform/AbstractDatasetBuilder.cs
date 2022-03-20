@@ -1,10 +1,6 @@
-﻿using System;
+﻿using RCPA.Gui;
+using System;
 using System.Collections.Generic;
-using System.IO;
-using RCPA.Proteomics.Summary;
-using RCPA.Utils;
-using RCPA.Gui;
-using RCPA.Proteomics.Mascot;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {

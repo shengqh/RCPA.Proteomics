@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Seq;
+﻿using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.Sequest;
-using System.IO;
+using RCPA.Seq;
 using RCPA.Utils;
-using RCPA.Proteomics.Utils;
-using RCPA.Proteomics.Mascot;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Distribution
 {
@@ -98,9 +95,9 @@ namespace RCPA.Proteomics.Distribution
             if (item.GetClassifiedCount(keptClassifiedName) >= iMinCount)
             {
               var classifiedSpectra = (from p in item.Peptides
-                                      let key = sphc.GetClassification(p)
-                                      where key == keptClassifiedName
-                                      select p.Spectrum).Distinct();
+                                       let key = sphc.GetClassification(p)
+                                       where key == keptClassifiedName
+                                       select p.Spectrum).Distinct();
               spectra.AddRange(classifiedSpectra);
             }
           }

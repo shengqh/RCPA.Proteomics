@@ -1,9 +1,7 @@
-﻿using System;
+﻿using RCPA.Proteomics.Summary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Summary;
-using MathNet.Numerics.Statistics;
 
 namespace RCPA.Proteomics.Quantification.Labelfree
 {
@@ -33,8 +31,9 @@ namespace RCPA.Proteomics.Quantification.Labelfree
       }
 
       //build experimental/dataset map
-      var expDatasetMap = new Dictionary<string,string>();
-      foreach(var ds in datasets){
+      var expDatasetMap = new Dictionary<string, string>();
+      foreach (var ds in datasets)
+      {
         ds.Value.ForEach(m => expDatasetMap[m] = ds.Key);
       }
 

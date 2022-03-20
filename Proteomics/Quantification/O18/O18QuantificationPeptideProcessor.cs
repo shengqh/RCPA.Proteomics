@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using RCPA.Proteomics.Isotopic;
+﻿using RCPA.Proteomics.Isotopic;
 using RCPA.Proteomics.Spectrum;
+using System.Collections.Generic;
+using System.IO;
 
 namespace RCPA.Proteomics.Quantification.O18
 {

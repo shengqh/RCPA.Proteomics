@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+﻿using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
-using RCPA.Gui;
-using RCPA.Gui.Command;
-using RCPA.Proteomics.Summary;
-using System.Text.RegularExpressions;
-using RCPA.Utils;
 using RCPA.Tools.Summary;
 
 namespace RCPA.Tools.Modification

@@ -10,7 +10,7 @@ namespace RCPA.Proteomics.Mascot
   public class MascotGenericFormatShiftPrecursorProcessorOptions : AbstractOptions
   {
     private const double DEFAULT_ShiftMass = -10.0;
-    
+
     public const int DEFAULT_ShiftScan = 10000000;
 
     private const string DEFAULT_TitleFormat = "DTA";
@@ -18,13 +18,13 @@ namespace RCPA.Proteomics.Mascot
     [OptionList('i', "inputFiles", Required = true, MetaValue = "FILE_LIST", HelpText = "Input MASCOT dat files")]
     public IList<string> InputFiles { get; set; }
 
-    [Option('t', "titleName", Required = false, DefaultValue=DEFAULT_TitleFormat, MetaValue = "STRING", HelpText = "Title format")]
+    [Option('t', "titleName", Required = false, DefaultValue = DEFAULT_TitleFormat, MetaValue = "STRING", HelpText = "Title format")]
     public string TitleFormat { get; set; }
 
     [Option('o', "outputDirectory", Required = false, MetaValue = "DIRECTORY", HelpText = "Output directory")]
     public string OutputDirectory { get; set; }
 
-    [Option('m', "shiftMass", Required = false, DefaultValue=DEFAULT_ShiftMass, MetaValue = "DOUBLE", HelpText = "Delta mass added to old precursor")]
+    [Option('m', "shiftMass", Required = false, DefaultValue = DEFAULT_ShiftMass, MetaValue = "DOUBLE", HelpText = "Delta mass added to old precursor")]
     public double ShiftMass { get; set; }
 
     [Option('s', "shiftScan", Required = false, DefaultValue = DEFAULT_ShiftScan, MetaValue = "DOUBLE", HelpText = "Delta scan added to old scan")]

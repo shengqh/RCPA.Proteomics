@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Quantification;
-using System.Text.RegularExpressions;
-using RCPA.Proteomics.Quantification.ITraq;
-using MathNet.Numerics.Statistics;
-using MathNet.Numerics.Distributions;
+﻿using MathNet.Numerics.Distributions;
+using System;
 
 namespace RCPA.Proteomics.Quantification.ITraq
 {

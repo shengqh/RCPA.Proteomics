@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Seq;
+﻿using RCPA.Proteomics.Sequest;
 using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.Sequest;
-using System.IO;
+using RCPA.Seq;
 using RCPA.Utils;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Distribution
 {

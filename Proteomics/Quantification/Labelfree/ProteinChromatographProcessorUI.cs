@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Seq;
-using RCPA.Gui;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Gui.FileArgument;
-using RCPA.Proteomics.Raw;
-using ZedGraph;
-using RCPA.Gui.Image;
-using System.IO;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
-using RCPA.Proteomics.Summary;
+using RCPA.Gui.FileArgument;
 using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.Raw;
+using RCPA.Proteomics.Summary;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+using ZedGraph;
 
 namespace RCPA.Proteomics.Quantification.Labelfree
 {

@@ -1,7 +1,5 @@
-using System.Linq;
-using RCPA.Proteomics.Quantification.SILAC;
 using System.Collections.Generic;
-using System;
+using System.Linq;
 
 namespace RCPA.Proteomics.Quantification.ITraq
 {

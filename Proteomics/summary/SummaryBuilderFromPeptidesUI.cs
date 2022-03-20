@@ -1,14 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Windows.Forms;
-using RCPA.Gui;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
-using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Summary;
-using System.Collections.Generic;
-using RCPA.Utils;
-using RCPA.Proteomics.Summary.Uniform;
+using System.IO;
 
 namespace RCPA.Tools.Summary
 {

@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using System.Linq;
-using RCPA.Gui;
+﻿using RCPA.Gui;
 using RCPA.Gui.FileArgument;
-using RCPA.Proteomics.Sequest;
-using RCPA.Proteomics.Summary;
-using RCPA.Gui.Command;
 using RCPA.Proteomics.Distribution;
+using RCPA.Proteomics.Summary;
+using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace RCPA.Proteomics.Statistic
 {
@@ -139,7 +132,7 @@ namespace RCPA.Proteomics.Statistic
         SourceFileName = sourceFile.FullName,
         ClassifiedByTag = cbClassifiedByTag.Checked
       };
-      
+
       return option;
     }
 

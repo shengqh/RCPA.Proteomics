@@ -1,12 +1,12 @@
-using System;
 using RCPA.Proteomics.Spectrum;
+using System;
 
 namespace RCPA.Proteomics.Raw
 {
   public static class MzxmlHelper
   {
     private static readonly int precision = 32;
-    private static readonly int sigBytes = precision/8;
+    private static readonly int sigBytes = precision / 8;
 
     public static byte[] GetNetworkModeBytesFromFloat(float value)
     {
@@ -39,17 +39,17 @@ namespace RCPA.Proteomics.Raw
 
     public static string PeakListToBase64(PeakList<Peak> pkl)
     {
-      var totalBytes = new byte[pkl.Count*8];
+      var totalBytes = new byte[pkl.Count * 8];
       int index = -1;
       foreach (Peak peak in pkl)
       {
         index++;
-        byte[] mzBytes = GetNetworkModeBytesFromFloat((float) peak.Mz);
-        byte[] intensityBytes = GetNetworkModeBytesFromFloat((float) peak.Intensity);
+        byte[] mzBytes = GetNetworkModeBytesFromFloat((float)peak.Mz);
+        byte[] intensityBytes = GetNetworkModeBytesFromFloat((float)peak.Intensity);
         for (int i = 0; i < 4; i++)
         {
-          totalBytes[index*8 + i] = mzBytes[i];
-          totalBytes[index*8 + 4 + i] = intensityBytes[i];
+          totalBytes[index * 8 + i] = mzBytes[i];
+          totalBytes[index * 8 + 4 + i] = intensityBytes[i];
         }
       }
 

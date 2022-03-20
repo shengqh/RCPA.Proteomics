@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.PeptideProphet;
-using RCPA.Proteomics.Mascot;
-using RCPA.Utils;
-using RCPA.Proteomics.Summary;
+using System.Collections.Generic;
 
 namespace RCPA.Proteomics.Format
 {
-  public class ProteinProphetToSummaryProcessor:AbstractThreadFileProcessor
+  public class ProteinProphetToSummaryProcessor : AbstractThreadFileProcessor
   {
     private double min_probability;
 
@@ -33,7 +28,7 @@ namespace RCPA.Proteomics.Format
       result.Sort();
       result.BuildGroupIndex();
 
-      var resultFile = FileUtils.ChangeExtension(fileName,"noredundant");
+      var resultFile = FileUtils.ChangeExtension(fileName, "noredundant");
       var format = new MascotResultTextFormat(MascotHeader.PROTEINPROPHET_PROTEIN_HEADER, MascotHeader.PROTEINPROPHET_PEPTIDE_HEADER);
       format.WriteToFile(resultFile, result);
 

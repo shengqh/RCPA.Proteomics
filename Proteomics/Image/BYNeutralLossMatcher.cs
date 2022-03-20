@@ -1,9 +1,5 @@
-﻿using System;
+﻿using RCPA.Proteomics.Spectrum;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Utils;
-using RCPA.Proteomics.Spectrum;
 
 namespace RCPA.Proteomics.Image
 {
@@ -11,7 +7,7 @@ namespace RCPA.Proteomics.Image
   {
     private double minBYNeutralLossIntensityScale;
 
-    public BYNeutralLossMatcher(double peakMzTolerance, double minBYNeutralLossIntensityScale):
+    public BYNeutralLossMatcher(double peakMzTolerance, double minBYNeutralLossIntensityScale) :
       base(peakMzTolerance)
     {
       this.minBYNeutralLossIntensityScale = minBYNeutralLossIntensityScale;

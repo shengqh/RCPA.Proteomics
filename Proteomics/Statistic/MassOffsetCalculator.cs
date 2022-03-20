@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MathNet.Numerics.Statistics;
 using RCPA.Proteomics.Raw;
-using MathNet.Numerics.Statistics;
+using System;
+using System.Collections.Generic;
 using System.IO;
-using MathNet.Numerics.LinearAlgebra.Double;
-using RCPA.Proteomics.Spectrum;
+using System.Linq;
 
 namespace RCPA.Proteomics.Statistic
 {
@@ -41,7 +38,7 @@ namespace RCPA.Proteomics.Statistic
     {
       var result = new List<OffsetEntry>();
       var lines = File.ReadAllLines(fileName);
-      for(int i = 1;i < lines.Length;i++)
+      for (int i = 1; i < lines.Length; i++)
       {
         var parts = lines[i].Split('\t');
         if (parts.Length < 6)
@@ -52,7 +49,7 @@ namespace RCPA.Proteomics.Statistic
         OffsetEntry entry = new OffsetEntry(int.Parse(parts[0]), double.Parse(parts[2]), double.Parse(parts[4]), int.Parse(parts[3]));
         entry.InitValue.MedianInWindow = double.Parse(parts[5]);
 
-        if(parts.Length > 6)
+        if (parts.Length > 6)
         {
           entry.RefineValue.Count = int.Parse(parts[6]);
           entry.RefineValue.IonOffset = int.Parse(parts[7]);

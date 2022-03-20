@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.PFind;
-using RCPA.Seq;
-using System.Text.RegularExpressions;
-using System.IO;
+﻿using RCPA.Seq;
 using RCPA.Utils;
-using RCPA.Proteomics.Mascot;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Database
 {

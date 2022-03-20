@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Xml.Linq;
-using RCPA.Gui;
+﻿using RCPA.Gui;
 using RCPA.Utils;
-using System.Text.RegularExpressions;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml.Linq;
 
 namespace RCPA.Proteomics.Quantification.Srm
 {
@@ -248,7 +246,7 @@ namespace RCPA.Proteomics.Quantification.Srm
 
     public void WriteToFile(string fileName, SrmPairedResult t)
     {
-      XElement root = new XElement("MRM", 
+      XElement root = new XElement("MRM",
         t.Options.ToXml(false),
         from c in t
         select PeptideToItem(c));

@@ -20,28 +20,28 @@ namespace RCPA.Proteomics.Mascot
       return new MascotGenericFormatShiftPrecursorProcessor(options);
     }
 
-      #region IToolCommand Members
+    #region IToolCommand Members
 
-      public string GetClassification()
-      {
-        return MenuCommandType.Mascot;
-      }
+    public string GetClassification()
+    {
+      return MenuCommandType.Mascot;
+    }
 
-      public string GetCaption()
-      {
-        return MascotGenericFormatShiftPrecursorProcessorUI.Title;
-      }
+    public string GetCaption()
+    {
+      return MascotGenericFormatShiftPrecursorProcessorUI.Title;
+    }
 
-      public string GetVersion()
-      {
-        return MascotGenericFormatShiftPrecursorProcessorUI.Version;
-      }
+    public string GetVersion()
+    {
+      return MascotGenericFormatShiftPrecursorProcessorUI.Version;
+    }
 
-      public void Run()
-      {
-        new MascotGenericFormatShiftPrecursorProcessorUI().MyShow();
-      }
+    public void Run()
+    {
+      new MascotGenericFormatShiftPrecursorProcessorUI().MyShow();
+    }
 
-      #endregion
+    #endregion
   }
 }

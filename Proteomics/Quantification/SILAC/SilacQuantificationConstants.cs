@@ -1,5 +1,4 @@
 using System.Drawing;
-using System.IO;
 namespace RCPA.Proteomics.Quantification.SILAC
 {
   public static class SilacQuantificationConstants

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Gui;
+﻿using RCPA.Gui;
+using System;
 
 namespace RCPA.Proteomics.Quantification.ITraq
 {
-  public interface IITraqResultFileFormat: IProgress, IFileFormat<IsobaricResult>
+  public interface IITraqResultFileFormat : IProgress, IFileFormat<IsobaricResult>
   {
     /// <summary>
     /// 是否读取Peak信息，包括报告离子区间以及对应Full Scan中母离子区间的离子。

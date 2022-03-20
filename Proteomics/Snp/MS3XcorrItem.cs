@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RCPA.Proteomics.Snp
+﻿namespace RCPA.Proteomics.Snp
 {
   public class MS3XcorrItem
   {

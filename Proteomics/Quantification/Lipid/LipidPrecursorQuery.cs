@@ -1,10 +1,9 @@
-﻿using System;
+﻿using RCPA.Gui;
+using RCPA.Proteomics.Raw;
+using RCPA.Proteomics.Spectrum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Raw;
-using RCPA.Gui;
 
 namespace RCPA.Proteomics.Quantification.Lipid
 {
@@ -31,7 +30,7 @@ namespace RCPA.Proteomics.Quantification.Lipid
 
       PeakList<Peak> pkl = reader.GetPeakList(scan);
       pkl.ScanTimes.Clear();
-      pkl.ScanTimes.Add(new ScanTime (scan, reader.ScanToRetentionTime(scan)));
+      pkl.ScanTimes.Add(new ScanTime(scan, reader.ScanToRetentionTime(scan)));
       pklMap[scan] = pkl;
       return pkl;
     }

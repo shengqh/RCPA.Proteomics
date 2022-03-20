@@ -1,12 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using System.Linq;
-using RCPA.Utils;
-using RCPA.Proteomics.Spectrum;
-using System.Xml.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System;
 
 namespace RCPA.Proteomics.Quantification.Lipid
 {

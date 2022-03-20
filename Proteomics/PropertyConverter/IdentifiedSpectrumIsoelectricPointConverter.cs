@@ -1,5 +1,4 @@
 using RCPA.Proteomics.Summary;
-using System;
 
 namespace RCPA.Proteomics.PropertyConverter
 {

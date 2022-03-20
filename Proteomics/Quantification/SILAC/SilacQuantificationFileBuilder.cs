@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using RCPA;
-using RCPA.Proteomics.Mascot;
+﻿using RCPA.Gui;
+using RCPA.Proteomics.Isotopic;
 using RCPA.Proteomics.Raw;
-using RCPA.Proteomics.Quantification;
-using RCPA.Proteomics;
-using RCPA.Utils;
+using RCPA.Proteomics.Spectrum;
+using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.Utils;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using RCPA.Proteomics.Sequest;
-using RCPA.Proteomics.Isotopic;
-using MathNet.Numerics.Statistics;
-using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Gui;
+using System.Text;
 
 namespace RCPA.Proteomics.Quantification.SILAC
 {
@@ -386,7 +379,7 @@ namespace RCPA.Proteomics.Quantification.SILAC
       return scanStr;
     }
 
-    private SilacPeakListPair GetLightHeavyPeakList(IRawFile rawFile, SilacCompoundInfo sci, int maxIndex, double mzTolerance, int scan, bool force=false)
+    private SilacPeakListPair GetLightHeavyPeakList(IRawFile rawFile, SilacCompoundInfo sci, int maxIndex, double mzTolerance, int scan, bool force = false)
     {
       PeakList<Peak> pkl = rawFile.GetPeakList(scan);
       if (pkl.Count == 0)

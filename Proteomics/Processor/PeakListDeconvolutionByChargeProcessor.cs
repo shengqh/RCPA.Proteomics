@@ -1,6 +1,6 @@
+using RCPA.Proteomics.Spectrum;
 using System.Collections.Generic;
 using System.Linq;
-using RCPA.Proteomics.Spectrum;
 using System.Threading.Tasks;
 
 namespace RCPA.Proteomics.Processor
@@ -8,7 +8,8 @@ namespace RCPA.Proteomics.Processor
   public class PeakListDeconvolutionByChargeProcessor<T> : IProcessor<PeakList<T>> where T : IPeak
   {
     private double ppmTolerance;
-    public PeakListDeconvolutionByChargeProcessor(double ppmTolerance) {
+    public PeakListDeconvolutionByChargeProcessor(double ppmTolerance)
+    {
       this.ppmTolerance = ppmTolerance;
     }
 
@@ -63,7 +64,7 @@ namespace RCPA.Proteomics.Processor
       return t;
     }
     #endregion
-    
+
     public override string ToString()
     {
       return "DeconvolutionByCharge=True";

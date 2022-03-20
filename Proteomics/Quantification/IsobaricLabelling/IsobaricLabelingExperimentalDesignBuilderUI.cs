@@ -1,25 +1,12 @@
-﻿using System;
+﻿using RCPA.Gui;
+using RCPA.Gui.Command;
+using RCPA.Gui.FileArgument;
+using RCPA.Proteomics.Summary;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using RCPA.Gui;
-using RCPA.Proteomics.Raw;
-using RCPA.Proteomics;
-using RCPA.Gui.FileArgument;
-using RCPA.Gui.Command;
-using RCPA.Gui.Image;
-using ZedGraph;
-using RCPA.Utils;
-using RCPA.Proteomics.Quantification;
-using System.IO;
-using MathNet.Numerics.Statistics;
-using MathNet.Numerics.Distributions;
-using RCPA.Proteomics.Summary;
-using RCPA.Numerics;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {

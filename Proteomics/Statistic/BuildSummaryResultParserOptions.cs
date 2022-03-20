@@ -1,12 +1,7 @@
 ﻿using CommandLine;
 using RCPA.Commandline;
-using RCPA;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using RCPA.Proteomics.Summary;
+using System.IO;
 
 namespace RCPA.Proteomics.Statistic
 {

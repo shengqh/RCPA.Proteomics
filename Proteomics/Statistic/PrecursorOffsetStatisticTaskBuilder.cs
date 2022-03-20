@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MathNet.Numerics.Statistics;
 using RCPA.Proteomics.Raw;
 using RCPA.Proteomics.Spectrum;
-using System.IO;
-using System.Threading.Tasks;
-using MathNet.Numerics.Statistics;
-using RCPA.Utils;
 using RCPA.R;
+using RCPA.Utils;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Statistic
 {

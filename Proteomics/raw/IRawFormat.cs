@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace RCPA.Proteomics.Raw
+﻿namespace RCPA.Proteomics.Raw
 {
   public interface IRawFormat
   {

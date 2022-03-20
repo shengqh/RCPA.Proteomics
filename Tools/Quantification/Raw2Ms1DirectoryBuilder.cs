@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using RCPA.Utils;
 
 namespace RCPA.Proteomics.Quantification
 {

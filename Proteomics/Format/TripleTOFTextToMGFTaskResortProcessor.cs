@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Text.RegularExpressions;
+﻿using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Mascot;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.Format
 {

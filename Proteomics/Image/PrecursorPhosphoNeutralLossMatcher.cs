@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using RCPA.Proteomics.Spectrum;
 using RCPA.Proteomics.Utils;
-using RCPA.Proteomics.Spectrum;
+using System.Collections.Generic;
+using System.Text;
 
 namespace RCPA.Proteomics.Image
 {

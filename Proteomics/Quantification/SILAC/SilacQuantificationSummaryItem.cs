@@ -1,12 +1,11 @@
+using MathNet.Numerics.Distributions;
+using RCPA.Proteomics.Isotopic;
+using RCPA.Proteomics.Spectrum;
+using RCPA.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System;
-using RCPA.Proteomics.Spectrum;
-using MathNet.Numerics.Statistics;
-using RCPA.Utils;
-using RCPA.Proteomics.Isotopic;
-using MathNet.Numerics.Distributions;
 
 namespace RCPA.Proteomics.Quantification.SILAC
 {

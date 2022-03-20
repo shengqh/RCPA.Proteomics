@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Spectrum;
+﻿using RCPA.Proteomics.Spectrum;
 
 namespace RCPA.Proteomics.Fragmentation
 {
@@ -10,7 +6,7 @@ namespace RCPA.Proteomics.Fragmentation
   {
     protected override double GetTerminalMass()
     {
-      return NtermMass + MassH ;
+      return NtermMass + MassH;
     }
 
     protected override int IonCharge

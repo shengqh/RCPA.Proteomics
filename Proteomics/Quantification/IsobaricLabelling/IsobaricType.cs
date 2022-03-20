@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using RCPA.Proteomics.Spectrum;
-using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {

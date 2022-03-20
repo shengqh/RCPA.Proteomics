@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Utils;
-
-namespace RCPA.Proteomics.Quantification.Srm
+﻿namespace RCPA.Proteomics.Quantification.Srm
 {
   public class AgilentSrmTransition : SrmTransition
   {

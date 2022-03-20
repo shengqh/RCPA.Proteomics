@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Gui;
-using RCPA.Utils;
-using System.IO;
-
-namespace RCPA.Proteomics.Summary.Uniform
+﻿namespace RCPA.Proteomics.Summary.Uniform
 {
   public class UniformSpectrumPeptideFdrBuilder : AbstractIdentifiedSpectrumBuilder
   {

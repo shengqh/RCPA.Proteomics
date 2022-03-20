@@ -1,12 +1,6 @@
-﻿using System;
+﻿using RCPA.Proteomics.Mascot;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Seq;
 using System.Text.RegularExpressions;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Summary;
-using RCPA.Utils;
 
 namespace RCPA.Proteomics.Distiller
 {

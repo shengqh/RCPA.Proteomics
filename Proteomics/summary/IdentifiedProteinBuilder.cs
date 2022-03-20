@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace RCPA.Proteomics.Summary
 {
@@ -12,7 +10,7 @@ namespace RCPA.Proteomics.Summary
 
     #region IIdentifiedProteinBuilder Members
 
-    public List<IIdentifiedProtein> Build<T>(IEnumerable<T> spectra) where T:IIdentifiedSpectrumBase
+    public List<IIdentifiedProtein> Build<T>(IEnumerable<T> spectra) where T : IIdentifiedSpectrumBase
     {
       Dictionary<string, IIdentifiedProtein> proteins = new Dictionary<string, IIdentifiedProtein>();
       HashSet<string> inserted = new HashSet<string>();

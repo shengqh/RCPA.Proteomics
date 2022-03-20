@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using RCPA.Numerics;
+﻿using System.Xml.Linq;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
   public class IsobaricProteinStatisticBuilderOptions : IXml
   {
     public IsobaricProteinStatisticBuilderOptions()
-    {    }
+    { }
 
     public string ProteinFileName { get; set; }
 

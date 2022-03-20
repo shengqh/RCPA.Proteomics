@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-
-namespace RCPA.Proteomics.Quantification
+﻿namespace RCPA.Proteomics.Quantification
 {
   public class QuantificationItemBase
   {

@@ -2,8 +2,6 @@ using RCPA.Commandline;
 using RCPA.Gui;
 using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
-using RCPA.Proteomics.Raw;
-using RCPA.Utils;
 using System.ComponentModel;
 using System.IO;
 

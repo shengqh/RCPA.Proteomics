@@ -1,6 +1,6 @@
-﻿using System;
+﻿using RCPA.Proteomics.Summary;
+using System;
 using System.Collections.Generic;
-using RCPA.Proteomics.Summary;
 
 namespace RCPA.Proteomics.Quantification.Labelfree
 {

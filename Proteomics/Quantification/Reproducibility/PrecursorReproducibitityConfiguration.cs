@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using RCPA.Gui;
 using System.Xml.Linq;
-using RCPA.Gui;
-using System.IO;
 
 namespace RCPA.Proteomics.Quantification.Reproducibility
 {

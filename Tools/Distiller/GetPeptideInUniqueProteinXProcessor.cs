@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using RCPA.Proteomics.Sequest;
+﻿using RCPA.Proteomics.Sequest;
 using RCPA.Proteomics.Summary;
+using System.Collections.Generic;
 
 namespace RCPA.Tools.Distiller
 {

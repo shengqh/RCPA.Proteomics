@@ -1,12 +1,9 @@
-﻿using System;
+﻿using RCPA.Gui;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using RCPA.Gui;
 using System.Xml.Linq;
 
 namespace RCPA.Proteomics
@@ -44,8 +41,8 @@ namespace RCPA.Proteomics
       get
       {
         var result = (from p in GetSelectedPloymers()
-                let i = (int)p
-                select i.ToString()).Merge(",");
+                      let i = (int)p
+                      select i.ToString()).Merge(",");
         if (string.IsNullOrEmpty(result))
         {
           SelectedIon = DefaultSiliconePolymers;

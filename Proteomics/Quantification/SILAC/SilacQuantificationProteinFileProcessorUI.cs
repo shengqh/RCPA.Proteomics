@@ -1,20 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using RCPA.Gui;
-using RCPA;
-using RCPA.Gui.FileArgument;
 using RCPA.Gui.Command;
-using System.IO;
-using RCPA.Proteomics.Quantification;
-using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Sequest;
+using RCPA.Gui.FileArgument;
 using RCPA.Proteomics.Raw;
+using System;
+using System.IO;
 
 namespace RCPA.Proteomics.Quantification.SILAC
 {

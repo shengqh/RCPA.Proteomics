@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RCPA.Proteomics.Spectrum
 {
@@ -9,7 +7,8 @@ namespace RCPA.Proteomics.Spectrum
   {
     public static int FindMaxIndex<T>(this List<T> pkls) where T : Peak
     {
-      if(pkls == null || pkls.Count == 0){
+      if (pkls == null || pkls.Count == 0)
+      {
         throw new ArgumentException("pkls can not be null or empty");
       }
       int result = 0;

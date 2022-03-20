@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MathNet.Numerics.Statistics;
 using RCPA.Proteomics.Raw;
 using RCPA.Proteomics.Spectrum;
-using System.IO;
-using System.Threading.Tasks;
-using MathNet.Numerics.Statistics;
 using RCPA.Utils;
-using RCPA.R;
-using RCPA.Gui;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Statistic
 {
@@ -87,7 +83,7 @@ namespace RCPA.Proteomics.Statistic
             else
             {
               precursor = reader.GetPrecursorPeak(i);
-              mode  =reader.GetScanMode(i);
+              mode = reader.GetScanMode(i);
             }
 
             if (!scanCounts.ContainsKey(precursor.Charge))

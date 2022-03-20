@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Gui.FileArgument;
-using RCPA.Gui;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
-using RCPA.Proteomics.Summary;
+using RCPA.Gui.FileArgument;
 
 namespace RCPA.Tools.Misc
 {
@@ -28,7 +20,7 @@ namespace RCPA.Tools.Misc
 
       SetFileArgument("SubtractFile", new OpenFileArgument("Subtract Peptide", "peptides"));
 
-      this.sourceFile = new RcpaFileField(btnSource, txtSource, "SourceFile", new OpenFileArgument("Source Peptide", "peptides"),true);
+      this.sourceFile = new RcpaFileField(btnSource, txtSource, "SourceFile", new OpenFileArgument("Source Peptide", "peptides"), true);
       AddComponent(this.sourceFile);
     }
 

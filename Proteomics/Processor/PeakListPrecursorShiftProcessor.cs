@@ -1,5 +1,5 @@
-using RCPA.Proteomics.Spectrum;
 using RCPA.Proteomics.Format.Offset;
+using RCPA.Proteomics.Spectrum;
 namespace RCPA.Proteomics.Processor
 {
   public class PeakListShiftProcessor<T> : IProcessor<PeakList<T>> where T : IPeak, new()

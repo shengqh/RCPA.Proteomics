@@ -101,7 +101,7 @@ namespace RCPA.Proteomics.Swath
                 else
                 {
                   buffer = RewriteSingleScan(buffer, swathscan, scanwindow, windows);
-                  scanwindow ++;
+                  scanwindow++;
                 }
                 sw.Write(buffer);
               }

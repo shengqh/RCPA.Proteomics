@@ -1,9 +1,6 @@
-﻿using System;
+﻿using RCPA.Proteomics.Summary;
 using System.Collections.Generic;
-using System.Text;
-using RCPA.Proteomics.Summary;
 using System.IO;
-using RCPA.Utils;
 
 namespace RCPA.Tools.Distiller
 {
@@ -23,7 +20,7 @@ namespace RCPA.Tools.Distiller
           {
             IIdentifiedProteinGroup group = iter.Current;
             List<IIdentifiedSpectrum> spectra = group[0].GetSpectra();
-            spectra.ForEach(delegate(IIdentifiedSpectrum spectrum)
+            spectra.ForEach(delegate (IIdentifiedSpectrum spectrum)
             {
               string dta = spectrum.Query.FileScan.LongFileName;
               if (!saved.Contains(dta))
@@ -43,7 +40,7 @@ namespace RCPA.Tools.Distiller
         }
       }
 
-      return new [] { resultFile };
+      return new[] { resultFile };
     }
   }
 }

@@ -1,7 +1,7 @@
-using System;
 using RCPA.Proteomics.Spectrum;
-using System.Linq;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RCPA.Proteomics.Processor
 {

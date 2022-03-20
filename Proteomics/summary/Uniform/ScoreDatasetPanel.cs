@@ -1,13 +1,6 @@
-﻿using System;
+﻿using RCPA.Gui;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Gui;
-using RCPA.Gui.FileArgument;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {

@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Gui;
-using RCPA.Gui.FileArgument;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
-using RCPA.Proteomics.Summary;
+using RCPA.Gui.FileArgument;
 
 namespace RCPA.Proteomics.Format
 {
@@ -24,8 +15,8 @@ namespace RCPA.Proteomics.Format
     {
       InitializeComponent();
 
-      this.SetFileArgument("SourceFile", new OpenFileArgument("ProteinProphet Xml","xml"));
-      this.minProbability = new RcpaDoubleField (txtMinProbability,"MinProbability","Min Probability",0.9,true);
+      this.SetFileArgument("SourceFile", new OpenFileArgument("ProteinProphet Xml", "xml"));
+      this.minProbability = new RcpaDoubleField(txtMinProbability, "MinProbability", "Min Probability", 0.9, true);
 
       AddComponent(this.minProbability);
 

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Gui.Command;
+﻿using RCPA.Gui.Command;
 
 namespace RCPA.Tools
 {
-  public class AboutCommand:IToolCommand
+  public class AboutCommand : IToolCommand
   {
     #region IToolCommand Members
 

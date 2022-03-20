@@ -1,9 +1,5 @@
-﻿using System;
+﻿using RCPA.Proteomics.Quantification.Census;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using RCPA.Proteomics.Quantification;
-using RCPA.Proteomics.Quantification.Census;
 
 namespace RCPA.Tools.Quantification
 {
@@ -11,7 +7,7 @@ namespace RCPA.Tools.Quantification
   {
     private string[] sourceFilenames;
     private bool isLabelFree;
-      
+
     public CensusResultProteinMerger(string[] sourceFilenames, bool isLabelFree)
     {
       this.sourceFilenames = sourceFilenames;
@@ -49,7 +45,7 @@ namespace RCPA.Tools.Quantification
       foreach (CensusProteinItem cpi in proteins)
       {
         cpi.Recalculate();
-        cpi.Peptides.Sort(delegate(CensusPeptideItem a, CensusPeptideItem b)
+        cpi.Peptides.Sort(delegate (CensusPeptideItem a, CensusPeptideItem b)
         {
           int result = a.Sequence.CompareTo(b.Sequence);
 
@@ -67,7 +63,7 @@ namespace RCPA.Tools.Quantification
         });
       }
 
-      proteins.Sort(delegate(CensusProteinItem a, CensusProteinItem b)
+      proteins.Sort(delegate (CensusProteinItem a, CensusProteinItem b)
       {
         int result = b.PeptideNumber - a.PeptideNumber;
 

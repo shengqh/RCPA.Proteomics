@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ZedGraph;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using ZedGraph;
 
 namespace RCPA.Proteomics.Quantification.Labelfree
 {
@@ -40,7 +36,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
 
       zgc.GraphPane.XAxis.Title.Text = "Retention Time (min)";
       zgc.GraphPane.YAxis.Title.Text = "Abundance";
-      zgc.GraphPane.Title.Text = string.Format("{0}\n{1} : m/z={2:0.0000}, charge={3}, scan={4}",Path.GetFileName(fileName),  t.Sequence, t.Mz, t.Charge, t.Peaks.Count);
+      zgc.GraphPane.Title.Text = string.Format("{0}\n{1} : m/z={2:0.0000}, charge={3}, scan={4}", Path.GetFileName(fileName), t.Sequence, t.Mz, t.Charge, t.Peaks.Count);
       zgc.AxisChange();
 
       zgc.GetImage().Save(fileName, ImageFormat.Png);

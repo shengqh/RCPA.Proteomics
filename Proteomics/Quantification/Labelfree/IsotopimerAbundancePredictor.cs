@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RCPA.Proteomics.Quantification.Labelfree
 {
@@ -64,11 +62,11 @@ namespace RCPA.Proteomics.Quantification.Labelfree
 
         //get observed profile in each scan
         var observedIons = (from f in chroFiltered
-                    select (from iso in maxIsoArray select f.Count > iso ? f[iso].Intensity : minIntensities[iso]).ToArray()).ToArray();
+                            select (from iso in maxIsoArray select f.Count > iso ? f[iso].Intensity : minIntensities[iso]).ToArray()).ToArray();
 
         var atomComposition = aas.GetPeptideAtomComposition(peptide);
         var hatom = (int)(Math.Round(aas.ExchangableHAtom(peptide)));
-        for(int h2 = 0;h2 < hatom; h2++)
+        for (int h2 = 0; h2 < hatom; h2++)
         {
 
         }

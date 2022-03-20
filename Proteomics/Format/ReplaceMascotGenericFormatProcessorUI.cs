@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Gui;
-using RCPA.Gui.FileArgument;
-using RCPA.Proteomics.Summary;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
+using RCPA.Gui.FileArgument;
 using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Spectrum;
+using RCPA.Proteomics.Summary;
 
 namespace RCPA.Proteomics.Format
 {
@@ -35,11 +27,11 @@ namespace RCPA.Proteomics.Format
 
       base.SetFileArgument("TargetFile", new SaveFileArgument("Target MGF", "mgf"));
 
-      fileHeader.FileArgument = new OpenFileArgument("Precursor Info MGF","mgf");
+      fileHeader.FileArgument = new OpenFileArgument("Precursor Info MGF", "mgf");
       this.titleHeaderParser = new RcpaComboBox<ITitleParser>(cbHeaderFormat, "HeaderTitleFormat", TitleParserUtils.GetTitleParsers().ToArray(), 0);
       AddComponent(this.titleHeaderParser);
 
-      filePeak.FileArgument = new  OpenFileArgument("Peak Info MGF","mgf");
+      filePeak.FileArgument = new OpenFileArgument("Peak Info MGF", "mgf");
       this.titlePeakParser = new RcpaComboBox<ITitleParser>(cbPeakFormat, "PeakTitleFormat", TitleParserUtils.GetTitleParsers().ToArray(), 0);
       AddComponent(this.titlePeakParser);
 

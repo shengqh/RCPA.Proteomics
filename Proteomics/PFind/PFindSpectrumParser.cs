@@ -1,13 +1,12 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.RegularExpressions;
 using RCPA.Gui;
+using RCPA.Proteomics.Modification;
 using RCPA.Proteomics.Summary;
 using RCPA.Utils;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Modification;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.PFind
 {

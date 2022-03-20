@@ -97,7 +97,7 @@ namespace RCPA.Proteomics.Deuterium
 
     private bool isPeptideFile(string fullName)
     {
-      using(var sr = new StreamReader(fullName))
+      using (var sr = new StreamReader(fullName))
       {
         var line = sr.ReadLine();
         return line.Contains("FileScan");

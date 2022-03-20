@@ -1,10 +1,7 @@
-﻿using System;
+﻿using RCPA.Proteomics.Classification;
+using RCPA.Proteomics.Summary;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.Classification;
-using System.IO;
 
 namespace RCPA.Proteomics.Distribution
 {
@@ -30,7 +27,7 @@ namespace RCPA.Proteomics.Distribution
 
     public bool ClassifiedByTag { get; set; }
 
-    public Dictionary<string, List<string>> ClassificationSet { get ;set; }
+    public Dictionary<string, List<string>> ClassificationSet { get; set; }
 
     public DistributionOption()
     {

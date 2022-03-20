@@ -1,8 +1,4 @@
-﻿using System;
-using RCPA.Commandline;
-using RCPA.Gui.Command;
-using CommandLine;
-using RCPA;
+﻿using RCPA.Commandline;
 using System.Collections.Generic;
 
 namespace RCPA.Proteomics.Format

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace RCPA.Proteomics.Summary
 {
@@ -39,16 +37,16 @@ namespace RCPA.Proteomics.Summary
       double targetCount = 0;
       double decoyCount = 0;
 
-        targetCount +=
-          (from ors in this.Values
-           from or in ors
-           select (int)or.PeptideCountFromTargetDB).Sum();
+      targetCount +=
+        (from ors in this.Values
+         from or in ors
+         select (int)or.PeptideCountFromTargetDB).Sum();
 
-        decoyCount +=
-          (from ors in this.Values
-           from or in ors
-           select (int)or.PeptideCountFromDecoyDB).Sum();
-      
+      decoyCount +=
+        (from ors in this.Values
+         from or in ors
+         select (int)or.PeptideCountFromDecoyDB).Sum();
+
 
       return calc.Calculate((int)decoyCount, (int)targetCount);
     }

@@ -28,7 +28,7 @@ namespace RCPA.Proteomics.Quantification
     /// <summary>
     /// Linear regression ratio
     /// </summary>
-    public double Ratio {get;set;}
+    public double Ratio { get; set; }
 
     /// <summary>
     /// Linear regression distance
@@ -38,7 +38,7 @@ namespace RCPA.Proteomics.Quantification
     /// <summary>
     /// R Square of linear regression model
     /// </summary>
-    public double RSquare{get;set;}
+    public double RSquare { get; set; }
 
     /// <summary>
     /// Point count used in linear regression model
@@ -48,7 +48,7 @@ namespace RCPA.Proteomics.Quantification
     /// <summary>
     /// t statistic value of linear regression model
     /// </summary>
-    public double TValue{get;set;}
+    public double TValue { get; set; }
 
     /// <summary>
     /// Stand deviation of linear regression model
@@ -58,7 +58,7 @@ namespace RCPA.Proteomics.Quantification
     /// <summary>
     /// Pvalue of linear regression model
     /// </summary>
-    public double PValue{get;set;}
+    public double PValue { get; set; }
 
     //public override string ToString()
     //{
@@ -76,7 +76,7 @@ namespace RCPA.Proteomics.Quantification
 
     public void CopyFrom(LinearRegressionRatioResult source)
     {
-      if(source == null)
+      if (source == null)
       {
         return;
       }

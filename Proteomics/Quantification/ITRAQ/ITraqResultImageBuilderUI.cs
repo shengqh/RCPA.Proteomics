@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
-using RCPA.Gui;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
-using RCPA.Proteomics.Quantification;
-using RCPA.Proteomics.Raw;
-using RCPA.Utils;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RCPA.Tools.Quantification
 {

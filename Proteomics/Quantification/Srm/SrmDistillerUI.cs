@@ -1,22 +1,13 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Linq;
+﻿using RCPA.Format;
 using RCPA.Gui;
 using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
-using RCPA.Gui.Image;
-using RCPA.Proteomics;
-using RCPA.Proteomics.Raw;
-using ZedGraph;
-using RCPA.Proteomics.Spectrum;
-using System.Text;
+using System;
 using System.Collections.Generic;
-using RCPA.Proteomics.Quantification.Srm;
-using RCPA.Utils;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
-using RCPA.Format;
+using System.Windows.Forms;
 
 namespace RCPA.Proteomics.Quantification.Srm
 {
@@ -381,7 +372,8 @@ namespace RCPA.Proteomics.Quantification.Srm
       def.ReadFromFile(formats.SelectedItem.GetFormatFile());
 
       string ext = "csv";
-      if(def.Delimiter != ','){
+      if (def.Delimiter != ',')
+      {
         ext = "txt";
       }
 

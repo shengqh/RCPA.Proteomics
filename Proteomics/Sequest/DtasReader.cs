@@ -1,7 +1,7 @@
+using RCPA.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using RCPA.Utils;
 
 namespace RCPA.Proteomics.Sequest
 {

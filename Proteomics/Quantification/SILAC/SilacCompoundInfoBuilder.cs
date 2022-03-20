@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using RCPA.Proteomics.Isotopic;
 using System;
+using System.Collections.Generic;
 
 namespace RCPA.Proteomics.Quantification.SILAC
 {

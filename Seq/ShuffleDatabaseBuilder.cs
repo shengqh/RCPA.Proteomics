@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using RCPA.Utils;
+﻿using System.Collections.Generic;
 using System.IO;
-using RCPA.Seq;
+using System.Text;
 using uShuffle;
 
 namespace RCPA.Seq

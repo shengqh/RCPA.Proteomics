@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Mascot;
+﻿using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Utils;
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {

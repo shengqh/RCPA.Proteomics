@@ -1,8 +1,8 @@
+using RCPA.Proteomics.Sequest;
+using RCPA.Proteomics.Summary;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using RCPA.Proteomics.Sequest;
-using RCPA.Proteomics.Summary;
 
 namespace RCPA.Proteomics.PeptideProphet
 {

@@ -176,11 +176,11 @@ namespace RCPA.Proteomics.Sequest
     public static SequestStaticModification AminoacidToModification(char aa)
     {
       String tmp = "_" + aa + "_";
-      foreach (string ssm in Enum.GetNames(typeof (SequestStaticModification)))
+      foreach (string ssm in Enum.GetNames(typeof(SequestStaticModification)))
       {
         if (ssm.IndexOf(tmp) != -1)
         {
-          return (SequestStaticModification) Enum.Parse(typeof (SequestStaticModification), ssm);
+          return (SequestStaticModification)Enum.Parse(typeof(SequestStaticModification), ssm);
         }
       }
       throw new ArgumentException("Cannot find modification for " + aa);
@@ -188,11 +188,11 @@ namespace RCPA.Proteomics.Sequest
 
     public static SequestStaticModification NameToModification(String name)
     {
-      foreach (string ssm in Enum.GetNames(typeof (SequestStaticModification)))
+      foreach (string ssm in Enum.GetNames(typeof(SequestStaticModification)))
       {
         if (ssm.Equals(name))
         {
-          return (SequestStaticModification) Enum.Parse(typeof (SequestStaticModification), ssm);
+          return (SequestStaticModification)Enum.Parse(typeof(SequestStaticModification), ssm);
         }
       }
       throw new ArgumentException("Cannot find modification for " + name);
@@ -232,7 +232,7 @@ namespace RCPA.Proteomics.Sequest
         aas[aa].ResetMass(aas[aa].MonoMass + staticModifications[aa], aas[aa].AverageMass + staticModifications[aa]);
       }
 
-      var diff = new[] {'*', '#', '@', '^', '~', '$'};
+      var diff = new[] { '*', '#', '@', '^', '~', '$' };
       int i = 0;
       foreach (double mod in Diff_search_options.Values)
       {

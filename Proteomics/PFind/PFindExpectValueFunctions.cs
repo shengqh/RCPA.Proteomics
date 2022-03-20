@@ -1,5 +1,5 @@
-﻿using System;
-using RCPA.Proteomics.Summary;
+﻿using RCPA.Proteomics.Summary;
+using System;
 
 namespace RCPA.Proteomics.PFind
 {

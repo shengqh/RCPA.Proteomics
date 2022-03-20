@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Linq;
-using RCPA.Gui;
-using RCPA.Proteomics.ProteomeDiscoverer;
+﻿using RCPA.Proteomics.ProteomeDiscoverer;
 using RCPA.Seq;
+using System;
+using System.Linq;
 
 namespace RCPA.Proteomics.Summary
 {

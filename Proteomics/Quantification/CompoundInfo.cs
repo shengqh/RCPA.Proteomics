@@ -1,6 +1,5 @@
-using System;
 using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Isotopic;
+using System;
 using System.Collections.Generic;
 
 namespace RCPA.Proteomics.Quantification

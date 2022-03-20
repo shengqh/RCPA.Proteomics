@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Gui;
-using RCPA.Gui.FileArgument;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
+using RCPA.Gui.FileArgument;
 using RCPA.Proteomics.Summary;
 
 namespace RCPA.Proteomics.Mascot
@@ -27,7 +19,7 @@ namespace RCPA.Proteomics.Mascot
       this.SetDirectoryArgument("TargetDir", "Target DAT");
 
       this.datFiles.FileArgument = new OpenFileArgument("Mascot Dat", "dat");
-      AddComponent(new RcpaMultipleFileComponent(this.datFiles.GetItemInfos(),"DatFiles","Dat Files", false, true));
+      AddComponent(new RcpaMultipleFileComponent(this.datFiles.GetItemInfos(), "DatFiles", "Dat Files", false, true));
 
       this.titleParsers = new RcpaComboBox<ITitleParser>(cbTitleFormat, "TitleFormat", TitleParserUtils.GetTitleParsers().ToArray(), 0);
       AddComponent(this.titleParsers);

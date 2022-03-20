@@ -1,9 +1,8 @@
-﻿using System;
+﻿using RCPA.Utils;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using RCPA.Utils;
+using System.Linq;
 
 namespace RCPA.Proteomics.Quantification
 {
@@ -82,8 +81,8 @@ namespace RCPA.Proteomics.Quantification
           var last = rs.Skip(rs.Count / 2).Average();
           rs = new[] { first, last }.ToList();
         }
-  
-         m.CalibratedRatio = MathUtils.CarlibrateForwardReverseRatio(rs[0], rs[1]);
+
+        m.CalibratedRatio = MathUtils.CarlibrateForwardReverseRatio(rs[0], rs[1]);
       }
 
       var result = fileName + ".calibrated";

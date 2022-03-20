@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using RCPA.Utils;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
@@ -43,7 +41,7 @@ namespace RCPA.Proteomics.Summary.Uniform
         {
           if (perferEngine == spectrum.Engine)
           {
-            return new []{ spectrum};
+            return new[] { spectrum };
           }
         }
       }
@@ -65,7 +63,8 @@ namespace RCPA.Proteomics.Summary.Uniform
 
     public IIdentifiedSpectrum[] Process(List<IIdentifiedSpectrum> source)
     {
-      if (null == source || source.Count == 0){
+      if (null == source || source.Count == 0)
+      {
         return null;
       }
 

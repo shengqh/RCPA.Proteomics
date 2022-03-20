@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using RCPA.Proteomics.Modification;
+﻿using RCPA.Proteomics.Modification;
 using RCPA.Proteomics.Utils;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace RCPA.Proteomics
 {

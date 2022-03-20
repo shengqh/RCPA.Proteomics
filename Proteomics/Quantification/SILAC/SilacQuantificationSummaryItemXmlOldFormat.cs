@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using RCPA.Proteomics.Spectrum;
+using RCPA.Utils;
+using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using RCPA.Utils;
-using RCPA.Proteomics.Spectrum;
-using System;
 
 namespace RCPA.Proteomics.Quantification.SILAC
 {

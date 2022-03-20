@@ -1,13 +1,9 @@
+using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.Raw;
+using RCPA.Proteomics.Spectrum;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Raw;
-using RCPA.Utils;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Statistic;
-using RCPA.Proteomics.Processor;
 
 namespace RCPA.Proteomics.Format
 {
@@ -23,7 +19,7 @@ namespace RCPA.Proteomics.Format
 
     private List<string> outputFiles;
 
-    public Raw2MgfProcessor(MultipleRaw2MgfOptions options):base(options)
+    public Raw2MgfProcessor(MultipleRaw2MgfOptions options) : base(options)
     {
       this.options = options;
       this.Writer = options.GetMGFWriter();
@@ -101,7 +97,8 @@ namespace RCPA.Proteomics.Format
             if (mgf.EndsWith(".tmp"))
             {
               var res = FileUtils.ChangeExtension(mgf, "");
-              if(File.Exists(res)){
+              if (File.Exists(res))
+              {
                 File.Delete(res);
               }
               File.Move(mgf, res);

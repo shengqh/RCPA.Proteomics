@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using RCPA.Utils;
-using System.IO;
 
 namespace RCPA.Proteomics.Distribution
 {
@@ -33,7 +28,7 @@ namespace RCPA.Proteomics.Distribution
       result.ModifiedPeptideOnly = Convert.ToBoolean(root.Element("modifiedPeptideOnly").Value);
       result.ModifiedPeptide = root.Element("modifiedAminoacid").Value;
 
-      result.ClassificationSet.LoadFromXml(root, "ClassificationSet"); 
+      result.ClassificationSet.LoadFromXml(root, "ClassificationSet");
 
       result.ClassifiedByTag = Convert.ToBoolean(root.Element("ClassifiedByTag").Value);
       return result;

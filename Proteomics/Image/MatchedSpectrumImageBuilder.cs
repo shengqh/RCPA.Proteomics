@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 
 namespace RCPA.Proteomics.Image
@@ -522,5 +520,5 @@ namespace RCPA.Proteomics.Image
     {
     }
   }
-   */ 
+   */
 }

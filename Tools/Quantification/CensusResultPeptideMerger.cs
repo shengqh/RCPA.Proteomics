@@ -1,9 +1,6 @@
-﻿using System;
+﻿using RCPA.Proteomics.Quantification.Census;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
-using RCPA.Proteomics.Quantification;
-using RCPA.Proteomics.Quantification.Census;
 
 namespace RCPA.Tools.Quantification
 {
@@ -44,7 +41,7 @@ namespace RCPA.Tools.Quantification
       }
 
       List<string> sequences = new List<string>(peptideMap.Keys);
-      sequences.Sort(delegate(string seq1, string seq2)
+      sequences.Sort(delegate (string seq1, string seq2)
       {
         int result = peptideMap[seq2].Count - peptideMap[seq1].Count;
         if (0 == result)

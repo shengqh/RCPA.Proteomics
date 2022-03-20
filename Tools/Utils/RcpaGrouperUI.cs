@@ -1,16 +1,12 @@
+using MathNet.Numerics.Random;
+using RCPA.Gui;
+using RCPA.Gui.Command;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using RCPA;
-using RCPA.Gui.Command;
-using RCPA.Gui;
-using System.Linq;
-using System.IO;
-using MathNet.Numerics.Random;
 
 namespace RCPA.Tools.Utils
 {

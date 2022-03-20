@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
@@ -17,7 +15,8 @@ namespace RCPA.Proteomics.Summary.Uniform
         new UniformSummaryBuilder(new UniformSummaryBuilderOptions()
         {
           InputFile = paramFile
-        }) { Progress = this.Progress }.Process();
+        })
+        { Progress = this.Progress }.Process();
       }
 
       return null;

@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using System.Linq;
-using RCPA.Gui;
-using RCPA.Gui.FileArgument;
-using RCPA.Proteomics.Sequest;
-using RCPA.Proteomics.Summary;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
+using RCPA.Gui.FileArgument;
 using RCPA.Proteomics.Distribution;
 
 namespace RCPA.Proteomics.Statistic

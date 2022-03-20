@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace RCPA.Proteomics.Summary
 {
   public delegate bool ScoreCompareFunc(double score, double limitScore);

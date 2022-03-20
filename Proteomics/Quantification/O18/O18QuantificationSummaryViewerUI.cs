@@ -1,27 +1,13 @@
+using RCPA.Gui.Command;
+using RCPA.Gui.FileArgument;
+using RCPA.Proteomics.PropertyConverter;
+using RCPA.Proteomics.Summary;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Linq;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Gui;
-using RCPA.Gui.FileArgument;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
-using RCPA.Proteomics.Quantification;
-using RCPA.Utils;
-using RCPA.Gui.Command;
-using ZedGraph;
-using RCPA.Proteomics.Mascot;
-using MathNet.Numerics.Distributions;
-using MathNet.Numerics.Statistics;
-using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.Quantification.O18;
-using RCPA.Gui.Image;
-using System.Diagnostics;
-using RCPA.Proteomics.PropertyConverter;
+using System.Windows.Forms;
 
 namespace RCPA.Proteomics.Quantification.O18
 {

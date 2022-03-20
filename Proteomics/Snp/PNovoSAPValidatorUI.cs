@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Gui;
-using RCPA;
-using RCPA.Gui.FileArgument;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
-using System.IO;
-using RCPA.Proteomics.Quantification;
+using RCPA.Gui.FileArgument;
 using RCPA.Proteomics.Summary;
 using RCPA.Seq;
+using System;
 
 namespace RCPA.Proteomics.Snp
 {
@@ -54,7 +45,7 @@ namespace RCPA.Proteomics.Snp
 
       fastaFile.FileArgument = new OpenFileArgument("Fasta To Find Mutation", "fasta");
 
-      databaseFile.FileArgument= new OpenFileArgument("Fasta To Merge Mutated Peptide", "fasta");
+      databaseFile.FileArgument = new OpenFileArgument("Fasta To Merge Mutated Peptide", "fasta");
 
       this.acParsers = new RcpaComboBox<IAccessNumberParser>(cbAccessNumberPattern, "AccessNumberParser", AccessNumberParserFactory.GetParsers().ToArray(), -1);
       AddComponent(this.acParsers);

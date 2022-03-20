@@ -1,15 +1,11 @@
+using RCPA.Gui;
+using RCPA.Gui.Command;
+using RCPA.Gui.FileArgument;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using RCPA.Gui;
-using RCPA.Gui.Command;
-using RCPA.Gui.FileArgument;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Summary;
-using RCPA.Seq;
-using RCPA.Proteomics.Sequest;
 
 namespace RCPA.Proteomics.MaxQuant
 {
@@ -26,7 +22,7 @@ namespace RCPA.Proteomics.MaxQuant
       InitializeComponent();
 
       this.peptideFiles.FileArgument = new OpenFileArgument("MaxQuant Peptide", "txt");
-      AddComponent(new RcpaMultipleFileComponent(this.peptideFiles.GetItemInfos(),"PeptideFiles","Peptide Files", false, true));
+      AddComponent(new RcpaMultipleFileComponent(this.peptideFiles.GetItemInfos(), "PeptideFiles", "Peptide Files", false, true));
 
       this.peptideFileBin.GetName = DoGetName;
       AddComponent(this.peptideFileBin);

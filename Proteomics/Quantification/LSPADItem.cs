@@ -1,9 +1,6 @@
-﻿using System;
+﻿using MathNet.Numerics.Distributions;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MathNet.Numerics.Statistics;
-using MathNet.Numerics.Distributions;
 
 namespace RCPA.Proteomics.Quantification
 {
@@ -27,7 +24,7 @@ namespace RCPA.Proteomics.Quantification
         ratios.Add(items[i].LogRatio);
       }
       int lastOne = 0;
-      int firstOne = oneSix-1;
+      int firstOne = oneSix - 1;
 
       for (int i = 0; i < items.Count; i++)
       {

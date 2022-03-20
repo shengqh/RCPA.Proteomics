@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using RCPA.Utils;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
-using RCPA.Utils;
-using System;
 
 namespace RCPA.Tools.Quantification
 {

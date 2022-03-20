@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace RCPA.Proteomics.PeptideProphet
 {
@@ -54,7 +51,7 @@ namespace RCPA.Proteomics.PeptideProphet
 
     public PepXmlModifications Modifications { get; set; }
 
-    public Dictionary<string,string> Parameters { get; set; }
+    public Dictionary<string, string> Parameters { get; set; }
 
     public bool NotCombineRank1PSMs { get; set; }
   }

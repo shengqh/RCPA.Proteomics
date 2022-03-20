@@ -1,8 +1,5 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using RCPA.Proteomics.Summary;
-using RCPA.Utils;
+using System.Collections.Generic;
 using System.IO;
 
 namespace RCPA.Proteomics.Quantification.O18
@@ -10,8 +7,8 @@ namespace RCPA.Proteomics.Quantification.O18
   public class O18ProteinRatioRScanCalculator : AbstractProteinRatioRPairCalculator
   {
     public O18ProteinRatioRScanCalculator(IGetRatioIntensity intensityFunc, IO18QuantificationOptions option)
-      :base(intensityFunc, option)
-    {    }
+      : base(intensityFunc, option)
+    { }
 
     protected override void PrepareIntensityFile(List<IIdentifiedSpectrum> spectra, string filename)
     {

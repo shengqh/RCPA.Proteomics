@@ -1,9 +1,8 @@
-﻿using System;
+﻿using RCPA.Proteomics.Mascot;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Mascot;
 using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.PFind
 {
@@ -28,7 +27,7 @@ namespace RCPA.Proteomics.PFind
       format.WriteToFile(result1, peptides);
 
       var groups = peptides.GroupBy(m => m.TheoreticalMinusExperimentalMass).ToList();
-      groups.Sort((m1,m2) => -m1.Count().CompareTo(m2.Count()));
+      groups.Sort((m1, m2) => -m1.Count().CompareTo(m2.Count()));
 
       var result2 = MyConvert.Format("{0}.fdr{1:0.000}.groups", fileName, fdr);
       using (StreamWriter sw = new StreamWriter(result2))

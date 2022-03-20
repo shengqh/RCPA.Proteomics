@@ -1,17 +1,8 @@
-﻿using System;
+﻿using RCPA.Proteomics.Raw;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Gui;
 using System.IO;
-using RCPA.Proteomics.Raw;
-using MathNet.Numerics.Statistics;
-using RCPA.Utils;
-using RCPA.Proteomics.Quantification;
-using RCPA.Proteomics;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Quantification.ITraq;
-using MathNet.Numerics.Distributions;
+using System.Linq;
 
 namespace RCPA.Proteomics.Quantification.ITraq
 {
@@ -76,7 +67,7 @@ namespace RCPA.Proteomics.Quantification.ITraq
 
       string paramFileName = originalFileName + ".param";
 
-      IsobaricResult result= null;
+      IsobaricResult result = null;
 
       ITraqFileBuilder builder = new ITraqFileBuilder(itraqReader.PlexType.GetDefinition());
 
@@ -123,7 +114,7 @@ namespace RCPA.Proteomics.Quantification.ITraq
 
         var format = ITraqResultFileFormatFactory.GetXmlFormat();
         format.Progress = this.Progress;
-        
+
         result = format.ReadFromFile(originalFileName);
       }
 

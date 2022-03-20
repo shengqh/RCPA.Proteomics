@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using RCPA.Proteomics.PropertyConverter;
-using System.Text.RegularExpressions;
-using RCPA.Proteomics.PropertyConverter.Mascot;
-using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.Quantification;
 using RCPA.Converter;
+using RCPA.Proteomics.PropertyConverter;
+using RCPA.Proteomics.PropertyConverter.Mascot;
+using RCPA.Proteomics.Quantification;
 using RCPA.Proteomics.Quantification.ITraq;
 
 namespace RCPA.Proteomics.Summary

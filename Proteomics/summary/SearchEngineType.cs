@@ -12,7 +12,6 @@ using RCPA.Proteomics.Sequest;
 using RCPA.Proteomics.XTandem;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace RCPA.Proteomics.Summary
 {

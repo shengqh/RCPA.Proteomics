@@ -1,9 +1,8 @@
-﻿using System;
+﻿using RCPA.Proteomics.Spectrum;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Spectrum;
 using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Raw
 {
@@ -150,7 +149,7 @@ namespace RCPA.Proteomics.Raw
 
     public virtual PrecursorPeak GetPrecursorPeakWithMasterScan(int scan)
     {
-      var result= new PrecursorPeak(GetPrecursorPeak(scan))
+      var result = new PrecursorPeak(GetPrecursorPeak(scan))
       {
         IsolationMass = GetIsolationMass(scan),
         MasterScan = GetMasterScan(scan),

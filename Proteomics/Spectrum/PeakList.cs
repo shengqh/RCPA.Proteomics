@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RCPA.Proteomics.Raw;
+using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using RCPA.Proteomics.Raw;
+using System.Text;
 
 namespace RCPA.Proteomics.Spectrum
 {

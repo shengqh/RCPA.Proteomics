@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using RCPA.Proteomics.Image;
 using RCPA.Proteomics.Spectrum;
+using System.Collections.Generic;
 
 namespace RCPA.Proteomics.Fragmentation
 {

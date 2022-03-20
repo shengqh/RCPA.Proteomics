@@ -1,22 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using RCPA.Gui;
-using RCPA.Gui.FileArgument;
-using RCPA.Proteomics.Processor;
-using RCPA;
-using System.IO;
-using RCPA.Proteomics.IO;
-using RCPA.Proteomics;
 using RCPA.Gui.Command;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Raw;
-using RCPA.Proteomics.Summary;
+using RCPA.Gui.FileArgument;
 
 namespace RCPA.Proteomics.Percolator
 {

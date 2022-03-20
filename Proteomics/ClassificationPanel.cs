@@ -1,16 +1,14 @@
-﻿using System;
+﻿using RCPA.Gui;
+using RCPA.Gui.FileArgument;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
-using RCPA.Gui;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using System.Xml.Linq;
-using System.Collections;
-using RCPA.Gui.FileArgument;
 
 namespace RCPA.Proteomics
 {

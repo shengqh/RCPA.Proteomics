@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using RCPA.Proteomics.Summary;
 using System.Linq;
 

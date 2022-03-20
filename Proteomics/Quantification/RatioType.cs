@@ -5,5 +5,5 @@ namespace RCPA.Proteomics.Quantification
     NORMAL,
     DUPLICATION,
     NONE
-  } ;
+  };
 }

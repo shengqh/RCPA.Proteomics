@@ -1,11 +1,10 @@
+using RCPA.Proteomics.Isotopic;
+using RCPA.Proteomics.Modification;
+using RCPA.Proteomics.Summary;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using RCPA.Proteomics.Isotopic;
-using RCPA.Proteomics.Summary;
-using RCPA.Utils;
-using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.Mascot
 {
@@ -241,7 +240,7 @@ namespace RCPA.Proteomics.Mascot
           string seq = pep.Sequence;
           string mod = spectrum.Modifications;
 
-          string[] modStrs = mod.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
+          string[] modStrs = mod.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
           foreach (string modStr in modStrs)
           {
             Match m = this.modificationReg.Match(modStr.Trim());
@@ -388,7 +387,7 @@ namespace RCPA.Proteomics.Mascot
         {
           seq = parts[0].Trim();
           mphit.Modifications = parts[1].Trim();
-          string[] mods = parts[1].Trim().Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
+          string[] mods = parts[1].Trim().Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
           foreach (string mod in mods)
           {
             Match m = this.modificationReg.Match(mod.Trim());

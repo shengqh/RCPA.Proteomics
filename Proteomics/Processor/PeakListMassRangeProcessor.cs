@@ -1,7 +1,7 @@
 using RCPA.Proteomics.Spectrum;
 namespace RCPA.Proteomics.Processor
 {
-  public class PeakListMassRangeProcessor<T> : IProcessor<PeakList<T>> where T : IPeak,new()
+  public class PeakListMassRangeProcessor<T> : IProcessor<PeakList<T>> where T : IPeak, new()
   {
     private readonly int[] defaultCharges;
     private readonly double maxMass;
@@ -30,12 +30,12 @@ namespace RCPA.Proteomics.Processor
       }
       else
       {
-        checkCharges = new[] {t.PrecursorCharge};
+        checkCharges = new[] { t.PrecursorCharge };
       }
 
       foreach (int charge in checkCharges)
       {
-        double dMass = t.PrecursorMZ*charge;
+        double dMass = t.PrecursorMZ * charge;
         if (dMass >= this.minMass && dMass <= this.maxMass)
         {
           return t;

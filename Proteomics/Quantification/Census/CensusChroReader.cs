@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using RCPA.Utils;
+using System.Collections.Generic;
 using System.Xml;
-using RCPA.Utils;
 
 namespace RCPA.Proteomics.Quantification.Census
 {

@@ -1,9 +1,8 @@
-﻿using System;
+﻿using RCPA.Proteomics.Summary;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Summary;
 using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Quantification.SILAC
 {
@@ -89,19 +88,26 @@ namespace RCPA.Proteomics.Quantification.SILAC
         {
           switch (header)
           {
-            case "Scan": valueFuncs.Add(m => string.Format("{0}", m.Scan));
+            case "Scan":
+              valueFuncs.Add(m => string.Format("{0}", m.Scan));
               break;
-            case "Retentiontime": valueFuncs.Add(m => string.Format("{0:0.00}", m.Light.ScanTimes[0].RetentionTime));
+            case "Retentiontime":
+              valueFuncs.Add(m => string.Format("{0:0.00}", m.Light.ScanTimes[0].RetentionTime));
               break;
-            case "Identified": valueFuncs.Add(m => m.IsIdentified.ToString());
+            case "Identified":
+              valueFuncs.Add(m => m.IsIdentified.ToString());
               break;
-            case QuantificationItem.KEY_REFERENCE_INTENSITY: valueFuncs.Add(m => string.Format("{0:0.0}", ReferenceIntensityFunc(m)));
+            case QuantificationItem.KEY_REFERENCE_INTENSITY:
+              valueFuncs.Add(m => string.Format("{0:0.0}", ReferenceIntensityFunc(m)));
               break;
-            case QuantificationItem.KEY_SAMPLE_INTENSITY: valueFuncs.Add(m => string.Format("{0:0.0}", SampleIntensityFunc(m)));
+            case QuantificationItem.KEY_SAMPLE_INTENSITY:
+              valueFuncs.Add(m => string.Format("{0:0.0}", SampleIntensityFunc(m)));
               break;
-            case QuantificationItem.KEY_RATIO: valueFuncs.Add(m => string.Format("{0:0.0000}", SampleIntensityFunc(m) / ReferenceIntensityFunc(m)));
+            case QuantificationItem.KEY_RATIO:
+              valueFuncs.Add(m => string.Format("{0:0.0000}", SampleIntensityFunc(m) / ReferenceIntensityFunc(m)));
               break;
-            case "Protein": valueFuncs.Add(m => peptide.GetProteins("/"));
+            case "Protein":
+              valueFuncs.Add(m => peptide.GetProteins("/"));
               break;
           };
         }

@@ -1,10 +1,9 @@
+using RCPA.Gui;
+using RCPA.Proteomics.Spectrum;
+using RCPA.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using RCPA.Utils;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Gui;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace RCPA.Proteomics.IO
 {

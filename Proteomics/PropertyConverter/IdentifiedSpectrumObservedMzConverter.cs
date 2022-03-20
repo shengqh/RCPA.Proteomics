@@ -14,7 +14,7 @@ namespace RCPA.Proteomics.PropertyConverter
       if (t.Query.ObservedMz == 0.0)
       {
         double massH = t.IsPrecursorMonoisotopic ? Atom.H.MonoMass : Atom.H.AverageMass;
-        t.Query.ObservedMz = (t.ExperimentalMass + massH*t.Query.Charge)/t.Query.Charge;
+        t.Query.ObservedMz = (t.ExperimentalMass + massH * t.Query.Charge) / t.Query.Charge;
       }
 
       return MyConvert.Format("{0:0.00000}", t.Query.ObservedMz);
@@ -26,7 +26,7 @@ namespace RCPA.Proteomics.PropertyConverter
       if (t.Query.Charge != 0)
       {
         double massH = t.IsPrecursorMonoisotopic ? Atom.H.MonoMass : Atom.H.AverageMass;
-        t.ExperimentalMass = t.Query.ObservedMz*t.Query.Charge - massH*t.Query.Charge;
+        t.ExperimentalMass = t.Query.ObservedMz * t.Query.Charge - massH * t.Query.Charge;
       }
     }
   }

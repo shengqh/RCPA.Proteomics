@@ -1,7 +1,6 @@
 ﻿using CommandLine;
 using RCPA.Commandline;
 using RCPA.Proteomics.Summary;
-using System;
 using System.IO;
 using System.Linq;
 

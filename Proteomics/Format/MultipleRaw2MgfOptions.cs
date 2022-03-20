@@ -1,16 +1,11 @@
-﻿using System;
+﻿using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.Processor;
+using RCPA.Proteomics.Quantification.IsobaricLabelling;
+using RCPA.Proteomics.Spectrum;
+using RCPA.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Quantification.IsobaricLabelling;
-using RCPA.Proteomics.Processor;
-using System.IO;
-using RCPA.Proteomics.Format.Offset;
-using RCPA.Proteomics.Statistic;
-using RCPA.Proteomics.Raw;
-using RCPA.Utils;
 using System.Xml.Linq;
 
 namespace RCPA.Proteomics.Format

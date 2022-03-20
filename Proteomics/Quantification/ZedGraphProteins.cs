@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RCPA.Proteomics.Summary;
+using RCPA.Utils;
+using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using RCPA.Gui.Image;
-using RCPA.Proteomics.Summary;
-using RCPA.Utils;
 using ZedGraph;
-using System.Diagnostics;
 
 namespace RCPA.Proteomics.Quantification
 {
@@ -34,8 +31,8 @@ namespace RCPA.Proteomics.Quantification
         var pplOutlier = new PointPairList();
 
         var groups = (from g in mr
-                     where option.IsProteinRatioValid(g[0])
-                     select g).ToList();
+                      where option.IsProteinRatioValid(g[0])
+                      select g).ToList();
 
         foreach (var group in groups)
         {
@@ -81,7 +78,7 @@ namespace RCPA.Proteomics.Quantification
 
           this.panel.XAxis.Scale.Max = maxValue;
           this.panel.YAxis.Scale.Max = maxValue;
-          
+
           var lrrr = pplTotal.GetRegression();
 
           PointPairList line = pplTotal.GetRegressionLine(lrrr.Ratio);

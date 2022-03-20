@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
-using System.Xml.Linq;
+﻿using RCPA.Seq;
 using RCPA.Utils;
-using RCPA.Seq;
-using RCPA.Gui;
+using System.Xml.Linq;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {

@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Gui;
-using RCPA.Gui.FileArgument;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
+using RCPA.Gui.FileArgument;
 
 namespace RCPA.Proteomics.Mascot
 {
@@ -24,7 +16,7 @@ namespace RCPA.Proteomics.Mascot
       InitializeComponent();
 
 
-      this.SetFileArgument("MGFFile", new OpenFileArgument("Mascot Generic Format", new string[] {"msm","mgf" }));
+      this.SetFileArgument("MGFFile", new OpenFileArgument("Mascot Generic Format", new string[] { "msm", "mgf" }));
 
       this.fileSize = new RcpaDoubleField(txtFileSize, "FileSize", "file size", 100.0, true);
       AddComponent(this.fileSize);

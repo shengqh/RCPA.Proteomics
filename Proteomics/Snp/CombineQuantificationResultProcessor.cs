@@ -1,10 +1,8 @@
-﻿using System;
+﻿using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.Quantification.ITraq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Mascot;
-using System.IO;
-using RCPA.Proteomics.Quantification.ITraq;
 
 namespace RCPA.Proteomics.Snp
 {
@@ -35,7 +33,7 @@ namespace RCPA.Proteomics.Snp
 
       foreach (var pep in spectra)
       {
-        var mutSeq = pep.Peptide.PureSequence.Replace('I','L');
+        var mutSeq = pep.Peptide.PureSequence.Replace('I', 'L');
         var mutProtein = ir.FirstOrDefault(m => m.Any(n => n.Name.Equals(mutSeq)));
 
         if (mutProtein != null)

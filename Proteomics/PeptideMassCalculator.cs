@@ -35,7 +35,7 @@ namespace RCPA.Proteomics
         throw new ArgumentOutOfRangeException("Charge should larger than zero : current is " + charge);
       }
 
-      return (GetMass(peptide) + charge*GetMassH())/charge;
+      return (GetMass(peptide) + charge * GetMassH()) / charge;
     }
 
     #endregion

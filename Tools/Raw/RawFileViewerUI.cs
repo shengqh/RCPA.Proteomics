@@ -1,10 +1,9 @@
-﻿using System;
-using System.Windows.Forms;
-using RCPA.Gui;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
 using RCPA.Proteomics.Raw;
-using RCPA.Proteomics.Spectrum;
+using System;
+using System.Windows.Forms;
 using ZedGraph;
 
 namespace RCPA.Tools.Raw
@@ -24,7 +23,7 @@ namespace RCPA.Tools.Raw
     {
       InitializeComponent();
 
-      base.SetFileArgument("RawFile", new OpenFileArgument("Raw", new[] {"raw", "mzData.xml", "mzData", "mzXML"}));
+      base.SetFileArgument("RawFile", new OpenFileArgument("Raw", new[] { "raw", "mzData.xml", "mzData", "mzXML" }));
 
       _scan = new RcpaIntegerField(txtScan, "Scan", "Scan", 0, false);
       _msLevel = new RcpaIntegerField(txtMslevel, "MSLevel", "MS Level (0 ~ any level)", 0, false);

@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace RCPA.Proteomics.MaxQuant
+﻿namespace RCPA.Proteomics.MaxQuant
 {
   public class MaxQuantSiteProteinBuilderOption
   {

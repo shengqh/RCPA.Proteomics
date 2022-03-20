@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using ZedGraph;
-using RCPA.Gui.Image;
-using System.Drawing;
 
 namespace RCPA.Proteomics.Quantification.SILAC
 {

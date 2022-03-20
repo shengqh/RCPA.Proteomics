@@ -19,7 +19,7 @@ namespace RCPA.Proteomics.MSFlagger
         this.btnSave,
         this.lvDatFiles,
         "XmlFiles",
-        new OpenFileArgument("MSFlagger PepXml",  "pepXML"),
+        new OpenFileArgument("MSFlagger PepXml", "pepXML"),
         true,
         false);
       AddComponent(this.datFiles);

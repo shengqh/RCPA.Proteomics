@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Utils;
 
 namespace RCPA.Proteomics.Summary
 {
@@ -28,7 +25,7 @@ namespace RCPA.Proteomics.Summary
       List<string> result = new List<string>(keys);
       result.Sort();
 
-      return StringUtils.Merge(result, "\t");;
+      return StringUtils.Merge(result, "\t"); ;
     }
   }
 }

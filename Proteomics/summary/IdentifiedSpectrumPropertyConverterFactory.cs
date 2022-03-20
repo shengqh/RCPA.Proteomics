@@ -1,8 +1,8 @@
+using RCPA.Converter;
+using RCPA.Proteomics.MaxQuant;
 using RCPA.Proteomics.PropertyConverter;
 using RCPA.Proteomics.Quantification;
-using RCPA.Proteomics.MaxQuant;
 using RCPA.Proteomics.Quantification.ITraq;
-using RCPA.Converter;
 
 namespace RCPA.Proteomics.Summary
 {

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+﻿using MathNet.Numerics.Distributions;
 using RCPA.Seq;
-using RCPA.Proteomics.Utils;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using RCPA.Proteomics.Modification;
-using MathNet.Numerics.Statistics;
-using MathNet.Numerics.Distributions;
 using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Summary
 {

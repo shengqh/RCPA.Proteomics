@@ -1,11 +1,8 @@
-﻿using System;
+﻿using RCPA.Gui;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using RCPA.Gui;
-using System.Xml.Linq;
-using RCPA.Proteomics.Spectrum;
+using System.Text;
 using System.Xml;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling

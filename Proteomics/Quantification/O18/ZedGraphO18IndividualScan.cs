@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ZedGraph;
-using RCPA.Gui.Image;
-using System.Drawing;
-using System.IO;
-using RCPA.Proteomics.Raw;
+﻿using RCPA.Proteomics.Raw;
 using RCPA.Proteomics.Spectrum;
+using System;
+using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
+using System.Linq;
+using ZedGraph;
 
 namespace RCPA.Proteomics.Quantification.O18
 {

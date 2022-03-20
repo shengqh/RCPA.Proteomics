@@ -1,5 +1,5 @@
-using System;
 using RCPA.Proteomics.Summary;
+using System;
 
 namespace RCPA.Proteomics.Sequest
 {
@@ -22,7 +22,7 @@ namespace RCPA.Proteomics.Sequest
           throw new Exception("Assign charge first!");
         }
 
-        return PrecursorUtils.mz2ppm(ExperimentalMH/Query.Charge, TheoreticalMinusExperimentalMass/Query.Charge);
+        return PrecursorUtils.mz2ppm(ExperimentalMH / Query.Charge, TheoreticalMinusExperimentalMass / Query.Charge);
       }
     }
 

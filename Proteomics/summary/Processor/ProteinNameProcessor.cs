@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using RCPA.Proteomics.Summary;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.Summary.Processor

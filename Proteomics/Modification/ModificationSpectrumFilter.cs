@@ -1,5 +1,5 @@
-﻿using System.Text.RegularExpressions;
-using RCPA.Proteomics.Summary;
+﻿using RCPA.Proteomics.Summary;
+using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.Modification
 {

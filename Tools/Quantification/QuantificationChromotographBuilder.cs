@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Summary;
+﻿using RCPA.Proteomics;
 using RCPA.Proteomics.Raw;
-using RCPA.Proteomics;
-using RCPA.Proteomics.Spectrum;
+using RCPA.Proteomics.Summary;
+using System;
 
 namespace RCPA.Tools.Quantification
 {

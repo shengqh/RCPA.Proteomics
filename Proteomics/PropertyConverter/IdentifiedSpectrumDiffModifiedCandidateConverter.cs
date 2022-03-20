@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using RCPA.Proteomics.Summary;
-using RCPA.Utils;
+﻿using RCPA.Proteomics.Summary;
 using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.PropertyConverter
 {

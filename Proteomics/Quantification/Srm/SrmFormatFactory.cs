@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using RCPA.Format;
 using RCPA.Utils;
+using System.Collections.Generic;
 using System.IO;
-using RCPA.Format;
+using System.Linq;
 
 namespace RCPA.Proteomics.Quantification.Srm
 {

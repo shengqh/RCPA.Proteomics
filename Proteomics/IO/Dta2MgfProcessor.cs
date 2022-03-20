@@ -1,7 +1,7 @@
+using RCPA.Proteomics.Spectrum;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using RCPA.Proteomics.Spectrum;
 
 namespace RCPA.Proteomics.IO
 {

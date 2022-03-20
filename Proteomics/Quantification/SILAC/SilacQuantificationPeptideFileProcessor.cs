@@ -1,9 +1,7 @@
 using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Summary;
-using RCPA.Utils;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace RCPA.Proteomics.Quantification.SILAC
 {

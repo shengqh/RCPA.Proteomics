@@ -1,10 +1,7 @@
-using System.Collections.Generic;
-using RCPA.Proteomics.Spectrum;
 using RCPA.emass;
-using System.Windows.Forms;
-using System.IO;
+using RCPA.Proteomics.Spectrum;
+using System.Collections.Generic;
 using System.Linq;
-using RCPA.Utils;
 
 namespace RCPA.Proteomics.Isotopic
 {

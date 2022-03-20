@@ -168,7 +168,7 @@ namespace RCPA.Proteomics.Format
 
           SetRange(firstSpectrumNumber, lastSpectrumNumber);
 
-          for (int scan = firstSpectrumNumber; scan <= lastSpectrumNumber; )
+          for (int scan = firstSpectrumNumber; scan <= lastSpectrumNumber;)
           {
             if (Progress.IsCancellationPending())
             {

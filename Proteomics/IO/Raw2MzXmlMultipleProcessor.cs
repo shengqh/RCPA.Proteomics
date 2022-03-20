@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using RCPA.Proteomics.Raw;
-using RCPA.Utils;
+﻿using RCPA.Proteomics.Raw;
+using System.Collections.Generic;
 
 namespace RCPA.Proteomics.IO
 {

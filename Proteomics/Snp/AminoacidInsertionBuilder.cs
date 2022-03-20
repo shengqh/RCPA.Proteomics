@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Mascot;
-using System.Text.RegularExpressions;
+﻿using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Summary;
-using System.IO;
 using RCPA.Seq;
-using RCPA.Proteomics.Classification;
-using RCPA.Proteomics.Utils;
-using RCPA.Proteomics.Database;
-using RCPA.Proteomics.PFind;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Snp
 {

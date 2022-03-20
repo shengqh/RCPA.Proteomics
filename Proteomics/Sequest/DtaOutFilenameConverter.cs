@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Utils;
-
-namespace RCPA.Proteomics.Sequest
+﻿namespace RCPA.Proteomics.Sequest
 {
   public class DtaOutFilenameConverter
   {
@@ -26,7 +20,7 @@ namespace RCPA.Proteomics.Sequest
 
       this.IsDtasOutsFile = this.PureName.ToLower().EndsWith(".dtas") || this.PureName.ToLower().EndsWith(".outs");
 
-      if(IsDtasOutsFile)
+      if (IsDtasOutsFile)
       {
         this.PureName = FileUtils.RemoveExtension(this.PureName);
       }

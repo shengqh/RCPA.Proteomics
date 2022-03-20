@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using RCPA.Proteomics.Spectrum;
+using System.Collections.Generic;
 
 namespace RCPA.Proteomics.Utils
 {

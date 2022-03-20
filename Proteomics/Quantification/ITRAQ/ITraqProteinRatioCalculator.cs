@@ -1,10 +1,8 @@
-﻿using System;
+﻿using RCPA.Numerics;
+using RCPA.Proteomics.Summary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Summary;
-using System.IO;
-using RCPA.Numerics;
 
 namespace RCPA.Proteomics.Quantification.ITraq
 {

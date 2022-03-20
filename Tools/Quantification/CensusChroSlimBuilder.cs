@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using RCPA.Utils;
+using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Xml;
-using RCPA.Utils;
-using System.Text;
-using System;
 
 namespace RCPA.Tools.Quantification
 {

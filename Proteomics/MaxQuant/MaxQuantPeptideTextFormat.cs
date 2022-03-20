@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using RCPA.Converter;
 using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Summary;
-using RCPA.Proteomics.PropertyConverter;
-using RCPA.Converter;
+using System.Collections.Generic;
 
 namespace RCPA.Proteomics.MaxQuant
 {

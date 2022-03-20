@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml.Linq;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
@@ -33,7 +32,7 @@ namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 
       var channels = iso.FindElements("channel");
 
-      for(int index = 0;index < channels.Count;index++)
+      for (int index = 0; index < channels.Count; index++)
       {
         var channel = channels[index];
         var cha = new IsobaricChannel();

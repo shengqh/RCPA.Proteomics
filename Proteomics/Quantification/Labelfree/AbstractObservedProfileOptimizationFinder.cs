@@ -1,9 +1,5 @@
-﻿using System;
+﻿using RCPA.Proteomics.Spectrum;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RCPA.Proteomics.Spectrum;
 
 namespace RCPA.Proteomics.Quantification.Labelfree
 {
@@ -12,7 +8,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
     public bool Find(PeakList<Peak> ms1, ChromatographProfile chro, double mzTolerancePPM, int minimumProfileLength, ref ChromatographProfileScan result)
     {
       var rawPeaks = ms1.GetRange(chro.IsotopicIons[0].MinimumMzWithinTolerance, chro.IsotopicIons[chro.IsotopicIons.Length - 1].MaximumMzWithinTolerance);
-      if(rawPeaks.Count < minimumProfileLength)
+      if (rawPeaks.Count < minimumProfileLength)
       {
         return false;
       }
@@ -69,7 +65,8 @@ namespace RCPA.Proteomics.Quantification.Labelfree
         {
           result.RawPeaks.Add(findPeak);
         }
-        else {
+        else
+        {
           var ion = chro.IsotopicIons[isotopicIndex];
           result.Add(new ChromatographProfileScanPeak()
           {

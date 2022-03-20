@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Summary;
-using System.IO;
-using System.Text.RegularExpressions;
+﻿using RCPA.Proteomics.Summary;
 using RCPA.Utils;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.Mascot
 {
@@ -34,7 +33,7 @@ namespace RCPA.Proteomics.Mascot
         string targetFile;
         bool isSame = sourceDir.ToUpper() == targetDir.ToUpper();
 
-        if(isSame)
+        if (isSame)
         {
           targetFile = sourceFile + ".tmp";
         }

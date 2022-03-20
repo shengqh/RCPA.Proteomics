@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+﻿using RCPA.Proteomics.XTandem;
+using System;
 using System.IO;
-using RCPA.Utils;
-using RCPA.Proteomics.XTandem;
+using System.Windows.Forms;
 
 namespace RCPA.Proteomics.Summary
 {
@@ -28,7 +24,7 @@ namespace RCPA.Proteomics.Summary
       return string.Empty;
     }
 
-    public static void FindSourceFile(ListView lvDatFiles, string fileKey, int index, Func<string,bool> valid)
+    public static void FindSourceFile(ListView lvDatFiles, string fileKey, int index, Func<string, bool> valid)
     {
       lvDatFiles.BeginUpdate();
       try

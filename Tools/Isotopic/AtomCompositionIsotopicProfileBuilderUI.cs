@@ -1,14 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Proteomics.Mascot;
+using RCPA.Gui;
 using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
-using RCPA.Gui;
 
 namespace RCPA.Tools.Isotopic
 {
@@ -21,7 +13,7 @@ namespace RCPA.Tools.Isotopic
     {
       InitializeComponent();
 
-      base.SetFileArgument("AtomCompositionFile",new OpenFileArgument ("Atom Composition", "atomcomposition"));
+      base.SetFileArgument("AtomCompositionFile", new OpenFileArgument("Atom Composition", "atomcomposition"));
 
       this.Text = Constants.GetSQHTitle(title, version);
     }

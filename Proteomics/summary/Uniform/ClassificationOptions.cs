@@ -1,9 +1,7 @@
-﻿using System;
+﻿using RCPA.Proteomics.Modification;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using RCPA.Proteomics.Modification;
 
 namespace RCPA.Proteomics.Summary.Uniform
 {
@@ -62,14 +60,14 @@ namespace RCPA.Proteomics.Summary.Uniform
     {
       if (ClassifyByProteinTag)
       {
-        return delegate(IIdentifiedSpectrum spectrum)
+        return delegate (IIdentifiedSpectrum spectrum)
         {
           return spectrum.Proteins.All(l => l.Contains(ProteinTag)) ? 1 : 0;
         };
       }
       else
       {
-        return delegate(IIdentifiedSpectrum spectrum)
+        return delegate (IIdentifiedSpectrum spectrum)
         {
           return -1;
         };
@@ -80,14 +78,14 @@ namespace RCPA.Proteomics.Summary.Uniform
     {
       if (ClassifyByCharge)
       {
-        return delegate(IIdentifiedSpectrum spectrum)
+        return delegate (IIdentifiedSpectrum spectrum)
         {
           return spectrum.Query.Charge > 3 ? 3 : spectrum.Query.Charge;
         };
       }
       else
       {
-        return delegate(IIdentifiedSpectrum spectrum)
+        return delegate (IIdentifiedSpectrum spectrum)
         {
           return -1;
         };
@@ -98,14 +96,14 @@ namespace RCPA.Proteomics.Summary.Uniform
     {
       if (ClassifyByMissCleavage)
       {
-        return delegate(IIdentifiedSpectrum spectrum)
+        return delegate (IIdentifiedSpectrum spectrum)
         {
           return spectrum.NumMissedCleavages > 3 ? 3 : spectrum.NumMissedCleavages;
         };
       }
       else
       {
-        return delegate(IIdentifiedSpectrum spectrum)
+        return delegate (IIdentifiedSpectrum spectrum)
         {
           return -1;
         };

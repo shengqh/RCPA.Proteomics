@@ -1,12 +1,11 @@
-using System;
-using System.Collections.Generic;
-using MathNet.Numerics.LinearAlgebra;
-using RCPA.Proteomics.Spectrum;
-using System.IO;
-using System.Linq;
-using MathNet.Numerics.Statistics;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.Statistics;
+using RCPA.Proteomics.Spectrum;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Quantification
 {
@@ -107,8 +106,8 @@ namespace RCPA.Proteomics.Quantification
     public static void RatioStatistic(StreamWriter sw, string title, List<double> logRatios, int totalCount)
     {
       var filteredLogRatios = (from r in logRatios
-                    where !double.IsNaN(r) && !double.IsInfinity(r)
-                    select r).ToList();
+                               where !double.IsNaN(r) && !double.IsInfinity(r)
+                               select r).ToList();
 
       if (filteredLogRatios.Count <= 1)
       {

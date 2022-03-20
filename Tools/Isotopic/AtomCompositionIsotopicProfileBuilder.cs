@@ -1,10 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
 using RCPA.Proteomics;
 using RCPA.Proteomics.Isotopic;
 using RCPA.Proteomics.Spectrum;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace RCPA.Tools.Isotopic
 {

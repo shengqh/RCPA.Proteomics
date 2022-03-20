@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Raw;
-using System.IO;
-using RCPA.Utils;
+﻿using RCPA.Proteomics.Raw;
 using RCPA.Proteomics.Summary;
-using System.Threading.Tasks;
+using RCPA.Utils;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace RCPA.Proteomics.Quantification.Labelfree
 {

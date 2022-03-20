@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Gui;
-using RCPA.Proteomics.Spectrum;
+﻿using RCPA.Gui;
 using RCPA.Proteomics.Raw;
+using System.Collections.Generic;
 
 namespace RCPA.Proteomics.Quantification.ITraq
 {

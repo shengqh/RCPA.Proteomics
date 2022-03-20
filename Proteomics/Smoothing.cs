@@ -56,7 +56,7 @@ namespace RCPA.Proteomics
         return;
       }
 
-      int startIndex = this.coefficients.Length/2;
+      int startIndex = this.coefficients.Length / 2;
       int endIndex = values.Length - startIndex;
       for (int i = startIndex; i < endIndex; i++)
       {
@@ -64,9 +64,9 @@ namespace RCPA.Proteomics
 
         for (int j = 0; j < this.coefficients.Length; j++)
         {
-          result += this.coefficients[j]*values[i + j - startIndex];
+          result += this.coefficients[j] * values[i + j - startIndex];
         }
-        values[i] = result/this.coefficientsSum;
+        values[i] = result / this.coefficientsSum;
       }
     }
 
@@ -75,10 +75,10 @@ namespace RCPA.Proteomics
     private static void initCoefficients()
     {
       coefficientsMap = new Dictionary<int, double[]>();
-      coefficientsMap.Add(5, new double[] {-3, 12, 17, 12, -3});
-      coefficientsMap.Add(7, new double[] {-2, 3, 6, 7, 6, 3, -2});
-      coefficientsMap.Add(9, new double[] {-21, 14, 39, 54, 59, 54, 39, 14, -21});
-      coefficientsMap.Add(11, new double[] {-36, 9, 44, 69, 84, 89, 84, 69, 44, 9, -36});
+      coefficientsMap.Add(5, new double[] { -3, 12, 17, 12, -3 });
+      coefficientsMap.Add(7, new double[] { -2, 3, 6, 7, 6, 3, -2 });
+      coefficientsMap.Add(9, new double[] { -21, 14, 39, 54, 59, 54, 39, 14, -21 });
+      coefficientsMap.Add(11, new double[] { -36, 9, 44, 69, 84, 89, 84, 69, 44, 9, -36 });
     }
   }
 }

@@ -1,9 +1,9 @@
+using RCPA.Proteomics.Raw;
+using RCPA.Proteomics.Spectrum;
+using RCPA.Utils;
 using System;
 using System.IO;
 using System.Threading;
-using RCPA.Utils;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Raw;
 
 namespace RCPA.Proteomics.IO
 {

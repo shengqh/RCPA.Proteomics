@@ -1,20 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using RCPA.Gui;
-using RCPA.Gui.FileArgument;
-using RCPA.Proteomics.Processor;
-using RCPA;
-using System.IO;
-using RCPA.Proteomics.IO;
-using RCPA.Proteomics;
 using RCPA.Gui.Command;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Spectrum;
+using RCPA.Gui.FileArgument;
 using RCPA.Proteomics.Raw;
 
 namespace RCPA.Proteomics.Statistic
@@ -40,7 +26,7 @@ namespace RCPA.Proteomics.Statistic
       this.productIonPPM = new RcpaDoubleField(txtProductIonPPM, "ProductIonPPMTolerance", "Product Ion PPM Tolerance", 20, true);
       AddComponent(this.productIonPPM);
 
-      this.minRelativeIntensity = new RcpaDoubleField (txtMinimumIonRelativeIntensity,"MinimumIonRelativeIntensity","Minimum Ion Relative Intensity",0.05, true);
+      this.minRelativeIntensity = new RcpaDoubleField(txtMinimumIonRelativeIntensity, "MinimumIonRelativeIntensity", "Minimum Ion Relative Intensity", 0.05, true);
       AddComponent(this.minRelativeIntensity);
 
       this.rawFiles.FileArgument = new OpenFileArgument("Raw", RawFileFactory.GetSupportedRawFormats());
@@ -59,7 +45,7 @@ namespace RCPA.Proteomics.Statistic
         };
 
         return new RawIonStatisticMultipleFileBuilder(options, this.rawFiles.FileNames);
-        
+
       }
       else
       {

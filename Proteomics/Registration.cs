@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Management;//硬件获取
 using System.IO;//
+using System.Management;//硬件获取
 using System.Security.Cryptography;//
+using System.Text;
 
 namespace RCPA
 {

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Drawing;
 using System.Linq;
-using System.Text;
 using ZedGraph;
-using RCPA.Gui.Image;
-using System.Drawing;
-using RCPA.Proteomics.Quantification.SILAC;
 
 namespace RCPA.Proteomics.Quantification.Srm
 {

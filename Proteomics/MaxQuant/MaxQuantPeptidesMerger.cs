@@ -1,11 +1,5 @@
-﻿using System;
+﻿using RCPA.Proteomics.Mascot;
 using System.Collections.Generic;
-using System.Text;
-using RCPA.Proteomics.Summary;
-using System.IO;
-using RCPA.Proteomics.Sequest;
-using RCPA.Proteomics;
-using RCPA.Proteomics.Mascot;
 
 namespace RCPA.Proteomics.MaxQuant
 {
@@ -46,12 +40,12 @@ namespace RCPA.Proteomics.MaxQuant
       //  foreach (string sourceFile in sourceFiles)
       //  {
       //    Progress.SetMessage("Processing " + sourceFile + " ...");
-          
+
       //    var spectra = format.ReadFromFile(sourceFile);
 
       //    totalSpectrumCount += spectra.Count;
       //    unique.UnionWith(IdentifiedSpectrumUtils.GetUniquePeptide(spectra));
-          
+
       //    if(count == 0){
       //      pepFormat = format.PeptideFormat;
       //      sw.WriteLine(pepFormat.GetHeader());

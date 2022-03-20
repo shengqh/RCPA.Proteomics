@@ -1,11 +1,7 @@
-﻿using System;
+﻿using MathNet.Numerics.Statistics;
+using RCPA.Proteomics.Mascot;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Mascot;
-using System.IO;
-using MathNet.Numerics.Statistics;
 
 namespace RCPA.Proteomics.Format
 {

@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using RCPA.Proteomics.Fragmentation;
 using RCPA.Proteomics.IO;
 using RCPA.Proteomics.Sequest;
-using RCPA.Proteomics.Summary;
-using RCPA.Utils;
-using System.Text.RegularExpressions;
 using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Fragmentation;
+using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.Utils;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.Image
 {
@@ -84,7 +82,7 @@ namespace RCPA.Proteomics.Image
       aas.SetModification(StaticModification);
       aas.SetModification(DynamicModification);
 
-      CIDFragmentationBuilder<MatchedPeak> builder = new CIDFragmentationBuilder<MatchedPeak> ( ExperimentalPeakList.PrecursorCharge, aas);
+      CIDFragmentationBuilder<MatchedPeak> builder = new CIDFragmentationBuilder<MatchedPeak>(ExperimentalPeakList.PrecursorCharge, aas);
 
       ionSeries = builder.GetIonSeries(PeptideUtils.GetMatchedSequence(Peptide));
     }

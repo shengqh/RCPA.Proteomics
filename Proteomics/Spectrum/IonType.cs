@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace RCPA.Proteomics.Spectrum
+﻿namespace RCPA.Proteomics.Spectrum
 {
   public enum IonType { UNKNOWN, B, Y, B2, Y2, C, Z, PRECURSOR, PRECURSOR_NEUTRAL_LOSS_PHOSPHO, PRECURSOR_NEUTRAL_LOSS, B_NEUTRAL_LOSS_PHOSPHO, B_NEUTRAL_LOSS, Y_NEUTRAL_LOSS_PHOSPHO, Y_NEUTRAL_LOSS };
 

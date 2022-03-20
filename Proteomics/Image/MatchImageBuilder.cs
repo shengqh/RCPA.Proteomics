@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+﻿using RCPA.Proteomics.Fragmentation;
 using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Fragmentation;
 using RCPA.Proteomics.Spectrum;
 using RCPA.Proteomics.Summary;
-using RCPA.Gui;
-using ZedGraph;
-using RCPA.Gui.Image;
 using RCPA.Proteomics.Utils;
-using RCPA.Gui.Command;
-using RCPA.Gui.FileArgument;
-using System.IO;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+using ZedGraph;
 
 namespace RCPA.Proteomics.Image
 {

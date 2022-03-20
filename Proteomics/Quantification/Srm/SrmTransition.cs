@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RCPA.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RCPA.Utils;
 
 namespace RCPA.Proteomics.Quantification.Srm
 {
@@ -491,7 +491,7 @@ namespace RCPA.Proteomics.Quantification.Srm
 
       //具有相同母离子名称和电荷的transition认为是轻重标。
       var lhgroup = peptides.GroupBy(m => m.ProductIons[0].PrecursorFormula + "_" + m.ProductIons[0].PrecursorCharge.ToString()).ToList();
-//      var lhgroup = peptides.GroupBy(m => m.ProductIons[0].PrecursorFormula + "_" + m.ProductIons[0].PrecursorCharge.ToString()).ToList();
+      //      var lhgroup = peptides.GroupBy(m => m.ProductIons[0].PrecursorFormula + "_" + m.ProductIons[0].PrecursorCharge.ToString()).ToList();
       foreach (var g in lhgroup)
       {
         if (g.Count() > 2)

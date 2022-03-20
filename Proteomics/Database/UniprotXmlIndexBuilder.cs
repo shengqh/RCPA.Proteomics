@@ -1,9 +1,6 @@
-﻿using System;
+﻿using RCPA.Format;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using RCPA.Format;
 
 namespace RCPA.Proteomics.Database
 {

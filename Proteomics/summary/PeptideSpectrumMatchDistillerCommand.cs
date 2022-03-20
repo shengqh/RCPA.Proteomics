@@ -20,28 +20,28 @@ namespace RCPA.Proteomics.Summary
       return new PeptideSpectrumMatchDistiller(options);
     }
 
-      #region IToolCommand Members
+    #region IToolCommand Members
 
-      public string GetClassification()
-      {
-        return MenuCommandType.Distiller;
-      }
+    public string GetClassification()
+    {
+      return MenuCommandType.Distiller;
+    }
 
-      public string GetCaption()
-      {
-        return PeptideSpectrumMatchDistillerUI.Title;
-      }
+    public string GetCaption()
+    {
+      return PeptideSpectrumMatchDistillerUI.Title;
+    }
 
-      public string GetVersion()
-      {
-        return PeptideSpectrumMatchDistillerUI.Version;
-      }
+    public string GetVersion()
+    {
+      return PeptideSpectrumMatchDistillerUI.Version;
+    }
 
-      public void Run()
-      {
-        new PeptideSpectrumMatchDistillerUI().MyShow();
-      }
+    public void Run()
+    {
+      new PeptideSpectrumMatchDistillerUI().MyShow();
+    }
 
-      #endregion
+    #endregion
   }
 }

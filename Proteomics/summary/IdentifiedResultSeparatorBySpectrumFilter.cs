@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using RCPA.Proteomics.Summary;
-using System.IO;
+﻿using RCPA.Proteomics.Summary;
 using RCPA.Seq;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace RCPA.Tools.Summary
 {

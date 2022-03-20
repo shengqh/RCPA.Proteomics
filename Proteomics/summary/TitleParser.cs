@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-using RCPA.Parser;
-using RCPA.Proteomics.Summary;
+﻿using RCPA.Parser;
 using RCPA.Proteomics.Mascot;
-using System.IO;
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.Summary
 {

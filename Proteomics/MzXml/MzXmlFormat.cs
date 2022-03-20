@@ -1,10 +1,10 @@
+using RCPA.Gui;
+using RCPA.Proteomics.Raw;
+using RCPA.Proteomics.Spectrum;
+using RCPA.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using RCPA.Proteomics.Raw;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Gui;
-using RCPA.Utils;
 
 namespace RCPA.Proteomics.MzXml
 {

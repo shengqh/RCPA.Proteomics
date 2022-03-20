@@ -1,9 +1,6 @@
-﻿using System;
+﻿using RCPA.Proteomics.Spectrum;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RCPA.Proteomics.Spectrum;
 
 namespace RCPA.Proteomics.Quantification.Labelfree
 {

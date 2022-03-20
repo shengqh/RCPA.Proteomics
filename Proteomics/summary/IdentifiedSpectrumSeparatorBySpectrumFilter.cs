@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Summary;
-using System.IO;
-using RCPA.Seq;
-using RCPA.Proteomics.Mascot;
+using System.Collections.Generic;
 
 namespace RCPA.Tools.Summary
 {

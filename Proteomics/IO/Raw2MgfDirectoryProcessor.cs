@@ -1,8 +1,3 @@
-using System.Collections.Generic;
-using System.IO;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Proteomics.Raw;
-
 namespace RCPA.Proteomics.IO
 {
   //public class Raw2MgfDirectoryProcessor : AbstractThreadFileProcessor

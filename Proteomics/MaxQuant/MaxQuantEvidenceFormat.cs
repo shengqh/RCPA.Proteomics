@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Mascot;
+﻿using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Summary;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.MaxQuant
 {
-  public class MaxQuantEvidenceFormat:MascotPeptideTextFormat
+  public class MaxQuantEvidenceFormat : MascotPeptideTextFormat
   {
     private double ParseDouble(IAnnotation ann, string key)
     {

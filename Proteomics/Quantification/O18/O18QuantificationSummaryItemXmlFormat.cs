@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using System.Xml;
-using System.Xml.Linq;
-using RCPA.Utils;
+﻿using RCPA.Proteomics.Isotopic;
 using RCPA.Proteomics.Spectrum;
+using RCPA.Utils;
 using System;
-using RCPA.Proteomics.Isotopic;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 
 namespace RCPA.Proteomics.Quantification.O18
 {
@@ -107,7 +105,7 @@ namespace RCPA.Proteomics.Quantification.O18
     {
       XElement root = new XElement("O18QuantificationInformation",
         new XElement("RawFilename", t.RawFilename),
-        new XElement("SoftwareVersion",t.SoftwareVersion),
+        new XElement("SoftwareVersion", t.SoftwareVersion),
         new XElement("PeptideSequence", t.PeptideSequence),
         new XElement("AdditionalFormula", t.AdditionalFormula),
         new XElement("PeptideAtomComposition", t.PeptideAtomComposition),
@@ -117,7 +115,7 @@ namespace RCPA.Proteomics.Quantification.O18
         new XElement("Charge", t.Charge),
         new XElement("PeptideProfile",
           from peak in t.PeptideProfile
-          select new XElement("Percentage", new XAttribute("Mz", peak.Mz),  MyConvert.Format("{0:0.0000}", peak.Intensity))
+          select new XElement("Percentage", new XAttribute("Mz", peak.Mz), MyConvert.Format("{0:0.0000}", peak.Intensity))
         ),
         new XElement("ObservedEnvelopes",
           from pkl in t.ObservedEnvelopes

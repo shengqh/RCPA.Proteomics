@@ -1,11 +1,6 @@
-﻿using System;
+﻿using RCPA.Proteomics.Mascot;
 using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using RCPA.Utils;
 using System.IO;
-using System.Text.RegularExpressions;
-using RCPA.Proteomics.Mascot;
 
 namespace RCPA.Proteomics.Summary
 {
@@ -31,7 +26,7 @@ namespace RCPA.Proteomics.Summary
         files[i] = FileUtils.ChangeExtension(filename, (i + 1).ToString() + new FileInfo(filename).Extension);
         MascotResult curMr = new MascotResult();
 
-        for (int j = 0;j < mr.Count;j++)
+        for (int j = 0; j < mr.Count; j++)
         {
           if (j % splitCount == i)
           {

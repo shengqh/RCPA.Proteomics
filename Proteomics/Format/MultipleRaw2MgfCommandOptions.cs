@@ -1,7 +1,6 @@
-﻿using System;
+﻿using CommandLine;
 using RCPA.Commandline;
-using RCPA.Gui.Command;
-using CommandLine;
+using System;
 
 namespace RCPA.Proteomics.Format
 {

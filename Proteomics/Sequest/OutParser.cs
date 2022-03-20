@@ -1,8 +1,7 @@
+using RCPA.Proteomics.Summary;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using RCPA.Proteomics.Summary;
-using RCPA.Utils;
 
 namespace RCPA.Proteomics.Sequest
 {
@@ -460,5 +459,5 @@ namespace RCPA.Proteomics.Sequest
       }
       return false;
     }
-  } ;
+  };
 }

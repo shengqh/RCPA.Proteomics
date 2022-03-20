@@ -1,5 +1,5 @@
-﻿using System;
-using RCPA.Utils;
+﻿using RCPA.Utils;
+using System;
 
 namespace RCPA.Proteomics.Utils
 {
@@ -157,37 +157,37 @@ namespace RCPA.Proteomics.Utils
 
       for (int i = 0; i < MAXLOOP && (phMax - phMin) > EPSI; i++)
       {
-        double phMid = phMin + (phMax - phMin)/2;
+        double phMid = phMin + (phMax - phMin) / 2;
 
         double cter =
           MathUtils.Exp10(-cPk[cTermResidue, 0])
-          /(MathUtils.Exp10(-cPk[cTermResidue, 0]) + MathUtils.Exp10(-phMid));
+          / (MathUtils.Exp10(-cPk[cTermResidue, 0]) + MathUtils.Exp10(-phMid));
         double nter =
-          MathUtils.Exp10(-phMid)/
+          MathUtils.Exp10(-phMid) /
           (MathUtils.Exp10(-cPk[nTermResidue, 1]) + MathUtils.Exp10(-phMid));
 
         double carg =
-          comp[R]*MathUtils.Exp10(-phMid)/
+          comp[R] * MathUtils.Exp10(-phMid) /
           (MathUtils.Exp10(-cPk[R, 2]) + MathUtils.Exp10(-phMid));
         double chis =
-          comp[H]*MathUtils.Exp10(-phMid)/
+          comp[H] * MathUtils.Exp10(-phMid) /
           (MathUtils.Exp10(-cPk[H, 2]) + MathUtils.Exp10(-phMid));
         double clys =
-          comp[K]*MathUtils.Exp10(-phMid)/
+          comp[K] * MathUtils.Exp10(-phMid) /
           (MathUtils.Exp10(-cPk[K, 2]) + MathUtils.Exp10(-phMid));
 
         double casp =
-          comp[D]*MathUtils.Exp10(-cPk[D, 2])/
+          comp[D] * MathUtils.Exp10(-cPk[D, 2]) /
           (MathUtils.Exp10(-cPk[D, 2]) + MathUtils.Exp10(-phMid));
         double cglu =
-          comp[E]*MathUtils.Exp10(-cPk[E, 2])/
+          comp[E] * MathUtils.Exp10(-cPk[E, 2]) /
           (MathUtils.Exp10(-cPk[E, 2]) + MathUtils.Exp10(-phMid));
 
         double ccys =
-          comp[C]*MathUtils.Exp10(-cPk[C, 2])/
+          comp[C] * MathUtils.Exp10(-cPk[C, 2]) /
           (MathUtils.Exp10(-cPk[C, 2]) + MathUtils.Exp10(-phMid));
         double ctyr =
-          comp[Y]*MathUtils.Exp10(-cPk[Y, 2])/
+          comp[Y] * MathUtils.Exp10(-cPk[Y, 2]) /
           (MathUtils.Exp10(-cPk[Y, 2]) + MathUtils.Exp10(-phMid));
 
         double charge =

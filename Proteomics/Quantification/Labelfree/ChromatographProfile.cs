@@ -68,7 +68,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
       }
 
       this.IsotopicIntensities = (from ion in this.IsotopicIons
-                             select ion.Intensity).ToArray();
+                                  select ion.Intensity).ToArray();
     }
 
     public void InitalizePPMTolerance()

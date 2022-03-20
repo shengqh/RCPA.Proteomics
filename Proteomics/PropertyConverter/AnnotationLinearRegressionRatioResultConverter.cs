@@ -1,4 +1,3 @@
-using System;
 using RCPA.Proteomics.Quantification;
 
 namespace RCPA.Proteomics.PropertyConverter

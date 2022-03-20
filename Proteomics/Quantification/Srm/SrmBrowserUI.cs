@@ -1,20 +1,14 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Linq;
-using RCPA.Gui;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
-using RCPA.Gui.Image;
-using RCPA.Proteomics;
-using RCPA.Proteomics.Raw;
-using ZedGraph;
-using RCPA.Proteomics.Spectrum;
-using System.Text;
-using System.Collections.Generic;
-using RCPA.Proteomics.Quantification.Srm;
 using RCPA.Utils;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+using ZedGraph;
 
 namespace RCPA.Proteomics.Quantification.Srm
 {
@@ -313,7 +307,7 @@ namespace RCPA.Proteomics.Quantification.Srm
       var result = GetPeptide();
 
       UpdateMRMPairedPeptideItemEventArgs args = new UpdateMRMPairedPeptideItemEventArgs(result, new SrmViewOption() { ViewGreenLine = true, ViewType = lastType });
-      
+
       OnUpdatePeptideItem(args);
 
       return result;

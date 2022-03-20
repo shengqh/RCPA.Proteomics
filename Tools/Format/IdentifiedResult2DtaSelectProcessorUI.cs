@@ -1,14 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Proteomics.Mascot;
+using RCPA.Gui;
 using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
-using RCPA.Gui;
 
 namespace RCPA.Tools.Format
 {
@@ -21,7 +13,7 @@ namespace RCPA.Tools.Format
     {
       InitializeComponent();
 
-      base.SetFileArgument("Noredundant",new OpenFileArgument ("IdentifiedResult", new string[]{"noredundant"}));
+      base.SetFileArgument("Noredundant", new OpenFileArgument("IdentifiedResult", new string[] { "noredundant" }));
 
       this.Text = Constants.GetSQHTitle(title, version);
     }

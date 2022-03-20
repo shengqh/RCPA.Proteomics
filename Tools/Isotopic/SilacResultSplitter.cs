@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.RegularExpressions;
 using RCPA.Proteomics;
 using RCPA.Proteomics.Sequest;
 using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.Utils;
 using RCPA.Seq;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace RCPA.Tools.Isotopic
 {
@@ -177,7 +177,7 @@ namespace RCPA.Tools.Isotopic
     {
       if (swFasta != null)
       {
-        string[] parts = Regex.Split( protein, @"\s+");
+        string[] parts = Regex.Split(protein, @"\s+");
         ff.WriteSequence(swFasta, seqMap[parts[1].Trim()]);
       }
     }

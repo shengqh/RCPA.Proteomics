@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using RCPA.Seq;
-using RCPA.Gui;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Gui.FileArgument;
-using RCPA.Proteomics.Raw;
-using ZedGraph;
-using RCPA.Gui.Image;
-using System.IO;
+﻿using RCPA.Gui;
 using RCPA.Gui.Command;
-using RCPA.Proteomics.Summary;
+using RCPA.Gui.FileArgument;
 using RCPA.Proteomics.Mascot;
+using RCPA.Proteomics.Raw;
+using RCPA.Proteomics.Summary;
+using RCPA.Seq;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using ZedGraph;
 
 namespace RCPA.Proteomics.Quantification.Labelfree
 {
@@ -195,7 +189,7 @@ namespace RCPA.Proteomics.Quantification.Labelfree
                 mainPane.PaneList[index].AddCurve(MyConvert.Format("{0:0.0000},{1}", chro.Mz, chro.Charge), pplSample, Color.Red, SymbolType.None);
                 //mainPane.PaneList[index].XAxis.Scale.Min = 0;
                 //mainPane.PaneList[index].XAxis.Scale.Max = chro.MaxRetentionTime;
-                
+
                 index++;
               }
             }

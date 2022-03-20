@@ -1,9 +1,8 @@
-﻿using System;
+﻿using RCPA.Utils;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using RCPA.Utils;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace RCPA.Proteomics.Quantification.ITraq
@@ -100,7 +99,7 @@ namespace RCPA.Proteomics.Quantification.ITraq
               select dic[key]).ToArray();
     }
 
-    private static Regex intReg = new Regex (@"(\d{3})");
+    private static Regex intReg = new Regex(@"(\d{3})");
     private static double[] GetIsotopes(string line, char splitChar, ref int index)
     {
       //First is reagent name, skip

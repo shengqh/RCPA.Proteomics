@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using RCPA.Utils;
+﻿using RCPA.Utils;
 
 namespace RCPA.Proteomics.Summary
 {
@@ -10,7 +7,7 @@ namespace RCPA.Proteomics.Summary
     AbstractSummaryConfiguration GetConfiguration(string parameterFile);
 
     IIdentifiedSpectrumBuilder GetSpectrumBuilder(IProgressCallback iProgressCallback);
-    
+
     IScoreFunction GetScoreFunctions();
   }
 }

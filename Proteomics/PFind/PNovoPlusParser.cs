@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using RCPA.Gui;
+using RCPA.Proteomics.Summary;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
-using RCPA.Gui;
-using RCPA.Proteomics.Summary;
-using RCPA.Utils;
-using RCPA.Proteomics.Mascot;
 
 namespace RCPA.Proteomics.PFind
 {
@@ -100,11 +98,11 @@ namespace RCPA.Proteomics.PFind
             curSpectrum.Rank = curIndex;
             result.Add(curSpectrum);
           }
-          else if(score == result.Last().Score)
+          else if (score == result.Last().Score)
           {
             curSpectrum = result.Last();
           }
-          else if(curIndex > maxRank)
+          else if (curIndex > maxRank)
           {
             continue;
           }
@@ -124,7 +122,7 @@ namespace RCPA.Proteomics.PFind
       }
       return result;
     }
-  
+
     /// <summary>
     /// 获取用于Denovo的谱图总数。
     /// </summary>

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using RCPA.Proteomics;
 using RCPA.Proteomics.Spectrum;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
-using RCPA.Proteomics;
-using System.Windows.Forms;
 
 namespace RCPA.emass
 {

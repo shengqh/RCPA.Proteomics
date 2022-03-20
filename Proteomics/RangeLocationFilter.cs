@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using RCPA.Seq;
+using System.Collections.Generic;
 
 namespace RCPA.Proteomics
 {
@@ -158,7 +158,7 @@ namespace RCPA.Proteomics
     {
       this.filters.Add(filter);
     }
-  } ;
+  };
 
   public class ExceptAminoacidFilter : IRangeLocationFilter
   {

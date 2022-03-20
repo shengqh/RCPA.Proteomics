@@ -1,15 +1,11 @@
+using RCPA.Converter;
+using RCPA.Gui;
+using RCPA.Proteomics.PropertyConverter;
+using RCPA.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using RCPA.Gui;
-using RCPA.Proteomics.PropertyConverter;
-using RCPA.Proteomics.PropertyConverter.Mascot;
-using RCPA.Proteomics.Summary;
-using RCPA.Utils;
-using RCPA.Converter;
 
 namespace RCPA.Proteomics.Summary
 {
@@ -55,7 +51,7 @@ namespace RCPA.Proteomics.Summary
 
     public override IPropertyConverter<IAnnotation> GetConverters(string header, char delimiter, string version, List<IAnnotation> items)
     {
-      return GetConverters(header, delimiter, version); 
+      return GetConverters(header, delimiter, version);
     }
 
     public override IAnnotation Allocate()

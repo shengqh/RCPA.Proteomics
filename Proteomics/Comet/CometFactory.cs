@@ -1,15 +1,7 @@
-﻿using RCPA.Proteomics.Comet;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.ProteomeDiscoverer;
+﻿using RCPA.Proteomics.Mascot;
 using RCPA.Proteomics.Sequest;
 using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.Summary.Uniform;
-using RCPA.Utils;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace RCPA.Proteomics.Comet
 {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RCPA.Proteomics.Quantification.IsobaricLabelling
+﻿namespace RCPA.Proteomics.Quantification.IsobaricLabelling
 {
   /// <summary>
   /// Description of IsobaricIsotope.

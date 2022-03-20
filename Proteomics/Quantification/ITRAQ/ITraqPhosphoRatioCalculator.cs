@@ -1,7 +1,4 @@
-﻿using RCPA.Proteomics.Quantification.ITraq;
-using System;
-
-namespace RCPA.Proteomics.Quantification.ITraq
+﻿namespace RCPA.Proteomics.Quantification.ITraq
 {
   public class ITraqPhosphoRatioCalculator : IITraqRatioCalculator
   {

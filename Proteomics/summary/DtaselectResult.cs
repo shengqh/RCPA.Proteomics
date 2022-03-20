@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace RCPA.Proteomics.Summary
 {
   public class DtaselectResult
   {
     private List<string> headers = new List<string>();
-    
+
     public List<string> Headers
     {
       get { return headers; }

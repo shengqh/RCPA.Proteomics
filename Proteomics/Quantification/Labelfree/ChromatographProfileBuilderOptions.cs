@@ -3,7 +3,6 @@ using RCPA.Commandline;
 using RCPA.Utils;
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace RCPA.Proteomics.Quantification.Labelfree
 {

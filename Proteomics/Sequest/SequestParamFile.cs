@@ -1,5 +1,3 @@
-using System.IO;
-
 namespace RCPA.Proteomics.Sequest
 {
   public class SequestParamFile : ISequestParamFile

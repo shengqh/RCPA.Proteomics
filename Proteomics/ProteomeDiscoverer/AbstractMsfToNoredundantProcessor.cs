@@ -1,14 +1,10 @@
-﻿using System;
+﻿using RCPA.Proteomics.Sequest;
+using RCPA.Proteomics.Summary;
+using RCPA.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Summary;
-using Microsoft.Office.Interop.Excel;
-using RCPA.Utils;
-using RCPA.Gui;
-using System.Reflection;
 using System.Text.RegularExpressions;
-using RCPA.Proteomics.Sequest;
 
 namespace RCPA.Proteomics.ProteomeDiscoverer
 {

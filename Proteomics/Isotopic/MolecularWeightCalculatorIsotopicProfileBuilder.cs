@@ -1,6 +1,6 @@
+using MwtWinDll;
 using System;
 using System.Collections.Generic;
-using MwtWinDll;
 
 namespace RCPA.Proteomics.Isotopic
 {
@@ -36,7 +36,7 @@ namespace RCPA.Proteomics.Isotopic
 
           for (int i = 1; i < d.GetLength(0); i++)
           {
-            result.Add(d[i, 1]/totalIntensity);
+            result.Add(d[i, 1] / totalIntensity);
           }
         }
         else

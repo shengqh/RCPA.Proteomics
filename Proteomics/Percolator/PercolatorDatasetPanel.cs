@@ -1,11 +1,7 @@
 ﻿using RCPA.Gui;
 using RCPA.Gui.FileArgument;
-using RCPA.Proteomics.Summary;
 using RCPA.Proteomics.Summary.Uniform;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
 
 namespace RCPA.Proteomics.Percolator
 {

@@ -6,8 +6,9 @@ namespace RCPA.Proteomics.Quantification.O18
   {
     private const double MIN_LABELLING_EFFICIENCY = 0.1;
 
-    private  double purityOfO18Water;
-    public O18SampleAbundanceLabellingPostDigestionCalculator( double purityOfO18Water){
+    private double purityOfO18Water;
+    public O18SampleAbundanceLabellingPostDigestionCalculator(double purityOfO18Water)
+    {
       this.purityOfO18Water = purityOfO18Water;
     }
 
@@ -47,13 +48,13 @@ namespace RCPA.Proteomics.Quantification.O18
       }
       else
       {
-        k = 2/(2 + o18_1/o18_2);
+        k = 2 / (2 + o18_1 / o18_2);
       }
 
       //Console.Out.WriteLine("k=" + k);
       if (k > purityOfO18Water)
       {
-//consider k equals to p
+        //consider k equals to p
         k = purityOfO18Water;
       }
       else if (k <= MIN_LABELLING_EFFICIENCY)
@@ -76,12 +77,12 @@ namespace RCPA.Proteomics.Quantification.O18
       }
       else
       {
-        double y1 = o18_1/(2*k*(1 - k));
-        double y2 = o18_2/(k*k);
+        double y1 = o18_1 / (2 * k * (1 - k));
+        double y2 = o18_2 / (k * k);
 
         y = Math.Max(y1, y2);
 
-        x = o16 - y*(1 - k)*(1 - k);
+        x = o16 - y * (1 - k) * (1 - k);
         if (x < 0) // it cannot be fixed, just use simple formula
         {
           x = 0;

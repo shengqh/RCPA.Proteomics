@@ -1,9 +1,5 @@
-﻿using System;
+﻿using RCPA.Proteomics.Summary;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Summary;
-using RCPA.Utils;
 using System.IO;
 
 namespace RCPA.Proteomics.MaxQuant
@@ -63,7 +59,7 @@ namespace RCPA.Proteomics.MaxQuant
               continue;
             }
 
-            if(matcher.Match(source))
+            if (matcher.Match(source))
             {
               sw.WriteLine(line);
               continue;

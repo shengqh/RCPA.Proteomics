@@ -1,7 +1,5 @@
-﻿using System;
+﻿using RCPA.Utils;
 using System.Collections.Generic;
-using System.Text;
-using RCPA.Utils;
 
 namespace RCPA.Proteomics.Summary
 {

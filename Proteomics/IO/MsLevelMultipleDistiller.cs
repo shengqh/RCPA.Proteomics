@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using RCPA.Utils;
 
 namespace RCPA.Proteomics.IO
 {

@@ -1,22 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using RCPA.Gui;
 using RCPA.Gui.Command;
 using RCPA.Gui.FileArgument;
-using RCPA.Gui.Image;
-using RCPA.Proteomics.Mascot;
-using RCPA.Proteomics.Quantification;
-using RCPA.Proteomics.Summary;
-using ZedGraph;
-using RCPA.Utils;
-using System.Diagnostics;
-using RCPA.Proteomics.Quantification.O18;
 using RCPA.Proteomics.PropertyConverter;
+using RCPA.Proteomics.Summary;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace RCPA.Proteomics.Quantification.SILAC
 {

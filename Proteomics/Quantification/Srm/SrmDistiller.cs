@@ -1,14 +1,13 @@
-﻿using System;
+﻿using RCPA.Proteomics.Raw;
+using RCPA.Proteomics.Spectrum;
+using RCPA.Proteomics.Summary;
+using RCPA.Utils;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using RCPA.Proteomics.Raw;
-using System.IO;
-using RCPA.Proteomics.Spectrum;
-using RCPA.Utils;
 using System.Windows.Forms;
-using System.Text.RegularExpressions;
-using RCPA.Proteomics.Summary;
 using System.Xml.Linq;
 
 namespace RCPA.Proteomics.Quantification.Srm
@@ -343,7 +342,7 @@ namespace RCPA.Proteomics.Quantification.Srm
       }
 
       mrmPairs = (from m in definedMrmList
-                  //where !unmatched.Contains(m)
+                    //where !unmatched.Contains(m)
                   select m).ToList().ToPairedResult();
 
       mrmPairs.ForEach(m =>

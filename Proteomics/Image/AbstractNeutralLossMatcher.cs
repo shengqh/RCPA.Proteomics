@@ -1,8 +1,6 @@
-﻿using System;
+﻿using RCPA.Proteomics.Spectrum;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Spectrum;
 
 namespace RCPA.Proteomics.Image
 {
@@ -14,7 +12,7 @@ namespace RCPA.Proteomics.Image
 
     public int NeutralLossLevel { get; set; }
 
-    public AbstractNeutralLossMatcher(double peakMzTolerance )
+    public AbstractNeutralLossMatcher(double peakMzTolerance)
     {
       this.PeakMzTolerance = peakMzTolerance;
       this.NeutralLossLevel = 2;

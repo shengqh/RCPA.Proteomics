@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using RCPA.Utils;
-using System.IO;
-using RCPA.Proteomics.Sequest;
-using System.Collections.Specialized;
+﻿using RCPA.Proteomics.Sequest;
 using RCPA.Proteomics.Summary;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace RCPA.Tools.Sequest
 {
@@ -20,7 +18,7 @@ namespace RCPA.Tools.Sequest
     private OutParser parser = new OutParser(false);
 
     public One2AllProcessor(string dtasRoot, string targetDirectory, bool extractToSameDirectory)
-      : this(FileUtils.GetFiles(dtasRoot, new string[]{"*.dtas","*.dtas.zip"}, true), targetDirectory, extractToSameDirectory)
+      : this(FileUtils.GetFiles(dtasRoot, new string[] { "*.dtas", "*.dtas.zip" }, true), targetDirectory, extractToSameDirectory)
     { }
 
     public One2AllProcessor(List<string> dtasFiles, string targetDirectory, bool extractToSameDirectory)

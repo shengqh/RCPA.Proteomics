@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RCPA.Proteomics.Summary;
-using RCPA.Utils;
-using System.IO;
+﻿using RCPA.Proteomics.Summary;
 
 namespace RCPA.Proteomics.Quantification.O18
 {
@@ -22,7 +16,7 @@ namespace RCPA.Proteomics.Quantification.O18
       }
     }
 
-    public O18QuantificationSummaryViewerOptions(string summaryFile, double minimumRSquare = 0.9 )
+    public O18QuantificationSummaryViewerOptions(string summaryFile, double minimumRSquare = 0.9)
     {
       this._summaryFile = summaryFile;
       this.MinimumPeptideRSquare = minimumRSquare;
@@ -46,7 +40,7 @@ namespace RCPA.Proteomics.Quantification.O18
 
     public bool IsProteinOutlier(IIdentifiedProtein ann)
     {
-      if(GetProteinRatioCalculator().HasProteinRatio(ann))
+      if (GetProteinRatioCalculator().HasProteinRatio(ann))
       {
         return false;
       }
@@ -84,7 +78,7 @@ namespace RCPA.Proteomics.Quantification.O18
     public string GetProteinRatioDescription(IIdentifiedProtein ann)
     {
       var ratio = func.GetRatio(ann);
-      
+
       LinearRegressionRatioResult lrrr = ann.Annotations[O18QuantificationConstants.O18_RATIO] as LinearRegressionRatioResult;
       return MyConvert.Format("Ratio={0:0.00}; StdErr={1:0.0000}; pValue={2:0.##E-000}", lrrr.Ratio, lrrr.RSquare, lrrr.PValue);
     }

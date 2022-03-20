@@ -1,18 +1,16 @@
 ﻿using RCPA.Proteomics.Summary;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RCPA.Proteomics.PeptideProphet
 {
   public class PeptideProphetScoreFunctions : IScoreFunction
   {
-    public PeptideProphetScoreFunctions(){}
+    public PeptideProphetScoreFunctions() { }
 
     public static void SortByPValue(List<IIdentifiedSpectrum> spectra)
     {
-      spectra.Sort(delegate(IIdentifiedSpectrum s1, IIdentifiedSpectrum s2)
+      spectra.Sort(delegate (IIdentifiedSpectrum s1, IIdentifiedSpectrum s2)
       {
         return -s1.Probability.CompareTo(s2.Probability);
       });

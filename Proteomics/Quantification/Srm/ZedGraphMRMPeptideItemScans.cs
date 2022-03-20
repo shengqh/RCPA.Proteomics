@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Drawing;
 using ZedGraph;
-using RCPA.Gui.Image;
-using System.Drawing;
-using RCPA.Proteomics.Quantification.SILAC;
 
 namespace RCPA.Proteomics.Quantification.Srm
 {
@@ -51,7 +45,7 @@ namespace RCPA.Proteomics.Quantification.Srm
           {
             continue;
           }
-          
+
           if (string.IsNullOrEmpty(FileName) || FileName.Equals(summary.ProductIonPairs[i].FileName))
           {
             GraphPane panel = new GraphPane();
